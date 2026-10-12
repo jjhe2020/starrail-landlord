@@ -59,7 +59,7 @@ node scripts/balance.mjs --mode both --runs 1000 --target-min 0.9 --target-max 0
 
 战斗 AI 的 33 局失败均在第十二层；经典 AI 有 4 局在第十一层、50 局在第十二层。均匀基线通关率很低，说明这一曲线依赖有效构筑与策略。95% 目标仅针对当前 AI，不保证真人或将来训练模型也有同样胜率，更不证明角色、奇物和构筑之间都已平衡。以后改规则或策略都需新的发布种子复测。
 
-[完整发布报告](benchmarks/balance-v2.json) 与游戏内默认展示使用同一记录。要复现这一批结果，在 0.2.1 的规则和默认策略下运行：
+[完整发布报告](benchmarks/balance-v2.json) 与 0.2.1 当时的游戏内默认展示使用同一记录。要复现这一批历史结果，在 0.2.1 的规则和默认策略下运行：
 
 ```powershell
 node scripts/balance.mjs --mode both --runs 1000 --target-min 0.9 --target-max 0.98 --seed difficulty-release-v2-20261012-7c924e --output docs/benchmarks/balance-reproduced-v2.json
