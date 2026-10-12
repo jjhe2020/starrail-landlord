@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" fill="none">
+  <defs>
+    <linearGradient id="armor" x1="57" y1="42" x2="139" y2="196" gradientUnits="userSpaceOnUse"><stop stop-color="#8777b9"/><stop offset=".42" stop-color="#423959"/><stop offset="1" stop-color="#172436"/></linearGradient>
+    <linearGradient id="edge" x1="71" y1="40" x2="130" y2="97" gradientUnits="userSpaceOnUse"><stop stop-color="#b5a2db"/><stop offset="1" stop-color="#514374"/></linearGradient>
+    <radialGradient id="violet"><stop stop-color="#f3d5ff"/><stop offset=".55" stop-color="#b58aed"/><stop offset="1" stop-color="#694da3"/></radialGradient>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+  <ellipse cx="100" cy="208" rx="58" ry="7" fill="#b3a1ec" opacity=".1"/>
+  <path d="m67 80-18 59 12 60 39-16 39 16 12-60-18-59Z" fill="#1b2439" stroke="#4d466d"/>
+  <path d="m74 22 26 10 26-10-5 28 14 18-12 30H77L65 68l14-18Z" fill="url(#armor)" stroke="#a08ac3" stroke-width="1.2"/>
+  <path d="m77 37 23 13 23-13-7 22 10 11-15 19H89L74 70l10-11Z" fill="#1c2136" stroke="#75608f"/>
+  <path d="m80 65 20-5 20 5-9 11H89Z" fill="#b697ee" opacity=".65" filter="url(#glow)"/>
+  <path d="m80 65 20-5 20 5-9 9H89Z" fill="url(#violet)"/>
+  <path d="m92 82 8 9 8-9M100 36v18" stroke="#bc9fdf" stroke-width="2"/>
+  <path d="m75 90-29-11-21 38 30 14 17-13 9 31h38l9-31 17 13 30-14-21-38-29 11-25 11Z" fill="url(#armor)" stroke="#8d7dac" stroke-width="1.2"/>
+  <path d="m31 111 16-24 18 8-10 23ZM169 111l-16-24-18 8 10 23Z" fill="url(#edge)"/>
+  <path d="m72 115 28-14 28 14-12 43-16 11-16-11Z" fill="#39364f" stroke="#9280aa"/>
+  <path d="m78 117 22 6 22-6-9 22-13 12-13-12Z" fill="#1c293b"/>
+  <path d="m92 128 8-7 8 7-8 15Z" fill="url(#violet)"/>
+  <path d="m53 133-20-9-4 25 11 14 17-12ZM147 133l20-9 4 25-11 14-17-12Z" fill="url(#armor)" stroke="#73658d"/>
+  <path d="m35 148-12 31 6 6 14-12 8-18M166 148l13 31-6 6-14-12-8-18" fill="#29364b" stroke="#77658e"/>
+  <path d="M23 89 11 112l7 65 5 3 6-63Z" fill="#29273f" stroke="#bca2dd"/>
+  <path d="m21 95-5 18 5 57" stroke="#b795ed" stroke-width="2"/>
+  <path d="m77 164 23 7 23-7-2 22-12 15H91l-12-15Z" fill="url(#armor)" stroke="#9683ab"/>
+  <path d="m78 183-5 22-21 2 1-10 8-31M122 183l5 22 21 2-1-10-8-31" fill="url(#armor)" stroke="#8c7b9e"/>
+  <path d="m62 183 9 5M138 183l-9 5M86 155l14 7 14-7" stroke="#b699d9" stroke-width="2"/>
+  <path d="m49 89-8 13M151 89l8 13" stroke="#ddc7ef" stroke-width="2"/>
+</svg>
