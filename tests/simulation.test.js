@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { newGame, spin } from '../src/engine.js';
 import { recommendRewards } from '../src/ai.js';
 import { DEFAULT_PROFILE } from '../src/ai-profile.js';
+import { DIFFICULTY } from '../src/difficulty.js';
 import { runCampaign, summarizeCampaigns, wilsonInterval, benchmarkPolicies, trainProfile } from '../src/simulation.js';
 
 test('campaign sampling exactly uses the displayed probabilities without mutating input', () => {
@@ -52,6 +53,8 @@ test('paired benchmark emits progress and keeps both modes and policies', async 
   const progress = [];
   const report = await benchmarkPolicies({ mode: 'both', runs: 2, lookahead: false, onProgress: value => progress.push(value) });
   assert.equal(report.modes.length, 2);
+  assert.deepEqual(report.rules, DIFFICULTY, 'saved evidence identifies the actual difficulty rules');
+  assert.notEqual(report.rules, DIFFICULTY);
   assert.equal(progress.length, 8);
   assert.equal(progress.at(-1).completed, 8);
   for (const mode of report.modes) {
@@ -67,6 +70,7 @@ test('training validates candidate on a separate split and only returns an accep
   const stages = new Set();
   const report = await trainProfile({ mode: 'combat', runs: 1, generations: 1, candidates: 1, holdoutRuns: 1, lookahead: false, onProgress: progress => stages.add(progress.stage) });
   assert.deepEqual(DEFAULT_PROFILE, profileSnapshot);
+  assert.deepEqual(report.rules, DIFFICULTY);
   assert.deepEqual([...stages].sort(), ['holdout', 'train', 'validation']);
   assert.equal(report.holdout.separateFromTraining, true);
   if (report.accepted) {

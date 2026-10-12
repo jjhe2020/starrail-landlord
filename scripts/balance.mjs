@@ -9,6 +9,14 @@ const runs = Number(option('runs', '200'));
 const mode = option('mode', 'both');
 const seed = option('seed', 'release-holdout-2026-10-12');
 const output = resolve(option('output', 'docs/benchmarks/balance-latest.json'));
+const targetMin = option('target-min');
+const targetMax = option('target-max');
+const target = targetMin === undefined && targetMax === undefined ? null : {
+  min: Number(targetMin), max: Number(targetMax), preferred: Number(option('target-rate', '0.95')),
+};
+if (target && (!Number.isFinite(target.min) || !Number.isFinite(target.max) || !Number.isFinite(target.preferred) || target.min < 0 || target.max > 1 || target.min > target.preferred || target.preferred > target.max)) {
+  throw new Error('Provide --target-min and --target-max in [0, 1], enclosing --target-rate.');
+}
 let profile = DEFAULT_PROFILE;
 if (option('profile')) {
   const saved = JSON.parse(await readFile(resolve(option('profile')), 'utf8'));
@@ -20,7 +28,12 @@ const report = await benchmarkPolicies({ mode, runs, seed, profile, lookahead: !
   const percent = Math.floor(progress.completed / progress.total * 100);
   if (percent >= lastPercent + 10) { console.log(`${percent}% ${progress.mode}/${progress.policy} ${progress.completed}/${progress.total}`); lastPercent = percent; }
 } });
+if (target) {
+  report.calibrationTarget = { ...target, passed: report.modes.every(({ ai }) => ai.winRate >= target.min && ai.winRate <= target.max && ai.incomplete === 0) };
+  if (!report.calibrationTarget.passed) process.exitCode = 1;
+}
 await mkdir(dirname(output), { recursive: true });
 await writeFile(output, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 for (const result of report.modes) console.log(`${result.mode}: AI ${result.ai.wins}/${result.ai.runs} (${(result.ai.winRate * 100).toFixed(1)}%), uniform ${result.uniform.wins}/${result.uniform.runs}; AI mean floor ${result.ai.avgFloor.toFixed(2)}, merges ${result.ai.avgMerges.toFixed(2)}`);
 console.log(`Report: ${output}; ${Math.round(report.elapsedMs)} ms; lookahead=${report.lookahead}`);
+if (target) console.log(`Difficulty target ${(target.min * 100).toFixed(0)}%–${(target.max * 100).toFixed(0)}%: ${report.calibrationTarget.passed ? 'PASS' : 'FAIL'}`);

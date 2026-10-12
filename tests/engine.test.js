@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { newGame, spin, chooseReward, skipReward, rerollRewards, removeSymbol, continueEndless, getSynergies, validateSave, nearestEnemy } from '../src/engine.js';
 import { CHARACTERS, ITEMS, ESSENCES, characterById } from '../src/content.js';
+import { recommendRewards, sampleRecommendation, createPolicyRandom, recommendRemoval } from '../src/ai.js';
 
 function singleUnit(id, extra = {}) {
   const state = newGame({ seed: 'attack-test' });
@@ -16,22 +17,15 @@ function acceptAllRewards(state) {
   return state;
 }
 
-function playDraft(state) {
+function playAI(state) {
   let actions = 0;
+  const random = createPolicyRandom(`${state.seed}:policy`);
   while (!['victory', 'defeat'].includes(state.phase) && actions++ < 600) {
-    if (state.phase === 'ready') { state = spin(state); }
+    const removal = state.removals > 0 ? recommendRemoval(state) : null;
+    if (removal) state = removeSymbol(state, removal);
+    else if (state.phase === 'ready') { state = spin(state); }
     else {
-      let choice = 0;
-      if (state.phase === 'recruit') {
-        const scores = state.choices.map(id => {
-          const c = characterById(id);
-          const same = state.roster.filter(u => u.id === id && u.stars === 1 && !u.temporary).length;
-          const unique = new Set(state.roster.filter(u => !u.temporary).map(u => u.id));
-          const supports = state.roster.filter(u => characterById(u.id).attack === 'support').length;
-          return c.power * 2 + (same === 2 ? 8 : same === 1 ? 3 : 0) + (unique.has(id) ? 0 : 1) + (c.attack === 'support' ? (supports < 3 ? 0 : -5) : 2);
-        });
-        choice = scores.indexOf(Math.max(...scores));
-      }
+      const choice = sampleRecommendation(recommendRewards(state), random());
       state = chooseReward(state, choice);
     }
     assert.notEqual(validateSave(state), null, `save invalid at floor ${state.floor}/${state.phase}`);
@@ -397,7 +391,7 @@ test('floor twelve victory can continue into scaling endless encounters', () => 
 
 test('complete twelve-floor combat and classic campaigns persist through every action', () => {
   for (const mode of ['combat', 'classic']) {
-    const final = playDraft(newGame({ mode, seed: 'balance-0' }));
+    const final = playAI(newGame({ mode, seed: 'balance-0' }));
     assert.equal(final.phase, 'victory');
     assert.equal(final.floor, 12);
     assert.ok(final.items.length >= 5);
