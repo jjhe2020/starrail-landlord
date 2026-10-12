@@ -1,6 +1,6 @@
 // This is an inspectable local policy, not a remote model or a win predictor.
 export const DEFAULT_PROFILE = Object.freeze({
-  version: 'context-v1',
+  version: 'context-v2-skip',
   weights: Object.freeze({ damage: 1, defense: 0.36, growth: 0.7, synergy: 0.9, merge: 0.85, economy: 0.32, tempo: 1.1, lookahead: 0.55, dilution: 1.1, flexibility: 0.7 }),
   temperature: 5,
   lookaheadSamples: 4,

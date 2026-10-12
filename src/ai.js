@@ -3,6 +3,8 @@ import { BOARD_SIZE, STAR_MULTIPLIERS, chooseReward, skipReward, spin, getSynerg
 import { DEFAULT_PROFILE, validateProfile } from './ai-profile.js';
 
 export { DEFAULT_PROFILE, validateProfile } from './ai-profile.js';
+// Algorithm version is independent from a saved profile's reusable model weights.
+export const POLICY_VERSION = 'reward-actions-v2';
 const REWARD_PHASES = ['recruit', 'item', 'essence'];
 const clamp = (number, low, high) => Math.min(high, Math.max(low, number));
 const has = (state, id) => state.items.includes(id);
@@ -244,9 +246,19 @@ function reasonFor(state, id, next, previousMetrics, nextMetrics) {
   return explanations[id] || (state.phase === 'essence' ? '估算触发速度、剩余轮次与当前编队增益' : '按当前编队、模式和剩余轮次比较收益');
 }
 
+function skipReasonFor(state, candidates, skip) {
+  const bestRewardScore = Math.max(...candidates.filter(candidate => candidate.action === 'choose').map(candidate => candidate.score));
+  if (state.phase === 'recruit') {
+    if (skip.score >= bestRewardScore) return '保留现有阵容，避免低收益招募或上场稀释';
+    return state.roster.length >= BOARD_SIZE ? '保留编队人数，与招募、合成和上场收益一起比较' : '本轮不新增角色，保留现有阵容继续下一轮';
+  }
+  if (state.phase === 'item') return skip.score >= bestRewardScore ? '当前奇物收益有限，暂时保留现有构筑' : '会放弃本次奇物，已与取得候选的收益一起比较';
+  return skip.score >= bestRewardScore ? '本轮不追加精华，候选触发收益与剩余轮次有限' : '会放弃本次精华，已比较触发速度与后续收益';
+}
+
 export function recommendRewards(state, { profile = DEFAULT_PROFILE, lookahead = true } = {}) {
   const policy = validateProfile(profile) || DEFAULT_PROFILE;
-  const empty = { version: policy.version, phase: state?.phase || '', choices: [], entropy: 0 };
+  const empty = { version: policy.version, policyVersion: POLICY_VERSION, phase: state?.phase || '', choices: [], entropy: 0 };
   if (!state || !REWARD_PHASES.includes(state.phase) || !Array.isArray(state.choices) || !state.choices.length) return empty;
   const digest = publicDigest(state);
   const original = structuredClone(state);
@@ -257,24 +269,30 @@ export function recommendRewards(state, { profile = DEFAULT_PROFILE, lookahead =
   const candidates = state.choices.map((id, index) => {
     const candidate = safeReady(chooseReward(original, index));
     const metrics = rosterMetrics(candidate);
-    const score = value(metrics, policy) - baseValue + mergeBonus(state, id, candidate) * policy.weights.merge;
-    return { id, index, candidate, metrics, score, reason: reasonFor(state, id, candidate, baseMetrics, metrics) };
+    const score = value(metrics, policy) + mergeBonus(state, id, candidate) * policy.weights.merge;
+    return { id, index, action: 'choose', candidate, metrics, score, reason: reasonFor(state, id, candidate, baseMetrics, metrics) };
   });
+  // Skipping is the actual engine transition, valued in the same units as taking
+  // a reward. It competes in the same softmax, without a fixed chance or penalty.
+  const skip = { id: 'skip', index: state.choices.length, action: 'skip', candidate: baseline, metrics: baseMetrics, score: baseValue, reason: '' };
+  candidates.push(skip);
   if (lookahead && policy.lookaheadSamples > 0 && policy.weights.lookahead > 0) {
     const scale = Math.max(12, baseMetrics.damage);
-    let baselineMean = 0;
     for (let sample = 0; sample < policy.lookaheadSamples; sample++) {
       const trialSeed = hash(`${digest}/board/${sample}`);
-      baselineMean += trialValue({ ...baseline, rngState: trialSeed }, policy, scale) / policy.lookaheadSamples;
       for (const candidate of candidates) candidate.score += trialValue({ ...candidate.candidate, rngState: trialSeed }, policy, scale) / policy.lookaheadSamples * policy.weights.lookahead;
     }
-    for (const candidate of candidates) candidate.score -= baselineMean * policy.weights.lookahead;
   }
+  // Keep exported scores as marginal gains over skipping. This common shift
+  // leaves softmax unchanged: zero gain is not zero selection probability.
+  const skipValue = skip.score;
+  for (const candidate of candidates) candidate.score -= skipValue;
+  skip.reason = skipReasonFor(state, candidates, skip);
   const max = Math.max(...candidates.map(candidate => candidate.score));
   const masses = candidates.map(candidate => Math.exp(clamp((candidate.score - max) / policy.temperature, -20, 0)));
   const total = masses.reduce((sum, mass) => sum + mass, 0);
-  const choices = candidates.map((candidate, index) => ({ index: candidate.index, id: candidate.id, score: candidate.score, probability: masses[index] / total, reason: candidate.reason }));
-  return { version: policy.version, phase: state.phase, choices, entropy: -choices.reduce((sum, choice) => sum + choice.probability * Math.log(choice.probability), 0) };
+  const choices = candidates.map((candidate, index) => ({ index: candidate.index, id: candidate.id, action: candidate.action, score: candidate.score, probability: masses[index] / total, reason: candidate.reason }));
+  return { version: policy.version, policyVersion: POLICY_VERSION, phase: state.phase, choices, entropy: -choices.reduce((sum, choice) => sum + choice.probability * Math.log(choice.probability), 0) };
 }
 
 export function sampleRecommendation(recommendation, randomNumber) {

@@ -1,7 +1,7 @@
 import { newGame, spin, chooseReward, skipReward, rerollRewards, removeSymbol, continueEndless, getSynergies, validateSave } from './engine.js';
 import { createInspector } from './inspect.js';
 import { mechanicExplanation } from './mechanics.js';
-import { recommendRewards, sampleRecommendation, createPolicyRandom, recommendRemoval } from './ai.js';
+import { POLICY_VERSION, recommendRewards, sampleRecommendation, createPolicyRandom, recommendRemoval } from './ai.js';
 import { BALANCE_REFERENCE } from './balance-reference.js';
 import { DEFAULT_PROFILE, validateProfile } from './ai-profile.js';
 import { CHARACTERS, ITEMS, ESSENCES, characterById } from './content.js';
@@ -81,7 +81,7 @@ function inspectionContent(anchor) {
   if (kind === 'mechanic') {
     const info = mechanicExplanation(anchor.dataset.key, game);
     if (!info) return null;
-    const choice = anchor.dataset.key === 'aiProbability' ? recommendation?.choices.find(c => c.index === Number(anchor.dataset.aiIndex)) : null;
+    const choice = anchor.dataset.key === 'aiProbability' && recommendationKey === currentRecommendationKey() ? recommendation?.choices.find(c => c.index === Number(anchor.dataset.aiIndex)) : null;
     return { title: info.title, bodyHtml: `<p>${esc(info.description)}</p>${info.extra ? `<p class="inspect-note">${esc(info.extra)}</p>` : ''}${choice ? `<p class="inspect-note">当前推荐 ${percentage(choice.probability)}：${esc(choice.reason)}</p>` : ''}` };
   }
   if (kind === 'character') {
@@ -172,7 +172,8 @@ function currentRecommendationKey() {
 }
 function recommendationMarkup(index) {
   const c = recommendationKey === currentRecommendationKey() ? recommendation?.choices.find(choice => choice.index === index) : null;
-  return c ? `<div class="ai-probability-heading"><span>AI 推荐</span><strong>${percentage(c.probability)}</strong></div><div class="ai-probability-meter"><i style="width:${c.probability * 100}%"></i></div><p>${esc(c.reason)}</p>` : '<div class="ai-probability-heading"><span>AI 正在分析</span><strong>…</strong></div><p>评估当前构筑与随机战场</p>';
+  const label = index === game.choices.length ? `${game.phase === 'recruit' ? '暂不招募' : '跳过奖励'} · ` : '';
+  return c ? `<div class="ai-probability-heading"><span>${label}AI 推荐</span><strong>${percentage(c.probability)}</strong></div><div class="ai-probability-meter"><i style="width:${c.probability * 100}%"></i></div><p>${esc(c.reason)}</p>` : `<div class="ai-probability-heading"><span>${label}AI 正在分析</span><strong>…</strong></div><p>评估当前构筑与随机战场</p>`;
 }
 function applyRecommendation(result, key) {
   if (key !== currentRecommendationKey() || !isReward()) return;
@@ -205,7 +206,7 @@ function fallbackRecommendation(key) {
 }
 function aiPanel() {
   const progress = experiment.running ? Math.round(experiment.completed / Math.max(1, experiment.total) * 100) : 0;
-  return `<section class="panel ai-panel"><div class="panel-heading"><h2>AI 开拓助手</h2><span class="count-badge">${aiAutoplay ? '代打中' : '策略 AI'}</span></div><p class="panel-intro muted">看懂构筑，也验证每一种可能。</p><div class="ai-status">${aiAutoplay ? '按推荐概率自动选择 · 可随时停止' : isReward() ? '三选一已加入推荐概率与理由' : '下一次招募时计算三项推荐概率'}</div><div class="ai-buttons"><button class="button ghost" data-action="aiAutoplay" ${['victory','defeat'].includes(game.phase) ? 'disabled' : ''}>${aiAutoplay ? '停止代打' : 'AI 代打'}</button><button class="button ghost" data-action="aiLab">自动测试</button></div>${experiment.running ? `<div class="ai-batch-progress"><div><span>${experiment.type === 'train' ? '训练与独立验证' : 'AI / 随机对照'}</span><b>${progress}%</b></div><div class="meter gold"><i style="width:${progress}%"></i></div></div>` : experiment.result ? '<p class="ai-last-result">✓ 已完成实验 · 点自动测试查看结果</p>' : ''}<small class="ai-model-version">模型 ${esc(aiProfile.version)} · 本地运行</small></section>`;
+  return `<section class="panel ai-panel"><div class="panel-heading"><h2>AI 开拓助手</h2><span class="count-badge">${aiAutoplay ? '代打中' : '策略 AI'}</span></div><p class="panel-intro muted">看懂构筑，也验证每一种可能。</p><div class="ai-status">${aiAutoplay ? '按推荐概率自动选择或跳过 · 可随时停止' : isReward() ? '三张奖励与跳过都有推荐概率和理由' : '下一次招募时评估奖励与跳过'}</div><div class="ai-buttons"><button class="button ghost" data-action="aiAutoplay" ${['victory','defeat'].includes(game.phase) ? 'disabled' : ''}>${aiAutoplay ? '停止代打' : 'AI 代打'}</button><button class="button ghost" data-action="aiLab">自动测试</button></div>${experiment.running ? `<div class="ai-batch-progress"><div><span>${experiment.type === 'train' ? '训练与独立验证' : 'AI / 随机对照'}</span><b>${progress}%</b></div><div class="meter gold"><i style="width:${progress}%"></i></div></div>` : experiment.result ? '<p class="ai-last-result">✓ 已完成实验 · 点自动测试查看结果</p>' : ''}<small class="ai-model-version">策略 ${esc(POLICY_VERSION)} · 模型 ${esc(aiProfile.version)} · 本地运行</small></section>`;
 }
 function updateAiPanel() {
   const panel = document.querySelector('.ai-panel');
@@ -238,11 +239,12 @@ function labResultMarkup() {
     }).join('');
     return `<div class="lab-training-result"><b>${result.accepted ? '验证通过，已采用改良策略' : '独立验证未证明改进，保留当前策略'}</b><p>留出测试目标分 ${result.baseline.objective.toFixed(3)} → ${result.trained.objective.toFixed(3)}</p><p class="muted">优先通关，其次通过层数，再比较生命与效率；搜索、验证和留出测试使用不同种子。</p></div>${rows}`;
   }
-  return `${experiment.source === 'reference' ? `<p class="lab-archive-label">已保存的独立评测 · 2026-10-12 · 模型 ${esc(result.profileName)}<br/>下方数据来自 ${num(evaluatedGames)} 局真实对照。可运行新的实验继续验证。</p>` : `<p class="lab-archive-label">实验种子 ${esc(experiment.seed)} · 模型 ${esc(result.profileName)}</p>`}${result.calibrationTarget ? `<p class="lab-archive-label">难度校准目标：AI 通关率 ${percentage(result.calibrationTarget.min)}–${percentage(result.calibrationTarget.max)} · ${result.calibrationTarget.passed ? '独立测试通过' : '本批结果未达标'}</p>` : ''}${benchmarkMarkup(result)}`;
+  const policyLabel = result.policyVersion || '历史三奖励策略';
+  return `${experiment.source === 'reference' ? `<p class="lab-archive-label">已保存的独立评测 · 2026-10-12 · 策略 ${esc(policyLabel)} · 模型 ${esc(result.profileName)}<br/>下方数据来自 ${num(evaluatedGames)} 局真实对照。可运行新的实验继续验证。</p>` : `<p class="lab-archive-label">实验种子 ${esc(experiment.seed)} · 策略 ${esc(policyLabel)} · 模型 ${esc(result.profileName)}</p>`}${result.calibrationTarget ? `<p class="lab-archive-label">难度校准目标：AI 通关率 ${percentage(result.calibrationTarget.min)}–${percentage(result.calibrationTarget.max)} · ${result.calibrationTarget.passed ? '独立测试通过' : '本批结果未达标'}</p>` : ''}${benchmarkMarkup(result)}`;
 }
 function benchmarkMarkup(result) {
   if (!result?.modes?.length) return '';
-  return result.modes.map(({ mode, ai, uniform }) => `<article class="lab-mode-result"><h3>${mode === 'combat' ? '五列战斗' : '房租挑战'} · 每策略 ${ai.runs} 局</h3><div class="lab-result-row"><span>AI 通关</span><b>${percentage(ai.winRate)}</b></div><div class="lab-chart"><i style="width:${ai.winRate*100}%"></i></div><p class="lab-interval">95% 区间 ${percentage(ai.winRateCI[0])} – ${percentage(ai.winRateCI[1])}</p><div class="lab-result-row"><span>随机选择</span><b>${percentage(uniform.winRate)}</b></div><div class="lab-chart random"><i style="width:${uniform.winRate*100}%"></i></div><div class="lab-summary"><span>AI 平均到达 <b>${ai.avgFloor.toFixed(2)} 层</b></span><span>平均成绩 <b>${ai.avgScore.toFixed(1)}</b></span><span>平均合成 <b>${ai.avgMerges.toFixed(2)} 次</b></span></div><p class="lab-failures">${ai.failureByFloor.filter(f => f.count > 0).map(f => `第 ${f.floor} 层失败 ${f.count} 局`).join(' · ') || (ai.incomplete ? `${ai.incomplete} 局未完成，不能计为正常失败` : ai.wins === ai.runs ? '本批 AI 对局全部通关' : '失败层数未记录')}</p></article>`).join('');
+  return result.modes.map(({ mode, ai, uniform }) => `<article class="lab-mode-result"><h3>${mode === 'combat' ? '五列战斗' : '房租挑战'} · 每策略 ${ai.runs} 局</h3><div class="lab-result-row"><span>AI 通关</span><b>${percentage(ai.winRate)}</b></div><div class="lab-chart"><i style="width:${ai.winRate*100}%"></i></div><p class="lab-interval">95% 区间 ${percentage(ai.winRateCI[0])} – ${percentage(ai.winRateCI[1])}</p><div class="lab-result-row"><span>随机选择</span><b>${percentage(uniform.winRate)}</b></div><div class="lab-chart random"><i style="width:${uniform.winRate*100}%"></i></div><div class="lab-summary"><span>AI 平均到达 <b>${ai.avgFloor.toFixed(2)} 层</b></span><span>平均成绩 <b>${ai.avgScore.toFixed(1)}</b></span><span>平均合成 <b>${ai.avgMerges.toFixed(2)} 次</b></span>${Number.isFinite(ai.avgSkips) ? `<span>平均跳过 <b>${ai.avgSkips.toFixed(2)} 次</b></span>` : ''}</div><p class="lab-failures">${ai.failureByFloor.filter(f => f.count > 0).map(f => `第 ${f.floor} 层失败 ${f.count} 局`).join(' · ') || (ai.incomplete ? `${ai.incomplete} 局未完成，不能计为正常失败` : ai.wins === ai.runs ? '本批 AI 对局全部通关' : '失败层数未记录')}</p></article>`).join('');
 }
 function aiLabDialog() {
   return modal('AI 试验台', `<p class="lab-intro">AI 与随机策略用相同的游戏种子对照。推荐百分比是选择策略的抽样概率，测试和代打使用同一套算法。</p><div class="lab-controls"><label>对照模式<select id="lab-mode"><option value="both" ${labMode === 'both' ? 'selected' : ''}>两种模式</option><option value="combat" ${labMode === 'combat' ? 'selected' : ''}>五列战斗</option><option value="classic" ${labMode === 'classic' ? 'selected' : ''}>房租挑战</option></select></label><label>每策略局数<select id="lab-runs"><option value="30" ${labRuns === 30 ? 'selected' : ''}>30 局 · 快速观察</option><option value="100" ${labRuns === 100 ? 'selected' : ''}>100 局 · 标准对照</option><option value="300" ${labRuns === 300 ? 'selected' : ''}>300 局 · 更稳的估计</option><option value="1000" ${labRuns === 1000 ? 'selected' : ''}>1,000 局 · 完整验证</option></select></label></div><div class="lab-actions"><button class="button primary" data-action="aiBenchmark" ${experiment.running ? 'disabled' : ''}>运行平衡测试</button><button class="button ghost" data-action="aiTrain" ${experiment.running ? 'disabled' : ''}>训练并验证 AI</button></div><p class="lab-archive-label">训练每候选最多 60 局，独立留出最多 100 局；训练目标优先通关与通过层数，再比较生命和效率。</p><div class="lab-progress" aria-live="polite">${labProgressMarkup()}</div><div class="lab-result">${labResultMarkup()}</div><p class="help-note">通关率反映这批种子与策略的表现，不能单独证明全部玩法公平。AI 会使用移除机会精简编队；随机对照只均匀抽选奖励。实验在后台线程运行，不消耗你的资源。</p>`, '', { eyebrow: 'POLICY & BALANCE LAB' });
@@ -297,7 +299,11 @@ function scheduleAutoplay() {
         requestRecommendations();
         if (recommendationKey === currentRecommendationKey()) {
           const index = sampleRecommendation(recommendation, liveAiRandom());
-          adopt(chooseReward(game, index)); playTone('recruit'); render();
+          const choice = recommendation.choices.find(candidate => candidate.index === index);
+          if (!choice) throw new Error('推荐选项已失效，请重新计算。');
+          adopt(choice.action === 'skip' ? skipReward(game) : chooseReward(game, index));
+          if (choice.action !== 'skip') playTone('recruit');
+          render();
         }
       }
     } catch (error) { aiAutoplay = false; showToast(`AI 已停止：${error.message}`); updateAiPanel(); }
@@ -408,7 +414,8 @@ function rewardDialog() {
     const pick = `<div class="ai-recommendation" data-ai-index="${index}" data-inspect="mechanic" data-key="aiProbability" tabindex="0">${recommendationMarkup(index)}</div><button class="button primary full" data-action="choose" data-index="${index}">${recruit ? '邀请同行' : '收下奇物'} ${icon('arrow')}</button>`;
     return recruit ? characterCard(c, null, pick) : `<article class="item-card rarity-${c.rarity || 'rare'}"><div class="large-curio-icon">${esc(c.icon || '✦')}</div><span class="eyebrow">${game.phase === 'essence' ? 'ESSENCE' : rarityNames[c.rarity]}</span><h3>${esc(c.name)}</h3><p>${esc(c.description)}</p>${pick}</article>`;
   }).join('');
-  return modal(titles[game.phase], `${rewardMechanics()}<div class="reward-cards">${options}</div><p class="ai-choice-caption">AI 推荐为选择偏好，三项合计 100% · 自动试玩按同一概率抽样</p>`, `<button class="button ghost" data-action="reroll" ${game.rerolls <= 0 && game.coins < 8 ? 'disabled' : ''}>${icon('rotate')}重新发现 <span class="count-badge">${game.rerolls > 0 ? `${game.rerolls} 次免费` : '8 信用点'}</span></button><button class="button ghost ai-autoplay-toggle" data-action="aiAutoplay">${aiAutoplay ? '停止 AI' : 'AI 代打'}</button><button class="text-button" data-action="skip">${recruit ? '暂不招募' : '跳过奖励'} ${icon('arrow')}</button>`, { close: false, wide: true, reward: true, eyebrow: `DISCOVERY · ${recruit ? '同行者招募' : game.phase === 'item' ? '奇物奖励' : '精华奖励'}`, subtitle: recruit ? '选择一位加入编队。同角色同星级凑齐 3 位后，自动升星。' : '选择一件，让你的构筑走向新的可能。' });
+  const skipAdvice = `<div class="ai-recommendation ai-skip-recommendation" data-ai-index="${game.choices.length}" data-inspect="mechanic" data-key="aiProbability" data-inspect-click="true" tabindex="0" role="button" aria-label="查看${recruit ? '暂不招募' : '跳过奖励'}的 AI 推荐说明">${recommendationMarkup(game.choices.length)}</div>`;
+  return modal(titles[game.phase], `${rewardMechanics()}<div class="reward-cards">${options}</div>${skipAdvice}<p class="ai-choice-caption">${game.choices.length} 张奖励与跳过的推荐率合计 100% · 自动试玩按同一概率抽样</p>`, `<button class="button ghost reward-reroll-button" data-action="reroll" ${game.rerolls <= 0 && game.coins < 8 ? 'disabled' : ''}>${icon('rotate')}重新发现 <span class="count-badge">${game.rerolls > 0 ? `${game.rerolls} 次免费` : '8 信用点'}</span></button><button class="button ghost ai-autoplay-toggle" data-action="aiAutoplay">${aiAutoplay ? '停止 AI' : 'AI 代打'}</button><button class="button ghost reward-skip-button" data-action="skip">${recruit ? '暂不招募' : '跳过奖励'} ${icon('arrow')}</button>`, { close: false, wide: true, reward: true, eyebrow: `DISCOVERY · ${recruit ? '同行者招募' : game.phase === 'item' ? '奇物奖励' : '精华奖励'}`, subtitle: recruit ? '选择一位加入编队。同角色同星级凑齐 3 位后，自动升星。' : '选择一件，让你的构筑走向新的可能。' });
 }
 function rewardMechanics() {
   const combat = game.mode === 'combat';

@@ -1,5 +1,5 @@
-import { newGame, spin, chooseReward, removeSymbol, FINAL_FLOOR } from './engine.js';
-import { recommendRewards, sampleRecommendation, createPolicyRandom, recommendRemoval, evaluateRun } from './ai.js';
+import { newGame, spin, chooseReward, skipReward, removeSymbol, FINAL_FLOOR } from './engine.js';
+import { recommendRewards, sampleRecommendation, createPolicyRandom, recommendRemoval, evaluateRun, POLICY_VERSION } from './ai.js';
 import { DEFAULT_PROFILE, validateProfile } from './ai-profile.js';
 import { DIFFICULTY } from './difficulty.js';
 
@@ -8,6 +8,10 @@ const TERMINAL_PHASES = ['victory', 'defeat'];
 const boundedInt = (value, fallback, max = 1000) => Number.isInteger(value) && value > 0 ? Math.min(value, max) : fallback;
 const modesFor = mode => mode === 'both' ? ['combat', 'classic'] : [mode === 'classic' ? 'classic' : 'combat'];
 const yieldToEventLoop = () => new Promise(resolve => setTimeout(resolve, 0));
+export const ACTION_POLICIES = Object.freeze({
+  ai: Object.freeze({ selection: 'weighted-choose-or-skip', rewardActions: Object.freeze(['choose', 'skip']), removals: 'recommended-over-20' }),
+  uniform: Object.freeze({ selection: 'uniform-choose-only', rewardActions: Object.freeze(['choose']), removals: 'none' }),
+});
 
 /** Policy draws never consume or inspect the engine's seeded random stream. */
 export function runCampaign({ mode = 'combat', seed = 'simulation', profile = DEFAULT_PROFILE, policy = 'ai', maxActions = 1000, lookahead = true, policySeed, initialState, trace = false } = {}) {
@@ -15,6 +19,7 @@ export function runCampaign({ mode = 'combat', seed = 'simulation', profile = DE
   const random = createPolicyRandom(policySeed ?? `${state.seed}:policy`);
   const limit = boundedInt(maxActions, 1000, 5000);
   const picks = { recruit: {}, item: {}, essence: {} };
+  const skips = { recruit: 0, item: 0, essence: 0 };
   const choices = [];
   let actions = 0;
   let removals = 0;
@@ -31,15 +36,19 @@ export function runCampaign({ mode = 'combat', seed = 'simulation', profile = DE
     if (state.phase === 'ready') next = spin(state);
     else if (REWARD_PHASES.includes(state.phase) && state.choices.length) {
       const recommendation = policy === 'ai' ? recommendRewards(state, { profile, lookahead }) : {
-        choices: state.choices.map((id, index) => ({ id, index, probability: 1 / state.choices.length })),
+        choices: state.choices.map((id, index) => ({ id, index, action: 'choose', probability: 1 / state.choices.length })),
       };
       const draw = random();
       const index = sampleRecommendation(recommendation, draw);
-      const id = state.choices[index];
-      if (!id) { stopped = 'invalid-policy-choice'; break; }
+      const selected = recommendation.choices.find(choice => choice.index === index);
+      const isSkip = index === state.choices.length && selected?.id === 'skip' && selected.action === 'skip';
+      const id = isSkip ? 'skip' : state.choices[index];
+      if (!selected || (!isSkip && (!id || selected.id !== id || selected.action !== 'choose'))) { stopped = 'invalid-policy-choice'; break; }
+      const action = isSkip ? 'skip' : 'choose';
       picks[state.phase][id] = (picks[state.phase][id] || 0) + 1;
-      if (trace) choices.push({ floor: state.floor, phase: state.phase, options: state.choices.slice(), probabilities: recommendation.choices.map(choice => choice.probability), draw, index, id });
-      next = chooseReward(state, index);
+      if (isSkip) skips[state.phase] += 1;
+      if (trace) choices.push({ floor: state.floor, phase: state.phase, offeredRewards: state.choices.slice(), options: recommendation.choices.map(choice => choice.id), optionActions: recommendation.choices.map(choice => choice.action), probabilities: recommendation.choices.map(choice => choice.probability), draw, index, id, action });
+      next = isSkip ? skipReward(state) : chooseReward(state, index);
     } else { stopped = 'unknown-phase'; break; }
     if (next === state) { stopped = 'no-progress'; break; }
     state = next;
@@ -48,12 +57,12 @@ export function runCampaign({ mode = 'combat', seed = 'simulation', profile = DE
   if (!TERMINAL_PHASES.includes(state.phase) && !stopped) stopped = 'action-limit';
   const won = state.phase === 'victory';
   return {
-    mode: state.mode, seed: state.seed, policy, won, phase: state.phase,
+    mode: state.mode, seed: state.seed, policy, actionPolicy: ACTION_POLICIES[policy]?.selection, policyVersion: policy === 'ai' ? POLICY_VERSION : 'uniform-choose-only-v1', won, phase: state.phase,
     floor: state.floor, clearedFloors: won ? FINAL_FLOOR : Math.max(0, state.floor - 1),
     hp: state.hp, maxHp: state.maxHp, shield: state.shield, turns: state.stats.spins,
     damage: state.stats.damage, coins: state.stats.coins, merges: state.stats.merges,
     removed: removals, destroyed: state.stats.destroyed, actions, stopped,
-    score: evaluateRun(state), picks, rosterSize: state.roster.length,
+    score: evaluateRun(state), picks, skips, skipped: Object.values(skips).reduce((sum, count) => sum + count, 0), rosterSize: state.roster.length,
     itemCount: state.items.length, essenceCount: state.essences.length,
     activatedEssences: state.essences.filter(essence => essence.triggered).length,
     ...(trace ? { choices } : {}),
@@ -78,14 +87,16 @@ export function summarizeCampaigns(results) {
   const wins = results.filter(result => result.won).length;
   const failureByFloor = Array.from({ length: FINAL_FLOOR }, (_, index) => ({ floor: index + 1, count: results.filter(result => !result.won && result.floor === index + 1 && !result.stopped).length }));
   const picks = { recruit: {}, item: {}, essence: {} };
+  const skipsByPhase = { recruit: 0, item: 0, essence: 0 };
   for (const result of results) for (const phase of REWARD_PHASES) for (const [id, count] of Object.entries(result.picks[phase])) picks[phase][id] = (picks[phase][id] || 0) + count;
+  for (const phase of REWARD_PHASES) skipsByPhase[phase] = results.reduce((sum, result) => sum + (result.skips?.[phase] ?? result.picks[phase].skip ?? 0), 0);
   return {
     runs: n, wins, winRate: n ? wins / n : 0, winRateCI: wilsonInterval(wins, n),
     avgFloor: avg('floor'), avgClearedFloors: avg('clearedFloors'), avgHp: avg('hp'),
     avgTurns: avg('turns'), avgDamage: avg('damage'), avgCoins: avg('coins'),
     avgMerges: avg('merges'), avgRemovals: avg('removed'), avgRosterSize: avg('rosterSize'),
     avgItems: avg('itemCount'), avgEssences: avg('essenceCount'), avgActivatedEssences: avg('activatedEssences'),
-    avgScore: avg('score'), failureByFloor, picks, incomplete: results.filter(result => result.stopped).length,
+    avgScore: avg('score'), avgSkips: n ? Object.values(skipsByPhase).reduce((sum, count) => sum + count, 0) / n : 0, skipsByPhase, failureByFloor, picks, incomplete: results.filter(result => result.stopped).length,
   };
 }
 
@@ -123,7 +134,7 @@ export async function benchmarkPolicies({ mode = 'combat', runs = 100, seed = 'b
     }
     reports.push({ mode: currentMode, ai: summarizeCampaigns(ai), uniform: summarizeCampaigns(uniform), difference: pairedDifference(ai, uniform) });
   }
-  return { version: 1, seed, rules: structuredClone(DIFFICULTY), profileName: profile.name ?? profile.version, profile: structuredClone(profile), lookahead, runs: count, modes: reports, elapsedMs: performance.now() - started };
+  return { version: 2, seed, rules: structuredClone(DIFFICULTY), policyVersion: POLICY_VERSION, actionPolicies: structuredClone(ACTION_POLICIES), profileName: profile.name ?? profile.version, profile: structuredClone(profile), lookahead, runs: count, modes: reports, elapsedMs: performance.now() - started };
 }
 
 const campaignObjective = result => Number(result.won) * 1000 + result.clearedFloors * 50 + Math.min(1, Math.max(0, result.hp / result.maxHp)) * 2 + result.score * 0.0001;
@@ -189,7 +200,7 @@ export async function trainProfile({ mode = 'both', runs = 40, seed = 'training-
   const changed = JSON.stringify(best.weights) !== JSON.stringify(profile.weights) || best.temperature !== profile.temperature;
   const accepted = changed && candidateHoldout.objective > baselineHoldout.objective && candidateHoldout.summary.winRate >= baselineHoldout.summary.winRate && candidateHoldout.summary.avgClearedFloors >= baselineHoldout.summary.avgClearedFloors;
   return {
-    version: 1, seed, rules: structuredClone(DIFFICULTY), mode, runs: count, holdoutRuns: holdoutCount, generations: generationCount, candidates: candidateCount,
+    version: 2, seed, rules: structuredClone(DIFFICULTY), policyVersion: POLICY_VERSION, actionPolicies: structuredClone(ACTION_POLICIES), mode, runs: count, holdoutRuns: holdoutCount, generations: generationCount, candidates: candidateCount,
     accepted, baselineProfile: structuredClone(profile), profile: accepted ? best : structuredClone(profile), candidateProfile: best,
     baseline: baselineHoldout, trained: candidateHoldout,
     holdout: { baseline: baselineHoldout, candidate: candidateHoldout, separateFromTraining: true, lookahead },
