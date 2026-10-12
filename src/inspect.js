@@ -242,7 +242,14 @@ export function createInspector({ root = document, resolve, onOpen, onClose } = 
   listen(root, 'focusin', onFocusIn);
   listen(root, 'focusout', onFocusOut);
   listen(doc, 'keydown', event => {
-    if (event.key === 'Escape' && popup) {
+    const anchor = anchorFor(event.target);
+    const nativeControl = ['BUTTON', 'A', 'INPUT', 'SELECT', 'TEXTAREA'].includes(element(event.target)?.tagName);
+    if ((event.key === 'Enter' || event.code === 'Space') && anchor?.dataset.inspectClick === 'true' && !nativeControl && !anchor.dataset.action) {
+      event.preventDefault();
+      event.stopPropagation();
+      open(anchor);
+    }
+    else if (event.key === 'Escape' && popup) {
       close();
       event.preventDefault();
       event.stopPropagation();

@@ -112,20 +112,52 @@ function inspectionContent(anchor) {
   return null;
 }
 function decorateInspectors() {
-  const mechanic = (selector, key) => document.querySelectorAll(selector).forEach(anchor => {
-    anchor.dataset.inspect = 'mechanic'; anchor.dataset.key = key; anchor.dataset.inspectClick = 'true'; anchor.tabIndex = 0; anchor.classList.add('has-explanation');
+  const mechanic = (selector, key, helpAt) => document.querySelectorAll(selector).forEach(anchor => {
+    const info = mechanicExplanation(key, game);
+    if (!info) return;
+    anchor.dataset.inspect = 'mechanic'; anchor.dataset.key = key; anchor.dataset.inspectClick = 'true'; anchor.classList.add('has-explanation');
+    if (helpAt) {
+      anchor.tabIndex = -1;
+      if (!anchor.querySelector('.mechanic-help')) {
+        const target = helpAt === 'self' ? anchor : anchor.querySelector(helpAt);
+        if (target) {
+          const button = document.createElement('button');
+          button.type = 'button'; button.className = 'mechanic-help';
+          button.dataset.inspect = 'mechanic'; button.dataset.key = key; button.dataset.inspectClick = 'true';
+          button.setAttribute('aria-label', `查看${info.title}说明`);
+          button.setAttribute('aria-haspopup', 'dialog');
+          button.innerHTML = '<span aria-hidden="true">?</span>';
+          target.append(button);
+        }
+      }
+    } else {
+      anchor.tabIndex = 0;
+      if (anchor.tagName !== 'BUTTON' && !anchor.dataset.action) {
+        anchor.setAttribute('role', 'button'); anchor.setAttribute('aria-label', `查看${info.title}说明`);
+        anchor.setAttribute('aria-haspopup', 'dialog');
+      }
+    }
   });
-  mechanic('.health-stat', game.mode === 'combat' ? 'hp' : 'classicCredits');
-  mechanic('.supply-credits', 'credits');
-  mechanic('.small-stats>div:nth-child(1)', 'shield');
-  mechanic('.small-stats>div:nth-child(2)', 'rerolls');
-  mechanic('.small-stats>div:nth-child(3)', 'removals');
-  mechanic('.floor-display', 'floor'); mechanic('.synergy-panel .panel-heading h2', 'synergy');
+  mechanic('.health-stat', game.mode === 'combat' ? 'hp' : 'classicCredits', ':scope > div:first-child > span');
+  mechanic('.supply-credits', 'credits', ':scope > span');
+  mechanic('.small-stats>div:nth-child(1)', 'shield', ':scope > b');
+  mechanic('.small-stats>div:nth-child(2)', 'rerolls', ':scope > b');
+  mechanic('.small-stats>div:nth-child(3)', 'removals', ':scope > b');
+  mechanic('.mobile-combat-hud>span[data-key="hp"]', 'hp', 'self');
+  mechanic('.mobile-combat-hud>span[data-key="shield"]', 'shield', 'self');
+  mechanic('.floor-display', 'floor', '.orbital-ring'); mechanic('.segmented-progress', 'floor');
+  mechanic('.arena-heading>span:first-child', 'floor', 'self'); mechanic('.arena-heading>.tiny-label', 'round', 'self');
+  mechanic('.synergy-panel .panel-heading', 'synergy', 'h2'); mechanic('.synergy-panel .panel-intro', 'synergy');
   mechanic('.roster-link', 'roster'); mechanic('.rent-scene', 'rent');
-  mechanic('.enemy-rule', 'intent'); mechanic('.last-total', game.mode === 'combat' ? 'damage' : 'income');
-  mechanic('.curios-panel .panel-heading h2', 'items'); mechanic('.essence-panel .panel-heading h2', 'essences');
+  mechanic('.enemy-rule', 'intent'); mechanic('.last-total', game.mode === 'combat' ? 'damage' : 'income', ':scope > span');
+  mechanic('.curios-panel .panel-heading', 'items', 'h2'); mechanic('.essence-panel .panel-heading', 'essences', 'h2');
   mechanic('.seed-label', 'seed'); mechanic('.cell-stars', 'stars'); mechanic('.cell-power', 'power'); mechanic('.reel-cell.blank', 'roster');
-  mechanic('.ai-panel .panel-heading h2', 'aiLab');
+  mechanic('.ai-panel .panel-heading', 'aiLab', 'h2');
+  if (!document.querySelector('.mechanic-hint')) {
+    const hint = document.createElement('p'); hint.className = 'mechanic-hint';
+    hint.textContent = '点 ? 查看说明 · 也可悬停或长按';
+    document.querySelector('.dossier .small-stats')?.after(hint);
+  }
   for (const kind of ['character', 'synergy', 'item', 'essence']) document.querySelectorAll(`[data-action="${kind}"]`).forEach(anchor => { anchor.dataset.inspect = kind; anchor.dataset.inspectClick = 'true'; });
   document.querySelectorAll('.enemy-slot:not(.empty)').forEach((anchor, col) => { anchor.dataset.inspect = 'enemy'; anchor.dataset.inspectClick = 'true'; anchor.dataset.col = Array.from(anchor.parentElement.children).indexOf(anchor); anchor.tabIndex = 0; });
   document.querySelectorAll('.character-tags>span:last-child').forEach(anchor => { const text = anchor.textContent; const type = Object.keys(attackNames).find(key => text.startsWith(attackNames[key])); if (type) { anchor.dataset.inspect='mechanic';anchor.dataset.key=type;anchor.tabIndex=0; } });
@@ -376,7 +408,18 @@ function rewardDialog() {
     const pick = `<div class="ai-recommendation" data-ai-index="${index}" data-inspect="mechanic" data-key="aiProbability" tabindex="0">${recommendationMarkup(index)}</div><button class="button primary full" data-action="choose" data-index="${index}">${recruit ? '邀请同行' : '收下奇物'} ${icon('arrow')}</button>`;
     return recruit ? characterCard(c, null, pick) : `<article class="item-card rarity-${c.rarity || 'rare'}"><div class="large-curio-icon">${esc(c.icon || '✦')}</div><span class="eyebrow">${game.phase === 'essence' ? 'ESSENCE' : rarityNames[c.rarity]}</span><h3>${esc(c.name)}</h3><p>${esc(c.description)}</p>${pick}</article>`;
   }).join('');
-  return modal(titles[game.phase], `<div class="reward-cards">${options}</div><p class="ai-choice-caption">AI 推荐为选择偏好，三项合计 100% · 自动试玩按同一概率抽样</p>`, `<button class="button ghost" data-action="reroll" ${game.rerolls <= 0 && game.coins < 8 ? 'disabled' : ''}>${icon('rotate')}重新发现 <span class="count-badge">${game.rerolls > 0 ? `${game.rerolls} 次免费` : '8 信用点'}</span></button><button class="button ghost ai-autoplay-toggle" data-action="aiAutoplay">${aiAutoplay ? '停止 AI' : 'AI 代打'}</button><button class="text-button" data-action="skip">${recruit ? '暂不招募' : '跳过奖励'} ${icon('arrow')}</button>`, { close: false, wide: true, reward: true, eyebrow: `DISCOVERY · ${recruit ? '同行者招募' : game.phase === 'item' ? '奇物奖励' : '精华奖励'}`, subtitle: recruit ? '选择一位加入编队。同角色同星级凑齐 3 位后，自动升星。' : '选择一件，让你的构筑走向新的可能。' });
+  return modal(titles[game.phase], `${rewardMechanics()}<div class="reward-cards">${options}</div><p class="ai-choice-caption">AI 推荐为选择偏好，三项合计 100% · 自动试玩按同一概率抽样</p>`, `<button class="button ghost" data-action="reroll" ${game.rerolls <= 0 && game.coins < 8 ? 'disabled' : ''}>${icon('rotate')}重新发现 <span class="count-badge">${game.rerolls > 0 ? `${game.rerolls} 次免费` : '8 信用点'}</span></button><button class="button ghost ai-autoplay-toggle" data-action="aiAutoplay">${aiAutoplay ? '停止 AI' : 'AI 代打'}</button><button class="text-button" data-action="skip">${recruit ? '暂不招募' : '跳过奖励'} ${icon('arrow')}</button>`, { close: false, wide: true, reward: true, eyebrow: `DISCOVERY · ${recruit ? '同行者招募' : game.phase === 'item' ? '奇物奖励' : '精华奖励'}`, subtitle: recruit ? '选择一位加入编队。同角色同星级凑齐 3 位后，自动升星。' : '选择一件，让你的构筑走向新的可能。' });
+}
+function rewardMechanics() {
+  const combat = game.mode === 'combat';
+  const stats = [
+    ['floor', '层数', `第 ${String(game.floor).padStart(2, '0')} 层`],
+    ...(combat ? [['hp', '开拓生命', num(game.hp)], ['credits', '信用点', num(game.coins)]] : [['classicCredits', '信用点', num(game.coins)]]),
+    ['shield', '护盾', num(game.shield)], ['rerolls', '重掷', num(game.rerolls)],
+    ['removals', '移除', num(game.removals)], ['synergy', '羁绊共鸣', `${getSynergies(game).filter(s => s.active).length} 激活`],
+    ['round', '剩余回合', `${game.spinsLeft} 次`],
+  ];
+  return `<div class="reward-mechanics" role="group" aria-label="当前状态与机制说明">${stats.map(([key, label, value]) => `<button type="button" class="reward-mechanic" data-inspect="mechanic" data-inspect-click="true" data-key="${key}" aria-label="查看${esc(mechanicExplanation(key, game).title)}说明，当前${esc(value)}"><span>${label}<i aria-hidden="true">?</i></span><b>${value}</b></button>`).join('')}</div>`;
 }
 function helpDialog() {
   return modal('这次开拓，由你定义。', `<div class="help-grid"><article><span class="step-number">01</span><h3>转动 · 招募 · 构筑</h3><p>编队成员随机填入 5 × 4 转轮。每次转动后从三位角色中选一位，或跳过。编队超过 20 位后，每轮只会抽取其中 20 位。使用重掷寻找合适的同行者，使用移除精简编队。</p></article><article><span class="step-number">02</span><h3>五列战斗</h3><p>角色攻击对应列的敌人。空列寻找最近的存活敌人，距离相同优先左侧。敌人结算后反击，护盾优先抵挡伤害；清空所有敌人即可过关。Boss 固定在中间列。</p><div class="attack-guide"><span><b>单体</b>主目标 ×3</span><span><b>扩散</b>主目标 ×2 · 相邻 ×1</span><span><b>群体</b>所有敌人 ×1</span></div></article><article><span class="step-number">03</span><h3>同行，让可能变多</h3><p>羁绊按整个编队里的不同角色数量计算。同角色同星级自动 3 合 1：三位 1 星变 2 星，三位 2 星变 3 星。高星角色更强，重复角色不会重复计入羁绊。</p></article><article><span class="step-number">04</span><h3>奇物与精华</h3><p>过关后选择永久生效的奇物。深入关卡还会获得精华：满足条件后触发特殊效果。房租挑战中，每次转动赚取信用点，在期限内支付逐渐提高的房租。</p></article></div><div class="help-note">旅程共 12 层。通关后可继续无尽模式。进度保存在当前浏览器，刷新可以继续；切换设备不会同步。角色技能、羁绊及数值为本游戏改编设定。</div>`, `<button class="button primary" data-action="close">准备好了 ${icon('arrow')}</button>`, { wide: true, eyebrow: 'TRAILBLAZER HANDBOOK' });
@@ -423,7 +466,7 @@ function render() {
   document.querySelector('.site-header').inert = !!backdrop;
   document.querySelector('.site-footer').inert = !!backdrop;
   decorateInspectors();
-  if (backdrop) (backdrop.querySelector(`[data-action="${focusAction || ''}"]`) || backdrop.querySelector('button, input'))?.focus({ preventScroll: true });
+  if (backdrop) (backdrop.querySelector(`[data-action="${focusAction || ''}"]`) || backdrop.querySelector('[data-action="choose"]') || backdrop.querySelector('button, input'))?.focus({ preventScroll: true });
   else if (focusAction && !hadDialog) document.querySelector(`[data-action="${focusAction}"]`)?.focus({ preventScroll: true });
   if (['victory', 'defeat'].includes(game.phase)) { aiAutoplay = false; clearTimeout(aiAutoplayTimer); }
   requestRecommendations();

@@ -24,14 +24,16 @@ test('inspector keeps explanations local and preserves page interactions', { ski
     .inspect-popover button { position: static; } .inspect-title { margin: 0; }
   </style><button id="first" data-inspect="character" data-inspect-click="true">First</button>
   <button id="second" data-inspect="character" data-inspect-click="true">Second</button>
-  <button id="resource" data-inspect="shield">Shield</button><button id="outside">Action</button>`);
+  <button id="resource" data-inspect="shield">Shield</button><button id="outside">Action</button>
+  <div id="status" data-inspect="mechanic" data-inspect-click="true" tabindex="0">Rerolls</div>`);
   const source = await readFile(new URL('../src/inspect.js', import.meta.url), 'utf8');
   await page.evaluate(async code => {
     const { createInspector } = await import(URL.createObjectURL(new Blob([code], { type: 'text/javascript' })));
     window.actions = 0;
     window.escapes = 0;
+    window.spins = 0;
     document.addEventListener('click', event => { if (event.target.closest('#resource, #outside')) window.actions++; });
-    document.addEventListener('keydown', event => { if (event.key === 'Escape') window.escapes++; });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') window.escapes++; if (event.code === 'Space') window.spins++; });
     window.inspector = createInspector({ resolve: anchor => ({ title: anchor.id, bodyHtml: '<p>Explanation</p><button id="inside">Read more</button>' }) });
   }, source);
   const popup = page.locator('[data-inspector]');
@@ -113,6 +115,13 @@ test('inspector keeps explanations local and preserves page interactions', { ski
     assert.equal(await popup.count(), 0);
     assert.equal(await page.evaluate(() => window.escapes), 0);
     assert.equal(await page.locator('#resource').getAttribute('aria-describedby'), null);
+    await page.locator('#status').focus();
+    await page.keyboard.press('Enter');
+    assert.equal(await page.locator('.inspect-title').textContent(), 'status');
+    assert.equal(await popup.getAttribute('role'), 'dialog');
+    await page.keyboard.press('Space');
+    assert.equal(await popup.count(), 1);
+    assert.equal(await page.evaluate(() => window.spins), 0, 'reading a mechanic never reaches the global spin shortcut');
     await page.evaluate(() => window.inspector.destroy());
     await page.locator('#first').click();
     assert.equal(await popup.count(), 0);
