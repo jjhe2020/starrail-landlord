@@ -1548,9 +1548,9 @@ h3 {
 }
 
 .site-footer {
-  max-width:1360px;
+  max-width:1440px;
   margin:12px auto 0;
-  padding:22px 0 28px;
+  padding:22px 40px 28px;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -2348,6 +2348,9 @@ h3 {
 }
 
 @media(max-width:1240px) {
+  .site-footer {
+    padding:22px 0 28px;
+  }
   .site-header {
     padding:0 25px
   }
@@ -3746,4 +3749,3 @@ body {
     font-size:10px
   }
 }
-
