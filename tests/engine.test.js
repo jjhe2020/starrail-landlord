@@ -19,19 +19,26 @@ function acceptAllRewards(state) {
 
 function playAI(state) {
   let actions = 0;
+  const skipped = { recruit: 0, item: 0, essence: 0 };
+  const offered = { recruit: 0, item: 0, essence: 0 };
   const random = createPolicyRandom(`${state.seed}:policy`);
   while (!['victory', 'defeat'].includes(state.phase) && actions++ < 600) {
     const removal = state.removals > 0 ? recommendRemoval(state) : null;
     if (removal) state = removeSymbol(state, removal);
     else if (state.phase === 'ready') { state = spin(state); }
     else {
-      const choice = sampleRecommendation(recommendRewards(state), random());
-      state = chooseReward(state, choice);
+      const recommendation = recommendRewards(state);
+      const choice = sampleRecommendation(recommendation, random());
+      const action = recommendation.choices.find(option => option.index === choice);
+      assert.ok(action && ['choose', 'skip'].includes(action.action), 'AI returns a real reward action');
+      offered[state.phase] += 1;
+      if (action.action === 'skip') skipped[state.phase] += 1;
+      state = action.action === 'skip' ? skipReward(state) : chooseReward(state, choice);
     }
     assert.notEqual(validateSave(state), null, `save invalid at floor ${state.floor}/${state.phase}`);
   }
   assert.ok(actions < 600, 'run must terminate without a phase loop');
-  return state;
+  return { final: state, skipped, offered };
 }
 
 test('new games and action sequences are deterministic and immutable', () => {
@@ -391,11 +398,13 @@ test('floor twelve victory can continue into scaling endless encounters', () => 
 
 test('complete twelve-floor combat and classic campaigns persist through every action', () => {
   for (const mode of ['combat', 'classic']) {
-    const final = playAI(newGame({ mode, seed: 'balance-0' }));
+    const { final, skipped, offered } = playAI(newGame({ mode, seed: 'balance-0' }));
     assert.equal(final.phase, 'victory');
     assert.equal(final.floor, 12);
-    assert.ok(final.items.length >= 5);
-    assert.equal(final.essences.length, 3);
+    assert.equal(offered.item, 5, 'all five floor-end item opportunities were reached');
+    assert.equal(final.items.length + skipped.item, offered.item, 'item offers are either accepted or explicitly skipped');
+    assert.equal(offered.essence, 3, 'all three floor-end essence opportunities were reached');
+    assert.equal(final.essences.length + skipped.essence, offered.essence, 'essence offers are either accepted or explicitly skipped');
     assert.ok(final.stats.merges > 0);
     assert.ok(final.shield <= final.maxHp * 2, 'floor gifts respect the shield cap');
     const endless = continueEndless(final);
