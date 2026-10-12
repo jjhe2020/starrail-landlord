@@ -29,10 +29,15 @@ const descriptions = {
 export function mechanicExplanation(key, state) {
   const value = descriptions[key];
   if (!value) return null;
+  const classicDescriptions = {
+    hp: '房租模式没有敌人反击，胜负由能否按时支付租金决定。生命与治疗效果仍会记录，但不能代替信用点支付租金。战斗模式中，敌人反击先扣护盾再扣生命，生命归零则失败。',
+    shield: '当前房租模式没有敌人反击：角色仍会积累护盾，也可推进护盾相关精华的条件，但护盾不能抵扣房租或兑换信用点。战斗模式中护盾先抵挡反击，可跨回合和关卡保留；上限为生命上限的 2 倍。',
+    power: '格子右下角是角色本轮威力，已包含成长、星级、相邻增益、羁绊和奇物。房租模式将全部上场角色的威力相加、向上取整后产出信用点，辅助角色也计入；不套用战斗的单体 ×3 或扩散 ×2 攻击倍率。',
+  };
   const extra = key === 'shield' ? `当前 ${state.shield} / ${state.maxHp * 2} 护盾。` :
     key === 'hp' ? `当前生命 ${state.hp} / ${state.maxHp}。` :
     key === 'credits' || key === 'classicCredits' ? `当前余额 ${state.coins} 信用点。` :
     key === 'rerolls' ? `当前免费重掷 ${state.rerolls} 次。` :
     key === 'removals' ? `当前可用移除 ${state.removals} 次。` : '';
-  return { title: value[0], description: value[1], extra };
+  return { title: value[0], description: state.mode === 'classic' ? classicDescriptions[key] || value[1] : value[1], extra };
 }
