@@ -1,0 +1,1070 @@
+{
+  "version": 2,
+  "date": "2026-10-12",
+  "rules": {
+    "version": "difficulty-v2",
+    "combatLateHealthMultiplier": 1.5,
+    "classicLateRentMultiplier": 1.28
+  },
+  "target": {
+    "preferred": 0.95,
+    "min": 0.9,
+    "max": 0.98
+  },
+  "calibrationCampaigns": 2280,
+  "finalReleaseSeedsExcludedFromSearch": true,
+  "modes": {
+    "combat": {
+      "schemaVersion": 1,
+      "mode": "combat",
+      "parameter": "combatLateHealthMultiplier",
+      "recommendedValue": 1.5,
+      "targetWinRate": 0.95,
+      "acceptableWinRate": [
+        0.9,
+        0.98
+      ],
+      "originalConfig": {
+        "version": "difficulty-v2",
+        "combatLateHealthMultiplier": 1,
+        "classicLateRentMultiplier": 1
+      },
+      "profile": {
+        "version": "context-v1",
+        "weights": {
+          "damage": 1,
+          "defense": 0.36,
+          "growth": 0.7,
+          "synergy": 0.9,
+          "merge": 0.85,
+          "economy": 0.32,
+          "tempo": 1.1,
+          "lookahead": 0.55,
+          "dilution": 1.1,
+          "flexibility": 0.7
+        },
+        "temperature": 5,
+        "lookaheadSamples": 4
+      },
+      "lookahead": true,
+      "totalCalibrationCampaigns": 1300,
+      "independentFinalHoldoutUsed": false,
+      "stages": [
+        {
+          "phase": "coarse",
+          "seed": "combat-calibration-search-2026-10-12-a",
+          "runsPerCandidate": 100,
+          "elapsedMs": 40839.5542,
+          "candidates": [
+            {
+              "multiplier": 1,
+              "runs": 100,
+              "wins": 100,
+              "winRate": 1,
+              "winRateCI": [
+                0.9630065017930143,
+                1
+              ],
+              "avgFloor": 12,
+              "avgClearedFloors": 12,
+              "avgHp": 94.91,
+              "avgTurns": 36.59,
+              "avgDamage": 19113,
+              "avgCoins": 337.05,
+              "avgMerges": 5.35,
+              "avgRemovals": 8.08,
+              "avgRosterSize": 22.66,
+              "avgItems": 5,
+              "avgEssences": 3,
+              "avgActivatedEssences": 3,
+              "avgScore": 13808.642946708724,
+              "failureByFloor": [
+                {
+                  "floor": 1,
+                  "count": 0
+                },
+                {
+                  "floor": 2,
+                  "count": 0
+                },
+                {
+                  "floor": 3,
+                  "count": 0
+                },
+                {
+                  "floor": 4,
+                  "count": 0
+                },
+                {
+                  "floor": 5,
+                  "count": 0
+                },
+                {
+                  "floor": 6,
+                  "count": 0
+                },
+                {
+                  "floor": 7,
+                  "count": 0
+                },
+                {
+                  "floor": 8,
+                  "count": 0
+                },
+                {
+                  "floor": 9,
+                  "count": 0
+                },
+                {
+                  "floor": 10,
+                  "count": 0
+                },
+                {
+                  "floor": 11,
+                  "count": 0
+                },
+                {
+                  "floor": 12,
+                  "count": 0
+                }
+              ],
+              "incomplete": 0,
+              "elapsedMs": 9066.364000000001
+            },
+            {
+              "multiplier": 1.4,
+              "runs": 100,
+              "wins": 98,
+              "winRate": 0.98,
+              "winRateCI": [
+                0.929988209271456,
+                0.9944980324498376
+              ],
+              "avgFloor": 12,
+              "avgClearedFloors": 11.98,
+              "avgHp": 96.94,
+              "avgTurns": 41,
+              "avgDamage": 25044.4856,
+              "avgCoins": 336.13,
+              "avgMerges": 6.97,
+              "avgRemovals": 8.1,
+              "avgRosterSize": 23.77,
+              "avgItems": 5,
+              "avgEssences": 3,
+              "avgActivatedEssences": 3,
+              "avgScore": 13752.747140136458,
+              "failureByFloor": [
+                {
+                  "floor": 1,
+                  "count": 0
+                },
+                {
+                  "floor": 2,
+                  "count": 0
+                },
+                {
+                  "floor": 3,
+                  "count": 0
+                },
+                {
+                  "floor": 4,
+                  "count": 0
+                },
+                {
+                  "floor": 5,
+                  "count": 0
+                },
+                {
+                  "floor": 6,
+                  "count": 0
+                },
+                {
+                  "floor": 7,
+                  "count": 0
+                },
+                {
+                  "floor": 8,
+                  "count": 0
+                },
+                {
+                  "floor": 9,
+                  "count": 0
+                },
+                {
+                  "floor": 10,
+                  "count": 0
+                },
+                {
+                  "floor": 11,
+                  "count": 0
+                },
+                {
+                  "floor": 12,
+                  "count": 2
+                }
+              ],
+              "incomplete": 0,
+              "elapsedMs": 9830.5936
+            },
+            {
+              "multiplier": 1.8,
+              "runs": 100,
+              "wins": 83,
+              "winRate": 0.83,
+              "winRateCI": [
+                0.7445199523239887,
+                0.8910643388594006
+              ],
+              "avgFloor": 11.99,
+              "avgClearedFloors": 11.82,
+              "avgHp": 99.33,
+              "avgTurns": 44.67,
+              "avgDamage": 30815.6592,
+              "avgCoins": 329.86,
+              "avgMerges": 8.3,
+              "avgRemovals": 8.15,
+              "avgRosterSize": 24.68,
+              "avgItems": 5,
+              "avgEssences": 3,
+              "avgActivatedEssences": 3,
+              "avgScore": 13413.498785062164,
+              "failureByFloor": [
+                {
+                  "floor": 1,
+                  "count": 0
+                },
+                {
+                  "floor": 2,
+                  "count": 0
+                },
+                {
+                  "floor": 3,
+                  "count": 0
+                },
+                {
+                  "floor": 4,
+                  "count": 0
+                },
+                {
+                  "floor": 5,
+                  "count": 0
+                },
+                {
+                  "floor": 6,
+                  "count": 0
+                },
+                {
+                  "floor": 7,
+                  "count": 0
+                },
+                {
+                  "floor": 8,
+                  "count": 0
+                },
+                {
+                  "floor": 9,
+                  "count": 0
+                },
+                {
+                  "floor": 10,
+                  "count": 0
+                },
+                {
+                  "floor": 11,
+                  "count": 1
+                },
+                {
+                  "floor": 12,
+                  "count": 16
+                }
+              ],
+              "incomplete": 0,
+              "elapsedMs": 10662.629500000003
+            },
+            {
+              "multiplier": 2.2,
+              "runs": 100,
+              "wins": 46,
+              "winRate": 0.46,
+              "winRateCI": [
+                0.36560808309024106,
+                0.5573513967663177
+              ],
+              "avgFloor": 11.95,
+              "avgClearedFloors": 11.41,
+              "avgHp": 96.91,
+              "avgTurns": 47.41,
+              "avgDamage": 35813.29850000001,
+              "avgCoins": 314.26,
+              "avgMerges": 8.83,
+              "avgRemovals": 8.09,
+              "avgRosterSize": 26.62,
+              "avgItems": 5,
+              "avgEssences": 3,
+              "avgActivatedEssences": 3,
+              "avgScore": 12561.868982741915,
+              "failureByFloor": [
+                {
+                  "floor": 1,
+                  "count": 0
+                },
+                {
+                  "floor": 2,
+                  "count": 0
+                },
+                {
+                  "floor": 3,
+                  "count": 0
+                },
+                {
+                  "floor": 4,
+                  "count": 0
+                },
+                {
+                  "floor": 5,
+                  "count": 0
+                },
+                {
+                  "floor": 6,
+                  "count": 0
+                },
+                {
+                  "floor": 7,
+                  "count": 0
+                },
+                {
+                  "floor": 8,
+                  "count": 0
+                },
+                {
+                  "floor": 9,
+                  "count": 0
+                },
+                {
+                  "floor": 10,
+                  "count": 0
+                },
+                {
+                  "floor": 11,
+                  "count": 5
+                },
+                {
+                  "floor": 12,
+                  "count": 49
+                }
+              ],
+              "incomplete": 0,
+              "elapsedMs": 11276.5906
+            }
+          ]
+        },
+        {
+          "phase": "fine",
+          "seed": "combat-calibration-search-2026-10-12-a",
+          "runsPerCandidate": 150,
+          "elapsedMs": 59799.080299999994,
+          "candidates": [
+            {
+              "multiplier": 1.45,
+              "runs": 150,
+              "wins": 148,
+              "winRate": 0.9866666666666667,
+              "winRateCI": [
+                0.9526930912996325,
+                0.9963358708487731
+              ],
+              "avgFloor": 12,
+              "avgClearedFloors": 11.986666666666666,
+              "avgHp": 96.28,
+              "avgTurns": 41.54666666666667,
+              "avgDamage": 25817.084933333335,
+              "avgCoins": 336.50666666666666,
+              "avgMerges": 7.293333333333333,
+              "avgRemovals": 8.193333333333333,
+              "avgRosterSize": 23.62,
+              "avgItems": 5,
+              "avgEssences": 3,
+              "avgActivatedEssences": 3,
+              "avgScore": 13766.667238487751,
+              "failureByFloor": [
+                {
+                  "floor": 1,
+                  "count": 0
+                },
+                {
+                  "floor": 2,
+                  "count": 0
+                },
+                {
+                  "floor": 3,
+                  "count": 0
+                },
+                {
+                  "floor": 4,
+                  "count": 0
+                },
+                {
+                  "floor": 5,
+                  "count": 0
+                },
+                {
+                  "floor": 6,
+                  "count": 0
+                },
+                {
+                  "floor": 7,
+                  "count": 0
+                },
+                {
+                  "floor": 8,
+                  "count": 0
+                },
+                {
+                  "floor": 9,
+                  "count": 0
+                },
+                {
+                  "floor": 10,
+                  "count": 0
+                },
+                {
+                  "floor": 11,
+                  "count": 0
+                },
+                {
+                  "floor": 12,
+                  "count": 2
+                }
+              ],
+              "incomplete": 0,
+              "elapsedMs": 14972.3172
+            },
+            {
+              "multiplier": 1.5,
+              "runs": 150,
+              "wins": 144,
+              "winRate": 0.96,
+              "winRateCI": [
+                0.915486535783444,
+                0.9815408393979256
+              ],
+              "avgFloor": 11.993333333333334,
+              "avgClearedFloors": 11.953333333333333,
+              "avgHp": 96.81266666666666,
+              "avgTurns": 42.166666666666664,
+              "avgDamage": 26502.391000000003,
+              "avgCoins": 335.8333333333333,
+              "avgMerges": 7.4,
+              "avgRemovals": 8.2,
+              "avgRosterSize": 24.053333333333335,
+              "avgItems": 5,
+              "avgEssences": 3,
+              "avgActivatedEssences": 3,
+              "avgScore": 13702.489601063926,
+              "failureByFloor": [
+                {
+                  "floor": 1,
+                  "count": 0
+                },
+                {
+                  "floor": 2,
+                  "count": 0
+                },
+                {
+                  "floor": 3,
+                  "count": 0
+                },
+                {
+                  "floor": 4,
+                  "count": 0
+                },
+                {
+                  "floor": 5,
+                  "count": 0
+                },
+                {
+                  "floor": 6,
+                  "count": 0
+                },
+                {
+                  "floor": 7,
+                  "count": 0
+                },
+                {
+                  "floor": 8,
+                  "count": 0
+                },
+                {
+                  "floor": 9,
+                  "count": 0
+                },
+                {
+                  "floor": 10,
+                  "count": 0
+                },
+                {
+                  "floor": 11,
+                  "count": 1
+                },
+                {
+                  "floor": 12,
+                  "count": 5
+                }
+              ],
+              "incomplete": 0,
+              "elapsedMs": 14742.7379
+            },
+            {
+              "multiplier": 1.55,
+              "runs": 150,
+              "wins": 136,
+              "winRate": 0.9066666666666666,
+              "winRateCI": [
+                0.8494360687243842,
+                0.9435881325229135
+              ],
+              "avgFloor": 12,
+              "avgClearedFloors": 11.906666666666666,
+              "avgHp": 96.76599999999999,
+              "avgTurns": 42.766666666666666,
+              "avgDamage": 27281.577933333338,
+              "avgCoins": 334.68666666666667,
+              "avgMerges": 7.42,
+              "avgRemovals": 8.246666666666666,
+              "avgRosterSize": 24.473333333333333,
+              "avgItems": 5,
+              "avgEssences": 3,
+              "avgActivatedEssences": 2.993333333333333,
+              "avgScore": 13593.670668586525,
+              "failureByFloor": [
+                {
+                  "floor": 1,
+                  "count": 0
+                },
+                {
+                  "floor": 2,
+                  "count": 0
+                },
+                {
+                  "floor": 3,
+                  "count": 0
+                },
+                {
+                  "floor": 4,
+                  "count": 0
+                },
+                {
+                  "floor": 5,
+                  "count": 0
+                },
+                {
+                  "floor": 6,
+                  "count": 0
+                },
+                {
+                  "floor": 7,
+                  "count": 0
+                },
+                {
+                  "floor": 8,
+                  "count": 0
+                },
+                {
+                  "floor": 9,
+                  "count": 0
+                },
+                {
+                  "floor": 10,
+                  "count": 0
+                },
+                {
+                  "floor": 11,
+                  "count": 0
+                },
+                {
+                  "floor": 12,
+                  "count": 14
+                }
+              ],
+              "incomplete": 0,
+              "elapsedMs": 14914.211500000001
+            },
+            {
+              "multiplier": 1.6,
+              "runs": 150,
+              "wins": 140,
+              "winRate": 0.9333333333333333,
+              "winRateCI": [
+                0.8816376448839411,
+                0.9633881433303926
+              ],
+              "avgFloor": 11.993333333333334,
+              "avgClearedFloors": 11.926666666666666,
+              "avgHp": 95.44666666666667,
+              "avgTurns": 43.233333333333334,
+              "avgDamage": 27979.99686666666,
+              "avgCoins": 334.24666666666667,
+              "avgMerges": 7.746666666666667,
+              "avgRemovals": 8.173333333333334,
+              "avgRosterSize": 24.466666666666665,
+              "avgItems": 5,
+              "avgEssences": 3,
+              "avgActivatedEssences": 3,
+              "avgScore": 13641.470730051838,
+              "failureByFloor": [
+                {
+                  "floor": 1,
+                  "count": 0
+                },
+                {
+                  "floor": 2,
+                  "count": 0
+                },
+                {
+                  "floor": 3,
+                  "count": 0
+                },
+                {
+                  "floor": 4,
+                  "count": 0
+                },
+                {
+                  "floor": 5,
+                  "count": 0
+                },
+                {
+                  "floor": 6,
+                  "count": 0
+                },
+                {
+                  "floor": 7,
+                  "count": 0
+                },
+                {
+                  "floor": 8,
+                  "count": 0
+                },
+                {
+                  "floor": 9,
+                  "count": 0
+                },
+                {
+                  "floor": 10,
+                  "count": 0
+                },
+                {
+                  "floor": 11,
+                  "count": 1
+                },
+                {
+                  "floor": 12,
+                  "count": 9
+                }
+              ],
+              "incomplete": 0,
+              "elapsedMs": 15165.899900000004
+            }
+          ]
+        },
+        {
+          "phase": "validation",
+          "seed": "combat-calibration-validation-2026-10-12-b",
+          "runsPerCandidate": 300,
+          "elapsedMs": 30581.0885,
+          "candidates": [
+            {
+              "multiplier": 1.5,
+              "runs": 300,
+              "wins": 290,
+              "winRate": 0.9666666666666667,
+              "winRateCI": [
+                0.9397381741959452,
+                0.9817950526611452
+              ],
+              "avgFloor": 12,
+              "avgClearedFloors": 11.966666666666667,
+              "avgHp": 94.166,
+              "avgTurns": 42.22666666666667,
+              "avgDamage": 26543.193833333335,
+              "avgCoins": 339.69666666666666,
+              "avgMerges": 7.42,
+              "avgRemovals": 8.193333333333333,
+              "avgRosterSize": 24.036666666666665,
+              "avgItems": 5,
+              "avgEssences": 3,
+              "avgActivatedEssences": 3,
+              "avgScore": 13718.695492761848,
+              "failureByFloor": [
+                {
+                  "floor": 1,
+                  "count": 0
+                },
+                {
+                  "floor": 2,
+                  "count": 0
+                },
+                {
+                  "floor": 3,
+                  "count": 0
+                },
+                {
+                  "floor": 4,
+                  "count": 0
+                },
+                {
+                  "floor": 5,
+                  "count": 0
+                },
+                {
+                  "floor": 6,
+                  "count": 0
+                },
+                {
+                  "floor": 7,
+                  "count": 0
+                },
+                {
+                  "floor": 8,
+                  "count": 0
+                },
+                {
+                  "floor": 9,
+                  "count": 0
+                },
+                {
+                  "floor": 10,
+                  "count": 0
+                },
+                {
+                  "floor": 11,
+                  "count": 0
+                },
+                {
+                  "floor": 12,
+                  "count": 10
+                }
+              ],
+              "incomplete": 0,
+              "elapsedMs": 30580.2569
+            }
+          ]
+        }
+      ],
+      "validationEvidence": {
+        "runs": 300,
+        "wins": 290,
+        "winRate": 0.9666666666666667,
+        "winRateCI": [
+          0.9397381741959452,
+          0.9817950526611452
+        ],
+        "failureByFloor": [
+          {
+            "floor": 1,
+            "count": 0
+          },
+          {
+            "floor": 2,
+            "count": 0
+          },
+          {
+            "floor": 3,
+            "count": 0
+          },
+          {
+            "floor": 4,
+            "count": 0
+          },
+          {
+            "floor": 5,
+            "count": 0
+          },
+          {
+            "floor": 6,
+            "count": 0
+          },
+          {
+            "floor": 7,
+            "count": 0
+          },
+          {
+            "floor": 8,
+            "count": 0
+          },
+          {
+            "floor": 9,
+            "count": 0
+          },
+          {
+            "floor": 10,
+            "count": 0
+          },
+          {
+            "floor": 11,
+            "count": 0
+          },
+          {
+            "floor": 12,
+            "count": 10
+          }
+        ],
+        "avgHp": 94.166,
+        "avgTurns": 42.22666666666667,
+        "incomplete": 0
+      },
+      "rationale": "1.50 gives 96.00% on paired 150-seed search and 96.67% on a separate 300-seed calibration validation set. It preserves floors 1-3 and smoothly adds 5.56% enemy health at floor 4 through 50% at floor 12. The final 1000-seed holdout is reserved for the root agent."
+    },
+    "classic": {
+      "mode": "classic",
+      "recommendedMultiplier": 1.28,
+      "target": 0.95,
+      "permittedWinRate": [
+        0.9,
+        0.98
+      ],
+      "productionAI": {
+        "version": "context-v1",
+        "weights": {
+          "damage": 1,
+          "defense": 0.36,
+          "growth": 0.7,
+          "synergy": 0.9,
+          "merge": 0.85,
+          "economy": 0.32,
+          "tempo": 1.1,
+          "lookahead": 0.55,
+          "dilution": 1.1,
+          "flexibility": 0.7
+        },
+        "temperature": 5,
+        "lookaheadSamples": 4
+      },
+      "lookahead": true,
+      "methodology": "Bounded end-of-run rent multiplier search. Every candidate starts a new production game; context-v1 chooses rewards by its exact unrounded probability law. Candidates share development seed indices; the 300-game verification uses a separate development split. The 1000-game final release holdout was neither provided nor consulted.",
+      "actualCampaignsRun": 980,
+      "sourceFilesWritten": ".local/classic-tuning only; no production code, docs, tests or Git changes",
+      "candidates": [
+        {
+          "filename": "coarse-80-1.json",
+          "phase": "coarse",
+          "seed": "classic-calibration-2026-10-12",
+          "seedSplit": "coarse",
+          "multiplier": 1,
+          "runs": 80,
+          "wins": 80,
+          "winRate": 1,
+          "wilson95": [
+            0.9541818704644728,
+            0.9999999999999999
+          ],
+          "failureByFloor": [],
+          "incomplete": 0
+        },
+        {
+          "filename": "coarse-80-1p1.json",
+          "phase": "coarse",
+          "seed": "classic-calibration-2026-10-12",
+          "seedSplit": "coarse",
+          "multiplier": 1.1,
+          "runs": 80,
+          "wins": 80,
+          "winRate": 1,
+          "wilson95": [
+            0.9541818704644728,
+            0.9999999999999999
+          ],
+          "failureByFloor": [],
+          "incomplete": 0
+        },
+        {
+          "filename": "coarse-80-1p2.json",
+          "phase": "coarse",
+          "seed": "classic-calibration-2026-10-12",
+          "seedSplit": "coarse",
+          "multiplier": 1.2,
+          "runs": 80,
+          "wins": 80,
+          "winRate": 1,
+          "wilson95": [
+            0.9541818704644728,
+            0.9999999999999999
+          ],
+          "failureByFloor": [],
+          "incomplete": 0
+        },
+        {
+          "filename": "coarse-80-1p3.json",
+          "phase": "coarse",
+          "seed": "classic-calibration-2026-10-12",
+          "seedSplit": "coarse",
+          "multiplier": 1.3,
+          "runs": 80,
+          "wins": 76,
+          "winRate": 0.95,
+          "wilson95": [
+            0.8783772379535698,
+            0.9803864454644556
+          ],
+          "failureByFloor": [
+            {
+              "floor": 12,
+              "count": 4
+            }
+          ],
+          "incomplete": 0
+        },
+        {
+          "filename": "fine-120-1p28.json",
+          "phase": "fine",
+          "seed": "classic-calibration-2026-10-12",
+          "seedSplit": "coarse",
+          "multiplier": 1.28,
+          "runs": 120,
+          "wins": 114,
+          "winRate": 0.95,
+          "wilson95": [
+            0.8951971146376326,
+            0.9768856355855343
+          ],
+          "failureByFloor": [
+            {
+              "floor": 12,
+              "count": 6
+            }
+          ],
+          "incomplete": 0
+        },
+        {
+          "filename": "fine-120-1p3.json",
+          "phase": "fine",
+          "seed": "classic-calibration-2026-10-12",
+          "seedSplit": "coarse",
+          "multiplier": 1.3,
+          "runs": 120,
+          "wins": 113,
+          "winRate": 0.9416666666666667,
+          "wilson95": [
+            0.8844740796636988,
+            0.9714589899997798
+          ],
+          "failureByFloor": [
+            {
+              "floor": 12,
+              "count": 7
+            }
+          ],
+          "incomplete": 0
+        },
+        {
+          "filename": "fine-120-1p32.json",
+          "phase": "fine",
+          "seed": "classic-calibration-2026-10-12",
+          "seedSplit": "coarse",
+          "multiplier": 1.32,
+          "runs": 120,
+          "wins": 110,
+          "winRate": 0.9166666666666666,
+          "wilson95": [
+            0.8533776783593434,
+            0.9541063496250703
+          ],
+          "failureByFloor": [
+            {
+              "floor": 12,
+              "count": 10
+            }
+          ],
+          "incomplete": 0
+        },
+        {
+          "filename": "verification-300-1p28.json",
+          "phase": "verification",
+          "seed": "classic-calibration-2026-10-12",
+          "seedSplit": "verification",
+          "multiplier": 1.28,
+          "runs": 300,
+          "wins": 283,
+          "winRate": 0.9433333333333334,
+          "wilson95": [
+            0.9111340419775253,
+            0.9643225235367106
+          ],
+          "failureByFloor": [
+            {
+              "floor": 11,
+              "count": 1
+            },
+            {
+              "floor": 12,
+              "count": 16
+            }
+          ],
+          "incomplete": 0
+        }
+      ],
+      "recommendedRentSchedule": [
+        {
+          "floor": 1,
+          "original": 25,
+          "proposed": 25
+        },
+        {
+          "floor": 2,
+          "original": 45,
+          "proposed": 45
+        },
+        {
+          "floor": 3,
+          "original": 90,
+          "proposed": 90
+        },
+        {
+          "floor": 4,
+          "original": 170,
+          "proposed": 175
+        },
+        {
+          "floor": 5,
+          "original": 300,
+          "proposed": 319
+        },
+        {
+          "floor": 6,
+          "original": 500,
+          "proposed": 547
+        },
+        {
+          "floor": 7,
+          "original": 800,
+          "proposed": 900
+        },
+        {
+          "floor": 8,
+          "original": 1250,
+          "proposed": 1444
+        },
+        {
+          "floor": 9,
+          "original": 1900,
+          "proposed": 2255
+        },
+        {
+          "floor": 10,
+          "original": 2800,
+          "proposed": 3410
+        },
+        {
+          "floor": 11,
+          "original": 4000,
+          "proposed": 4996
+        },
+        {
+          "floor": 12,
+          "original": 5600,
+          "proposed": 7168
+        }
+      ],
+      "finalReleaseAcceptance": "Pending independent 1000-game holdout by root agent; development verification is not final release evidence."
+    }
+  }
+}

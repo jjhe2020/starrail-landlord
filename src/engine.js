@@ -1,4 +1,5 @@
 import { CHARACTERS, ITEMS, ESSENCES, SYNERGIES, characterById, itemById, essenceById } from './content.js';
+import { DIFFICULTY, lateDifficultyMultiplier } from './difficulty.js';
 
 export const SAVE_VERSION = 1;
 export const BOARD_COLUMNS = 5;
@@ -71,14 +72,15 @@ function floorSpins(state) {
 }
 
 function rentFor(floor) {
-  return floor <= 12 ? RENT_SCHEDULE[floor] : Math.round(RENT_SCHEDULE[12] * 1.16 ** (floor - 12));
+  const baseRent = floor <= 12 ? RENT_SCHEDULE[floor] : RENT_SCHEDULE[12] * 1.16 ** (floor - 12);
+  return Math.round(baseRent * lateDifficultyMultiplier(floor, DIFFICULTY.classicLateRentMultiplier));
 }
 
 function makeEnemies(state) {
   const floor = state.floor;
   const columns = floor === 1 ? [0, 2, 4] : floor === 2 ? [0, 1, 2, 4] : [0, 1, 2, 3, 4];
   const bossFloor = floor % 3 === 0;
-  const totalHp = (40 + floor * 20 + floor * floor * 3 + 5 * Math.max(0, floor - 2) ** 3) * (floor > 12 ? 1.12 ** (floor - 12) : 1);
+  const totalHp = (40 + floor * 20 + floor * floor * 3 + 5 * Math.max(0, floor - 2) ** 3) * (floor > 12 ? 1.12 ** (floor - 12) : 1) * lateDifficultyMultiplier(floor, DIFFICULTY.combatLateHealthMultiplier);
   const weights = columns.map(col => col === 2 && bossFloor ? 2.2 : 1);
   const weightSum = weights.reduce((sum, weight) => sum + weight, 0);
   const themes = [

@@ -179,7 +179,13 @@ function updateAiPanel() {
   const panel = document.querySelector('.ai-panel');
   if (panel) { const replacement = document.createElement('div'); replacement.innerHTML = aiPanel(); panel.replaceWith(replacement.firstElementChild); decorateInspectors(); }
   const progress = document.querySelector('.lab-progress');
-  if (progress) progress.innerHTML = labProgressMarkup();
+  if (progress) {
+    if (experiment.running && progress.querySelector('[data-action="aiCancel"]')) {
+      const replacement = document.createElement('div');
+      replacement.innerHTML = labProgressMarkup();
+      progress.querySelector('.ai-batch-progress')?.replaceWith(replacement.querySelector('.ai-batch-progress'));
+    } else progress.innerHTML = labProgressMarkup();
+  }
   const result = document.querySelector('.lab-result');
   if (result) result.innerHTML = labResultMarkup();
 }
@@ -191,6 +197,7 @@ function labProgressMarkup() {
 function labResultMarkup() {
   if (!experiment.result) return '<p class="lab-empty">选择局数开始对照实验。实验会新建对局，保留你的当前旅程。</p>';
   const result = experiment.result;
+  const evaluatedGames = result.modes?.reduce((sum, mode) => sum + mode.ai.runs + mode.uniform.runs, 0) || 0;
   if (experiment.type === 'train') {
     const holdout = result.holdout;
     const rows = holdout.baseline.modes.map(before => {
@@ -199,14 +206,14 @@ function labResultMarkup() {
     }).join('');
     return `<div class="lab-training-result"><b>${result.accepted ? '验证通过，已采用改良策略' : '独立验证未证明改进，保留当前策略'}</b><p>留出测试目标分 ${result.baseline.objective.toFixed(3)} → ${result.trained.objective.toFixed(3)}</p><p class="muted">优先通关，其次通过层数，再比较生命与效率；搜索、验证和留出测试使用不同种子。</p></div>${rows}`;
   }
-  return `${experiment.source === 'reference' ? `<p class="lab-archive-label">已保存的独立评测 · 2026-10-12 · 模型 ${esc(result.profileName)}<br/>下方数据来自 800 局真实对照。可运行新的实验继续验证。</p>` : `<p class="lab-archive-label">实验种子 ${esc(experiment.seed)} · 模型 ${esc(result.profileName)}</p>`}${benchmarkMarkup(result)}`;
+  return `${experiment.source === 'reference' ? `<p class="lab-archive-label">已保存的独立评测 · 2026-10-12 · 模型 ${esc(result.profileName)}<br/>下方数据来自 ${num(evaluatedGames)} 局真实对照。可运行新的实验继续验证。</p>` : `<p class="lab-archive-label">实验种子 ${esc(experiment.seed)} · 模型 ${esc(result.profileName)}</p>`}${result.calibrationTarget ? `<p class="lab-archive-label">难度校准目标：AI 通关率 ${percentage(result.calibrationTarget.min)}–${percentage(result.calibrationTarget.max)} · ${result.calibrationTarget.passed ? '独立测试通过' : '本批结果未达标'}</p>` : ''}${benchmarkMarkup(result)}`;
 }
 function benchmarkMarkup(result) {
   if (!result?.modes?.length) return '';
   return result.modes.map(({ mode, ai, uniform }) => `<article class="lab-mode-result"><h3>${mode === 'combat' ? '五列战斗' : '房租挑战'} · 每策略 ${ai.runs} 局</h3><div class="lab-result-row"><span>AI 通关</span><b>${percentage(ai.winRate)}</b></div><div class="lab-chart"><i style="width:${ai.winRate*100}%"></i></div><p class="lab-interval">95% 区间 ${percentage(ai.winRateCI[0])} – ${percentage(ai.winRateCI[1])}</p><div class="lab-result-row"><span>随机选择</span><b>${percentage(uniform.winRate)}</b></div><div class="lab-chart random"><i style="width:${uniform.winRate*100}%"></i></div><div class="lab-summary"><span>AI 平均到达 <b>${ai.avgFloor.toFixed(2)} 层</b></span><span>平均成绩 <b>${ai.avgScore.toFixed(1)}</b></span><span>平均合成 <b>${ai.avgMerges.toFixed(2)} 次</b></span></div><p class="lab-failures">${ai.failureByFloor.filter(f => f.count > 0).map(f => `第 ${f.floor} 层失败 ${f.count} 局`).join(' · ') || (ai.incomplete ? `${ai.incomplete} 局未完成，不能计为正常失败` : ai.wins === ai.runs ? '本批 AI 对局全部通关' : '失败层数未记录')}</p></article>`).join('');
 }
 function aiLabDialog() {
-  return modal('AI 试验台', `<p class="lab-intro">AI 与随机策略用相同的游戏种子对照。推荐百分比是选择策略的抽样概率，测试和代打使用同一套算法。</p><div class="lab-controls"><label>对照模式<select id="lab-mode"><option value="both" ${labMode === 'both' ? 'selected' : ''}>两种模式</option><option value="combat" ${labMode === 'combat' ? 'selected' : ''}>五列战斗</option><option value="classic" ${labMode === 'classic' ? 'selected' : ''}>房租挑战</option></select></label><label>每策略局数<select id="lab-runs"><option value="30" ${labRuns === 30 ? 'selected' : ''}>30 局 · 快速观察</option><option value="100" ${labRuns === 100 ? 'selected' : ''}>100 局 · 标准对照</option><option value="300" ${labRuns === 300 ? 'selected' : ''}>300 局 · 更稳的估计</option></select></label></div><div class="lab-actions"><button class="button primary" data-action="aiBenchmark" ${experiment.running ? 'disabled' : ''}>运行平衡测试</button><button class="button ghost" data-action="aiTrain" ${experiment.running ? 'disabled' : ''}>训练并验证 AI</button></div><p class="lab-archive-label">训练每候选最多 60 局，独立留出最多 100 局；训练目标优先通关与通过层数，再比较生命和效率。</p><div class="lab-progress" aria-live="polite">${labProgressMarkup()}</div><div class="lab-result">${labResultMarkup()}</div><p class="help-note">通关率反映这批种子与策略的表现，不能单独证明全部玩法公平。AI 会使用移除机会精简编队；随机对照只均匀抽选奖励。实验在后台线程运行，不消耗你的资源。</p>`, '', { eyebrow: 'POLICY & BALANCE LAB' });
+  return modal('AI 试验台', `<p class="lab-intro">AI 与随机策略用相同的游戏种子对照。推荐百分比是选择策略的抽样概率，测试和代打使用同一套算法。</p><div class="lab-controls"><label>对照模式<select id="lab-mode"><option value="both" ${labMode === 'both' ? 'selected' : ''}>两种模式</option><option value="combat" ${labMode === 'combat' ? 'selected' : ''}>五列战斗</option><option value="classic" ${labMode === 'classic' ? 'selected' : ''}>房租挑战</option></select></label><label>每策略局数<select id="lab-runs"><option value="30" ${labRuns === 30 ? 'selected' : ''}>30 局 · 快速观察</option><option value="100" ${labRuns === 100 ? 'selected' : ''}>100 局 · 标准对照</option><option value="300" ${labRuns === 300 ? 'selected' : ''}>300 局 · 更稳的估计</option><option value="1000" ${labRuns === 1000 ? 'selected' : ''}>1,000 局 · 完整验证</option></select></label></div><div class="lab-actions"><button class="button primary" data-action="aiBenchmark" ${experiment.running ? 'disabled' : ''}>运行平衡测试</button><button class="button ghost" data-action="aiTrain" ${experiment.running ? 'disabled' : ''}>训练并验证 AI</button></div><p class="lab-archive-label">训练每候选最多 60 局，独立留出最多 100 局；训练目标优先通关与通过层数，再比较生命和效率。</p><div class="lab-progress" aria-live="polite">${labProgressMarkup()}</div><div class="lab-result">${labResultMarkup()}</div><p class="help-note">通关率反映这批种子与策略的表现，不能单独证明全部玩法公平。AI 会使用移除机会精简编队；随机对照只均匀抽选奖励。实验在后台线程运行，不消耗你的资源。</p>`, '', { eyebrow: 'POLICY & BALANCE LAB' });
 }
 function startExperiment(type) {
   if (experiment.running) return;

@@ -1,6 +1,7 @@
 import { newGame, spin, chooseReward, removeSymbol, FINAL_FLOOR } from './engine.js';
 import { recommendRewards, sampleRecommendation, createPolicyRandom, recommendRemoval, evaluateRun } from './ai.js';
 import { DEFAULT_PROFILE, validateProfile } from './ai-profile.js';
+import { DIFFICULTY } from './difficulty.js';
 
 const REWARD_PHASES = ['recruit', 'item', 'essence'];
 const TERMINAL_PHASES = ['victory', 'defeat'];
@@ -122,7 +123,7 @@ export async function benchmarkPolicies({ mode = 'combat', runs = 100, seed = 'b
     }
     reports.push({ mode: currentMode, ai: summarizeCampaigns(ai), uniform: summarizeCampaigns(uniform), difference: pairedDifference(ai, uniform) });
   }
-  return { version: 1, seed, profileName: profile.name ?? profile.version, profile: structuredClone(profile), lookahead, runs: count, modes: reports, elapsedMs: performance.now() - started };
+  return { version: 1, seed, rules: structuredClone(DIFFICULTY), profileName: profile.name ?? profile.version, profile: structuredClone(profile), lookahead, runs: count, modes: reports, elapsedMs: performance.now() - started };
 }
 
 const campaignObjective = result => Number(result.won) * 1000 + result.clearedFloors * 50 + Math.min(1, Math.max(0, result.hp / result.maxHp)) * 2 + result.score * 0.0001;
@@ -188,7 +189,7 @@ export async function trainProfile({ mode = 'both', runs = 40, seed = 'training-
   const changed = JSON.stringify(best.weights) !== JSON.stringify(profile.weights) || best.temperature !== profile.temperature;
   const accepted = changed && candidateHoldout.objective > baselineHoldout.objective && candidateHoldout.summary.winRate >= baselineHoldout.summary.winRate && candidateHoldout.summary.avgClearedFloors >= baselineHoldout.summary.avgClearedFloors;
   return {
-    version: 1, seed, mode, runs: count, holdoutRuns: holdoutCount, generations: generationCount, candidates: candidateCount,
+    version: 1, seed, rules: structuredClone(DIFFICULTY), mode, runs: count, holdoutRuns: holdoutCount, generations: generationCount, candidates: candidateCount,
     accepted, baselineProfile: structuredClone(profile), profile: accepted ? best : structuredClone(profile), candidateProfile: best,
     baseline: baselineHoldout, trained: candidateHoldout,
     holdout: { baseline: baselineHoldout, candidate: candidateHoldout, separateFromTraining: true, lookahead },
