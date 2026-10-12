@@ -55,14 +55,14 @@ export const ITEMS = [
 ];
 
 export const ESSENCES = [
-  { id: 'essence_elation', name: '欢愉的余响', rarity: 'rare', icon: '🎭', target: 100, description: '累计造成 100 点伤害（经典：累计产出 100），触发后所有威力增加 15%。' },
-  { id: 'essence_abundance', name: '丰饶的余响', rarity: 'rare', icon: '🌿', target: 6, description: '再转动 6 次后，生命上限增加 20 并完全恢复生命；经典模式另得 20 信用点。' },
-  { id: 'essence_hunt', name: '巡猎的余响', rarity: 'rare', icon: '🎯', target: 12, description: '单体角色累计登场 12 次后，单体威力增加 35%。' },
-  { id: 'essence_destruction', name: '毁灭的余响', rarity: 'rare', icon: '💥', target: 8, description: '再转动 8 次后，所有角色增加 1 点威力。' },
-  { id: 'essence_erudition', name: '智识的余响', rarity: 'rare', icon: '🧠', target: 10, description: '群体角色累计登场 10 次后，群体角色增加 1 点威力。' },
-  { id: 'essence_harmony', name: '同谐的余响', rarity: 'rare', icon: '🎵', target: 12, description: '每轮每种生效羁绊积累 1 层；12 层后获得 3 次重选，所有威力增加 10%。' },
-  { id: 'essence_preservation', name: '存护的余响', rarity: 'rare', icon: '🛡️', target: 30, description: '累计获得 30 护盾后，护盾获取量增加 30%，每个新层数获得 12 护盾。' },
-  { id: 'essence_nihility', name: '虚无的余响', rarity: 'rare', icon: '🌌', target: 8, description: '虚无角色累计登场 8 次后，虚无角色增加 1.5 点威力。' },
+  { id: 'essence_elation', name: '银河大乐透·精华', rarity: 'rare', icon: '🎭', target: 100, description: '累计造成 100 点伤害（经典：累计产出 100），触发后所有威力增加 15%。' },
+  { id: 'essence_abundance', name: '异木果实·精华', rarity: 'rare', icon: '🌿', target: 6, description: '再转动 6 次后，生命上限增加 20 并完全恢复生命；经典模式另得 20 信用点。' },
+  { id: 'essence_hunt', name: '巡猎火漆·精华', rarity: 'rare', icon: '🎯', target: 12, description: '单体角色累计登场 12 次后，单体威力增加 35%。' },
+  { id: 'essence_destruction', name: '毁灭火漆·精华', rarity: 'rare', icon: '💥', target: 8, description: '再转动 8 次后，所有角色增加 1 点威力。' },
+  { id: 'essence_erudition', name: '智识火漆·精华', rarity: 'rare', icon: '🧠', target: 10, description: '群体角色累计登场 10 次后，群体角色增加 1 点威力。' },
+  { id: 'essence_harmony', name: '同谐火漆·精华', rarity: 'rare', icon: '🎵', target: 12, description: '每轮每种生效羁绊积累 1 层；12 层后获得 3 次重选，所有威力增加 10%。' },
+  { id: 'essence_preservation', name: '存护火漆·精华', rarity: 'rare', icon: '🛡️', target: 30, description: '累计获得 30 护盾后，护盾获取量增加 30%，每个新层数获得 12 护盾。' },
+  { id: 'essence_nihility', name: '虚无火漆·精华', rarity: 'rare', icon: '🌌', target: 8, description: '虚无角色累计登场 8 次后，虚无角色增加 1.5 点威力。' },
 ];
 
 export const SYNERGIES = [
