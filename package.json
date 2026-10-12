@@ -1,6 +1,6 @@
 {
   "name": "starrail-landlord",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "type": "module",
   "description": "A mobile-ready Star Rail themed slot deckbuilding roguelike",

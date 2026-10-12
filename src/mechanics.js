@@ -1,12 +1,15 @@
+import { getSynergies } from './engine.js';
+
 const descriptions = {
-  hp: ['开拓生命', '敌人反击先扣护盾，再扣生命。生命归零会结束本次旅程。娜塔莎、罗刹与部分羁绊可以治疗；普通治疗不会超过生命上限。'],
-  shield: ['护盾', '临时防御值：敌人每轮反击时优先消耗护盾，剩余伤害才扣生命。护盾可跨回合和关卡保留，上限是生命上限的 2 倍。三月七、杰帕德、符玄等角色可以提供护盾。'],
-  credits: ['补给信用点', '战斗模式的资源，不会直接变成伤害。过关补给和部分奇物可以获得；免费重掷用完后，每次花费 8 信用点刷新三选一。当前没有购买角色的商店。'],
-  classicCredits: ['持有信用点', '每次转动按上场角色的总威力向上取整，赚取信用点。回合到期自动支付本层房租；余额保留到下一层。免费重掷用完后也可以花 8 信用点刷新候选。'],
-  rerolls: ['重掷机会', '用于刷新当前三选一候选，角色、奇物和精华都可以重掷。优先消耗 1 次免费机会，免费次数为 0 时改为花费 8 信用点。进入新层时获得 1 次免费机会。'],
-  removals: ['移除机会', '在“我的编队”中移除一个角色实例，消耗 1 次机会。移除会永久改变本局编队，用来精简弱角色、提高核心角色上场概率。进入偶数层时获得 1 次机会。'],
-  floor: ['关卡进度', '一局共 12 层。战斗模式需要在回合期限前消灭全部敌人，房租模式需要支付到期房租。第 3、6、9、12 层有中列首领；通关后可以保留构筑进入无尽。'],
-  synergy: ['羁绊共鸣', '统计整个编队中符合阵营、命途或属性的不同角色身份。重复角色与不同星级只算一个身份，临时角色不计数。达到门槛后，相关角色获得增益；随机没有上场也不会让羁绊失效。'],
+  hp: ['开拓生命', '队伍的生命。敌人反击先扣护盾，剩余伤害再扣生命；生命归零，本次旅程结束。娜塔莎、罗刹与部分羁绊可以治疗，普通治疗不会超过生命上限。'],
+  shield: ['护盾', '抵挡敌人反击的防御值：先消耗护盾，再扣生命。护盾不会每轮清空，可以跨回合、跨关卡保留，上限是生命上限的 2 倍。三月七、杰帕德、符玄登场时可以提供护盾。'],
+  credits: ['补给信用点', '过关补给和部分奇物给出的资源。目前可用于付费重掷：在奖励三选一中点“重新发现”，免费机会用完后每次花 8 信用点。信用点不会直接变成伤害，也没有购买角色的商店。'],
+  classicCredits: ['持有信用点', '支付房租的预算。每次转动按所有上场角色的总威力向上取整，赚取信用点；本层转动次数用完时自动交租，余额保留到下一层。付费重掷也会消耗这笔余额。'],
+  rerolls: ['重掷机会', '在奖励三选一中点“重新发现”，换一组角色、奇物或精华候选。每次先花 1 次免费机会，用完后花 8 信用点。只刷新候选，不重转场上角色，也不消耗本层回合；进入新层补 1 次免费机会。'],
+  removals: ['移除机会', '准备转动时到“我的编队”点“移出编队”并确认，每次花 1 次机会。只移走本局选中的一个棋子，同名其他副本保留，不是永久删除角色。编队超过 20 人时，精简可提高核心上场概率；进入偶数层补 1 次机会。'],
+  floor: ['关卡进度', '战斗模式的一层就是一场遭遇。“第 01 层”是第一场：在本层转动次数用完前消灭全部敌人，即可过层；生命归零或到期仍有敌人则失败。一局共 12 层，第 3、6、9、12 层有中列首领，通关后可继续无尽。'],
+  round: ['本层回合', '启动一次转轮，就消耗本层一个回合。之后的奖励选择和重掷候选不再扣回合。必须在次数用完前清空敌人，否则即使还有生命也会失败；过层后获得下一层的转动次数。'],
+  synergy: ['羁绊共鸣', '看整个永久编队中符合阵营、命途或属性的不同角色，不是本轮场上人数。同名重复副本与不同星级只算 1 个身份，临时角色不计。达到人数门槛后，相应效果生效；成员本轮没上场也不会让羁绊失效。'],
   roster: ['编队与上场', '每次转动从编队中随机抽取最多 20 个角色，不放回，再随机摆放到 5 列 × 4 行。编队超过 20 位后，部分角色本轮不会上场。临时角色也参与抽取。'],
   stars: ['三合一升星', '3 位相同角色、相同星级的永久角色会自动合成：1 星 → 2 星 → 3 星，3 星封顶。威力倍率为 1 / 3 / 9，合成保留成长；重复角色不增加羁绊人数。'],
   power: ['角色威力', '格子右下角是这个角色本轮的威力，不一定等于最终伤害。角色成长、星级、相邻增益、羁绊和奇物先修正威力，再按攻击类型乘倍率；辅助角色不直接攻击。'],
@@ -26,18 +29,40 @@ const descriptions = {
   aiAutoplay: ['AI 自动代打', '让 AI 接管当前旅程：启动转轮，按当前推荐概率选择奖励，并在有收益时消耗移除机会精简编队。会正常修改和保存这局的进度。可随时停止；打开信息浮层时暂缓行动，关闭后继续。'],
 };
 
-export function mechanicExplanation(key, state) {
+export function mechanicExplanation(key, state = {}) {
   const value = descriptions[key];
   if (!value) return null;
   const classicDescriptions = {
-    hp: '房租模式没有敌人反击，胜负由能否按时支付租金决定。生命与治疗效果仍会记录，但不能代替信用点支付租金。战斗模式中，敌人反击先扣护盾再扣生命，生命归零则失败。',
-    shield: '当前房租模式没有敌人反击：角色仍会积累护盾，也可推进护盾相关精华的条件，但护盾不能抵扣房租或兑换信用点。战斗模式中护盾先抵挡反击，可跨回合和关卡保留；上限为生命上限的 2 倍。',
+    hp: '房租模式没有敌人反击，胜负看是否按时付清租金。生命和治疗仍会记录，但治疗不能代替信用点交租；余额不够会直接结束旅程，不是先扣生命。',
+    shield: '房租模式没有敌人反击，护盾不能抵扣租金或兑换信用点。角色仍会积累护盾，也能推进护盾相关精华；护盾可以跨回合、跨层保留，上限是生命上限的 2 倍。',
+    credits: descriptions.classicCredits[1],
+    floor: '房租模式的一层就是一张租金账单。“第 01 层”是第一张：每层有一定转动次数，次数用完时自动扣除本层租金；余额够就过层，不够就失败。一局共 12 层，付清全部账单后可保留构筑继续无尽。',
+    round: '启动一次转轮，就消耗本层一个回合。之后的奖励选择和重掷候选不再扣回合。次数用完时自动支付本层租金，余额不足就失败；缴租成功后，下一层重新获得转动次数。',
     power: '格子右下角是角色本轮威力，已包含成长、星级、相邻增益、羁绊和奇物。房租模式将全部上场角色的威力相加、向上取整后产出信用点，辅助角色也计入；不套用战斗的单体 ×3 或扩散 ×2 攻击倍率。',
   };
-  const extra = key === 'shield' ? `当前 ${state.shield} / ${state.maxHp * 2} 护盾。` :
-    key === 'hp' ? `当前生命 ${state.hp} / ${state.maxHp}。` :
-    key === 'credits' || key === 'classicCredits' ? `当前余额 ${state.coins} 信用点。` :
-    key === 'rerolls' ? `当前免费重掷 ${state.rerolls} 次。` :
-    key === 'removals' ? `当前可用移除 ${state.removals} 次。` : '';
-  return { title: value[0], description: state.mode === 'classic' ? classicDescriptions[key] || value[1] : value[1], extra };
+  const num = number => String(Number.isFinite(number) ? Math.round(number * 100) / 100 : 0);
+  const classic = state.mode === 'classic';
+  const cleared = state.pendingFloor || state.phase === 'victory';
+  const balance = `当前余额 ${num(state.coins)} 信用点。`;
+  const budget = cleared ? '本层租金已支付。' : `本层租金 ${num(state.rent)}，${state.coins >= state.rent ? '当前余额够付' : `还差 ${num(Math.max(0, (state.rent || 0) - (state.coins || 0)))} 信用点`}。`;
+  const progress = `当前第 ${String(state.floor || 1).padStart(2, '0')} 层${state.endless ? '（无尽）' : ' / 12'}，已转动 ${num(state.round)} 次，${cleared ? '本层已完成' : `剩余 ${num(state.spinsLeft)} 次`}。`;
+  const roster = state.roster || [];
+  const rewardPhase = ['recruit', 'item', 'essence'].includes(state.phase);
+  const creditExtra = () => `${balance}${classic ? budget : `当前免费重掷 ${num(state.rerolls)} 次；${state.rerolls > 0 ? '先用免费机会' : state.coins >= 8 ? '余额可支付重掷' : '付费重掷还需攒到 8 信用点'}。`}`;
+  const extras = {
+    hp: () => `当前生命 ${num(state.hp)} / ${num(state.maxHp)}${classic ? '；本模式按租金结算胜负' : `，护盾 ${num(state.shield)}`}。`,
+    shield: () => `当前护盾 ${num(state.shield)} / ${num((state.maxHp || 0) * 2)}${classic ? '；本模式不用于挡伤或交租' : `，生命 ${num(state.hp)} / ${num(state.maxHp)}`}。`,
+    credits: creditExtra,
+    classicCredits: creditExtra,
+    rerolls: () => `当前免费 ${num(state.rerolls)} 次，余额 ${num(state.coins)} 信用点。${state.rerolls > 0 ? '下次刷新使用 1 次免费机会。' : state.coins >= 8 ? '下次刷新花 8 信用点。' : '免费机会已用完，余额不足 8，暂时不能刷新。'}${rewardPhase ? '' : '在奖励三选一时使用。'}`,
+    removals: () => `当前可用 ${num(state.removals)} 次，编队 ${roster.length} 人。${state.removals <= 0 ? '移除机会已用完。' : state.phase === 'ready' ? '可在“我的编队”移除。' : '手动移除要等到准备转动阶段。'}`,
+    floor: () => `${progress}${classic ? `${budget}${balance}` : `存活敌人 ${(state.enemies || []).filter(enemy => enemy.hp > 0).length} 个。`}${state.phase === 'defeat' ? '本次旅程已结束。' : state.pendingFloor ? '领取本层奖励后进入下一层。' : ''}`,
+    round: () => `${progress}本层共 ${num(state.encounter?.deadline)} 次转动机会。`,
+    synergy: () => `永久编队共有 ${new Set(roster.filter(unit => !unit.temporary).map(unit => unit.id)).size} 个不同角色身份，当前激活 ${getSynergies(state).filter(synergy => synergy.active).length} 种羁绊。点具体羁绊查看门槛和成员。`,
+    roster: () => `当前编队 ${roster.length} 人，每轮最多 ${Math.min(20, roster.length)} 人上场。`,
+    rent: () => `${progress}${budget}${balance}`,
+    intent: () => `预计反击 ${num(state.enemyIntent?.damage)}，本层剩余 ${num(state.spinsLeft)} 次转动。`,
+  };
+  const creditKey = key === 'credits' || key === 'classicCredits';
+  return { title: creditKey ? descriptions[classic ? 'classicCredits' : 'credits'][0] : value[0], description: creditKey ? descriptions[classic ? 'classicCredits' : 'credits'][1] : classic ? classicDescriptions[key] || value[1] : value[1], extra: extras[key]?.() || '' };
 }
