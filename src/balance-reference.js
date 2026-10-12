@@ -1,15 +1,33 @@
 // Saved independent benchmark; not a prediction for the live run.
 export const BALANCE_REFERENCE = {
-  "version": 1,
-  "seed": "difficulty-release-v2-20261012-7c924e",
+  "version": 2,
+  "seed": "skip-policy-release-v3-20261012-4f913b",
   "rules": {
     "version": "difficulty-v2",
     "combatLateHealthMultiplier": 1.5,
     "classicLateRentMultiplier": 1.28
   },
-  "profileName": "context-v1",
+  "policyVersion": "reward-actions-v2",
+  "actionPolicies": {
+    "ai": {
+      "selection": "weighted-choose-or-skip",
+      "rewardActions": [
+        "choose",
+        "skip"
+      ],
+      "removals": "recommended-over-20"
+    },
+    "uniform": {
+      "selection": "uniform-choose-only",
+      "rewardActions": [
+        "choose"
+      ],
+      "removals": "none"
+    }
+  },
+  "profileName": "context-v2-skip",
   "profile": {
-    "version": "context-v1",
+    "version": "context-v2-skip",
     "weights": {
       "damage": 1,
       "defense": 0.36,
@@ -32,25 +50,31 @@ export const BALANCE_REFERENCE = {
       "mode": "combat",
       "ai": {
         "runs": 1000,
-        "wins": 967,
-        "winRate": 0.967,
+        "wins": 948,
+        "winRate": 0.948,
         "winRateCI": [
-          0.9540187355329184,
-          0.9764070720415732
+          0.93244426068072,
+          0.9601269637162226
         ],
-        "avgFloor": 12,
-        "avgClearedFloors": 11.967,
-        "avgHp": 95.276,
-        "avgTurns": 42.311,
-        "avgDamage": 26557.056009999997,
-        "avgCoins": 339.828,
-        "avgMerges": 7.407,
-        "avgRemovals": 8.216,
-        "avgRosterSize": 24.088,
-        "avgItems": 5,
-        "avgEssences": 3,
-        "avgActivatedEssences": 2.999,
-        "avgScore": 13721.515561262193,
+        "avgFloor": 11.999,
+        "avgClearedFloors": 11.947,
+        "avgHp": 91.71039999999999,
+        "avgTurns": 42.977,
+        "avgDamage": 26506.172059999994,
+        "avgCoins": 338.424,
+        "avgMerges": 4.813,
+        "avgRemovals": 7.153,
+        "avgRosterSize": 20.298,
+        "avgItems": 4.846,
+        "avgEssences": 2.974,
+        "avgActivatedEssences": 2.973,
+        "avgScore": 13671.236656024244,
+        "avgSkips": 10.826,
+        "skipsByPhase": {
+          "recruit": 10646,
+          "item": 154,
+          "essence": 26
+        },
         "failureByFloor": [
           {
             "floor": 1,
@@ -94,96 +118,105 @@ export const BALANCE_REFERENCE = {
           },
           {
             "floor": 11,
-            "count": 0
+            "count": 1
           },
           {
             "floor": 12,
-            "count": 33
+            "count": 51
           }
         ],
         "picks": {
           "recruit": {
-            "1001": 1148,
-            "1002": 1676,
-            "1003": 1977,
-            "1004": 2227,
-            "1005": 3277,
-            "1006": 2554,
-            "1008": 1406,
-            "1009": 1192,
-            "1013": 2378,
-            "1101": 2319,
-            "1102": 1992,
-            "1103": 2736,
-            "1104": 1898,
-            "1105": 409,
-            "1106": 2929,
-            "1107": 2258,
-            "1108": 2254,
-            "1109": 1295,
-            "1201": 1751,
-            "1202": 706,
-            "1203": 181,
-            "1204": 565,
-            "1205": 599,
-            "1208": 1584
+            "1001": 693,
+            "1002": 1296,
+            "1003": 1434,
+            "1004": 1468,
+            "1005": 3283,
+            "1006": 2062,
+            "1008": 1082,
+            "1009": 805,
+            "1013": 1646,
+            "1101": 1702,
+            "1102": 1467,
+            "1103": 1967,
+            "1104": 1453,
+            "1105": 268,
+            "1106": 2253,
+            "1107": 1731,
+            "1108": 1627,
+            "1109": 979,
+            "1201": 1233,
+            "1202": 546,
+            "1203": 109,
+            "1204": 505,
+            "1205": 583,
+            "1208": 1139,
+            "skip": 10646
           },
           "item": {
-            "seal_stamp": 739,
-            "nihility_wax": 300,
-            "cosmic_lotto": 437,
-            "erudition_wax": 242,
-            "broken_clock": 117,
-            "hunt_wax": 480,
-            "harmony_wax": 241,
-            "faith_bond": 83,
-            "rubert_gear": 218,
-            "gold_coin": 521,
-            "divination_candle": 481,
-            "fortune_glue": 80,
-            "abundance_wax": 53,
-            "angel_debt": 49,
+            "hunt_wax": 441,
+            "divination_candle": 464,
+            "fortune_glue": 59,
+            "broken_clock": 129,
+            "seal_stamp": 700,
+            "gold_coin": 575,
+            "cosmic_lotto": 429,
             "destruction_wax": 471,
-            "doctor_robe": 198,
-            "insect_web": 93,
-            "chaos_trametes": 78,
-            "preservation_wax": 66,
-            "dimension_dice": 53
+            "rubert_gear": 204,
+            "erudition_wax": 251,
+            "skip": 154,
+            "harmony_wax": 260,
+            "doctor_robe": 180,
+            "angel_debt": 41,
+            "nihility_wax": 308,
+            "abundance_wax": 31,
+            "chaos_trametes": 62,
+            "faith_bond": 81,
+            "dimension_dice": 32,
+            "preservation_wax": 48,
+            "insect_web": 80
           },
           "essence": {
-            "essence_destruction": 663,
-            "essence_elation": 737,
-            "essence_hunt": 592,
-            "essence_harmony": 504,
-            "essence_nihility": 330,
-            "essence_erudition": 145,
-            "essence_abundance": 13,
-            "essence_preservation": 16
+            "essence_destruction": 678,
+            "essence_hunt": 549,
+            "essence_nihility": 299,
+            "essence_harmony": 543,
+            "essence_elation": 720,
+            "essence_erudition": 165,
+            "essence_preservation": 9,
+            "skip": 26,
+            "essence_abundance": 11
           }
         },
         "incomplete": 0
       },
       "uniform": {
         "runs": 1000,
-        "wins": 11,
-        "winRate": 0.011,
+        "wins": 13,
+        "winRate": 0.013,
         "winRateCI": [
-          0.006153174098086638,
-          0.019589395700786275
+          0.0076128203893510256,
+          0.022114442375579666
         ],
-        "avgFloor": 10.626,
-        "avgClearedFloors": 9.637,
-        "avgHp": 110.205,
-        "avgTurns": 45.681,
-        "avgDamage": 15858.224890000014,
-        "avgCoins": 273.163,
-        "avgMerges": 9.341,
+        "avgFloor": 10.57,
+        "avgClearedFloors": 9.583,
+        "avgHp": 110.082,
+        "avgTurns": 45.4,
+        "avgDamage": 15497.208920000026,
+        "avgCoins": 269.659,
+        "avgMerges": 9.242,
         "avgRemovals": 0,
         "avgRosterSize": 31.627,
-        "avgItems": 4.546,
-        "avgEssences": 2.894,
-        "avgActivatedEssences": 2.846,
-        "avgScore": 10283.75270852419,
+        "avgItems": 4.538,
+        "avgEssences": 2.873,
+        "avgActivatedEssences": 2.828,
+        "avgScore": 10232.692579385372,
+        "avgSkips": 0,
+        "skipsByPhase": {
+          "recruit": 0,
+          "item": 0,
+          "essence": 0
+        },
         "failureByFloor": [
           {
             "floor": 1,
@@ -215,96 +248,96 @@ export const BALANCE_REFERENCE = {
           },
           {
             "floor": 8,
-            "count": 21
+            "count": 20
           },
           {
             "floor": 9,
-            "count": 85
+            "count": 107
           },
           {
             "floor": 10,
-            "count": 327
+            "count": 315
           },
           {
             "floor": 11,
-            "count": 381
+            "count": 399
           },
           {
             "floor": 12,
-            "count": 175
+            "count": 146
           }
         ],
         "picks": {
           "recruit": {
-            "1001": 2801,
-            "1002": 2842,
-            "1003": 1423,
-            "1004": 1398,
-            "1005": 1392,
-            "1006": 1385,
-            "1008": 2726,
-            "1009": 2762,
-            "1013": 2750,
-            "1101": 1647,
-            "1102": 1433,
-            "1103": 2728,
-            "1104": 1644,
-            "1105": 2671,
-            "1106": 1650,
-            "1107": 1415,
-            "1108": 1599,
-            "1109": 2688,
-            "1201": 2711,
-            "1202": 1611,
-            "1203": 1406,
-            "1204": 304,
-            "1205": 297,
-            "1208": 1398
+            "1001": 2695,
+            "1002": 2718,
+            "1003": 1389,
+            "1004": 1343,
+            "1005": 1391,
+            "1006": 1364,
+            "1008": 2755,
+            "1009": 2670,
+            "1013": 2786,
+            "1101": 1587,
+            "1102": 1392,
+            "1103": 2759,
+            "1104": 1550,
+            "1105": 2781,
+            "1106": 1603,
+            "1107": 1349,
+            "1108": 1652,
+            "1109": 2759,
+            "1201": 2769,
+            "1202": 1642,
+            "1203": 1408,
+            "1204": 264,
+            "1205": 309,
+            "1208": 1465
           },
           "item": {
-            "preservation_wax": 215,
-            "seal_stamp": 348,
-            "hunt_wax": 233,
-            "gold_coin": 334,
-            "nihility_wax": 193,
-            "destruction_wax": 234,
-            "doctor_robe": 202,
-            "cosmic_lotto": 228,
-            "divination_candle": 178,
-            "insect_web": 320,
-            "abundance_wax": 208,
-            "dimension_dice": 195,
-            "chaos_trametes": 240,
-            "harmony_wax": 185,
-            "faith_bond": 374,
-            "fortune_glue": 243,
-            "rubert_gear": 167,
-            "broken_clock": 36,
-            "erudition_wax": 232,
-            "angel_debt": 181
+            "angel_debt": 178,
+            "dimension_dice": 189,
+            "destruction_wax": 213,
+            "abundance_wax": 215,
+            "faith_bond": 343,
+            "gold_coin": 355,
+            "nihility_wax": 232,
+            "rubert_gear": 199,
+            "insect_web": 349,
+            "cosmic_lotto": 224,
+            "preservation_wax": 239,
+            "chaos_trametes": 226,
+            "doctor_robe": 172,
+            "harmony_wax": 173,
+            "erudition_wax": 243,
+            "seal_stamp": 341,
+            "hunt_wax": 238,
+            "divination_candle": 166,
+            "fortune_glue": 206,
+            "broken_clock": 37
           },
           "essence": {
-            "essence_elation": 352,
-            "essence_abundance": 365,
+            "essence_abundance": 363,
+            "essence_nihility": 347,
+            "essence_erudition": 355,
+            "essence_harmony": 372,
+            "essence_hunt": 383,
             "essence_destruction": 355,
-            "essence_preservation": 384,
-            "essence_nihility": 379,
-            "essence_erudition": 349,
-            "essence_harmony": 344,
-            "essence_hunt": 366
+            "essence_elation": 314,
+            "essence_preservation": 384
           }
         },
         "incomplete": 0
       },
       "difference": {
-        "winRate": 0.956,
-        "avgFloor": 1.374,
+        "winRate": 0.935,
+        "avgFloor": 1.429,
         "pairedSeeds": 1000,
         "outcomes": {
-          "aiOnlyWins": 956,
-          "uniformOnlyWins": 0,
-          "bothWin": 11,
-          "bothLoss": 33
+          "aiOnlyWins": 936,
+          "uniformOnlyWins": 1,
+          "bothWin": 12,
+          "bothLoss": 51
         }
       }
     },
@@ -312,25 +345,31 @@ export const BALANCE_REFERENCE = {
       "mode": "classic",
       "ai": {
         "runs": 1000,
-        "wins": 946,
-        "winRate": 0.946,
+        "wins": 937,
+        "winRate": 0.937,
         "winRateCI": [
-          0.9302078451539475,
-          0.9583786862769372
+          0.920205076295354,
+          0.9504503367882711
         ],
-        "avgFloor": 11.996,
-        "avgClearedFloors": 11.942,
-        "avgHp": 101.915,
-        "avgTurns": 76.191,
+        "avgFloor": 11.995,
+        "avgClearedFloors": 11.932,
+        "avgHp": 101.435,
+        "avgTurns": 76.094,
         "avgDamage": 0,
-        "avgCoins": 27353.374,
-        "avgMerges": 19.001,
-        "avgRemovals": 8.429,
-        "avgRosterSize": 34.905,
-        "avgItems": 5,
-        "avgEssences": 3,
-        "avgActivatedEssences": 2.964,
-        "avgScore": 13738.329151925063,
+        "avgCoins": 28305.886,
+        "avgMerges": 10.624,
+        "avgRemovals": 8.216,
+        "avgRosterSize": 22.539,
+        "avgItems": 4.776,
+        "avgEssences": 2.93,
+        "avgActivatedEssences": 2.904,
+        "avgScore": 13717.090972394542,
+        "avgSkips": 29.262,
+        "skipsByPhase": {
+          "recruit": 28968,
+          "item": 224,
+          "essence": 70
+        },
         "failureByFloor": [
           {
             "floor": 1,
@@ -374,96 +413,105 @@ export const BALANCE_REFERENCE = {
           },
           {
             "floor": 11,
-            "count": 4
+            "count": 5
           },
           {
             "floor": 12,
-            "count": 50
+            "count": 58
           }
         ],
         "picks": {
           "recruit": {
-            "1001": 2890,
-            "1002": 3199,
-            "1003": 2755,
-            "1004": 4771,
-            "1005": 5233,
-            "1006": 4130,
-            "1008": 2609,
-            "1009": 4781,
-            "1013": 2626,
-            "1101": 5707,
-            "1102": 2969,
-            "1103": 3247,
-            "1104": 2401,
-            "1105": 1884,
-            "1106": 4167,
-            "1107": 3290,
-            "1108": 3933,
-            "1109": 2560,
-            "1201": 2830,
-            "1202": 3158,
-            "1203": 2154,
-            "1204": 687,
-            "1205": 991,
-            "1208": 2219
+            "1001": 1411,
+            "1002": 2039,
+            "1003": 1519,
+            "1004": 3275,
+            "1005": 4545,
+            "1006": 2636,
+            "1008": 1366,
+            "1009": 2498,
+            "1013": 1484,
+            "1101": 4039,
+            "1102": 1630,
+            "1103": 1654,
+            "1104": 1367,
+            "1105": 1174,
+            "1106": 2643,
+            "1107": 2110,
+            "1108": 2630,
+            "1109": 1424,
+            "1201": 1449,
+            "1202": 1775,
+            "1203": 1178,
+            "1204": 399,
+            "1205": 749,
+            "1208": 1132,
+            "skip": 28968
           },
           "item": {
-            "seal_stamp": 667,
-            "divination_candle": 488,
-            "destruction_wax": 401,
-            "gold_coin": 430,
-            "hunt_wax": 473,
-            "harmony_wax": 340,
-            "doctor_robe": 344,
-            "chaos_trametes": 92,
-            "cosmic_lotto": 420,
-            "abundance_wax": 76,
-            "nihility_wax": 268,
-            "preservation_wax": 66,
-            "broken_clock": 123,
-            "erudition_wax": 142,
-            "fortune_glue": 99,
-            "rubert_gear": 132,
-            "insect_web": 115,
-            "faith_bond": 191,
-            "angel_debt": 76,
-            "dimension_dice": 57
+            "doctor_robe": 295,
+            "seal_stamp": 653,
+            "faith_bond": 138,
+            "erudition_wax": 136,
+            "hunt_wax": 455,
+            "rubert_gear": 140,
+            "destruction_wax": 420,
+            "gold_coin": 458,
+            "harmony_wax": 317,
+            "divination_candle": 473,
+            "cosmic_lotto": 432,
+            "dimension_dice": 45,
+            "nihility_wax": 255,
+            "chaos_trametes": 76,
+            "skip": 224,
+            "insect_web": 104,
+            "fortune_glue": 80,
+            "broken_clock": 129,
+            "angel_debt": 56,
+            "preservation_wax": 50,
+            "abundance_wax": 64
           },
           "essence": {
-            "essence_erudition": 93,
-            "essence_destruction": 564,
-            "essence_hunt": 636,
-            "essence_elation": 755,
-            "essence_harmony": 576,
-            "essence_abundance": 53,
-            "essence_nihility": 274,
-            "essence_preservation": 49
+            "essence_erudition": 69,
+            "essence_destruction": 550,
+            "essence_hunt": 651,
+            "skip": 70,
+            "essence_elation": 742,
+            "essence_preservation": 37,
+            "essence_harmony": 548,
+            "essence_nihility": 295,
+            "essence_abundance": 38
           }
         },
         "incomplete": 0
       },
       "uniform": {
         "runs": 1000,
-        "wins": 4,
-        "winRate": 0.004,
+        "wins": 7,
+        "winRate": 0.007,
         "winRateCI": [
-          0.0015565881404084308,
-          0.010239556277262253
+          0.0033948684009907646,
+          0.014378315465766588
         ],
-        "avgFloor": 10.479,
-        "avgClearedFloors": 9.483,
-        "avgHp": 110.45,
-        "avgTurns": 63.094,
+        "avgFloor": 10.471,
+        "avgClearedFloors": 9.478,
+        "avgHp": 110.195,
+        "avgTurns": 63.2,
         "avgDamage": 0,
-        "avgCoins": 10618.71,
-        "avgMerges": 15.14,
+        "avgCoins": 10672.035,
+        "avgMerges": 15.144,
         "avgRemovals": 0,
-        "avgRosterSize": 37.654,
-        "avgItems": 4.475,
-        "avgEssences": 2.928,
-        "avgActivatedEssences": 2.633,
-        "avgScore": 10047.518152733948,
+        "avgRosterSize": 37.711,
+        "avgItems": 4.485,
+        "avgEssences": 2.909,
+        "avgActivatedEssences": 2.623,
+        "avgScore": 10057.027551434185,
+        "avgSkips": 0,
+        "skipsByPhase": {
+          "recruit": 0,
+          "item": 0,
+          "essence": 0
+        },
         "failureByFloor": [
           {
             "floor": 1,
@@ -495,101 +543,101 @@ export const BALANCE_REFERENCE = {
           },
           {
             "floor": 8,
-            "count": 1
+            "count": 0
           },
           {
             "floor": 9,
-            "count": 71
+            "count": 91
           },
           {
             "floor": 10,
-            "count": 452
+            "count": 424
           },
           {
             "floor": 11,
-            "count": 400
+            "count": 408
           },
           {
             "floor": 12,
-            "count": 72
+            "count": 70
           }
         ],
         "picks": {
           "recruit": {
-            "1001": 3816,
-            "1002": 3881,
-            "1003": 1882,
-            "1004": 1827,
-            "1005": 1870,
-            "1006": 1860,
-            "1008": 3892,
-            "1009": 3875,
-            "1013": 3829,
-            "1101": 2346,
-            "1102": 1868,
-            "1103": 3942,
-            "1104": 2355,
-            "1105": 3820,
-            "1106": 2319,
-            "1107": 1897,
-            "1108": 2296,
-            "1109": 3937,
-            "1201": 3814,
-            "1202": 2284,
-            "1203": 1901,
-            "1204": 373,
-            "1205": 367,
-            "1208": 1843
+            "1001": 3847,
+            "1002": 3863,
+            "1003": 1832,
+            "1004": 1961,
+            "1005": 1899,
+            "1006": 1818,
+            "1008": 3864,
+            "1009": 3849,
+            "1013": 3850,
+            "1101": 2328,
+            "1102": 1979,
+            "1103": 3831,
+            "1104": 2338,
+            "1105": 3907,
+            "1106": 2322,
+            "1107": 1800,
+            "1108": 2294,
+            "1109": 3884,
+            "1201": 3865,
+            "1202": 2304,
+            "1203": 1912,
+            "1204": 372,
+            "1205": 386,
+            "1208": 1895
           },
           "item": {
-            "cosmic_lotto": 221,
-            "faith_bond": 341,
-            "angel_debt": 167,
-            "nihility_wax": 198,
-            "chaos_trametes": 233,
-            "gold_coin": 362,
-            "doctor_robe": 190,
-            "divination_candle": 207,
-            "seal_stamp": 310,
-            "destruction_wax": 206,
-            "insect_web": 358,
-            "rubert_gear": 178,
-            "erudition_wax": 240,
-            "harmony_wax": 179,
-            "preservation_wax": 229,
-            "hunt_wax": 214,
-            "broken_clock": 46,
-            "abundance_wax": 204,
-            "fortune_glue": 202,
-            "dimension_dice": 190
+            "dimension_dice": 181,
+            "seal_stamp": 334,
+            "hunt_wax": 215,
+            "harmony_wax": 201,
+            "insect_web": 334,
+            "destruction_wax": 208,
+            "nihility_wax": 251,
+            "doctor_robe": 180,
+            "gold_coin": 366,
+            "divination_candle": 166,
+            "angel_debt": 173,
+            "chaos_trametes": 211,
+            "fortune_glue": 228,
+            "erudition_wax": 223,
+            "faith_bond": 349,
+            "cosmic_lotto": 213,
+            "preservation_wax": 214,
+            "abundance_wax": 230,
+            "rubert_gear": 180,
+            "broken_clock": 28
           },
           "essence": {
-            "essence_erudition": 379,
-            "essence_abundance": 380,
-            "essence_preservation": 358,
-            "essence_destruction": 376,
-            "essence_harmony": 372,
-            "essence_hunt": 366,
-            "essence_elation": 361,
-            "essence_nihility": 336
+            "essence_destruction": 334,
+            "essence_nihility": 358,
+            "essence_preservation": 359,
+            "essence_elation": 388,
+            "essence_harmony": 357,
+            "essence_abundance": 374,
+            "essence_hunt": 355,
+            "essence_erudition": 384
           }
         },
         "incomplete": 0
       },
       "difference": {
-        "winRate": 0.942,
-        "avgFloor": 1.517,
+        "winRate": 0.93,
+        "avgFloor": 1.524,
         "pairedSeeds": 1000,
         "outcomes": {
-          "aiOnlyWins": 942,
-          "uniformOnlyWins": 0,
-          "bothWin": 4,
-          "bothLoss": 54
+          "aiOnlyWins": 932,
+          "uniformOnlyWins": 2,
+          "bothWin": 5,
+          "bothLoss": 61
         }
       }
     }
   ],
-  "elapsedMs": 263387.4117,
+  "elapsedMs": 272162.8569,
   "calibrationTarget": {
     "min": 0.9,
     "max": 0.98,
