@@ -8,168 +8,681 @@
       "name": "三月七",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1001.png",
       "bytes": 127363,
-      "sha256": "3cd391be97cdb847f51c8b7a0cf84ad10c924bbccd3c325538d7021a1c5c04a7"
+      "sha256": "3cd391be97cdb847f51c8b7a0cf84ad10c924bbccd3c325538d7021a1c5c04a7",
+      "contentIds": [
+        "1001"
+      ]
     },
     {
       "id": "1002",
       "name": "丹恒",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1002.png",
       "bytes": 100506,
-      "sha256": "2b9c29ae4f2d40fb913bd5bfdcfcf5576fbdc0bd69707e2dac56850198e2b30f"
+      "sha256": "2b9c29ae4f2d40fb913bd5bfdcfcf5576fbdc0bd69707e2dac56850198e2b30f",
+      "contentIds": [
+        "1002"
+      ]
     },
     {
       "id": "1003",
       "name": "姬子",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1003.png",
       "bytes": 131024,
-      "sha256": "0a58db801a8007564e7dcfc6e8050629312ff1ea3ba5d6e86c1435317305ebc6"
+      "sha256": "0a58db801a8007564e7dcfc6e8050629312ff1ea3ba5d6e86c1435317305ebc6",
+      "contentIds": [
+        "1003"
+      ]
     },
     {
       "id": "1004",
       "name": "瓦尔特",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1004.png",
       "bytes": 103284,
-      "sha256": "5beb7903954753d00cc2fdf5ad548d27313110e0e824403442d4548ba96de3c0"
+      "sha256": "5beb7903954753d00cc2fdf5ad548d27313110e0e824403442d4548ba96de3c0",
+      "contentIds": [
+        "1004"
+      ]
     },
     {
       "id": "1005",
       "name": "卡芙卡",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1005.png",
       "bytes": 87654,
-      "sha256": "da2892dfd0d2205a4ca387a396922aec25295df10d96c49abfd321db3338523b"
+      "sha256": "da2892dfd0d2205a4ca387a396922aec25295df10d96c49abfd321db3338523b",
+      "contentIds": [
+        "1005"
+      ]
     },
     {
       "id": "1006",
       "name": "银狼",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1006.png",
       "bytes": 147546,
-      "sha256": "a00cb22ba50b9622bb373f3e6933a31f240e999a2e8ea33f0af25748d7887e7f"
+      "sha256": "a00cb22ba50b9622bb373f3e6933a31f240e999a2e8ea33f0af25748d7887e7f",
+      "contentIds": [
+        "1006"
+      ]
     },
     {
       "id": "1008",
       "name": "阿兰",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1008.png",
       "bytes": 97627,
-      "sha256": "9dcc984178dcce738a7852d49a4b59ebee9c96217f5c47330117be6a5c5a137a"
+      "sha256": "9dcc984178dcce738a7852d49a4b59ebee9c96217f5c47330117be6a5c5a137a",
+      "contentIds": [
+        "1008"
+      ]
     },
     {
       "id": "1009",
       "name": "艾丝妲",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1009.png",
       "bytes": 94237,
-      "sha256": "6e335150bffe9c2b135589d19b18deed031676c9e7caf7347603a1e1cc8ae9d4"
+      "sha256": "6e335150bffe9c2b135589d19b18deed031676c9e7caf7347603a1e1cc8ae9d4",
+      "contentIds": [
+        "1009"
+      ]
     },
     {
       "id": "1013",
       "name": "黑塔",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1013.png",
       "bytes": 132142,
-      "sha256": "63e9a63abe8038ea5aea13dd6d971bfed93a8238e1f70122c3440a2d3d4f8d63"
+      "sha256": "63e9a63abe8038ea5aea13dd6d971bfed93a8238e1f70122c3440a2d3d4f8d63",
+      "contentIds": [
+        "1013"
+      ]
     },
     {
       "id": "1101",
       "name": "布洛妮娅",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1101.png",
       "bytes": 133189,
-      "sha256": "1fd43f2a32d3981e0baddd673f0e9159ba50a576073d3846e1dc5267df3c9d8c"
+      "sha256": "1fd43f2a32d3981e0baddd673f0e9159ba50a576073d3846e1dc5267df3c9d8c",
+      "contentIds": [
+        "1101"
+      ]
     },
     {
       "id": "1102",
       "name": "希儿",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1102.png",
       "bytes": 112062,
-      "sha256": "347a0f0a3728fb087d491f39134ec1d1e88907601c9c54ede70fcaa10c09bf2f"
+      "sha256": "347a0f0a3728fb087d491f39134ec1d1e88907601c9c54ede70fcaa10c09bf2f",
+      "contentIds": [
+        "1102"
+      ]
     },
     {
       "id": "1103",
       "name": "希露瓦",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1103.png",
       "bytes": 124519,
-      "sha256": "6f017df1175d565c94ff8970df68c36e1367fb80aa332a5b33ffbcc742d7bdf7"
+      "sha256": "6f017df1175d565c94ff8970df68c36e1367fb80aa332a5b33ffbcc742d7bdf7",
+      "contentIds": [
+        "1103"
+      ]
     },
     {
       "id": "1104",
       "name": "杰帕德",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1104.png",
       "bytes": 120757,
-      "sha256": "10dcc5d3c32ea2c988c97708dcea5fe240dfc810b786f3dc3c28f08b2ca02c12"
+      "sha256": "10dcc5d3c32ea2c988c97708dcea5fe240dfc810b786f3dc3c28f08b2ca02c12",
+      "contentIds": [
+        "1104"
+      ]
     },
     {
       "id": "1105",
       "name": "娜塔莎",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1105.png",
       "bytes": 108017,
-      "sha256": "f706fcd61c92923c10eb6e29904c70f19aade62f13acfe1cad9c44c828c0affc"
+      "sha256": "f706fcd61c92923c10eb6e29904c70f19aade62f13acfe1cad9c44c828c0affc",
+      "contentIds": [
+        "1105"
+      ]
     },
     {
       "id": "1106",
       "name": "佩拉",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1106.png",
       "bytes": 150465,
-      "sha256": "266a0457c5ab91fa81cca82d02df22d491daa910bfbaa6c8f638b296b3b23d3f"
+      "sha256": "266a0457c5ab91fa81cca82d02df22d491daa910bfbaa6c8f638b296b3b23d3f",
+      "contentIds": [
+        "1106"
+      ]
     },
     {
       "id": "1107",
       "name": "克拉拉",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1107.png",
       "bytes": 119744,
-      "sha256": "4d767ee4115f12e36cc63b32484d38ebc105dc648a43a129f6e0443f88bb1b4b"
+      "sha256": "4d767ee4115f12e36cc63b32484d38ebc105dc648a43a129f6e0443f88bb1b4b",
+      "contentIds": [
+        "1107"
+      ]
     },
     {
       "id": "1108",
       "name": "桑博",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1108.png",
       "bytes": 123250,
-      "sha256": "79fd1d86376ef71b3cca7f19e500e4c304949dd5961a15c33e4c71630b1ecd79"
+      "sha256": "79fd1d86376ef71b3cca7f19e500e4c304949dd5961a15c33e4c71630b1ecd79",
+      "contentIds": [
+        "1108"
+      ]
     },
     {
       "id": "1109",
       "name": "虎克",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1109.png",
       "bytes": 134726,
-      "sha256": "92e6b298834626dfb813a0e2cb0b6cb4b62637d61d888df81848e2dfdd07ded8"
+      "sha256": "92e6b298834626dfb813a0e2cb0b6cb4b62637d61d888df81848e2dfdd07ded8",
+      "contentIds": [
+        "1109"
+      ]
+    },
+    {
+      "id": "1110",
+      "name": "玲可",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1110.png",
+      "bytes": 110804,
+      "sha256": "21bbe4ad18ac0612439f0332beb726fb05af34348a427448a86463072cc58103",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1110"
+      ]
+    },
+    {
+      "id": "1111",
+      "name": "卢卡",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1111.png",
+      "bytes": 117191,
+      "sha256": "1d049a6f6a83e34f54af5231a3c7813cfab7bb67f1cd5c22560fb9c2b210b106",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1111"
+      ]
+    },
+    {
+      "id": "1112",
+      "name": "托帕&账账",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1112.png",
+      "bytes": 121226,
+      "sha256": "2b27256cb354269ca05d11c3bf21ec7a47e47a63733404f6245b809c235011af",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1112"
+      ]
     },
     {
       "id": "1201",
       "name": "青雀",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1201.png",
       "bytes": 118338,
-      "sha256": "a6870b3df826b13927f657ae67e4bb1c5a5a500bd98ebfcdffa6a214039941ba"
+      "sha256": "a6870b3df826b13927f657ae67e4bb1c5a5a500bd98ebfcdffa6a214039941ba",
+      "contentIds": [
+        "1201"
+      ]
     },
     {
       "id": "1202",
       "name": "停云",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1202.png",
       "bytes": 137533,
-      "sha256": "2be42f614fe9a6256f011dd1f67e394a623d2c835db55f17441a8ca374d56c25"
+      "sha256": "2be42f614fe9a6256f011dd1f67e394a623d2c835db55f17441a8ca374d56c25",
+      "contentIds": [
+        "1202"
+      ]
     },
     {
       "id": "1203",
       "name": "罗刹",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1203.png",
       "bytes": 124361,
-      "sha256": "2c4b2449325813611c920952cbb77c3f370312012a2f1da31125fa7d1c640cf6"
+      "sha256": "2c4b2449325813611c920952cbb77c3f370312012a2f1da31125fa7d1c640cf6",
+      "contentIds": [
+        "1203"
+      ]
     },
     {
       "id": "1204",
       "name": "景元",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1204.png",
       "bytes": 157048,
-      "sha256": "09dbf666316836ab2882649b3d3b9c7ea6e22951663fd914c62458295e17d55c"
+      "sha256": "09dbf666316836ab2882649b3d3b9c7ea6e22951663fd914c62458295e17d55c",
+      "contentIds": [
+        "1204"
+      ]
     },
     {
       "id": "1205",
       "name": "刃",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1205.png",
       "bytes": 97733,
-      "sha256": "6a00d53ce03b406f31f543e78f3be21bdae481732fecb4079913b35cd6b0ff36"
+      "sha256": "6a00d53ce03b406f31f543e78f3be21bdae481732fecb4079913b35cd6b0ff36",
+      "contentIds": [
+        "1205"
+      ]
+    },
+    {
+      "id": "1206",
+      "name": "素裳",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1206.png",
+      "bytes": 123910,
+      "sha256": "547bf82459b20e3769f7ac7fa22dc735882a9a888b033f7e16f5fc7fe470eb32",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1206"
+      ]
+    },
+    {
+      "id": "1207",
+      "name": "驭空",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1207.png",
+      "bytes": 120285,
+      "sha256": "5148fc55df2c6bbe9b8c48fde4788ab8129abff968e8c5be368cbc6d412cd609",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1207"
+      ]
     },
     {
       "id": "1208",
       "name": "符玄",
       "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1208.png",
       "bytes": 129515,
-      "sha256": "f390518210ecaaa920407a38fcb8b1348a1a39db3d0ee17a5e2e21468c708cfb"
+      "sha256": "f390518210ecaaa920407a38fcb8b1348a1a39db3d0ee17a5e2e21468c708cfb",
+      "contentIds": [
+        "1208"
+      ]
+    },
+    {
+      "id": "1209",
+      "name": "彦卿",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1209.png",
+      "bytes": 114612,
+      "sha256": "ed10ad1daa386af4a2270f80ee03d630f20eac662a1b7232d1026419443fdada",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1209"
+      ]
+    },
+    {
+      "id": "1210",
+      "name": "桂乃芬",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1210.png",
+      "bytes": 120314,
+      "sha256": "bb084fb892eaf6315a86cab047a6cf725d01de7be03b61ba5a9e4314be401b98",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1210"
+      ]
+    },
+    {
+      "id": "1211",
+      "name": "白露",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1211.png",
+      "bytes": 136824,
+      "sha256": "0a6efdadf05fb4e68c2063e9144558df5d99b82d198783631fb8fbdbd8016149",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1211"
+      ]
+    },
+    {
+      "id": "1212",
+      "name": "镜流",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1212.png",
+      "bytes": 117004,
+      "sha256": "99dff580fde1717ff171e7f9270c94e892aac1cb91db6f5d294ced3c9b801cdf",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1212"
+      ]
+    },
+    {
+      "id": "1214",
+      "name": "雪衣",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1214.png",
+      "bytes": 105278,
+      "sha256": "50de3a10fc395a323136bf9e365945fdf9641613a92c2dd94e0eb8e3ae6d5bef",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1214"
+      ]
+    },
+    {
+      "id": "1215",
+      "name": "寒鸦",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1215.png",
+      "bytes": 100381,
+      "sha256": "d63858e269d2e56d81a076c7e5a1e0cd40f2ad5b8f70ff2427f0a643f986abc0",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1215"
+      ]
+    },
+    {
+      "id": "1217",
+      "name": "藿藿",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1217.png",
+      "bytes": 122540,
+      "sha256": "2bb4125af84ccee41a69890755b22ae03b622a72c3d8dbb6b6762d3c58143be5",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1217"
+      ]
+    },
+    {
+      "id": "1218",
+      "name": "椒丘",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1218.png",
+      "bytes": 113644,
+      "sha256": "f47b7d7044f5b3a9d6c95da1eac3e16dcba3c618f0f70e082ead1638332bd68a",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1218"
+      ]
+    },
+    {
+      "id": "1220",
+      "name": "飞霄",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1220.png",
+      "bytes": 151828,
+      "sha256": "91383785ccdeee744602a5b21b9c90e4897cf0a2ec3a8b0d2530efa9994b50ca",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1220"
+      ]
+    },
+    {
+      "id": "1221",
+      "name": "云璃",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1221.png",
+      "bytes": 126645,
+      "sha256": "ca9f827b3d77a7fd8fc640adc982885d1705bd527ace4d3ab2e9a60c403fabfa",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1221"
+      ]
+    },
+    {
+      "id": "1222",
+      "name": "灵砂",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1222.png",
+      "bytes": 97635,
+      "sha256": "67d4222e73eb2e2fbb78d728970dcade6694384e7ff1f39f4bd8dc6db8dbb7ec",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1222"
+      ]
+    },
+    {
+      "id": "1223",
+      "name": "貊泽",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1223.png",
+      "bytes": 116810,
+      "sha256": "70dd1709c2ba25dd01e54ea7dc03c4a2af4cc870b6567a1abb614de7a0d31f91",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1223"
+      ]
+    },
+    {
+      "id": "1301",
+      "name": "加拉赫",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1301.png",
+      "bytes": 112963,
+      "sha256": "f9d7ef5d2952704385111efd171cf5a0352472dc4a516b73609f8388cc9765fc",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1301"
+      ]
+    },
+    {
+      "id": "1302",
+      "name": "银枝",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1302.png",
+      "bytes": 118061,
+      "sha256": "752354bb1f34342f3e4106a99afd846fb3f316d428103882445bc81bfcc22df0",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1302"
+      ]
+    },
+    {
+      "id": "1303",
+      "name": "阮•梅",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1303.png",
+      "bytes": 108509,
+      "sha256": "c2ed2fe4ceab81082dd4d5cca29159a67960a072ada70c0d4e1cc6c8c82cbfb8",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1303"
+      ]
+    },
+    {
+      "id": "1304",
+      "name": "砂金",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1304.png",
+      "bytes": 116421,
+      "sha256": "59d52e4c1be6fb2c4d1b7203853230fd639eefe941d85bafe9b920459a2b60d3",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1304"
+      ]
+    },
+    {
+      "id": "1305",
+      "name": "真理医生",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1305.png",
+      "bytes": 101943,
+      "sha256": "3da1246c8949167b45e18da9ec3e8717e28e2a22691095fd717f427e8b8e2db2",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1305"
+      ]
+    },
+    {
+      "id": "1306",
+      "name": "花火",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1306.png",
+      "bytes": 129217,
+      "sha256": "29e2988371159f74ec03b96d65437052311e051657ecfe3e13e93cfdc0efb73c",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1306"
+      ]
+    },
+    {
+      "id": "1307",
+      "name": "黑天鹅",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1307.png",
+      "bytes": 129252,
+      "sha256": "32fad3566920428c34629e1c42895b22ca5b8b07f8bc1bc1b9e5f4022aa73fc0",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1307"
+      ]
+    },
+    {
+      "id": "1308",
+      "name": "黄泉",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1308.png",
+      "bytes": 139152,
+      "sha256": "a64da6fbc603b05d317a0d8f67e3f586836eede326b89b8351bdb28e6d904488",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1308"
+      ]
+    },
+    {
+      "id": "1309",
+      "name": "知更鸟",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1309.png",
+      "bytes": 122736,
+      "sha256": "47c44fc7b4349cf6d34aafd49554e5e4994719007a8046dbad2072150944a3bc",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1309"
+      ]
+    },
+    {
+      "id": "1310",
+      "name": "流萤",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1310.png",
+      "bytes": 151090,
+      "sha256": "749d1e028e02a18e9ba933a61c080992badb7bf251c0b8c9571542f30699103f",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1310"
+      ]
+    },
+    {
+      "id": "1312",
+      "name": "米沙",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1312.png",
+      "bytes": 106603,
+      "sha256": "1050f0311c16439d43953fa8794bbd9232c78e5b2584cb8b24d51bd775f0b17b",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1312"
+      ]
+    },
+    {
+      "id": "1313",
+      "name": "星期日",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1313.png",
+      "bytes": 140748,
+      "sha256": "b1acea79f6359372105c4b34991bb370010422d3e862d197cad7be2c3d4e7839",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1313"
+      ]
+    },
+    {
+      "id": "1314",
+      "name": "翡翠",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1314.png",
+      "bytes": 140023,
+      "sha256": "eac30eb32477cb3e36580b8d03d28d24b83266cb836a8d296c000d42efc9dea0",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1314"
+      ]
+    },
+    {
+      "id": "1315",
+      "name": "波提欧",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1315.png",
+      "bytes": 123865,
+      "sha256": "5b96d285167e3565a4b4e8f4fb8c3fb1885594e0f250660ce358e37c31873e1b",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1315"
+      ]
+    },
+    {
+      "id": "1317",
+      "name": "乱破",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1317.png",
+      "bytes": 127213,
+      "sha256": "b44537107435b2dd3ed6d519ba53d024612a2592efc80070c05961e0606b1172",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1317"
+      ]
+    },
+    {
+      "id": "1402",
+      "name": "阿格莱雅",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1402.png",
+      "bytes": 116183,
+      "sha256": "bb6d4342b1885db7a9e7835380437154b76b967d6d441e121f98b96ae2bed6fe",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1402"
+      ]
+    },
+    {
+      "id": "1403",
+      "name": "缇宝",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1403.png",
+      "bytes": 126126,
+      "sha256": "2e72967359a16278c1796deaf475c534774b7c981ef00b8616bcba51d38aa765",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1403"
+      ]
+    },
+    {
+      "id": "1404",
+      "name": "万敌",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1404.png",
+      "bytes": 114323,
+      "sha256": "b2640bdf6298ec514bd88b7846cb4e0dd780d8d4fdfacf8f95e13d87e14eefc7",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1404"
+      ]
+    },
+    {
+      "id": "1405",
+      "name": "那刻夏",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1405.png",
+      "bytes": 121316,
+      "sha256": "34973e3f3104596c74bb10c120622ef1d576b789ae5008f648309f429bf44bce",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1405"
+      ]
+    },
+    {
+      "id": "1406",
+      "name": "赛飞儿",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1406.png",
+      "bytes": 135880,
+      "sha256": "6cddcd54ca3b0ba4dc978be4e88e4cbee0aaf16a33dedb24c1fe673c34889851",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1406"
+      ]
+    },
+    {
+      "id": "1407",
+      "name": "遐蝶",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1407.png",
+      "bytes": 96294,
+      "sha256": "6a42f6eec6a07392f3fcb0bee38cefd2bd471065898328c34f786f9d4d60af24",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1407"
+      ]
+    },
+    {
+      "id": "1408",
+      "name": "白厄",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1408.png",
+      "bytes": 100096,
+      "sha256": "0e56f92560199051a37c9dfd0fd1f57e66a57a7889a1ae425841859f198164b9",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1408"
+      ]
+    },
+    {
+      "id": "1409",
+      "name": "风堇",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1409.png",
+      "bytes": 133674,
+      "sha256": "e2395ed107f16d4de2c59910bdf6559160e35e21bd7edf9d21f6723795556f97",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "1409"
+      ]
     }
-  ]
+  ],
+  "updated": "2026-10-15"
 }

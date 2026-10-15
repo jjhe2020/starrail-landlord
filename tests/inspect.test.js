@@ -19,12 +19,13 @@ test('inspector keeps explanations local and preserves page interactions', { ski
     body { margin: 0; height: 1000px; }
     button { position: absolute; width: 65px; height: 35px; }
     #first { left: 12px; top: 60px; } #second { left: 100px; top: 60px; }
-    #resource { left: 240px; top: 10px; } #outside { left: 220px; top: 400px; }
+    #resource { left: 240px; top: 10px; } #outside { left: 220px; top: 400px; } #tall { left: 12px; top: 300px; }
     .inspect-popover { box-sizing: border-box; width: 300px; padding: 12px; background: white; border: 1px solid black; overflow-y: auto; z-index: 10; }
     .inspect-popover button { position: static; } .inspect-title { margin: 0; }
   </style><button id="first" data-inspect="character" data-inspect-click="true">First</button>
   <button id="second" data-inspect="character" data-inspect-click="true">Second</button>
   <button id="resource" data-inspect="shield">Shield</button><button id="outside">Action</button>
+  <button id="tall" data-inspect="character" data-inspect-click="true">Long rules</button>
   <div id="status" data-inspect="mechanic" data-inspect-click="true" tabindex="0">Rerolls</div>`);
   const source = await readFile(new URL('../src/inspect.js', import.meta.url), 'utf8');
   await page.evaluate(async code => {
@@ -34,7 +35,7 @@ test('inspector keeps explanations local and preserves page interactions', { ski
     window.spins = 0;
     document.addEventListener('click', event => { if (event.target.closest('#resource, #outside')) window.actions++; });
     document.addEventListener('keydown', event => { if (event.key === 'Escape') window.escapes++; if (event.code === 'Space') window.spins++; });
-    window.inspector = createInspector({ resolve: anchor => ({ title: anchor.id, bodyHtml: '<p>Explanation</p><button id="inside">Read more</button>' }) });
+    window.inspector = createInspector({ resolve: anchor => ({ title: anchor.id, bodyHtml: anchor.id === 'tall' ? '<p>Detailed effect lifetime and stacking</p>'.repeat(35) : '<p>Explanation</p><button id="inside">Read more</button>' }) });
   }, source);
   const popup = page.locator('[data-inspector]');
   const touch = (selector, type, x = 250, y = 25) => page.evaluate(({ selector, type, x, y }) => {
@@ -105,6 +106,19 @@ test('inspector keeps explanations local and preserves page interactions', { ski
     await popup.waitFor({ state: 'detached' });
     assert.equal(await page.evaluate(() => window.removedAnchor.getAttribute('aria-describedby')), null);
     await page.evaluate(() => document.body.append(window.removedAnchor));
+  });
+
+  await t.test('a tall explanation opens after pointer click without stealing its pointerup', async () => {
+    await page.locator('#tall').click();
+    assert.equal(await popup.count(), 1);
+    assert.equal(await page.locator('.inspect-title').textContent(), 'tall');
+    assert.equal(await popup.getAttribute('role'), 'dialog');
+    await page.keyboard.press('Escape');
+    await page.locator('#outside').focus();
+    await page.locator('#tall').tap();
+    assert.equal(await popup.count(), 1, 'native touch tap can also open rules taller than the screen');
+    assert.equal(await popup.getAttribute('role'), 'dialog');
+    await page.keyboard.press('Escape');
   });
 
   await t.test('keyboard focus is described and Escape closes only this explanation', async () => {

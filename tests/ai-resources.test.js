@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { newGame, purchaseSupply, rerollRewards, removeSymbol, skipReward, spin } from '../src/engine.js';
-import { recommendAction, recommendRewards, recommendRemoval, DEFAULT_PROFILE, POLICY_VERSION } from '../src/ai.js';
+import { recommendAction, recommendRewards, recommendRemoval, forecastEncounterSurvival, DEFAULT_PROFILE, POLICY_VERSION } from '../src/ai.js';
 import { enemyDebuffById, pollutionDescription, POLLUTION_ATTACK_MULTIPLIER } from '../src/enemy-effects.js';
 import { characterById } from '../src/content.js';
 
@@ -87,6 +87,42 @@ test('overclock is not stacked or bought for an already finished output task', (
   state.enemies = state.enemies.map(enemy => ({ ...enemy, hp: 500, maxHp: 500 }));
   state.overclockReady = true;
   assert.equal(recommendAction(state).type, 'spin');
+});
+
+function budgetFixture(ids = ['1404', '1013', '1204', '1001']) {
+  const state = fixture({ ids, floor: 12, hp: 29, coins: 80 });
+  state.shield = 39;
+  state.spinsLeft = 6;
+  state.encounter.deadline = 7;
+  state.supplyPurchases = 1;
+  state.bossStage = 1;
+  state.enemies = Array.from({ length: 5 }, (_, col) => ({ id: `budget-${col}`, name: '训练敌人', col, hp: 500, maxHp: 500, attack: col === 2 ? 7 : 4, boss: col === 2 }));
+  return state;
+}
+
+test('the last supply opportunity protects a multi-turn life budget instead of repeating a greedy overclock', () => {
+  const state = budgetFixture();
+  const saved = structuredClone(state);
+  const action = recommendAction(state);
+  assert.equal(action.type, 'supply');
+  assert.equal(action.kind, 'repair');
+  assert.ok(purchaseSupply(state, action.kind).hp > state.hp);
+  const noDefense = { ...structuredClone(state), resourceAccess: { ...state.resourceAccess, defense: false } };
+  assert.equal(recommendAction(noDefense).kind, 'overclock', 'disabling defense planning preserves its original output-oriented boundary');
+  assert.deepEqual(state, saved);
+});
+
+test('a sampled immediate clear still permits the final overclock despite a low life budget', () => {
+  const state = budgetFixture(['1204']);
+  state.enemies.forEach(enemy => { enemy.hp = enemy.maxHp = 4.5; enemy.attack = 1; });
+  const purchased = purchaseSupply(state, 'overclock');
+  const resolved = spin(purchased);
+  assert.equal(resolved.phase, 'victory');
+  const budget = forecastEncounterSurvival(purchased, { selfDrain: 20, healing: 0, shields: 0, threat: 20 }, [resolved], 20);
+  assert.equal(budget.clearsNow, true);
+  assert.equal(budget.needsDefense, false);
+  const lightDefense = { ...DEFAULT_PROFILE, weights: { ...DEFAULT_PROFILE.weights, defense: 0.05 } };
+  assert.equal(recommendAction(state, { profile: lightDefense }).kind, 'overclock');
 });
 
 test('removal can precede board dilution when an instance is harmful to a survival build', () => {

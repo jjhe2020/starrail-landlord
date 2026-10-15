@@ -1,6 +1,37 @@
 # 验证方式
 
-本文针对当前 combat-only、v2 游戏存档、`difficulty-v5` 与共享 `resource-actions-v5` 策略。当前 B=1.12，以 D6 为连续分段点，上段每两级×1.235、下段×1.22，所有资源配置共用曲线。正式 [v6 报告](docs/benchmarks/resource-balance-v6.json)已完成 20 组×1,000 局：完整 D10 为 969/1,000（96.9%），11 个可验证的主动资源目标通过；九组防御规划观察未证明实际缺防御，整体 `target.passed=false` 如实保留。前轮 [v4](docs/benchmarks/resource-balance-v4.json) / [v5](docs/benchmarks/resource-balance-v5.json)报告与旧两模式成绩仅作历史记录。
+## 0.4.0 当前验证
+
+当前为 64/64/32 内容、21 羁绊、v2 存档、`difficulty-v6` 与 `resource-actions-v6`。标准检查、构建及单文件构建通过；Node suite 共 367 项，363 通过，4 个浏览器入口默认跳过，0 失败。离线资源 163 项。
+
+真实浏览器四个入口实际启用后 27 项通过、零失败：说明组件含较长浮层原生 tap；离线与 portable 覆盖 1265/390/320/820；最终成品文件额外执行效果回归，在 1440/390/320 完成 85 项 UI 断言，包含奇物与精华说明占用可用卡片宽度、首次首载离线、零 HTTP 请求、零页面异常。独立存储中测试，不操作玩家旧存档。桌面 Chromium 触屏模拟不代表 Android content:// 或 iPad 实机已验证。
+
+新行为覆盖包含 148 条新效果逐条真实动作禁用对照、128 张 PNG 来源哈希、21 羁绊实际结算、临时与永久、星级、精华一次性奖励不回灌其他进度、旧 v2 兼容、快照不授予机制、威力构成与实际日志一致。AI 覆盖新内容估值、临时成长有限周期、四项精确概率、隐藏 RNG 独立、生存预算与清场例外；并行 CLI 在 2 局完整策略及 51 局跨分块的禁资源快速策略上与串行整报告一致。性能优化只缓存静态定义、不缓存可变状态，另有五个相同种子的完整旅程哈希一致。
+
+逐条生效不是所有组合穷举；羁绊大多只测试一个档，完整千局也不证明所有构筑均衡。完整 D10 的独立留出为 **977/1,000（97.70%）**，Wilson 95% 区间 96.57%–98.46%；均匀接受奖励基线 47/1,000（4.70%）。AI 与基线各 1,000 局，共 2,000 局，均无未完成。本轮重新验证的是新内容完整 D10 与均匀基线，未重新完成新版 D8 / D6 / D4 / D2 资源缺失矩阵，不能沿用旧版主动资源档位结论。关闭防御规划仍保留自然防御，实际是否使用按消耗/生成判断。有限策略与种子结果不等于真人胜率或所有组合均衡。
+
+```powershell
+npm run check
+npm test
+npm run build
+npm run build:portable
+$env:INSPECT_BROWSER_TESTS='1'
+$env:OFFLINE_BROWSER_TESTS='1'
+$env:PORTABLE_BROWSER_TESTS='1'
+$env:EFFECT_BROWSER_TESTS='1'
+$env:EFFECT_TEST_URL='file:///E:/codex/星铁房东/artifacts/星穹转轮-v0.4.0.html'
+node --test tests/inspect.test.js tests/offline-browser.test.js tests/portable-browser.test.js tests/effects-browser.test.js
+```
+
+不设置 EFFECT_TEST_URL 时，效果测试自行启动临时 port 0 服务；默认不加载 Playwright。可设置 EFFECT_SCREENSHOT_DIR 保存证据。Node 22+；Windows 使用已有 Edge，其他平台使用 Playwright Chromium。
+
+当前 `difficulty-v6` 使用公共连续分段生命曲线：D≥6 为 `0.25×1.235^((D−10)/2)`，D<6 为 `0.25×1.235^(−2)×1.22^((D−6)/2)`。系数严格递增；整数生命不下降，极小早期遭遇的相邻档位可能因取整相同，每两档真实总生命增加。D2 / D4 / D6 / D8 / D10 约为 0.110125 / 0.134353 / 0.163910 / 0.202429 / 0.250000，D20 约为 0.718249。第 4 关起的后程系数线性增长至第 12 关的 1.5，无尽延续每关 1.12。所有资源配置共用公式，敌人攻击与条款不按资源开关作弊调整。
+
+## 0.3.0 历史验证记录
+
+以下旧版本数字和资源档位仅作历史记录，不能作为 0.4.0 的当前成绩。
+
+0.3.0 使用 combat-only、v2 游戏存档、`difficulty-v5` 与共享 `resource-actions-v5` 策略。当时 B=1.12，以 D6 为连续分段点，上段每两级×1.235、下段×1.22，所有资源配置共用曲线。正式 [v6 报告](docs/benchmarks/resource-balance-v6.json)已完成 20 组×1,000 局：完整 D10 为 969/1,000（96.9%），11 个可验证的主动资源目标通过；九组防御规划观察未证明实际缺防御，整体 `target.passed=false` 如实保留。前轮 [v4](docs/benchmarks/resource-balance-v4.json) / [v5](docs/benchmarks/resource-balance-v5.json)报告与旧两模式成绩仅作历史记录。
 
 ## 自动检查与覆盖
 
@@ -14,9 +45,9 @@ npm run build
 npm run build:portable
 ```
 
-`check` 检查源码/脚本/测试语法、版本一致性、角色和敌人素材、完整离线资源。`test` 使用 Node 内置测试器，普通规则测试不要求浏览器；三个真实浏览器入口默认跳过。`build` 输出支持子目录托管的 `dist/`，`build:portable` 输出 `artifacts/星穹转轮-v<版本号>.html`，每次最终发布交付这一份带版本号的完整单文件。CI 执行标准检查与构建；之后不自动更新或部署现有 ChatGPT Site，也不删除站点或改变其访问权限。
+`check` 检查源码/脚本/测试语法、版本一致性、角色和敌人素材、完整离线资源。`test` 使用 Node 内置测试器，普通规则测试不要求浏览器；四个真实浏览器入口默认跳过。`build` 输出支持子目录托管的 `dist/`，`build:portable` 输出 `artifacts/星穹转轮-v<版本号>.html`，每次最终发布交付这一份带版本号的完整单文件。CI 执行标准检查与构建；之后不自动更新或部署现有 ChatGPT Site，也不删除站点或改变其访问权限。
 
-当前最终输出完成 `check / test / build / build:portable`：普通测试共 149 项，146 通过、3 个浏览器入口按默认跳过、0 失败；静态构建包含 55 个离线资源。真实最终单文件另行启用浏览器检查，6/6 通过，详见下文，不把默认跳过记作浏览器已执行。
+0.3.0 最终输出完成 `check / test / build / build:portable`：普通测试共 149 项，146 通过、3 个浏览器入口按默认跳过、0 失败；静态构建包含 55 个离线资源。该版最终单文件另行启用浏览器检查，6/6 通过，详见下文；0.4.0 的当前结果见本文开头，不把默认跳过记作浏览器已执行。
 
 当前行为覆盖：
 
@@ -45,8 +76,9 @@ npm run build:portable
 $env:INSPECT_BROWSER_TESTS = '1'
 $env:OFFLINE_BROWSER_TESTS = '1'
 $env:PORTABLE_BROWSER_TESTS = '1'
-node --test tests/inspect.test.js tests/offline-browser.test.js tests/portable-browser.test.js
-Remove-Item Env:INSPECT_BROWSER_TESTS, Env:OFFLINE_BROWSER_TESTS, Env:PORTABLE_BROWSER_TESTS
+$env:EFFECT_BROWSER_TESTS = '1'
+node --test tests/inspect.test.js tests/offline-browser.test.js tests/portable-browser.test.js tests/effects-browser.test.js
+Remove-Item Env:INSPECT_BROWSER_TESTS, Env:OFFLINE_BROWSER_TESTS, Env:PORTABLE_BROWSER_TESTS, Env:EFFECT_BROWSER_TESTS
 ```
 
 这些测试使用专属临时站点、临时文件及新浏览器存储，不操作玩家现有 localhost 存档。
@@ -57,7 +89,7 @@ Remove-Item Env:INSPECT_BROWSER_TESTS, Env:OFFLINE_BROWSER_TESTS, Env:PORTABLE_B
 
 单文件检查从首次打开前断网，直接加载 `file://`，没有 HTTP 请求；检查全部内嵌图片、实际 Blob AI Worker、转动、招募、刷新恢复及 1265/390/320/820 像素布局。禁用 localStorage 的独立环境仍可游玩，通过下载与文件选择事件导出/导入，并拒绝损坏存档。交换包版本 1 与内部游戏版本 2 分别校验。
 
-本轮初次集成完成 147 项独立 UI 断言，包括桌面 1440、手机 320/375/390、D20 新局、补给资源与上限、共享动作、后台实验不改当前存档、矩阵启动/取消、旧模式提示与迁移、污染目标标记与解除。
+以下保留 0.3.0 的浏览器回归记录，不作为 0.4.0 的当前验收：初次集成完成 147 项独立 UI 断言，包括桌面 1440、手机 320/375/390、D20 新局、补给资源与上限、共享动作、后台实验不改当前存档、矩阵启动/取消、旧模式提示与迁移、污染目标标记与解除。
 
 早期 B=1.12、S=1.25 与 v4 策略阶段完成验收展示 28 项、实时共享动作与实验 32 项、启用后的说明/离线/单文件浏览器测试 22 项，零页面错误；另有 CLI、敌方条款与难度的 42 项聚焦行为测试全部通过。实时动作先调用部署的 `recommendAction`，再与相同引擎动作的完整状态比较，不依赖预设应该采取哪种行动；实际覆盖转动、补给、移除、重掷、奖励及精确概率抽样，包含真实 30 AI+30 均匀对照、配置传递、取消和存档隔离。28 项展示检查使用明确标记的合成报告，只验证原始胜率、可验收性/原因和观察分层的渲染，不作为真实胜率证据。隔离验证记录位于 `.local/review-assessment-frozen-v4/` 与 `.local/review-frozen-v4/`，不会随生产构建发布；发布胜率以最终独立报告为准。
 
@@ -93,7 +125,7 @@ npm run train:ai -- --mode combat --difficulty 10 --runs 100 --generations 2 --c
 
 资源矩阵使用共享 `assessResourceVariant` 验收，CLI `--require-target` 在完整映射未满足时返回非零。D10 关闭防御规划的行保留自然防御，明确不可当作彻底移除防御的消融；即使其他可验收行通过，整体 `target.passed` 仍可能为 false。检查输出原因，不能只取可通过行重写为整体成功。
 
-当前 v6 正式报告使用新种子 `resources-release-v6-20261015-c9d438`，20 组×1,000 局、0 未完成，七份规则/AI 源码开始结束摘要一致。D10 完整 AI 为 96.9%（Wilson 95% 区间 95.63%–97.81%）；D10 禁重掷/移除/消费分别为 71.2% / 80.2% / 88.0%，对应 D8 为 94.1% / 93.2% / 96.1%。三个双禁 D6 为 90.5% / 97.8% / 94.6%，三项主动全禁 D4 为 97.3%。完整 D10、七组主动资源档位、三个 D10 主动对照共 11 个目标通过；按点估计验收，不能误称所有区间都落入目标带。
+0.3.0 的 v6 正式报告使用新种子 `resources-release-v6-20261015-c9d438`，20 组×1,000 局、0 未完成，七份规则/AI 源码开始结束摘要一致。D10 完整 AI 为 96.9%（Wilson 95% 区间 95.63%–97.81%）；D10 禁重掷/移除/消费分别为 71.2% / 80.2% / 88.0%，对应 D8 为 94.1% / 93.2% / 96.1%。三个双禁 D6 为 90.5% / 97.8% / 94.6%，三项主动全禁 D4 为 97.3%。完整 D10、七组主动资源档位、三个 D10 主动对照共 11 个目标通过；按点估计验收，不能误称所有区间都落入目标带。
 
 完整 D10 的防御总消耗/总生成为 51.76%（生命 47.15%、护盾 53.40%）；逐局达到暂定 50% 的为 532 局，其中 506 胜（95.11%），两种比例不可混用。全部 20 组都没有低于暂定 20% 的防御样本，九组关闭规划仍有自然防御；完整四资源映射尚未证实，`target.passed=false` 保留。逐项数据和限制见 [AI.md](docs/AI.md) 与 [BALANCE.md](docs/BALANCE.md)。前轮报告保留历史结果，不将小样本校准或旧交租成绩混入本轮。
 
