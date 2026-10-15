@@ -1,0 +1,4665 @@
+{
+  "version": 1,
+  "kind": "resource-health-development-calibration",
+  "samplePurpose": "calibration",
+  "finalAcceptance": false,
+  "title": "污染全队攻击压制规则：冻结v5开发校准记录",
+  "rules": {
+    "version": "difficulty-v4",
+    "min": 1,
+    "max": 20,
+    "default": 10,
+    "baseHealthScale": 1.12,
+    "difficulty10HealthMultiplier": 1,
+    "difficultyStepMultiplier": 1.25,
+    "combatLateHealthMultiplier": 1.5,
+    "debuffStartFloor": 4,
+    "ambientDebuffs": 1
+  },
+  "policyVersion": "resource-actions-v5",
+  "profile": {
+    "version": "context-v3-resources",
+    "weights": {
+      "damage": 1,
+      "defense": 0.36,
+      "growth": 0.7,
+      "synergy": 0.9,
+      "merge": 0.85,
+      "economy": 0.32,
+      "tempo": 1.1,
+      "lookahead": 0.55,
+      "dilution": 1.1,
+      "flexibility": 0.7
+    },
+    "temperature": 5,
+    "lookaheadSamples": 4
+  },
+  "lookahead": true,
+  "target": {
+    "preferredWinRate": 0.95,
+    "minWinRate": 0.9,
+    "maxWinRate": 0.98,
+    "minimumActiveResourceD10Drop": 0.05,
+    "fullAggregateDefenseMinimum": 0.5
+  },
+  "methodology": {
+    "policy": "使用生产recommendAction的真实动作与概率；奖励按相同概率随机抽样，重掷、移除、补给由共享规划器决定。AI权重、温度及B/S全程保持冻结。",
+    "rules": "difficulty-v4：固定污染实例实际登场时，本轮全队攻击×0.85；同时保留该实例个人50%威力和6HP消耗。自然治疗与护盾不因该全队攻击压制减弱。移除、合成或换关可解除。所有资源mask使用同一真实规则。",
+    "commonHealthParameters": "B=1.12/S=1.25，D10=B、D8=B/S、D6=B/S²、D4=B/S³、D2=B/S⁴。没有按资源mask调整敌人参数，也没有为达目标弱化禁资源AI。",
+    "seedAndRng": "11臂共用全新的v5开发种子，动作随机流独立于引擎种子随机流。各D10消融复用首轮full作为成对baseline；构筑和动作分叉之后的引擎路径不必相同。",
+    "seedLabel": "本地runner种子字符串中的:holdout:沿用旧函数命名标签；这些样本全部是开发校准用途，不是发布留出集。2200是11×200次对局，不是2200个不同种子。",
+    "uncertainty": "原始每臂Wilson95%区间与成对full-only/restricted-only计数分别保留；个体通关率CI不能冒充成对下降幅度的CI。开发点目标检查不替代独立正式验收。",
+    "defenseAccounting": "HP生成=initialHp+healed，消耗=hpLost；盾生成=initialShield+shieldGained，消耗=shieldBlocked；shieldDecayed单记浪费。综合总量比=(HP消耗+盾消耗)/(HP生成+盾生成)，逐局综合比>=0.5的样本率则另记effectiveRate。两者分母不同，不混用。",
+    "defenseStrata": "逐局综合比<0.2低、>=0.5有效、中间为moderate；每层均保留n/wins/CI与实际消耗。此为受结果和构筑影响的观察分层，不是自然防御缺失的随机因果估计。",
+    "defensePlanning": "这11臂defense规划始终true，自然防御保留。关闭防御规划也不能自动当作缺防御资源；正式全20组另覆盖该观察。",
+    "independence": "未读取或复用旧v4正式逐局种子；本记录未加载新的v5正式报告或任何正式结果。v4历史证据保留原样，不合并到这2200局或新规则留出。"
+  },
+  "seed": "resource-development-v5-20261013-a",
+  "seedPattern": "resource-development-v5-20261013-a:holdout:{index}",
+  "policySeedPattern": "resource-development-v5-20261013-a:holdout:{index}:actions",
+  "runsPerArm": 200,
+  "totalGames": 2200,
+  "armCount": 11,
+  "incomplete": 0,
+  "sourceHashes": {
+    "src/ai.js": "f78a21ec8e510a1f2d471c830ff7ad4945b241b67cf42c57bc4f1fe5a25279b0",
+    "src/ai-profile.js": "24cedd0a45d9768dd709801185caa6274893278f3b0fc9ffe4a711c514e24824",
+    "src/engine.js": "333d845edf9475566fc8d7ca7fa905a8470d15f210139ec66371cc0d405f94f7",
+    "src/enemy-effects.js": "85e6399b62a91fbb27c68934eb71a71ae734f76ed517927c13fe1481a1884099",
+    "src/difficulty.js": "67fb6fcc0ace5a158bb904995f5664fcec2ace262bd005a996399e6650a7a25d",
+    "src/content.js": "eebf7286fc0cbc6bf404f5044846e9c0a13d9bf9eb79d7f828a47a8dcb516994",
+    "src/simulation.js": "7866fef8474dcddfe4ba74f1c6a136fc4f8fa23d90e7eb4f96dcac8cbcded57b"
+  },
+  "allBatchesSourceStable": true,
+  "allSourceHashesSame": true,
+  "localRunner": {
+    "source": ".local/resource-calibration-v5/grid-runner.mjs",
+    "sha256": "dd2357ffd6ab5ba01b0dae371571a100ad2e0234b56e40942f788b467df317bc",
+    "note": "私有worker开发runner；原始臂定义、summary和参数均嵌入此自包含记录，逐局outcomes仅保留本地。"
+  },
+  "batches": [
+    {
+      "sourceArtifact": ".local/resource-calibration-v5/first-v5.json",
+      "sourceArtifactSHA256": "d66723667bef32dbfe003cb2bc8b4cf7ec0f25f9b40f820af6fdba2678649dcd",
+      "seed": "resource-development-v5-20261013-a",
+      "runsPerArm": 200,
+      "armCount": 3,
+      "totalGames": 600,
+      "policyVersion": "resource-actions-v5",
+      "profile": {
+        "version": "context-v3-resources",
+        "weights": {
+          "damage": 1,
+          "defense": 0.36,
+          "growth": 0.7,
+          "synergy": 0.9,
+          "merge": 0.85,
+          "economy": 0.32,
+          "tempo": 1.1,
+          "lookahead": 0.55,
+          "dilution": 1.1,
+          "flexibility": 0.7
+        },
+        "temperature": 5,
+        "lookaheadSamples": 4
+      },
+      "lookahead": true,
+      "sourceHashes": {
+        "src/ai.js": "f78a21ec8e510a1f2d471c830ff7ad4945b241b67cf42c57bc4f1fe5a25279b0",
+        "src/ai-profile.js": "24cedd0a45d9768dd709801185caa6274893278f3b0fc9ffe4a711c514e24824",
+        "src/engine.js": "333d845edf9475566fc8d7ca7fa905a8470d15f210139ec66371cc0d405f94f7",
+        "src/enemy-effects.js": "85e6399b62a91fbb27c68934eb71a71ae734f76ed517927c13fe1481a1884099",
+        "src/difficulty.js": "67fb6fcc0ace5a158bb904995f5664fcec2ace262bd005a996399e6650a7a25d",
+        "src/content.js": "eebf7286fc0cbc6bf404f5044846e9c0a13d9bf9eb79d7f828a47a8dcb516994",
+        "src/simulation.js": "7866fef8474dcddfe4ba74f1c6a136fc4f8fa23d90e7eb4f96dcac8cbcded57b"
+      },
+      "sourceStable": true,
+      "elapsedMs": 72952.83410000001,
+      "armIds": [
+        "full-d10-v5",
+        "no-removals-d10-v5",
+        "no-removals-d8-v5"
+      ]
+    },
+    {
+      "sourceArtifact": ".local/resource-calibration-v5/active-and-multiple-v5.json",
+      "sourceArtifactSHA256": "ced31ddad4677bb43c26d9b9972fd9dbc69dd1fe8973cbbe90888c4c63514ae5",
+      "seed": "resource-development-v5-20261013-a",
+      "runsPerArm": 200,
+      "armCount": 8,
+      "totalGames": 1600,
+      "policyVersion": "resource-actions-v5",
+      "profile": {
+        "version": "context-v3-resources",
+        "weights": {
+          "damage": 1,
+          "defense": 0.36,
+          "growth": 0.7,
+          "synergy": 0.9,
+          "merge": 0.85,
+          "economy": 0.32,
+          "tempo": 1.1,
+          "lookahead": 0.55,
+          "dilution": 1.1,
+          "flexibility": 0.7
+        },
+        "temperature": 5,
+        "lookaheadSamples": 4
+      },
+      "lookahead": true,
+      "sourceHashes": {
+        "src/ai.js": "f78a21ec8e510a1f2d471c830ff7ad4945b241b67cf42c57bc4f1fe5a25279b0",
+        "src/ai-profile.js": "24cedd0a45d9768dd709801185caa6274893278f3b0fc9ffe4a711c514e24824",
+        "src/engine.js": "333d845edf9475566fc8d7ca7fa905a8470d15f210139ec66371cc0d405f94f7",
+        "src/enemy-effects.js": "85e6399b62a91fbb27c68934eb71a71ae734f76ed517927c13fe1481a1884099",
+        "src/difficulty.js": "67fb6fcc0ace5a158bb904995f5664fcec2ace262bd005a996399e6650a7a25d",
+        "src/content.js": "eebf7286fc0cbc6bf404f5044846e9c0a13d9bf9eb79d7f828a47a8dcb516994",
+        "src/simulation.js": "7866fef8474dcddfe4ba74f1c6a136fc4f8fa23d90e7eb4f96dcac8cbcded57b"
+      },
+      "sourceStable": true,
+      "elapsedMs": 92980.9534,
+      "armIds": [
+        "no-rerolls-d10-v5",
+        "no-credits-d10-v5",
+        "no-rerolls-d8-v5",
+        "no-credits-d8-v5",
+        "no-rerolls-removals-d6-v5",
+        "no-rerolls-credits-d6-v5",
+        "no-removals-credits-d6-v5",
+        "no-active-resources-d4-v5"
+      ]
+    }
+  ],
+  "arms": [
+    {
+      "id": "full-d10-v5",
+      "candidate": "b112-s125-v5",
+      "sourceArtifact": ".local/resource-calibration-v5/first-v5.json",
+      "difficulty": 10,
+      "rules": {
+        "version": "difficulty-v4",
+        "min": 1,
+        "max": 20,
+        "default": 10,
+        "baseHealthScale": 1.12,
+        "difficulty10HealthMultiplier": 1,
+        "difficultyStepMultiplier": 1.25,
+        "combatLateHealthMultiplier": 1.5,
+        "debuffStartFloor": 4,
+        "ambientDebuffs": 1
+      },
+      "resourceAccess": {
+        "rerolls": true,
+        "removals": true,
+        "credits": true,
+        "defense": true
+      },
+      "summary": {
+        "runs": 200,
+        "wins": 191,
+        "winRate": 0.955,
+        "winRateCI": [
+          0.9167032959981803,
+          0.976147456998507
+        ],
+        "avgFloor": 12,
+        "avgClearedFloors": 11.955,
+        "avgHp": 82.25869999999999,
+        "avgTurns": 40.565,
+        "avgDamage": 29682.475499999997,
+        "avgCoins": 332.305,
+        "avgMerges": 4.895,
+        "avgRemovals": 6.865,
+        "avgRosterSize": 20.315,
+        "avgItems": 4.975,
+        "avgEssences": 2.985,
+        "avgActivatedEssences": 2.985,
+        "avgScore": 13679.814003722975,
+        "avgSkips": 8.535,
+        "skipsByPhase": {
+          "recruit": 1699,
+          "item": 5,
+          "essence": 3
+        },
+        "failureByFloor": [
+          {
+            "floor": 1,
+            "count": 0
+          },
+          {
+            "floor": 2,
+            "count": 0
+          },
+          {
+            "floor": 3,
+            "count": 0
+          },
+          {
+            "floor": 4,
+            "count": 0
+          },
+          {
+            "floor": 5,
+            "count": 0
+          },
+          {
+            "floor": 6,
+            "count": 0
+          },
+          {
+            "floor": 7,
+            "count": 0
+          },
+          {
+            "floor": 8,
+            "count": 0
+          },
+          {
+            "floor": 9,
+            "count": 0
+          },
+          {
+            "floor": 10,
+            "count": 0
+          },
+          {
+            "floor": 11,
+            "count": 0
+          },
+          {
+            "floor": 12,
+            "count": 9
+          }
+        ],
+        "picks": {
+          "recruit": {
+            "1001": 186,
+            "1002": 241,
+            "1003": 282,
+            "1004": 322,
+            "1005": 842,
+            "1006": 438,
+            "1008": 185,
+            "1009": 77,
+            "1013": 221,
+            "1101": 317,
+            "1102": 296,
+            "1103": 302,
+            "1104": 283,
+            "1105": 25,
+            "1106": 504,
+            "1107": 406,
+            "1108": 353,
+            "1109": 187,
+            "1201": 202,
+            "1202": 54,
+            "1203": 16,
+            "1204": 122,
+            "1205": 148,
+            "1208": 205,
+            "skip": 1699
+          },
+          "item": {
+            "hunt_wax": 110,
+            "rubert_gear": 35,
+            "destruction_wax": 125,
+            "seal_stamp": 182,
+            "divination_candle": 140,
+            "gold_coin": 90,
+            "erudition_wax": 26,
+            "nihility_wax": 57,
+            "cosmic_lotto": 125,
+            "harmony_wax": 21,
+            "skip": 5,
+            "broken_clock": 37,
+            "faith_bond": 9,
+            "insect_web": 4,
+            "doctor_robe": 28,
+            "dimension_dice": 1,
+            "angel_debt": 3,
+            "fortune_glue": 1,
+            "chaos_trametes": 1
+          },
+          "essence": {
+            "essence_destruction": 142,
+            "essence_elation": 200,
+            "essence_harmony": 102,
+            "essence_hunt": 115,
+            "essence_nihility": 31,
+            "essence_erudition": 6,
+            "skip": 3,
+            "essence_preservation": 1
+          }
+        },
+        "avgUsage": {
+          "initialHp": 100,
+          "initialShield": 0,
+          "rerollsUsed": 18.345,
+          "paidRerolls": 3.515,
+          "removalsUsed": 6.865,
+          "supplyPurchases": 14.9,
+          "creditsSpent": 266.49,
+          "healed": 59.70985000000002,
+          "shieldGained": 439.97935000000007,
+          "shieldBlocked": 239.35644999999997,
+          "shieldDecayed": 47.4734,
+          "hpLost": 77.45115000000001,
+          "freeRerolls": 14.83,
+          "paidRerollCredits": 28.12,
+          "supplyCredits": 238.37,
+          "supplyKinds": {
+            "repair": 0,
+            "barrier": 0.005,
+            "overclock": 14.895
+          }
+        },
+        "resourceUsageRates": {
+          "rerolls": 1,
+          "removals": 1,
+          "credits": 1,
+          "defense": 0.59
+        },
+        "defenseUsage": {
+          "hpGenerated": 31941.97,
+          "shieldGenerated": 87995.87000000001,
+          "hpConsumed": 15490.230000000003,
+          "shieldConsumed": 47871.28999999999,
+          "shieldWasted": 9494.68,
+          "hpConsumptionRate": 0.4849491124060289,
+          "shieldConsumptionRate": 0.5440174635468686,
+          "combinedRate": 0.5282863189798982,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          },
+          "method": "aggregate-consumed-over-generated",
+          "lowRate": 0,
+          "effectiveRate": 0.59,
+          "observational": true,
+          "strata": {
+            "low": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ],
+              "hpGenerated": 0,
+              "shieldGenerated": 0,
+              "hpConsumed": 0,
+              "shieldConsumed": 0,
+              "shieldWasted": 0,
+              "hpConsumptionRate": 0,
+              "shieldConsumptionRate": 0,
+              "combinedRate": 0,
+              "classification": "low",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "moderate": {
+              "n": 82,
+              "wins": 80,
+              "winRate": 0.975609756097561,
+              "winRateCI": [
+                0.9153662160893606,
+                0.9932856296688367
+              ],
+              "hpGenerated": 12808.16,
+              "shieldGenerated": 38941.79999999999,
+              "hpConsumed": 4980.66,
+              "shieldConsumed": 17763.429999999993,
+              "shieldWasted": 6491.7000000000035,
+              "hpConsumptionRate": 0.3888661603227942,
+              "shieldConsumptionRate": 0.4561532851588781,
+              "combinedRate": 0.43949966338138224,
+              "classification": "moderate",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 82,
+                "removals": 82,
+                "credits": 82,
+                "defense": 82
+              },
+              "resourceUsageRates": {
+                "rerolls": 1,
+                "removals": 1,
+                "credits": 1,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 82,
+                "wins": 80,
+                "winRate": 0.975609756097561,
+                "winRateCI": [
+                  0.9153662160893606,
+                  0.9932856296688367
+                ]
+              },
+              "observational": true
+            },
+            "effective": {
+              "n": 118,
+              "wins": 111,
+              "winRate": 0.940677966101695,
+              "winRateCI": [
+                0.8825980084544947,
+                0.9709702351189002
+              ],
+              "hpGenerated": 19133.809999999998,
+              "shieldGenerated": 49054.07,
+              "hpConsumed": 10509.570000000002,
+              "shieldConsumed": 30107.860000000004,
+              "shieldWasted": 3002.9799999999996,
+              "hpConsumptionRate": 0.5492669781920069,
+              "shieldConsumptionRate": 0.6137688473148101,
+              "combinedRate": 0.595669347690528,
+              "classification": "effective",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 118,
+                "removals": 118,
+                "credits": 118,
+                "defense": 118
+              },
+              "resourceUsageRates": {
+                "rerolls": 1,
+                "removals": 1,
+                "credits": 1,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 118,
+                "wins": 111,
+                "winRate": 0.940677966101695,
+                "winRateCI": [
+                  0.8825980084544947,
+                  0.9709702351189002
+                ]
+              },
+              "observational": true
+            }
+          }
+        },
+        "incomplete": 0
+      }
+    },
+    {
+      "id": "no-removals-d10-v5",
+      "candidate": "b112-s125-v5",
+      "sourceArtifact": ".local/resource-calibration-v5/first-v5.json",
+      "difficulty": 10,
+      "rules": {
+        "version": "difficulty-v4",
+        "min": 1,
+        "max": 20,
+        "default": 10,
+        "baseHealthScale": 1.12,
+        "difficulty10HealthMultiplier": 1,
+        "difficultyStepMultiplier": 1.25,
+        "combatLateHealthMultiplier": 1.5,
+        "debuffStartFloor": 4,
+        "ambientDebuffs": 1
+      },
+      "resourceAccess": {
+        "rerolls": true,
+        "removals": false,
+        "credits": true,
+        "defense": true
+      },
+      "summary": {
+        "runs": 200,
+        "wins": 161,
+        "winRate": 0.805,
+        "winRateCI": [
+          0.7445595562538726,
+          0.8539447946559949
+        ],
+        "avgFloor": 12,
+        "avgClearedFloors": 11.805,
+        "avgHp": 69.00439999999998,
+        "avgTurns": 42.38,
+        "avgDamage": 29573.88565,
+        "avgCoins": 325.485,
+        "avgMerges": 6.985,
+        "avgRemovals": 0,
+        "avgRosterSize": 22.94,
+        "avgItems": 4.975,
+        "avgEssences": 2.99,
+        "avgActivatedEssences": 2.99,
+        "avgScore": 13338.633864126234,
+        "avgSkips": 10.185,
+        "skipsByPhase": {
+          "recruit": 2030,
+          "item": 5,
+          "essence": 2
+        },
+        "failureByFloor": [
+          {
+            "floor": 1,
+            "count": 0
+          },
+          {
+            "floor": 2,
+            "count": 0
+          },
+          {
+            "floor": 3,
+            "count": 0
+          },
+          {
+            "floor": 4,
+            "count": 0
+          },
+          {
+            "floor": 5,
+            "count": 0
+          },
+          {
+            "floor": 6,
+            "count": 0
+          },
+          {
+            "floor": 7,
+            "count": 0
+          },
+          {
+            "floor": 8,
+            "count": 0
+          },
+          {
+            "floor": 9,
+            "count": 0
+          },
+          {
+            "floor": 10,
+            "count": 0
+          },
+          {
+            "floor": 11,
+            "count": 0
+          },
+          {
+            "floor": 12,
+            "count": 39
+          }
+        ],
+        "picks": {
+          "recruit": {
+            "1001": 85,
+            "1002": 273,
+            "1003": 309,
+            "1004": 333,
+            "1005": 910,
+            "1006": 470,
+            "1008": 147,
+            "1009": 63,
+            "1013": 232,
+            "1101": 259,
+            "1102": 264,
+            "1103": 254,
+            "1104": 301,
+            "1105": 15,
+            "1106": 638,
+            "1107": 441,
+            "1108": 381,
+            "1109": 165,
+            "1201": 175,
+            "1202": 53,
+            "1203": 12,
+            "1204": 102,
+            "1205": 144,
+            "1208": 220,
+            "skip": 2030
+          },
+          "item": {
+            "seal_stamp": 189,
+            "broken_clock": 41,
+            "hunt_wax": 109,
+            "destruction_wax": 132,
+            "gold_coin": 75,
+            "cosmic_lotto": 117,
+            "erudition_wax": 13,
+            "doctor_robe": 54,
+            "chaos_trametes": 3,
+            "harmony_wax": 25,
+            "divination_candle": 133,
+            "nihility_wax": 55,
+            "rubert_gear": 27,
+            "skip": 5,
+            "preservation_wax": 3,
+            "fortune_glue": 4,
+            "angel_debt": 1,
+            "insect_web": 5,
+            "faith_bond": 7,
+            "abundance_wax": 1,
+            "dimension_dice": 1
+          },
+          "essence": {
+            "essence_harmony": 113,
+            "essence_elation": 197,
+            "essence_hunt": 103,
+            "essence_destruction": 141,
+            "essence_nihility": 39,
+            "essence_erudition": 5,
+            "skip": 2
+          }
+        },
+        "avgUsage": {
+          "initialHp": 100,
+          "initialShield": 0,
+          "rerollsUsed": 19.28,
+          "paidRerolls": 4.145,
+          "removalsUsed": 0,
+          "supplyPurchases": 14.635,
+          "creditsSpent": 267.26,
+          "healed": 120.36715000000002,
+          "shieldGained": 499.9162,
+          "shieldBlocked": 259.66895,
+          "shieldDecayed": 61.48885,
+          "hpLost": 151.36274999999995,
+          "freeRerolls": 15.135,
+          "paidRerollCredits": 33.16,
+          "supplyCredits": 234.1,
+          "supplyKinds": {
+            "repair": 0.015,
+            "barrier": 0,
+            "overclock": 14.62
+          }
+        },
+        "resourceUsageRates": {
+          "rerolls": 1,
+          "removals": 0,
+          "credits": 1,
+          "defense": 0.805
+        },
+        "defenseUsage": {
+          "hpGenerated": 44073.43000000001,
+          "shieldGenerated": 99983.24,
+          "hpConsumed": 30272.549999999992,
+          "shieldConsumed": 51933.78999999999,
+          "shieldWasted": 12297.77,
+          "hpConsumptionRate": 0.6868662139524876,
+          "shieldConsumptionRate": 0.5194249556225623,
+          "combinedRate": 0.5706527854628319,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          },
+          "method": "aggregate-consumed-over-generated",
+          "lowRate": 0,
+          "effectiveRate": 0.805,
+          "observational": true,
+          "strata": {
+            "low": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ],
+              "hpGenerated": 0,
+              "shieldGenerated": 0,
+              "hpConsumed": 0,
+              "shieldConsumed": 0,
+              "shieldWasted": 0,
+              "hpConsumptionRate": 0,
+              "shieldConsumptionRate": 0,
+              "combinedRate": 0,
+              "classification": "low",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "moderate": {
+              "n": 39,
+              "wins": 34,
+              "winRate": 0.8717948717948718,
+              "winRateCI": [
+                0.7329425662025455,
+                0.9439718246302862
+              ],
+              "hpGenerated": 8643.83,
+              "shieldGenerated": 22795.649999999994,
+              "hpConsumed": 5335.259999999999,
+              "shieldConsumed": 8886.6,
+              "shieldWasted": 7236.42,
+              "hpConsumptionRate": 0.6172333329091386,
+              "shieldConsumptionRate": 0.3898375347928224,
+              "combinedRate": 0.4523567183681156,
+              "classification": "moderate",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 39,
+                "removals": 0,
+                "credits": 39,
+                "defense": 39
+              },
+              "resourceUsageRates": {
+                "rerolls": 1,
+                "removals": 0,
+                "credits": 1,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "effective": {
+              "n": 161,
+              "wins": 127,
+              "winRate": 0.7888198757763976,
+              "winRateCI": [
+                0.7194206794356456,
+                0.8447577782493262
+              ],
+              "hpGenerated": 35429.6,
+              "shieldGenerated": 77187.58999999998,
+              "hpConsumed": 24937.289999999997,
+              "shieldConsumed": 43047.189999999995,
+              "shieldWasted": 5061.349999999999,
+              "hpConsumptionRate": 0.7038546864768441,
+              "shieldConsumptionRate": 0.5576957383952524,
+              "combinedRate": 0.6036776445940447,
+              "classification": "effective",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 161,
+                "removals": 0,
+                "credits": 161,
+                "defense": 161
+              },
+              "resourceUsageRates": {
+                "rerolls": 1,
+                "removals": 0,
+                "credits": 1,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            }
+          }
+        },
+        "incomplete": 0
+      }
+    },
+    {
+      "id": "no-removals-d8-v5",
+      "candidate": "b112-s125-v5",
+      "sourceArtifact": ".local/resource-calibration-v5/first-v5.json",
+      "difficulty": 8,
+      "rules": {
+        "version": "difficulty-v4",
+        "min": 1,
+        "max": 20,
+        "default": 10,
+        "baseHealthScale": 1.12,
+        "difficulty10HealthMultiplier": 1,
+        "difficultyStepMultiplier": 1.25,
+        "combatLateHealthMultiplier": 1.5,
+        "debuffStartFloor": 4,
+        "ambientDebuffs": 1
+      },
+      "resourceAccess": {
+        "rerolls": true,
+        "removals": false,
+        "credits": true,
+        "defense": true
+      },
+      "summary": {
+        "runs": 200,
+        "wins": 187,
+        "winRate": 0.935,
+        "winRateCI": [
+          0.8919809207009312,
+          0.961623645350847
+        ],
+        "avgFloor": 12,
+        "avgClearedFloors": 11.935,
+        "avgHp": 72.65759999999999,
+        "avgTurns": 37.87,
+        "avgDamage": 23731.81725,
+        "avgCoins": 329.005,
+        "avgMerges": 6.185,
+        "avgRemovals": 0,
+        "avgRosterSize": 22.405,
+        "avgItems": 4.96,
+        "avgEssences": 2.995,
+        "avgActivatedEssences": 2.995,
+        "avgScore": 13635.47586077506,
+        "avgSkips": 7.81,
+        "skipsByPhase": {
+          "recruit": 1553,
+          "item": 8,
+          "essence": 1
+        },
+        "failureByFloor": [
+          {
+            "floor": 1,
+            "count": 0
+          },
+          {
+            "floor": 2,
+            "count": 0
+          },
+          {
+            "floor": 3,
+            "count": 0
+          },
+          {
+            "floor": 4,
+            "count": 0
+          },
+          {
+            "floor": 5,
+            "count": 0
+          },
+          {
+            "floor": 6,
+            "count": 0
+          },
+          {
+            "floor": 7,
+            "count": 0
+          },
+          {
+            "floor": 8,
+            "count": 0
+          },
+          {
+            "floor": 9,
+            "count": 0
+          },
+          {
+            "floor": 10,
+            "count": 0
+          },
+          {
+            "floor": 11,
+            "count": 0
+          },
+          {
+            "floor": 12,
+            "count": 13
+          }
+        ],
+        "picks": {
+          "recruit": {
+            "1001": 61,
+            "1002": 263,
+            "1003": 298,
+            "1004": 314,
+            "1005": 829,
+            "1006": 436,
+            "1008": 130,
+            "1009": 53,
+            "1013": 252,
+            "1101": 264,
+            "1102": 271,
+            "1103": 252,
+            "1104": 299,
+            "1105": 10,
+            "1106": 544,
+            "1107": 406,
+            "1108": 342,
+            "1109": 146,
+            "1201": 171,
+            "1202": 50,
+            "1203": 9,
+            "1204": 106,
+            "1205": 131,
+            "1208": 184,
+            "skip": 1553
+          },
+          "item": {
+            "skip": 8,
+            "cosmic_lotto": 121,
+            "seal_stamp": 186,
+            "destruction_wax": 135,
+            "divination_candle": 136,
+            "gold_coin": 79,
+            "hunt_wax": 102,
+            "broken_clock": 38,
+            "rubert_gear": 28,
+            "doctor_robe": 41,
+            "harmony_wax": 31,
+            "nihility_wax": 50,
+            "abundance_wax": 2,
+            "insect_web": 4,
+            "erudition_wax": 32,
+            "faith_bond": 3,
+            "fortune_glue": 1,
+            "dimension_dice": 1,
+            "preservation_wax": 2
+          },
+          "essence": {
+            "essence_destruction": 151,
+            "essence_elation": 195,
+            "essence_harmony": 104,
+            "essence_hunt": 101,
+            "essence_nihility": 37,
+            "essence_erudition": 9,
+            "skip": 1,
+            "essence_preservation": 2
+          }
+        },
+        "avgUsage": {
+          "initialHp": 100,
+          "initialShield": 0,
+          "rerollsUsed": 18.66,
+          "paidRerolls": 3.835,
+          "removalsUsed": 0,
+          "supplyPurchases": 14.625,
+          "creditsSpent": 264.62,
+          "healed": 105.28039999999997,
+          "shieldGained": 441.2493999999996,
+          "shieldBlocked": 223.0059000000001,
+          "shieldDecayed": 46.13165,
+          "hpLost": 132.62279999999996,
+          "freeRerolls": 14.825,
+          "paidRerollCredits": 30.68,
+          "supplyCredits": 233.94,
+          "supplyKinds": {
+            "repair": 0.015,
+            "barrier": 0,
+            "overclock": 14.61
+          }
+        },
+        "resourceUsageRates": {
+          "rerolls": 1,
+          "removals": 0,
+          "credits": 1,
+          "defense": 0.745
+        },
+        "defenseUsage": {
+          "hpGenerated": 41056.079999999994,
+          "shieldGenerated": 88249.87999999992,
+          "hpConsumed": 26524.55999999999,
+          "shieldConsumed": 44601.18000000002,
+          "shieldWasted": 9226.33,
+          "hpConsumptionRate": 0.646056808151192,
+          "shieldConsumptionRate": 0.505396494590135,
+          "combinedRate": 0.5500577080901767,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          },
+          "method": "aggregate-consumed-over-generated",
+          "lowRate": 0,
+          "effectiveRate": 0.745,
+          "observational": true,
+          "strata": {
+            "low": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ],
+              "hpGenerated": 0,
+              "shieldGenerated": 0,
+              "hpConsumed": 0,
+              "shieldConsumed": 0,
+              "shieldWasted": 0,
+              "hpConsumptionRate": 0,
+              "shieldConsumptionRate": 0,
+              "combinedRate": 0,
+              "classification": "low",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "moderate": {
+              "n": 51,
+              "wins": 50,
+              "winRate": 0.9803921568627451,
+              "winRateCI": [
+                0.8969543127385502,
+                0.9965303073589391
+              ],
+              "hpGenerated": 10280.07,
+              "shieldGenerated": 25049.470000000005,
+              "hpConsumed": 5883.1900000000005,
+              "shieldConsumed": 10013.949999999997,
+              "shieldWasted": 5824.71,
+              "hpConsumptionRate": 0.5722908501595807,
+              "shieldConsumptionRate": 0.3997669411767992,
+              "combinedRate": 0.44996736442082164,
+              "classification": "moderate",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 51,
+                "removals": 0,
+                "credits": 51,
+                "defense": 51
+              },
+              "resourceUsageRates": {
+                "rerolls": 1,
+                "removals": 0,
+                "credits": 1,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "effective": {
+              "n": 149,
+              "wins": 137,
+              "winRate": 0.9194630872483222,
+              "winRateCI": [
+                0.8645097721380501,
+                0.9533311524676464
+              ],
+              "hpGenerated": 30776.010000000002,
+              "shieldGenerated": 63200.40999999998,
+              "hpConsumed": 20641.37,
+              "shieldConsumed": 34587.229999999996,
+              "shieldWasted": 3401.6200000000003,
+              "hpConsumptionRate": 0.6706967537377326,
+              "shieldConsumptionRate": 0.5472627471878744,
+              "combinedRate": 0.5876857194602646,
+              "classification": "effective",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 149,
+                "removals": 0,
+                "credits": 149,
+                "defense": 149
+              },
+              "resourceUsageRates": {
+                "rerolls": 1,
+                "removals": 0,
+                "credits": 1,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            }
+          }
+        },
+        "incomplete": 0
+      }
+    },
+    {
+      "id": "no-rerolls-d10-v5",
+      "candidate": "b112-s125-v5",
+      "sourceArtifact": ".local/resource-calibration-v5/active-and-multiple-v5.json",
+      "difficulty": 10,
+      "rules": {
+        "version": "difficulty-v4",
+        "min": 1,
+        "max": 20,
+        "default": 10,
+        "baseHealthScale": 1.12,
+        "difficulty10HealthMultiplier": 1,
+        "difficultyStepMultiplier": 1.25,
+        "combatLateHealthMultiplier": 1.5,
+        "debuffStartFloor": 4,
+        "ambientDebuffs": 1
+      },
+      "resourceAccess": {
+        "rerolls": false,
+        "removals": true,
+        "credits": true,
+        "defense": true
+      },
+      "summary": {
+        "runs": 200,
+        "wins": 145,
+        "winRate": 0.725,
+        "winRateCI": [
+          0.6593166064233035,
+          0.7822029967069265
+        ],
+        "avgFloor": 12,
+        "avgClearedFloors": 11.725,
+        "avgHp": 91.76999999999998,
+        "avgTurns": 45.7,
+        "avgDamage": 29575.874900000003,
+        "avgCoins": 331.29,
+        "avgMerges": 5.5,
+        "avgRemovals": 7.54,
+        "avgRosterSize": 20.77,
+        "avgItems": 4.9,
+        "avgEssences": 2.98,
+        "avgActivatedEssences": 2.975,
+        "avgScore": 13183.850166254733,
+        "avgSkips": 11.26,
+        "skipsByPhase": {
+          "recruit": 2228,
+          "item": 20,
+          "essence": 4
+        },
+        "failureByFloor": [
+          {
+            "floor": 1,
+            "count": 0
+          },
+          {
+            "floor": 2,
+            "count": 0
+          },
+          {
+            "floor": 3,
+            "count": 0
+          },
+          {
+            "floor": 4,
+            "count": 0
+          },
+          {
+            "floor": 5,
+            "count": 0
+          },
+          {
+            "floor": 6,
+            "count": 0
+          },
+          {
+            "floor": 7,
+            "count": 0
+          },
+          {
+            "floor": 8,
+            "count": 0
+          },
+          {
+            "floor": 9,
+            "count": 0
+          },
+          {
+            "floor": 10,
+            "count": 0
+          },
+          {
+            "floor": 11,
+            "count": 0
+          },
+          {
+            "floor": 12,
+            "count": 55
+          }
+        ],
+        "picks": {
+          "recruit": {
+            "1001": 234,
+            "1002": 281,
+            "1003": 255,
+            "1004": 336,
+            "1005": 719,
+            "1006": 455,
+            "1008": 242,
+            "1009": 164,
+            "1013": 342,
+            "1101": 318,
+            "1102": 287,
+            "1103": 441,
+            "1104": 298,
+            "1105": 48,
+            "1106": 490,
+            "1107": 333,
+            "1108": 341,
+            "1109": 212,
+            "1201": 271,
+            "1202": 124,
+            "1203": 36,
+            "1204": 124,
+            "1205": 110,
+            "1208": 251,
+            "skip": 2228
+          },
+          "item": {
+            "seal_stamp": 148,
+            "erudition_wax": 56,
+            "rubert_gear": 31,
+            "cosmic_lotto": 84,
+            "doctor_robe": 43,
+            "destruction_wax": 97,
+            "harmony_wax": 48,
+            "broken_clock": 26,
+            "hunt_wax": 88,
+            "nihility_wax": 61,
+            "divination_candle": 94,
+            "gold_coin": 108,
+            "skip": 20,
+            "dimension_dice": 10,
+            "fortune_glue": 12,
+            "preservation_wax": 4,
+            "faith_bond": 20,
+            "angel_debt": 9,
+            "insect_web": 26,
+            "abundance_wax": 8,
+            "chaos_trametes": 7
+          },
+          "essence": {
+            "essence_elation": 151,
+            "essence_harmony": 103,
+            "essence_hunt": 105,
+            "essence_nihility": 62,
+            "essence_destruction": 137,
+            "essence_erudition": 33,
+            "skip": 4,
+            "essence_preservation": 3,
+            "essence_abundance": 2
+          }
+        },
+        "avgUsage": {
+          "initialHp": 100,
+          "initialShield": 0,
+          "rerollsUsed": 0,
+          "paidRerolls": 0,
+          "removalsUsed": 7.54,
+          "supplyPurchases": 16.1,
+          "creditsSpent": 257.6,
+          "healed": 62.20815000000002,
+          "shieldGained": 519.1654500000001,
+          "shieldBlocked": 291.77105000000006,
+          "shieldDecayed": 58.881800000000005,
+          "hpLost": 70.43815000000001,
+          "freeRerolls": 0,
+          "paidRerollCredits": 0,
+          "supplyCredits": 257.6,
+          "supplyKinds": {
+            "repair": 0,
+            "barrier": 0,
+            "overclock": 16.1
+          }
+        },
+        "resourceUsageRates": {
+          "rerolls": 0,
+          "removals": 1,
+          "credits": 1,
+          "defense": 0.655
+        },
+        "defenseUsage": {
+          "hpGenerated": 32441.630000000005,
+          "shieldGenerated": 103833.09000000003,
+          "hpConsumed": 14087.630000000003,
+          "shieldConsumed": 58354.21000000001,
+          "shieldWasted": 11776.36,
+          "hpConsumptionRate": 0.4342454432776652,
+          "shieldConsumptionRate": 0.5620001292458887,
+          "combinedRate": 0.5315867829337678,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          },
+          "method": "aggregate-consumed-over-generated",
+          "lowRate": 0,
+          "effectiveRate": 0.655,
+          "observational": true,
+          "strata": {
+            "low": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ],
+              "hpGenerated": 0,
+              "shieldGenerated": 0,
+              "hpConsumed": 0,
+              "shieldConsumed": 0,
+              "shieldWasted": 0,
+              "hpConsumptionRate": 0,
+              "shieldConsumptionRate": 0,
+              "combinedRate": 0,
+              "classification": "low",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "moderate": {
+              "n": 69,
+              "wins": 56,
+              "winRate": 0.8115942028985508,
+              "winRateCI": [
+                0.7038706411837159,
+                0.8864525167564403
+              ],
+              "hpGenerated": 10446.88,
+              "shieldGenerated": 38852.74000000001,
+              "hpConsumed": 3602.729999999999,
+              "shieldConsumed": 17931.62,
+              "shieldWasted": 7642.500000000003,
+              "hpConsumptionRate": 0.34486181520224213,
+              "shieldConsumptionRate": 0.4615278098790457,
+              "combinedRate": 0.43680559809588787,
+              "classification": "moderate",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 69,
+                "credits": 69,
+                "defense": 69
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 1,
+                "credits": 1,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "effective": {
+              "n": 131,
+              "wins": 89,
+              "winRate": 0.6793893129770993,
+              "winRateCI": [
+                0.5953388097642381,
+                0.7532186770136112
+              ],
+              "hpGenerated": 21994.75,
+              "shieldGenerated": 64980.34999999999,
+              "hpConsumed": 10484.900000000001,
+              "shieldConsumed": 40422.59,
+              "shieldWasted": 4133.859999999999,
+              "hpConsumptionRate": 0.4767001216199321,
+              "shieldConsumptionRate": 0.6220740577728499,
+              "combinedRate": 0.5853110832870557,
+              "classification": "effective",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 131,
+                "credits": 131,
+                "defense": 131
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 1,
+                "credits": 1,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            }
+          }
+        },
+        "incomplete": 0
+      }
+    },
+    {
+      "id": "no-credits-d10-v5",
+      "candidate": "b112-s125-v5",
+      "sourceArtifact": ".local/resource-calibration-v5/active-and-multiple-v5.json",
+      "difficulty": 10,
+      "rules": {
+        "version": "difficulty-v4",
+        "min": 1,
+        "max": 20,
+        "default": 10,
+        "baseHealthScale": 1.12,
+        "difficulty10HealthMultiplier": 1,
+        "difficultyStepMultiplier": 1.25,
+        "combatLateHealthMultiplier": 1.5,
+        "debuffStartFloor": 4,
+        "ambientDebuffs": 1
+      },
+      "resourceAccess": {
+        "rerolls": true,
+        "removals": true,
+        "credits": false,
+        "defense": true
+      },
+      "summary": {
+        "runs": 200,
+        "wins": 167,
+        "winRate": 0.835,
+        "winRateCI": [
+          0.7773421846094045,
+          0.8800314467178268
+        ],
+        "avgFloor": 11.98,
+        "avgClearedFloors": 11.815,
+        "avgHp": 83.38825000000001,
+        "avgTurns": 43.335,
+        "avgDamage": 29335.135299999994,
+        "avgCoins": 327.09,
+        "avgMerges": 5.35,
+        "avgRemovals": 7.155,
+        "avgRosterSize": 20.505,
+        "avgItems": 4.925,
+        "avgEssences": 2.985,
+        "avgActivatedEssences": 2.975,
+        "avgScore": 13389.893070393848,
+        "avgSkips": 9.87,
+        "skipsByPhase": {
+          "recruit": 1957,
+          "item": 14,
+          "essence": 3
+        },
+        "failureByFloor": [
+          {
+            "floor": 1,
+            "count": 0
+          },
+          {
+            "floor": 2,
+            "count": 0
+          },
+          {
+            "floor": 3,
+            "count": 0
+          },
+          {
+            "floor": 4,
+            "count": 0
+          },
+          {
+            "floor": 5,
+            "count": 0
+          },
+          {
+            "floor": 6,
+            "count": 0
+          },
+          {
+            "floor": 7,
+            "count": 0
+          },
+          {
+            "floor": 8,
+            "count": 0
+          },
+          {
+            "floor": 9,
+            "count": 0
+          },
+          {
+            "floor": 10,
+            "count": 1
+          },
+          {
+            "floor": 11,
+            "count": 2
+          },
+          {
+            "floor": 12,
+            "count": 30
+          }
+        ],
+        "picks": {
+          "recruit": {
+            "1001": 201,
+            "1002": 252,
+            "1003": 273,
+            "1004": 335,
+            "1005": 859,
+            "1006": 485,
+            "1008": 184,
+            "1009": 76,
+            "1013": 266,
+            "1101": 306,
+            "1102": 305,
+            "1103": 336,
+            "1104": 273,
+            "1105": 39,
+            "1106": 509,
+            "1107": 428,
+            "1108": 372,
+            "1109": 190,
+            "1201": 226,
+            "1202": 73,
+            "1203": 22,
+            "1204": 127,
+            "1205": 148,
+            "1208": 225,
+            "skip": 1957
+          },
+          "item": {
+            "destruction_wax": 115,
+            "insect_web": 11,
+            "seal_stamp": 151,
+            "harmony_wax": 44,
+            "doctor_robe": 36,
+            "cosmic_lotto": 102,
+            "divination_candle": 115,
+            "erudition_wax": 38,
+            "chaos_trametes": 15,
+            "hunt_wax": 89,
+            "gold_coin": 99,
+            "abundance_wax": 6,
+            "skip": 14,
+            "rubert_gear": 40,
+            "broken_clock": 29,
+            "nihility_wax": 63,
+            "fortune_glue": 7,
+            "faith_bond": 10,
+            "angel_debt": 7,
+            "preservation_wax": 4,
+            "dimension_dice": 4
+          },
+          "essence": {
+            "essence_hunt": 117,
+            "essence_harmony": 100,
+            "essence_elation": 169,
+            "essence_destruction": 128,
+            "essence_nihility": 61,
+            "essence_erudition": 21,
+            "skip": 3,
+            "essence_preservation": 1
+          }
+        },
+        "avgUsage": {
+          "initialHp": 100,
+          "initialShield": 0,
+          "rerollsUsed": 14.925,
+          "paidRerolls": 0,
+          "removalsUsed": 7.155,
+          "supplyPurchases": 0,
+          "creditsSpent": 0,
+          "healed": 69.49874999999999,
+          "shieldGained": 473.42820000000006,
+          "shieldBlocked": 273.6744999999999,
+          "shieldDecayed": 46.19880000000001,
+          "hpLost": 86.11049999999999,
+          "freeRerolls": 14.925,
+          "paidRerollCredits": 0,
+          "supplyCredits": 0,
+          "supplyKinds": {
+            "repair": 0,
+            "barrier": 0,
+            "overclock": 0
+          }
+        },
+        "resourceUsageRates": {
+          "rerolls": 1,
+          "removals": 1,
+          "credits": 0,
+          "defense": 0.71
+        },
+        "defenseUsage": {
+          "hpGenerated": 33899.75,
+          "shieldGenerated": 94685.64000000001,
+          "hpConsumed": 17222.1,
+          "shieldConsumed": 54734.89999999998,
+          "shieldWasted": 9239.760000000002,
+          "hpConsumptionRate": 0.5080302952086667,
+          "shieldConsumptionRate": 0.5780697051844395,
+          "combinedRate": 0.5596047886933342,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          },
+          "method": "aggregate-consumed-over-generated",
+          "lowRate": 0,
+          "effectiveRate": 0.71,
+          "observational": true,
+          "strata": {
+            "low": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ],
+              "hpGenerated": 0,
+              "shieldGenerated": 0,
+              "hpConsumed": 0,
+              "shieldConsumed": 0,
+              "shieldWasted": 0,
+              "hpConsumptionRate": 0,
+              "shieldConsumptionRate": 0,
+              "combinedRate": 0,
+              "classification": "low",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "moderate": {
+              "n": 58,
+              "wins": 51,
+              "winRate": 0.8793103448275862,
+              "winRateCI": [
+                0.7712064595403911,
+                0.9402903395175928
+              ],
+              "hpGenerated": 9263.22,
+              "shieldGenerated": 30938.259999999987,
+              "hpConsumed": 3629.8700000000003,
+              "shieldConsumed": 14079.210000000003,
+              "shieldWasted": 6311.74,
+              "hpConsumptionRate": 0.39185833867704756,
+              "shieldConsumptionRate": 0.4550743965562384,
+              "combinedRate": 0.4405081603960851,
+              "classification": "moderate",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 58,
+                "removals": 58,
+                "credits": 0,
+                "defense": 58
+              },
+              "resourceUsageRates": {
+                "rerolls": 1,
+                "removals": 1,
+                "credits": 0,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "effective": {
+              "n": 142,
+              "wins": 116,
+              "winRate": 0.8169014084507042,
+              "winRateCI": [
+                0.745234130387669,
+                0.8718743429350725
+              ],
+              "hpGenerated": 24636.53,
+              "shieldGenerated": 63747.380000000005,
+              "hpConsumed": 13592.230000000001,
+              "shieldConsumed": 40655.68999999999,
+              "shieldWasted": 2928.0199999999986,
+              "hpConsumptionRate": 0.5517104072692056,
+              "shieldConsumptionRate": 0.6377625245147328,
+              "combinedRate": 0.6137759689518147,
+              "classification": "effective",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 142,
+                "removals": 142,
+                "credits": 0,
+                "defense": 142
+              },
+              "resourceUsageRates": {
+                "rerolls": 1,
+                "removals": 1,
+                "credits": 0,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            }
+          }
+        },
+        "incomplete": 0
+      }
+    },
+    {
+      "id": "no-rerolls-d8-v5",
+      "candidate": "b112-s125-v5",
+      "sourceArtifact": ".local/resource-calibration-v5/active-and-multiple-v5.json",
+      "difficulty": 8,
+      "rules": {
+        "version": "difficulty-v4",
+        "min": 1,
+        "max": 20,
+        "default": 10,
+        "baseHealthScale": 1.12,
+        "difficulty10HealthMultiplier": 1,
+        "difficultyStepMultiplier": 1.25,
+        "combatLateHealthMultiplier": 1.5,
+        "debuffStartFloor": 4,
+        "ambientDebuffs": 1
+      },
+      "resourceAccess": {
+        "rerolls": false,
+        "removals": true,
+        "credits": true,
+        "defense": true
+      },
+      "summary": {
+        "runs": 200,
+        "wins": 183,
+        "winRate": 0.915,
+        "winRateCI": [
+          0.8681041292843443,
+          0.9462542498225244
+        ],
+        "avgFloor": 12,
+        "avgClearedFloors": 11.915,
+        "avgHp": 90.44744999999999,
+        "avgTurns": 41.195,
+        "avgDamage": 23763.92975,
+        "avgCoins": 338.97,
+        "avgMerges": 5,
+        "avgRemovals": 6.99,
+        "avgRosterSize": 20.44,
+        "avgItems": 4.875,
+        "avgEssences": 2.97,
+        "avgActivatedEssences": 2.97,
+        "avgScore": 13604.451565464808,
+        "avgSkips": 8.63,
+        "skipsByPhase": {
+          "recruit": 1695,
+          "item": 25,
+          "essence": 6
+        },
+        "failureByFloor": [
+          {
+            "floor": 1,
+            "count": 0
+          },
+          {
+            "floor": 2,
+            "count": 0
+          },
+          {
+            "floor": 3,
+            "count": 0
+          },
+          {
+            "floor": 4,
+            "count": 0
+          },
+          {
+            "floor": 5,
+            "count": 0
+          },
+          {
+            "floor": 6,
+            "count": 0
+          },
+          {
+            "floor": 7,
+            "count": 0
+          },
+          {
+            "floor": 8,
+            "count": 0
+          },
+          {
+            "floor": 9,
+            "count": 0
+          },
+          {
+            "floor": 10,
+            "count": 0
+          },
+          {
+            "floor": 11,
+            "count": 0
+          },
+          {
+            "floor": 12,
+            "count": 17
+          }
+        ],
+        "picks": {
+          "recruit": {
+            "1001": 225,
+            "1002": 287,
+            "1003": 305,
+            "1004": 316,
+            "1005": 603,
+            "1006": 386,
+            "1008": 231,
+            "1009": 160,
+            "1013": 335,
+            "1101": 301,
+            "1102": 312,
+            "1103": 400,
+            "1104": 262,
+            "1105": 43,
+            "1106": 424,
+            "1107": 346,
+            "1108": 313,
+            "1109": 221,
+            "1201": 283,
+            "1202": 117,
+            "1203": 28,
+            "1204": 96,
+            "1205": 111,
+            "1208": 239,
+            "skip": 1695
+          },
+          "item": {
+            "hunt_wax": 90,
+            "broken_clock": 25,
+            "gold_coin": 90,
+            "nihility_wax": 61,
+            "seal_stamp": 141,
+            "faith_bond": 21,
+            "destruction_wax": 102,
+            "skip": 25,
+            "rubert_gear": 33,
+            "divination_candle": 98,
+            "erudition_wax": 53,
+            "angel_debt": 11,
+            "insect_web": 26,
+            "doctor_robe": 27,
+            "abundance_wax": 10,
+            "fortune_glue": 15,
+            "cosmic_lotto": 89,
+            "dimension_dice": 10,
+            "harmony_wax": 48,
+            "preservation_wax": 16,
+            "chaos_trametes": 9
+          },
+          "essence": {
+            "essence_destruction": 122,
+            "essence_nihility": 54,
+            "essence_hunt": 107,
+            "essence_harmony": 118,
+            "essence_elation": 155,
+            "essence_erudition": 33,
+            "skip": 6,
+            "essence_preservation": 3,
+            "essence_abundance": 2
+          }
+        },
+        "avgUsage": {
+          "initialHp": 100,
+          "initialShield": 0,
+          "rerollsUsed": 0,
+          "paidRerolls": 0,
+          "removalsUsed": 6.99,
+          "supplyPurchases": 16.03,
+          "creditsSpent": 256.48,
+          "healed": 59.4805,
+          "shieldGained": 458.85499999999973,
+          "shieldBlocked": 242.83180000000002,
+          "shieldDecayed": 52.93394999999996,
+          "hpLost": 69.03305000000002,
+          "freeRerolls": 0,
+          "paidRerollCredits": 0,
+          "supplyCredits": 256.48,
+          "supplyKinds": {
+            "repair": 0,
+            "barrier": 0,
+            "overclock": 16.03
+          }
+        },
+        "resourceUsageRates": {
+          "rerolls": 0,
+          "removals": 1,
+          "credits": 1,
+          "defense": 0.485
+        },
+        "defenseUsage": {
+          "hpGenerated": 31896.1,
+          "shieldGenerated": 91770.99999999994,
+          "hpConsumed": 13806.610000000004,
+          "shieldConsumed": 48566.36,
+          "shieldWasted": 10586.789999999992,
+          "hpConsumptionRate": 0.4328620113430797,
+          "shieldConsumptionRate": 0.529212496322368,
+          "combinedRate": 0.5043618715082672,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          },
+          "method": "aggregate-consumed-over-generated",
+          "lowRate": 0,
+          "effectiveRate": 0.485,
+          "observational": true,
+          "strata": {
+            "low": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ],
+              "hpGenerated": 0,
+              "shieldGenerated": 0,
+              "hpConsumed": 0,
+              "shieldConsumed": 0,
+              "shieldWasted": 0,
+              "hpConsumptionRate": 0,
+              "shieldConsumptionRate": 0,
+              "combinedRate": 0,
+              "classification": "low",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "moderate": {
+              "n": 103,
+              "wins": 97,
+              "winRate": 0.941747572815534,
+              "winRateCI": [
+                0.8786977886020758,
+                0.9730315026716428
+              ],
+              "hpGenerated": 15717.46,
+              "shieldGenerated": 50368.53999999999,
+              "hpConsumed": 5591.919999999999,
+              "shieldConsumed": 23058.089999999993,
+              "shieldWasted": 8045.289999999999,
+              "hpConsumptionRate": 0.355777587472785,
+              "shieldConsumptionRate": 0.45778753960309343,
+              "combinedRate": 0.4335261628786731,
+              "classification": "moderate",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 103,
+                "credits": 103,
+                "defense": 103
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 1,
+                "credits": 1,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "effective": {
+              "n": 97,
+              "wins": 86,
+              "winRate": 0.8865979381443299,
+              "winRateCI": [
+                0.8082553007257883,
+                0.9354864189706437
+              ],
+              "hpGenerated": 16178.64,
+              "shieldGenerated": 41402.46,
+              "hpConsumed": 8214.69,
+              "shieldConsumed": 25508.27,
+              "shieldWasted": 2541.5000000000005,
+              "hpConsumptionRate": 0.5077491062289538,
+              "shieldConsumptionRate": 0.6161051782913383,
+              "combinedRate": 0.5856602253169877,
+              "classification": "effective",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 97,
+                "credits": 97,
+                "defense": 97
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 1,
+                "credits": 1,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            }
+          }
+        },
+        "incomplete": 0
+      }
+    },
+    {
+      "id": "no-credits-d8-v5",
+      "candidate": "b112-s125-v5",
+      "sourceArtifact": ".local/resource-calibration-v5/active-and-multiple-v5.json",
+      "difficulty": 8,
+      "rules": {
+        "version": "difficulty-v4",
+        "min": 1,
+        "max": 20,
+        "default": 10,
+        "baseHealthScale": 1.12,
+        "difficulty10HealthMultiplier": 1,
+        "difficultyStepMultiplier": 1.25,
+        "combatLateHealthMultiplier": 1.5,
+        "debuffStartFloor": 4,
+        "ambientDebuffs": 1
+      },
+      "resourceAccess": {
+        "rerolls": true,
+        "removals": true,
+        "credits": false,
+        "defense": true
+      },
+      "summary": {
+        "runs": 200,
+        "wins": 192,
+        "winRate": 0.96,
+        "winRateCI": [
+          0.923067931799067,
+          0.9795943679338476
+        ],
+        "avgFloor": 12,
+        "avgClearedFloors": 11.96,
+        "avgHp": 87.07039999999999,
+        "avgTurns": 39.32,
+        "avgDamage": 23719.125099999997,
+        "avgCoins": 330.91,
+        "avgMerges": 4.85,
+        "avgRemovals": 6.43,
+        "avgRosterSize": 20.365,
+        "avgItems": 4.915,
+        "avgEssences": 2.985,
+        "avgActivatedEssences": 2.985,
+        "avgScore": 13699.69468559728,
+        "avgSkips": 7.65,
+        "skipsByPhase": {
+          "recruit": 1510,
+          "item": 17,
+          "essence": 3
+        },
+        "failureByFloor": [
+          {
+            "floor": 1,
+            "count": 0
+          },
+          {
+            "floor": 2,
+            "count": 0
+          },
+          {
+            "floor": 3,
+            "count": 0
+          },
+          {
+            "floor": 4,
+            "count": 0
+          },
+          {
+            "floor": 5,
+            "count": 0
+          },
+          {
+            "floor": 6,
+            "count": 0
+          },
+          {
+            "floor": 7,
+            "count": 0
+          },
+          {
+            "floor": 8,
+            "count": 0
+          },
+          {
+            "floor": 9,
+            "count": 0
+          },
+          {
+            "floor": 10,
+            "count": 0
+          },
+          {
+            "floor": 11,
+            "count": 0
+          },
+          {
+            "floor": 12,
+            "count": 8
+          }
+        ],
+        "picks": {
+          "recruit": {
+            "1001": 190,
+            "1002": 249,
+            "1003": 291,
+            "1004": 316,
+            "1005": 781,
+            "1006": 444,
+            "1008": 173,
+            "1009": 69,
+            "1013": 252,
+            "1101": 259,
+            "1102": 296,
+            "1103": 327,
+            "1104": 287,
+            "1105": 25,
+            "1106": 488,
+            "1107": 429,
+            "1108": 336,
+            "1109": 200,
+            "1201": 210,
+            "1202": 56,
+            "1203": 18,
+            "1204": 119,
+            "1205": 134,
+            "1208": 205,
+            "skip": 1510
+          },
+          "item": {
+            "seal_stamp": 161,
+            "gold_coin": 95,
+            "erudition_wax": 45,
+            "harmony_wax": 47,
+            "destruction_wax": 113,
+            "cosmic_lotto": 112,
+            "nihility_wax": 61,
+            "divination_candle": 112,
+            "hunt_wax": 101,
+            "broken_clock": 32,
+            "skip": 17,
+            "rubert_gear": 34,
+            "doctor_robe": 28,
+            "insect_web": 10,
+            "abundance_wax": 6,
+            "preservation_wax": 3,
+            "dimension_dice": 4,
+            "fortune_glue": 8,
+            "angel_debt": 5,
+            "faith_bond": 3,
+            "chaos_trametes": 3
+          },
+          "essence": {
+            "essence_destruction": 142,
+            "essence_elation": 166,
+            "essence_harmony": 98,
+            "essence_hunt": 102,
+            "essence_erudition": 17,
+            "essence_nihility": 67,
+            "skip": 3,
+            "essence_preservation": 5
+          }
+        },
+        "avgUsage": {
+          "initialHp": 100,
+          "initialShield": 0,
+          "rerollsUsed": 14.675,
+          "paidRerolls": 0,
+          "removalsUsed": 6.43,
+          "supplyPurchases": 0,
+          "creditsSpent": 0,
+          "healed": 61.415099999999995,
+          "shieldGained": 437.4865999999997,
+          "shieldBlocked": 239.2665499999999,
+          "shieldDecayed": 45.963299999999975,
+          "hpLost": 74.3447,
+          "freeRerolls": 14.675,
+          "paidRerollCredits": 0,
+          "supplyCredits": 0,
+          "supplyKinds": {
+            "repair": 0,
+            "barrier": 0,
+            "overclock": 0
+          }
+        },
+        "resourceUsageRates": {
+          "rerolls": 1,
+          "removals": 1,
+          "credits": 0,
+          "defense": 0.555
+        },
+        "defenseUsage": {
+          "hpGenerated": 32283.019999999997,
+          "shieldGenerated": 87497.31999999995,
+          "hpConsumed": 14868.94,
+          "shieldConsumed": 47853.30999999998,
+          "shieldWasted": 9192.659999999994,
+          "hpConsumptionRate": 0.4605808254618063,
+          "shieldConsumptionRate": 0.5469117225533309,
+          "combinedRate": 0.5236439469114883,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          },
+          "method": "aggregate-consumed-over-generated",
+          "lowRate": 0,
+          "effectiveRate": 0.555,
+          "observational": true,
+          "strata": {
+            "low": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ],
+              "hpGenerated": 0,
+              "shieldGenerated": 0,
+              "hpConsumed": 0,
+              "shieldConsumed": 0,
+              "shieldWasted": 0,
+              "hpConsumptionRate": 0,
+              "shieldConsumptionRate": 0,
+              "combinedRate": 0,
+              "classification": "low",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "moderate": {
+              "n": 89,
+              "wins": 88,
+              "winRate": 0.9887640449438202,
+              "winRateCI": [
+                0.9390675378849535,
+                0.9980138167717437
+              ],
+              "hpGenerated": 13759.789999999999,
+              "shieldGenerated": 42038.00000000002,
+              "hpConsumed": 5073.509999999999,
+              "shieldConsumed": 19496.13,
+              "shieldWasted": 6586.369999999999,
+              "hpConsumptionRate": 0.368720016802582,
+              "shieldConsumptionRate": 0.4637739664113419,
+              "combinedRate": 0.44033356876679147,
+              "classification": "moderate",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 89,
+                "removals": 89,
+                "credits": 0,
+                "defense": 89
+              },
+              "resourceUsageRates": {
+                "rerolls": 1,
+                "removals": 1,
+                "credits": 0,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "effective": {
+              "n": 111,
+              "wins": 104,
+              "winRate": 0.9369369369369369,
+              "winRateCI": [
+                0.8755233588904047,
+                0.9691193424135679
+              ],
+              "hpGenerated": 18523.230000000003,
+              "shieldGenerated": 45459.32,
+              "hpConsumed": 9795.429999999998,
+              "shieldConsumed": 28357.180000000008,
+              "shieldWasted": 2606.29,
+              "hpConsumptionRate": 0.5288186779519553,
+              "shieldConsumptionRate": 0.6237924368424342,
+              "combinedRate": 0.5962971153853669,
+              "classification": "effective",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 111,
+                "removals": 111,
+                "credits": 0,
+                "defense": 111
+              },
+              "resourceUsageRates": {
+                "rerolls": 1,
+                "removals": 1,
+                "credits": 0,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            }
+          }
+        },
+        "incomplete": 0
+      }
+    },
+    {
+      "id": "no-rerolls-removals-d6-v5",
+      "candidate": "b112-s125-v5",
+      "sourceArtifact": ".local/resource-calibration-v5/active-and-multiple-v5.json",
+      "difficulty": 6,
+      "rules": {
+        "version": "difficulty-v4",
+        "min": 1,
+        "max": 20,
+        "default": 10,
+        "baseHealthScale": 1.12,
+        "difficulty10HealthMultiplier": 1,
+        "difficultyStepMultiplier": 1.25,
+        "combatLateHealthMultiplier": 1.5,
+        "debuffStartFloor": 4,
+        "ambientDebuffs": 1
+      },
+      "resourceAccess": {
+        "rerolls": false,
+        "removals": false,
+        "credits": true,
+        "defense": true
+      },
+      "summary": {
+        "runs": 200,
+        "wins": 190,
+        "winRate": 0.95,
+        "winRateCI": [
+          0.9104218518612239,
+          0.972617354399236
+        ],
+        "avgFloor": 12,
+        "avgClearedFloors": 11.95,
+        "avgHp": 84.27645000000001,
+        "avgTurns": 38.205,
+        "avgDamage": 19031.3626,
+        "avgCoins": 340.79,
+        "avgMerges": 6.175,
+        "avgRemovals": 0,
+        "avgRosterSize": 22.715,
+        "avgItems": 4.875,
+        "avgEssences": 2.985,
+        "avgActivatedEssences": 2.985,
+        "avgScore": 13683.516449428365,
+        "avgSkips": 7.915,
+        "skipsByPhase": {
+          "recruit": 1555,
+          "item": 25,
+          "essence": 3
+        },
+        "failureByFloor": [
+          {
+            "floor": 1,
+            "count": 0
+          },
+          {
+            "floor": 2,
+            "count": 0
+          },
+          {
+            "floor": 3,
+            "count": 0
+          },
+          {
+            "floor": 4,
+            "count": 0
+          },
+          {
+            "floor": 5,
+            "count": 0
+          },
+          {
+            "floor": 6,
+            "count": 0
+          },
+          {
+            "floor": 7,
+            "count": 0
+          },
+          {
+            "floor": 8,
+            "count": 0
+          },
+          {
+            "floor": 9,
+            "count": 0
+          },
+          {
+            "floor": 10,
+            "count": 0
+          },
+          {
+            "floor": 11,
+            "count": 0
+          },
+          {
+            "floor": 12,
+            "count": 10
+          }
+        ],
+        "picks": {
+          "recruit": {
+            "1001": 180,
+            "1002": 268,
+            "1003": 301,
+            "1004": 299,
+            "1005": 611,
+            "1006": 383,
+            "1008": 176,
+            "1009": 138,
+            "1013": 291,
+            "1101": 262,
+            "1102": 280,
+            "1103": 351,
+            "1104": 258,
+            "1105": 40,
+            "1106": 443,
+            "1107": 325,
+            "1108": 319,
+            "1109": 180,
+            "1201": 257,
+            "1202": 108,
+            "1203": 20,
+            "1204": 79,
+            "1205": 94,
+            "1208": 223,
+            "skip": 1555
+          },
+          "item": {
+            "hunt_wax": 81,
+            "cosmic_lotto": 89,
+            "gold_coin": 120,
+            "divination_candle": 96,
+            "harmony_wax": 44,
+            "seal_stamp": 140,
+            "destruction_wax": 95,
+            "broken_clock": 25,
+            "nihility_wax": 63,
+            "doctor_robe": 32,
+            "erudition_wax": 47,
+            "skip": 25,
+            "rubert_gear": 40,
+            "faith_bond": 31,
+            "preservation_wax": 9,
+            "abundance_wax": 6,
+            "angel_debt": 12,
+            "dimension_dice": 8,
+            "fortune_glue": 14,
+            "insect_web": 14,
+            "chaos_trametes": 9
+          },
+          "essence": {
+            "essence_destruction": 135,
+            "essence_harmony": 107,
+            "essence_elation": 155,
+            "skip": 3,
+            "essence_nihility": 65,
+            "essence_hunt": 102,
+            "essence_erudition": 28,
+            "essence_preservation": 3,
+            "essence_abundance": 2
+          }
+        },
+        "avgUsage": {
+          "initialHp": 100,
+          "initialShield": 0,
+          "rerollsUsed": 0,
+          "paidRerolls": 0,
+          "removalsUsed": 0,
+          "supplyPurchases": 15.625,
+          "creditsSpent": 250,
+          "healed": 107.58805000000001,
+          "shieldGained": 444.21269999999987,
+          "shieldBlocked": 225.72215,
+          "shieldDecayed": 41.59460000000001,
+          "hpLost": 123.31159999999998,
+          "freeRerolls": 0,
+          "paidRerollCredits": 0,
+          "supplyCredits": 250,
+          "supplyKinds": {
+            "repair": 0,
+            "barrier": 0,
+            "overclock": 15.625
+          }
+        },
+        "resourceUsageRates": {
+          "rerolls": 0,
+          "removals": 0,
+          "credits": 1,
+          "defense": 0.665
+        },
+        "defenseUsage": {
+          "hpGenerated": 41517.61,
+          "shieldGenerated": 88842.53999999998,
+          "hpConsumed": 24662.319999999996,
+          "shieldConsumed": 45144.43,
+          "shieldWasted": 8318.920000000002,
+          "hpConsumptionRate": 0.594020705912503,
+          "shieldConsumptionRate": 0.508139794292239,
+          "combinedRate": 0.535491482634839,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          },
+          "method": "aggregate-consumed-over-generated",
+          "lowRate": 0,
+          "effectiveRate": 0.665,
+          "observational": true,
+          "strata": {
+            "low": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ],
+              "hpGenerated": 0,
+              "shieldGenerated": 0,
+              "hpConsumed": 0,
+              "shieldConsumed": 0,
+              "shieldWasted": 0,
+              "hpConsumptionRate": 0,
+              "shieldConsumptionRate": 0,
+              "combinedRate": 0,
+              "classification": "low",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "moderate": {
+              "n": 67,
+              "wins": 66,
+              "winRate": 0.9850746268656716,
+              "winRateCI": [
+                0.9201813768022187,
+                0.997360428265921
+              ],
+              "hpGenerated": 13728.12,
+              "shieldGenerated": 31764.910000000007,
+              "hpConsumed": 7509.58,
+              "shieldConsumed": 13378.949999999999,
+              "shieldWasted": 5854.32,
+              "hpConsumptionRate": 0.5470217334930055,
+              "shieldConsumptionRate": 0.4211864601536726,
+              "combinedRate": 0.45915890851851365,
+              "classification": "moderate",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 67,
+                "defense": 67
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 1,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "effective": {
+              "n": 133,
+              "wins": 124,
+              "winRate": 0.9323308270676691,
+              "winRateCI": [
+                0.8763949725596025,
+                0.9639936128228916
+              ],
+              "hpGenerated": 27789.489999999998,
+              "shieldGenerated": 57077.630000000005,
+              "hpConsumed": 17152.739999999998,
+              "shieldConsumed": 31765.479999999996,
+              "shieldWasted": 2464.6,
+              "hpConsumptionRate": 0.6172383876062497,
+              "shieldConsumptionRate": 0.5565311664131813,
+              "combinedRate": 0.5764095682756761,
+              "classification": "effective",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 133,
+                "defense": 133
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 1,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            }
+          }
+        },
+        "incomplete": 0
+      }
+    },
+    {
+      "id": "no-rerolls-credits-d6-v5",
+      "candidate": "b112-s125-v5",
+      "sourceArtifact": ".local/resource-calibration-v5/active-and-multiple-v5.json",
+      "difficulty": 6,
+      "rules": {
+        "version": "difficulty-v4",
+        "min": 1,
+        "max": 20,
+        "default": 10,
+        "baseHealthScale": 1.12,
+        "difficulty10HealthMultiplier": 1,
+        "difficultyStepMultiplier": 1.25,
+        "combatLateHealthMultiplier": 1.5,
+        "debuffStartFloor": 4,
+        "ambientDebuffs": 1
+      },
+      "resourceAccess": {
+        "rerolls": false,
+        "removals": true,
+        "credits": false,
+        "defense": true
+      },
+      "summary": {
+        "runs": 200,
+        "wins": 196,
+        "winRate": 0.98,
+        "winRateCI": [
+          0.9497129130941735,
+          0.9921955735836505
+        ],
+        "avgFloor": 11.995,
+        "avgClearedFloors": 11.975,
+        "avgHp": 91.48209999999999,
+        "avgTurns": 38.875,
+        "avgDamage": 18989.20005,
+        "avgCoins": 336.725,
+        "avgMerges": 4.665,
+        "avgRemovals": 6.645,
+        "avgRosterSize": 20.265,
+        "avgItems": 4.79,
+        "avgEssences": 2.96,
+        "avgActivatedEssences": 2.96,
+        "avgScore": 13747.3404189687,
+        "avgSkips": 7.55,
+        "skipsByPhase": {
+          "recruit": 1460,
+          "item": 42,
+          "essence": 8
+        },
+        "failureByFloor": [
+          {
+            "floor": 1,
+            "count": 0
+          },
+          {
+            "floor": 2,
+            "count": 0
+          },
+          {
+            "floor": 3,
+            "count": 0
+          },
+          {
+            "floor": 4,
+            "count": 0
+          },
+          {
+            "floor": 5,
+            "count": 0
+          },
+          {
+            "floor": 6,
+            "count": 0
+          },
+          {
+            "floor": 7,
+            "count": 0
+          },
+          {
+            "floor": 8,
+            "count": 0
+          },
+          {
+            "floor": 9,
+            "count": 0
+          },
+          {
+            "floor": 10,
+            "count": 0
+          },
+          {
+            "floor": 11,
+            "count": 1
+          },
+          {
+            "floor": 12,
+            "count": 3
+          }
+        ],
+        "picks": {
+          "recruit": {
+            "1001": 229,
+            "1002": 266,
+            "1003": 288,
+            "1004": 292,
+            "1005": 597,
+            "1006": 375,
+            "1008": 234,
+            "1009": 148,
+            "1013": 317,
+            "1101": 283,
+            "1102": 276,
+            "1103": 384,
+            "1104": 253,
+            "1105": 37,
+            "1106": 421,
+            "1107": 357,
+            "1108": 300,
+            "1109": 212,
+            "1201": 275,
+            "1202": 130,
+            "1203": 20,
+            "1204": 90,
+            "1205": 110,
+            "1208": 221,
+            "skip": 1460
+          },
+          "item": {
+            "hunt_wax": 95,
+            "broken_clock": 27,
+            "seal_stamp": 144,
+            "harmony_wax": 47,
+            "divination_candle": 82,
+            "destruction_wax": 92,
+            "chaos_trametes": 15,
+            "gold_coin": 111,
+            "doctor_robe": 37,
+            "nihility_wax": 57,
+            "skip": 42,
+            "faith_bond": 12,
+            "cosmic_lotto": 83,
+            "rubert_gear": 40,
+            "preservation_wax": 11,
+            "erudition_wax": 45,
+            "angel_debt": 9,
+            "fortune_glue": 20,
+            "insect_web": 15,
+            "abundance_wax": 10,
+            "dimension_dice": 6
+          },
+          "essence": {
+            "essence_destruction": 130,
+            "essence_nihility": 54,
+            "essence_elation": 148,
+            "essence_hunt": 109,
+            "skip": 8,
+            "essence_harmony": 113,
+            "essence_erudition": 31,
+            "essence_preservation": 4,
+            "essence_abundance": 3
+          }
+        },
+        "avgUsage": {
+          "initialHp": 100,
+          "initialShield": 0,
+          "rerollsUsed": 0,
+          "paidRerolls": 0,
+          "removalsUsed": 6.645,
+          "supplyPurchases": 0,
+          "creditsSpent": 0,
+          "healed": 55.309450000000005,
+          "shieldGained": 437.3190999999999,
+          "shieldBlocked": 230.29845000000006,
+          "shieldDecayed": 47.143150000000006,
+          "hpLost": 63.827349999999996,
+          "freeRerolls": 0,
+          "paidRerollCredits": 0,
+          "supplyCredits": 0,
+          "supplyKinds": {
+            "repair": 0,
+            "barrier": 0,
+            "overclock": 0
+          }
+        },
+        "resourceUsageRates": {
+          "rerolls": 0,
+          "removals": 1,
+          "credits": 0,
+          "defense": 0.435
+        },
+        "defenseUsage": {
+          "hpGenerated": 31061.89,
+          "shieldGenerated": 87463.81999999998,
+          "hpConsumed": 12765.47,
+          "shieldConsumed": 46059.69000000001,
+          "shieldWasted": 9428.630000000001,
+          "hpConsumptionRate": 0.4109688753646349,
+          "shieldConsumptionRate": 0.5266142045933967,
+          "combinedRate": 0.49630717251134815,
+          "classification": "moderate",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          },
+          "method": "aggregate-consumed-over-generated",
+          "lowRate": 0,
+          "effectiveRate": 0.435,
+          "observational": true,
+          "strata": {
+            "low": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ],
+              "hpGenerated": 0,
+              "shieldGenerated": 0,
+              "hpConsumed": 0,
+              "shieldConsumed": 0,
+              "shieldWasted": 0,
+              "hpConsumptionRate": 0,
+              "shieldConsumptionRate": 0,
+              "combinedRate": 0,
+              "classification": "low",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "moderate": {
+              "n": 113,
+              "wins": 113,
+              "winRate": 1,
+              "winRateCI": [
+                0.967122467834048,
+                1
+              ],
+              "hpGenerated": 16826.359999999997,
+              "shieldGenerated": 52209.30000000001,
+              "hpConsumed": 5905.209999999997,
+              "shieldConsumed": 24120.050000000003,
+              "shieldWasted": 7535.35,
+              "hpConsumptionRate": 0.3509499380733562,
+              "shieldConsumptionRate": 0.4619876152333013,
+              "combinedRate": 0.43492392192672596,
+              "classification": "moderate",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 113,
+                "credits": 0,
+                "defense": 113
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 1,
+                "credits": 0,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "effective": {
+              "n": 87,
+              "wins": 83,
+              "winRate": 0.9540229885057471,
+              "winRateCI": [
+                0.8876696649201269,
+                0.981977311532913
+              ],
+              "hpGenerated": 14235.53,
+              "shieldGenerated": 35254.520000000004,
+              "hpConsumed": 6860.26,
+              "shieldConsumed": 21939.640000000007,
+              "shieldWasted": 1893.2800000000004,
+              "hpConsumptionRate": 0.4819111055225903,
+              "shieldConsumptionRate": 0.6223213363846679,
+              "combinedRate": 0.5819331360546213,
+              "classification": "effective",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 87,
+                "credits": 0,
+                "defense": 87
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 1,
+                "credits": 0,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            }
+          }
+        },
+        "incomplete": 0
+      }
+    },
+    {
+      "id": "no-removals-credits-d6-v5",
+      "candidate": "b112-s125-v5",
+      "sourceArtifact": ".local/resource-calibration-v5/active-and-multiple-v5.json",
+      "difficulty": 6,
+      "rules": {
+        "version": "difficulty-v4",
+        "min": 1,
+        "max": 20,
+        "default": 10,
+        "baseHealthScale": 1.12,
+        "difficulty10HealthMultiplier": 1,
+        "difficultyStepMultiplier": 1.25,
+        "combatLateHealthMultiplier": 1.5,
+        "debuffStartFloor": 4,
+        "ambientDebuffs": 1
+      },
+      "resourceAccess": {
+        "rerolls": true,
+        "removals": false,
+        "credits": false,
+        "defense": true
+      },
+      "summary": {
+        "runs": 200,
+        "wins": 195,
+        "winRate": 0.975,
+        "winRateCI": [
+          0.942821659593358,
+          0.9892752803482386
+        ],
+        "avgFloor": 12,
+        "avgClearedFloors": 11.975,
+        "avgHp": 75.51444999999998,
+        "avgTurns": 36.575,
+        "avgDamage": 19009.610549999998,
+        "avgCoins": 332.37,
+        "avgMerges": 6.025,
+        "avgRemovals": 0,
+        "avgRosterSize": 22.19,
+        "avgItems": 4.91,
+        "avgEssences": 2.975,
+        "avgActivatedEssences": 2.975,
+        "avgScore": 13732.388294266686,
+        "avgSkips": 7.05,
+        "skipsByPhase": {
+          "recruit": 1387,
+          "item": 18,
+          "essence": 5
+        },
+        "failureByFloor": [
+          {
+            "floor": 1,
+            "count": 0
+          },
+          {
+            "floor": 2,
+            "count": 0
+          },
+          {
+            "floor": 3,
+            "count": 0
+          },
+          {
+            "floor": 4,
+            "count": 0
+          },
+          {
+            "floor": 5,
+            "count": 0
+          },
+          {
+            "floor": 6,
+            "count": 0
+          },
+          {
+            "floor": 7,
+            "count": 0
+          },
+          {
+            "floor": 8,
+            "count": 0
+          },
+          {
+            "floor": 9,
+            "count": 0
+          },
+          {
+            "floor": 10,
+            "count": 0
+          },
+          {
+            "floor": 11,
+            "count": 0
+          },
+          {
+            "floor": 12,
+            "count": 5
+          }
+        ],
+        "picks": {
+          "recruit": {
+            "1001": 80,
+            "1002": 252,
+            "1003": 259,
+            "1004": 317,
+            "1005": 803,
+            "1006": 462,
+            "1008": 137,
+            "1009": 73,
+            "1013": 256,
+            "1101": 242,
+            "1102": 270,
+            "1103": 258,
+            "1104": 267,
+            "1105": 8,
+            "1106": 534,
+            "1107": 368,
+            "1108": 339,
+            "1109": 148,
+            "1201": 186,
+            "1202": 35,
+            "1203": 7,
+            "1204": 91,
+            "1205": 121,
+            "1208": 215,
+            "skip": 1387
+          },
+          "item": {
+            "seal_stamp": 162,
+            "gold_coin": 114,
+            "nihility_wax": 56,
+            "broken_clock": 25,
+            "rubert_gear": 32,
+            "skip": 18,
+            "destruction_wax": 111,
+            "hunt_wax": 97,
+            "divination_candle": 119,
+            "cosmic_lotto": 111,
+            "erudition_wax": 35,
+            "abundance_wax": 10,
+            "fortune_glue": 10,
+            "insect_web": 8,
+            "harmony_wax": 36,
+            "doctor_robe": 39,
+            "chaos_trametes": 5,
+            "faith_bond": 7,
+            "angel_debt": 1,
+            "preservation_wax": 2,
+            "dimension_dice": 2
+          },
+          "essence": {
+            "essence_destruction": 145,
+            "essence_elation": 174,
+            "essence_harmony": 99,
+            "essence_hunt": 94,
+            "essence_erudition": 16,
+            "essence_nihility": 63,
+            "essence_abundance": 2,
+            "essence_preservation": 2,
+            "skip": 5
+          }
+        },
+        "avgUsage": {
+          "initialHp": 100,
+          "initialShield": 0,
+          "rerollsUsed": 14.69,
+          "paidRerolls": 0,
+          "removalsUsed": 0,
+          "supplyPurchases": 0,
+          "creditsSpent": 0,
+          "healed": 101.59065000000001,
+          "shieldGained": 435.74320000000006,
+          "shieldBlocked": 210.71740000000003,
+          "shieldDecayed": 49.31204999999998,
+          "hpLost": 126.07620000000001,
+          "freeRerolls": 14.69,
+          "paidRerollCredits": 0,
+          "supplyCredits": 0,
+          "supplyKinds": {
+            "repair": 0,
+            "barrier": 0,
+            "overclock": 0
+          }
+        },
+        "resourceUsageRates": {
+          "rerolls": 1,
+          "removals": 0,
+          "credits": 0,
+          "defense": 0.66
+        },
+        "defenseUsage": {
+          "hpGenerated": 40318.130000000005,
+          "shieldGenerated": 87148.64000000001,
+          "hpConsumed": 25215.24,
+          "shieldConsumed": 42143.48,
+          "shieldWasted": 9862.409999999996,
+          "hpConsumptionRate": 0.6254069819210365,
+          "shieldConsumptionRate": 0.4835816141250167,
+          "combinedRate": 0.5284414126128715,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          },
+          "method": "aggregate-consumed-over-generated",
+          "lowRate": 0,
+          "effectiveRate": 0.66,
+          "observational": true,
+          "strata": {
+            "low": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ],
+              "hpGenerated": 0,
+              "shieldGenerated": 0,
+              "hpConsumed": 0,
+              "shieldConsumed": 0,
+              "shieldWasted": 0,
+              "hpConsumptionRate": 0,
+              "shieldConsumptionRate": 0,
+              "combinedRate": 0,
+              "classification": "low",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "moderate": {
+              "n": 68,
+              "wins": 67,
+              "winRate": 0.9852941176470589,
+              "winRateCI": [
+                0.9212902687183916,
+                0.9973993164238933
+              ],
+              "hpGenerated": 13393.02,
+              "shieldGenerated": 32036.810000000005,
+              "hpConsumed": 7605.17,
+              "shieldConsumed": 12703.17,
+              "shieldWasted": 6867.719999999999,
+              "hpConsumptionRate": 0.5678457883285473,
+              "shieldConsumptionRate": 0.396517942953746,
+              "combinedRate": 0.44702654621423854,
+              "classification": "moderate",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 68,
+                "removals": 0,
+                "credits": 0,
+                "defense": 68
+              },
+              "resourceUsageRates": {
+                "rerolls": 1,
+                "removals": 0,
+                "credits": 0,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "effective": {
+              "n": 132,
+              "wins": 128,
+              "winRate": 0.9696969696969697,
+              "winRateCI": [
+                0.9246748910807321,
+                0.9881539395023935
+              ],
+              "hpGenerated": 26925.109999999997,
+              "shieldGenerated": 55111.829999999994,
+              "hpConsumed": 17610.070000000007,
+              "shieldConsumed": 29440.30999999998,
+              "shieldWasted": 2994.69,
+              "hpConsumptionRate": 0.6540389250034636,
+              "shieldConsumptionRate": 0.5341922051944198,
+              "combinedRate": 0.5735267551422566,
+              "classification": "effective",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 132,
+                "removals": 0,
+                "credits": 0,
+                "defense": 132
+              },
+              "resourceUsageRates": {
+                "rerolls": 1,
+                "removals": 0,
+                "credits": 0,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            }
+          }
+        },
+        "incomplete": 0
+      }
+    },
+    {
+      "id": "no-active-resources-d4-v5",
+      "candidate": "b112-s125-v5",
+      "sourceArtifact": ".local/resource-calibration-v5/active-and-multiple-v5.json",
+      "difficulty": 4,
+      "rules": {
+        "version": "difficulty-v4",
+        "min": 1,
+        "max": 20,
+        "default": 10,
+        "baseHealthScale": 1.12,
+        "difficulty10HealthMultiplier": 1,
+        "difficultyStepMultiplier": 1.25,
+        "combatLateHealthMultiplier": 1.5,
+        "debuffStartFloor": 4,
+        "ambientDebuffs": 1
+      },
+      "resourceAccess": {
+        "rerolls": false,
+        "removals": false,
+        "credits": false,
+        "defense": true
+      },
+      "summary": {
+        "runs": 200,
+        "wins": 197,
+        "winRate": 0.985,
+        "winRateCI": [
+          0.9568342712073097,
+          0.9948857622067417
+        ],
+        "avgFloor": 12,
+        "avgClearedFloors": 11.985,
+        "avgHp": 84.31410000000001,
+        "avgTurns": 36.43,
+        "avgDamage": 15232.01615,
+        "avgCoins": 339.14,
+        "avgMerges": 5.955,
+        "avgRemovals": 0,
+        "avgRosterSize": 22.68,
+        "avgItems": 4.8,
+        "avgEssences": 2.97,
+        "avgActivatedEssences": 2.97,
+        "avgScore": 13766.110009325728,
+        "avgSkips": 6.695,
+        "skipsByPhase": {
+          "recruit": 1293,
+          "item": 40,
+          "essence": 6
+        },
+        "failureByFloor": [
+          {
+            "floor": 1,
+            "count": 0
+          },
+          {
+            "floor": 2,
+            "count": 0
+          },
+          {
+            "floor": 3,
+            "count": 0
+          },
+          {
+            "floor": 4,
+            "count": 0
+          },
+          {
+            "floor": 5,
+            "count": 0
+          },
+          {
+            "floor": 6,
+            "count": 0
+          },
+          {
+            "floor": 7,
+            "count": 0
+          },
+          {
+            "floor": 8,
+            "count": 0
+          },
+          {
+            "floor": 9,
+            "count": 0
+          },
+          {
+            "floor": 10,
+            "count": 0
+          },
+          {
+            "floor": 11,
+            "count": 0
+          },
+          {
+            "floor": 12,
+            "count": 3
+          }
+        ],
+        "picks": {
+          "recruit": {
+            "1001": 191,
+            "1002": 260,
+            "1003": 261,
+            "1004": 291,
+            "1005": 567,
+            "1006": 374,
+            "1008": 196,
+            "1009": 140,
+            "1013": 314,
+            "1101": 266,
+            "1102": 265,
+            "1103": 349,
+            "1104": 275,
+            "1105": 37,
+            "1106": 437,
+            "1107": 332,
+            "1108": 304,
+            "1109": 167,
+            "1201": 260,
+            "1202": 110,
+            "1203": 15,
+            "1204": 94,
+            "1205": 88,
+            "1208": 200,
+            "skip": 1293
+          },
+          "item": {
+            "cosmic_lotto": 92,
+            "erudition_wax": 48,
+            "divination_candle": 95,
+            "broken_clock": 22,
+            "seal_stamp": 156,
+            "angel_debt": 11,
+            "hunt_wax": 77,
+            "gold_coin": 102,
+            "skip": 40,
+            "nihility_wax": 54,
+            "harmony_wax": 54,
+            "faith_bond": 20,
+            "destruction_wax": 95,
+            "rubert_gear": 43,
+            "preservation_wax": 8,
+            "doctor_robe": 35,
+            "insect_web": 13,
+            "abundance_wax": 6,
+            "fortune_glue": 11,
+            "dimension_dice": 11,
+            "chaos_trametes": 7
+          },
+          "essence": {
+            "essence_destruction": 135,
+            "essence_elation": 160,
+            "essence_erudition": 25,
+            "essence_hunt": 108,
+            "essence_harmony": 88,
+            "essence_nihility": 68,
+            "essence_preservation": 7,
+            "skip": 6,
+            "essence_abundance": 3
+          }
+        },
+        "avgUsage": {
+          "initialHp": 100,
+          "initialShield": 0,
+          "rerollsUsed": 0,
+          "paidRerolls": 0,
+          "removalsUsed": 0,
+          "supplyPurchases": 0,
+          "creditsSpent": 0,
+          "healed": 102.05789999999998,
+          "shieldGained": 429.1149999999996,
+          "shieldBlocked": 212.293,
+          "shieldDecayed": 42.825949999999985,
+          "hpLost": 117.7438,
+          "freeRerolls": 0,
+          "paidRerollCredits": 0,
+          "supplyCredits": 0,
+          "supplyKinds": {
+            "repair": 0,
+            "barrier": 0,
+            "overclock": 0
+          }
+        },
+        "resourceUsageRates": {
+          "rerolls": 0,
+          "removals": 0,
+          "credits": 0,
+          "defense": 0.625
+        },
+        "defenseUsage": {
+          "hpGenerated": 40411.579999999994,
+          "shieldGenerated": 85822.99999999993,
+          "hpConsumed": 23548.76,
+          "shieldConsumed": 42458.6,
+          "shieldWasted": 8565.189999999997,
+          "hpConsumptionRate": 0.5827230709613433,
+          "shieldConsumptionRate": 0.49472285983943737,
+          "combinedRate": 0.5228944398595063,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          },
+          "method": "aggregate-consumed-over-generated",
+          "lowRate": 0,
+          "effectiveRate": 0.625,
+          "observational": true,
+          "strata": {
+            "low": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ],
+              "hpGenerated": 0,
+              "shieldGenerated": 0,
+              "hpConsumed": 0,
+              "shieldConsumed": 0,
+              "shieldWasted": 0,
+              "hpConsumptionRate": 0,
+              "shieldConsumptionRate": 0,
+              "combinedRate": 0,
+              "classification": "low",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 0
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "moderate": {
+              "n": 75,
+              "wins": 74,
+              "winRate": 0.9866666666666667,
+              "winRateCI": [
+                0.9282663444557845,
+                0.9976424488609515
+              ],
+              "hpGenerated": 15131.849999999999,
+              "shieldGenerated": 34362.670000000006,
+              "hpConsumed": 8002.25,
+              "shieldConsumed": 14064.31,
+              "shieldWasted": 6320.310000000001,
+              "hpConsumptionRate": 0.5288348747839822,
+              "shieldConsumptionRate": 0.40929037237211185,
+              "combinedRate": 0.4458384483777193,
+              "classification": "moderate",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 75
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            },
+            "effective": {
+              "n": 125,
+              "wins": 123,
+              "winRate": 0.984,
+              "winRateCI": [
+                0.9435374990695339,
+                0.9956011998208062
+              ],
+              "hpGenerated": 25279.73,
+              "shieldGenerated": 51460.329999999994,
+              "hpConsumed": 15546.51,
+              "shieldConsumed": 28394.29,
+              "shieldWasted": 2244.8799999999997,
+              "hpConsumptionRate": 0.6149792739083844,
+              "shieldConsumptionRate": 0.5517704608579075,
+              "combinedRate": 0.5725927240609403,
+              "classification": "effective",
+              "thresholds": {
+                "low": 0.2,
+                "effective": 0.5
+              },
+              "resourceUsageCounts": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 125
+              },
+              "resourceUsageRates": {
+                "rerolls": 0,
+                "removals": 0,
+                "credits": 0,
+                "defense": 1
+              },
+              "jointActiveFour": {
+                "n": 0,
+                "wins": 0,
+                "winRate": 0,
+                "winRateCI": [
+                  0,
+                  1
+                ]
+              },
+              "observational": true
+            }
+          }
+        },
+        "incomplete": 0
+      }
+    }
+  ],
+  "statisticalAudit": {
+    "sourceArtifact": ".local/resource-calibration-v5/development-audit.json",
+    "sourceArtifactSHA256": "2270118a43ad7d60ecfad08c35f844e3e0f33d883af41818b91d8bdaff8ec96a",
+    "totalGames": 2200,
+    "incomplete": 0,
+    "allActiveResourceGatesValid": true,
+    "allSourceStable": true,
+    "allSourceHashesSame": true,
+    "verification": "逐臂重新核对wins/200、Wilson区间，逐局resourceStats汇总重算HP/盾消耗比与盾浪费，实际禁用重掷/移除/消费均严格0，使用生产assessResourceVariant列出实际未达原因。",
+    "rows": [
+      {
+        "id": "full-d10-v5",
+        "gates": {
+          "rerolls": true,
+          "removals": true,
+          "credits": true
+        },
+        "assessment": {
+          "actualDefensiveUse": {
+            "combinedRate": 0.5282863189798982,
+            "hpConsumptionRate": 0.4849491124060289,
+            "shieldConsumptionRate": 0.5440174635468686,
+            "planningEnabled": true,
+            "lowUse": false,
+            "effective": true,
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            }
+          },
+          "actualMissingResources": [],
+          "actualMissingResourceCount": 0,
+          "nominalMappingEligible": true,
+          "nominalDifficulty": 10,
+          "resourceGatesValid": true,
+          "fullResourcesUsed": true,
+          "isAblation": false,
+          "verifiable": true,
+          "winRateDrop": 0,
+          "passed": true,
+          "reasons": []
+        },
+        "pairedD10": {
+          "bothWin": 191,
+          "fullOnly": 0,
+          "restrictedOnly": 0,
+          "bothLoss": 9
+        },
+        "independentlyRecomputedDefense": {
+          "hpGenerated": 31941.97,
+          "shieldGenerated": 87995.87000000001,
+          "hpConsumed": 15490.230000000003,
+          "shieldConsumed": 47871.28999999999,
+          "shieldWasted": 9494.68,
+          "hpConsumptionRate": 0.4849491124060289,
+          "shieldConsumptionRate": 0.5440174635468686,
+          "combinedRate": 0.5282863189798982,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          }
+        }
+      },
+      {
+        "id": "no-removals-d10-v5",
+        "gates": {
+          "rerolls": true,
+          "removals": true,
+          "credits": true
+        },
+        "assessment": {
+          "actualDefensiveUse": {
+            "combinedRate": 0.5706527854628319,
+            "hpConsumptionRate": 0.6868662139524876,
+            "shieldConsumptionRate": 0.5194249556225623,
+            "planningEnabled": true,
+            "lowUse": false,
+            "effective": true,
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            }
+          },
+          "actualMissingResources": [
+            "removals"
+          ],
+          "actualMissingResourceCount": 1,
+          "nominalMappingEligible": true,
+          "nominalDifficulty": 8,
+          "resourceGatesValid": true,
+          "fullResourcesUsed": true,
+          "isAblation": true,
+          "verifiable": true,
+          "winRateDrop": 0.1499999999999999,
+          "passed": true,
+          "reasons": []
+        },
+        "pairedD10": {
+          "bothWin": 154,
+          "fullOnly": 37,
+          "restrictedOnly": 7,
+          "bothLoss": 2
+        },
+        "independentlyRecomputedDefense": {
+          "hpGenerated": 44073.43000000001,
+          "shieldGenerated": 99983.24,
+          "hpConsumed": 30272.549999999992,
+          "shieldConsumed": 51933.78999999999,
+          "shieldWasted": 12297.77,
+          "hpConsumptionRate": 0.6868662139524876,
+          "shieldConsumptionRate": 0.5194249556225623,
+          "combinedRate": 0.5706527854628319,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          }
+        }
+      },
+      {
+        "id": "no-removals-d8-v5",
+        "gates": {
+          "rerolls": true,
+          "removals": true,
+          "credits": true
+        },
+        "assessment": {
+          "actualDefensiveUse": {
+            "combinedRate": 0.5500577080901767,
+            "hpConsumptionRate": 0.646056808151192,
+            "shieldConsumptionRate": 0.505396494590135,
+            "planningEnabled": true,
+            "lowUse": false,
+            "effective": true,
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            }
+          },
+          "actualMissingResources": [
+            "removals"
+          ],
+          "actualMissingResourceCount": 1,
+          "nominalMappingEligible": true,
+          "nominalDifficulty": 8,
+          "resourceGatesValid": true,
+          "fullResourcesUsed": true,
+          "isAblation": false,
+          "verifiable": true,
+          "winRateDrop": 0.019999999999999907,
+          "passed": true,
+          "reasons": []
+        },
+        "pairedD10": null,
+        "independentlyRecomputedDefense": {
+          "hpGenerated": 41056.079999999994,
+          "shieldGenerated": 88249.87999999992,
+          "hpConsumed": 26524.55999999999,
+          "shieldConsumed": 44601.18000000002,
+          "shieldWasted": 9226.33,
+          "hpConsumptionRate": 0.646056808151192,
+          "shieldConsumptionRate": 0.505396494590135,
+          "combinedRate": 0.5500577080901767,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          }
+        }
+      },
+      {
+        "id": "no-rerolls-d10-v5",
+        "gates": {
+          "rerolls": true,
+          "removals": true,
+          "credits": true
+        },
+        "assessment": {
+          "actualDefensiveUse": {
+            "combinedRate": 0.5315867829337678,
+            "hpConsumptionRate": 0.4342454432776652,
+            "shieldConsumptionRate": 0.5620001292458887,
+            "planningEnabled": true,
+            "lowUse": false,
+            "effective": true,
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            }
+          },
+          "actualMissingResources": [
+            "rerolls"
+          ],
+          "actualMissingResourceCount": 1,
+          "nominalMappingEligible": true,
+          "nominalDifficulty": 8,
+          "resourceGatesValid": true,
+          "fullResourcesUsed": true,
+          "isAblation": true,
+          "verifiable": true,
+          "winRateDrop": 0.22999999999999998,
+          "passed": true,
+          "reasons": []
+        },
+        "pairedD10": {
+          "bothWin": 138,
+          "fullOnly": 53,
+          "restrictedOnly": 7,
+          "bothLoss": 2
+        },
+        "independentlyRecomputedDefense": {
+          "hpGenerated": 32441.630000000005,
+          "shieldGenerated": 103833.09000000003,
+          "hpConsumed": 14087.630000000003,
+          "shieldConsumed": 58354.21000000001,
+          "shieldWasted": 11776.36,
+          "hpConsumptionRate": 0.4342454432776652,
+          "shieldConsumptionRate": 0.5620001292458887,
+          "combinedRate": 0.5315867829337678,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          }
+        }
+      },
+      {
+        "id": "no-credits-d10-v5",
+        "gates": {
+          "rerolls": true,
+          "removals": true,
+          "credits": true
+        },
+        "assessment": {
+          "actualDefensiveUse": {
+            "combinedRate": 0.5596047886933342,
+            "hpConsumptionRate": 0.5080302952086667,
+            "shieldConsumptionRate": 0.5780697051844395,
+            "planningEnabled": true,
+            "lowUse": false,
+            "effective": true,
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            }
+          },
+          "actualMissingResources": [
+            "credits"
+          ],
+          "actualMissingResourceCount": 1,
+          "nominalMappingEligible": true,
+          "nominalDifficulty": 8,
+          "resourceGatesValid": true,
+          "fullResourcesUsed": true,
+          "isAblation": true,
+          "verifiable": true,
+          "winRateDrop": 0.12,
+          "passed": true,
+          "reasons": []
+        },
+        "pairedD10": {
+          "bothWin": 159,
+          "fullOnly": 32,
+          "restrictedOnly": 8,
+          "bothLoss": 1
+        },
+        "independentlyRecomputedDefense": {
+          "hpGenerated": 33899.75,
+          "shieldGenerated": 94685.64000000001,
+          "hpConsumed": 17222.1,
+          "shieldConsumed": 54734.89999999998,
+          "shieldWasted": 9239.760000000002,
+          "hpConsumptionRate": 0.5080302952086667,
+          "shieldConsumptionRate": 0.5780697051844395,
+          "combinedRate": 0.5596047886933342,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          }
+        }
+      },
+      {
+        "id": "no-rerolls-d8-v5",
+        "gates": {
+          "rerolls": true,
+          "removals": true,
+          "credits": true
+        },
+        "assessment": {
+          "actualDefensiveUse": {
+            "combinedRate": 0.5043618715082672,
+            "hpConsumptionRate": 0.4328620113430797,
+            "shieldConsumptionRate": 0.529212496322368,
+            "planningEnabled": true,
+            "lowUse": false,
+            "effective": true,
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            }
+          },
+          "actualMissingResources": [
+            "rerolls"
+          ],
+          "actualMissingResourceCount": 1,
+          "nominalMappingEligible": true,
+          "nominalDifficulty": 8,
+          "resourceGatesValid": true,
+          "fullResourcesUsed": true,
+          "isAblation": false,
+          "verifiable": true,
+          "winRateDrop": 0.039999999999999925,
+          "passed": true,
+          "reasons": []
+        },
+        "pairedD10": null,
+        "independentlyRecomputedDefense": {
+          "hpGenerated": 31896.1,
+          "shieldGenerated": 91770.99999999994,
+          "hpConsumed": 13806.610000000004,
+          "shieldConsumed": 48566.36,
+          "shieldWasted": 10586.789999999992,
+          "hpConsumptionRate": 0.4328620113430797,
+          "shieldConsumptionRate": 0.529212496322368,
+          "combinedRate": 0.5043618715082672,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          }
+        }
+      },
+      {
+        "id": "no-credits-d8-v5",
+        "gates": {
+          "rerolls": true,
+          "removals": true,
+          "credits": true
+        },
+        "assessment": {
+          "actualDefensiveUse": {
+            "combinedRate": 0.5236439469114883,
+            "hpConsumptionRate": 0.4605808254618063,
+            "shieldConsumptionRate": 0.5469117225533309,
+            "planningEnabled": true,
+            "lowUse": false,
+            "effective": true,
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            }
+          },
+          "actualMissingResources": [
+            "credits"
+          ],
+          "actualMissingResourceCount": 1,
+          "nominalMappingEligible": true,
+          "nominalDifficulty": 8,
+          "resourceGatesValid": true,
+          "fullResourcesUsed": true,
+          "isAblation": false,
+          "verifiable": true,
+          "winRateDrop": -0.0050000000000000044,
+          "passed": true,
+          "reasons": []
+        },
+        "pairedD10": null,
+        "independentlyRecomputedDefense": {
+          "hpGenerated": 32283.019999999997,
+          "shieldGenerated": 87497.31999999995,
+          "hpConsumed": 14868.94,
+          "shieldConsumed": 47853.30999999998,
+          "shieldWasted": 9192.659999999994,
+          "hpConsumptionRate": 0.4605808254618063,
+          "shieldConsumptionRate": 0.5469117225533309,
+          "combinedRate": 0.5236439469114883,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          }
+        }
+      },
+      {
+        "id": "no-rerolls-removals-d6-v5",
+        "gates": {
+          "rerolls": true,
+          "removals": true,
+          "credits": true
+        },
+        "assessment": {
+          "actualDefensiveUse": {
+            "combinedRate": 0.535491482634839,
+            "hpConsumptionRate": 0.594020705912503,
+            "shieldConsumptionRate": 0.508139794292239,
+            "planningEnabled": true,
+            "lowUse": false,
+            "effective": true,
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            }
+          },
+          "actualMissingResources": [
+            "rerolls",
+            "removals"
+          ],
+          "actualMissingResourceCount": 2,
+          "nominalMappingEligible": true,
+          "nominalDifficulty": 6,
+          "resourceGatesValid": true,
+          "fullResourcesUsed": true,
+          "isAblation": false,
+          "verifiable": true,
+          "winRateDrop": 0.0050000000000000044,
+          "passed": true,
+          "reasons": []
+        },
+        "pairedD10": null,
+        "independentlyRecomputedDefense": {
+          "hpGenerated": 41517.61,
+          "shieldGenerated": 88842.53999999998,
+          "hpConsumed": 24662.319999999996,
+          "shieldConsumed": 45144.43,
+          "shieldWasted": 8318.920000000002,
+          "hpConsumptionRate": 0.594020705912503,
+          "shieldConsumptionRate": 0.508139794292239,
+          "combinedRate": 0.535491482634839,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          }
+        }
+      },
+      {
+        "id": "no-rerolls-credits-d6-v5",
+        "gates": {
+          "rerolls": true,
+          "removals": true,
+          "credits": true
+        },
+        "assessment": {
+          "actualDefensiveUse": {
+            "combinedRate": 0.49630717251134815,
+            "hpConsumptionRate": 0.4109688753646349,
+            "shieldConsumptionRate": 0.5266142045933967,
+            "planningEnabled": true,
+            "lowUse": false,
+            "effective": false,
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            }
+          },
+          "actualMissingResources": [
+            "rerolls",
+            "credits"
+          ],
+          "actualMissingResourceCount": 2,
+          "nominalMappingEligible": true,
+          "nominalDifficulty": 6,
+          "resourceGatesValid": true,
+          "fullResourcesUsed": true,
+          "isAblation": false,
+          "verifiable": true,
+          "winRateDrop": -0.025000000000000022,
+          "passed": true,
+          "reasons": []
+        },
+        "pairedD10": null,
+        "independentlyRecomputedDefense": {
+          "hpGenerated": 31061.89,
+          "shieldGenerated": 87463.81999999998,
+          "hpConsumed": 12765.47,
+          "shieldConsumed": 46059.69000000001,
+          "shieldWasted": 9428.630000000001,
+          "hpConsumptionRate": 0.4109688753646349,
+          "shieldConsumptionRate": 0.5266142045933967,
+          "combinedRate": 0.49630717251134815,
+          "classification": "moderate",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          }
+        }
+      },
+      {
+        "id": "no-removals-credits-d6-v5",
+        "gates": {
+          "rerolls": true,
+          "removals": true,
+          "credits": true
+        },
+        "assessment": {
+          "actualDefensiveUse": {
+            "combinedRate": 0.5284414126128715,
+            "hpConsumptionRate": 0.6254069819210365,
+            "shieldConsumptionRate": 0.4835816141250167,
+            "planningEnabled": true,
+            "lowUse": false,
+            "effective": true,
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            }
+          },
+          "actualMissingResources": [
+            "removals",
+            "credits"
+          ],
+          "actualMissingResourceCount": 2,
+          "nominalMappingEligible": true,
+          "nominalDifficulty": 6,
+          "resourceGatesValid": true,
+          "fullResourcesUsed": true,
+          "isAblation": false,
+          "verifiable": true,
+          "winRateDrop": -0.020000000000000018,
+          "passed": true,
+          "reasons": []
+        },
+        "pairedD10": null,
+        "independentlyRecomputedDefense": {
+          "hpGenerated": 40318.130000000005,
+          "shieldGenerated": 87148.64000000001,
+          "hpConsumed": 25215.24,
+          "shieldConsumed": 42143.48,
+          "shieldWasted": 9862.409999999996,
+          "hpConsumptionRate": 0.6254069819210365,
+          "shieldConsumptionRate": 0.4835816141250167,
+          "combinedRate": 0.5284414126128715,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          }
+        }
+      },
+      {
+        "id": "no-active-resources-d4-v5",
+        "gates": {
+          "rerolls": true,
+          "removals": true,
+          "credits": true
+        },
+        "assessment": {
+          "actualDefensiveUse": {
+            "combinedRate": 0.5228944398595063,
+            "hpConsumptionRate": 0.5827230709613433,
+            "shieldConsumptionRate": 0.49472285983943737,
+            "planningEnabled": true,
+            "lowUse": false,
+            "effective": true,
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            }
+          },
+          "actualMissingResources": [
+            "rerolls",
+            "removals",
+            "credits"
+          ],
+          "actualMissingResourceCount": 3,
+          "nominalMappingEligible": true,
+          "nominalDifficulty": 4,
+          "resourceGatesValid": true,
+          "fullResourcesUsed": true,
+          "isAblation": false,
+          "verifiable": true,
+          "winRateDrop": -0.030000000000000027,
+          "passed": false,
+          "reasons": [
+            "通关率不在目标范围"
+          ]
+        },
+        "pairedD10": null,
+        "independentlyRecomputedDefense": {
+          "hpGenerated": 40411.579999999994,
+          "shieldGenerated": 85822.99999999993,
+          "hpConsumed": 23548.76,
+          "shieldConsumed": 42458.6,
+          "shieldWasted": 8565.189999999997,
+          "hpConsumptionRate": 0.5827230709613433,
+          "shieldConsumptionRate": 0.49472285983943737,
+          "combinedRate": 0.5228944398595063,
+          "classification": "effective",
+          "thresholds": {
+            "low": 0.2,
+            "effective": 0.5
+          }
+        }
+      }
+    ],
+    "developmentPointTargetsPassed": false
+  },
+  "findings": {
+    "fullD10": {
+      "wins": 191,
+      "runs": 200,
+      "winRate": 0.955,
+      "winRateCI": [
+        0.9167032959981803,
+        0.976147456998507
+      ],
+      "aggregateDefenseRate": 0.5282863189798982,
+      "hpConsumptionRate": 0.4849491124060289,
+      "shieldConsumptionRate": 0.5440174635468686,
+      "effectiveDefenseSamples": 118,
+      "effectiveDefenseSampleRate": 0.59
+    },
+    "activeD10Drops": [
+      {
+        "id": "no-removals-d10-v5",
+        "disabledResources": [
+          "removals"
+        ],
+        "wins": 161,
+        "runs": 200,
+        "winRate": 0.805,
+        "observedDrop": 0.1499999999999999,
+        "paired": {
+          "bothWin": 154,
+          "fullOnly": 37,
+          "restrictedOnly": 7,
+          "bothLoss": 2
+        }
+      },
+      {
+        "id": "no-rerolls-d10-v5",
+        "disabledResources": [
+          "rerolls"
+        ],
+        "wins": 145,
+        "runs": 200,
+        "winRate": 0.725,
+        "observedDrop": 0.22999999999999998,
+        "paired": {
+          "bothWin": 138,
+          "fullOnly": 53,
+          "restrictedOnly": 7,
+          "bothLoss": 2
+        }
+      },
+      {
+        "id": "no-credits-d10-v5",
+        "disabledResources": [
+          "credits"
+        ],
+        "wins": 167,
+        "runs": 200,
+        "winRate": 0.835,
+        "observedDrop": 0.12,
+        "paired": {
+          "bothWin": 159,
+          "fullOnly": 32,
+          "restrictedOnly": 8,
+          "bothLoss": 1
+        }
+      }
+    ],
+    "D4Boundary": {
+      "wins": 197,
+      "runs": 200,
+      "winRate": 0.985,
+      "winRateCI": [
+        0.9568342712073097,
+        0.9948857622067417
+      ],
+      "developmentPointWithinRange": false,
+      "reason": "197/200=98.5%，超98%上限0.5个百分点。不能因为CI与区间重叠改为通过；保持参数不追逐这1局开发差异。"
+    },
+    "recommendation": "保留统一B1.12/S1.25，以独立全新正式1000种子按冻结算法/源码验证全部20组，重点保留D4上界与实际防御口径风险。本开发记录不宣称完整难度映射通过。"
+  },
+  "limitations": [
+    "这些200局/臂是开发样本，不能保证玩家或未来模型达到相同胜率。",
+    "D4三类主动资源全禁的点估计尚未达90–98%目标，完整开发映射结果为false。",
+    "D6禁重掷+消费的防御总量比约49.63%，属于moderate；不能称充分，也不能把它当作防御缺失。各样本分层另见原始summary。",
+    "防御规划off及其它缺资源组合没有纳入这11开发臂；正式全20组覆盖，其结果不在本文件中。"
+  ]
+}

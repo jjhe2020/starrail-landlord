@@ -44,9 +44,18 @@ test('static server serves the game and refuses private files and traversal', { 
     const home = await fetch(`${base}/`);
     assert.equal(home.status, 200);
     assert.match(await home.text(), /星穹转轮/);
-    for (const path of ['/styles.css', '/src/engine.js', '/public/favicon.svg']) {
+    for (const path of ['/styles.css', '/src/engine.js', '/public/favicon.svg', '/manifest.webmanifest', '/service-worker.js']) {
       assert.equal((await fetch(base + path)).status, 200, path);
     }
+    const manifest = await fetch(`${base}/manifest.webmanifest`);
+    assert.match(manifest.headers.get('content-type'), /application\/manifest\+json/);
+    assert.equal((await manifest.json()).scope, './');
+    const worker = await fetch(`${base}/service-worker.js`);
+    assert.match(worker.headers.get('content-type'), /text\/javascript/);
+    const workerSource = await worker.text();
+    assert.match(workerSource, /src\/offline\.js/);
+    assert.match(workerSource, /src\/ai-worker\.js/);
+    assert.ok(!workerSource.includes('/* OFFLINE_BUILD */ null'));
     const head = await fetch(`${base}/index.html`, { method: 'HEAD' });
     assert.equal(head.status, 200);
     assert.match(head.headers.get('content-type'), /text\/html/);
@@ -54,6 +63,7 @@ test('static server serves the game and refuses private files and traversal', { 
     assert.equal((await fetch(`${base}/`, { method: 'POST' })).status, 405);
     for (const path of [
       '/README.md', '/package.json', '/.git/config', `/${basename(suffixFile)}`,
+      '/scripts/offline-assets.mjs', '/service-worker.js.txt', '/manifest.webmanifest.txt',
       '/public/%5c..%5cREADME.md', '/src/%5c..%5c.git%5cconfig',
       '/public/%2f..%2fpackage.json', '/public/%2e%2e/README.md',
       '/src/%00engine.js', '/public/%', '/public/%E0%A4',

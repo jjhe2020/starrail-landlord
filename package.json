@@ -1,6 +1,6 @@
 {
   "name": "starrail-landlord",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "description": "A mobile-ready Star Rail themed slot deckbuilding roguelike",
@@ -8,11 +8,15 @@
     "dev": "node scripts/server.mjs",
     "test": "node --test tests/*.test.js",
     "build": "node scripts/build.mjs",
+    "build:portable": "node scripts/build-portable.mjs",
     "check": "node scripts/check.mjs",
     "balance": "node scripts/balance.mjs",
     "train:ai": "node scripts/train-ai.mjs"
   },
   "engines": {
     "node": ">=22"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
   }
 }
