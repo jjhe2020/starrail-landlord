@@ -15,6 +15,7 @@ export function createInspector({ root = document, resolve, onOpen, onClose } = 
   let holdTimer = null;
   let hold = null;
   let suppressedClick = null;
+  let pointerFocusAnchor = null;
   let destroyed = false;
   const listeners = [];
   const anchorObserver = new view.MutationObserver(() => {
@@ -64,7 +65,7 @@ export function createInspector({ root = document, resolve, onOpen, onClose } = 
     const gap = 9;
     const rect = anchor.getBoundingClientRect();
     popup.style.maxWidth = `${Math.max(1, width - margin * 2)}px`;
-    popup.style.maxHeight = `${Math.max(1, height - margin * 2)}px`;
+    popup.style.maxHeight = `${Math.max(1, Math.min(660, Math.floor(height * .78), height - margin * 2))}px`;
     const box = popup.getBoundingClientRect();
     const minLeft = leftEdge + margin;
     const maxLeft = Math.max(minLeft, leftEdge + width - margin - box.width);
@@ -164,6 +165,10 @@ export function createInspector({ root = document, resolve, onOpen, onClose } = 
     if (insidePopup(event.target)) return;
     close();
     const anchor = anchorFor(event.target);
+    // Pointer focus precedes pointerup/click. Opening a tall explanation here
+    // can cover the pressed control and retarget its click to the page body.
+    // Pointer users open on click or hold; keyboard focus still opens below.
+    pointerFocusAnchor = anchor;
     if (!anchor || !['touch', 'pen'].includes(event.pointerType) || event.isPrimary === false) return;
     hold = { anchor, pointerId: event.pointerId, x: event.clientX, y: event.clientY, shown: false };
     holdTimer = view.setTimeout(() => {
@@ -195,6 +200,7 @@ export function createInspector({ root = document, resolve, onOpen, onClose } = 
   }
 
   function onClickCapture(event) {
+    pointerFocusAnchor = null;
     const target = element(event.target);
     if (suppressedClick && suppressedClick.until >= Date.now() && suppressedClick.anchor.contains(target) && event.detail !== 0) {
       suppressedClick = null;
@@ -215,7 +221,7 @@ export function createInspector({ root = document, resolve, onOpen, onClose } = 
     if (insidePopup(event.target)) { cancelClose(); return; }
     const anchor = anchorFor(event.target);
     // Touch focus must not open a tooltip before the long-press threshold.
-    if (hold || current?.anchor === anchor) return;
+    if (hold || (anchor && pointerFocusAnchor === anchor) || current?.anchor === anchor) return;
     if (!anchor) { close(); return; }
     open(anchor, undefined, { pinned: false });
   }
@@ -236,12 +242,13 @@ export function createInspector({ root = document, resolve, onOpen, onClose } = 
   listen(doc, 'pointerdown', onPointerDown, true);
   listen(doc, 'pointermove', onPointerMove, { passive: true });
   listen(doc, 'pointerup', onPointerUp, true);
-  listen(doc, 'pointercancel', () => { cancelHold(); suppressedClick = null; }, true);
+  listen(doc, 'pointercancel', () => { cancelHold(); suppressedClick = null; pointerFocusAnchor = null; }, true);
   listen(doc, 'click', onClickCapture, true);
   listen(root, 'click', onClick);
   listen(root, 'focusin', onFocusIn);
   listen(root, 'focusout', onFocusOut);
   listen(doc, 'keydown', event => {
+    pointerFocusAnchor = null;
     const anchor = anchorFor(event.target);
     const nativeControl = ['BUTTON', 'A', 'INPUT', 'SELECT', 'TEXTAREA'].includes(element(event.target)?.tagName);
     if ((event.key === 'Enter' || event.code === 'Space') && anchor?.dataset.inspectClick === 'true' && !nativeControl && !anchor.dataset.action) {

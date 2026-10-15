@@ -23,13 +23,20 @@ test('difficulty is freely chosen 1 to 20, defaults to 10, and is independent of
   assert.notEqual(validateSave(state), null);
 });
 
-test('higher public difficulty monotonically raises the enemy health budget', () => {
-  for (const floor of [1, 3, 6, 12]) {
-    let previous = 0;
+test('difficulty coefficients strictly rise and rounded health never falls, with real growth every two levels', () => {
+  for (const floor of [1, 2, 3, 6, 12]) {
+    const budgets = [];
     for (let difficulty = 1; difficulty <= 20; difficulty++) {
       const state = arrive(floor, { seed: 'difficulty-order', difficulty });
-      assert.ok(total(state) > previous, `floor ${floor}, difficulty ${difficulty}`);
-      previous = total(state);
+      const budget = total(state);
+      if (difficulty > 1) {
+        assert.ok(difficultyHealthMultiplier(difficulty) > difficultyHealthMultiplier(difficulty - 1));
+        // Tiny early encounters can round adjacent difficulty levels to the
+        // same integer. The public curve must never lower their real health.
+        assert.ok(budget >= budgets.at(-1), `floor ${floor}, difficulty ${difficulty}`);
+      }
+      if (difficulty > 2) assert.ok(budget > budgets.at(-2), `two-level growth: floor ${floor}, D${difficulty}`);
+      budgets.push(budget);
     }
   }
 });

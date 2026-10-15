@@ -1,6 +1,9 @@
+import { getPassiveEffectSources } from './effect-rules.js';
 import { CHARACTERS, ITEMS, ESSENCES, SYNERGIES, characterById, itemById, essenceById } from './content.js';
 import { DIFFICULTY, lateDifficultyMultiplier, normalizeDifficulty, difficultyHealthMultiplier } from './difficulty.js';
 import { ENEMY_DEBUFFS, enemyDebuffById, hasDebuff, getEligibleDebuffs, publicDebuff, unitPowerMultiplier, utilityMultiplier, pollutionDescription, legacyPollutionDescription, isPolluted } from './enemy-effects.js';
+import { getEffectSources, effectIsEligible, effectAmount, effectTargetIndexes, matchesEffectFilter, cumulativeProgressValue, PERSISTENT_PROGRESS_METRICS } from './effect-rules.js';
+import { getSynergiesFor, synergyOffenseScale } from './synergies.js';
 
 export const SAVE_VERSION = 2;
 export const BOARD_COLUMNS = 5;
@@ -17,6 +20,7 @@ const ENEMY_SKILLS = [
 ];
 const copy = value => structuredClone(value);
 const rounded = value => Math.round(value * 100) / 100;
+const newSpinRecord = (floor = 1, round = 0) => ({ floor, round, total: 0, damage: 0, coins: 0, healing: 0, shield: 0, incoming: 0, events: [], hits: [], effects: [], powerBreakdown: Array(BOARD_SIZE).fill(null), values: Array(BOARD_SIZE).fill(0) });
 const hasItem = (state, id) => state.items.includes(id);
 const hasEssence = (state, id) => state.essences.some(e => e.id === id && e.triggered);
 const finite = (value, min = 0, max = 1e12) => typeof value === 'number' && Number.isFinite(value) && value >= min && value <= max;
@@ -31,6 +35,147 @@ const normalizeResources = access => Object.fromEntries(Object.keys(DEFAULT_RESO
 const newResourceStats = (initialHp = 100, initialShield = 0) => ({ initialHp, initialShield, rerollsUsed: 0, paidRerolls: 0, removalsUsed: 0, supplyPurchases: 0, creditsSpent: 0, healed: 0, shieldGained: 0, shieldBlocked: 0, shieldDecayed: 0, hpLost: 0 });
 const bossStageRules = () => ({ healthThresholds: [0.7, 0.35], roundThresholds: [3, 5], maxStages: 3 });
 const starMultiplier = (state, instance) => STAR_MULTIPLIERS[instance.stars] * (instance.stars > 1 && hasDebuff(state, 'star_audit') ? 0.8 : 1);
+
+function effectEvent(state, source, type, amount, duration = 'spin', targetUid = null, label = '') {
+  state.lastSpin.effects ||= [];
+  if (state.lastSpin.effects.length >= 2000) return;
+  const event = { sourceId: source?.sourceId || source?.id || 'system', type, label: label || source?.definition?.name || source?.name || type, duration, floor: state.floor, round: state.round };
+  if (source?.sourceUid || source?.uid) event.sourceUid = source.sourceUid || source.uid;
+  if (targetUid) event.targetUid = targetUid;
+  if (Number.isFinite(amount)) event.amount = rounded(amount);
+  state.lastSpin.effects.push(event);
+}
+
+function passiveMultiplier(state, type, extras = {}) {
+  let multiplier = 1;
+  const synergies = getSynergies(state).filter(s => s.active);
+  for (const source of getPassiveEffectSources(state, type, synergies)) {
+    const context = { state, synergies, ...extras, unit: source.unit || extras.unit, index: source.index ?? extras.index, star: source.unit ? starMultiplier(state, source.unit) : 1, trigger: 'passive' };
+    for (const effect of source.effects) {
+      if (effect.trigger !== 'passive' || effect.type !== type || !effectIsEligible(effect, context)) continue;
+      if (effect.filter && extras.unit && !matchesEffectFilter(extras.unit, effect.filter, source.unit)) continue;
+      if (effect.target === 'self' && source.unit && source.unit.uid !== extras.unit?.uid) continue;
+      const factor = effectAmount(effect, context);
+      multiplier *= factor;
+      if (extras.record && factor !== 1) effectEvent(state, source, type, factor, 'spin', extras.targetUid || extras.unit?.uid, effect.summary || source.definition.name);
+    }
+  }
+  return multiplier;
+}
+
+function runEffects(state, trigger, context = {}, options = {}) {
+  const synergies = context.synergies || getSynergies(state).filter(s => s.active);
+  const sources = getEffectSources(state, { trigger, unit: context.unit, index: context.index, synergies, acquired: options.acquired, consumed: context.consumed });
+  for (const source of sources) for (let effectIndex = 0; effectIndex < source.effects.length; effectIndex++) {
+    const effect = source.effects[effectIndex];
+    if (effect.trigger !== trigger) continue;
+    if ((effect.stage || 'beforeAttacks') !== (options.stage || 'beforeAttacks')) continue;
+    const members = effect.scope === 'members' && !context.unit
+      ? state.board.map((u, index) => ({ unit: u, index })).filter(({ unit }) => unit && !context.consumed?.has(unit.uid) && matchesEffectFilter(unit, source.definition.filter || { [source.definition.kind]: source.definition.tag }))
+      : [{ unit: source.unit || context.unit, index: source.index ?? context.index }];
+    for (const member of members) {
+      const active = { ...context, ...member, state, synergies, trigger, star: member.unit ? starMultiplier(state, member.unit) : 1 };
+      if (effect.scope === 'members' && !matchesEffectFilter(active.unit, source.definition.filter || { [source.definition.kind]: source.definition.tag })) continue;
+      if (!effectIsEligible(effect, active)) continue;
+      const useKey = `${source.sourceType}:${source.sourceId}:${effect.id || effectIndex}${effect.scope === 'members' ? `:${active.unit?.uid}` : ''}`;
+      if (effect.oncePerSpin && context.effectUses?.has(useKey)) continue;
+      if (Number.isFinite(effect.chance) && random(state) >= effect.chance) continue;
+      if (effect.oncePerSpin) context.effectUses?.add(useKey);
+      let amount = effectAmount(effect, active);
+      if (source.sourceType === 'synergy' && ['power', 'damage'].includes(effect.type)) amount *= synergyOffenseScale(state);
+      if (source.sourceType === 'synergy' && effect.type === 'powerMultiplier') amount = 1 + (amount - 1) * synergyOffenseScale(state);
+      if (effect.type === 'power' || effect.type === 'powerMultiplier') {
+        context.pendingPowerEffects?.push({ effect, source, context: active });
+        continue;
+      }
+      if (effect.type === 'heal' || effect.type === 'healOverflowShield') {
+        const result = heal(state, amount * (source.sourceType === 'character' ? utilityMultiplier(state, active.unit, 'heal') : 1), false, active.unit);
+        effectEvent(state, source, 'heal', result.actual, 'resource', null, effect.summary);
+        if (effect.type === 'healOverflowShield' && result.overflow > 0) { const before = state.shield; shield(state, result.overflow, false, active.unit); effectEvent(state, source, 'shield', state.shield - before, 'resource', null, effect.summary); }
+      } else if (effect.type === 'shield') { const before = state.shield; shield(state, amount * (source.sourceType === 'character' ? utilityMultiplier(state, active.unit, 'shield') : 1), false, active.unit); effectEvent(state, source, 'shield', state.shield - before, 'resource', null, effect.summary); }
+      else if (effect.type === 'growth') {
+        const targetIndexes = effectTargetIndexes(effect, active);
+        let targets = targetIndexes.map(i => state.board[i]);
+        if (!targets.length && active.unit && (!effect.target || effect.target === 'self')) targets = [active.unit];
+        for (const target of targets) {
+          const original = state.roster.find(u => u.uid === target.uid);
+          if (!original || original.temporary) continue;
+          const gained = amount * (hasItem(state, 'rubert_gear') ? 1.5 : 1) * (hasDebuff(state, 'growth_audit') ? 0.5 : 1) * passiveMultiplier(state, 'growthMultiplier', { unit: target });
+          original.growth = rounded(original.growth + gained); target.growth = original.growth;
+          if (context.metrics) context.metrics.growth = rounded((context.metrics.growth || 0) + gained);
+          effectEvent(state, source, 'growth', gained, 'run', target.uid, effect.summary);
+        }
+      } else if (effect.type === 'resource') {
+        const field = effect.resource || 'coins';
+        if (!['coins', 'rerolls', 'removals'].includes(field)) continue;
+        const gain = field === 'coins' ? rounded(Math.max(0, amount)) : Math.floor(Math.max(0, amount));
+        state[field] = rounded(state[field] + gain);
+        if (field === 'coins') { state.lastSpin.coins = rounded(state.lastSpin.coins + gain); if (!context.duringSpin) state.stats.coins = rounded(state.stats.coins + gain); }
+        effectEvent(state, source, field, gain, 'resource', null, effect.summary);
+      } else if (effect.type === 'retaliationFlat') context.incomingReduction = (context.incomingReduction || 0) + amount;
+      else if (effect.type === 'retaliationMultiplier') context.incomingMultiplier = (context.incomingMultiplier ?? 1) * amount;
+      else if (effect.type === 'ignoreArmor') context.ignoresArmor = true;
+      else if (effect.type === 'summon') {
+        if (characterById(effect.characterId) && state.roster.length + (context.generated?.length || 0) < 200) {
+          const reinforcement = unit(state, effect.characterId, { temporary: Math.max(1, Math.min(3, effect.durationAppearances || 3)), ...(active.unit ? { origin: active.unit.uid } : {}) });
+          if (context.generated) context.generated.push(reinforcement); else state.roster.push(reinforcement);
+          effectEvent(state, source, 'summon', 1, 'appearances', reinforcement.uid, effect.summary);
+        }
+      } else if (effect.type === 'selfDamage') {
+        const before = state.hp; state.hp = rounded(Math.max(effect.nonlethal === false ? 0 : 1, state.hp - amount));
+        state.resourceStats.hpLost = rounded(state.resourceStats.hpLost + before - state.hp);
+        effectEvent(state, source, 'selfDamage', before - state.hp, 'instant', active.unit?.uid, effect.summary);
+      } else if (effect.type === 'maxHp') { state.maxHp = rounded(state.maxHp + amount); effectEvent(state, source, 'maxHp', amount, 'run', null, effect.summary); }
+      else if (effect.type === 'extraSpin') { const gained = Math.max(0, Math.floor(amount)); state.spinsLeft += gained; state.encounter.deadline += gained; effectEvent(state, source, 'extraSpin', gained, 'encounter', null, effect.summary); }
+      else if (effect.type === 'damage') {
+        if (context.pendingDamageEffects && !['kill', 'retaliation'].includes(trigger) && (options.stage || 'beforeAttacks') === 'beforeAttacks') context.pendingDamageEffects.push({ effect, source, active, amount });
+        else resolveEffectDamage(state, effect, source, active, context, amount);
+      } else if (effect.type === 'consume' && active.unit) {
+        const targetIndex = effectTargetIndexes({ ...effect, target: effect.target || 'adjacent', filter: { ...effect.filter, temporary: true, excludeSelf: true } }, active)[0];
+        const target = state.board[targetIndex];
+        if (target && context.consumed) { context.consumed.add(target.uid); target.status = 'consumed'; context.retirements = (context.retirements || 0) + 1; context.pendingPowerEffects?.push({ effect: { type: 'power', value: amount, target: 'self', duration: 'spin', summary: effect.summary }, source, context: active }); effectEvent(state, source, 'consume', 1, 'instant', target.uid, effect.summary); }
+      }
+      if (['retaliationFlat', 'retaliationMultiplier', 'ignoreArmor'].includes(effect.type)) effectEvent(state, source, effect.type, amount, 'spin', active.unit?.uid, effect.summary);
+    }
+  }
+  return context;
+}
+
+function resolveEffectDamage(state, effect, source, active, context, amount) {
+  if (source.sourceUid && context.consumed?.has(source.sourceUid)) return;
+  if (effect.target === 'strongest') {
+    const candidate = effectTargetIndexes(effect, { ...active, powers: context.powers })[0];
+    if (candidate === undefined) return;
+    active.index = candidate; active.unit = state.board[candidate];
+    amount = effectAmount(effect, active) * (source.sourceType === 'synergy' ? synergyOffenseScale(state) : 1);
+  }
+  const candidates = state.enemies.filter(e => e.hp > 0 && (!effect.excludeOriginColumn || e.col !== active.index % BOARD_COLUMNS));
+  const targets = effect.target === 'team' || effect.target === 'all' ? candidates : [nearestEnemy(candidates, Number.isInteger(active.index) ? active.index % BOARD_COLUMNS : 2)].filter(Boolean);
+  const before = state.lastSpin.damage;
+  for (const enemy of targets) attackEnemy(state, active.index ?? 0, enemy, amount, Boolean(effect.ignoreArmor || context.ignoresArmor));
+  effectEvent(state, source, 'damage', state.lastSpin.damage - before, 'instant', null, effect.summary);
+}
+
+function applyPowerEffects(state, context) {
+  for (const { effect, source, context: savedContext } of context.pendingPowerEffects || []) {
+    if (source.sourceUid && context.consumed?.has(source.sourceUid)) continue;
+    const active = { ...savedContext, powers: context.powers, consumed: context.consumed, metrics: context.metrics };
+    let amount = effectAmount(effect, active);
+    if (source.sourceType === 'synergy' && effect.type === 'power') amount *= synergyOffenseScale(state);
+    if (source.sourceType === 'synergy' && effect.type === 'powerMultiplier') amount = 1 + (amount - 1) * synergyOffenseScale(state);
+    for (const index of effectTargetIndexes(effect, active)) {
+      let appliedAmount = amount;
+      if (effect.type === 'power') {
+        const isSupportBuff = ['adjacent', 'strongest'].includes(effect.target);
+        const buffScale = isSupportBuff ? passiveMultiplier(state, 'buffMultiplier', { unit: active.unit, record: true, targetUid: state.board[index].uid }) * (hasItem(state, 'harmony_wax') ? 1.5 : 1) * (source.sourceType === 'character' ? utilityMultiplier(state, active.unit, 'buff') : 1) : 1;
+        appliedAmount *= buffScale;
+        context.powers[index] += appliedAmount;
+      }
+      else context.powerMultipliers[index] *= amount;
+      effectEvent(state, source, effect.type, appliedAmount, effect.duration || 'spin', state.board[index].uid, effect.summary);
+    }
+  }
+}
 
 function hashSeed(seed) {
   let result = 2166136261;
@@ -61,21 +206,7 @@ function unit(state, id, extra = {}) {
 }
 
 export function getSynergies(state) {
-  const roster = Array.isArray(state?.roster) ? state.roster : [];
-  const distinct = [...new Set(roster.filter(u => !u.temporary).map(u => u.id))].map(characterById).filter(Boolean);
-  return SYNERGIES.map(synergy => {
-    const count = distinct.filter(c => c[synergy.kind] === synergy.tag).length;
-    const tier = synergy.thresholds.filter(threshold => count >= threshold).length;
-    return { ...synergy, count, active: tier > 0, tier };
-  });
-}
-
-function synergyBonus(synergy) {
-  if (!synergy.active) return 0;
-  if (synergy.id === 'hunters') return synergy.tier === 2 ? 0.4 : 0.2;
-  if (['hunt', 'abundance', 'fire', 'physical', 'imaginary'].includes(synergy.id)) return 0.25;
-  if (['station', 'preservation', 'harmony', 'ice', 'lightning', 'wind', 'quantum'].includes(synergy.id)) return synergy.tier === 2 ? 0.3 : 0.15;
-  return synergy.tier === 2 ? 0.35 : 0.15;
+  return getSynergiesFor(state, characterById);
 }
 
 function floorSpins(state) {
@@ -127,6 +258,7 @@ function setupFloor(state, initial = false) {
     name: state.floor % 3 === 0 ? '裂界首领' : ['空间站警戒区', '贝洛伯格旧城区', '仙舟禁区', '模拟宇宙深层'][(state.floor - 1) % 4],
     deadline: state.spinsLeft,
   };
+  runEffects(state, 'floor', { synergies: getSynergies(state).filter(s => s.active), effectUses: new Set() });
   state.enemyIntent = nextIntent(state);
   if (!initial) {
     state.rerolls += 1;
@@ -199,7 +331,7 @@ export function newGame({ seed = '星穹房东', difficulty = 10, resourceAccess
     resourceStats: newResourceStats(), supplyPurchases: 0, overclockReady: false, activeDebuffs: [], bossStage: 0, bossStages: bossStageRules(),
     roster: [], board: Array(BOARD_SIZE).fill(null), items: [], essences: [], enemies: [],
     choices: [], pendingRewards: [], pendingFloor: false, endless: false,
-    lastSpin: { total: 0, damage: 0, coins: 0, healing: 0, shield: 0, incoming: 0, events: [], hits: [], values: Array(BOARD_SIZE).fill(0) },
+    lastSpin: newSpinRecord(),
     history: ['列车抵达：每次转动后可招募一名角色，三名相同一星角色会自动合成二星。'],
     stats: { spins: 0, damage: 0, coins: 0, merges: 0, destroyed: 0 },
   };
@@ -214,8 +346,8 @@ function record(state, message) {
   state.history.push(message);
 }
 
-function heal(state, amount, fixed = false) {
-  let multiplier = !fixed && hasItem(state, 'abundance_wax') ? 1.5 : 1;
+function heal(state, amount, fixed = false, sourceUnit = null) {
+  let multiplier = (!fixed && hasItem(state, 'abundance_wax') ? 1.5 : 1) * (!fixed ? passiveMultiplier(state, 'healMultiplier', { unit: sourceUnit }) : 1);
   if (!fixed && hasDebuff(state, 'healing_audit')) multiplier *= 0.75;
   const requested = rounded(amount * multiplier);
   const actual = Math.min(state.maxHp - state.hp, requested);
@@ -225,8 +357,8 @@ function heal(state, amount, fixed = false) {
   return { actual, overflow: requested - actual };
 }
 
-function shield(state, amount, fixed = false) {
-  let multiplier = !fixed && hasItem(state, 'preservation_wax') ? 1.5 : 1;
+function shield(state, amount, fixed = false, sourceUnit = null) {
+  let multiplier = (!fixed && hasItem(state, 'preservation_wax') ? 1.5 : 1) * (!fixed ? passiveMultiplier(state, 'shieldMultiplier', { unit: sourceUnit }) : 1);
   if (!fixed && hasEssence(state, 'essence_preservation')) multiplier *= 1.3;
   if (!fixed && hasDebuff(state, 'shield_audit')) multiplier *= 0.75;
   const nextShield = rounded(Math.min(state.maxHp * 2, state.shield + amount * multiplier));
@@ -252,6 +384,7 @@ function mergeRoster(state) {
         state.roster = state.roster.filter(u => !ids.has(u.uid));
         state.roster.push(merged);
         state.stats.merges += 1;
+        runEffects(state, 'merge', { unit: merged, effectUses: new Set() });
         const message = `升星：3 位 ${stars} 星${c.name} → ${stars + 1} 星${c.name}。`;
         state.history.push(message);
         state.lastSpin.events.push(message);
@@ -281,10 +414,14 @@ function drawBoard(state) {
   selected.forEach((u, index) => { state.board[positions[index]] = copy(u); });
 }
 
-function weightedChoice(state, pool) {
+function weightedChoice(state, pool, phase = 'recruit') {
   const floorBoost = Math.min(2.5, 1 + state.floor * 0.09);
   const weights = { common: 52, uncommon: 30, rare: 15 * floorBoost, legendary: 3 * floorBoost };
-  if (hasItem(state, 'fortune_glue')) { weights.rare *= 1.5; weights.legendary *= 1.5; }
+  if (phase === 'recruit' && hasItem(state, 'fortune_glue')) { weights.rare *= 1.5; weights.legendary *= 1.5; }
+  if (phase === 'recruit') for (const source of getEffectSources(state, { trigger: 'passive' })) for (const effect of source.effects) {
+    if (effect.trigger !== 'passive' || effect.type !== 'rarityMultiplier' || !effectIsEligible(effect, { state, trigger: 'passive' })) continue;
+    if (Object.hasOwn(weights, effect.rarity)) weights[effect.rarity] *= effectAmount(effect, { state });
+  }
   const total = pool.reduce((sum, c) => sum + weights[c.rarity], 0);
   let pick = random(state) * total;
   for (const c of pool) { pick -= weights[c.rarity]; if (pick <= 0) return c; }
@@ -298,7 +435,7 @@ function rewardChoices(state, phase, exclusions = []) {
   if (pool.length < Math.min(3, all.length - owned.length)) pool = all.filter(c => !owned.includes(c.id));
   const choices = [];
   while (pool.length && choices.length < 3) {
-    const pick = weightedChoice(state, pool);
+    const pick = weightedChoice(state, pool, phase);
     choices.push(pick.id);
     pool = pool.filter(c => c.id !== pick.id);
   }
@@ -347,16 +484,32 @@ function finishFloor(state) {
 }
 
 function updateEssences(state, metrics) {
+  // Every essence observes the completed spin, before any threshold reward is
+  // granted. Claim order must not turn one essence's acquisition reward into
+  // another essence's same-spin progress or progress multiplier.
+  const amounts = {
+    essence_elation: state.lastSpin.damage,
+    essence_abundance: 1, essence_hunt: metrics.single, essence_destruction: 1,
+    essence_erudition: metrics.aoe, essence_harmony: metrics.synergies,
+    essence_preservation: state.lastSpin.shield, essence_nihility: metrics.nihility,
+  };
+  const progressValues = { damage: state.lastSpin.damage, spins: 1, single: metrics.single, aoe: metrics.aoe, nihility: metrics.nihility, synergies: metrics.synergies, shield: state.lastSpin.shield, healing: state.lastSpin.healing, growth: metrics.growth || 0, retirements: metrics.retirements || 0, kills: metrics.kills || 0, credits: state.lastSpin.coins };
+  const progressMultiplier = (hasDebuff(state, 'essence_audit') ? 0.75 : 1) * passiveMultiplier(state, 'essenceProgressMultiplier');
   for (const essence of state.essences) {
     if (essence.triggered) continue;
-    const amounts = {
-      essence_elation: state.lastSpin.damage,
-      essence_abundance: 1, essence_hunt: metrics.single, essence_destruction: 1,
-      essence_erudition: metrics.aoe, essence_harmony: metrics.synergies,
-      essence_preservation: state.lastSpin.shield, essence_nihility: metrics.nihility,
-    };
     const data = essenceById(essence.id);
-    essence.progress = rounded(Math.min(data.target, essence.progress + (amounts[essence.id] || 0) * (hasDebuff(state, 'essence_audit') ? 0.75 : 1)));
+    let gain = amounts[essence.id] || 0;
+    if (data.progress) {
+      const metric = data.progress.metric;
+      if (PERSISTENT_PROGRESS_METRICS.includes(metric)) {
+        const current = cumulativeProgressValue(state, metric);
+        gain = Math.max(0, current - (essence.baseline ?? current));
+        essence.baseline = current;
+      } else {
+        gain = progressValues[metric] || 0;
+      }
+    }
+    essence.progress = rounded(Math.min(data.target, essence.progress + gain * progressMultiplier));
     if (essence.progress < data.target) continue;
     essence.triggered = true;
     record(state, `余响触发：${data.name}。`);
@@ -365,6 +518,7 @@ function updateEssences(state, metrics) {
       heal(state, state.maxHp);
     }
     if (essence.id === 'essence_harmony') state.rerolls += 3;
+    runEffects(state, 'acquire', { metrics, effectUses: new Set() }, { acquired: { definition: data, sourceType: 'essence' } });
   }
 }
 
@@ -373,17 +527,18 @@ export function nearestEnemy(enemies, col) {
   return enemies.filter(e => e.hp > 0).sort((a, b) => Math.abs(a.col - col) - Math.abs(b.col - col) || a.col - b.col)[0] || null;
 }
 
-function attackEnemy(state, cell, enemy, amount, ignoresArmor) {
+function attackEnemy(state, cell, enemy, amount, ignoresArmor, onKill = null) {
   if (!enemy || enemy.hp <= 0) return false;
   const armor = state.enemySkill.id === 'armor' && !ignoresArmor ? 1 : 0;
   const damage = rounded(Math.min(enemy.hp, Math.max(0, amount - armor)));
   enemy.hp = rounded(Math.max(0, enemy.hp - damage));
   state.lastSpin.damage = rounded(state.lastSpin.damage + damage);
   if (damage > 0) state.lastSpin.hits.push({ cell, targetCol: enemy.col, amount: damage });
+  if (enemy.hp === 0) onKill?.(cell, enemy);
   return enemy.hp === 0;
 }
 
-function combatAttacks(state, powers, ignoresArmor) {
+function combatAttacks(state, powers, ignoresArmor, onKill = null) {
   // Each unit retargets after previous units resolve. Blast adjacency follows its actual primary target.
   state.board.forEach((u, cell) => {
     if (!u || u.status === 'consumed') return;
@@ -394,19 +549,19 @@ function combatAttacks(state, powers, ignoresArmor) {
     const primary = nearestEnemy(state.enemies, origin);
     if (!primary) return;
     if (c.attack === 'single') {
-      const killed = attackEnemy(state, cell, primary, power * 3, ignoresArmor);
+      const killed = attackEnemy(state, cell, primary, power * 3, ignoresArmor, onKill);
       if (killed && c.id === '1102') {
         const next = nearestEnemy(state.enemies, primary.col);
-        if (next) { attackEnemy(state, cell, next, power * (hasDebuff(state, 'seele_audit') ? 0.5 : 1), ignoresArmor); record(state, '希儿：击破后触发再现追击。'); }
+        if (next) { attackEnemy(state, cell, next, power * (hasDebuff(state, 'seele_audit') ? 0.5 : 1), ignoresArmor, onKill); record(state, '希儿：击破后触发再现追击。'); }
       }
     } else if (c.attack === 'blast') {
       const targetCol = primary.col;
-      attackEnemy(state, cell, primary, power * 2, ignoresArmor);
+      attackEnemy(state, cell, primary, power * 2, ignoresArmor, onKill);
       for (const enemy of state.enemies.filter(e => e.hp > 0 && Math.abs(e.col - targetCol) === 1)) {
-        attackEnemy(state, cell, enemy, power, ignoresArmor);
+        attackEnemy(state, cell, enemy, power, ignoresArmor, onKill);
       }
     } else {
-      for (const enemy of state.enemies.filter(e => e.hp > 0)) attackEnemy(state, cell, enemy, power, ignoresArmor);
+      for (const enemy of state.enemies.filter(e => e.hp > 0)) attackEnemy(state, cell, enemy, power, ignoresArmor, onKill);
     }
   });
 }
@@ -417,12 +572,13 @@ export function spin(previous) {
   state.round += 1;
   state.spinsLeft -= 1;
   state.stats.spins += 1;
-  state.lastSpin = { total: 0, damage: 0, coins: 0, healing: 0, shield: 0, incoming: 0, events: [], hits: [], values: Array(BOARD_SIZE).fill(0) };
+  state.lastSpin = newSpinRecord(state.floor, state.round);
   updateBossStages(state);
   if (hasDebuff(state, 'shield_decay')) {
     const beforeShield = state.shield;
     state.shield = rounded(state.shield * 0.8);
     state.resourceStats.shieldDecayed = rounded(state.resourceStats.shieldDecayed + beforeShield - state.shield);
+    effectEvent(state, { id: 'shield_decay', name: '护盾滞纳金' }, 'shieldLoss', beforeShield - state.shield, 'instant', null, '本次开始已有护盾衰减20%');
   }
   drawBoard(state);
   const polluted = state.board.find(instance => instance && isPolluted(state, instance.uid));
@@ -430,6 +586,7 @@ export function spin(previous) {
     const beforeHp = state.hp;
     state.hp = rounded(Math.max(0, state.hp - 6));
     state.resourceStats.hpLost = rounded(state.resourceStats.hpLost + beforeHp - state.hp);
+    effectEvent(state, { id: 'rift_pollution', name: '裂界污染' }, 'selfDamage', beforeHp - state.hp, 'instant', polluted.uid, '污染实例登场直接消耗生命');
     record(state, `裂界污染：${characterById(polluted.id).name}登场，直接消耗 ${rounded(beforeHp - state.hp)} 生命。`);
     if (state.hp === 0) {
       state.phase = 'defeat';
@@ -449,6 +606,8 @@ export function spin(previous) {
   let ignoresArmor = false;
   let retirements = 0;
   const metrics = { single: 0, aoe: 0, nihility: 0, synergies: synergies.length };
+  const startingEnemyCount = state.enemies.filter(e => e.hp > 0).length;
+  const effectContext = { synergies, powers, powerMultipliers: Array(BOARD_SIZE).fill(1), pendingPowerEffects: [], pendingDamageEffects: [], consumed, generated, metrics, retirements: 0, incomingReduction: 0, incomingMultiplier: 1, ignoresArmor: false, effectUses: new Set(), duringSpin: true };
   const growthMultiplier = (hasItem(state, 'rubert_gear') ? 1.5 : 1) * (hasDebuff(state, 'growth_audit') ? 0.5 : 1);
 
   // Resolve growth, utility and consumption before powers and attacks.
@@ -456,22 +615,29 @@ export function spin(previous) {
     if (!u || consumed.has(u.uid)) return;
     const original = state.roster.find(r => r.uid === u.uid);
     original.ticks += 1;
-    if (u.id === '1002' && original.ticks % (hasDebuff(state, 'danheng_audit') ? 4 : 3) === 0) original.growth += growthMultiplier;
-    if (u.id === '1107' && original.ticks % 2 === 0) original.growth += growthMultiplier;
+    const previousGrowth = original.growth;
+    const instanceGrowthMultiplier = growthMultiplier * passiveMultiplier(state, 'growthMultiplier', { unit: u });
+    if (u.id === '1002' && original.ticks % (hasDebuff(state, 'danheng_audit') ? 4 : 3) === 0) original.growth += instanceGrowthMultiplier;
+    if (u.id === '1107' && original.ticks % 2 === 0) original.growth += instanceGrowthMultiplier;
     if (u.id === '1205') {
-      original.growth += 0.5 * growthMultiplier;
+      original.growth += 0.5 * instanceGrowthMultiplier;
       const before = state.hp;
       state.hp = Math.max(1, state.hp - 2 * starMultiplier(state, u));
       state.resourceStats.hpLost = rounded(state.resourceStats.hpLost + before - state.hp);
+      effectEvent(state, u, 'selfDamage', before - state.hp, 'instant', u.uid, '刃登场消耗生命，最低留1');
     }
     original.growth = rounded(original.growth);
+    if (original.growth !== previousGrowth) { metrics.growth = rounded((metrics.growth || 0) + original.growth - previousGrowth); effectEvent(state, u, 'growth', original.growth - previousGrowth, 'run', u.uid, `${characterById(u.id).name}永久成长`); }
     Object.assign(u, { ticks: original.ticks, growth: original.growth });
     const star = starMultiplier(state, u);
-    if (u.id === '1001') shield(state, 3 * star * utilityMultiplier(state, u, 'shield'));
-    if (u.id === '1104') shield(state, 5 * star * utilityMultiplier(state, u, 'shield'));
-    if (u.id === '1208') { shield(state, 6 * star * utilityMultiplier(state, u, 'shield')); incomingMultiplier *= hasDebuff(state, 'fuxuan_audit') ? 0.9 : 0.8; }
-    if (u.id === '1105') heal(state, 3 * star * utilityMultiplier(state, u, 'heal'));
-    if (u.id === '1203') { const result = heal(state, 6 * star * utilityMultiplier(state, u, 'heal')); if (result.overflow) shield(state, result.overflow); }
+    const beforeShield = state.shield, beforeHealing = state.lastSpin.healing;
+    if (u.id === '1001') shield(state, 3 * star * utilityMultiplier(state, u, 'shield'), false, u);
+    if (u.id === '1104') shield(state, 5 * star * utilityMultiplier(state, u, 'shield'), false, u);
+    if (u.id === '1208') { shield(state, 6 * star * utilityMultiplier(state, u, 'shield'), false, u); incomingMultiplier *= hasDebuff(state, 'fuxuan_audit') ? 0.9 : 0.8; }
+    if (u.id === '1105') heal(state, 3 * star * utilityMultiplier(state, u, 'heal'), false, u);
+    if (u.id === '1203') { const result = heal(state, 6 * star * utilityMultiplier(state, u, 'heal'), false, u); if (result.overflow) shield(state, result.overflow, false, u); }
+    if (state.shield !== beforeShield) effectEvent(state, u, 'shield', state.shield - beforeShield, 'resource', null, `${characterById(u.id).name}生成护盾`);
+    if (state.lastSpin.healing !== beforeHealing) effectEvent(state, u, 'heal', state.lastSpin.healing - beforeHealing, 'resource', null, `${characterById(u.id).name}治疗`);
     if (u.id === '1004') incomingReduction += 2 * star * (hasDebuff(state, 'welt_audit') ? 0.5 : 1);
     if (u.id === '1006' || u.id === '1106') ignoresArmor = true;
     if (u.id === '1108' && random(state) < (hasDebuff(state, 'summon_audit') ? 0.125 : 0.25) && state.roster.length + generated.length < 200) {
@@ -489,7 +655,11 @@ export function spin(previous) {
         record(state, '虎克：消耗相邻临时角色，本轮威力提升。');
       }
     }
+    effectContext.unit = u; effectContext.index = index; effectContext.retirements = retirements;
+    runEffects(state, 'appearance', effectContext);
+    retirements = effectContext.retirements;
   });
+  delete effectContext.unit; delete effectContext.index;
 
   // Expiry happens after this spin's attack; consumed units never attack.
   state.board.forEach(u => {
@@ -501,13 +671,11 @@ export function spin(previous) {
       if (original.temporary === 0) { u.status = 'expired'; retirements += 1; }
     }
   });
+  effectContext.retirements = retirements;
+  metrics.retirements = retirements;
+  if (retirements) runEffects(state, 'retire', effectContext);
+  runEffects(state, 'spin', effectContext);
 
-  for (const synergy of synergies) {
-    if (synergy.id === 'belobog') shield(state, synergy.tier === 2 ? 5 : 2);
-    if (synergy.id === 'preservation') shield(state, synergy.tier === 2 ? 6 : 3);
-    if (synergy.id === 'xianzhou') heal(state, synergy.tier === 2 ? 4 : 2);
-    if (synergy.id === 'abundance') heal(state, 4);
-  }
   if (hasItem(state, 'dimension_dice')) heal(state, 2);
   if (retirements && hasItem(state, 'insect_web')) {
     state.coins += 4 * retirements;
@@ -519,6 +687,7 @@ export function spin(previous) {
   if (lottery) record(state, '银河大乐透：本轮威力增加 50%。');
   if (hasItem(state, 'chaos_trametes') && random(state) < 0.2) { state.rerolls += 1; record(state, '混沌云芝：获得 1 次重选。'); }
   if (hasItem(state, 'faith_bond')) { state.coins += 3; state.lastSpin.coins += 3; }
+  runEffects(state, 'passive', effectContext);
 
   const present = state.board.filter(u => u && !consumed.has(u.uid));
   const kafkaBoost = present.filter(u => u.id === '1005').reduce((sum, u) => sum + starMultiplier(state, u) * (hasDebuff(state, 'kafka_audit') ? 0.5 : 1), 0);
@@ -535,13 +704,19 @@ export function spin(previous) {
     if (hasItem(state, 'gold_coin')) power += 0.3;
     if (c.path === '虚无') {
       power += kafkaBoost;
+      if (kafkaBoost) for (const kafka of present.filter(v => v.id === '1005')) effectEvent(state, kafka, 'power', starMultiplier(state, kafka) * (hasDebuff(state, 'kafka_audit') ? 0.5 : 1), 'spin', u.uid, '卡芙卡本次虚无增益');
       if (hasItem(state, 'nihility_wax')) power += 1;
       if (hasEssence(state, 'essence_nihility')) power += 1.5;
     }
     if (hasEssence(state, 'essence_destruction')) power += 1;
     if (c.attack === 'aoe' && hasEssence(state, 'essence_erudition')) power += 1;
-    if (u.id === '1008' && state.hp <= state.maxHp / 2) power *= 2;
-    if (u.id === '1201' && random(state) < (hasDebuff(state, 'qingque_audit') ? 0.1 : 0.2)) { power *= 4; record(state, '青雀：暗杠！本轮威力变为 4 倍。'); }
+    const beforeMultiplierBonus = power - c.power * star - u.growth;
+    let baseMultiplier = 1;
+    if (u.id === '1008' && state.hp <= state.maxHp / 2) baseMultiplier *= 2;
+    if (u.id === '1201' && random(state) < (hasDebuff(state, 'qingque_audit') ? 0.1 : 0.2)) { baseMultiplier *= 4; record(state, '青雀：暗杠！本轮威力变为 4 倍。'); }
+    power *= baseMultiplier;
+    if (baseMultiplier !== 1) effectEvent(state, u, 'powerMultiplier', baseMultiplier, 'spin', u.uid, `${c.name}本次条件倍率`);
+    state.lastSpin.powerBreakdown[index] = { base: rounded(c.power * star), growth: u.growth, beforeMultiplierBonus: rounded(beforeMultiplierBonus), baseMultiplier, flatBonus: 0, multiplier: 1, final: 0 };
     powers[index] = power;
   });
 
@@ -549,29 +724,27 @@ export function spin(previous) {
   state.board.forEach((u, index) => {
     if (!u || consumed.has(u.uid)) return;
     let buff = u.id === '1009' ? 0.5 : u.id === '1101' || u.id === '1106' ? 1 : 0;
-    buff *= starMultiplier(state, u) * (hasItem(state, 'harmony_wax') ? 1.5 : 1) * utilityMultiplier(state, u, 'buff');
+    buff *= starMultiplier(state, u) * (hasItem(state, 'harmony_wax') ? 1.5 : 1) * utilityMultiplier(state, u, 'buff') * passiveMultiplier(state, 'buffMultiplier', { unit: u, index });
     if (buff) {
       for (const targetIndex of neighbors(index)) {
         const target = state.board[targetIndex];
-        if (target && !consumed.has(target.uid) && (u.id !== '1106' || characterById(target.id).element === '冰')) powers[targetIndex] += buff;
+        if (target && !consumed.has(target.uid) && (u.id !== '1106' || characterById(target.id).element === '冰')) { powers[targetIndex] += buff; passiveMultiplier(state, 'buffMultiplier', { unit: u, index, record: true, targetUid: target.uid }); effectEvent(state, u, 'power', buff, 'spin', target.uid, `${characterById(u.id).name}本次邻接增益`); }
       }
     }
     if (u.id === '1202') {
       const candidates = state.board.map((target, i) => ({ target, i })).filter(({ target, i }) => target && i !== index && !consumed.has(target.uid));
       candidates.sort((a, b) => powers[b.i] - powers[a.i] || a.i - b.i);
-      if (candidates.length) powers[candidates[0].i] += 2 * starMultiplier(state, u) * (hasItem(state, 'harmony_wax') ? 1.5 : 1) * utilityMultiplier(state, u, 'buff');
+      if (candidates.length) { const amount = 2 * starMultiplier(state, u) * (hasItem(state, 'harmony_wax') ? 1.5 : 1) * utilityMultiplier(state, u, 'buff') * passiveMultiplier(state, 'buffMultiplier', { unit: u, index, record: true, targetUid: candidates[0].target.uid }); powers[candidates[0].i] += amount; effectEvent(state, u, 'power', amount, 'spin', candidates[0].target.uid, '停云本次定向增益'); }
     }
   });
+  applyPowerEffects(state, effectContext);
 
   state.board.forEach((u, index) => {
     if (!u || consumed.has(u.uid)) return;
     const c = characterById(u.id);
-    let multiplier = 1;
-    for (const synergy of synergies) {
-      if (c[synergy.kind] === synergy.tag) multiplier += synergyBonus(synergy) * (hasItem(state, 'divination_candle') ? 1.5 : 1) * (hasDebuff(state, 'synergy_audit') ? 0.75 : 1);
-    }
-    if (hasItem(state, 'doctor_robe') && u.stars > 1) multiplier *= 1.2;
-    if (hasItem(state, 'broken_clock')) multiplier *= 1.2;
+    let multiplier = effectContext.powerMultipliers[index];
+    if (hasItem(state, 'doctor_robe') && u.stars > 1) { multiplier *= 1.2; effectEvent(state, { id: 'doctor_robe', name: '博士之袍' }, 'powerMultiplier', 1.2, 'spin', u.uid, '高星角色本次威力×1.2'); }
+    if (hasItem(state, 'broken_clock')) { multiplier *= 1.2; effectEvent(state, { id: 'broken_clock', name: '碎星芳饵' }, 'powerMultiplier', 1.2, 'spin', u.uid, '持有奇物使本次威力×1.2'); }
     if (hasEssence(state, 'essence_elation')) multiplier *= 1.15;
     if (hasEssence(state, 'essence_harmony')) multiplier *= 1.1;
     if (c.attack === 'single') {
@@ -583,21 +756,33 @@ export function spin(previous) {
     if (c.attack === 'aoe') { metrics.aoe += 1; if (hasItem(state, 'erudition_wax')) multiplier *= 1.25; }
     if (c.path === '虚无') metrics.nihility += 1;
     if (lottery) multiplier *= 1.5;
-    multiplier *= unitPowerMultiplier(state, c, u, Boolean(polluted));
-    if (state.overclockReady) multiplier *= SUPPLIES.overclock.multiplier;
-    if (state.enemySkill.id === 'jammer' && state.round % 3 === 0 && index % BOARD_COLUMNS === 2) multiplier *= 0.5;
+    const enemyMultiplier = unitPowerMultiplier(state, c, u, Boolean(polluted));
+    multiplier *= enemyMultiplier;
+    if (enemyMultiplier !== 1) effectEvent(state, { id: 'enemy_clauses', name: '当前关敌方条款' }, 'powerMultiplier', enemyMultiplier, 'spin', u.uid, '本关条款对该实例的本次威力修正');
+    if (state.overclockReady) { multiplier *= SUPPLIES.overclock.multiplier; effectEvent(state, { id: 'overclock', name: '待用超频' }, 'powerMultiplier', SUPPLIES.overclock.multiplier, 'spin', u.uid, '消耗待用超频，本次威力×1.2'); }
+    if (state.enemySkill.id === 'jammer' && state.round % 3 === 0 && index % BOARD_COLUMNS === 2) { multiplier *= 0.5; effectEvent(state, { id: 'jammer', name: '禁锢矩阵' }, 'powerMultiplier', 0.5, 'spin', u.uid, '本关第3次转动中列威力减半'); }
+    const preMultiplierPower = powers[index];
     powers[index] = rounded(powers[index] * multiplier);
+    const breakdown = state.lastSpin.powerBreakdown[index];
+    breakdown.flatBonus = rounded(preMultiplierPower - (breakdown.base + breakdown.growth + breakdown.beforeMultiplierBonus) * breakdown.baseMultiplier);
+    breakdown.multiplier = multiplier; breakdown.final = powers[index];
   });
   state.lastSpin.values = powers;
   state.lastSpin.total = rounded(powers.reduce((sum, power) => sum + power, 0));
 
   state.overclockReady = false;
-  combatAttacks(state, powers, ignoresArmor);
+  effectContext.ignoresArmor ||= ignoresArmor;
+  combatAttacks(state, powers, effectContext.ignoresArmor, cell => {
+    metrics.kills = (metrics.kills || 0) + 1;
+    runEffects(state, 'kill', { ...effectContext, unit: state.board[cell], index: cell });
+  });
+  for (const pending of effectContext.pendingDamageEffects) resolveEffectDamage(state, pending.effect, pending.source, pending.active, effectContext, pending.amount);
+  runEffects(state, 'spin', effectContext, { stage: 'afterAttacks' });
   let incoming = state.enemies.filter(e => e.hp > 0).reduce((sum, e) => sum + e.attack, 0);
   const alive = state.enemies.some(e => e.hp > 0);
   if (alive && state.enemySkill.id === 'pressure' && state.round % 3 === 0) incoming += 3;
   if (alive && state.enemySkill.id === 'drain' && state.round % 2 === 0) incoming += 3;
-  incoming = rounded(Math.max(0, incoming - incomingReduction) * incomingMultiplier);
+  incoming = rounded(Math.max(0, incoming - incomingReduction - effectContext.incomingReduction) * incomingMultiplier * effectContext.incomingMultiplier);
   state.lastSpin.incoming = incoming;
   const piercing = hasDebuff(state, 'shield_pierce') ? incoming * 0.25 : 0;
   const blocked = Math.min(state.shield, incoming - piercing);
@@ -606,6 +791,8 @@ export function spin(previous) {
   state.hp = rounded(Math.max(0, state.hp - incoming + blocked));
   state.resourceStats.shieldBlocked = rounded(state.resourceStats.shieldBlocked + blocked);
   state.resourceStats.hpLost = rounded(state.resourceStats.hpLost + beforeHp - state.hp);
+  metrics.blocked = rounded(blocked); metrics.hpLost = rounded(beforeHp - state.hp);
+  if (state.hp > 0) runEffects(state, 'retaliation', effectContext, { stage: 'afterRetaliation' });
   record(state, `造成 ${rounded(state.lastSpin.damage)} 伤害；敌方反击 ${incoming}，护盾抵挡 ${rounded(blocked)}。`);
   state.enemyIntent = nextIntent(state);
 
@@ -618,6 +805,7 @@ export function spin(previous) {
   state.stats.damage = rounded(state.stats.damage + state.lastSpin.damage);
   state.stats.coins = rounded(state.stats.coins + state.lastSpin.coins);
   // A fatal retaliation ends the run; an essence cannot resurrect the train.
+  metrics.kills = startingEnemyCount - state.enemies.filter(e => e.hp > 0).length;
   if (state.hp > 0) updateEssences(state, metrics);
   // HP-triggered clauses start next turn; round-triggered clauses above take
   // effect before this turn's board and all utility/attack resolution.
@@ -657,9 +845,10 @@ export function chooseReward(previous, index) {
     if (id === 'dimension_dice') { state.maxHp += 15; heal(state, 15); }
     if (id === 'seal_stamp' && !state.pendingFloor) { state.spinsLeft += 1; state.encounter.deadline += 1; }
     if (id === 'broken_clock') state.rerolls += 2;
+    runEffects(state, 'acquire', { effectUses: new Set() }, { acquired: { definition: item, sourceType: 'item' } });
   } else {
     const essence = essenceById(id);
-    state.essences.push({ id, progress: 0, triggered: false });
+    state.essences.push({ id, progress: 0, triggered: false, ...(PERSISTENT_PROGRESS_METRICS.includes(essence.progress?.metric) ? { baseline: cumulativeProgressValue(state, essence.progress.metric) } : {}) });
     state.history.push(`获得余响：${essence.name}，从下一轮开始积累。`);
   }
   advanceRewards(state);
@@ -790,7 +979,7 @@ export function validateSave(input) {
     if (new Set(boardUnits.map(u => u.uid)).size !== boardUnits.length) return null;
     if ([...input.roster, ...boardUnits].some(u => Number(u.uid.slice(1)) >= input.uidCounter)) return null;
     if (!Array.isArray(input.items) || input.items.some(id => !itemById(id)) || new Set(input.items).size !== input.items.length) return null;
-    if (!Array.isArray(input.essences) || input.essences.some(e => !essenceById(e.id) || !finite(e.progress, 0, essenceById(e.id).target) || typeof e.triggered !== 'boolean') || new Set(input.essences.map(e => e.id)).size !== input.essences.length) return null;
+    if (!Array.isArray(input.essences) || input.essences.some(e => !essenceById(e.id) || !finite(e.progress, 0, essenceById(e.id).target) || typeof e.triggered !== 'boolean' || Object.keys(e).some(key => !['id', 'progress', 'triggered', 'baseline'].includes(key)) || (e.baseline !== undefined && (!PERSISTENT_PROGRESS_METRICS.includes(essenceById(e.id).progress?.metric) || !finite(e.baseline, 0, cumulativeProgressValue(input, essenceById(e.id).progress.metric))))) || new Set(input.essences.map(e => e.id)).size !== input.essences.length) return null;
     if (!Array.isArray(input.enemies) || input.enemies.length > 5 || input.enemies.some(e => !e || typeof e.id !== 'string' || typeof e.name !== 'string' || !Number.isInteger(e.col) || !finite(e.col, 0, 4) || !finite(e.maxHp, 1) || !finite(e.hp, 0, e.maxHp) || !finite(e.attack) || typeof e.boss !== 'boolean' || (e.boss && e.col !== 2) || (e.art !== undefined && typeof e.art !== 'string'))) return null;
     if (new Set(input.enemies.map(e => e.col)).size !== input.enemies.length || new Set(input.enemies.map(e => e.id)).size !== input.enemies.length) return null;
     if (input.enemies.length === 0) return null;
@@ -820,11 +1009,23 @@ export function validateSave(input) {
     if (input.phase === 'defeat' && input.hp > 0 && !alive) return null;
     const last = input.lastSpin;
     if (!last || ['total', 'damage', 'coins', 'healing', 'shield', 'incoming'].some(key => !finite(last[key])) || !Array.isArray(last.values) || last.values.length !== BOARD_SIZE || last.values.some(value => !finite(value))) return null;
-    if (!Array.isArray(last.hits) || last.hits.length > 120 || last.hits.some(hit => !Number.isInteger(hit.cell) || !finite(hit.cell, 0, 19) || !Number.isInteger(hit.targetCol) || !finite(hit.targetCol, 0, 4) || !finite(hit.amount))) return null;
+    if (!Array.isArray(last.hits) || last.hits.length > 1024 || last.hits.some(hit => !Number.isInteger(hit.cell) || !finite(hit.cell, 0, 19) || !Number.isInteger(hit.targetCol) || !finite(hit.targetCol, 0, 4) || !finite(hit.amount))) return null;
     if (!Array.isArray(last.events) || last.events.some(event => typeof event !== 'string') || !Array.isArray(input.history) || input.history.length > 1000 || input.history.some(event => typeof event !== 'string')) return null;
+    if (last.floor !== undefined && (!Number.isInteger(last.floor) || !finite(last.floor, 1, input.floor))) return null;
+    if (last.round !== undefined && (!Number.isInteger(last.round) || !finite(last.round, 0, 100))) return null;
+    if (last.effects !== undefined && (!Array.isArray(last.effects) || last.effects.length > 2000 || last.effects.some(effect => !effect || typeof effect !== 'object' || Object.keys(effect).some(key => !['sourceId', 'sourceUid', 'targetUid', 'type', 'label', 'duration', 'amount', 'floor', 'round'].includes(key)) || ['sourceId', 'type', 'label', 'duration'].some(key => typeof effect[key] !== 'string' || effect[key].length > 500) || ['sourceUid', 'targetUid'].some(key => effect[key] !== undefined && (typeof effect[key] !== 'string' || !/^u[1-9]\d*$/.test(effect[key]))) || effect.amount !== undefined && !finite(effect.amount, -1e12) || effect.floor !== undefined && (!Number.isInteger(effect.floor) || !finite(effect.floor, 1, input.floor)) || effect.round !== undefined && (!Number.isInteger(effect.round) || !finite(effect.round, 0, 100))))) return null;
+    if (last.powerBreakdown !== undefined) {
+      if (!Array.isArray(last.powerBreakdown) || last.powerBreakdown.length !== BOARD_SIZE) return null;
+      for (const [index, entry] of last.powerBreakdown.entries()) {
+        if (entry === null) continue;
+        if (!entry || Object.keys(entry).some(key => !['base', 'growth', 'beforeMultiplierBonus', 'baseMultiplier', 'flatBonus', 'multiplier', 'final'].includes(key))) return null;
+        if (['base', 'growth', 'baseMultiplier', 'multiplier', 'final'].some(key => !finite(entry[key])) || ['beforeMultiplierBonus', 'flatBonus'].some(key => !finite(entry[key], -1e12)) || entry.final !== last.values[index]) return null;
+      }
+    }
     if (!input.stats || ['spins', 'damage', 'coins', 'merges', 'destroyed'].some(key => !finite(input.stats[key]))) return null;
     // The JSON round trip discards prototype properties and guarantees persistence compatibility.
     const restored = JSON.parse(JSON.stringify(input));
+    for (const essence of restored.essences) if (PERSISTENT_PROGRESS_METRICS.includes(essenceById(essence.id).progress?.metric) && essence.baseline === undefined) essence.baseline = cumulativeProgressValue(restored, essenceById(essence.id).progress.metric);
     for (const effect of restored.activeDebuffs) {
       if (effect.id === 'rift_pollution') effect.description = pollutionDescription(effect.targetName);
     }

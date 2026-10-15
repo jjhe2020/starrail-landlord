@@ -71,7 +71,7 @@ test('the marked instance pays six health, personal half power and one shared at
 });
 
 test('an instance not drawn onto the twenty-cell board pays no pollution health', () => {
-  const characters = CHARACTERS.filter(character => character.id !== '1205');
+  const characters = CHARACTERS.filter(character => !character.effects.some(effect => effect.type === 'selfDamage'));
   const roster = Array.from({ length: 35 }, (_, index) => instance(`u${index + 1}`, characters[index % characters.length].id));
   let observed = false;
   for (let index = 0; index < 20; index++) {

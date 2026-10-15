@@ -1,0 +1,743 @@
+{
+  "sourceRepository": "https://github.com/Mar-7th/StarRailRes",
+  "commit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+  "retrieved": "2026-10-15",
+  "assets": [
+    {
+      "id": "1001",
+      "name": "降维骰子",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1001.png",
+      "bytes": 17407,
+      "sha256": "c34f8e92973fceed5e14800eed82e87caab614fe9a51bd52d4e48e1517c6b932",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "dimensional_dice",
+        "essence_dimensional_dice"
+      ]
+    },
+    {
+      "id": "1002",
+      "name": "混沌云芝",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1002.png",
+      "bytes": 23649,
+      "sha256": "e78c6f30c7e836c9d6ad24b79b056e3e7b3e34c9dc15772cd83de4cff2c7addd",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "chaos_trametes"
+      ]
+    },
+    {
+      "id": "1003",
+      "name": "跃迁复眼",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1003.png",
+      "bytes": 24480,
+      "sha256": "2b54023bd96a83dc6518c94a35e3d9bbfdad644863f8692cafbf3b0f632aedd6",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "compound_eye",
+        "essence_compound_eye"
+      ]
+    },
+    {
+      "id": "1004",
+      "name": "异木果实",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1004.png",
+      "bytes": 25134,
+      "sha256": "6df89931d3e8e81025d2f618007af05d7abbbf82b7d47b2264de60d2e0eeeeb5",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "dimension_dice",
+        "essence_abundance"
+      ]
+    },
+    {
+      "id": "1005",
+      "name": "测不准匣",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1005.png",
+      "bytes": 22453,
+      "sha256": "a0858c4edd4c16df375f4a62169c202c6cca613d10913947c3c22de1d602c1bb",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "uncertainty_box"
+      ]
+    },
+    {
+      "id": "1006",
+      "name": "香涎干酪",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1006.png",
+      "bytes": 12776,
+      "sha256": "db998a01e89fcfaa4bb2e29d87ede3d3e4ba1da5081d3b128198e276343c4593",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "divination_candle"
+      ]
+    },
+    {
+      "id": "1007",
+      "name": "福灵胶",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1007.png",
+      "bytes": 17899,
+      "sha256": "2d340cf6d68412a14d4062271f0046118771c153741bd1c9b33057b5d1914a80",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "fortune_glue"
+      ]
+    },
+    {
+      "id": "1008",
+      "name": "永不停嘴的羊皮卷",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1008.png",
+      "bytes": 28241,
+      "sha256": "51a2cc621d2b77ed9c991d3cc1f9ed566178b5790bebb8c821126e094349dd60",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "whispering_scroll",
+        "essence_scroll"
+      ]
+    },
+    {
+      "id": "1011",
+      "name": "博士之袍",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1011.png",
+      "bytes": 19494,
+      "sha256": "51edbe01d6ce54f62c84378635dcfd56d8372212c5ba438ac233a81424adc980",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "doctor_robe"
+      ]
+    },
+    {
+      "id": "1012",
+      "name": "俱乐部券",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1012.png",
+      "bytes": 23952,
+      "sha256": "ded0747968ae1effc5c92eb92f1036e5898109b5bb4101cbc3632bfc5d8a39f2",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "club_coupon"
+      ]
+    },
+    {
+      "id": "1013",
+      "name": "信仰债券",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1013.png",
+      "bytes": 18187,
+      "sha256": "eab23ca6e364164396201a68b7bd14b8562837dd90012638b2f63f6d01d34e1d",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "faith_bond"
+      ]
+    },
+    {
+      "id": "1014",
+      "name": "纯美之袍",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1014.png",
+      "bytes": 26536,
+      "sha256": "bcf08fe7d7b14195f822ea247537828415e469025f1905b63f48546307ee37a2",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "beauty_robe",
+        "essence_beauty_robe"
+      ]
+    },
+    {
+      "id": "1015",
+      "name": "分裂金币",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1015.png",
+      "bytes": 27219,
+      "sha256": "4c52167d11e28132e4c0494edc650d1a039b2bf50a38cb8d5a84e79c35dff31f",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "split_coin",
+        "essence_split_coin"
+      ]
+    },
+    {
+      "id": "1016",
+      "name": "无效文字打印机",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1016.png",
+      "bytes": 24381,
+      "sha256": "25216609dedf971084e1596020c371f37d615e2b05c0027471916882baf1fb96",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "invalid_printer"
+      ]
+    },
+    {
+      "id": "1017",
+      "name": "空无烛剪",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1017.png",
+      "bytes": 18605,
+      "sha256": "ce707b8915c2b9053a7f8ac93442218b559d3d14d658fc48dc95bb05e8ee8491",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "void_wick",
+        "essence_void_wick"
+      ]
+    },
+    {
+      "id": "1019",
+      "name": "虫网",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1019.png",
+      "bytes": 25819,
+      "sha256": "c8a5b246a9441467b8fcf9c6dabc4ee287b5c4f4ada3f1cb3112a38f26e8e5f0",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "insect_web"
+      ]
+    },
+    {
+      "id": "1020",
+      "name": "存护火漆",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1020.png",
+      "bytes": 23563,
+      "sha256": "a42e75dfd66e78a2665a08371f2034ef9d0a591977160d06979cfdda110c5833",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "preservation_wax",
+        "essence_preservation"
+      ]
+    },
+    {
+      "id": "1021",
+      "name": "欢愉火漆",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1021.png",
+      "bytes": 28854,
+      "sha256": "8a0f96b133ca5fae66800a82b03e6a61d7b905d98602ecb005fa76a0998833f6",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "elation_wax",
+        "essence_elation_wax"
+      ]
+    },
+    {
+      "id": "1022",
+      "name": "巡猎火漆",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1022.png",
+      "bytes": 26491,
+      "sha256": "85fc040c5fee35f822c76f5b50d37348348203673bb2102c10c50babd9b85bda",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "hunt_wax",
+        "essence_hunt"
+      ]
+    },
+    {
+      "id": "1023",
+      "name": "毁灭火漆",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1023.png",
+      "bytes": 27520,
+      "sha256": "22d2fac5f23dbac210821a6df8e1d3439d80726b87c7ff0807e1138938c0c648",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "destruction_wax",
+        "essence_destruction"
+      ]
+    },
+    {
+      "id": "1024",
+      "name": "记忆火漆",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1024.png",
+      "bytes": 23104,
+      "sha256": "31592cc82c7c0a88da7dfcd0ae5dcadbcfb3a432be561a558908f7be126e8e97",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "remembrance_wax",
+        "essence_remembrance"
+      ]
+    },
+    {
+      "id": "1025",
+      "name": "丰饶火漆",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1025.png",
+      "bytes": 24804,
+      "sha256": "7eb9d22d938d60fc13222c6eaf149089ae98326e1c3e6bd9f38cd0465fa51a4b",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "abundance_wax"
+      ]
+    },
+    {
+      "id": "1026",
+      "name": "银河大乐透",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1026.png",
+      "bytes": 17961,
+      "sha256": "81e020821189c7c598eab94d959d3a6796bd0e61bcaab61f862bb5cdb9d167da",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "cosmic_lotto",
+        "essence_elation"
+      ]
+    },
+    {
+      "id": "1028",
+      "name": "时空棱镜",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1028.png",
+      "bytes": 16706,
+      "sha256": "ef536d1fb259b5534c657928a179fc22a44693b368994d782812c508b33e5908",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "spacetime_prism",
+        "essence_prism"
+      ]
+    },
+    {
+      "id": "1029",
+      "name": "碎星芳饵",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1029.png",
+      "bytes": 25938,
+      "sha256": "5699f4ec11f60137f30d69ee8f5e7676f7dc3f7979b30f1628588189a3330550",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "broken_clock"
+      ]
+    },
+    {
+      "id": "1030",
+      "name": "万识囊",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1030.png",
+      "bytes": 21642,
+      "sha256": "0b03a09d3447d876c28132dd26fcc68c26bea3904c3d7ff8f8cac9548e05eb90",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "omniscient_bag"
+      ]
+    },
+    {
+      "id": "1031",
+      "name": "天外重声大碟",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1031.png",
+      "bytes": 25100,
+      "sha256": "7949b549b92b11e1bf1e8df825af4e8cb2ab17439ca4cb3242d2cbbb7673790a",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "gold_coin"
+      ]
+    },
+    {
+      "id": "1032",
+      "name": "换境桂冠",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1032.png",
+      "bytes": 21037,
+      "sha256": "2cbd696f59b5544534b703021ce887b0ad18fce5c0d44ad207e7484e3df2a9fc",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "realm_crown",
+        "essence_realm_crown"
+      ]
+    },
+    {
+      "id": "1033",
+      "name": "三角滚奏器",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1033.png",
+      "bytes": 14797,
+      "sha256": "99121e666133690b05e6f1fba416f08528839652b17c503dee5486e4ab1d7c68",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "triangle_instrument"
+      ]
+    },
+    {
+      "id": "1034",
+      "name": "万象无常骰",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1034.png",
+      "bytes": 18268,
+      "sha256": "57b56e64af3eab89d67570c589968faee643e2fc44e5436ad8d49ccca2725938",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "impermanence_dice"
+      ]
+    },
+    {
+      "id": "1035",
+      "name": "闪耀的偏方三八面骰",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1035.png",
+      "bytes": 34017,
+      "sha256": "5960e9820350efe3b1b247c5665769305b84cacb05b27aa8d92efe03c4ae7758",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "polyhedral_dice"
+      ]
+    },
+    {
+      "id": "1036",
+      "name": "信标着色剂",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1036.png",
+      "bytes": 15244,
+      "sha256": "d01cf81ab1ad48e3923a1a42327288e1935d472a79f009499e4cf7d2a1cffaf9",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "beacon_colorant",
+        "essence_colorant"
+      ]
+    },
+    {
+      "id": "1037",
+      "name": "猜不透匣",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1037.png",
+      "bytes": 26674,
+      "sha256": "4c5c5df7f94b5841841d6c3f86d557c1e25189e55c78914a3d2e848ffa4e43b0",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "mystery_box"
+      ]
+    },
+    {
+      "id": "1039",
+      "name": "公司咕咕钟",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1039.png",
+      "bytes": 20816,
+      "sha256": "dd1b22220a9c64f92e6bb99445190284cd39707c1360eda0fb0d998ffbbb2fbc",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "seal_stamp"
+      ]
+    },
+    {
+      "id": "1042",
+      "name": "许愿星",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1042.png",
+      "bytes": 20398,
+      "sha256": "3c6ec3068e483b90a65d36d05a7f2ce94e7c0dfd9348ee067082dbac1203254a",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "wish_star"
+      ]
+    },
+    {
+      "id": "1043",
+      "name": "黑洞之阱",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1043.png",
+      "bytes": 19497,
+      "sha256": "424489b6a7601bdfbbd561f542d7f129ea5f62c5448becbe824826378e6826a4",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "black_hole_trap",
+        "essence_trap"
+      ]
+    },
+    {
+      "id": "1044",
+      "name": "天使型谢债发行机",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1044.png",
+      "bytes": 26090,
+      "sha256": "50b644fa7a70f78147791b885e1dd79e73db0acc9f6ef16e5824de9b9d04796c",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "angel_debt"
+      ]
+    },
+    {
+      "id": "1045",
+      "name": "分裂银币",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1045.png",
+      "bytes": 26856,
+      "sha256": "566e9e35352c4e234adbff2e734f54c1ee63c24ea4b79aac7c413c03238cd04b",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "split_silver"
+      ]
+    },
+    {
+      "id": "1046",
+      "name": "湮灭烛剪",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1046.png",
+      "bytes": 18683,
+      "sha256": "074b745c7f7ddef217a4f8d1450e9e05929737bcf187a2bed7a7b3c42b702db1",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "annihilation_wick",
+        "essence_annihilation"
+      ]
+    },
+    {
+      "id": "1047",
+      "name": "虚无火漆",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1047.png",
+      "bytes": 28056,
+      "sha256": "d7d11b124a8d9c1eccfa51bb40511d026f908d9d687e5183f42d1ff8350e4912",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "nihility_wax",
+        "essence_nihility"
+      ]
+    },
+    {
+      "id": "1048",
+      "name": "朋克洛德精神",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1048.png",
+      "bytes": 23436,
+      "sha256": "71f13509809f52bab9ca03b705e295de4ff65115c2c704d2c6fc2ea1d5c80845",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "punklorde_spirit",
+        "essence_punklorde"
+      ]
+    },
+    {
+      "id": "1050",
+      "name": "邪恶机械卫星#900",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1050.png",
+      "bytes": 22396,
+      "sha256": "7792f9d58f77a6e30a8d7387bc9eea00faf18cb074ec09bdd37ee3917af8dbd2",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "evil_satellite",
+        "essence_satellite"
+      ]
+    },
+    {
+      "id": "1051",
+      "name": "纯美骑士精神",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1051.png",
+      "bytes": 19327,
+      "sha256": "a82c0baa7456a35078daa2fc23e52bd117d0c246470bdf2a675c09a7939c63d0",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "harmony_wax",
+        "essence_harmony"
+      ]
+    },
+    {
+      "id": "1052",
+      "name": "繁育火漆",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1052.png",
+      "bytes": 23827,
+      "sha256": "4c9dd936d6a04da139ab71fc179415d4b0c1965461684890152b2901f437d225",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "propagation_wax",
+        "essence_propagation"
+      ]
+    },
+    {
+      "id": "1056",
+      "name": "混沌特效灵药",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1056.png",
+      "bytes": 20288,
+      "sha256": "1a2e05979c0d73dd4b74e610d6f14f0b7c84dcedb19baebb38c24e401e171d1c",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "chaos_medicine",
+        "essence_medicine"
+      ]
+    },
+    {
+      "id": "1057",
+      "name": "家族缘结",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1057.png",
+      "bytes": 14325,
+      "sha256": "1977f7b71bb05164a8036c08c7e9f0f0776d3ab9fdcb8ea0507d0107174e4e02",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "family_ties",
+        "essence_family"
+      ]
+    },
+    {
+      "id": "1060",
+      "name": "粉红冲撞",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1060.png",
+      "bytes": 17110,
+      "sha256": "875d01a6d602e2fec342dff1fa204d36bbea8a73875a0fdf8f3461ef388fa3de",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "pink_collision"
+      ]
+    },
+    {
+      "id": "1061",
+      "name": "人造陨石球",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1061.png",
+      "bytes": 24602,
+      "sha256": "e9aea97e775b21d6be731461db021d6bede24747b287b8de058dc5d772f922e0",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "meteorite"
+      ]
+    },
+    {
+      "id": "1062",
+      "name": "塔拉毒火焰",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1062.png",
+      "bytes": 15789,
+      "sha256": "1e6721eb2b65a9dc2635593c108a10a486b2fd26e5d154b2088cc2f6cc766f8f",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "tala_flame",
+        "essence_tala"
+      ]
+    },
+    {
+      "id": "1063",
+      "name": "天才俱乐部普通八卦",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1063.png",
+      "bytes": 19187,
+      "sha256": "5c796d836e19e9550acc38a3cf1cacd1eac8eb39be32b60526e33df366196acd",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "genius_gossip",
+        "essence_genius"
+      ]
+    },
+    {
+      "id": "1064",
+      "name": "虚构机兵",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1064.png",
+      "bytes": 21825,
+      "sha256": "ceaf9c5fee53d631485074e72dbc7a433d252a97bb71363f7785ce52f51a4f34",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "fictional_machine"
+      ]
+    },
+    {
+      "id": "1065",
+      "name": "龋齿星系模型",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1065.png",
+      "bytes": 24018,
+      "sha256": "0e29eca74ff379738c515a7950b4b8ac6c33fdfd8d5ad35171fe2e81ebc788a4",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "cavity_model",
+        "essence_cavity"
+      ]
+    },
+    {
+      "id": "1066",
+      "name": "一撮胡须火药",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1066.png",
+      "bytes": 19167,
+      "sha256": "861ef92f6db6d5445956e2651a6aaa297ae101a91738acb6dc0c3332bfb83504",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "whisker_powder",
+        "essence_whisker"
+      ]
+    },
+    {
+      "id": "1067",
+      "name": "愚者面具",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1067.png",
+      "bytes": 17177,
+      "sha256": "91f88bf6cee7ae3be6e7b08e1d1a5946cacceeef4ad15fb0e9ec95f6ec637d64",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "fools_mask"
+      ]
+    },
+    {
+      "id": "1068",
+      "name": "星际大乐透",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1068.png",
+      "bytes": 16743,
+      "sha256": "d38fcd40efb4dba009125f4561c43b7ac503489d5e410ed90e41719492a7fcec",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "interstellar_lotto"
+      ]
+    },
+    {
+      "id": "1069",
+      "name": "血锦之纪徽章",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1069.png",
+      "bytes": 22030,
+      "sha256": "d739bcb32e8efe5c9aeb61c3ef1af0172b17a3df24a3d583ef727c6b22d222d5",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "blood_badge"
+      ]
+    },
+    {
+      "id": "1070",
+      "name": "鲁珀特帝国机械齿轮",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1070.png",
+      "bytes": 20897,
+      "sha256": "9c1a1f54360bcbe64bafd86774ade805390371f9ae832e6c60ec970588e1b265",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "rubert_gear"
+      ]
+    },
+    {
+      "id": "1072",
+      "name": "海绵王",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1072.png",
+      "bytes": 24677,
+      "sha256": "1183326421e8f3fd85c9379f0464ebdad5f123a29a1a95af56f0a1979b355de1",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "sponge_king"
+      ]
+    },
+    {
+      "id": "1073",
+      "name": "腐化异木果实",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1073.png",
+      "bytes": 30627,
+      "sha256": "84c691e38f37417aeb73051e05fb2ce642ac8350f19567f9d63e928cf6fad07e",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "corrupt_fruit"
+      ]
+    },
+    {
+      "id": "1074",
+      "name": "和平的代价",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1074.png",
+      "bytes": 20855,
+      "sha256": "630d6c5ec8a65984bd14fc9f9ae366b7e89e1b38cc2911736a4ce1517803b32f",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "peace_price"
+      ]
+    },
+    {
+      "id": "1077",
+      "name": "「有机心脏」",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1077.png",
+      "bytes": 19833,
+      "sha256": "812a61c67d877004877661354a6f1a2f4b5210e62b1222933abab4eecf3ad2bd",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "organic_heart",
+        "essence_heart"
+      ]
+    },
+    {
+      "id": "1078",
+      "name": "阿阮袋",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1078.png",
+      "bytes": 25082,
+      "sha256": "cb0226548a9a90ed728898c57556a9d74313df89093de25eb3daee26db36e6c1",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "ruan_pouch"
+      ]
+    },
+    {
+      "id": "1081",
+      "name": "「楼梯上的水母」",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1081.png",
+      "bytes": 21578,
+      "sha256": "72dcfc36bbd8db1ec160265025ddfee372e1907f83d5e3ea5063039b84b7a8a8",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "stair_jellyfish",
+        "essence_jellyfish"
+      ]
+    },
+    {
+      "id": "1082",
+      "name": "智识火漆",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/curio/1082.png",
+      "bytes": 24289,
+      "sha256": "ec6ad22b32082818ff3640a51254732c426027c8d79071631245d10c7d07c7d9",
+      "retrieved": "2026-10-15",
+      "contentIds": [
+        "erudition_wax",
+        "essence_erudition"
+      ]
+    }
+  ]
+}

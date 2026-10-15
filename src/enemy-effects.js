@@ -1,4 +1,5 @@
-import { characterById, SYNERGIES } from './content.js';
+import { characterById, itemById, essenceById } from './content.js';
+import { getSynergiesFor } from './synergies.js';
 
 export const POLLUTION_ATTACK_MULTIPLIER = 0.85;
 
@@ -6,9 +7,21 @@ const characters = state => state.roster.map(u => characterById(u.id)).filter(Bo
 const hasCharacter = (state, id) => state.roster.some(u => u.id === id);
 const hasPath = (state, path) => characters(state).some(c => c.path === path);
 const hasAttack = (state, attack) => characters(state).some(c => c.attack === attack);
-const adjacency = state => state.roster.length > 1 && ['1009', '1101', '1106', '1202'].some(id => hasCharacter(state, id));
-const healing = state => ['1105', '1203'].some(id => hasCharacter(state, id)) || state.items.includes('dimension_dice') || state.items.includes('insect_web') && state.roster.some(u => u.temporary || u.id === '1108');
-const shielding = state => ['1001', '1104', '1208', '1203'].some(id => hasCharacter(state, id)) || state.shield > 0 || state.items.includes('preservation_wax');
+const isDirectedBuff = effect => effect.type === 'power' && ['adjacent', 'strongest'].includes(effect.target);
+const adjacency = (state, path = null) => state.roster.length > 1 && characters(state).some(character => (!path || character.path === path) && character.effects?.some(isDirectedBuff));
+const liveDefinitions = state => [
+  ...characters(state),
+  ...state.items.map(itemById),
+  ...state.essences.filter(entry => entry.triggered).map(entry => essenceById(entry.id)),
+  ...getSynergiesFor(state, characterById).filter(synergy => synergy.active),
+].filter(Boolean);
+const ongoingEffects = state => liveDefinitions(state).flatMap(definition => definition.effects || []).filter(effect => effect.trigger !== 'acquire');
+const canRetire = state => state.roster.some(unit => unit.temporary) || ongoingEffects(state).some(effect => effect.type === 'summon');
+const usableGeneration = (state, effect) => !(effect.per?.metric === 'retirements' || effect.per?.filter?.temporary) || canRetire(state);
+const healing = state => ongoingEffects(state).some(effect => ['heal', 'healOverflowShield'].includes(effect.type) && usableGeneration(state, effect));
+const shielding = state => state.shield > 0 || ongoingEffects(state).some(effect => ['shield', 'healOverflowShield'].includes(effect.type) && usableGeneration(state, effect) && (effect.per?.metric !== 'healing' || healing(state)));
+const growth = state => ongoingEffects(state).some(effect => effect.type === 'growth');
+const offensiveSynergy = state => getSynergiesFor(state, characterById).some(synergy => synergy.active && synergy.effects.some(effect => ['power', 'powerMultiplier', 'damage'].includes(effect.type)));
 const clause = (id, name, description, eligible) => ({ id, name, description, eligible });
 
 // Each clause softens a relevant mechanic for this encounter. No permanent bans.
@@ -19,11 +32,11 @@ export const ENEMY_DEBUFFS = [
   clause('path_nihility', '虚无审查', '虚无角色威力降低 20%。', s => hasPath(s, '虚无')),
   clause('path_preservation', '存护折旧', '存护角色产生的护盾降低 25%。', s => hasPath(s, '存护')),
   clause('path_abundance', '丰饶限流', '丰饶角色的治疗降低 25%。', s => hasPath(s, '丰饶')),
-  clause('path_harmony', '同谐隔离', '同谐角色提供的相邻和定向威力增益降低 30%。', s => adjacency(s) && hasPath(s, '同谐')),
+  clause('path_harmony', '同谐隔离', '同谐角色提供的相邻和定向威力增益降低 30%。', s => adjacency(s, '同谐')),
   clause('attack_single', '单体附加税', '单体攻击角色威力降低 20%。', s => hasAttack(s, 'single')),
   clause('attack_blast', '扩散限额', '扩散攻击角色威力降低 20%。', s => hasAttack(s, 'blast')),
   clause('attack_aoe', '群攻摊销', '群体攻击角色威力降低 20%。', s => hasAttack(s, 'aoe')),
-  clause('growth_audit', '成长折旧', '本层新增永久成长降低 50%；已有成长保留。', s => ['1002', '1107', '1205'].some(id => hasCharacter(s, id))),
+  clause('growth_audit', '成长折旧', '本层新增永久成长降低 50%；已有成长保留。', growth),
   clause('adjacency_audit', '邻接隔断', '相邻角色与定向威力增益降低 40%。', adjacency),
   clause('star_audit', '升星差额税', '二星、三星的基础威力和角色技能倍率降低 20%；不会降星。', s => s.roster.some(u => u.stars > 1)),
   clause('summon_audit', '召援登记', '桑博召来临时虎克的概率由 25% 降至 12.5%。', s => hasCharacter(s, '1108')),
@@ -38,10 +51,7 @@ export const ENEMY_DEBUFFS = [
   clause('march_audit', '六相冰折损', '三月七产生的护盾降低 50%。', s => hasCharacter(s, '1001')),
   clause('natasha_audit', '急救限流', '娜塔莎的治疗降低 50%。', s => hasCharacter(s, '1105')),
   clause('essence_audit', '精华缓释', '尚未触发的精华进度获取降低 25%。', s => s.essences.some(e => !e.triggered)),
-  clause('synergy_audit', '羁绊征收', '已激活羁绊的威力加成降低 25%。', s => {
-    const unique = [...new Set(s.roster.filter(u => !u.temporary).map(u => u.id))].map(characterById);
-    return SYNERGIES.some(effect => unique.filter(c => c[effect.kind] === effect.tag).length >= effect.thresholds[0] && unique.some(c => c[effect.kind] === effect.tag && c.attack !== 'support'));
-  }),
+  clause('synergy_audit', '羁绊征收', '已激活羁绊的威力加成降低 25%。', offensiveSynergy),
   clause('healing_audit', '医疗折价', '角色、羁绊和奇物的治疗降低 25%；信用补给维修保持固定数值。', healing),
   clause('shield_audit', '护盾折价', '角色、羁绊和奇物产生的护盾降低 25%；信用补给护盾保持固定数值。', shielding),
   clause('shield_pierce', '贯穿反击', '敌人反击的 25% 直接损失生命，其余仍可由护盾抵挡。', shielding),
