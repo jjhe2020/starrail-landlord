@@ -88,7 +88,7 @@ npm run train:ai -- --difficulty 10 --runs 100 --generations 2 --candidates 4 --
 node scripts/resource-balance.mjs --runs 1000 --workers 8 --seed resources-release-check
 ```
 
-普通对照报告保存到 `docs/benchmarks/balance-latest.json`，训练到 `training-latest.json`。可用 `--output` 指定位置、`--profile` 加载已保存策略；`--disable rerolls,removals,credits,defense` 指定资源对照。前三种开关限制真实动作，`defense` 只关闭防御规划与主动防御补给，保留自然治疗、护盾与正常承伤；是否有效使用由实际消耗/生成比判断。资源矩阵命令每组运行所选局数，默认 20 组；`--scope primary` 缩减为 9 组。`--require-target` 在资源验收未满足时保存报告并返回非零退出码。校准样本不能混入正式独立胜率。完整口径见 [平衡报告](docs/BALANCE.md)。
+普通对照报告保存到 `docs/benchmarks/balance-parallel-latest.json`，训练到 `training-latest.json`。可用 `--output` 指定位置、`--profile` 加载已保存策略；`--disable rerolls,removals,credits,defense` 指定资源对照。前三种开关限制真实动作，`defense` 只关闭防御规划与主动防御补给，保留自然治疗、护盾与正常承伤；是否有效使用由实际消耗/生成比判断。资源矩阵命令每组运行所选局数，默认 20 组；`--scope primary` 缩减为 9 组。`--require-target` 在资源验收未满足时保存报告并返回非零退出码。校准样本不能混入正式独立胜率。完整口径见 [平衡报告](docs/BALANCE.md)。
 
 ## 项目结构
 
