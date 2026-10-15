@@ -17,7 +17,13 @@ jobs:
       - run: npm run check
       - run: npm test
       - run: npm run build
+      - run: npm run build:portable
       - uses: actions/upload-artifact@v4
         with:
           name: starrail-landlord-web
           path: dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: starrail-landlord-portable
+          path: artifacts/星穹转轮-v*.html
+          if-no-files-found: error

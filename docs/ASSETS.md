@@ -42,6 +42,10 @@
 
 敌人使用透明背景，以便血条、伤害数值与技能提示独立布局。上述原创图形不改变角色头像的第三方归属。
 
+## 主屏幕图标
+
+`public/icons/icon-192.png`、`icon-512.png`、`maskable-512.png` 与 `apple-touch-icon.png` 是本项目使用基础形状绘制的原创转轮、星芒与轨道图标。沿用深蓝、紫、青与浅金配色，未使用第三方角色画像。maskable 图案位于中心安全区域，适用于安卓桌面裁剪；iPad 使用 180 × 180 PNG。
+
 ## 规则参考
 
 《幸运房东》的玩法参考来自 [TrampolineTales 的 Steam 官方商店页](https://store.steampowered.com/app/1404850/Luck_be_a_Landlord/) 与开发者 [Content Patch #9 — Essences 公告](https://steamcommunity.com/ogg/1404850/announcements/detail/5510701238793103300)。公告由 Steam 官方新闻 API 核验，作者为 TrampolineTales。

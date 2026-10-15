@@ -1,0 +1,239 @@
+{
+  "version": 1,
+  "mode": "combat",
+  "seed": "legacy-combat-fixture",
+  "rngState": 1451207075,
+  "uidCounter": 7,
+  "phase": "ready",
+  "floor": 1,
+  "round": 1,
+  "spinsLeft": 4,
+  "coins": 0,
+  "rent": 25,
+  "hp": 100,
+  "maxHp": 100,
+  "shield": 0,
+  "rerolls": 2,
+  "removals": 2,
+  "roster": [
+    {
+      "uid": "u1",
+      "id": "1001",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    {
+      "uid": "u2",
+      "id": "1002",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    {
+      "uid": "u3",
+      "id": "1009",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    {
+      "uid": "u4",
+      "id": "1013",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    {
+      "uid": "u5",
+      "id": "1105",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    {
+      "uid": "u6",
+      "id": "1001",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 0
+    }
+  ],
+  "board": [
+    null,
+    null,
+    null,
+    {
+      "uid": "u1",
+      "id": "1001",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    {
+      "uid": "u3",
+      "id": "1009",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    null,
+    null,
+    null,
+    {
+      "uid": "u4",
+      "id": "1013",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    {
+      "uid": "u2",
+      "id": "1002",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    null,
+    null,
+    null,
+    {
+      "uid": "u5",
+      "id": "1105",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "items": [],
+  "essences": [],
+  "enemies": [
+    {
+      "id": "1-0",
+      "name": "自动机兵",
+      "col": 0,
+      "hp": 19.27,
+      "maxHp": 21,
+      "attack": 1,
+      "boss": false,
+      "art": "/assets/enemies/automaton.svg"
+    },
+    {
+      "id": "1-2",
+      "name": "自动机兵",
+      "col": 2,
+      "hp": 14.08,
+      "maxHp": 21,
+      "attack": 1,
+      "boss": false,
+      "art": "/assets/enemies/automaton.svg"
+    },
+    {
+      "id": "1-4",
+      "name": "自动机兵",
+      "col": 4,
+      "hp": 14.08,
+      "maxHp": 21,
+      "attack": 1,
+      "boss": false,
+      "art": "/assets/enemies/automaton.svg"
+    }
+  ],
+  "choices": [],
+  "pendingRewards": [],
+  "pendingFloor": false,
+  "endless": false,
+  "lastSpin": {
+    "total": 7.34,
+    "damage": 15.57,
+    "coins": 0,
+    "healing": 0,
+    "shield": 3,
+    "incoming": 3,
+    "events": [
+      "造成 15.57 伤害；敌方反击 3，护盾抵挡 3。"
+    ],
+    "hits": [
+      {
+        "cell": 3,
+        "targetCol": 2,
+        "amount": 5.19
+      },
+      {
+        "cell": 8,
+        "targetCol": 0,
+        "amount": 1.73
+      },
+      {
+        "cell": 8,
+        "targetCol": 2,
+        "amount": 1.73
+      },
+      {
+        "cell": 8,
+        "targetCol": 4,
+        "amount": 1.73
+      },
+      {
+        "cell": 9,
+        "targetCol": 4,
+        "amount": 5.19
+      }
+    ],
+    "values": [
+      0,
+      0,
+      0,
+      1.73,
+      1.15,
+      0,
+      0,
+      0,
+      1.73,
+      1.73,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "history": [
+    "列车抵达：每次转动后可招募一名角色，三名相同一星角色会自动合成二星。",
+    "造成 15.57 伤害；敌方反击 3，护盾抵挡 3。",
+    "招募：三月七加入编队。"
+  ],
+  "stats": {
+    "spins": 1,
+    "damage": 15.57,
+    "coins": 0,
+    "merges": 0,
+    "destroyed": 0
+  },
+  "enemySkill": {
+    "id": "pressure",
+    "name": "战意积蓄",
+    "description": "每第三次转动，存活敌人的攻击总和额外增加 3。"
+  },
+  "encounter": {
+    "name": "空间站警戒区",
+    "deadline": 5
+  },
+  "enemyIntent": {
+    "damage": 3,
+    "round": 2,
+    "name": "战意积蓄",
+    "description": "每第三次转动，存活敌人的攻击总和额外增加 3。"
+  }
+}

@@ -1,6 +1,6 @@
-import { recommendRewards } from './ai.js';
+import { recommendRewards, recommendAction } from './ai.js';
 import { DEFAULT_PROFILE, validateProfile } from './ai-profile.js';
-import { benchmarkPolicies, trainProfile } from './simulation.js';
+import { benchmarkPolicies, benchmarkResources, trainProfile } from './simulation.js';
 
 // The worker owns its own simulations; no action ever touches the live game state.
 self.onmessage = async ({ data }) => {
@@ -17,10 +17,15 @@ self.onmessage = async ({ data }) => {
     if (type === 'recommend') {
       if (!data.state || !Array.isArray(data.state.choices)) throw new Error('缺少有效的奖励状态。');
       result = recommendRewards(data.state, { profile });
+    } else if (type === 'action') {
+      if (!data.state || data.state.mode !== 'combat') throw new Error('缺少有效的战斗状态。');
+      result = recommendAction(data.state, { profile });
     } else if (type === 'benchmark') {
-      result = await benchmarkPolicies({ mode: data.mode, runs: data.runs, seed: data.seed, profile, onProgress });
+      result = await benchmarkPolicies({ difficulty: data.difficulty, resourceAccess: data.resourceAccess, runs: data.runs, seed: data.seed, profile, onProgress });
+    } else if (type === 'ablation') {
+      result = await benchmarkResources({ runs: data.runs, seed: data.seed, profile, onProgress });
     } else if (type === 'train') {
-      result = await trainProfile({ mode: data.mode, runs: data.runs, seed: data.seed, profile, generations: data.generations, candidates: data.candidates, holdoutRuns: data.holdoutRuns, onProgress });
+      result = await trainProfile({ difficulty: data.difficulty, resourceAccess: data.resourceAccess, runs: data.runs, seed: data.seed, profile, generations: data.generations, candidates: data.candidates, holdoutRuns: data.holdoutRuns, onProgress });
     } else throw new Error('未知的 AI 工作任务。');
     self.postMessage({ type, requestId, result });
   } catch (error) {

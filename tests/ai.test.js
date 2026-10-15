@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { newGame, spin, getSynergies } from '../src/engine.js';
 import { recommendRewards, sampleRecommendation, createPolicyRandom, recommendRemoval, evaluateRun, DEFAULT_PROFILE, validateProfile, POLICY_VERSION } from '../src/ai.js';
 
-function offer(ids, choices, { mode = 'combat', phase = 'recruit', hp = 100 } = {}) {
-  const state = newGame({ mode, seed: 'policy-fixture' });
+function offer(ids, choices, { phase = 'recruit', hp = 100 } = {}) {
+  const state = newGame({ seed: 'policy-fixture' });
   state.phase = phase;
   state.hp = hp;
   state.choices = choices;
@@ -63,8 +63,8 @@ test('recruit, item and essence rewards all include a scored skip action at the 
 
 test('skipping has a dynamic real probability and can prevent dilution of a strong full board', () => {
   const ids = ['1001', '1105', '1109'];
-  const sparse = offer(['1001'], ids, { mode: 'classic' });
-  const crowded = offer(Array(20).fill('1204'), ids, { mode: 'classic' });
+  const sparse = offer(['1001'], ids);
+  const crowded = offer(Array(20).fill('1204'), ids);
   crowded.roster.forEach(unit => { unit.stars = 3; });
   const sparseAdvice = recommendRewards(sparse, { lookahead: false });
   const crowdedAdvice = recommendRewards(crowded, { lookahead: false });
@@ -77,12 +77,13 @@ test('skipping has a dynamic real probability and can prevent dilution of a stro
 });
 
 test('neutral free rewards share softmax equally with skip, and useful rewards lower skip preference', () => {
-  const neutral = newGame({ mode: 'classic' });
+  const neutral = newGame();
   neutral.phase = 'item';
   neutral.choices = ['preservation_wax', 'abundance_wax', 'dimension_dice'];
   const useful = structuredClone(neutral);
   useful.choices = ['broken_clock', 'gold_coin', 'seal_stamp'];
-  const neutralAdvice = recommendRewards(neutral, { lookahead: false });
+  const neutralProfile = { ...DEFAULT_PROFILE, weights: Object.fromEntries(Object.keys(DEFAULT_PROFILE.weights).map(key => [key, 0])) };
+  const neutralAdvice = recommendRewards(neutral, { profile: neutralProfile, lookahead: false });
   assert.deepEqual(neutralAdvice.choices.map(choice => choice.probability), [0.25, 0.25, 0.25, 0.25]);
   assert.ok(recommendRewards(useful, { lookahead: false }).choices.at(-1).probability < 0.25);
 });
@@ -109,8 +110,8 @@ test('saved legacy model weights remain reusable while recommendations identify 
   assert.deepEqual(validated.weights, DEFAULT_PROFILE.weights);
   const advice = recommendRewards(spin(newGame()), { profile: oldProfile });
   assert.equal(advice.version, 'context-v1');
-  assert.equal(advice.policyVersion, 'reward-actions-v2');
-  assert.equal(DEFAULT_PROFILE.version, 'context-v2-skip');
+  assert.equal(advice.policyVersion, 'resource-actions-v5');
+  assert.equal(DEFAULT_PROFILE.version, 'context-v3-resources');
   assert.equal(advice.choices.at(-1).action, 'skip');
 });
 
@@ -164,7 +165,7 @@ test('policy detects chained third-star merges', () => {
 });
 
 test('completing distinct-character synergies improves a supporting recruitment', () => {
-  const state = offer(['1008', '1013'], ['1009', '1105', '1001'], { mode: 'classic' });
+  const state = offer(['1008', '1013'], ['1009', '1105', '1001']);
   const recommendation = recommendRewards(state, { lookahead: false });
   assert.ok(recommendation.choices[0].probability > recommendation.choices[1].probability);
   assert.match(recommendation.choices[0].reason, /空间站/);
@@ -180,19 +181,21 @@ test('temporary reinforcements do not supply permanent synergy identities or mer
   assert.doesNotMatch(recommendRewards(duplicate, { lookahead: false }).choices[0].reason, /三合一/);
 });
 
-test('credit income and defensive items have different values in classic and combat', () => {
+test('credit income and defensive planning respect their independently disabled resources', () => {
   const choices = ['faith_bond', 'preservation_wax', 'dimension_dice'];
-  const classic = newGame({ mode: 'classic' });
-  classic.phase = 'item';
-  classic.choices = choices;
-  const combat = newGame({ mode: 'combat' });
+  const combat = newGame();
   combat.phase = 'item';
   combat.choices = choices;
-  const classicAdvice = recommendRewards(classic, { lookahead: false }).choices;
+  const noCredits = { ...combat, resourceAccess: { ...combat.resourceAccess, credits: false } };
+  const noDefense = { ...combat, resourceAccess: { ...combat.resourceAccess, defense: false } };
+  const noCreditsAdvice = recommendRewards(noCredits, { lookahead: false }).choices;
+  const noDefenseAdvice = recommendRewards(noDefense, { lookahead: false }).choices;
   const combatAdvice = recommendRewards(combat, { lookahead: false }).choices;
-  assert.ok(classicAdvice[0].probability > classicAdvice[1].probability);
-  assert.ok(combatAdvice[0].probability < combatAdvice[1].probability);
-  assert.match(combatAdvice[0].reason, /重选/);
+  assert.equal(noCreditsAdvice[0].score, 0);
+  assert.ok(combatAdvice[0].score > 0);
+  assert.ok(noDefenseAdvice[1].score < combatAdvice[1].score);
+  assert.match(combatAdvice[0].reason, /补给|重掷/);
+  assert.match(noCreditsAdvice[0].reason, /无法支出/);
 });
 
 test('essence triggering horizon lowers late untriggerable rewards', () => {
@@ -208,6 +211,8 @@ test('removal preserves early rosters and trims dilution only when the team impr
   assert.equal(recommendRemoval(newGame()), null);
   const state = offer([...Array(20).fill('1204'), '1105'], ['1001', '1002', '1008']);
   state.shield = 200;
+  assert.equal(recommendRemoval(state), null, 'do not spend a token when both rosters already clear the current encounter');
+  state.enemies.forEach(enemy => { enemy.hp = 3500; enemy.maxHp = 3500; });
   const original = structuredClone(state);
   assert.equal(recommendRemoval(state), 'u21');
   assert.deepEqual(state, original);

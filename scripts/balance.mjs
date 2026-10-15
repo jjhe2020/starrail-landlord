@@ -2,11 +2,17 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
 import { benchmarkPolicies } from '../src/simulation.js';
 import { DEFAULT_PROFILE, validateProfile } from '../src/ai-profile.js';
+import { RESOURCE_KEYS } from '../src/ai.js';
 
 const args = process.argv.slice(2);
 const option = (name, fallback) => { const index = args.indexOf(`--${name}`); return index >= 0 ? args[index + 1] : fallback; };
 const runs = Number(option('runs', '200'));
-const mode = option('mode', 'both');
+if (!Number.isInteger(runs) || runs < 1 || runs > 2000) throw new Error('--runs must be an integer from 1 to 2000.');
+const mode = option('mode', 'combat');
+const difficulty = Number(option('difficulty', '10'));
+const disabledResources = String(option('disable', '')).split(',').filter(Boolean);
+if (!Number.isInteger(difficulty) || difficulty < 1 || difficulty > 20 || disabledResources.some(key => !RESOURCE_KEYS.includes(key))) throw new Error('Use difficulty 1..20 and --disable rerolls,removals,credits,defense.');
+const resourceAccess = Object.fromEntries(RESOURCE_KEYS.map(key => [key, !disabledResources.includes(key)]));
 const seed = option('seed', 'release-holdout-2026-10-12');
 const output = resolve(option('output', 'docs/benchmarks/balance-latest.json'));
 const targetMin = option('target-min');
@@ -24,7 +30,7 @@ if (option('profile')) {
   if (!profile) throw new Error('Invalid --profile file.');
 }
 let lastPercent = -10;
-const report = await benchmarkPolicies({ mode, runs, seed, profile, lookahead: !args.includes('--fast'), onProgress: progress => {
+const report = await benchmarkPolicies({ mode, difficulty, resourceAccess, runs, seed, profile, lookahead: !args.includes('--fast'), onProgress: progress => {
   const percent = Math.floor(progress.completed / progress.total * 100);
   if (percent >= lastPercent + 10) { console.log(`${percent}% ${progress.mode}/${progress.policy} ${progress.completed}/${progress.total}`); lastPercent = percent; }
 } });

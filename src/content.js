@@ -8,10 +8,10 @@ export const CHARACTERS = [
   character('1001', '三月七', 'March 7th', 'common', 'single', 1, '存护', '冰', '星穹列车', '每次登场获得 3 点护盾。', '#f9a8d4'),
   character('1002', '丹恒', 'Dan Heng', 'common', 'single', 1, '巡猎', '风', '星穹列车', '每登场 3 次，永久增加 1 点威力。', '#6ee7b7'),
   character('1003', '姬子', 'Himeko', 'rare', 'blast', 3, '智识', '火', '星穹列车', '本轮每有一个临时角色退场，自身增加 2 点威力。', '#fb923c'),
-  character('1004', '瓦尔特', 'Welt', 'rare', 'single', 3, '虚无', '虚数', '星穹列车', '本轮敌人攻击减少 2 点；经典模式额外产出 2 信用点。', '#fbbf24'),
+  character('1004', '瓦尔特', 'Welt', 'rare', 'single', 3, '虚无', '虚数', '星穹列车', '本轮敌人反击减少 2 点伤害。', '#fbbf24'),
   character('1005', '卡芙卡', 'Kafka', 'rare', 'blast', 3, '虚无', '雷', '星核猎手', '所有登场的虚无角色增加 1 点威力。', '#e879f9'),
   character('1006', '银狼', 'Silver Wolf', 'rare', 'single', 3, '虚无', '量子', '星核猎手', '本轮攻击无视敌人装甲；自身增加 1 点威力。', '#c4b5fd'),
-  character('1008', '阿兰', 'Arlan', 'common', 'blast', 1, '毁灭', '雷', '黑塔空间站', '生命低于一半时威力翻倍；经典模式信用点不足租金时威力翻倍。', '#a78bfa'),
+  character('1008', '阿兰', 'Arlan', 'common', 'blast', 1, '毁灭', '雷', '黑塔空间站', '生命不高于上限一半时，威力翻倍。', '#a78bfa'),
   character('1009', '艾丝妲', 'Asta', 'common', 'support', 1, '同谐', '火', '黑塔空间站', '相邻八格的角色增加 0.5 点威力。', '#fda4af'),
   character('1013', '黑塔', 'Herta', 'common', 'aoe', 1, '智识', '冰', '黑塔空间站', '每第 3 次登场，本轮增加 2 点威力。', '#c4b5fd'),
   character('1101', '布洛妮娅', 'Bronya', 'uncommon', 'support', 2, '同谐', '风', '贝洛伯格', '相邻八格的角色增加 1 点威力。', '#bae6fd'),
@@ -23,7 +23,7 @@ export const CHARACTERS = [
   character('1107', '克拉拉', 'Clara', 'rare', 'blast', 3, '毁灭', '物理', '贝洛伯格', '每登场 2 次，永久增加 1 点威力。', '#fca5a5'),
   character('1108', '桑博', 'Sampo', 'uncommon', 'single', 2, '虚无', '风', '贝洛伯格', '每次登场有 25% 概率召来临时虎克；临时角色登场 3 次后退场。', '#6ee7b7'),
   character('1109', '虎克', 'Hook', 'common', 'blast', 1, '毁灭', '火', '贝洛伯格', '消耗一个相邻临时角色，本轮增加 4 点威力。', '#fdba74'),
-  character('1205', '刃', 'Blade', 'legendary', 'blast', 4, '毁灭', '风', '星核猎手', '每次登场永久增加 0.5 点威力；战斗模式消耗 2 点生命（不会致死）。', '#f87171'),
+  character('1205', '刃', 'Blade', 'legendary', 'blast', 4, '毁灭', '风', '星核猎手', '每次登场永久增加 0.5 点威力，并消耗 2 点生命（不会致死）。', '#f87171'),
   character('1204', '景元', 'Jing Yuan', 'legendary', 'aoe', 4, '智识', '雷', '仙舟罗浮', '每第 2 次登场，本轮增加 2 点威力。', '#fcd34d'),
   character('1203', '罗刹', 'Luocha', 'rare', 'support', 3, '丰饶', '虚数', '仙舟罗浮', '每次登场恢复 6 点生命；溢出的治疗转为护盾。', '#bef264'),
   character('1208', '符玄', 'Fu Xuan', 'rare', 'blast', 3, '存护', '量子', '仙舟罗浮', '每次登场获得 6 点护盾；本轮敌人攻击降低 20%。', '#f0abfc'),
@@ -32,10 +32,10 @@ export const CHARACTERS = [
 ];
 
 export const ITEMS = [
-  { id: 'cosmic_lotto', name: '银河大乐透', rarity: 'uncommon', icon: '🎟️', description: '每次转动有 20% 概率：本轮威力与经典产出增加 50%。' },
+  { id: 'cosmic_lotto', name: '银河大乐透', rarity: 'uncommon', icon: '🎟️', description: '每次转动有 20% 概率：本轮威力增加 50%。' },
   { id: 'fortune_glue', name: '福灵胶', rarity: 'uncommon', icon: '🧪', description: '招募中的史诗、传说角色出现权重提高 50%。' },
   { id: 'gold_coin', name: '天外重声大碟', rarity: 'common', icon: '💿', description: '所有登场角色增加 0.3 点威力。' },
-  { id: 'faith_bond', name: '信仰债券', rarity: 'common', icon: '📜', description: '每次转动获得 3 信用点；经典模式可以用于交租。' },
+  { id: 'faith_bond', name: '信仰债券', rarity: 'common', icon: '📜', description: '每次转动获得 3 信用点，可用于重掷或购买补给。' },
   { id: 'preservation_wax', name: '存护火漆', rarity: 'uncommon', icon: '🕯️', description: '护盾获取量增加 50%；每个新层数获得 8 护盾。' },
   { id: 'abundance_wax', name: '丰饶火漆', rarity: 'uncommon', icon: '🌱', description: '治疗量增加 50%；取得时恢复 20 生命。' },
   { id: 'hunt_wax', name: '巡猎火漆', rarity: 'uncommon', icon: '🏹', description: '单体攻击角色的威力增加 30%。' },
@@ -55,8 +55,8 @@ export const ITEMS = [
 ];
 
 export const ESSENCES = [
-  { id: 'essence_elation', name: '银河大乐透·精华', rarity: 'rare', icon: '🎭', target: 100, description: '累计造成 100 点伤害（经典：累计产出 100），触发后所有威力增加 15%。' },
-  { id: 'essence_abundance', name: '异木果实·精华', rarity: 'rare', icon: '🌿', target: 6, description: '再转动 6 次后，生命上限增加 20 并完全恢复生命；经典模式另得 20 信用点。' },
+  { id: 'essence_elation', name: '银河大乐透·精华', rarity: 'rare', icon: '🎭', target: 100, description: '累计造成 100 点伤害，触发后所有威力增加 15%。' },
+  { id: 'essence_abundance', name: '异木果实·精华', rarity: 'rare', icon: '🌿', target: 6, description: '再转动 6 次后，生命上限增加 20 并完全恢复生命。' },
   { id: 'essence_hunt', name: '巡猎火漆·精华', rarity: 'rare', icon: '🎯', target: 12, description: '单体角色累计登场 12 次后，单体威力增加 35%。' },
   { id: 'essence_destruction', name: '毁灭火漆·精华', rarity: 'rare', icon: '💥', target: 8, description: '再转动 8 次后，所有角色增加 1 点威力。' },
   { id: 'essence_erudition', name: '智识火漆·精华', rarity: 'rare', icon: '🧠', target: 10, description: '群体角色累计登场 10 次后，群体角色增加 1 点威力。' },

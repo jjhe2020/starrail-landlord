@@ -1,68 +1,65 @@
 import { getSynergies } from './engine.js';
 
 const descriptions = {
-  hp: ['开拓生命', '队伍的生命。敌人反击先扣护盾，剩余伤害再扣生命；生命归零，本次旅程结束。娜塔莎、罗刹与部分羁绊可以治疗，普通治疗不会超过生命上限。'],
-  shield: ['护盾', '抵挡敌人反击的防御值：先消耗护盾，再扣生命。护盾不会每轮清空，可以跨回合、跨关卡保留，上限是生命上限的 2 倍。三月七、杰帕德、符玄登场时可以提供护盾。'],
-  credits: ['补给信用点', '过关补给和部分奇物给出的资源。目前可用于付费重掷：在奖励三选一中点“重新发现”，免费机会用完后每次花 8 信用点。信用点不会直接变成伤害，也没有购买角色的商店。'],
-  classicCredits: ['持有信用点', '支付房租的预算。每次转动按所有上场角色的总威力向上取整，赚取信用点；本层转动次数用完时自动交租，余额保留到下一层。付费重掷也会消耗这笔余额。'],
-  rerolls: ['重掷机会', '在奖励三选一中点“重新发现”，换一组角色、奇物或精华候选。每次先花 1 次免费机会，用完后花 8 信用点。只刷新候选，不重转场上角色，也不消耗本层回合；进入新层补 1 次免费机会。'],
-  removals: ['移除机会', '准备转动时到“我的编队”点“移出编队”并确认，每次花 1 次机会。只移走本局选中的一个棋子，同名其他副本保留，不是永久删除角色。编队超过 20 人时，精简可提高核心上场概率；进入偶数层补 1 次机会。'],
-  floor: ['关卡进度', '战斗模式的一层就是一场遭遇。“第 01 层”是第一场：在本层转动次数用完前消灭全部敌人，即可过层；生命归零或到期仍有敌人则失败。一局共 12 层，第 3、6、9、12 层有中列首领，通关后可继续无尽。'],
-  round: ['本层回合', '启动一次转轮，就消耗本层一个回合。之后的奖励选择和重掷候选不再扣回合。必须在次数用完前清空敌人，否则即使还有生命也会失败；过层后获得下一层的转动次数。'],
-  synergy: ['羁绊共鸣', '看整个永久编队中符合阵营、命途或属性的不同角色，不是本轮场上人数。同名重复副本与不同星级只算 1 个身份，临时角色不计。达到人数门槛后，相应效果生效；成员本轮没上场也不会让羁绊失效。'],
+  difficulty: ['旅程难度', 'D1–D20 均可直接选择，默认 D10。难度影响敌人强度；第几关表示本局进度，两者独立。新开旅程时设置难度，一局途中保持不变。'],
+  hp: ['开拓生命', '敌人反击先扣护盾，剩余伤害再扣生命；生命归零，本次旅程结束。角色、羁绊和医疗补给可以治疗，普通治疗不超过生命上限。取消“防御规划”只停用主动医疗与护盾补给，自然治疗、护盾与生命上限增益、承伤均保留。使用效率按实际消耗量 / 生成量衡量。'],
+  shield: ['护盾', '先消耗护盾，再扣生命。护盾可以跨回合、跨关卡保留，上限是生命上限的 2 倍。防御角色与护盾补给可以提供护盾；实验中取消“防御规划”只停用主动医疗与护盾购买，自然增益和护盾抵伤保留；条款衰减的护盾另算浪费。'],
+  credits: ['补给信用点', '过关和部分奇物提供的资源。免费重掷用完后，每次刷新花 8 信用点；准备转动时，可买医疗补给（12 点，治疗 18）、护盾补给（10 点，护盾 20）或超频补给（16 点，下轮威力 ×1.2）。每关最多购买两次，超频不叠加。禁用信用点消费后不能付费重掷或购买补给。'],
+  rerolls: ['重掷机会', '奖励选择时点“重新发现”，换一组角色、奇物或精华候选。先用 1 次免费机会，用完后每次花 8 信用点。只刷新候选，不重转角色，也不消耗回合；进入新关补 1 次免费机会。禁用重掷后，免费和付费刷新都不可用。'],
+  removals: ['移除机会', '准备转动时到“我的编队”点“移出编队”并确认，每次花 1 次机会。只移走本局选中的棋子，同名其他副本保留。编队超过 20 人时，精简可提高核心上场概率；进入偶数关补 1 次机会。AI 也可在奖励阶段评估移除。禁用移除后不可使用。'],
+  supplyRepair: ['医疗补给', '花 12 信用点恢复 18 点生命，不超过生命上限。仅能在准备转动时购买，生命已满时不可买。与其他补给共用每关两次的购买次数；禁用信用点消费或取消防御规划后不可买。'],
+  supplyBarrier: ['护盾补给', '花 10 信用点获得 20 点护盾，不超过生命上限的 2 倍。仅能在准备转动时购买，护盾已满时不可买。与其他补给共用每关两次的购买次数；禁用信用点消费或取消防御规划后不可买。'],
+  supplyOverclock: ['超频补给', '花 16 信用点，让下一次转动的角色威力乘 1.2；转动后消耗效果。仅能在准备转动时购买，已有待用超频时不可重复购买。与其他补给共用每关两次的购买次数；禁用信用点消费后不可买。'],
+  floor: ['关卡进度', '第 01 关是第一场遭遇。在本关转动次数用完前消灭全部敌人即可过关；生命归零或到期仍有敌人则失败。一局共 12 关，第 3、6、9、12 关有中列首领，通关后可继续无尽。关卡与 D1–D20 难度分别计算。'],
+  round: ['本关回合', '启动一次转轮，就消耗本关一个回合。奖励选择、重掷、移除与购买补给不额外扣回合。必须在次数用完前清空敌人，否则即使还有生命也会失败；过关后获得新关的转动次数。'],
+  synergy: ['羁绊共鸣', '看整个永久编队中符合阵营、命途或属性的不同角色。同名重复副本与不同星级只算 1 个身份，临时角色不计。达到人数门槛后效果生效，成员本轮没上场也不会让羁绊失效。'],
   roster: ['编队与上场', '每次转动从编队中随机抽取最多 20 个角色，不放回，再随机摆放到 5 列 × 4 行。编队超过 20 位后，部分角色本轮不会上场。临时角色也参与抽取。'],
   stars: ['三合一升星', '3 位相同角色、相同星级的永久角色会自动合成：1 星 → 2 星 → 3 星，3 星封顶。威力倍率为 1 / 3 / 9，合成保留成长；重复角色不增加羁绊人数。'],
-  power: ['角色威力', '格子右下角是这个角色本轮的威力，不一定等于最终伤害。角色成长、星级、相邻增益、羁绊和奇物先修正威力，再按攻击类型乘倍率；辅助角色不直接攻击。'],
+  power: ['角色威力', '格子右下角是角色本轮威力，不一定等于最终伤害。成长、星级、相邻增益、羁绊、奇物与超频先修正威力，再按攻击类型乘倍率；辅助角色不直接攻击。'],
   damage: ['本轮总伤害', '所有角色本轮实际扣除的敌人生命之和。单体为威力 ×3；扩散为主目标 ×2、相邻列各 ×1；群体对每个敌人各 ×1。不统计超过敌人剩余生命的溢出伤害。'],
-  income: ['本轮信用点', '本次转动赚取的信用点，包括角色威力结算和奇物额外收入。到期房租会另外从持有余额中扣除。这个数字不会直接表示扣租后的余额。'],
-  intent: ['预计反击与期限', '预计反击是现存敌人下一轮的基础攻击总和及周期技能额外伤害，未计入角色登场后的减伤和击破。剩余回合为本层转动次数；到期仍有敌人存活，即使生命未归零也会失败。'],
-  rent: ['房租账单', '剩余转动次数变成 0 时，自动从持有信用点中扣除本层房租。不足则失败，成功后进入下一层。租金会逐层提高；最后一轮不能靠下一层的奖励补交。'],
-  items: ['奇物收藏', '奇物是本局永久生效的被动效果，无需装备或点击使用。每完成 2 层选择一件，已拥有的不会重复出现。点击具体奇物可查看规则。'],
-  essences: ['奇物精华', '每完成 3 层获得一次精华选择。取得后从下一轮开始积累条件，达到阈值后只触发一次；已触发的永久增益会保留。第 12 层直接结算胜利，不追加奖励。'],
-  seed: ['宇宙种子', '在同一规则版本中，相同种子、相同选择与操作可以复现游戏的随机过程；更新难度后，新关卡的结果可能改变。AI 抽样使用独立随机流，不会消耗转轮的随机数。存档只保存在当前浏览器。'],
+  intent: ['预计反击与敌方条款', '预计反击基于现存敌人和当前条款，未计入接下来角色登场后的减伤或击破。首领会随生命降低或回合推进进入新阶段，追加针对编队的负面条款；点条款名称可查看效果。剩余回合用完仍有敌人存活，即使生命未归零也会失败。'],
+  items: ['奇物收藏', '奇物是本局永久生效的被动效果，无需装备或点击使用。每完成 2 关选择一件，已拥有的不会重复出现。点击具体奇物可查看规则。'],
+  essences: ['奇物精华', '每完成 3 关获得一次精华选择。取得后从下一轮开始积累条件，达到阈值后只触发一次；永久增益会保留。第 12 关直接结算胜利，不追加奖励。'],
+  seed: ['宇宙种子', '同一规则版本、相同难度与资源开关下，相同种子和操作可复现随机过程。AI 抽样使用独立随机流，不会消耗转轮随机数。存档保存在当前浏览器；单文件版可从设置导出或导入。'],
   single: ['单体攻击', '对对应列的敌人造成威力 ×3 伤害。本列为空时寻找最近的存活敌人；距离相同优先左侧。'],
   blast: ['扩散攻击', '对实际主目标造成威力 ×2；对主目标左、右相邻列的存活敌人各造成威力 ×1。主目标改列后，扩散也跟着改列；相邻空列不会跳跃寻找目标。'],
   aoe: ['群体攻击', '对每个存活敌人各造成威力 ×1。敌人越多，总输出越高；同一次攻击不会重复命中同一个敌人。'],
-  support: ['辅助角色', '战斗中提供增益、治疗或其他支援，本身不直接攻击。房租模式仍按威力产出信用点。辅助过多会占用攻击角色的上场名额。'],
-  aiProbability: ['AI 推荐概率', '这是 AI 选择这个选项的概率，当前奖励加跳过合计 100%；不是通关概率。通常为三张奖励与跳过四项，奖励池不足时按现有候选计算。根据当前编队、升星、羁绊、角色效果和随机试算计算。跳过也会评估保留当前构筑的收益。自动代打与批量测试按同一分布抽样，显示值保留小数，抽样使用未四舍五入的原始概率。'],
-  aiLab: ['AI 试验台', '批量试玩会新建独立对局，不改变你的旅程。用相同游戏种子对照 AI 与随机选择，统计通关率、失败层数和平均成绩。训练会尝试策略参数，并用独立验证对局决定是否采用改良结果。'],
-  aiAutoplay: ['AI 自动代打', '让 AI 接管当前旅程：启动转轮，按当前推荐概率选择奖励，并在有收益时消耗移除机会精简编队。会正常修改和保存这局的进度。可随时停止；打开信息浮层时暂缓行动，关闭后继续。'],
+  support: ['辅助角色', '提供增益、治疗或其他支援，本身不直接攻击。辅助过多会占用攻击角色的上场名额；取消防御规划仍保留角色的自然治疗与护盾，仅不能主动购买医疗或护盾补给。'],
+  aiProbability: ['AI 推荐概率', '这是当前奖励决策选择此项的概率，现有奖励加跳过合计 100%，不是通关概率。根据编队、升星、羁绊、效果与随机试算计算，跳过也会评估保留构筑的收益。代打可能先重掷或移除，再按新候选概率抽样；自动试玩采用同一决策。显示值保留小数，抽样使用原始概率。'],
+  aiLab: ['AI 试验台', '批量试玩新建独立对局，不改变当前旅程。可自由选择难度并禁用四类资源，对照 AI 与随机选择。资源矩阵分别报告全资源 D10、单禁用 D10 对照及按禁用数量降低难度的配置。训练、验证与留出使用不同种子；只有独立验收通过才采用候选参数。'],
+  defenseUsage: ['防御有效消耗', '生命效率 = 实际生命损失 /（初始生命 + 实际治疗）；护盾效率 = 实际抵挡伤害 /（初始护盾 + 实际获得护盾）。合计按两者的总消耗 / 总生成计算，本批报告将全部对局总量相加后归一，不直接平均各局百分比。护盾条款衰减算浪费，不算有效抵伤。暂定低于 20% 为偏低、达到 50% 为有效；这些是报告阈值，不鼓励故意挨打。'],
+  aiAutoplay: ['AI 自动代打', '统一 AI 接管当前旅程：考虑转动、招募、跳过、重掷、移除与补给。它与批量试玩共享决策函数，资源使用会修改并保存当前旅程。可随时停止；打开说明浮层时暂缓行动，关闭后继续。'],
 };
 
 export function mechanicExplanation(key, state = {}) {
   const value = descriptions[key];
   if (!value) return null;
-  const classicDescriptions = {
-    hp: '房租模式没有敌人反击，胜负看是否按时付清租金。生命和治疗仍会记录，但治疗不能代替信用点交租；余额不够会直接结束旅程，不是先扣生命。',
-    shield: '房租模式没有敌人反击，护盾不能抵扣租金或兑换信用点。角色仍会积累护盾，也能推进护盾相关精华；护盾可以跨回合、跨层保留，上限是生命上限的 2 倍。',
-    credits: descriptions.classicCredits[1],
-    floor: '房租模式的一层就是一张租金账单。“第 01 层”是第一张：每层有一定转动次数，次数用完时自动扣除本层租金；余额够就过层，不够就失败。一局共 12 层，付清全部账单后可保留构筑继续无尽。',
-    round: '启动一次转轮，就消耗本层一个回合。之后的奖励选择和重掷候选不再扣回合。次数用完时自动支付本层租金，余额不足就失败；缴租成功后，下一层重新获得转动次数。',
-    power: '格子右下角是角色本轮威力，已包含成长、星级、相邻增益、羁绊和奇物。房租模式将全部上场角色的威力相加、向上取整后产出信用点，辅助角色也计入；不套用战斗的单体 ×3 或扩散 ×2 攻击倍率。',
-  };
   const num = number => String(Number.isFinite(number) ? Math.round(number * 100) / 100 : 0);
-  const classic = state.mode === 'classic';
+  const enabled = kind => state.resourceAccess?.[kind] !== false;
   const cleared = state.pendingFloor || state.phase === 'victory';
-  const balance = `当前余额 ${num(state.coins)} 信用点。`;
-  const budget = cleared ? '本层租金已支付。' : `本层租金 ${num(state.rent)}，${state.coins >= state.rent ? '当前余额够付' : `还差 ${num(Math.max(0, (state.rent || 0) - (state.coins || 0)))} 信用点`}。`;
-  const progress = `当前第 ${String(state.floor || 1).padStart(2, '0')} 层${state.endless ? '（无尽）' : ' / 12'}，已转动 ${num(state.round)} 次，${cleared ? '本层已完成' : `剩余 ${num(state.spinsLeft)} 次`}。`;
+  const progress = `难度 D${state.difficulty || 10}，第 ${String(state.floor || 1).padStart(2, '0')} 关${state.endless ? '（无尽）' : ' / 12'}；已转动 ${num(state.round)} 次，${cleared ? '本关已完成' : `剩余 ${num(state.spinsLeft)} 次`}。`;
   const roster = state.roster || [];
   const rewardPhase = ['recruit', 'item', 'essence'].includes(state.phase);
-  const creditExtra = () => `${balance}${classic ? budget : `当前免费重掷 ${num(state.rerolls)} 次；${state.rerolls > 0 ? '先用免费机会' : state.coins >= 8 ? '余额可支付重掷' : '付费重掷还需攒到 8 信用点'}。`}`;
-  const extras = {
-    hp: () => `当前生命 ${num(state.hp)} / ${num(state.maxHp)}${classic ? '；本模式按租金结算胜负' : `，护盾 ${num(state.shield)}`}。`,
-    shield: () => `当前护盾 ${num(state.shield)} / ${num((state.maxHp || 0) * 2)}${classic ? '；本模式不用于挡伤或交租' : `，生命 ${num(state.hp)} / ${num(state.maxHp)}`}。`,
-    credits: creditExtra,
-    classicCredits: creditExtra,
-    rerolls: () => `当前免费 ${num(state.rerolls)} 次，余额 ${num(state.coins)} 信用点。${state.rerolls > 0 ? '下次刷新使用 1 次免费机会。' : state.coins >= 8 ? '下次刷新花 8 信用点。' : '免费机会已用完，余额不足 8，暂时不能刷新。'}${rewardPhase ? '' : '在奖励三选一时使用。'}`,
-    removals: () => `当前可用 ${num(state.removals)} 次，编队 ${roster.length} 人。${state.removals <= 0 ? '移除机会已用完。' : state.phase === 'ready' ? '可在“我的编队”移除。' : '手动移除要等到准备转动阶段。'}`,
-    floor: () => `${progress}${classic ? `${budget}${balance}` : `存活敌人 ${(state.enemies || []).filter(enemy => enemy.hp > 0).length} 个。`}${state.phase === 'defeat' ? '本次旅程已结束。' : state.pendingFloor ? '领取本层奖励后进入下一层。' : ''}`,
-    round: () => `${progress}本层共 ${num(state.encounter?.deadline)} 次转动机会。`,
-    synergy: () => `永久编队共有 ${new Set(roster.filter(unit => !unit.temporary).map(unit => unit.id)).size} 个不同角色身份，当前激活 ${getSynergies(state).filter(synergy => synergy.active).length} 种羁绊。点具体羁绊查看门槛和成员。`,
-    roster: () => `当前编队 ${roster.length} 人，每轮最多 ${Math.min(20, roster.length)} 人上场。`,
-    rent: () => `${progress}${budget}${balance}`,
-    intent: () => `预计反击 ${num(state.enemyIntent?.damage)}，本层剩余 ${num(state.spinsLeft)} 次转动。`,
+  const supplyExtra = kind => {
+    const cost = { repair: 12, barrier: 10, overclock: 16 }[kind];
+    const unavailable = !enabled('credits') ? '信用点消费已禁用。' : kind !== 'overclock' && !enabled('defense') ? '本局不主动购买医疗或护盾补给。' : (state.supplyPurchases || 0) >= 2 ? '本关两次购买已用完。' : state.phase !== 'ready' ? '需等到准备转动阶段。' : (state.coins || 0) < cost ? `还需 ${num(cost - (state.coins || 0))} 信用点。` : kind === 'repair' && state.hp >= state.maxHp ? '生命已满。' : kind === 'barrier' && state.shield >= state.maxHp * 2 ? '护盾已满。' : kind === 'overclock' && state.overclockReady ? '超频已就绪，不能叠加。' : '当前可购买。';
+    return `余额 ${num(state.coins)} 信用点，本关已买 ${num(state.supplyPurchases)} / 2 次。${unavailable}`;
   };
-  const creditKey = key === 'credits' || key === 'classicCredits';
-  return { title: creditKey ? descriptions[classic ? 'classicCredits' : 'credits'][0] : value[0], description: creditKey ? descriptions[classic ? 'classicCredits' : 'credits'][1] : classic ? classicDescriptions[key] || value[1] : value[1], extra: extras[key]?.() || '' };
+  const extras = {
+    difficulty: () => progress,
+    hp: () => `生命 ${num(state.hp)} / ${num(state.maxHp)}，护盾 ${num(state.shield)}。${enabled('defense') ? '' : '本局不主动购买医疗或护盾补给；自然增益保留。'}`,
+    shield: () => `护盾 ${num(state.shield)} / ${num((state.maxHp || 0) * 2)}，生命 ${num(state.hp)} / ${num(state.maxHp)}。${enabled('defense') ? '' : '本局不主动购买医疗或护盾补给；自然增益保留。'}`,
+    credits: () => `余额 ${num(state.coins)} 信用点，免费重掷 ${num(state.rerolls)} 次，本关补给购买 ${num(state.supplyPurchases)} / 2 次。${enabled('credits') ? '' : '本局信用点消费已禁用。'}`,
+    rerolls: () => `免费重掷 ${num(state.rerolls)} 次，余额 ${num(state.coins)} 信用点。${!enabled('rerolls') ? '本局重掷已禁用。' : state.rerolls > 0 ? '下次使用 1 次免费机会。' : !enabled('credits') ? '信用点消费已禁用，不能付费刷新。' : state.coins >= 8 ? '下次花 8 信用点。' : '免费机会已用完，余额不足 8。'}${rewardPhase ? '' : '在奖励选择时使用。'}`,
+    removals: () => `可用 ${num(state.removals)} 次，编队 ${roster.length} 人。${!enabled('removals') ? '本局移除已禁用。' : state.removals <= 0 ? '移除机会已用完。' : state.phase === 'ready' ? '可在“我的编队”移除。' : '手动移除要等到准备转动阶段。'}`,
+    supplyRepair: () => supplyExtra('repair'),
+    supplyBarrier: () => supplyExtra('barrier'),
+    supplyOverclock: () => supplyExtra('overclock'),
+    floor: () => `${progress}存活敌人 ${(state.enemies || []).filter(enemy => enemy.hp > 0).length} 个。${state.phase === 'defeat' ? '本次旅程已结束。' : state.pendingFloor ? '领取奖励后进入下一关。' : ''}`,
+    round: () => `${progress}本关共 ${num(state.encounter?.deadline)} 次转动机会。`,
+    synergy: () => `永久编队有 ${new Set(roster.filter(unit => !unit.temporary).map(unit => unit.id)).size} 个不同角色身份，当前激活 ${getSynergies(state).filter(synergy => synergy.active).length} 种羁绊。点具体羁绊查看门槛和成员。`,
+    roster: () => `编队 ${roster.length} 人，每轮最多 ${Math.min(20, roster.length)} 人上场。`,
+    intent: () => `预计反击 ${num(state.enemyIntent?.damage)}，剩余 ${num(state.spinsLeft)} 次转动，当前 ${(state.activeDebuffs || []).length} 条敌方条款${state.bossStage ? `，首领阶段 ${state.bossStage} / 3` : ''}。`,
+  };
+  return { title: value[0], description: value[1], extra: extras[key]?.() || '' };
 }

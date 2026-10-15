@@ -1,0 +1,182 @@
+{
+  "version": 1,
+  "mode": "classic",
+  "seed": "legacy-classic-fixture",
+  "rngState": 1786064428,
+  "uidCounter": 7,
+  "phase": "ready",
+  "floor": 1,
+  "round": 1,
+  "spinsLeft": 4,
+  "coins": 7,
+  "rent": 25,
+  "hp": 100,
+  "maxHp": 100,
+  "shield": 3,
+  "rerolls": 2,
+  "removals": 2,
+  "roster": [
+    {
+      "uid": "u1",
+      "id": "1001",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    {
+      "uid": "u2",
+      "id": "1002",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    {
+      "uid": "u3",
+      "id": "1009",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    {
+      "uid": "u4",
+      "id": "1013",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    {
+      "uid": "u5",
+      "id": "1105",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    {
+      "uid": "u6",
+      "id": "1008",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 0
+    }
+  ],
+  "board": [
+    null,
+    null,
+    null,
+    null,
+    {
+      "uid": "u3",
+      "id": "1009",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    null,
+    {
+      "uid": "u5",
+      "id": "1105",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    null,
+    {
+      "uid": "u2",
+      "id": "1002",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    null,
+    null,
+    null,
+    {
+      "uid": "u1",
+      "id": "1001",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    null,
+    null,
+    null,
+    null,
+    {
+      "uid": "u4",
+      "id": "1013",
+      "stars": 1,
+      "growth": 0,
+      "ticks": 1
+    },
+    null,
+    null
+  ],
+  "items": [],
+  "essences": [],
+  "enemies": [],
+  "choices": [],
+  "pendingRewards": [],
+  "pendingFloor": false,
+  "endless": false,
+  "lastSpin": {
+    "total": 6.18,
+    "damage": 0,
+    "coins": 7,
+    "healing": 0,
+    "shield": 3,
+    "incoming": 0,
+    "events": [
+      "第 1 次转动：获得 7 信用点。"
+    ],
+    "hits": [],
+    "values": [
+      0,
+      0,
+      0,
+      0,
+      1.15,
+      0,
+      1,
+      0,
+      1.73,
+      0,
+      0,
+      0,
+      1.15,
+      0,
+      0,
+      0,
+      0,
+      1.15,
+      0,
+      0
+    ]
+  },
+  "history": [
+    "列车抵达：每次转动后可招募一名角色，三名相同一星角色会自动合成二星。",
+    "第 1 次转动：获得 7 信用点。",
+    "招募：阿兰加入编队。"
+  ],
+  "stats": {
+    "spins": 1,
+    "damage": 0,
+    "coins": 7,
+    "merges": 0,
+    "destroyed": 0
+  },
+  "enemySkill": {
+    "id": "pressure",
+    "name": "战意积蓄",
+    "description": "每第三次转动，存活敌人的攻击总和额外增加 3。"
+  },
+  "encounter": {
+    "name": "空间站警戒区",
+    "deadline": 5
+  },
+  "enemyIntent": {
+    "damage": 0,
+    "round": 1,
+    "name": "战意积蓄",
+    "description": "每第三次转动，存活敌人的攻击总和额外增加 3。"
+  }
+}
