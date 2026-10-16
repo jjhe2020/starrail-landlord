@@ -10,7 +10,7 @@ import { DIFFICULTY } from '../src/difficulty.js';
 
 const RESOURCE_KEYS = ['rerolls', 'removals', 'credits', 'defense'];
 const RESOURCE_LABELS = { rerolls: '重掷', removals: '移除', credits: '信用点消费', defense: '防御规划（自然效果保留）' };
-const SOURCE_FILES = ['src/content.js', 'src/effect-rules.js', 'src/synergies.js', 'src/difficulty.js', 'src/enemy-effects.js', 'src/engine.js', 'src/ai-profile.js', 'src/ai.js', 'src/simulation.js'];
+const SOURCE_FILES = ['src/content.js', 'src/effect-rules.js', 'src/synergies.js', 'src/archetypes.js', 'src/retirements.js', 'src/retirement-ai.js', 'src/difficulty.js', 'src/enemy-effects.js', 'src/engine.js', 'src/ai-profile.js', 'src/ai.js', 'src/simulation.js'];
 async function sourceFingerprint() {
   return Object.fromEntries(await Promise.all(SOURCE_FILES.map(async path => [path,
     createHash('sha256').update(await readFile(new URL(`../${path}`, import.meta.url))).digest('hex')])));

@@ -1,7 +1,7 @@
 {
   "sourceRepository": "https://github.com/Mar-7th/StarRailRes",
   "commit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
-  "retrieved": "2026-10-12",
+  "retrieved": "2026-10-16",
   "assets": [
     {
       "id": "1001",
@@ -11,7 +11,9 @@
       "sha256": "3cd391be97cdb847f51c8b7a0cf84ad10c924bbccd3c325538d7021a1c5c04a7",
       "contentIds": [
         "1001"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1002",
@@ -21,7 +23,9 @@
       "sha256": "2b9c29ae4f2d40fb913bd5bfdcfcf5576fbdc0bd69707e2dac56850198e2b30f",
       "contentIds": [
         "1002"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1003",
@@ -31,7 +35,9 @@
       "sha256": "0a58db801a8007564e7dcfc6e8050629312ff1ea3ba5d6e86c1435317305ebc6",
       "contentIds": [
         "1003"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1004",
@@ -41,7 +47,9 @@
       "sha256": "5beb7903954753d00cc2fdf5ad548d27313110e0e824403442d4548ba96de3c0",
       "contentIds": [
         "1004"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1005",
@@ -51,7 +59,9 @@
       "sha256": "da2892dfd0d2205a4ca387a396922aec25295df10d96c49abfd321db3338523b",
       "contentIds": [
         "1005"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1006",
@@ -61,7 +71,9 @@
       "sha256": "a00cb22ba50b9622bb373f3e6933a31f240e999a2e8ea33f0af25748d7887e7f",
       "contentIds": [
         "1006"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1008",
@@ -71,7 +83,9 @@
       "sha256": "9dcc984178dcce738a7852d49a4b59ebee9c96217f5c47330117be6a5c5a137a",
       "contentIds": [
         "1008"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1009",
@@ -81,7 +95,9 @@
       "sha256": "6e335150bffe9c2b135589d19b18deed031676c9e7caf7347603a1e1cc8ae9d4",
       "contentIds": [
         "1009"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1013",
@@ -91,7 +107,9 @@
       "sha256": "63e9a63abe8038ea5aea13dd6d971bfed93a8238e1f70122c3440a2d3d4f8d63",
       "contentIds": [
         "1013"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1101",
@@ -101,7 +119,9 @@
       "sha256": "1fd43f2a32d3981e0baddd673f0e9159ba50a576073d3846e1dc5267df3c9d8c",
       "contentIds": [
         "1101"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1102",
@@ -111,7 +131,9 @@
       "sha256": "347a0f0a3728fb087d491f39134ec1d1e88907601c9c54ede70fcaa10c09bf2f",
       "contentIds": [
         "1102"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1103",
@@ -121,7 +143,9 @@
       "sha256": "6f017df1175d565c94ff8970df68c36e1367fb80aa332a5b33ffbcc742d7bdf7",
       "contentIds": [
         "1103"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1104",
@@ -131,7 +155,9 @@
       "sha256": "10dcc5d3c32ea2c988c97708dcea5fe240dfc810b786f3dc3c28f08b2ca02c12",
       "contentIds": [
         "1104"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1105",
@@ -141,7 +167,9 @@
       "sha256": "f706fcd61c92923c10eb6e29904c70f19aade62f13acfe1cad9c44c828c0affc",
       "contentIds": [
         "1105"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1106",
@@ -151,7 +179,9 @@
       "sha256": "266a0457c5ab91fa81cca82d02df22d491daa910bfbaa6c8f638b296b3b23d3f",
       "contentIds": [
         "1106"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1107",
@@ -161,7 +191,9 @@
       "sha256": "4d767ee4115f12e36cc63b32484d38ebc105dc648a43a129f6e0443f88bb1b4b",
       "contentIds": [
         "1107"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1108",
@@ -171,7 +203,9 @@
       "sha256": "79fd1d86376ef71b3cca7f19e500e4c304949dd5961a15c33e4c71630b1ecd79",
       "contentIds": [
         "1108"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1109",
@@ -181,7 +215,9 @@
       "sha256": "92e6b298834626dfb813a0e2cb0b6cb4b62637d61d888df81848e2dfdd07ded8",
       "contentIds": [
         "1109"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1110",
@@ -192,7 +228,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1110"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1111",
@@ -203,7 +241,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1111"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1112",
@@ -214,7 +254,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1112"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1201",
@@ -224,7 +266,9 @@
       "sha256": "a6870b3df826b13927f657ae67e4bb1c5a5a500bd98ebfcdffa6a214039941ba",
       "contentIds": [
         "1201"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1202",
@@ -234,7 +278,9 @@
       "sha256": "2be42f614fe9a6256f011dd1f67e394a623d2c835db55f17441a8ca374d56c25",
       "contentIds": [
         "1202"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1203",
@@ -244,7 +290,9 @@
       "sha256": "2c4b2449325813611c920952cbb77c3f370312012a2f1da31125fa7d1c640cf6",
       "contentIds": [
         "1203"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1204",
@@ -254,7 +302,9 @@
       "sha256": "09dbf666316836ab2882649b3d3b9c7ea6e22951663fd914c62458295e17d55c",
       "contentIds": [
         "1204"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1205",
@@ -264,7 +314,9 @@
       "sha256": "6a00d53ce03b406f31f543e78f3be21bdae481732fecb4079913b35cd6b0ff36",
       "contentIds": [
         "1205"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1206",
@@ -275,7 +327,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1206"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1207",
@@ -286,7 +340,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1207"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1208",
@@ -296,7 +352,9 @@
       "sha256": "f390518210ecaaa920407a38fcb8b1348a1a39db3d0ee17a5e2e21468c708cfb",
       "contentIds": [
         "1208"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1209",
@@ -307,7 +365,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1209"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1210",
@@ -318,7 +378,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1210"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1211",
@@ -329,7 +391,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1211"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1212",
@@ -340,7 +404,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1212"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1214",
@@ -351,7 +417,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1214"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1215",
@@ -362,7 +430,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1215"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1217",
@@ -373,7 +443,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1217"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1218",
@@ -384,7 +456,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1218"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1220",
@@ -395,7 +469,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1220"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1221",
@@ -406,7 +482,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1221"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1222",
@@ -417,7 +495,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1222"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1223",
@@ -428,7 +508,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1223"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1301",
@@ -439,7 +521,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1301"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1302",
@@ -450,7 +534,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1302"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1303",
@@ -461,7 +547,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1303"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1304",
@@ -472,7 +560,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1304"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1305",
@@ -483,7 +573,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1305"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1306",
@@ -494,7 +586,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1306"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1307",
@@ -505,7 +599,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1307"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1308",
@@ -516,7 +612,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1308"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1309",
@@ -527,7 +625,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1309"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1310",
@@ -538,7 +638,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1310"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1312",
@@ -549,7 +651,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1312"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1313",
@@ -560,7 +664,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1313"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1314",
@@ -571,7 +677,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1314"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1315",
@@ -582,7 +690,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1315"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1317",
@@ -593,7 +703,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1317"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1402",
@@ -604,7 +716,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1402"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1403",
@@ -615,7 +729,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1403"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1404",
@@ -626,7 +742,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1404"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1405",
@@ -637,7 +755,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1405"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1406",
@@ -648,7 +768,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1406"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1407",
@@ -659,7 +781,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1407"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1408",
@@ -670,7 +794,9 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1408"
-      ]
+      ],
+      "width": 256,
+      "height": 256
     },
     {
       "id": "1409",
@@ -681,7 +807,381 @@
       "retrieved": "2026-10-15",
       "contentIds": [
         "1409"
-      ]
+      ],
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1224",
+      "name": "三月七·巡猎",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1224.png",
+      "bytes": 122936,
+      "sha256": "dc6475d6036ffe439e9a8a97fe0d7cb51c6fbcf02951da93d3f3afe96506d0b7",
+      "contentIds": [
+        "march_hunt"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1213",
+      "name": "丹恒·饮月",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1213.png",
+      "bytes": 90856,
+      "sha256": "8dc7e1b75e990423f49d656831df65bfeae6fa106b0aee4cd415765c7ff5ca88",
+      "contentIds": [
+        "dan_heng_imbibitor_lunae"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1414",
+      "name": "丹恒·腾荒",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1414.png",
+      "bytes": 90642,
+      "sha256": "a8b5f0a69285519d114d36e1b776a9733ca697498123a837f3d12b9172e8be65",
+      "contentIds": [
+        "dan_heng_pt"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1225",
+      "name": "忘归人",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1225.png",
+      "bytes": 131430,
+      "sha256": "b0107f3307a080ba34cdcd2dbde796c96130727f4ff85d0d48fb40b88d44c4fa",
+      "contentIds": [
+        "fugue"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1401",
+      "name": "大黑塔",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1401.png",
+      "bytes": 122316,
+      "sha256": "b67f09e9cb7d04488234a91105d904b9275577bd4dccb3fa0e127bb8daed11d2",
+      "contentIds": [
+        "the_herta"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1410",
+      "name": "海瑟音",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1410.png",
+      "bytes": 109647,
+      "sha256": "0a2600452832d3db7c1f0dae87d3f9855dd847265b3d5b9316f82b801688e332",
+      "contentIds": [
+        "hysilens"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1412",
+      "name": "刻律德菈",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1412.png",
+      "bytes": 115209,
+      "sha256": "d8863fa3a4c183bb9b8e91324fac61517d83d8327155f78b8f98800202333122",
+      "contentIds": [
+        "cerydra"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1413",
+      "name": "长夜月",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1413.png",
+      "bytes": 105365,
+      "sha256": "3b09276114d7875450d2c53664b67fecc830527d2a4ae7c8da5b82e6c96bb499",
+      "contentIds": [
+        "evernight"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1415",
+      "name": "昔涟",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1415.png",
+      "bytes": 146720,
+      "sha256": "fba494c245a639001a8c7cb82e1a641509b4227a2c13b7fef8e6c088ff35ab99",
+      "contentIds": [
+        "cyrene"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1014",
+      "name": "Saber",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1014.png",
+      "bytes": 106091,
+      "sha256": "188ff6bc5f66f35f0b3944ff0b5959d8333fedc1c784e03006417d360f74a323",
+      "contentIds": [
+        "saber"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1015",
+      "name": "Archer",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1015.png",
+      "bytes": 96338,
+      "sha256": "e4c8d948cbad11b2ce03500be2d323c17be37bcabf0eb04ce87a213a68803928",
+      "contentIds": [
+        "archer"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1502",
+      "name": "爻光",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1502.png",
+      "bytes": 122664,
+      "sha256": "4839a12c55e156d62a93b5ccc16f0a6b9eea86b89866270bf9bebfa8806c57ef",
+      "contentIds": [
+        "yao_guang"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1501",
+      "name": "火花",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1501.png",
+      "bytes": 108742,
+      "sha256": "2d9cf3cb1b8b394247e5a5e1a614c3a2fba24418c10f088e77f7217bede336e6",
+      "contentIds": [
+        "sparxie"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1504",
+      "name": "不死途",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1504.png",
+      "bytes": 112955,
+      "sha256": "b3fa454d1e1348c7c108d866ba4e6745c7361a2d24f49030fc35015a069f2f54",
+      "contentIds": [
+        "ashveil"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1506",
+      "name": "银狼LV.999",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1506.png",
+      "bytes": 123944,
+      "sha256": "a4426ab74bef1c652ac0ba6fc15e40a0ec8f3755d516f28c7b454b29036a2b46",
+      "contentIds": [
+        "silver_wolf_lv999"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1505",
+      "name": "绯英",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1505.png",
+      "bytes": 118554,
+      "sha256": "f0ab2935eb9ee2a716757c6bb49bc9109853a377899756e12191710f0631929a",
+      "contentIds": [
+        "evanescia"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1507",
+      "name": "千冶·刃",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1507.png",
+      "bytes": 114354,
+      "sha256": "030c09183e5dd8df77140109f7a18e76176ae8571d102f22b47caa2bd95876f3",
+      "contentIds": [
+        "mortenax_blade"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1321",
+      "name": "大丽花",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1321.png",
+      "bytes": 119539,
+      "sha256": "789d987fdb0093d57eb9735bd9b0b73e9b455f344ebeccc16484b079b75d3b5f",
+      "contentIds": [
+        "the_dahlia"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1510",
+      "name": "姬子·启行",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1510.png",
+      "bytes": 114837,
+      "sha256": "00877db33eb6aaf7f67e366315812863446008cd772a8d194e1754c1c58d0162",
+      "contentIds": [
+        "announced_himeko_nova"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1509",
+      "name": "吉尔伽美什",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1509.png",
+      "bytes": 93577,
+      "sha256": "bb2ab8f334a3b9bc38e0a0262cc90f2157439761ff30af065bbf99693b4b032e",
+      "contentIds": [
+        "announced_gilgamesh"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1508",
+      "name": "远坂凛",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1508.png",
+      "bytes": 120776,
+      "sha256": "9f73459789ff265d7cdff3e00f455b5e078cef567412fab2d6d0a17b3f46fd22",
+      "contentIds": [
+        "announced_rin_tohsaka"
+      ],
+      "kind": "game-art",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "aha-symbol",
+      "name": "阿哈",
+      "source": "project:aha-text-symbol-v1",
+      "bytes": 2341,
+      "sha256": "d590b9caadeadab1aefd2ec695a51493056c57d3430cf63eb23143d656fa4e87",
+      "contentIds": [
+        "aha"
+      ],
+      "kind": "text-symbol",
+      "retrieved": "2026-10-16",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "1503",
+      "name": "真珠",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1503.png",
+      "bytes": 133340,
+      "sha256": "0540e782c4dec8f7c94bd4c3dc32e6a031f755670497f2b6cae4e20504dbd5c2",
+      "contentIds": [
+        "pearl"
+      ],
+      "kind": "game-art",
+      "width": 256,
+      "height": 256,
+      "retrieved": "2026-10-16"
+    },
+    {
+      "id": "1512",
+      "name": "知更鸟·晴歌",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1512.png",
+      "bytes": 116954,
+      "sha256": "aa0b9a25e60196b81c39331aba5d9f4277c579445eef6b2a1640ab98c7c51705",
+      "contentIds": [
+        "robin_summeretto"
+      ],
+      "kind": "game-art",
+      "width": 256,
+      "height": 256,
+      "retrieved": "2026-10-16"
+    },
+    {
+      "id": "1513",
+      "name": "砂金·戏浪",
+      "source": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/icon/character/1513.png",
+      "bytes": 98508,
+      "sha256": "d1161cc5cc5683aa8defa4ca8bbc5768595f8fd45a8c5090808c845994984561",
+      "contentIds": [
+        "aventurine_waveflair"
+      ],
+      "kind": "game-art",
+      "width": 256,
+      "height": 256,
+      "retrieved": "2026-10-16"
+    },
+    {
+      "id": "aeon-star-aha",
+      "name": "星神★阿哈",
+      "source": "project:aeon-star-aha-text-symbol-v1",
+      "bytes": 2461,
+      "sha256": "f40d8742bcba21ee8765772fa72192d48bee34d0b41ad8e86701405804f9692e",
+      "contentIds": [
+        "aeon_star_aha"
+      ],
+      "kind": "text-symbol",
+      "width": 256,
+      "height": 256,
+      "retrieved": "2026-10-16",
+      "provider": "Fandom game-art file",
+      "filePageId": 168698,
+      "fileTimestamp": "2026-09-15T18:06:30Z",
+      "fileSha1": "43dcbee4901ea651bb4a98a2d05ad30719dcaf5e",
+      "descriptionUrl": "https://honkai-star-rail.fandom.com/wiki/File:Character_Aeon_%E2%98%85_Aha_Icon.png",
+      "metadataRequest": "https://honkai-star-rail.fandom.com/api.php?action=query&titles=File%3ACharacter_Aeon_%E2%98%85_Aha_Icon.png&prop=imageinfo&iiprop=url%7Csize%7Csha1%7Ctimestamp&format=json",
+      "unavailableGameArtSource": "https://static.wikia.nocookie.net/houkai-star-rail/images/0/09/Character_Aeon_%E2%98%85_Aha_Icon.png/revision/latest?cb=20260915180630",
+      "reason": "Game-art CDN returned HTTP 403 on 2026-10-16; icon is a project-authored word mark, not the inaccessible portrait."
     }
   ],
   "updated": "2026-10-15"

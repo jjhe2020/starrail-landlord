@@ -30,7 +30,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/March_7th",
+    "portraitKind": "game-art"
   },
   {
     "id": "1002",
@@ -58,7 +62,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Dan_Heng",
+    "portraitKind": "game-art"
   },
   {
     "id": "1003",
@@ -71,12 +79,12 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "火",
     "faction": "星穹列车",
-    "description": "本次转动每有1位临时角色退场，自身本次威力+2；下次转动重新计算。",
+    "description": "本次转动每有1位角色退场，自身本次威力+2；下次转动重新计算。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "power",
-        "summary": "本次转动每有1位临时角色退场，自身威力+2",
+        "summary": "本次转动每有1位角色退场，自身威力+2",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
@@ -89,7 +97,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Himeko",
+    "portraitKind": "game-art"
   },
   {
     "id": "1004",
@@ -117,7 +129,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Welt",
+    "portraitKind": "game-art"
   },
   {
     "id": "1005",
@@ -148,7 +164,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Kafka",
+    "portraitKind": "game-art"
   },
   {
     "id": "1006",
@@ -186,7 +206,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Silver_Wolf",
+    "portraitKind": "game-art"
   },
   {
     "id": "1008",
@@ -218,7 +242,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Arlan",
+    "portraitKind": "game-art"
   },
   {
     "id": "1009",
@@ -246,7 +274,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Asta",
+    "portraitKind": "game-art"
   },
   {
     "id": "1013",
@@ -275,7 +307,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Herta",
+    "portraitKind": "game-art"
   },
   {
     "id": "1101",
@@ -303,7 +339,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Bronya",
+    "portraitKind": "game-art"
   },
   {
     "id": "1102",
@@ -330,7 +370,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Seele",
+    "portraitKind": "game-art"
   },
   {
     "id": "1103",
@@ -364,7 +408,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Serval",
+    "portraitKind": "game-art"
   },
   {
     "id": "1104",
@@ -392,7 +440,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Gepard",
+    "portraitKind": "game-art"
   },
   {
     "id": "1105",
@@ -420,7 +472,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Natasha",
+    "portraitKind": "game-art"
   },
   {
     "id": "1106",
@@ -461,7 +517,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Pela",
+    "portraitKind": "game-art"
   },
   {
     "id": "1107",
@@ -489,7 +549,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Clara",
+    "portraitKind": "game-art"
   },
   {
     "id": "1108",
@@ -519,7 +583,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Sampo",
+    "portraitKind": "game-art"
   },
   {
     "id": "1109",
@@ -550,7 +618,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Hook",
+    "portraitKind": "game-art"
   },
   {
     "id": "1205",
@@ -589,7 +661,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Blade",
+    "portraitKind": "game-art"
   },
   {
     "id": "1204",
@@ -618,7 +694,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Jing_Yuan",
+    "portraitKind": "game-art"
   },
   {
     "id": "1203",
@@ -656,7 +736,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Luocha",
+    "portraitKind": "game-art"
   },
   {
     "id": "1208",
@@ -694,7 +778,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Fu_Xuan",
+    "portraitKind": "game-art"
   },
   {
     "id": "1201",
@@ -722,7 +810,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Qingque",
+    "portraitKind": "game-art"
   },
   {
     "id": "1202",
@@ -753,7 +845,11 @@ export const CHARACTERS = [
         "legacy": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Tingyun",
+    "portraitKind": "game-art"
   },
   {
     "id": "1110",
@@ -795,7 +891,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Lynx",
+    "portraitKind": "game-art"
   },
   {
     "id": "1111",
@@ -828,7 +928,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Luka",
+    "portraitKind": "game-art"
   },
   {
     "id": "1112",
@@ -865,7 +969,11 @@ export const CHARACTERS = [
         "resource": "coins"
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Topaz_%26_Numby",
+    "portraitKind": "game-art"
   },
   {
     "id": "1206",
@@ -897,7 +1005,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Sushang",
+    "portraitKind": "game-art"
   },
   {
     "id": "1207",
@@ -927,7 +1039,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Yukong",
+    "portraitKind": "game-art"
   },
   {
     "id": "1209",
@@ -958,7 +1074,11 @@ export const CHARACTERS = [
         }
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Yanqing",
+    "portraitKind": "game-art"
   },
   {
     "id": "1210",
@@ -992,7 +1112,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Guinaifen",
+    "portraitKind": "game-art"
   },
   {
     "id": "1211",
@@ -1034,7 +1158,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Bailu",
+    "portraitKind": "game-art"
   },
   {
     "id": "1212",
@@ -1075,7 +1203,11 @@ export const CHARACTERS = [
         }
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Jingliu",
+    "portraitKind": "game-art"
   },
   {
     "id": "1214",
@@ -1103,7 +1235,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Xueyi",
+    "portraitKind": "game-art"
   },
   {
     "id": "1215",
@@ -1151,7 +1287,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Hanya",
+    "portraitKind": "game-art"
   },
   {
     "id": "1217",
@@ -1189,7 +1329,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Huohuo",
+    "portraitKind": "game-art"
   },
   {
     "id": "1218",
@@ -1224,7 +1368,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Jiaoqiu",
+    "portraitKind": "game-art"
   },
   {
     "id": "1220",
@@ -1252,7 +1400,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Feixiao",
+    "portraitKind": "game-art"
   },
   {
     "id": "1221",
@@ -1293,7 +1445,11 @@ export const CHARACTERS = [
         }
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Yunli",
+    "portraitKind": "game-art"
   },
   {
     "id": "1222",
@@ -1332,7 +1488,11 @@ export const CHARACTERS = [
         "durationAppearances": 2
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Lingsha",
+    "portraitKind": "game-art"
   },
   {
     "id": "1223",
@@ -1363,7 +1523,11 @@ export const CHARACTERS = [
         }
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Moze",
+    "portraitKind": "game-art"
   },
   {
     "id": "1301",
@@ -1397,7 +1561,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Gallagher",
+    "portraitKind": "game-art"
   },
   {
     "id": "1302",
@@ -1425,7 +1593,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Argenti",
+    "portraitKind": "game-art"
   },
   {
     "id": "1303",
@@ -1466,7 +1638,11 @@ export const CHARACTERS = [
         }
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Ruan_Mei",
+    "portraitKind": "game-art"
   },
   {
     "id": "1304",
@@ -1508,7 +1684,11 @@ export const CHARACTERS = [
         }
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Aventurine",
+    "portraitKind": "game-art"
   },
   {
     "id": "1305",
@@ -1542,7 +1722,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Dr._Ratio",
+    "portraitKind": "game-art"
   },
   {
     "id": "1306",
@@ -1580,7 +1764,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Sparkle",
+    "portraitKind": "game-art"
   },
   {
     "id": "1307",
@@ -1614,7 +1802,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Black_Swan",
+    "portraitKind": "game-art"
   },
   {
     "id": "1308",
@@ -1652,7 +1844,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Acheron",
+    "portraitKind": "game-art"
   },
   {
     "id": "1309",
@@ -1684,7 +1880,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Robin",
+    "portraitKind": "game-art"
   },
   {
     "id": "1310",
@@ -1726,7 +1926,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Firefly",
+    "portraitKind": "game-art"
   },
   {
     "id": "1312",
@@ -1753,7 +1957,11 @@ export const CHARACTERS = [
         "every": 3
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Misha",
+    "portraitKind": "game-art"
   },
   {
     "id": "1313",
@@ -1797,7 +2005,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Sunday",
+    "portraitKind": "game-art"
   },
   {
     "id": "1314",
@@ -1837,7 +2049,11 @@ export const CHARACTERS = [
         "resource": "coins"
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Jade",
+    "portraitKind": "game-art"
   },
   {
     "id": "1315",
@@ -1877,7 +2093,11 @@ export const CHARACTERS = [
         "value": 0.25
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Boothill",
+    "portraitKind": "game-art"
   },
   {
     "id": "1317",
@@ -1908,7 +2128,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Rappa",
+    "portraitKind": "game-art"
   },
   {
     "id": "1402",
@@ -1937,7 +2161,11 @@ export const CHARACTERS = [
         "durationAppearances": 2
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Aglaea",
+    "portraitKind": "game-art"
   },
   {
     "id": "1403",
@@ -1971,7 +2199,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Tribbie",
+    "portraitKind": "game-art"
   },
   {
     "id": "1404",
@@ -2007,7 +2239,11 @@ export const CHARACTERS = [
         "value": 0.35
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Mydei",
+    "portraitKind": "game-art"
   },
   {
     "id": "1405",
@@ -2049,7 +2285,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Anaxa",
+    "portraitKind": "game-art"
   },
   {
     "id": "1406",
@@ -2091,7 +2331,11 @@ export const CHARACTERS = [
         }
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Cipher",
+    "portraitKind": "game-art"
   },
   {
     "id": "1407",
@@ -2137,7 +2381,11 @@ export const CHARACTERS = [
         "durationAppearances": 2
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Castorice",
+    "portraitKind": "game-art"
   },
   {
     "id": "1408",
@@ -2179,7 +2427,11 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Phainon",
+    "portraitKind": "game-art"
   },
   {
     "id": "1409",
@@ -2221,7 +2473,1048 @@ export const CHARACTERS = [
         "scaleWithStars": true
       }
     ],
-    "adaptation": "本作改编能力"
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Hyacine",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "march_hunt",
+    "name": "三月七·巡猎",
+    "enName": "March 7th (The Hunt)",
+    "assetId": 1224,
+    "rarity": "common",
+    "attack": "single",
+    "power": 1,
+    "path": "巡猎",
+    "element": "虚数",
+    "faction": "星穹列车",
+    "description": "每累计登场3次，本实例永久威力+0.6。",
+    "color": "#fcd34d",
+    "effects": [
+      {
+        "type": "growth",
+        "summary": "每累计登场3次，本实例永久威力+0.6",
+        "trigger": "appearance",
+        "duration": "run",
+        "target": "self",
+        "stacking": "additive",
+        "value": 0.6,
+        "every": 3
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 4,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/March_7th",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "dan_heng_imbibitor_lunae",
+    "name": "丹恒·饮月",
+    "enName": "Dan Heng • Imbibitor Lunae",
+    "assetId": 1213,
+    "rarity": "rare",
+    "attack": "blast",
+    "power": 3,
+    "path": "毁灭",
+    "element": "虚数",
+    "faction": "星穹列车",
+    "description": "本次每有1位虚数角色登场，自身威力+0.35，最多计算6位。",
+    "color": "#fcd34d",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次每有1位虚数角色登场，自身威力+0.35，最多计算6位",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "additive",
+        "value": 0.35,
+        "per": {
+          "metric": "present",
+          "filter": {
+            "element": "虚数"
+          },
+          "cap": 6
+        },
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Dan_Heng_%E2%80%A2_Imbibitor_Lunae",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "dan_heng_pt",
+    "name": "丹恒·腾荒",
+    "enName": "Dan Heng • Permansor Terrae",
+    "assetId": 1414,
+    "rarity": "rare",
+    "attack": "support",
+    "power": 3,
+    "path": "存护",
+    "element": "物理",
+    "faction": "星穹列车",
+    "description": "每次登场获得4护盾。按当前护盾÷20，使本次存护角色威力+0.3，最多计算3份。",
+    "color": "#e2e8f0",
+    "effects": [
+      {
+        "type": "shield",
+        "summary": "每次登场获得4护盾",
+        "trigger": "appearance",
+        "duration": "resource",
+        "target": "self",
+        "stacking": "additive",
+        "value": 4,
+        "scaleWithStars": true
+      },
+      {
+        "type": "power",
+        "summary": "按当前护盾÷20，使本次存护角色威力+0.3，最多计算3份",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "team",
+        "stacking": "additive",
+        "value": 0.3,
+        "filter": {
+          "path": "存护"
+        },
+        "per": {
+          "metric": "shield",
+          "divisor": 20,
+          "cap": 3
+        },
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Dan_Heng_%E2%80%A2_Permansor_Terrae",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "fugue",
+    "name": "忘归人",
+    "enName": "Fugue",
+    "assetId": 1225,
+    "rarity": "rare",
+    "attack": "blast",
+    "power": 3,
+    "path": "虚无",
+    "element": "火",
+    "faction": "仙舟罗浮",
+    "description": "本次至少有3位虚无角色登场时，全队攻击无视装甲。每累计登场3次，本实例永久威力+0.4。",
+    "color": "#fb923c",
+    "effects": [
+      {
+        "type": "ignoreArmor",
+        "summary": "本次至少有3位虚无角色登场时，全队攻击无视装甲",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "team",
+        "stacking": "unique",
+        "value": 1,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "path": "虚无"
+          },
+          "op": "gte",
+          "value": 3
+        }
+      },
+      {
+        "type": "growth",
+        "summary": "每累计登场3次，本实例永久威力+0.4",
+        "trigger": "appearance",
+        "duration": "run",
+        "target": "self",
+        "stacking": "additive",
+        "value": 0.4,
+        "every": 3
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Fugue",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "the_herta",
+    "name": "大黑塔",
+    "enName": "The Herta",
+    "assetId": 1401,
+    "rarity": "rare",
+    "attack": "aoe",
+    "power": 3,
+    "path": "智识",
+    "element": "冰",
+    "faction": "黑塔空间站",
+    "description": "本次每有1位智识角色登场，自身威力+0.35，最多计算6位。",
+    "color": "#93c5fd",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次每有1位智识角色登场，自身威力+0.35，最多计算6位",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "additive",
+        "value": 0.35,
+        "per": {
+          "metric": "present",
+          "filter": {
+            "path": "智识"
+          },
+          "cap": 6
+        },
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/The_Herta",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "hysilens",
+    "name": "海瑟音",
+    "enName": "Hysilens",
+    "assetId": 1410,
+    "rarity": "rare",
+    "attack": "blast",
+    "power": 3,
+    "path": "虚无",
+    "element": "物理",
+    "faction": "翁法罗斯",
+    "description": "本次登场的虚无角色威力+0.6。",
+    "color": "#e2e8f0",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次登场的虚无角色威力+0.6",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "team",
+        "stacking": "additive",
+        "value": 0.6,
+        "filter": {
+          "path": "虚无"
+        },
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Hysilens",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "cerydra",
+    "name": "刻律德菈",
+    "enName": "Cerydra",
+    "assetId": 1412,
+    "rarity": "rare",
+    "attack": "support",
+    "power": 3,
+    "path": "同谐",
+    "element": "风",
+    "faction": "翁法罗斯",
+    "description": "本次使威力最高的其他角色威力+1.8；并列取格位靠前者。",
+    "color": "#6ee7b7",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次使威力最高的其他角色威力+1.8；并列取格位靠前者",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "strongest",
+        "stacking": "additive",
+        "value": 1.8,
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Cerydra",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "evernight",
+    "name": "长夜月",
+    "enName": "Evernight",
+    "assetId": 1413,
+    "rarity": "rare",
+    "attack": "blast",
+    "power": 3,
+    "path": "记忆",
+    "element": "冰",
+    "faction": "翁法罗斯",
+    "description": "本次每有1位记忆角色登场，自身威力+0.45，最多计算6位。",
+    "color": "#93c5fd",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次每有1位记忆角色登场，自身威力+0.45，最多计算6位",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "additive",
+        "value": 0.45,
+        "per": {
+          "metric": "present",
+          "filter": {
+            "path": "记忆"
+          },
+          "cap": 6
+        },
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Evernight",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "cyrene",
+    "name": "昔涟",
+    "enName": "Cyrene",
+    "assetId": 1415,
+    "rarity": "rare",
+    "attack": "support",
+    "power": 3,
+    "path": "记忆",
+    "element": "冰",
+    "faction": "翁法罗斯",
+    "description": "每次登场，使本次登场的永久记忆角色永久威力+0.1；临时角色不成长。",
+    "color": "#93c5fd",
+    "effects": [
+      {
+        "type": "growth",
+        "summary": "每次登场，使本次登场的永久记忆角色永久威力+0.1；临时角色不成长",
+        "trigger": "appearance",
+        "duration": "run",
+        "target": "team",
+        "stacking": "additive",
+        "value": 0.1,
+        "filter": {
+          "path": "记忆"
+        }
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Cyrene",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "saber",
+    "name": "Saber",
+    "enName": "Saber",
+    "assetId": 1014,
+    "rarity": "rare",
+    "attack": "blast",
+    "power": 3,
+    "path": "毁灭",
+    "element": "风",
+    "faction": "异世界",
+    "description": "每第3次登场，自身本次威力+4。",
+    "color": "#6ee7b7",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "每第3次登场，自身本次威力+4",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "additive",
+        "value": 4,
+        "every": 3,
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Saber",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "archer",
+    "name": "Archer",
+    "enName": "Archer",
+    "assetId": 1015,
+    "rarity": "rare",
+    "attack": "single",
+    "power": 3,
+    "path": "巡猎",
+    "element": "量子",
+    "faction": "异世界",
+    "description": "每有1名相邻辅助角色，自身本次威力+1.1，最多计算3位。",
+    "color": "#e879f9",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "每有1名相邻辅助角色，自身本次威力+1.1，最多计算3位",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "additive",
+        "value": 1.1,
+        "per": {
+          "metric": "neighbors",
+          "filter": {
+            "attack": "support"
+          },
+          "cap": 3
+        },
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Archer",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "yao_guang",
+    "name": "爻光",
+    "enName": "Yao Guang",
+    "assetId": 1502,
+    "rarity": "rare",
+    "attack": "support",
+    "power": 3,
+    "path": "欢愉",
+    "element": "物理",
+    "faction": "仙舟玉阙",
+    "description": "登场期间，同谐角色的邻接与定向威力增益×1.15；离场即失效。",
+    "color": "#e2e8f0",
+    "effects": [
+      {
+        "type": "buffMultiplier",
+        "summary": "登场期间，同谐角色的邻接与定向威力增益×1.15；离场即失效",
+        "trigger": "passive",
+        "duration": "spin",
+        "target": "team",
+        "stacking": "multiplicative",
+        "value": 1.15,
+        "filter": {
+          "path": "同谐"
+        }
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Yao_Guang",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "sparxie",
+    "name": "火花",
+    "enName": "Sparxie",
+    "assetId": 1501,
+    "rarity": "uncommon",
+    "attack": "blast",
+    "power": 2,
+    "path": "欢愉",
+    "element": "火",
+    "faction": "假面愚者",
+    "description": "每第2次登场获得1信用点。本次每有1位角色退场，自身威力+0.6，最多计算8位。",
+    "color": "#fb923c",
+    "effects": [
+      {
+        "type": "resource",
+        "summary": "每第2次登场获得1信用点",
+        "trigger": "appearance",
+        "duration": "resource",
+        "target": "self",
+        "stacking": "additive",
+        "value": 1,
+        "every": 2,
+        "resource": "coins"
+      },
+      {
+        "type": "power",
+        "summary": "本次每有1位角色退场，自身威力+0.6，最多计算8位",
+        "trigger": "passive",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "additive",
+        "value": 0.6,
+        "per": {
+          "metric": "retirements",
+          "cap": 8
+        },
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Sparxie",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "ashveil",
+    "name": "不死途",
+    "enName": "Ashveil",
+    "assetId": 1504,
+    "rarity": "rare",
+    "attack": "single",
+    "power": 3,
+    "path": "巡猎",
+    "element": "雷",
+    "faction": "巡海游侠",
+    "description": "自身常规攻击每击破1列敌人，本实例永久威力+0.3。",
+    "color": "#c4b5fd",
+    "effects": [
+      {
+        "type": "growth",
+        "summary": "自身常规攻击每击破1列敌人，本实例永久威力+0.3",
+        "trigger": "kill",
+        "duration": "run",
+        "target": "self",
+        "stacking": "additive",
+        "value": 0.3
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Ashveil",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "silver_wolf_lv999",
+    "name": "银狼LV.999",
+    "enName": "Silver Wolf LV.999",
+    "assetId": 1506,
+    "rarity": "legendary",
+    "attack": "aoe",
+    "power": 4,
+    "path": "欢愉",
+    "element": "虚数",
+    "faction": "星核猎手",
+    "description": "本次每有1位角色退场，自身威力+0.65，最多计算6位。每第3次登场，本次全队攻击无视装甲。",
+    "color": "#fcd34d",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次每有1位角色退场，自身威力+0.65，最多计算6位",
+        "trigger": "passive",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "additive",
+        "value": 0.65,
+        "per": {
+          "metric": "retirements",
+          "cap": 6
+        },
+        "scaleWithStars": true
+      },
+      {
+        "type": "ignoreArmor",
+        "summary": "每第3次登场，本次全队攻击无视装甲",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "team",
+        "stacking": "unique",
+        "value": 1,
+        "every": 3
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Silver_Wolf_LV.999",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "evanescia",
+    "name": "绯英",
+    "enName": "Evanescia",
+    "assetId": 1505,
+    "rarity": "rare",
+    "attack": "blast",
+    "power": 3,
+    "path": "欢愉",
+    "element": "物理",
+    "faction": "二相乐园",
+    "description": "本次登场的欢愉角色威力+0.55。每第2次登场恢复2生命。",
+    "color": "#e2e8f0",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次登场的欢愉角色威力+0.55",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "team",
+        "stacking": "additive",
+        "value": 0.55,
+        "filter": {
+          "path": "欢愉"
+        },
+        "scaleWithStars": true
+      },
+      {
+        "type": "heal",
+        "summary": "每第2次登场恢复2生命",
+        "trigger": "appearance",
+        "duration": "resource",
+        "target": "self",
+        "stacking": "additive",
+        "value": 2,
+        "every": 2,
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Evanescia",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "mortenax_blade",
+    "name": "千冶·刃",
+    "enName": "Mortenax Blade",
+    "assetId": 1507,
+    "rarity": "rare",
+    "attack": "blast",
+    "power": 3,
+    "path": "虚无",
+    "element": "火",
+    "faction": "星核猎手",
+    "description": "每次登场消耗1生命，最多降至1。按缺失生命÷15，自身本次威力+0.5，最多计算5份。",
+    "color": "#fb923c",
+    "effects": [
+      {
+        "type": "selfDamage",
+        "summary": "每次登场消耗1生命，最多降至1",
+        "trigger": "appearance",
+        "duration": "instant",
+        "target": "self",
+        "stacking": "additive",
+        "value": 1,
+        "nonlethal": true
+      },
+      {
+        "type": "power",
+        "summary": "按缺失生命÷15，自身本次威力+0.5，最多计算5份",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "additive",
+        "value": 0.5,
+        "per": {
+          "metric": "missingHp",
+          "divisor": 15,
+          "cap": 5
+        },
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Mortenax_Blade",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "the_dahlia",
+    "name": "大丽花",
+    "enName": "The Dahlia",
+    "assetId": 1321,
+    "rarity": "rare",
+    "attack": "blast",
+    "power": 3,
+    "path": "虚无",
+    "element": "火",
+    "faction": "焚化工",
+    "description": "本次登场的火属性角色威力+0.45。",
+    "color": "#fb923c",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次登场的火属性角色威力+0.45",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "team",
+        "stacking": "additive",
+        "value": 0.45,
+        "filter": {
+          "element": "火"
+        },
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/The_Dahlia",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "announced_himeko_nova",
+    "name": "姬子·启行",
+    "enName": "Himeko • Nova",
+    "assetId": 1510,
+    "rarity": "rare",
+    "attack": "aoe",
+    "power": 3,
+    "path": "智识",
+    "element": "火",
+    "faction": "星穹列车",
+    "description": "本次每有1位星穹列车角色登场，自身威力+0.3，最多计算6位。",
+    "color": "#fb923c",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次每有1位星穹列车角色登场，自身威力+0.3，最多计算6位",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "additive",
+        "value": 0.3,
+        "per": {
+          "metric": "present",
+          "filter": {
+            "faction": "星穹列车"
+          },
+          "cap": 6
+        },
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Himeko_%E2%80%A2_Nova",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "announced_gilgamesh",
+    "name": "吉尔伽美什",
+    "enName": "Gilgamesh",
+    "assetId": 1509,
+    "rarity": "rare",
+    "attack": "blast",
+    "power": 3,
+    "path": "毁灭",
+    "element": "雷",
+    "faction": "异世界",
+    "description": "本次每有1列存活敌人，自身威力+0.25，最多计算5列。每第3次登场获得2信用点。",
+    "color": "#c4b5fd",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次每有1列存活敌人，自身威力+0.25，最多计算5列",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "additive",
+        "value": 0.25,
+        "per": {
+          "metric": "enemies",
+          "cap": 5
+        },
+        "scaleWithStars": true
+      },
+      {
+        "type": "resource",
+        "summary": "每第3次登场获得2信用点",
+        "trigger": "appearance",
+        "duration": "resource",
+        "target": "self",
+        "stacking": "additive",
+        "value": 2,
+        "every": 3,
+        "resource": "coins"
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Gilgamesh",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "announced_rin_tohsaka",
+    "name": "远坂凛",
+    "enName": "Rin Tohsaka",
+    "assetId": 1508,
+    "rarity": "uncommon",
+    "attack": "aoe",
+    "power": 2,
+    "path": "智识",
+    "element": "量子",
+    "faction": "异世界",
+    "description": "本次登场的量子角色威力+0.4。",
+    "color": "#e879f9",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次登场的量子角色威力+0.4",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "team",
+        "stacking": "additive",
+        "value": 0.4,
+        "filter": {
+          "element": "量子"
+        },
+        "scaleWithStars": true
+      }
+    ],
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Rin_Tohsaka",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "aha",
+    "name": "阿哈",
+    "enName": "Aha",
+    "assetId": "aha-symbol",
+    "rarity": "legendary",
+    "attack": "support",
+    "power": 4,
+    "path": "欢愉",
+    "element": "无（改编）",
+    "faction": "星神",
+    "description": "本次每有1位角色退场，本次登场的其他角色威力+0.2，最多计算4位。每次登场有10%概率获得1次重掷。星神同行者为本作改编，未设定官方战斗属性。",
+    "color": "#fbbf24",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次每有1位角色退场，本次登场的其他角色威力+0.2，最多计算4位",
+        "trigger": "passive",
+        "duration": "spin",
+        "target": "team",
+        "stacking": "additive",
+        "value": 0.2,
+        "filter": {
+          "excludeSelf": true
+        },
+        "per": {
+          "metric": "retirements",
+          "cap": 4
+        }
+      },
+      {
+        "type": "resource",
+        "summary": "每次登场有10%概率获得1次重掷",
+        "trigger": "appearance",
+        "duration": "resource",
+        "target": "self",
+        "stacking": "additive",
+        "value": 1,
+        "resource": "rerolls",
+        "chance": 0.1
+      }
+    ],
+    "adaptation": "星神同行者为本作改编；无官方可玩星级或战斗属性；头像为文字标识",
+    "officialRarity": null,
+    "publicationStatus": "adapted-aeon",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Aha",
+    "portraitKind": "text-symbol"
+  },
+  {
+    "id": "pearl",
+    "name": "真珠",
+    "enName": "Pearl",
+    "assetId": 1503,
+    "rarity": "rare",
+    "attack": "support",
+    "power": 3,
+    "path": "欢愉",
+    "element": "冰",
+    "faction": "星际和平公司",
+    "color": "#93c5fd",
+    "effects": [
+      {
+        "type": "shield",
+        "summary": "每次登场获得4护盾",
+        "trigger": "appearance",
+        "duration": "resource",
+        "target": "self",
+        "stacking": "additive",
+        "value": 4,
+        "scaleWithStars": true
+      },
+      {
+        "type": "resource",
+        "summary": "每第3次登场获得2信用点",
+        "trigger": "appearance",
+        "duration": "resource",
+        "target": "self",
+        "stacking": "additive",
+        "value": 2,
+        "every": 3,
+        "resource": "coins"
+      }
+    ],
+    "description": "每次登场获得4护盾。每第3次登场获得2信用点。",
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Pearl",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "robin_summeretto",
+    "name": "知更鸟·晴歌",
+    "enName": "Robin • Summeretto",
+    "assetId": 1512,
+    "rarity": "rare",
+    "attack": "support",
+    "power": 3,
+    "path": "记忆",
+    "element": "风",
+    "faction": "匹诺康尼",
+    "color": "#6ee7b7",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次登场的记忆角色威力+0.4",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "team",
+        "stacking": "additive",
+        "value": 0.4,
+        "filter": {
+          "path": "记忆"
+        },
+        "scaleWithStars": true
+      },
+      {
+        "type": "heal",
+        "summary": "每第2次登场恢复2生命",
+        "trigger": "appearance",
+        "duration": "resource",
+        "target": "self",
+        "stacking": "additive",
+        "value": 2,
+        "every": 2,
+        "scaleWithStars": true
+      }
+    ],
+    "description": "本次登场的记忆角色威力+0.4。每第2次登场恢复2生命。",
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Robin_%E2%80%A2_Summeretto",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "aventurine_waveflair",
+    "name": "砂金·戏浪",
+    "enName": "Aventurine • Waveflair",
+    "assetId": 1513,
+    "rarity": "rare",
+    "attack": "single",
+    "power": 3,
+    "path": "欢愉",
+    "element": "量子",
+    "faction": "星际和平公司",
+    "color": "#e879f9",
+    "effects": [
+      {
+        "type": "shield",
+        "summary": "按持有信用点÷20，获得2护盾，最多计算4份",
+        "trigger": "appearance",
+        "duration": "resource",
+        "target": "self",
+        "stacking": "additive",
+        "value": 2,
+        "per": {
+          "metric": "coins",
+          "divisor": 20,
+          "cap": 4
+        },
+        "scaleWithStars": true
+      },
+      {
+        "type": "powerMultiplier",
+        "summary": "当前护盾达到20时，自身本次威力×1.35",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "multiplicative",
+        "value": 1.35,
+        "condition": {
+          "metric": "shield",
+          "op": "gte",
+          "value": 20
+        }
+      }
+    ],
+    "description": "按持有信用点÷20，获得2护盾，最多计算4份。当前护盾达到20时，自身本次威力×1.35。",
+    "adaptation": "本作改编能力",
+    "officialRarity": 5,
+    "publicationStatus": "released",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Aventurine_%E2%80%A2_Waveflair",
+    "portraitKind": "game-art"
+  },
+  {
+    "id": "aeon_star_aha",
+    "name": "星神★阿哈",
+    "enName": "Aeon ★ Aha",
+    "assetId": "aeon-star-aha",
+    "rarity": "rare",
+    "attack": "blast",
+    "power": 3,
+    "path": "欢愉",
+    "element": "量子",
+    "faction": "假面愚者",
+    "color": "#fbbf24",
+    "effects": [
+      {
+        "type": "power",
+        "summary": "本次登场的临时角色威力+0.7",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "team",
+        "stacking": "additive",
+        "value": 0.7,
+        "filter": {
+          "temporary": true
+        },
+        "scaleWithStars": true
+      },
+      {
+        "type": "resource",
+        "summary": "每次登场有25%概率获得1信用点",
+        "trigger": "appearance",
+        "duration": "resource",
+        "target": "self",
+        "stacking": "additive",
+        "value": 1,
+        "chance": 0.25,
+        "resource": "coins"
+      }
+    ],
+    "description": "本次登场的临时角色威力+0.7。每次登场有25%概率获得1信用点。",
+    "adaptation": "本作改编能力；公开名单标注已公布，非官方技能复刻；公开人物画像尚未离线收录，头像为文字标识",
+    "officialRarity": 5,
+    "publicationStatus": "announced",
+    "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Aeon_%E2%98%85_Aha",
+    "portraitKind": "text-symbol"
   }
 ];
 
@@ -2636,13 +3929,13 @@ export const ITEMS = [
     "name": "虫网",
     "rarity": "common",
     "icon": "🕸️",
-    "description": "本次每有1位临时角色退场，获得4信用点并恢复2基础生命。",
+    "description": "本次每有1位角色退场，获得4信用点并恢复2基础生命。",
     "image": "./public/assets/curios/1019.png",
     "assetId": 1019,
     "effects": [
       {
         "type": "resource",
-        "summary": "本次每退场1位临时角色，获得4信用点",
+        "summary": "本次每退场1位角色，获得4信用点",
         "trigger": "retire",
         "duration": "resource",
         "target": "team",
@@ -2656,7 +3949,7 @@ export const ITEMS = [
       },
       {
         "type": "heal",
-        "summary": "本次每退场1位临时角色，恢复2基础生命",
+        "summary": "本次每退场1位角色，恢复2基础生命",
         "trigger": "retire",
         "duration": "resource",
         "target": "team",
@@ -3169,11 +4462,11 @@ export const ITEMS = [
     "icon": "🕯️",
     "image": "./public/assets/curios/1046.png",
     "assetId": 1046,
-    "description": "本次常规攻击后，按本次临时角色退场数量对所有存活敌人各追加1伤害（最多4名）。",
+    "description": "本次常规攻击后，按本次角色退场数量对所有存活敌人各追加1伤害（最多4名）。",
     "effects": [
       {
         "type": "damage",
-        "summary": "本次常规攻击后，按本次临时角色退场数量对所有存活敌人各追加1伤害（最多4名）",
+        "summary": "本次常规攻击后，按本次角色退场数量对所有存活敌人各追加1伤害（最多4名）",
         "trigger": "retire",
         "duration": "instant",
         "target": "team",
@@ -4453,7 +5746,7 @@ export const ESSENCES = [
     "progress": {
       "metric": "retirements"
     },
-    "description": "取得后累计临时角色退场达到4：之后本局临时角色每次威力+1.2。",
+    "description": "取得后累计角色退场达到4：之后本局临时角色每次威力+1.2。",
     "effects": [
       {
         "type": "power",
@@ -4509,7 +5802,7 @@ export const ESSENCES = [
     "progress": {
       "metric": "retirements"
     },
-    "description": "取得后累计临时角色退场达到3：达标时立即获得1次移除机会。之后本局护盾获取量×1.1。",
+    "description": "取得后累计角色退场达到3：达标时立即获得1次移除机会。之后本局护盾获取量×1.1。",
     "effects": [
       {
         "type": "resource",
@@ -4544,7 +5837,7 @@ export const ESSENCES = [
     "progress": {
       "metric": "retirements"
     },
-    "description": "取得后累计临时角色退场达到5：之后本局毁灭角色每次威力+1。",
+    "description": "取得后累计角色退场达到5：之后本局毁灭角色每次威力+1。",
     "effects": [
       {
         "type": "power",

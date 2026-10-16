@@ -6,8 +6,8 @@ import { CHARACTERS, ITEMS, ESSENCES, characterById } from '../src/content.js';
 import { newGame, spin, skipReward, rerollRewards, chooseReward, validateSave } from '../src/engine.js';
 import { EFFECT_TYPES, EFFECT_TRIGGERS } from '../src/effect-rules.js';
 
-test('approved content pools contain 64 independent characters, 64 curios and 32 essences', () => {
-  for (const [rows, count] of [[CHARACTERS, 64], [ITEMS, 64], [ESSENCES, 32]]) {
+test('source-checked content pools contain 90 independent characters, 64 curios and 32 essences', () => {
+  for (const [rows, count] of [[CHARACTERS, 90], [ITEMS, 64], [ESSENCES, 32]]) {
     assert.equal(rows.length, count);
     assert.equal(new Set(rows.map(row => row.id)).size, count);
     assert.equal(new Set(rows.map(row => row.name)).size, count);
@@ -45,8 +45,9 @@ test('all character and curio images retain verified local source bytes and ever
   for (const [kind, rows, dimension] of [['characters', CHARACTERS, 256], ['curios', [...ITEMS, ...ESSENCES], 128]]) {
     const manifest = JSON.parse(readFileSync(new URL('../public/assets/' + kind + '/source-manifest.json', import.meta.url), 'utf8').replace(/^\uFEFF/, ''));
     assert.equal(manifest.commit, revision);
-    assert.equal(manifest.assets.length, 64);
-    assert.equal(new Set(manifest.assets.map(asset => asset.id)).size, 64);
+    const expectedImages = kind === 'characters' ? 90 : 64;
+    assert.equal(manifest.assets.length, expectedImages);
+    assert.equal(new Set(manifest.assets.map(asset => asset.id)).size, expectedImages);
     for (const asset of manifest.assets) {
       const image = readFileSync(new URL('../public/assets/' + kind + '/' + asset.id + '.png', import.meta.url));
       assert.equal(image.length, asset.bytes);
@@ -54,7 +55,12 @@ test('all character and curio images retain verified local source bytes and ever
       assert.equal(image.subarray(1, 4).toString(), 'PNG');
       assert.equal(image.readUInt32BE(16), dimension);
       assert.equal(image.readUInt32BE(20), dimension);
-      assert.equal(asset.source, 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/' + revision + '/icon/' + (kind === 'characters' ? 'character' : 'curio') + '/' + asset.id + '.png');
+      if (asset.kind === 'text-symbol') {
+        const characterId = asset.id === 'aha-symbol' ? 'aha' : 'aeon_star_aha';
+        assert.ok(['aha-symbol','aeon-star-aha'].includes(asset.id));
+        assert.equal(asset.source, 'project:' + (characterId === 'aha' ? 'aha' : 'aeon-star-aha') + '-text-symbol-v1');
+        assert.equal(characterById(characterId).portraitKind, 'text-symbol');
+      } else assert.equal(asset.source, 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/' + revision + '/icon/' + (kind === 'characters' ? 'character' : 'curio') + '/' + asset.id + '.png');
       assert.deepEqual(asset.contentIds.slice().sort(), rows.filter(row => String(row.assetId) === asset.id).map(row => row.id).sort());
       assert.ok(asset.contentIds.length);
     }

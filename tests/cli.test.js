@@ -49,7 +49,7 @@ test('parallel combat CLI preserves serial holdout results and paired seed order
       const parallel = JSON.parse(await readFile(output, 'utf8'));
       assert.equal(parallel.samplePurpose, 'calibration');
       assert.equal(parallel.sourceStable, true);
-      assert.equal(Object.keys(parallel.sourceHashes).length, 9);
+      assert.equal(Object.keys(parallel.sourceHashes).length, 12);
       assert.ok(Object.values(parallel.sourceHashes).every(hash => /^[a-f0-9]{64}$/.test(hash)));
       const chunks = Math.ceil(runs / 50) * 2;
       assert.deepEqual(parallel.parallel, { workers, workersUsed: Math.min(workers, chunks), chunkSize: 50, chunks, resultOrder: 'original-seed-index' });

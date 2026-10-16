@@ -11,7 +11,7 @@ const durations = {
 };
 const triggerNames = {
   appear: '登场时', appearance: '登场时', spin: '每次转动', spinStart: '转动开始时',
-  floorStart: '进入新关时', acquire: '取得时', retire: '临时角色退场时',
+  floorStart: '进入新关时', acquire: '取得时', retire: '角色退场时',
   merge: '合成时', unlock: '达到精华条件后', trigger: '达到精华条件后',
   passive: '条件满足时', attack: '攻击时', kill: '击破时', afterAttack: '攻击结算后',
   afterDamage: '承伤后', retaliation: '敌人反击时', floorClear: '过关时', floor: '进入新关时', clear: '过关时',
