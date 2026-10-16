@@ -110,7 +110,7 @@ test('saved legacy model weights remain reusable while recommendations identify 
   assert.deepEqual(validated.weights, DEFAULT_PROFILE.weights);
   const advice = recommendRewards(spin(newGame()), { profile: oldProfile });
   assert.equal(advice.version, 'context-v1');
-  assert.equal(advice.policyVersion, 'resource-actions-v6');
+  assert.equal(advice.policyVersion, POLICY_VERSION);
   assert.equal(DEFAULT_PROFILE.version, 'context-v3-resources');
   assert.equal(advice.choices.at(-1).action, 'skip');
 });

@@ -4,6 +4,8 @@ import { DIFFICULTY, lateDifficultyMultiplier, normalizeDifficulty, difficultyHe
 import { ENEMY_DEBUFFS, enemyDebuffById, hasDebuff, getEligibleDebuffs, publicDebuff, unitPowerMultiplier, utilityMultiplier, pollutionDescription, legacyPollutionDescription, isPolluted } from './enemy-effects.js';
 import { getEffectSources, effectIsEligible, effectAmount, effectTargetIndexes, matchesEffectFilter, cumulativeProgressValue, PERSISTENT_PROGRESS_METRICS } from './effect-rules.js';
 import { getSynergiesFor, synergyOffenseScale } from './synergies.js';
+import { RETIREMENT_RULES, retirementRuleById, retirementEligibility, newRetirementStats } from './retirements.js';
+import { isArchetypeCore } from './archetypes.js';
 
 export const SAVE_VERSION = 2;
 export const BOARD_COLUMNS = 5;
@@ -157,6 +159,7 @@ function resolveEffectDamage(state, effect, source, active, context, amount) {
 }
 
 function applyPowerEffects(state, context) {
+  const archetypeMultipliers = new Map();
   for (const { effect, source, context: savedContext } of context.pendingPowerEffects || []) {
     if (source.sourceUid && context.consumed?.has(source.sourceUid)) continue;
     const active = { ...savedContext, powers: context.powers, consumed: context.consumed, metrics: context.metrics };
@@ -171,8 +174,16 @@ function applyPowerEffects(state, context) {
         appliedAmount *= buffScale;
         context.powers[index] += appliedAmount;
       }
-      else context.powerMultipliers[index] *= amount;
-      effectEvent(state, source, effect.type, appliedAmount, effect.duration || 'spin', state.board[index].uid, effect.summary);
+      else if (source.sourceType === 'archetype') {
+        const previous = archetypeMultipliers.get(index) || 1;
+        const next = Math.max(previous, amount);
+        if (next === previous) continue;
+        appliedAmount = next / previous;
+        archetypeMultipliers.set(index, next);
+        context.powerMultipliers[index] *= appliedAmount;
+      } else context.powerMultipliers[index] *= amount;
+      const label = source.sourceType === 'archetype' && effect.type === 'powerMultiplier' ? `${effect.summary}（套路倍率取最高，本步×${rounded(appliedAmount)}）` : effect.summary;
+      effectEvent(state, source, effect.type, appliedAmount, effect.duration || 'spin', state.board[index].uid, label);
     }
   }
 }
@@ -334,6 +345,7 @@ export function newGame({ seed = '星穹房东', difficulty = 10, resourceAccess
     lastSpin: newSpinRecord(),
     history: ['列车抵达：每次转动后可招募一名角色，三名相同一星角色会自动合成二星。'],
     stats: { spins: 0, damage: 0, coins: 0, merges: 0, destroyed: 0 },
+    retirementStats: newRetirementStats(),
   };
   state.roster = ['1001', '1002', '1009', '1013', '1105'].map(id => unit(state, id));
   state.roster.forEach((u, i) => { state.board[i + 10] = copy(u); });
@@ -372,7 +384,7 @@ function mergeRoster(state) {
   // Temporary reinforcements expire and never consume permanent recruits.
   for (let stars = 1; stars < 3; stars++) {
     for (const c of CHARACTERS) {
-      let same = state.roster.filter(u => u.id === c.id && u.stars === stars && !u.temporary);
+      let same = state.roster.filter(u => u.id === c.id && u.stars === stars && !u.temporary && !u.commission);
       while (same.length >= 3) {
         const merging = same.slice(0, 3);
         const ids = new Set(merging.map(u => u.uid));
@@ -388,7 +400,7 @@ function mergeRoster(state) {
         const message = `升星：3 位 ${stars} 星${c.name} → ${stars + 1} 星${c.name}。`;
         state.history.push(message);
         state.lastSpin.events.push(message);
-        same = state.roster.filter(u => u.id === c.id && u.stars === stars && !u.temporary);
+        same = state.roster.filter(u => u.id === c.id && u.stars === stars && !u.temporary && !u.commission);
       }
     }
   }
@@ -413,6 +425,51 @@ function drawBoard(state) {
   state.board = Array(BOARD_SIZE).fill(null);
   selected.forEach((u, index) => { state.board[positions[index]] = copy(u); });
 }
+
+function resolveCommissions(state, consumed, generated, metrics) {
+  state.retirementStats ||= newRetirementStats();
+  let count = 0;
+  const growthScale = (hasItem(state, 'rubert_gear') ? 1.5 : 1) * (hasDebuff(state, 'growth_audit') ? 0.5 : 1);
+  for (const [index, source] of state.board.entries()) {
+    if (!source || source.temporary || source.commission || consumed.has(source.uid)) continue;
+    for (const rule of RETIREMENT_RULES.filter(entry => entry.sourceId === source.id)) {
+      const nextTick = source.ticks + 1;
+      const previous = state.retirementStats.byRule[rule.id];
+      const unlocked = state.roster.some(u => u.id === rule.targetId && !u.temporary && !u.commission) || previous?.completed > 0;
+      if (nextTick % rule.supplyEvery === 0 && unlocked && state.roster.length + generated.length < 200 && ![...state.roster, ...generated].some(u => u.commission === rule.id && !consumed.has(u.uid))) {
+        const trainee = unit(state, rule.targetId, { commission: rule.id, origin: source.uid });
+        generated.push(trainee);
+        const stats = state.retirementStats.byRule[rule.id] ||= { completed: 0, permanent: 0, supplied: 0 };
+        stats.supplied += 1; state.retirementStats.supplied += 1;
+        effectEvent(state, source, 'commission', 1, 'run', trainee.uid, `${rule.name}：补充见习委派，下轮起登场，不计羁绊和套路身份`);
+      }
+      if (nextTick % rule.every !== 0) continue;
+      const candidates = neighbors(index).map(i => state.board[i]).filter(target => retirementEligibility(state, source, target, { consumed, isCore: isArchetypeCore }).eligible);
+      // Prefer generated assignments; among ordinary extras, preserve the most trained.
+      candidates.sort((a, b) => Number(Boolean(b.commission)) - Number(Boolean(a.commission)) || a.growth - b.growth || a.ticks - b.ticks || a.uid.localeCompare(b.uid));
+      const target = candidates[0];
+      if (!target) continue;
+      consumed.add(target.uid); target.status = 'consumed'; target.dispatchRule = rule.id;
+      const original = state.roster.find(u => u.uid === source.uid);
+      const gained = rule.growth * starMultiplier(state, source) * growthScale * passiveMultiplier(state, 'growthMultiplier', { unit: source });
+      original.growth = rounded(original.growth + gained); source.growth = original.growth;
+      source.consumptionBonus = (source.consumptionBonus || 0) + rule.power * starMultiplier(state, source);
+      state.coins = rounded(state.coins + rule.coins); state.lastSpin.coins = rounded(state.lastSpin.coins + rule.coins);
+      const stats = state.retirementStats.byRule[rule.id] ||= { completed: 0, permanent: 0, supplied: 0 };
+      stats.completed += 1; state.retirementStats.completed += 1;
+      if (!target.commission) { stats.permanent += 1; state.retirementStats.permanent += 1; metrics.permanentRetirements = (metrics.permanentRetirements || 0) + 1; }
+      metrics.growth = rounded((metrics.growth || 0) + gained); count += 1;
+      effectEvent(state, source, 'retirement', 1, 'run', target.uid, `${rule.name}：${rule.targetName}完成委派并永久离队（非死亡）`);
+      effectEvent(state, source, 'growth', gained, 'run', source.uid, `${rule.name}永久成长`);
+      effectEvent(state, source, 'power', rule.power * starMultiplier(state, source), 'spin', source.uid, `${rule.name}本次威力`);
+      effectEvent(state, source, 'coins', rule.coins, 'resource', null, `${rule.name}结案报酬`);
+      record(state, `${sourceName(source)}：${target.commission ? '见习' : '额外一星'}${rule.targetName}完成「${rule.name}」并永久离队，永久威力+${rounded(gained)}、信用点+${rule.coins}。`);
+    }
+  }
+  return count;
+}
+
+const sourceName = source => characterById(source.id).name;
 
 function weightedChoice(state, pool, phase = 'recruit') {
   const floorBoost = Math.min(2.5, 1 + state.floor * 0.09);
@@ -607,7 +664,8 @@ export function spin(previous) {
   let retirements = 0;
   const metrics = { single: 0, aoe: 0, nihility: 0, synergies: synergies.length };
   const startingEnemyCount = state.enemies.filter(e => e.hp > 0).length;
-  const effectContext = { synergies, powers, powerMultipliers: Array(BOARD_SIZE).fill(1), pendingPowerEffects: [], pendingDamageEffects: [], consumed, generated, metrics, retirements: 0, incomingReduction: 0, incomingMultiplier: 1, ignoresArmor: false, effectUses: new Set(), duringSpin: true };
+  retirements = resolveCommissions(state, consumed, generated, metrics);
+  const effectContext = { synergies, powers, powerMultipliers: Array(BOARD_SIZE).fill(1), pendingPowerEffects: [], pendingDamageEffects: [], consumed, generated, metrics, retirements, incomingReduction: 0, incomingMultiplier: 1, ignoresArmor: false, effectUses: new Set(), duringSpin: true };
   const growthMultiplier = (hasItem(state, 'rubert_gear') ? 1.5 : 1) * (hasDebuff(state, 'growth_audit') ? 0.5 : 1);
 
   // Resolve growth, utility and consumption before powers and attacks.
@@ -801,7 +859,8 @@ export function spin(previous) {
   state.roster = state.roster.filter(u => !removed.has(u.uid));
   state.roster.push(...generated);
   state.stats.destroyed += removed.size;
-  if (removed.size) record(state, `${removed.size} 位临时角色退场。`);
+  if (removed.size) record(state, `${removed.size} 位角色完成委派、被消耗或临时登场结束而退场。`);
+  clearMissingPollution(state);
   state.stats.damage = rounded(state.stats.damage + state.lastSpin.damage);
   state.stats.coins = rounded(state.stats.coins + state.lastSpin.coins);
   // A fatal retaliation ends the run; an essence cannot resurrect the train.
@@ -957,14 +1016,29 @@ export function validateSave(input) {
       if (!Number.isInteger(u.stars) || !finite(u.stars, 1, 3) || !finite(u.growth) || !Number.isInteger(u.ticks) || !finite(u.ticks)) return false;
       if (u.origin !== undefined && (typeof u.origin !== 'string' || !/^u[1-9]\d*$/.test(u.origin))) return false;
       if (u.temporary !== undefined && (!Number.isInteger(u.temporary) || !finite(u.temporary, board ? 0 : 1, 3))) return false;
-      if (!board) return u.status === undefined && u.consumptionBonus === undefined;
+      if (u.commission !== undefined && (!retirementRuleById(u.commission) || retirementRuleById(u.commission).targetId !== u.id || u.stars !== 1 || u.temporary !== undefined || !u.origin)) return false;
+      if (u.dispatchRule !== undefined && (!board || u.status !== 'consumed' || !retirementRuleById(u.dispatchRule) || retirementRuleById(u.dispatchRule).targetId !== u.id || u.stars !== 1 || u.temporary !== undefined)) return false;
+      if (!board) return u.status === undefined && u.consumptionBonus === undefined && u.dispatchRule === undefined;
       if (u.status !== undefined && !['consumed', 'expired'].includes(u.status)) return false;
-      if (u.status === 'consumed' && !(u.temporary > 0)) return false;
+      if (u.status === 'consumed' && !(u.temporary > 0) && !u.dispatchRule) return false;
       if (u.status === 'expired' && u.temporary !== 0) return false;
       if (u.temporary === 0 && u.status !== 'expired') return false;
       return u.consumptionBonus === undefined || finite(u.consumptionBonus);
     };
     if (input.roster.some(u => !validUnit(u)) || new Set(input.roster.map(u => u.uid)).size !== input.roster.length) return null;
+    if (input.retirementStats !== undefined) {
+      const stats = input.retirementStats;
+      if (!stats || Object.keys(stats).some(key => !['completed', 'permanent', 'supplied', 'byRule'].includes(key)) || ['completed', 'permanent', 'supplied'].some(key => !Number.isInteger(stats[key]) || !finite(stats[key], 0, 1e9)) || !stats.byRule || typeof stats.byRule !== 'object' || Array.isArray(stats.byRule)) return null;
+      for (const [id, entry] of Object.entries(stats.byRule)) {
+        if (!retirementRuleById(id) || !entry || Object.keys(entry).some(key => !['completed', 'permanent', 'supplied'].includes(key)) || ['completed', 'permanent', 'supplied'].some(key => !Number.isInteger(entry[key]) || !finite(entry[key], 0, 1e9)) || entry.permanent > entry.completed || entry.completed - entry.permanent > entry.supplied) return null;
+      }
+      if (['completed', 'permanent', 'supplied'].some(key => Object.values(stats.byRule).reduce((sum, entry) => sum + entry[key], 0) !== stats[key])) return null;
+      for (const rule of RETIREMENT_RULES) {
+        const pending = input.roster.filter(u => u.commission === rule.id).length;
+        const entry = stats.byRule[rule.id];
+        if (pending > 1 || pending > (entry?.supplied || 0) - ((entry?.completed || 0) - (entry?.permanent || 0))) return null;
+      }
+    } else if ([...input.roster, ...input.board.filter(Boolean)].some(u => u.commission || u.dispatchRule)) return null;
     for (const effect of input.activeDebuffs) {
       if (effect.id !== 'rift_pollution') {
         if (effect.targetUid !== undefined || effect.targetId !== undefined || effect.targetName !== undefined) return null;
@@ -1023,8 +1097,10 @@ export function validateSave(input) {
       }
     }
     if (!input.stats || ['spins', 'damage', 'coins', 'merges', 'destroyed'].some(key => !finite(input.stats[key]))) return null;
+    if ((input.retirementStats?.completed || 0) > input.stats.destroyed) return null;
     // The JSON round trip discards prototype properties and guarantees persistence compatibility.
     const restored = JSON.parse(JSON.stringify(input));
+    restored.retirementStats ||= newRetirementStats();
     for (const essence of restored.essences) if (PERSISTENT_PROGRESS_METRICS.includes(essenceById(essence.id).progress?.metric) && essence.baseline === undefined) essence.baseline = cumulativeProgressValue(restored, essenceById(essence.id).progress.metric);
     for (const effect of restored.activeDebuffs) {
       if (effect.id === 'rift_pollution') effect.description = pollutionDescription(effect.targetName);

@@ -36,7 +36,7 @@ export const SYNERGIES = [
 ];
 
 export function getSynergiesFor(state, characterById) {
-  const permanent = [...new Set((state?.roster || []).filter(u => !u.temporary).map(u => u.id))].map(characterById).filter(Boolean);
+  const permanent = [...new Set((state?.roster || []).filter(u => !u.temporary && !u.commission).map(u => u.id))].map(characterById).filter(Boolean);
   return SYNERGIES.map(synergy => {
     const count = permanent.filter(c => c[synergy.kind] === synergy.tag).length;
     const tier = synergy.thresholds.filter(threshold => count >= threshold).length;
@@ -54,6 +54,8 @@ export function matchesSynergyFilter(unit, filter, characterById) {
   const c = characterById(unit?.id);
   if (!c) return false;
   if (filter?.id !== undefined && unit.id !== filter.id) return false;
+  if (filter?.ids && !filter.ids.includes(unit.id)) return false;
+  if (filter?.commission !== undefined && Boolean(unit.commission) !== filter.commission) return false;
   for (const key of ['path', 'element', 'faction', 'attack']) {
     if (filter?.[key] !== undefined && c[key] !== filter[key]) return false;
     if (filter?.[`${key}Not`] !== undefined && c[key] === filter[`${key}Not`]) return false;

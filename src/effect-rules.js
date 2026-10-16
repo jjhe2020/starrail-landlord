@@ -1,4 +1,5 @@
 import { characterById, itemById, essenceById } from './content.js';
+import { getArchetypes } from './archetypes.js';
 
 // Data-only effects are interpreted by the engine, never read back from saves.
 export const EFFECT_TYPES = Object.freeze(['power', 'powerMultiplier', 'heal', 'shield', 'growth', 'resource', 'retaliationFlat', 'retaliationMultiplier', 'ignoreArmor', 'summon', 'selfDamage', 'maxHp', 'extraSpin', 'healMultiplier', 'shieldMultiplier', 'buffMultiplier', 'growthMultiplier', 'rarityMultiplier', 'essenceProgressMultiplier', 'damage', 'consume', 'healOverflowShield']);
@@ -9,6 +10,9 @@ export function matchesEffectFilter(unit, filter = {}, source = null) {
   if (!unit) return false;
   const c = characterById(unit.id);
   if (!c) return false;
+  if (filter.id !== undefined && unit.id !== filter.id) return false;
+  if (filter.ids && !filter.ids.includes(unit.id)) return false;
+  if (filter.commission !== undefined && Boolean(unit.commission) !== filter.commission) return false;
   for (const key of ['path', 'element', 'faction', 'attack']) if (filter[key] !== undefined && c[key] !== filter[key]) return false;
   for (const key of ['path', 'element', 'faction', 'attack']) if (filter[`${key}Not`] !== undefined && c[key] === filter[`${key}Not`]) return false;
   if (filter.temporary !== undefined && Boolean(unit.temporary || unit.status === 'expired') !== filter.temporary) return false;
@@ -105,7 +109,7 @@ export function effectTargetIndexes(effect, context) {
   else if (target === 'column') indexes = indexes.filter(i => i % 5 === index % 5);
   indexes = indexes.filter(i => matchesEffectFilter(state.board[i], effect.filter, unit));
   if (target === 'strongest') {
-    indexes = indexes.filter(i => state.board[i].uid !== unit?.uid);
+    if (!effect.includeSource) indexes = indexes.filter(i => state.board[i].uid !== unit?.uid);
     indexes.sort((a, b) => (powers[b] || 0) - (powers[a] || 0) || a - b);
     indexes = indexes.slice(0, 1);
   }
@@ -130,6 +134,7 @@ export function getEffectSources(state, { trigger = 'passive', unit = null, inde
   for (const id of state.items) result.push(source(itemById(id), 'item'));
   for (const entry of state.essences) if (entry.triggered) result.push(source(essenceById(entry.id), 'essence'));
   for (const synergy of synergies) result.push({ definition: synergy, sourceType: 'synergy', sourceId: synergy.id, unit: null, index: null, effects: synergy.effects || [] });
+  for (const archetype of getArchetypes(state)) if (archetype.effects.length) result.push(source(archetype, 'archetype'));
   return result.filter(entry => entry.effects.length);
 }
 
@@ -172,5 +177,6 @@ export function getPassiveEffectSources(state, type, synergies) {
   for (const id of state.items) add(itemById(id),'item');
   for (const entry of state.essences) if (entry.triggered) add(essenceById(entry.id),'essence');
   for (const synergy of synergies) add(synergy,'synergy');
+  for (const archetype of getArchetypes(state)) if (archetype.effects.length) add(archetype, 'archetype');
   return result;
 }

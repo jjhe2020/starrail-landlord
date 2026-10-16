@@ -1,12 +1,12 @@
 # 美术来源与归属
 
-核验日期：2026-10-15。运行时全部使用本地资源；单文件版内嵌图片，不请求远程图片。
+核验日期：2026-10-16。运行时全部使用本地资源；单文件版内嵌图片，不请求远程图片。
 
 ## 角色头像
 
-`public/assets/characters/*.png` 共64张头像来自 [Mar-7th/StarRailRes](https://github.com/Mar-7th/StarRailRes)，是《崩坏：星穹铁道》的第三方游戏素材整理。角色、名称和美术的原作品权利归 HoYoverse / 米哈游等相关权利人所有；不是本项目原创，也不代表官方授权或官方合作。2026-10-12保留的24张与2026-10-15新增40张均采用同一固定提交，避免混合版本。
+`public/assets/characters/*.png` 共90张：其中88张人物头像来自 [Mar-7th/StarRailRes](https://github.com/Mar-7th/StarRailRes)，是《崩坏：星穹铁道》的第三方游戏素材整理。角色、名称和美术的原作品权利归 HoYoverse / 米哈游等相关权利人所有；不是本项目原创，也不代表官方授权或官方合作。2026-10-12保留的24张、2026-10-15新增40张及2026-10-16新增24张均采用同一固定提交，避免混合版本。另2张`aha-symbol.png`与`aeon-star-aha.png`为本项目分别绘制的AHA与AHA★文字标识，不是官方人物画像或立绘。星神★阿哈原站图像CDN返回403，未以占位符冒充下载的原图，清单保留imageinfo与失败来源记录。
 
-来源锁定为提交 [`dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487`](https://github.com/Mar-7th/StarRailRes/tree/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487)。原文件路径 `icon/character/{id}.png`，简中名称、数字ID与命途/属性核对该提交的 [characters.json](https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/cn/characters.json)。全部下载后保留原始PNG字节，没有重绘、压缩或更改；64张均完整解码为256×256。该索引是第三方技术映射，不等于官方实装名单。公开角色身份可参照[官方角色页](https://hsr.hoyoverse.com/en-us/character?charIndex=12&worldIndex=11)。
+来源锁定为提交 [`dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487`](https://github.com/Mar-7th/StarRailRes/tree/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487)。原文件路径 `icon/character/{id}.png`，简中名称、数字ID与命途/属性核对该提交的 [characters.json](https://raw.githubusercontent.com/Mar-7th/StarRailRes/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/cn/characters.json)。全部下载后保留原始PNG字节，没有重绘、压缩或更改；88张人物头像均完整解码为256×256；两张阿哈文字标识同为256×256。该索引是第三方技术映射，不等于官方实装名单。公开角色身份可参照[官方角色页](https://hsr.hoyoverse.com/en-us/character?charIndex=12&worldIndex=11)。
 
 完整原始URL、字节数、SHA-256和本作内容ID见[角色来源清单](../public/assets/characters/source-manifest.json)。
 
@@ -76,6 +76,32 @@
 | 1407 | 遐蝶 |
 | 1408 | 白厄 |
 | 1409 | 风堇 |
+| 1224 | 三月七·巡猎 |
+| 1213 | 丹恒·饮月 |
+| 1414 | 丹恒·腾荒 |
+| 1225 | 忘归人 |
+| 1401 | 大黑塔 |
+| 1410 | 海瑟音 |
+| 1412 | 刻律德菈 |
+| 1413 | 长夜月 |
+| 1415 | 昔涟 |
+| 1014 | Saber |
+| 1015 | Archer |
+| 1502 | 爻光 |
+| 1501 | 火花 |
+| 1504 | 不死途 |
+| 1506 | 银狼LV.999 |
+| 1505 | 绯英 |
+| 1507 | 千冶·刃 |
+| 1321 | 大丽花 |
+| 1510 | 姬子·启行 |
+| 1509 | 吉尔伽美什 |
+| 1508 | 远坂凛 |
+| aha-symbol | 阿哈（本作文字标识） |
+| 1503 | 真珠 |
+| 1512 | 知更鸟·晴歌 |
+| 1513 | 砂金·戏浪 |
+| aeon-star-aha | 星神★阿哈（本作文字标识） |
 
 ## 奇物与精华图像
 
@@ -175,6 +201,8 @@
 
 《幸运房东》的玩法参考来自 [TrampolineTales 的 Steam 官方商店页](https://store.steampowered.com/app/1404850/Luck_be_a_Landlord/) 与开发者 [Content Patch #9 — Essences 公告](https://steamcommunity.com/ogg/1404850/announcements/detail/5510701238793103300)。公告由 Steam 官方新闻 API 核验，作者为 TrampolineTales。
 
-2026-10-15核对开发者发布的[Google Play文案](https://play.google.com/store/apps/details?hl=en&id=com.trampolinetales.lbal)与[App Store文案](https://apps.apple.com/us/app/luck-be-a-landlord/id6450724928)，两处均标注152种符号、227个Items。官方商店没有分别列出普通物品与精华的数量，因此不把227解释为“227个普通奇物，另加精华”。本轮按用户确认扩至64位同行者、64个奇物、32个精华，不声称已经达到原作完整内容数量。
+2026-10-15核对开发者发布的[Google Play文案](https://play.google.com/store/apps/details?hl=en&id=com.trampolinetales.lbal)与[App Store文案](https://apps.apple.com/us/app/luck-be-a-landlord/id6450724928)，两处均标注152种符号、227个Items。官方商店没有分别列出普通物品与精华的数量，因此不把227解释为“227个普通奇物，另加精华”。2026-10-15扩至64位同行者、64个奇物、32个精华；2026-10-16依照用户指定角色名单的当前公开API进一步扩至90位同行者，数量边界与核对记录见[角色核对记录](./CHARACTERS.md)。不声称已经达到幸运房东完整内容数量。
 
 项目自行实现规则和界面，使用新文案；没有复制原游戏程序、音乐、图标、背景或原版完整效果目录。完整目录复刻不属于当前版本的完成声明。
+
+联动角色 Saber、Archer、吉尔伽美什、远坂凛涉及 Fate 系列，相关原作角色权利亦归 TYPE-MOON 等对应权利人；本项目不主张角色、游戏人物画像或联动美术的原创权，也不表示官方授权。原始游戏资源仍按各自来源记录归属，文字标识头像仅指本项目排版绘制的标识本身。

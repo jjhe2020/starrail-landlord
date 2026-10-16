@@ -9,6 +9,7 @@ import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
+import { CHARACTERS } from '../src/content.js';
 const saveKey = 'astral-reels:v1';
 
 // Opt in so the ordinary engine suite never loads Playwright. Each viewport
@@ -178,7 +179,23 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         check(`${width}px outside closes inspector`, await page.locator('.inspect-popover').count() === 0);
 
         await page.locator('[data-action="catalog"]').first().click();
-        check(`${width}px 64 characters displayed`, await page.locator('[data-catalog-results] .character-card').count() === 64);
+        check(`${width}px all characters displayed`, await page.locator('[data-catalog-results] .character-card').count() === CHARACTERS.length);
+        await page.locator('[data-catalog-search]').fill('虚无引爆');
+        check(`${width}px routes are searchable`, await page.locator('[data-catalog-results] .character-card').count() >= 5);
+        await page.locator('.archetype-tag[data-id="ink_dot"]').first().click();
+        const routeText = await page.locator('.inspect-popover').innerText();
+        check(`${width}px route threshold and core explained`, routeText.includes('5 个不同永久成员') && routeText.includes('核心') && routeText.includes('成型收益'));
+        await fits(page, `${width}px archetype details`);
+        await screenshot(page, `archetypes-${width}`);
+        await page.keyboard.press('Escape');
+        await page.locator('[data-catalog-search]').fill('太卜司轮值交接');
+        check(`${width}px story commissions are searchable`, await page.locator('[data-catalog-results] .character-card').count() === 2);
+        await page.locator('.skill-description').first().click();
+        await page.locator('.retirement-info summary').click();
+        const commissionText = await page.locator('.inspect-popover').innerText();
+        check(`${width}px actual permanent departure and protection explained`, commissionText.includes('永久离队') && commissionText.includes('最后正式同名') && commissionText.includes('补1位见习'));
+        await fits(page, `${width}px commission details`);
+        await page.keyboard.press('Escape');
         await page.locator('[data-catalog-search]').fill('阮·梅');
         check(`${width}px catalog search retains input focus`, await page.locator('[data-catalog-results] .character-card').count() === 1 &&
           await page.locator('[data-catalog-search]').evaluate(element => element === document.activeElement));
@@ -205,6 +222,15 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         await page.locator('.all-synergies').click();
         check(`${width}px all 21 resonances`, await page.locator('.all-synergy-grid .synergy').count() === 21);
         await fits(page, `${width}px resonance`);
+        await page.locator('.utility-panel [data-action="close"]').click();
+
+        await page.locator('.site-header [data-action="aiLab"]').first().click();
+        await page.locator('.archetype-benchmark > summary').click();
+        check(`${width}px independent route holdout is embedded`, await page.locator('.archetype-benchmark-rows article').count() === 11);
+        await page.locator('.archetype-pressure summary').click();
+        check(`${width}px stress test and confidence intervals are available`, (await page.locator('.archetype-pressure').innerText()).includes('95%'));
+        await fits(page, `${width}px embedded balance report`);
+        await screenshot(page, `balance-${width}`);
         await page.locator('.utility-panel [data-action="close"]').click();
 
         await page.locator('[data-action="spin"]').click();
