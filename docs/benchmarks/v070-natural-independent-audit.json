@@ -1,0 +1,1310 @@
+{
+  "protocol": "v070-natural-independent-python-v1",
+  "ready": true,
+  "generatedAt": "2026-10-21T07:48:35.341731+00:00",
+  "method": {
+    "implementation": "Independent standard-library Python streaming parse of the original JSONL archives; no game or JavaScript analysis imports.",
+    "quantiles": "Sort per-campaign max(finalRoster[].growth), using zero for an empty final roster, then apply R-7 linear interpolation.",
+    "late": "floor >= 9; role counts and Asta proportions use present instances only; role growth maxima also include held but absent instances.",
+    "terminal": "Use every recorded turn at actual run.floor, and count stars only when present; never substitute fixed floor12 or finalRoster stars.",
+    "population": "Descriptive uniform mixture of the included policies; shared seeds are counted separately. These campaign quantiles have no CI and are not independent human samples.",
+    "growth": "Retained additive growth value, not a damage multiplier. Normal, temporary and commission instances remain pooled because raw records omit status/UID.",
+    "assertionScope": "The same 36 statistical assertions as the final read-only review. Source and main-coverage checks are recorded separately."
+  },
+  "inputDocuments": {
+    "natural": {
+      "path": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/docs/V070-NATURAL-GROWTH.json",
+      "sha256": "ae901cadfd50d31fb171998c8aa83c28af37ffb9c9509363577328654331052d"
+    },
+    "main": {
+      "path": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/docs/V070-TEST-RESULTS.json",
+      "sha256": "6e80f93003adea74ef0128247f5ed628e1487b1902d960a30725de3744e720de"
+    },
+    "terminal": {
+      "path": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/docs/V070-TERMINAL-CARDS.json",
+      "sha256": "9f6692b39e670736840833fd60ec706dea2f3f69b08b0f2504922e3934e82d6a"
+    }
+  },
+  "frozenSourceHashes": {
+    "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+    "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5",
+    "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+    "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+    "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+    "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+    "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+    "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+    "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+    "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+    "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+    "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+    "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+    "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+    "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+    "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697"
+  },
+  "sources": [
+    {
+      "declaredPath": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/docs/benchmarks/v070-campaigns-holdout-d10-n400.jsonl.gz",
+      "resolvedPath": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/docs/benchmarks/v070-campaigns-holdout-d10-n400.jsonl.gz",
+      "sha256": "7b89a6e17a472f44030947a7591fe9ff61807a783157177bf573da2966bb4b70",
+      "rows": 11600,
+      "config": {
+        "mode": "campaigns",
+        "samples": 400,
+        "start": 0,
+        "difficulty": 10,
+        "seed": "v070-freeze4",
+        "split": "holdout",
+        "strength": 10,
+        "backgrounds": [
+          "generic",
+          "compatible"
+        ],
+        "stages": [
+          {
+            "id": "early",
+            "stars": 1,
+            "growth": 0,
+            "ticks": 0
+          },
+          {
+            "id": "mid",
+            "stars": 2,
+            "growth": 2,
+            "ticks": 6
+          },
+          {
+            "id": "late",
+            "stars": 2,
+            "growth": 6,
+            "ticks": 12
+          }
+        ],
+        "enemies": [
+          {
+            "id": "standard",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 5,
+            "skill": "none",
+            "boss": false
+          },
+          {
+            "id": "killable",
+            "count": 5,
+            "hp": 18,
+            "attack": 5,
+            "skill": "none",
+            "boss": false
+          },
+          {
+            "id": "armor",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 5,
+            "skill": "armor",
+            "boss": false
+          },
+          {
+            "id": "boss",
+            "count": 1,
+            "hp": 10000000,
+            "attack": 25,
+            "skill": "none",
+            "boss": false,
+            "description": "单目标高血靶；不触发自然首领阶段条款"
+          },
+          {
+            "id": "retaliation",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 14,
+            "skill": "pressure",
+            "boss": false
+          }
+        ],
+        "future": true
+      },
+      "sourceHashes": {
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5"
+      }
+    },
+    {
+      "declaredPath": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz",
+      "resolvedPath": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz",
+      "sha256": "644fc699d5024c8b5469745df63f55c93614c7b4f03a9c28e2994ea5d248e107",
+      "rows": 2900,
+      "config": {
+        "mode": "campaigns",
+        "samples": 100,
+        "start": 0,
+        "difficulty": 20,
+        "seed": "v070-freeze4",
+        "split": "stress",
+        "strength": 10,
+        "backgrounds": [
+          "generic",
+          "compatible"
+        ],
+        "stages": [
+          {
+            "id": "early",
+            "stars": 1,
+            "growth": 0,
+            "ticks": 0
+          },
+          {
+            "id": "mid",
+            "stars": 2,
+            "growth": 2,
+            "ticks": 6
+          },
+          {
+            "id": "late",
+            "stars": 2,
+            "growth": 6,
+            "ticks": 12
+          }
+        ],
+        "enemies": [
+          {
+            "id": "standard",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 5,
+            "skill": "none",
+            "boss": false
+          },
+          {
+            "id": "killable",
+            "count": 5,
+            "hp": 18,
+            "attack": 5,
+            "skill": "none",
+            "boss": false
+          },
+          {
+            "id": "armor",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 5,
+            "skill": "armor",
+            "boss": false
+          },
+          {
+            "id": "boss",
+            "count": 1,
+            "hp": 10000000,
+            "attack": 25,
+            "skill": "none",
+            "boss": false,
+            "description": "单目标高血靶；不触发自然首领阶段条款"
+          },
+          {
+            "id": "retaliation",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 14,
+            "skill": "pressure",
+            "boss": false
+          }
+        ],
+        "future": true
+      },
+      "sourceHashes": {
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5"
+      }
+    }
+  ],
+  "assertionCount": 36,
+  "sourceCheckCount": 32,
+  "sourceChecks": [
+    {
+      "key": "natural.ready",
+      "actual": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "key": "main.ready",
+      "actual": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "key": "terminal.ready",
+      "actual": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "key": "natural.protocol",
+      "actual": "v070-natural-growth-audit-v1",
+      "expected": "v070-natural-growth-audit-v1",
+      "passed": true
+    },
+    {
+      "key": "D10.archive.sha256",
+      "actual": "7b89a6e17a472f44030947a7591fe9ff61807a783157177bf573da2966bb4b70",
+      "expected": "7b89a6e17a472f44030947a7591fe9ff61807a783157177bf573da2966bb4b70",
+      "passed": true
+    },
+    {
+      "key": "D10.main.archivePresent",
+      "actual": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "key": "D10.main.sourceHashes",
+      "actual": {
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5"
+      },
+      "expected": {
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5"
+      },
+      "passed": true
+    },
+    {
+      "key": "D10.terminal.archivePresent",
+      "actual": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "key": "D10.terminal.sourceHashes",
+      "actual": {
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5"
+      },
+      "expected": {
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5"
+      },
+      "passed": true
+    },
+    {
+      "key": "D10.archive.unchanged",
+      "actual": "7b89a6e17a472f44030947a7591fe9ff61807a783157177bf573da2966bb4b70",
+      "expected": "7b89a6e17a472f44030947a7591fe9ff61807a783157177bf573da2966bb4b70",
+      "passed": true
+    },
+    {
+      "key": "D10.header.sourceHashes",
+      "actual": {
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5"
+      },
+      "expected": {
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697"
+      },
+      "passed": true
+    },
+    {
+      "key": "D10.header.sourceStable",
+      "actual": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "key": "D10.footer.rows",
+      "actual": 11600,
+      "expected": 11600,
+      "passed": true
+    },
+    {
+      "key": "D10.header.expectedRows",
+      "actual": 11600,
+      "expected": 11600,
+      "passed": true
+    },
+    {
+      "key": "D10.mainCoverage.campaignCount",
+      "actual": 11600,
+      "expected": 11600,
+      "passed": true
+    },
+    {
+      "key": "D10.mainCoverage.nSeeds",
+      "actual": 400,
+      "expected": 400,
+      "passed": true
+    },
+    {
+      "key": "D10.mainCoverage.astaLateAppearances",
+      "actual": 106726,
+      "expected": 106726,
+      "passed": true
+    },
+    {
+      "key": "D10.mainCoverage.trainerLateAppearances",
+      "actual": 119623,
+      "expected": 119623,
+      "passed": true
+    },
+    {
+      "key": "D20.archive.sha256",
+      "actual": "644fc699d5024c8b5469745df63f55c93614c7b4f03a9c28e2994ea5d248e107",
+      "expected": "644fc699d5024c8b5469745df63f55c93614c7b4f03a9c28e2994ea5d248e107",
+      "passed": true
+    },
+    {
+      "key": "D20.main.archivePresent",
+      "actual": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "key": "D20.main.sourceHashes",
+      "actual": {
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5"
+      },
+      "expected": {
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5"
+      },
+      "passed": true
+    },
+    {
+      "key": "D20.terminal.archivePresent",
+      "actual": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "key": "D20.terminal.sourceHashes",
+      "actual": {
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5"
+      },
+      "expected": {
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5"
+      },
+      "passed": true
+    },
+    {
+      "key": "D20.archive.unchanged",
+      "actual": "644fc699d5024c8b5469745df63f55c93614c7b4f03a9c28e2994ea5d248e107",
+      "expected": "644fc699d5024c8b5469745df63f55c93614c7b4f03a9c28e2994ea5d248e107",
+      "passed": true
+    },
+    {
+      "key": "D20.header.sourceHashes",
+      "actual": {
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5"
+      },
+      "expected": {
+        "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+        "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5",
+        "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+        "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+        "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+        "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+        "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+        "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+        "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+        "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+        "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+        "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+        "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+        "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+        "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+        "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697"
+      },
+      "passed": true
+    },
+    {
+      "key": "D20.header.sourceStable",
+      "actual": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "key": "D20.footer.rows",
+      "actual": 2900,
+      "expected": 2900,
+      "passed": true
+    },
+    {
+      "key": "D20.header.expectedRows",
+      "actual": 2900,
+      "expected": 2900,
+      "passed": true
+    },
+    {
+      "key": "D20.mainCoverage.campaignCount",
+      "actual": 2900,
+      "expected": 2900,
+      "passed": true
+    },
+    {
+      "key": "D20.mainCoverage.nSeeds",
+      "actual": 100,
+      "expected": 100,
+      "passed": true
+    },
+    {
+      "key": "D20.mainCoverage.astaLateAppearances",
+      "actual": 20603,
+      "expected": 20603,
+      "passed": true
+    },
+    {
+      "key": "D20.mainCoverage.trainerLateAppearances",
+      "actual": 22995,
+      "expected": 22995,
+      "passed": true
+    }
+  ],
+  "difficulties": [
+    {
+      "difficulty": 10,
+      "campaignCount": 11600,
+      "sharedSeedBlockCount": 400,
+      "policyCount": 29,
+      "samplesPerPolicy": {
+        "baseline": 400,
+        "element:冰": 400,
+        "element:火": 400,
+        "element:物理": 400,
+        "element:虚数": 400,
+        "element:量子": 400,
+        "element:雷": 400,
+        "element:风": 400,
+        "faction:仙舟罗浮": 400,
+        "faction:匹诺康尼": 400,
+        "faction:星核猎手": 400,
+        "faction:星穹列车": 400,
+        "faction:星际和平公司": 400,
+        "faction:翁法罗斯": 400,
+        "faction:贝洛伯格": 400,
+        "faction:黑塔空间站": 400,
+        "mixed:element:冰+faction:贝洛伯格": 400,
+        "mixed:path:巡猎+faction:仙舟罗浮": 400,
+        "mixed:path:智识+faction:黑塔空间站": 400,
+        "mixed:path:虚无+faction:星核猎手": 400,
+        "path:丰饶": 400,
+        "path:同谐": 400,
+        "path:存护": 400,
+        "path:巡猎": 400,
+        "path:智识": 400,
+        "path:欢愉": 400,
+        "path:毁灭": 400,
+        "path:虚无": 400,
+        "path:记忆": 400
+      },
+      "finalRosterRunMaximumGrowth": {
+        "n": 11600,
+        "median": 1.8,
+        "p90": 2.92,
+        "p95": 3.35,
+        "p99": 4.28,
+        "max": 8.34,
+        "campaignsAtLeast6": 3,
+        "campaignsAtLeast12": 0
+      },
+      "lateRoleAppearanceCounts": {
+        "attack": 3324467,
+        "defense": 158130,
+        "trainer": 119623,
+        "disruptor": 72771,
+        "amplifier": 101590
+      },
+      "lateHeldRoleMaxima": {
+        "attack": 8.34,
+        "defense": 2,
+        "trainer": 0,
+        "disruptor": 2.64,
+        "amplifier": 2.8
+      },
+      "actualTerminalFloorCounts": {
+        "12": 11400,
+        "11": 167,
+        "10": 33
+      },
+      "terminalPresentStarCountsObserved": {
+        "1": 1010615,
+        "2": 117706
+      },
+      "astaShareOfLateTrainerAppearances": {
+        "cardId": "1009",
+        "name": "艾丝妲",
+        "numeratorAstaPresentInstanceTurns": 106726,
+        "denominatorTrainerPresentInstanceTurns": 119623,
+        "ratio": 0.8921862852461483,
+        "otherTrainerPresentInstanceTurns": 12897,
+        "denominatorAllLatePresentInstanceTurns": 3776581,
+        "otherTrainerShareOfAllLateAppearances": 0.003414993614594788
+      },
+      "growthAtLeast6SharedSeedCount": 2,
+      "growthAtLeast6SharedSeeds": [
+        "v070-freeze4:holdout:campaign:271",
+        "v070-freeze4:holdout:campaign:319"
+      ],
+      "growthAtLeast6CampaignExamples": [
+        {
+          "seed": "v070-freeze4:holdout:campaign:271",
+          "policy": "element:火",
+          "won": true,
+          "terminalFloor": 12,
+          "recordedTurns": 37,
+          "maximumGrowthCards": [
+            {
+              "id": "1002",
+              "name": "丹恒",
+              "stars": 2,
+              "growth": 8.34,
+              "ticks": 37
+            }
+          ],
+          "finalTrainerRoster": [
+            {
+              "id": "1009",
+              "name": "艾丝妲",
+              "stars": 1
+            },
+            {
+              "id": "1009",
+              "name": "艾丝妲",
+              "stars": 1
+            }
+          ]
+        },
+        {
+          "seed": "v070-freeze4:holdout:campaign:319",
+          "policy": "path:同谐",
+          "won": true,
+          "terminalFloor": 12,
+          "recordedTurns": 33,
+          "maximumGrowthCards": [
+            {
+              "id": "1002",
+              "name": "丹恒",
+              "stars": 2,
+              "growth": 6.22,
+              "ticks": 33
+            }
+          ],
+          "finalTrainerRoster": [
+            {
+              "id": "1009",
+              "name": "艾丝妲",
+              "stars": 2
+            }
+          ]
+        },
+        {
+          "seed": "v070-freeze4:holdout:campaign:319",
+          "policy": "faction:黑塔空间站",
+          "won": true,
+          "terminalFloor": 12,
+          "recordedTurns": 40,
+          "maximumGrowthCards": [
+            {
+              "id": "1002",
+              "name": "丹恒",
+              "stars": 2,
+              "growth": 7.78,
+              "ticks": 40
+            }
+          ],
+          "finalTrainerRoster": [
+            {
+              "id": "1009",
+              "name": "艾丝妲",
+              "stars": 2
+            }
+          ]
+        }
+      ],
+      "assertionCount": 18,
+      "assertions": [
+        {
+          "key": "D10.finalRosterRunMaximumGrowth.n",
+          "actual": 11600,
+          "expected": 11600,
+          "passed": true
+        },
+        {
+          "key": "D10.finalRosterRunMaximumGrowth.median",
+          "actual": 1.8,
+          "expected": 1.8,
+          "passed": true
+        },
+        {
+          "key": "D10.finalRosterRunMaximumGrowth.p90",
+          "actual": 2.92,
+          "expected": 2.92,
+          "passed": true
+        },
+        {
+          "key": "D10.finalRosterRunMaximumGrowth.p95",
+          "actual": 3.35,
+          "expected": 3.35,
+          "passed": true
+        },
+        {
+          "key": "D10.finalRosterRunMaximumGrowth.p99",
+          "actual": 4.28,
+          "expected": 4.28,
+          "passed": true
+        },
+        {
+          "key": "D10.finalRosterRunMaximumGrowth.max",
+          "actual": 8.34,
+          "expected": 8.34,
+          "passed": true
+        },
+        {
+          "key": "D10.finalRosterRunMaximumGrowth.campaignsAtLeast6",
+          "actual": 3,
+          "expected": 3,
+          "passed": true
+        },
+        {
+          "key": "D10.finalRosterRunMaximumGrowth.campaignsAtLeast12",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "key": "D10.lateRoleAppearanceCounts.attack",
+          "actual": 3324467,
+          "expected": 3324467,
+          "passed": true
+        },
+        {
+          "key": "D10.lateRoleAppearanceCounts.defense",
+          "actual": 158130,
+          "expected": 158130,
+          "passed": true
+        },
+        {
+          "key": "D10.lateRoleAppearanceCounts.trainer",
+          "actual": 119623,
+          "expected": 119623,
+          "passed": true
+        },
+        {
+          "key": "D10.lateRoleAppearanceCounts.disruptor",
+          "actual": 72771,
+          "expected": 72771,
+          "passed": true
+        },
+        {
+          "key": "D10.lateRoleAppearanceCounts.amplifier",
+          "actual": 101590,
+          "expected": 101590,
+          "passed": true
+        },
+        {
+          "key": "D10.terminalPresentStarCounts.1",
+          "actual": 1010615,
+          "expected": 1010615,
+          "passed": true
+        },
+        {
+          "key": "D10.terminalPresentStarCounts.2",
+          "actual": 117706,
+          "expected": 117706,
+          "passed": true
+        },
+        {
+          "key": "D10.actualTerminalFloorCounts",
+          "actual": {
+            "12": 11400,
+            "11": 167,
+            "10": 33
+          },
+          "expected": {
+            "10": 33,
+            "11": 167,
+            "12": 11400
+          },
+          "passed": true
+        },
+        {
+          "key": "D10.lateHeldRoleMaxima",
+          "actual": {
+            "attack": 8.34,
+            "defense": 2,
+            "trainer": 0,
+            "disruptor": 2.64,
+            "amplifier": 2.8
+          },
+          "expected": {
+            "attack": 8.34,
+            "defense": 2,
+            "amplifier": 2.8,
+            "trainer": 0,
+            "disruptor": 2.64
+          },
+          "passed": true
+        },
+        {
+          "key": "D10.sharedSeedBlockCount",
+          "actual": 400,
+          "expected": 400,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "difficulty": 20,
+      "campaignCount": 2900,
+      "sharedSeedBlockCount": 100,
+      "policyCount": 29,
+      "samplesPerPolicy": {
+        "baseline": 100,
+        "element:冰": 100,
+        "element:火": 100,
+        "element:物理": 100,
+        "element:虚数": 100,
+        "element:量子": 100,
+        "element:雷": 100,
+        "element:风": 100,
+        "faction:仙舟罗浮": 100,
+        "faction:匹诺康尼": 100,
+        "faction:星核猎手": 100,
+        "faction:星穹列车": 100,
+        "faction:星际和平公司": 100,
+        "faction:翁法罗斯": 100,
+        "faction:贝洛伯格": 100,
+        "faction:黑塔空间站": 100,
+        "mixed:element:冰+faction:贝洛伯格": 100,
+        "mixed:path:巡猎+faction:仙舟罗浮": 100,
+        "mixed:path:智识+faction:黑塔空间站": 100,
+        "mixed:path:虚无+faction:星核猎手": 100,
+        "path:丰饶": 100,
+        "path:同谐": 100,
+        "path:存护": 100,
+        "path:巡猎": 100,
+        "path:智识": 100,
+        "path:欢愉": 100,
+        "path:毁灭": 100,
+        "path:虚无": 100,
+        "path:记忆": 100
+      },
+      "finalRosterRunMaximumGrowth": {
+        "n": 2900,
+        "median": 2.1,
+        "p90": 3.45,
+        "p95": 3.89,
+        "p99": 4.9,
+        "max": 6.59,
+        "campaignsAtLeast6": 6,
+        "campaignsAtLeast12": 0
+      },
+      "lateRoleAppearanceCounts": {
+        "attack": 803065,
+        "defense": 35243,
+        "amplifier": 28205,
+        "disruptor": 19341,
+        "trainer": 22995
+      },
+      "lateHeldRoleMaxima": {
+        "attack": 6.59,
+        "defense": 1.8,
+        "amplifier": 1.4,
+        "disruptor": 2.8,
+        "trainer": 0
+      },
+      "actualTerminalFloorCounts": {
+        "12": 931,
+        "10": 980,
+        "11": 814,
+        "9": 167,
+        "8": 8
+      },
+      "terminalPresentStarCountsObserved": {
+        "1": 241115,
+        "2": 35974
+      },
+      "astaShareOfLateTrainerAppearances": {
+        "cardId": "1009",
+        "name": "艾丝妲",
+        "numeratorAstaPresentInstanceTurns": 20603,
+        "denominatorTrainerPresentInstanceTurns": 22995,
+        "ratio": 0.8959773863883453,
+        "otherTrainerPresentInstanceTurns": 2392,
+        "denominatorAllLatePresentInstanceTurns": 908849,
+        "otherTrainerShareOfAllLateAppearances": 0.0026319003486827844
+      },
+      "growthAtLeast6SharedSeedCount": 4,
+      "growthAtLeast6SharedSeeds": [
+        "v070-freeze4:stress:campaign:38",
+        "v070-freeze4:stress:campaign:65",
+        "v070-freeze4:stress:campaign:78",
+        "v070-freeze4:stress:campaign:79"
+      ],
+      "growthAtLeast6CampaignExamples": [
+        {
+          "seed": "v070-freeze4:stress:campaign:38",
+          "policy": "element:虚数",
+          "won": false,
+          "terminalFloor": 12,
+          "recordedTurns": 52,
+          "maximumGrowthCards": [
+            {
+              "id": "1002",
+              "name": "丹恒",
+              "stars": 2,
+              "growth": 6.59,
+              "ticks": 52
+            }
+          ],
+          "finalTrainerRoster": []
+        },
+        {
+          "seed": "v070-freeze4:stress:campaign:65",
+          "policy": "faction:贝洛伯格",
+          "won": false,
+          "terminalFloor": 10,
+          "recordedTurns": 41,
+          "maximumGrowthCards": [
+            {
+              "id": "1002",
+              "name": "丹恒",
+              "stars": 1,
+              "growth": 6.03,
+              "ticks": 41
+            }
+          ],
+          "finalTrainerRoster": [
+            {
+              "id": "1009",
+              "name": "艾丝妲",
+              "stars": 1
+            },
+            {
+              "id": "1009",
+              "name": "艾丝妲",
+              "stars": 1
+            }
+          ]
+        },
+        {
+          "seed": "v070-freeze4:stress:campaign:78",
+          "policy": "path:丰饶",
+          "won": false,
+          "terminalFloor": 12,
+          "recordedTurns": 42,
+          "maximumGrowthCards": [
+            {
+              "id": "1002",
+              "name": "丹恒",
+              "stars": 2,
+              "growth": 6.53,
+              "ticks": 42
+            }
+          ],
+          "finalTrainerRoster": [
+            {
+              "id": "1009",
+              "name": "艾丝妲",
+              "stars": 1
+            }
+          ]
+        },
+        {
+          "seed": "v070-freeze4:stress:campaign:78",
+          "policy": "path:同谐",
+          "won": false,
+          "terminalFloor": 12,
+          "recordedTurns": 42,
+          "maximumGrowthCards": [
+            {
+              "id": "1002",
+              "name": "丹恒",
+              "stars": 2,
+              "growth": 6.53,
+              "ticks": 42
+            }
+          ],
+          "finalTrainerRoster": [
+            {
+              "id": "1009",
+              "name": "艾丝妲",
+              "stars": 1
+            }
+          ]
+        },
+        {
+          "seed": "v070-freeze4:stress:campaign:78",
+          "policy": "element:物理",
+          "won": false,
+          "terminalFloor": 12,
+          "recordedTurns": 42,
+          "maximumGrowthCards": [
+            {
+              "id": "1002",
+              "name": "丹恒",
+              "stars": 2,
+              "growth": 6.53,
+              "ticks": 42
+            }
+          ],
+          "finalTrainerRoster": [
+            {
+              "id": "1009",
+              "name": "艾丝妲",
+              "stars": 1
+            }
+          ]
+        },
+        {
+          "seed": "v070-freeze4:stress:campaign:79",
+          "policy": "faction:仙舟罗浮",
+          "won": false,
+          "terminalFloor": 10,
+          "recordedTurns": 40,
+          "maximumGrowthCards": [
+            {
+              "id": "1002",
+              "name": "丹恒",
+              "stars": 2,
+              "growth": 6.17,
+              "ticks": 38
+            }
+          ],
+          "finalTrainerRoster": [
+            {
+              "id": "1009",
+              "name": "艾丝妲",
+              "stars": 1
+            }
+          ]
+        }
+      ],
+      "assertionCount": 18,
+      "assertions": [
+        {
+          "key": "D20.finalRosterRunMaximumGrowth.n",
+          "actual": 2900,
+          "expected": 2900,
+          "passed": true
+        },
+        {
+          "key": "D20.finalRosterRunMaximumGrowth.median",
+          "actual": 2.1,
+          "expected": 2.1,
+          "passed": true
+        },
+        {
+          "key": "D20.finalRosterRunMaximumGrowth.p90",
+          "actual": 3.45,
+          "expected": 3.45,
+          "passed": true
+        },
+        {
+          "key": "D20.finalRosterRunMaximumGrowth.p95",
+          "actual": 3.89,
+          "expected": 3.89,
+          "passed": true
+        },
+        {
+          "key": "D20.finalRosterRunMaximumGrowth.p99",
+          "actual": 4.9,
+          "expected": 4.9,
+          "passed": true
+        },
+        {
+          "key": "D20.finalRosterRunMaximumGrowth.max",
+          "actual": 6.59,
+          "expected": 6.59,
+          "passed": true
+        },
+        {
+          "key": "D20.finalRosterRunMaximumGrowth.campaignsAtLeast6",
+          "actual": 6,
+          "expected": 6,
+          "passed": true
+        },
+        {
+          "key": "D20.finalRosterRunMaximumGrowth.campaignsAtLeast12",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "key": "D20.lateRoleAppearanceCounts.attack",
+          "actual": 803065,
+          "expected": 803065,
+          "passed": true
+        },
+        {
+          "key": "D20.lateRoleAppearanceCounts.defense",
+          "actual": 35243,
+          "expected": 35243,
+          "passed": true
+        },
+        {
+          "key": "D20.lateRoleAppearanceCounts.amplifier",
+          "actual": 28205,
+          "expected": 28205,
+          "passed": true
+        },
+        {
+          "key": "D20.lateRoleAppearanceCounts.disruptor",
+          "actual": 19341,
+          "expected": 19341,
+          "passed": true
+        },
+        {
+          "key": "D20.lateRoleAppearanceCounts.trainer",
+          "actual": 22995,
+          "expected": 22995,
+          "passed": true
+        },
+        {
+          "key": "D20.terminalPresentStarCounts.1",
+          "actual": 241115,
+          "expected": 241115,
+          "passed": true
+        },
+        {
+          "key": "D20.terminalPresentStarCounts.2",
+          "actual": 35974,
+          "expected": 35974,
+          "passed": true
+        },
+        {
+          "key": "D20.actualTerminalFloorCounts",
+          "actual": {
+            "12": 931,
+            "10": 980,
+            "11": 814,
+            "9": 167,
+            "8": 8
+          },
+          "expected": {
+            "8": 8,
+            "9": 167,
+            "10": 980,
+            "11": 814,
+            "12": 931
+          },
+          "passed": true
+        },
+        {
+          "key": "D20.lateHeldRoleMaxima",
+          "actual": {
+            "attack": 6.59,
+            "defense": 1.8,
+            "amplifier": 1.4,
+            "disruptor": 2.8,
+            "trainer": 0
+          },
+          "expected": {
+            "attack": 6.59,
+            "defense": 1.8,
+            "amplifier": 1.4,
+            "trainer": 0,
+            "disruptor": 2.8
+          },
+          "passed": true
+        },
+        {
+          "key": "D20.sharedSeedBlockCount",
+          "actual": 100,
+          "expected": 100,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "analysisSourceHashes": {
+    "scripts/verify-v070-natural-independent.py": "b0f8e89015767f2647ec6a4de3e53d638d454337432b40667f5d9b6c1f1f92ab"
+  }
+}

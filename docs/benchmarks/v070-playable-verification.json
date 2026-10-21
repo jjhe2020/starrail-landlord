@@ -34,14 +34,14 @@
   "caveat": "Desktop Chrome at real file:// with offline network and touch/narrow viewport emulation. Android/iPad physical devices were not tested.",
   "suite": {
     "executedAt": "2026-10-21",
-    "tests": 604,
-    "passed": 599,
+    "tests": 609,
+    "passed": 604,
     "failed": 0,
     "skipped": 5,
     "skipNotes": "Four browser opt-in entry points and optional IO stress; browser checks and >512MiB stress were also executed separately.",
     "runner": "GitHub Actions Game checks",
-    "repositoryCommit": "4fd0ed751b83691af23eb5e81c829dc9f2e36a02",
-    "url": "https://github.com/jjhe2020/starrail-landlord/actions/runs/39560174816"
+    "repositoryCommit": "aa306f8cbff8234498e16d489efdf7a4f1986f35",
+    "url": "https://github.com/jjhe2020/starrail-landlord/actions/runs/39562531995"
   },
   "standardChecks": {
     "syntax": true,
@@ -75,5 +75,16 @@
       "pageErrors": 0,
       "horizontalOverflow": false
     }
-  ]
+  ],
+  "finalLocalSuite": {
+    "executedAt": "2026-10-21T07:53:13.292570+00:00",
+    "runner": "npm test",
+    "tests": 612,
+    "passed": 607,
+    "failed": 0,
+    "skipped": 5,
+    "durationMs": 46438.879042,
+    "baseCommit": "aa306f8cbff8234498e16d489efdf7a4f1986f35",
+    "scope": "Final working tree including three narrative display preservation tests; frozen game and AI fingerprints unchanged."
+  }
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { DataComponent, DataTable, Dropdown, EvidenceChart, ReportSection, RichNarrative, SectionNavigator, useDataApp } from '../../data-app-public.jsx';
+import { readableNarrativeTables } from './narrative-format.mjs';
 
 const roleNames={attack:'攻击',defense:'防御',amplifier:'即时增幅',trainer:'永久培养',disruptor:'敌方干扰'};
 const backgroundNames={generic:'通用队友',compatible:'适配队友'};
@@ -23,7 +24,7 @@ const unique=values=>[...new Set(values.filter(value=>value!==undefined&&value!=
 const lineSpec={type:'line',x:'stageLabel',y:'allCampaignMean',fields:['allCampaignMean','conditionalMean'],stackable:false,legend:{labels:{allCampaignMean:'全体对局（未到达计零）',conditionalMean:'仅到达该阶段者'}},valueDecimals:2};
 function Pending({children='有效测试数据尚未提供；这里不会用零或示范数据替代。'}){return <p className="v070-pending" role="status">{children}</p>;}
 function Status({label}){return <span className={`v070-status ${/超出|问题/.test(label)?'v070-status-warning':''}`}>{label||'待判定'}</span>;}
-function Narrative({id,value,className}){return <RichNarrative id={id} value={value} className={className} label="编辑报告说明"/>;}
+function Narrative({id,value,className}){return <RichNarrative id={id} value={readableNarrativeTables(value)} className={className} label="编辑报告说明"/>;}
 
 export function ReportContent(){
  const {snapshot,reviewedRows,visible,appTitle,canEdit,mode,setAppTitle}=useDataApp();
@@ -125,7 +126,7 @@ export function ReportContent(){
   <section className="v070-section" aria-label="角色索引与阶段详情">
    <Narrative id="v070:catalog-intro" value="## 90 张卡，按职责和技能查询\n\n无需逐一阅读才能看懂结论。需要核对某张卡时，在这里搜索名称、公开标签或技能，选中后查看数值与测量切片。"/>
    {visible('catalog-table')&&<DataComponent id="catalog-table" queryId="catalog" title="角色规则索引" kind="table" sourceRows={roleRows} displayRows={roleRows} headerControls={roleControl}>
-    <DataTable rows={roleRows} rowKey="id" selectedRowKey={selected?.id} onRowSelect={row=>setSelectedId(row.id)} rowActionLabel={row=>`查看${row.name}具体规则与测量`} columns={[{field:'name',label:'角色'},{field:'roleLabel',label:'职责'},{field:'path',label:'命途'},{field:'element',label:'属性'},{field:'faction',label:'阵营'},{field:'description',label:'技能'}]} label="全部候选角色可搜索规则"/>
+    <DataTable rows={roleRows} rowKey="id" selectedRowKey={selected?.id} onRowSelect={row=>setSelectedId(row.id)} rowActionLabel={row=>`查看${row.name}具体规则与测量`} columns={[{field:'name',label:'角色'},{field:'roleLabel',label:'职责'},{field:'path',label:'命途'},{field:'element',label:'属性'},{field:'faction',label:'阵营'},{field:'description',label:'技能'}]} label="全部当前角色可搜索实际规则"/>
    </DataComponent>}
    {selected&&visible('selected-card')&&<DataComponent id="selected-card" queryId="catalog" queryIds={['catalog','overview','card_details','growth']} sourceRowsByQuery={{catalog:[selected],overview:selectedOverview?[selectedOverview]:[],card_details:details,growth:future}} displayRows={detailDisplay} title={`${selected.name} · 技能与阶段`} kind="custom" headerControls={<Dropdown label="角色" showLabel value={selected.id} choices={catalog.map(c=>c.id)} choiceLabels={Object.fromEntries(catalog.map(c=>[c.id,c.name]))} onChange={setSelectedId}/>}>
     <div className="v070-card-identity" data-reviewed-rows><span>{selected.roleLabel}</span><span>{selected.rarityLabel}</span><span>{selected.path} · {selected.element} · {selected.faction}</span><strong>{selected.role==='attack'?`${selected.attackLabel} · 1星基础威力 ${Number.isFinite(selected.power)?fmt(selected.power):'未记录'}`:'不进行普通攻击'}</strong></div>

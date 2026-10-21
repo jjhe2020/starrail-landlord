@@ -78,7 +78,7 @@ const reportMetaQuery=query([state],['report-summary','report-design','report-me
 if(naturalData)reportMetaQuery.methods.push({language:'JavaScript',code:'读取 scripts/v070-natural-growth-audit.mjs 输出的 v070-natural-growth-audit-v1 JSON；核验ready、游戏版本、生产指纹与自然对局原始文件SHA-256后，仅保留 difficulties 描述摘要。不在界面重新计算分位数、成长阈值、职能/星级份额或置信区间。'});
 const snapshot={surface:'report',title:narrative.title||(dataReady?(measured?.assessment?.phase==='calibration'?'0.7.0 校准：先看职能分量与空间收益':'0.7.0 的组合收益与差异，按数据逐项判断'):'0.7.0 的空间与标签设计，还需要数据验证'),generatedAt:new Date().toISOString(),status:dataReady?'reviewed':'draft',buildStatus:options.get('status')||(dataReady?'complete':'paused'),filters:[],report:{},v070:state,queries:{
  report_meta:reportMetaQuery,
- catalog:query(cards,['catalog-table','selected-card','report-design'],'90 张候选角色的实际身份、职责、基础数值与技能定义；这是设计数据，不能解释成实测平衡结果。',{label:'当前角色规则定义',files:['src/content.js','docs/CARD-ROLES-V070.md']}),
+ catalog:query(cards,['catalog-table','selected-card','report-design'],'90 张当前角色的身份、职责、基础数值与实际技能定义；这是规则数据，不能解释成实测平衡结果。',{label:'当前角色规则定义',files:['src/content.js','docs/CARD-ROLES-V070.md']}),
  overview:query(overview,['card-overview','selected-card'],'每卡分别报告通用与适配背景。按独立布局组均匀平均预声明阶段和敌阵；技能关闭差为配对贡献，零收益保留。适配背景只描述潜力。'),
  comparisons:query(comparisons,['card-comparisons'],'同职责同稀有度的通用队友比较，参考不足不判等价；95%相对差区间是以观测同层均值为单位的配对差，不是比值置信区间。正式判定使用 decision 的校正线性边界。'),
  card_details:query(measured?.cardDetails||[],['selected-card'],'每卡、队友背景、阶段、敌阵的分层测量。相同布局组的重复 spin 不计作独立样本。'),
@@ -99,6 +99,7 @@ if(await exists(oldPath))snapshot.id=JSON.parse(await readFile(oldPath,'utf8')).
 else{const prepared=join(dirname(project),'v070-report-prepared-snapshot.json');await writeFile(prepared,JSON.stringify(snapshot));run('prepare-data-app.mjs',['--surface','report','--output',project,'--snapshot',prepared]);snapshot.id=JSON.parse(await readFile(oldPath,'utf8')).id;}
 await writeFile(oldPath,JSON.stringify(snapshot));
 await cp(join(root,'report/v070/ReportContent.jsx'),join(project,'src/content/report/ReportContent.jsx'));
+await cp(join(root,'report/v070/narrative-format.mjs'),join(project,'src/content/report/narrative-format.mjs'));
 await cp(join(root,'report/v070/report.css'),join(project,'src/content/report/report.css'));
 run('data-app.mjs',['build','--project-dir',project,'--separate-data']);
 const exported=join(project,'.data-app-offline/exports/星穹转轮-v0.7.0-测试报告.html');

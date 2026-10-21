@@ -1,0 +1,564 @@
+{
+  "protocol": "v070-report-verification-v1",
+  "gameVersion": "0.7.0",
+  "checkedAt": "2026-10-21T07:51:06.967Z",
+  "scope": "Final analytical report UI and offline artifact; statistical interpretation remains the reviewed report narrative.",
+  "buildStatus": "complete",
+  "report": {
+    "path": "artifacts/星穹转轮-v0.7.0-测试报告.html",
+    "bytes": 22891428,
+    "sha256": "68cea4e516c05fb727fbe100a657892815d08c7dfcb8c484944969c98a84a73b"
+  },
+  "asciiCopy": {
+    "path": "artifacts/v070-release/Starrail-Reels-v0.7.0-report.html",
+    "bytes": 22891428,
+    "sha256": "68cea4e516c05fb727fbe100a657892815d08c7dfcb8c484944969c98a84a73b"
+  },
+  "inputs": {
+    "compact": {
+      "path": "docs/V070-TEST-RESULTS.json",
+      "bytes": 17497121,
+      "sha256": "6e80f93003adea74ef0128247f5ed628e1487b1902d960a30725de3744e720de",
+      "validationReady": true
+    },
+    "terminal": {
+      "path": "docs/V070-TERMINAL-CARDS.json",
+      "bytes": 1788607,
+      "sha256": "9f6692b39e670736840833fd60ec706dea2f3f69b08b0f2504922e3934e82d6a",
+      "validationReady": true
+    },
+    "natural": {
+      "path": "docs/V070-NATURAL-GROWTH.json",
+      "bytes": 39042,
+      "sha256": "ae901cadfd50d31fb171998c8aa83c28af37ffb9c9509363577328654331052d",
+      "validationReady": true
+    },
+    "narrative": {
+      "path": "docs/V070-REPORT-NARRATIVE.json",
+      "bytes": 5294,
+      "sha256": "266ee6196102cf1839fd94b2681704eac2dc22d75538a2ff6f269ac866f620fc",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-10-21T07:46:36.901833+00:00",
+      "embeddedFieldsMatch": true
+    }
+  },
+  "rawCohorts": [
+    {
+      "path": "docs/benchmarks/v070-cards-holdout.jsonl.gz",
+      "sha256": "f21ba0e218065fd30c59350a3bddc7a437456d0b6d004fcbcffe0b1c27da2d6d",
+      "mode": "cards",
+      "split": "holdout",
+      "rawCount": 345600,
+      "config": {
+        "mode": "cards",
+        "samples": 128,
+        "start": 0,
+        "difficulty": 10,
+        "seed": "v070-freeze4",
+        "split": "holdout",
+        "strength": 10,
+        "backgrounds": [
+          "generic",
+          "compatible"
+        ],
+        "stages": [
+          {
+            "id": "early",
+            "stars": 1,
+            "growth": 0,
+            "ticks": 0
+          },
+          {
+            "id": "mid",
+            "stars": 2,
+            "growth": 2,
+            "ticks": 6
+          },
+          {
+            "id": "late",
+            "stars": 2,
+            "growth": 6,
+            "ticks": 12
+          }
+        ],
+        "enemies": [
+          {
+            "id": "standard",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 5,
+            "skill": "none",
+            "boss": false
+          },
+          {
+            "id": "killable",
+            "count": 5,
+            "hp": 18,
+            "attack": 5,
+            "skill": "none",
+            "boss": false
+          },
+          {
+            "id": "armor",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 5,
+            "skill": "armor",
+            "boss": false
+          },
+          {
+            "id": "boss",
+            "count": 1,
+            "hp": 10000000,
+            "attack": 25,
+            "skill": "none",
+            "boss": false,
+            "description": "单目标高血靶；不触发自然首领阶段条款"
+          },
+          {
+            "id": "retaliation",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 14,
+            "skill": "pressure",
+            "boss": false
+          }
+        ],
+        "future": true
+      }
+    },
+    {
+      "path": "docs/benchmarks/v070-layers-holdout.jsonl.gz",
+      "sha256": "87a4d573a932568a0facc6e71cbecc0c83c000613c238dc5b7f077cebe8fbc54",
+      "mode": "layers",
+      "split": "holdout",
+      "rawCount": 9600,
+      "config": {
+        "mode": "layers",
+        "samples": 64,
+        "start": 0,
+        "difficulty": 10,
+        "seed": "v070-freeze4",
+        "split": "holdout",
+        "strength": 10,
+        "backgrounds": [
+          "generic",
+          "compatible"
+        ],
+        "stages": [
+          {
+            "id": "early",
+            "stars": 1,
+            "growth": 0,
+            "ticks": 0
+          },
+          {
+            "id": "mid",
+            "stars": 2,
+            "growth": 2,
+            "ticks": 6
+          },
+          {
+            "id": "late",
+            "stars": 2,
+            "growth": 6,
+            "ticks": 12
+          }
+        ],
+        "enemies": [
+          {
+            "id": "standard",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 5,
+            "skill": "none",
+            "boss": false
+          },
+          {
+            "id": "killable",
+            "count": 5,
+            "hp": 18,
+            "attack": 5,
+            "skill": "none",
+            "boss": false
+          },
+          {
+            "id": "armor",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 5,
+            "skill": "armor",
+            "boss": false
+          },
+          {
+            "id": "boss",
+            "count": 1,
+            "hp": 10000000,
+            "attack": 25,
+            "skill": "none",
+            "boss": false,
+            "description": "单目标高血靶；不触发自然首领阶段条款"
+          },
+          {
+            "id": "retaliation",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 14,
+            "skill": "pressure",
+            "boss": false
+          }
+        ],
+        "future": true
+      }
+    },
+    {
+      "path": "docs/benchmarks/v070-campaigns-holdout-d10-n400.jsonl.gz",
+      "sha256": "7b89a6e17a472f44030947a7591fe9ff61807a783157177bf573da2966bb4b70",
+      "mode": "campaigns",
+      "split": "holdout",
+      "rawCount": 11600,
+      "config": {
+        "mode": "campaigns",
+        "samples": 400,
+        "start": 0,
+        "difficulty": 10,
+        "seed": "v070-freeze4",
+        "split": "holdout",
+        "strength": 10,
+        "backgrounds": [
+          "generic",
+          "compatible"
+        ],
+        "stages": [
+          {
+            "id": "early",
+            "stars": 1,
+            "growth": 0,
+            "ticks": 0
+          },
+          {
+            "id": "mid",
+            "stars": 2,
+            "growth": 2,
+            "ticks": 6
+          },
+          {
+            "id": "late",
+            "stars": 2,
+            "growth": 6,
+            "ticks": 12
+          }
+        ],
+        "enemies": [
+          {
+            "id": "standard",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 5,
+            "skill": "none",
+            "boss": false
+          },
+          {
+            "id": "killable",
+            "count": 5,
+            "hp": 18,
+            "attack": 5,
+            "skill": "none",
+            "boss": false
+          },
+          {
+            "id": "armor",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 5,
+            "skill": "armor",
+            "boss": false
+          },
+          {
+            "id": "boss",
+            "count": 1,
+            "hp": 10000000,
+            "attack": 25,
+            "skill": "none",
+            "boss": false,
+            "description": "单目标高血靶；不触发自然首领阶段条款"
+          },
+          {
+            "id": "retaliation",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 14,
+            "skill": "pressure",
+            "boss": false
+          }
+        ],
+        "future": true
+      }
+    },
+    {
+      "path": "docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz",
+      "sha256": "644fc699d5024c8b5469745df63f55c93614c7b4f03a9c28e2994ea5d248e107",
+      "mode": "campaigns",
+      "split": "stress",
+      "rawCount": 2900,
+      "config": {
+        "mode": "campaigns",
+        "samples": 100,
+        "start": 0,
+        "difficulty": 20,
+        "seed": "v070-freeze4",
+        "split": "stress",
+        "strength": 10,
+        "backgrounds": [
+          "generic",
+          "compatible"
+        ],
+        "stages": [
+          {
+            "id": "early",
+            "stars": 1,
+            "growth": 0,
+            "ticks": 0
+          },
+          {
+            "id": "mid",
+            "stars": 2,
+            "growth": 2,
+            "ticks": 6
+          },
+          {
+            "id": "late",
+            "stars": 2,
+            "growth": 6,
+            "ticks": 12
+          }
+        ],
+        "enemies": [
+          {
+            "id": "standard",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 5,
+            "skill": "none",
+            "boss": false
+          },
+          {
+            "id": "killable",
+            "count": 5,
+            "hp": 18,
+            "attack": 5,
+            "skill": "none",
+            "boss": false
+          },
+          {
+            "id": "armor",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 5,
+            "skill": "armor",
+            "boss": false
+          },
+          {
+            "id": "boss",
+            "count": 1,
+            "hp": 10000000,
+            "attack": 25,
+            "skill": "none",
+            "boss": false,
+            "description": "单目标高血靶；不触发自然首领阶段条款"
+          },
+          {
+            "id": "retaliation",
+            "count": 5,
+            "hp": 10000000,
+            "attack": 14,
+            "skill": "pressure",
+            "boss": false
+          }
+        ],
+        "future": true
+      }
+    }
+  ],
+  "terminalRawSources": [
+    {
+      "path": "docs/benchmarks/v070-campaigns-holdout-d10-n400.jsonl.gz",
+      "sha256": "7b89a6e17a472f44030947a7591fe9ff61807a783157177bf573da2966bb4b70",
+      "difficulty": 10
+    },
+    {
+      "path": "docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz",
+      "sha256": "644fc699d5024c8b5469745df63f55c93614c7b4f03a9c28e2994ea5d248e107",
+      "difficulty": 20
+    }
+  ],
+  "naturalRawSources": [
+    {
+      "path": "docs/benchmarks/v070-campaigns-holdout-d10-n400.jsonl.gz",
+      "sha256": "7b89a6e17a472f44030947a7591fe9ff61807a783157177bf573da2966bb4b70",
+      "difficulty": 10
+    },
+    {
+      "path": "docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz",
+      "sha256": "644fc699d5024c8b5469745df63f55c93614c7b4f03a9c28e2994ea5d248e107",
+      "difficulty": 20
+    }
+  ],
+  "frozenSourceHashes": {
+    "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+    "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+    "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+    "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+    "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+    "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+    "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+    "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+    "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+    "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+    "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+    "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+    "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+    "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+    "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+    "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5"
+  },
+  "analysisSourceHashes": {
+    "scripts/v070-natural-growth-audit.mjs": "d5dd57eaa1e9e951ce866ded4c162f0cd5287a9e6231b25726d4f8bcec43c822"
+  },
+  "campaignCohorts": [
+    {
+      "difficulty": 10,
+      "policies": 29,
+      "samplesPerPolicy": 400,
+      "campaigns": 11600
+    },
+    {
+      "difficulty": 20,
+      "policies": 29,
+      "samplesPerPolicy": 100,
+      "campaigns": 2900
+    }
+  ],
+  "validation": {
+    "ready": true,
+    "provenance": "Game versions, frozen rules, natural/terminal raw SHA-256 plus difficulty match the main campaign cohorts one-to-one; no missing or duplicate sources.",
+    "checks": 673,
+    "pageErrors": [],
+    "pageErrorCount": 0,
+    "widths": [
+      1440,
+      390,
+      320
+    ],
+    "height": 980,
+    "viewportMode": "Desktop Google Chrome; touch-capable contexts for narrow widths.",
+    "horizontalPageOverflow": false,
+    "offline": {
+      "performed": true,
+      "source": "file://",
+      "coldOpen": true,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "navigatorOffline": true,
+      "httpRequests": 0,
+      "interactions": "All terminal overview and selected-card difficulty/outcome/exposure-basis filters, source-value checks and pagination completed before request assertion."
+    },
+    "terminal": {
+      "cardsPerCohort": 90,
+      "overviewPaginationAndSourceValues": true,
+      "selectedMetricsAndSixExposureDenominators": true,
+      "zeroVersusNoExposure": true,
+      "final12Supplement": true
+    },
+    "natural": {
+      "sourceChainInspectable": true,
+      "descriptiveScopeInspectable": true
+    },
+    "charts": {
+      "paintedBarsAndStageLines": true,
+      "resourceContributionSwitch": true
+    },
+    "narrative": {
+      "reviewed": true,
+      "twoColumnTablesRenderedAsStructuredProse": true,
+      "statisticalTextPreserved": true
+    },
+    "unitTests": {
+      "passed": 18,
+      "failed": 0,
+      "files": [
+        "tests/v070-report-natural.test.js",
+        "tests/v070-report-narrative.test.js"
+      ]
+    }
+  },
+  "logs": {
+    "build": {
+      "path": "artifacts/qa-v070-report-final/build.log",
+      "bytes": 2291,
+      "sha256": "4d815ebb24f7245dea4c0f81f650f5441af6ee9d5596fc95d1b3d19bf0a68bff"
+    },
+    "ui": {
+      "path": "artifacts/qa-v070-report-final/ui-qa.log",
+      "bytes": 269,
+      "sha256": "6a0fbf2e1006793f750a96ea7bca5cd89a91bf75afd9e700a612fcf682f91f38"
+    },
+    "unit": {
+      "path": "artifacts/qa-v070-report-final/provenance-unit.log",
+      "bytes": 1338,
+      "sha256": "5430e587df8e182b409da3843d6932c080a927f004e0769fb016914fab538216"
+    }
+  },
+  "screenshots": {
+    "directory": "artifacts/qa-v070-report-final",
+    "files": [
+      "card-1440.png",
+      "card-320.png",
+      "card-390.png",
+      "layers-1440.png",
+      "layers-320.png",
+      "layers-390.png",
+      "overview-1440.png",
+      "overview-320.png",
+      "overview-390.png",
+      "report-1440.png",
+      "report-320.png",
+      "report-390.png",
+      "source-1440.png",
+      "terminal-1440.png",
+      "terminal-320.png",
+      "terminal-390.png",
+      "terminal-offline 390.png",
+      "terminal-overview-1440.png",
+      "terminal-overview-320.png",
+      "terminal-overview-390.png",
+      "terminal-overview-offline 390.png"
+    ]
+  },
+  "reportSourceHashes": {
+    "scripts/render-v070-report.mjs": "d115e517eddb6038ee2e8ecd1fe1a76eb40615092b5ef0866a8e9afa35276ecd",
+    "report/v070/ReportContent.jsx": "801b3ed71ad0aa9c5c693bc149623c9c4ac003eaf19e9b78f0e97a0f9bfa8fd2",
+    "report/v070/report.css": "d98aafb7abed07604f5723e37534f73611accee6b2e4ef8d43124a333d9c37a6",
+    "report/v070/narrative-format.mjs": "6f09e42611cd3c5177fa2b62ff50e74722db0cf6311d9dc4d914442036fc75d1",
+    "report/v070/natural-audit.mjs": "6f3f978c0f6dc5684a496fc8d6f6360c202cef772a1ccaae949b2abb5bc51887",
+    "report/v070/verify-report.mjs": "fc9db2db289f6be2bcbcc9a5c98ffbf664b1a3ec64b77303fa481308a2ed53e8"
+  },
+  "runtime": {
+    "runtimeSha256": "9e3ede84b28aded3c7379b6e6a5611f0d95b9977eb0f781e279ceefabfcbd27e",
+    "snapshotSha256": "ea1aead6b1ab70fae286a90222f6ebe4d8eedff8c41046a543a1dcb70badac26",
+    "compilerSha256": "ec65601079c80bef7210f2c9760ff7f2db6adef28516ffff280d4c86f91d4078",
+    "moduleCount": 3
+  },
+  "commands": {
+    "build": "node scripts/render-v070-report.mjs --input docs/V070-TEST-RESULTS.json --terminal docs/V070-TERMINAL-CARDS.json --natural docs/V070-NATURAL-GROWTH.json --narrative docs/V070-REPORT-NARRATIVE.json --output artifacts/星穹转轮-v0.7.0-测试报告.html --status complete",
+    "ui": "node report/v070/verify-report.mjs --file artifacts/星穹转轮-v0.7.0-测试报告.html --screenshots artifacts/qa-v070-report-final",
+    "unit": "node --test tests/v070-report-natural.test.js tests/v070-report-narrative.test.js"
+  },
+  "limitations": [
+    "This is desktop Chromium responsive/offline verification, not physical Android/iPad compatibility.",
+    "The zero HTTP request count covers the cold offline file context and its terminal interactions; desktop previews use a loopback server.",
+    "UI checks and source consistency do not establish complete card/strategy balance. The reviewed narrative retains insufficient evidence, FDR scope, exposure limitations and the D20 stress floor."
+  ]
+}

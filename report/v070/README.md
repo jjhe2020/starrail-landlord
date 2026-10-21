@@ -1,4 +1,4 @@
-# 0.7 测试报告界面
+# 0.7.0 测试报告界面
 
 报告由已核验 compact JSON 驱动，不重新计算推断统计。没有输入时只显示明确的待测状态和当前 90 卡设计；`validation.ready=false` 的输入会直接拒绝，不覆盖已有成品。有效的校准数据仍明确标为校准，不冒充正式留出。
 
@@ -25,6 +25,8 @@ node scripts/render-v070-report.mjs \
 输出：`artifacts/星穹转轮-v0.7.0-测试报告.html`。首次生成会调用标准 preparer；随后均在同一报告中更新数据。先构建分离数据版本，再由标准 `export-offline` 导出单 HTML，不需要网络或 Sites 发布。Data 插件不在默认位置时，传 `--data-plugin-root /absolute/plugin-directory` 或设置 `DATA_ANALYTICS_PLUGIN_ROOT`。
 
 `--narrative /path/to/reviewed-narrative.json` 可补入根代理根据实测写的结论，字段为 `title`、`summaryMarkdown`、`designMarkdown`；不得把没有数据支持的判断写入这个文件。缺省结论只说明已提供的分量比较与证据缺项，不宣布整体平衡通过。可用 `--input` 显式指定校准 compact，不会合并不同源码批次。
+
+公共叙述组件不解析 GFM 表格，显示层会把两列结论表展开为问题小标题和原结论正文；原始 narrative JSON、来源 SHA 及统计文字不变。
 
 作者状态：开始制作可用 `--status creating`，继续修改用 `updating`。数据或解释尚未完成且暂时交接用 `paused`；完整内容和数据准备好后用 `complete` 重建。它独立于 `validation.ready` 和统计判定。
 
