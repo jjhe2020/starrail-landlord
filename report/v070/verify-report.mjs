@@ -20,11 +20,27 @@ async function fit(page,label){const info=await page.evaluate(()=>({width:innerW
 async function selectDropdown(page,scope,label,value,display){const native=scope.locator(`select[aria-label="${label}"]`);if(await native.isVisible())await native.selectOption(value);else{await scope.locator(`:is(.component-header-controls,.v070-local-controls) button[aria-label="${label}"]`).click();await page.getByRole('menuitemradio',{name:display,exact:true}).click();}}
 const format=value=>Number.isFinite(value)?new Intl.NumberFormat('zh-CN',{maximumFractionDigits:2}).format(value):'待测';
 const reading=value=>value?.n>0&&Number.isFinite(value.mean)?`${format(value.mean)}${Array.isArray(value.ci)?` [${value.ci.map(format).join('，')}]`:' [区间不足]'}`:'无有效样本';
+async function verifyTerminalOverview(page,width){
+ const panel=page.locator('[data-component-id="terminal-overview"]'),rows=query('terminal');await panel.scrollIntoViewIfNeeded();
+ if(!rows.length){check(width+' terminal overview pending without fake rows',(await panel.innerText()).includes('尚无有效数据'));return;}
+ const difficulties=[...new Set(rows.map(row=>String(row.difficulty)))].sort((a,b)=>Number(a)-Number(b)),cohort=rows.filter(row=>String(row.difficulty)===difficulties[0]&&row.outcome==='all');
+ check(width+' terminal source cohort covers exactly 90 cards',cohort.length===90&&new Set(cohort.map(row=>row.focusId)).size===90&&query('catalog').every(card=>cohort.some(row=>row.focusId===card.id)));
+ await selectDropdown(page,panel,'难度',difficulties[0],`D${difficulties[0]}`);await selectDropdown(page,panel,'终局结果','all','全部终局');await selectDropdown(page,panel,'产出口径','perAppearance','每实例登场');
+ const seen=new Set();let pages=0;
+ while(true){for(const label of await panel.locator('tbody .table-row-action').evaluateAll(buttons=>buttons.map(button=>button.getAttribute('aria-label'))))seen.add(label);pages++;const next=panel.getByRole('button',{name:'Next page',exact:true});if(!(await next.count())||await next.isDisabled())break;check(width+' terminal pagination is bounded',pages<20);await next.click();}
+ check(width+' terminal overview exposes all 90 rows through pagination',seen.size===90&&cohort.every(row=>seen.has(`查看${row.name}的终局与技能详情`)));
+ const chosen=cohort.find(row=>row.perAppearance?.damage?.n>0&&row.perAppearance.damage.mean>0)||cohort[0],search=panel.getByRole('textbox',{name:'Search data',exact:true});await search.fill(chosen.name);
+ const action=panel.getByRole('button',{name:`查看${chosen.name}的终局与技能详情`,exact:true}),line=action.locator('xpath=ancestor::tr');
+ for(const difficulty of difficulties){await selectDropdown(page,panel,'难度',difficulty,`D${difficulty}`);for(const[outcome,outcomeLabel]of[['all','全部终局'],['victory','通关局'],['defeat','失败局']]){await selectDropdown(page,panel,'终局结果',outcome,outcomeLabel);for(const[basis,basisLabel]of[['perAppearance','每实例登场'],['perHeldInstanceTurn','每持有实例回合']]){await selectDropdown(page,panel,'产出口径',basis,basisLabel);const expected=rows.find(row=>String(row.difficulty)===difficulty&&row.outcome===outcome&&row.focusId===chosen.focusId);check(`${width} overview ${difficulty}/${outcome}/${basis} damage matches source`,await line.locator('td').nth(2).innerText()===reading(expected?.[basis]?.damage));check(`${width} overview ${difficulty}/${outcome}/${basis} growth matches source`,await line.locator('td').nth(5).innerText()===reading(expected?.[basis]?.growthLevel));}}}
+ await action.click();check(width+' terminal overview links to selected card',await page.locator('[data-component-id="selected-card"] h2').innerText()===`${chosen.name} · 技能与阶段`);
+ await search.fill('');await fit(page,width+' terminal overview filters');await panel.scrollIntoViewIfNeeded();await page.screenshot({path:join(screens,`terminal-overview-${width}.png`),fullPage:false});
+ if(width===1440){await panel.getByRole('button',{name:'90 卡终止遭遇产出总表 actions',exact:true}).click();await page.getByRole('menuitem',{name:'View data source',exact:true}).click();await page.locator('.source-inspector').waitFor();check('terminal overview source retains cohort definition',(await page.locator('.source-inspector').innerText()).includes('总表保留全部卡牌，不按当前选中角色过滤'));await page.keyboard.press('Escape');}
+}
 async function verifyTerminal(page,width){
  const panel=page.locator('[data-component-id="terminal-card"]'),rows=query('terminal');
  await panel.scrollIntoViewIfNeeded();
  if(!rows.length){check(width+' terminal missing data is pending',(await panel.innerText()).includes('尚无有效数据'));return;}
- const chosen=rows.find(row=>row.perAppearance?.damage?.n>0)||rows[0];
+ const chosen=rows.find(row=>row.perAppearance?.damage?.n>0&&row.perAppearance.damage.mean>0)||rows[0];
  await selectDropdown(page,page.locator('[data-component-id="selected-card"]'),'角色',chosen.focusId,chosen.name);
  const difficulties=[...new Set(rows.map(row=>String(row.difficulty)))].sort((a,b)=>Number(a)-Number(b));
  for(const difficulty of difficulties){
@@ -43,6 +59,12 @@ async function verifyTerminal(page,width){
   }
  }
  if(width===1440){await panel.getByRole('button',{name:`${chosen.name}在自然终止遭遇中的实际产出 actions`,exact:true}).click();await page.getByRole('menuitem',{name:'View data source',exact:true}).click();await page.locator('.source-inspector').waitFor();check('terminal source definitions inspectable',(await page.locator('.source-inspector').innerText()).includes('终止遭遇指本局最后实际战斗的楼层'));await page.keyboard.press('Escape');}
+ const supportZero=rows.find(row=>row.role!=='attack'&&row.perAppearance?.damage?.n>0&&row.perAppearance.damage.mean===0),noExposure=rows.find(row=>row.perAppearance?.damage?.n===0);
+ for(const[label,expected]of[['observed support zero',supportZero],['no exposure',noExposure]])if(expected){
+  await selectDropdown(page,page.locator('[data-component-id="selected-card"]'),'角色',expected.focusId,expected.name);await selectDropdown(page,panel,'难度',String(expected.difficulty),`D${expected.difficulty}`);await selectDropdown(page,panel,'终局结果',expected.outcome,{all:'全部终局',victory:'通关局',defeat:'失败局'}[expected.outcome]);await selectDropdown(page,panel,'产出口径','perAppearance','每实例登场');
+  for(const[index,metric]of['damage','healing','shieldGenerated','growthLevel'].entries())check(`${width} terminal ${label}/${metric} preserves zero versus missing`,await panel.locator('.v070-terminal-metrics > div').nth(index).locator('strong').innerText()===reading(expected.perAppearance?.[metric]));
+ }
+ await selectDropdown(page,page.locator('[data-component-id="selected-card"]'),'角色',chosen.focusId,chosen.name);await selectDropdown(page,panel,'难度',String(chosen.difficulty),`D${chosen.difficulty}`);await selectDropdown(page,panel,'终局结果',chosen.outcome,{all:'全部终局',victory:'通关局',defeat:'失败局'}[chosen.outcome]);await selectDropdown(page,panel,'产出口径','perAppearance','每实例登场');
  await fit(page,width+' terminal controls');await page.screenshot({path:join(screens,`terminal-${width}.png`),fullPage:false});
 }
 async function verifyLayers(page,width){
@@ -59,6 +81,7 @@ async function verifyLayers(page,width){
  await selectDropdown(page,panel,'来源','program','角色职能与成长');await selectDropdown(page,panel,'观察指标','damageDecrease','有效伤害减少');
 }
 try{
+ if(snapshot.v070.natural?.ready){const natural=snapshot.v070.natural,source=snapshot.queries.report_meta.source;check('natural audit snapshot retains source JSON path',source.files.includes(natural.inputFile));check('natural audit snapshot retains JSON SHA and protocol',source.evidenceFlow.some(step=>step.detail?.includes(natural.inputSha256)&&step.detail.includes(natural.protocol)));check('natural audit summary retains every campaign difficulty',snapshot.v070.natural.difficulties.length===new Set(query('campaigns').map(row=>row.difficulty)).size);}
  for(const width of[1440,390,320]){
   const context=await browser.newContext({viewport:{width,height:980},hasTouch:width<600,reducedMotion:'reduce'});const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
   await page.goto(url);await page.locator('.v070-report h1').waitFor();check(width+' correct title',await page.locator('.v070-report h1').innerText()===snapshot.title);
@@ -73,23 +96,24 @@ try{
   else{await catalog.locator('.component-header-controls button[aria-label="职责"]').click();await page.getByRole('menuitemradio',{name:'防御',exact:true}).click();}
   check(width+' professional filter',await catalog.locator('tbody tr').evaluateAll(rows=>rows.length>0&&rows.every(row=>row.children[1].textContent==='防御')));
   if(await catalog.locator('select[aria-label="职责"]').isVisible())await catalog.locator('select[aria-label="职责"]').selectOption('all');
-  else{await catalog.locator('.component-header-controls button[aria-label="职责"]').click();await page.getByRole('menuitemradio',{name:'All',exact:true}).click();}
+  else{await catalog.locator('.component-header-controls button[aria-label="职责"]').click();await page.getByRole('menuitemradio',{name:'全部职责',exact:true}).click();}
   check(width+' reset restores mixed roles',await catalog.locator('tbody tr').evaluateAll(rows=>new Set(rows.map(row=>row.children[1].textContent)).size>1));
   const detail=page.locator('[data-component-id="selected-card"]');await detail.scrollIntoViewIfNeeded();await detail.getByText('逐条触发与精确数值',{exact:true}).click();
   await detail.getByText('规则记录（复核用）',{exact:true}).first().click();check(width+' exact skill source visible',(await detail.locator('pre').first().innerText()).includes('growth'));
   await fit(page,width+' controls and details');await page.screenshot({path:join(screens,`card-${width}.png`),fullPage:false});
   if(query('card_details').length){check(width+' measured card slices rendered',await detail.locator('tbody tr').count()>0);await detail.getByText('查看治疗、护盾生成、抵伤与剩盾分量',{exact:true}).click();await fit(page,width+' defense components');}
   if(width===1440){await catalog.scrollIntoViewIfNeeded();await catalog.getByRole('button',{name:'角色规则索引 actions',exact:true}).click();await page.getByRole('menuitem',{name:'View data source',exact:true}).click();await page.locator('.source-inspector').waitFor();check('source inspector opens',(await page.locator('.source-inspector').innerText()).includes('90 张候选角色'));await page.screenshot({path:join(screens,'source-1440.png'),fullPage:false});await page.keyboard.press('Escape');}
+  if(width===1440&&snapshot.v070.natural?.ready){const summary=page.locator('[data-component-id="report-summary"]');await summary.scrollIntoViewIfNeeded();await summary.getByRole('button',{name:'测试结论 actions',exact:true}).click();await page.getByRole('menuitem',{name:'View data source',exact:true}).click();await page.locator('.source-inspector').waitFor();check('natural audit source file inspectable',(await page.locator('.source-inspector').innerText()).includes(snapshot.v070.natural.inputFile));check('natural audit descriptive scope inspectable',(await page.locator('.source-inspector').innerText()).includes('分位数仅描述声明策略的均匀混合'));await page.keyboard.press('Escape');}
   await verifyLayers(page,width);
   if(query('campaign_stages').length)check(width+' stage lines visibly painted',await page.locator('[data-component-id="stage-lines"] .recharts-line-curve').evaluateAll(nodes=>nodes.some(n=>n.getBBox().width>0&&n.getBBox().height>0)));
   if(query('campaigns').length)check(width+' strategy intervals present',(await page.locator('[data-component-id="strategy-table"]').innerText()).includes('%'));
-  await verifyTerminal(page,width);
+  await verifyTerminalOverview(page,width);await verifyTerminal(page,width);
   await context.close();
  }
  if(args.has('file')){
   const context=await browser.newContext({viewport:{width:390,height:844},offline:true,serviceWorkers:'block'});const requests=[];context.on('request',r=>{if(/^https?:/.test(r.url()))requests.push(r.url());});await context.route(/^https?:\/\//,r=>r.abort());
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(pathToFileURL(resolve(args.get('file'))).href);await page.locator('.v070-report h1').waitFor();
-  check('offline file title',await page.locator('.v070-report h1').innerText()===snapshot.title);check('offline navigator',await page.evaluate(()=>!navigator.onLine));await verifyTerminal(page,'offline 390');await fit(page,'offline 390');check('offline file no HTTP requests',requests.length===0);await context.close();
+  check('offline file title',await page.locator('.v070-report h1').innerText()===snapshot.title);check('offline navigator',await page.evaluate(()=>!navigator.onLine));await verifyTerminalOverview(page,'offline 390');await verifyTerminal(page,'offline 390');await fit(page,'offline 390');check('offline file no HTTP requests',requests.length===0);await context.close();
  }
  check('no uncaught page errors',errors.length===0);console.log(JSON.stringify({checks:checks.length,errors,source:snapshot.v070.inputFile,dataReady:snapshot.v070.dataReady,chartChecks:query('layers').length?'performed':'no layer data; not claimed',campaignChecks:query('campaigns').length?'performed':'no campaign data; not claimed',terminalChecks:query('terminal').length?'source values, exposure denominators, difficulty/outcome/basis switching performed':'pending state only; no terminal result claimed'},null,2));
 }finally{await browser.close();await new Promise(resolveDone=>server.close(resolveDone));}
