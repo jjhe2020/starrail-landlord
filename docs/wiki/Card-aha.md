@@ -1,0 +1,160 @@
+# 阿哈
+
+[首页](Home) · [角色](Cards) · [奇物](Relics) · [精华](Essences) · [机制时序](Effects-and-Timing) · [羁绊](Synergies)
+
+版本 **v0.7.0** · 内容基线 `e5557f8d6b3ee0a0c308c5a3ca0481d3701db229`。数据：[src/content.js:5427](https://github.com/jjhe2020/starrail-landlord/blob/e5557f8d6b3ee0a0c308c5a3ca0481d3701db229/src/content.js#L5427)；执行：[src/effect-rules.js:98–174](https://github.com/jjhe2020/starrail-landlord/blob/e5557f8d6b3ee0a0c308c5a3ca0481d3701db229/src/effect-rules.js#L98-L174)、[src/engine.js:71–200](https://github.com/jjhe2020/starrail-landlord/blob/e5557f8d6b3ee0a0c308c5a3ca0481d3701db229/src/engine.js#L71-L200)。
+
+每第3次登场，至多2名相邻的欢愉或假面愚者永久非培养伙伴各永久成长+0.4。每第4次登场且位于角落，获得1次重掷。
+
+## 基础数据与公开标签
+
+| 项目 | 内容 |
+| --- | --- |
+| 角色ID | `aha` |
+| 英文名 | Aha |
+| 游戏稀有度 | 传说 |
+| 基础威力 | 0.35 |
+| 主职能 | [永久培养](Cards#role) |
+| 攻击形态 | [支援](Cards#attack) |
+| 命途 | [欢愉](Cards#path) |
+| 属性 | [无（改编）](Cards#element) |
+| 阵营 | [星神](Cards#faction) |
+| 技能规则版 | kitVersion=6 |
+| 资料状态 | `adapted-aeon`（不是招募资格门槛） |
+| 原作星级 | null（资料归属；不是本游戏稀有度或合成星级） |
+
+招募池包括当前全部90个定义，`publicationStatus` 不作为过滤条件。内部拿牌偏好代号不提供任何技能条件。
+
+## 常规攻击与成长
+
+- 无修正的1/2/3星基础威力：**0.35 / 1.05 / 3.15**。永久培养主职能：基础威力不加成长；常规赠送培养的筛选排除培养主持，赠送量不自乘培养系数。
+- 支援形态不执行常规攻击；它仍有威力数值，供最强目标、技能或机制读取。完整命中、装甲、易伤、四舍五入见[战斗](Combat)。
+
+## 技能明细
+
+条件在该技能实际阶段读取。位置与人数定义见[棋盘与目标](Board-and-Targeting)；未标记星级/培养缩放的字段保持固定值。
+
+### 技能 1：永久成长
+
+每第3次登场，至多2名相邻的欢愉或假面愚者永久非培养伙伴各永久成长+0.4
+
+| 字段 | 精确口径 |
+| --- | --- |
+| 类型 | 永久成长（`growth`） |
+| 触发 | 来源实例实际登场时（登场计数已先加1） |
+| 阶段 | 默认 beforeAttacks；被动倍率在实际收益调用处使用 |
+| 门槛 | 无额外数值门槛（仍需来源与触发成立） |
+| 目标 | 来源相邻八格；最多2名 |
+| 目标筛选 | （命途为[欢愉](Cards#path) 或 阵营为[假面愚者](Cards#faction)），且主职能不为[永久培养](Cards#role)，且非临时实例（此字段本身不排除见习），且排除见习委派，且排除来源同一 UID 实例 |
+| 基础数值公式 | 0.4 × 星级系数[1 / 1.5 / 2] |
+| 持续 | 本局；新局不继承 |
+| 叠加元数据 | `additive`；实际加法、乘法与上限见下列结算规则 |
+
+- 写入编队中同UID且非临时的原实例；通用入口本身不排除见习或培养主职，目标筛选另行决定是否排除它们。例如丹恒见习可以触发自身成长，但专业培养者的受体筛选排除见习。新成长再乘齿轮、成长折旧和适用成长倍率；两位小数保存，本轮攻击威力/可培养技能即可使用更新后的成长。成长赠送量不会被来源自己的培养倍率放大。
+- every=3：appearance使用该实例已加1后的ticks，其余触发使用本关round；计数必须>0且整除。不会按全局总转动数计算。
+- 无升星差额税时，1/2/3星技能系数分别为1 / 1.5 / 2；若星级审计生效，高星系数额外×0.8。
+
+### 技能 2：资源收入
+
+每第4次登场且位于角落，获得1次重掷
+
+| 字段 | 精确口径 |
+| --- | --- |
+| 类型 | 资源收入（`resource`） |
+| 触发 | 来源实例实际登场时（登场计数已先加1） |
+| 阶段 | 默认 beforeAttacks；被动倍率在实际收益调用处使用 |
+| 门槛 | 位于角落时为1，否则为0=1 |
+| 目标 | 重掷机会；`target` 元数据不将共享资源复制为每位队友一份 |
+| 目标筛选 | 无额外公开标签筛选 |
+| 基础数值公式 | 1 |
+| 持续 | 进入共享资源存量，保留至消耗、衰减或上限截断 |
+| 叠加元数据 | `additive`；实际加法、乘法与上限见下列结算规则 |
+
+- 重掷机会收入先取max(0, 数值)；信用点保留两位小数，重掷/移除向下取整。资源存量跨轮、跨关保留。
+- every=4：appearance使用该实例已加1后的ticks，其余触发使用本关round；计数必须>0且整除。不会按全局总转动数计算。
+- 此效果数值不随1/3/9星级倍率自动放大；来源最终威力参与的追击仍间接受星级影响。
+
+## 关联与互引
+
+以下按角色定义的公开标签列出候选身份；仍须满足当前实例的位置、星级、临时/见习身份和触发条件。同名另一实例仍是独立UID。
+
+- 正式羁绊：没有匹配的正式羁绊条目。身份计数、不同ID与临时/见习排除规则见[正式羁绊](Synergies)。
+- （命途为[欢愉](Cards#path) 或 阵营为[假面愚者](Cards#faction)），且主职能不为[永久培养](Cards#role)，且非临时实例（此字段本身不排除见习），且排除见习委派，且排除来源同一 UID 实例：[花火](Card-1306)、[火花](Card-sparxie)、[银狼LV.999](Card-silver_wolf_lv999)、[绯英](Card-evanescia)、[砂金·戏浪](Card-aventurine_waveflair)、[星神★阿哈](Card-aeon_star_aha)。
+- 共享至少一个命途、属性或阵营标签：[爻光](Card-yao_guang)、[火花](Card-sparxie)、[银狼LV.999](Card-silver_wolf_lv999)、[绯英](Card-evanescia)、[真珠](Card-pearl)、[砂金·戏浪](Card-aventurine_waveflair)、[星神★阿哈](Card-aeon_star_aha)。
+- 有公开标签筛选可匹配本角色的奇物/精华：[博士之袍](Relic-doctor_robe)、[跃迁复眼](Relic-compound_eye)、[空无烛剪](Relic-void_wick)、[欢愉火漆](Relic-elation_wax)、[繁育火漆](Relic-propagation_wax)、[时空棱镜](Relic-spacetime_prism)、[空无烛剪·精华](Essence-essence_void_wick)、[时空棱镜·精华](Essence-essence_prism)、[跃迁复眼·精华](Essence-essence_compound_eye)、[欢愉火漆·精华](Essence-essence_elation_wax)。
+
+## 精确数据与来源
+
+下列为不含美术字段的当前角色定义；与[效果时序](Effects-and-Timing)和[复原规格](Reproduction)一起使用。技能为本作改编，不是原作战斗技能。
+
+```json
+{
+  "id": "aha",
+  "name": "阿哈",
+  "enName": "Aha",
+  "rarity": "legendary",
+  "attack": "support",
+  "power": 0.35,
+  "path": "欢愉",
+  "element": "无（改编）",
+  "faction": "星神",
+  "description": "每第3次登场，至多2名相邻的欢愉或假面愚者永久非培养伙伴各永久成长+0.4。每第4次登场且位于角落，获得1次重掷。",
+  "effects": [
+    {
+      "type": "growth",
+      "value": 0.4,
+      "summary": "每第3次登场，至多2名相邻的欢愉或假面愚者永久非培养伙伴各永久成长+0.4",
+      "trigger": "appearance",
+      "duration": "run",
+      "target": "adjacent",
+      "stacking": "additive",
+      "every": 3,
+      "targetLimit": 2,
+      "scaleWithStars": true,
+      "starFactors": [
+        0,
+        1,
+        1.5,
+        2
+      ],
+      "filter": {
+        "anyOf": [
+          {
+            "path": "欢愉"
+          },
+          {
+            "faction": "假面愚者"
+          }
+        ],
+        "excludeSelf": true,
+        "roleNot": "trainer",
+        "temporary": false,
+        "commission": false
+      }
+    },
+    {
+      "type": "resource",
+      "value": 1,
+      "summary": "每第4次登场且位于角落，获得1次重掷",
+      "trigger": "appearance",
+      "duration": "resource",
+      "target": "self",
+      "stacking": "additive",
+      "resource": "rerolls",
+      "every": 4,
+      "condition": {
+        "metric": "corner",
+        "op": "eq",
+        "value": 1
+      }
+    }
+  ],
+  "adaptation": "星神同行者为本作改编；无官方可玩星级或战斗属性；头像为文字标识",
+  "officialRarity": null,
+  "publicationStatus": "adapted-aeon",
+  "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Aha",
+  "kitVersion": 6,
+  "role": "trainer",
+  "roleLabel": "永久培养"
+}
+```

@@ -1,0 +1,292 @@
+# 冻结算法与复原清单
+
+> v0.7.0 · [复原指南](Reproduction) · [机制百科](Mechanics) · [内容库](Cards)
+
+以下 39 个文件均逐字取自发布基线 `e5557f8d6b3ee0a0c308c5a3ca0481d3701db229`。代码与配置可从每页标记的围栏中提取，按“原文件”路径保存；恢复时校验 UTF-8 字节数与 SHA-256。美术文件不在此附录，允许替换为占位图。正文机制页解释规则，附录冻结准确遍历、异常校验和策略估算的细节。
+
+| 原文件 | Wiki 附录 | 字节 | SHA-256 |
+| --- | --- | ---: | --- |
+| `VERSION` | [读取](Source-VERSION) | 6 | `967d9afb101346667166f2e76e81910bc190488d7d41d50ca0072e9d92f00e32` |
+| `index.html` | [读取](Source-Index) | 1115 | `b7b621e3eb26b5ed6ad5f2a8346d045c586cae29a1dcaab5bef25ed8fd03b2ac` |
+| `manifest.webmanifest` | [读取](Source-App-Manifest) | 672 | `3772d86341e936c54ad59831ad60730abaf707b37fb57379157edd3cba6d75cc` |
+| `package-lock.json` | [读取](Source-Package-Lock) | 14530 | `bbab9285089da61079095fc37e209b7f98e0c96e54ca7c98f7bdf9a5790f9ae8` |
+| `package.json` | [读取](Source-Package) | 655 | `3ccf53c26029e976fb5617bdc04a67f9dd594bf2647a6e62fa8b6c671cabdea0` |
+| `scripts/build-portable.mjs` | [读取](Source-Build-Build-Portable) | 6541 | `6cf9b0a1390ca2dddd8a23974f974a37d4585c36949c70310b764222697a44f3` |
+| `scripts/build.mjs` | [读取](Source-Build-Build) | 968 | `d26e9cab3b515b4959abf6876f442d6aae5472a9c2d7c02fe2c68f195234ad5b` |
+| `scripts/offline-assets.mjs` | [读取](Source-Build-Offline-Assets) | 2458 | `57aab813915a9bd40455010c0cee3078806f103f948acf000fc8b2c7d41e0a21` |
+| `scripts/server.mjs` | [读取](Source-Build-Server) | 3167 | `ce97ebdeaafc6a405e7776f9b775a8a18f62a396ccef3074008b3445e0dc5feb` |
+| `service-worker.js` | [读取](Source-Service-Worker) | 8656 | `aa708641cf25160e0989a7815c9254ebb26e284d0fbc791e2d4ae068782f89a1` |
+| `src/ai-profile.js` | [读取](Source-Ai-Profile) | 1535 | `2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206` |
+| `src/ai-spatial.js` | [读取](Source-Ai-Spatial) | 8811 | `4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c` |
+| `src/ai-worker.js` | [读取](Source-Ai-Worker) | 2091 | `36ab3c392271674757822c92f414d7f18776236b88f8bdc6c1d4df79b9106e58` |
+| `src/ai.js` | [读取](Source-Ai) | 67865 | `46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c` |
+| `src/app.js` | [读取](Source-App) | 102751 | `3e4980e2b475a2faf167cad5d0ac7d1f762918eb7a7037b7d6546a3168a68416` |
+| `src/archetype-reference.js` | [读取](Source-Archetype-Reference) | 187818 | `119f3287a651cd70ef74656a760654acd1b415b29c77c994770ed1693697a26a` |
+| `src/archetype-simulation.js` | [读取](Source-Archetype-Simulation) | 31232 | `3390a5972ad7af862f7150d1d7ecefc50791ec3fb3d87b3700d7fdef5dd24cc4` |
+| `src/archetypes.js` | [读取](Source-Archetypes) | 2320 | `f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb` |
+| `src/balance-reference.js` | [读取](Source-Balance-Reference) | 28127 | `85dc73e0089bdda139a951ccf1315fce18f2c6d3b7614e62681b370889bb580c` |
+| `src/balance-v070.js` | [读取](Source-Balance-V070) | 39475 | `0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268` |
+| `src/content.js` | [读取](Source-Content) | 231438 | `22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4` |
+| `src/difficulty.js` | [读取](Source-Difficulty) | 1354 | `ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943` |
+| `src/effect-info.js` | [读取](Source-Effect-Info) | 12818 | `18730a8a49be4f491e40137b60f48e969d48959c31c0471d0eaaa5b53f29222f` |
+| `src/effect-rules.js` | [读取](Source-Effect-Rules) | 14078 | `fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a` |
+| `src/enemy-effects.js` | [读取](Source-Enemy-Effects) | 11755 | `c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db` |
+| `src/engine.js` | [读取](Source-Engine) | 81084 | `8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255` |
+| `src/growth-report.js` | [读取](Source-Growth-Report) | 28083 | `60bce96633a0276c0554ec7b8df1dc6a4afe47d56bec77471b3903d767f6fa9c` |
+| `src/growth-simulation.js` | [读取](Source-Growth-Simulation) | 11323 | `5fd07f0f6f096134ae65255ce1d537f222f494ac72dedee0ca3910ff1e06d907` |
+| `src/growth-telemetry.js` | [读取](Source-Growth-Telemetry) | 124 | `28db1cddbcee8f37cb9c3ea596fe43f8114ae34c18a3d8d14d995df45ff9d205` |
+| `src/inspect.js` | [读取](Source-Inspect) | 11724 | `758408434321b1f499c66b279aa505761406eaf08bfa92fa27c9cfcb250f90fc` |
+| `src/mechanics.js` | [读取](Source-Mechanics) | 12828 | `f1536e90fe005916beda0bb8ec63cc0845a24e967bf6a2c58a12fc751b429392` |
+| `src/offline.js` | [读取](Source-Offline) | 5642 | `1cd1be89d902d19a2b8bb5596f04660e4bf8bbecdf1885561f514c817345abb4` |
+| `src/retirement-ai.js` | [读取](Source-Retirement-Ai) | 8404 | `be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a` |
+| `src/retirements.js` | [读取](Source-Retirements) | 6435 | `9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c` |
+| `src/runtime.js` | [读取](Source-Runtime) | 968 | `15e92774219913ded4aacf8d36ba84828472f5f965377c2293518909a13a0045` |
+| `src/save-transfer.js` | [读取](Source-Save-Transfer) | 1739 | `14b87c2380d9042876886538beed6f3f88ed92b76bdd8a28c03271f1f8350071` |
+| `src/simulation.js` | [读取](Source-Simulation) | 30572 | `fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95` |
+| `src/synergies.js` | [读取](Source-Synergies) | 15853 | `0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697` |
+| `styles.css` | [读取](Source-Styles) | 94577 | `e92af4cfe4bda45ecd8fc4bc10d397df04357f8132b05767111681fcb522175d` |
+
+## 机器可读清单
+
+```json
+{
+  "version": "0.7.0",
+  "baselineCommit": "e5557f8d6b3ee0a0c308c5a3ca0481d3701db229",
+  "sources": [
+    {
+      "path": "VERSION",
+      "page": "Source-VERSION",
+      "bytes": 6,
+      "sha256": "967d9afb101346667166f2e76e81910bc190488d7d41d50ca0072e9d92f00e32"
+    },
+    {
+      "path": "index.html",
+      "page": "Source-Index",
+      "bytes": 1115,
+      "sha256": "b7b621e3eb26b5ed6ad5f2a8346d045c586cae29a1dcaab5bef25ed8fd03b2ac"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "page": "Source-App-Manifest",
+      "bytes": 672,
+      "sha256": "3772d86341e936c54ad59831ad60730abaf707b37fb57379157edd3cba6d75cc"
+    },
+    {
+      "path": "package-lock.json",
+      "page": "Source-Package-Lock",
+      "bytes": 14530,
+      "sha256": "bbab9285089da61079095fc37e209b7f98e0c96e54ca7c98f7bdf9a5790f9ae8"
+    },
+    {
+      "path": "package.json",
+      "page": "Source-Package",
+      "bytes": 655,
+      "sha256": "3ccf53c26029e976fb5617bdc04a67f9dd594bf2647a6e62fa8b6c671cabdea0"
+    },
+    {
+      "path": "scripts/build-portable.mjs",
+      "page": "Source-Build-Build-Portable",
+      "bytes": 6541,
+      "sha256": "6cf9b0a1390ca2dddd8a23974f974a37d4585c36949c70310b764222697a44f3"
+    },
+    {
+      "path": "scripts/build.mjs",
+      "page": "Source-Build-Build",
+      "bytes": 968,
+      "sha256": "d26e9cab3b515b4959abf6876f442d6aae5472a9c2d7c02fe2c68f195234ad5b"
+    },
+    {
+      "path": "scripts/offline-assets.mjs",
+      "page": "Source-Build-Offline-Assets",
+      "bytes": 2458,
+      "sha256": "57aab813915a9bd40455010c0cee3078806f103f948acf000fc8b2c7d41e0a21"
+    },
+    {
+      "path": "scripts/server.mjs",
+      "page": "Source-Build-Server",
+      "bytes": 3167,
+      "sha256": "ce97ebdeaafc6a405e7776f9b775a8a18f62a396ccef3074008b3445e0dc5feb"
+    },
+    {
+      "path": "service-worker.js",
+      "page": "Source-Service-Worker",
+      "bytes": 8656,
+      "sha256": "aa708641cf25160e0989a7815c9254ebb26e284d0fbc791e2d4ae068782f89a1"
+    },
+    {
+      "path": "src/ai-profile.js",
+      "page": "Source-Ai-Profile",
+      "bytes": 1535,
+      "sha256": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206"
+    },
+    {
+      "path": "src/ai-spatial.js",
+      "page": "Source-Ai-Spatial",
+      "bytes": 8811,
+      "sha256": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c"
+    },
+    {
+      "path": "src/ai-worker.js",
+      "page": "Source-Ai-Worker",
+      "bytes": 2091,
+      "sha256": "36ab3c392271674757822c92f414d7f18776236b88f8bdc6c1d4df79b9106e58"
+    },
+    {
+      "path": "src/ai.js",
+      "page": "Source-Ai",
+      "bytes": 67865,
+      "sha256": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c"
+    },
+    {
+      "path": "src/app.js",
+      "page": "Source-App",
+      "bytes": 102751,
+      "sha256": "3e4980e2b475a2faf167cad5d0ac7d1f762918eb7a7037b7d6546a3168a68416"
+    },
+    {
+      "path": "src/archetype-reference.js",
+      "page": "Source-Archetype-Reference",
+      "bytes": 187818,
+      "sha256": "119f3287a651cd70ef74656a760654acd1b415b29c77c994770ed1693697a26a"
+    },
+    {
+      "path": "src/archetype-simulation.js",
+      "page": "Source-Archetype-Simulation",
+      "bytes": 31232,
+      "sha256": "3390a5972ad7af862f7150d1d7ecefc50791ec3fb3d87b3700d7fdef5dd24cc4"
+    },
+    {
+      "path": "src/archetypes.js",
+      "page": "Source-Archetypes",
+      "bytes": 2320,
+      "sha256": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb"
+    },
+    {
+      "path": "src/balance-reference.js",
+      "page": "Source-Balance-Reference",
+      "bytes": 28127,
+      "sha256": "85dc73e0089bdda139a951ccf1315fce18f2c6d3b7614e62681b370889bb580c"
+    },
+    {
+      "path": "src/balance-v070.js",
+      "page": "Source-Balance-V070",
+      "bytes": 39475,
+      "sha256": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268"
+    },
+    {
+      "path": "src/content.js",
+      "page": "Source-Content",
+      "bytes": 231438,
+      "sha256": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4"
+    },
+    {
+      "path": "src/difficulty.js",
+      "page": "Source-Difficulty",
+      "bytes": 1354,
+      "sha256": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943"
+    },
+    {
+      "path": "src/effect-info.js",
+      "page": "Source-Effect-Info",
+      "bytes": 12818,
+      "sha256": "18730a8a49be4f491e40137b60f48e969d48959c31c0471d0eaaa5b53f29222f"
+    },
+    {
+      "path": "src/effect-rules.js",
+      "page": "Source-Effect-Rules",
+      "bytes": 14078,
+      "sha256": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a"
+    },
+    {
+      "path": "src/enemy-effects.js",
+      "page": "Source-Enemy-Effects",
+      "bytes": 11755,
+      "sha256": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db"
+    },
+    {
+      "path": "src/engine.js",
+      "page": "Source-Engine",
+      "bytes": 81084,
+      "sha256": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255"
+    },
+    {
+      "path": "src/growth-report.js",
+      "page": "Source-Growth-Report",
+      "bytes": 28083,
+      "sha256": "60bce96633a0276c0554ec7b8df1dc6a4afe47d56bec77471b3903d767f6fa9c"
+    },
+    {
+      "path": "src/growth-simulation.js",
+      "page": "Source-Growth-Simulation",
+      "bytes": 11323,
+      "sha256": "5fd07f0f6f096134ae65255ce1d537f222f494ac72dedee0ca3910ff1e06d907"
+    },
+    {
+      "path": "src/growth-telemetry.js",
+      "page": "Source-Growth-Telemetry",
+      "bytes": 124,
+      "sha256": "28db1cddbcee8f37cb9c3ea596fe43f8114ae34c18a3d8d14d995df45ff9d205"
+    },
+    {
+      "path": "src/inspect.js",
+      "page": "Source-Inspect",
+      "bytes": 11724,
+      "sha256": "758408434321b1f499c66b279aa505761406eaf08bfa92fa27c9cfcb250f90fc"
+    },
+    {
+      "path": "src/mechanics.js",
+      "page": "Source-Mechanics",
+      "bytes": 12828,
+      "sha256": "f1536e90fe005916beda0bb8ec63cc0845a24e967bf6a2c58a12fc751b429392"
+    },
+    {
+      "path": "src/offline.js",
+      "page": "Source-Offline",
+      "bytes": 5642,
+      "sha256": "1cd1be89d902d19a2b8bb5596f04660e4bf8bbecdf1885561f514c817345abb4"
+    },
+    {
+      "path": "src/retirement-ai.js",
+      "page": "Source-Retirement-Ai",
+      "bytes": 8404,
+      "sha256": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a"
+    },
+    {
+      "path": "src/retirements.js",
+      "page": "Source-Retirements",
+      "bytes": 6435,
+      "sha256": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c"
+    },
+    {
+      "path": "src/runtime.js",
+      "page": "Source-Runtime",
+      "bytes": 968,
+      "sha256": "15e92774219913ded4aacf8d36ba84828472f5f965377c2293518909a13a0045"
+    },
+    {
+      "path": "src/save-transfer.js",
+      "page": "Source-Save-Transfer",
+      "bytes": 1739,
+      "sha256": "14b87c2380d9042876886538beed6f3f88ed92b76bdd8a28c03271f1f8350071"
+    },
+    {
+      "path": "src/simulation.js",
+      "page": "Source-Simulation",
+      "bytes": 30572,
+      "sha256": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95"
+    },
+    {
+      "path": "src/synergies.js",
+      "page": "Source-Synergies",
+      "bytes": 15853,
+      "sha256": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697"
+    },
+    {
+      "path": "styles.css",
+      "page": "Source-Styles",
+      "bytes": 94577,
+      "sha256": "e92af4cfe4bda45ecd8fc4bc10d397df04357f8132b05767111681fcb522175d"
+    }
+  ]
+}
+```

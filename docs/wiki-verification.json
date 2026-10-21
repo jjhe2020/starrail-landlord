@@ -1,0 +1,46 @@
+{
+  "version": "0.7.0",
+  "baselineCommit": "e5557f8d6b3ee0a0c308c5a3ca0481d3701db229",
+  "pages": 315,
+  "navigationFiles": 2,
+  "internalLinks": 12470,
+  "checkedSourceLinks": 1210,
+  "frozenSources": 39,
+  "markdownBytes": 2922649,
+  "content": {
+    "cards": 90,
+    "relics": 64,
+    "essences": 32,
+    "synergies": 21,
+    "enemyEffects": 32,
+    "assignments": 10
+  },
+  "errors": [],
+  "validation": {
+    "projectCheck": "passed",
+    "tests": {
+      "total": 612,
+      "passed": 607,
+      "failed": 0,
+      "skipped": 5,
+      "skippedScope": [
+        "optional browser UI checks (4)",
+        "optional V8 streaming stress (1)"
+      ]
+    },
+    "build": "passed",
+    "sourceReview": "Three independent documentation subtasks with cross-review against released implementation",
+    "wikiPublication": {
+      "url": "https://github.com/jjhe2020/starrail-landlord/wiki",
+      "remoteCommit": "6d85f877c3f45610dd2913c2cc6657e68d88bb19",
+      "freshCloneFilesCompared": 319,
+      "missing": [],
+      "different": []
+    },
+    "liveBrowserChecks": [
+      "Home portal, content database and sidebar render",
+      "Combat formulas render",
+      "Card-1001 data tables render and link to Synergy-astral"
+    ]
+  }
+}

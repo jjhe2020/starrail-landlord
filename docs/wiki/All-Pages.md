@@ -1,0 +1,345 @@
+# 全部页面索引
+
+> v0.7.0 · [首页](Home) · [机制百科](Mechanics) · [术语](Glossary)。共 315 页；可用浏览器查找搜索中文名称或内容 ID。
+
+## 机制与工具
+
+- [AI 助手、代打与自动测试](AI)
+- [全部页面索引](All-Pages)
+- [委派](Assignments)
+- [棋盘、空间关系与选取目标](Board-and-Targeting)
+- [角色百科](Cards)
+- [战斗：威力、伤害与防御](Combat)
+- [难度与敌阵](Difficulty)
+- [招募、奖励池与稀有度](Draft-and-Rarity)
+- [经济、生命与补给](Economy)
+- [效果、触发时点与结算顺序](Effects-and-Timing)
+- [敌方条款](Enemy-Effects)
+- [精华百科](Essences)
+- [术语与关键词索引](Glossary)
+- [实例、升星、永久成长与临时角色](Growth-and-Stars)
+- [星穹转轮 · 机制百科](Home)
+- [操作、图鉴与效果查询](Interface)
+- [机制百科](Mechanics)
+- [奇物百科](Relics)
+- [随机、状态与精确复原](Reproduction)
+- [单局流程与状态机](Run-Flow)
+- [存档、迁移与离线运行](Saves-and-Offline)
+- [羁绊](Synergies)
+
+## 角色（90）
+
+- [三月七](Card-1001) · `1001`
+- [丹恒](Card-1002) · `1002`
+- [姬子](Card-1003) · `1003`
+- [瓦尔特](Card-1004) · `1004`
+- [卡芙卡](Card-1005) · `1005`
+- [银狼](Card-1006) · `1006`
+- [阿兰](Card-1008) · `1008`
+- [艾丝妲](Card-1009) · `1009`
+- [黑塔](Card-1013) · `1013`
+- [布洛妮娅](Card-1101) · `1101`
+- [希儿](Card-1102) · `1102`
+- [希露瓦](Card-1103) · `1103`
+- [杰帕德](Card-1104) · `1104`
+- [娜塔莎](Card-1105) · `1105`
+- [佩拉](Card-1106) · `1106`
+- [克拉拉](Card-1107) · `1107`
+- [桑博](Card-1108) · `1108`
+- [虎克](Card-1109) · `1109`
+- [玲可](Card-1110) · `1110`
+- [卢卡](Card-1111) · `1111`
+- [托帕&账账](Card-1112) · `1112`
+- [青雀](Card-1201) · `1201`
+- [停云](Card-1202) · `1202`
+- [罗刹](Card-1203) · `1203`
+- [景元](Card-1204) · `1204`
+- [刃](Card-1205) · `1205`
+- [素裳](Card-1206) · `1206`
+- [驭空](Card-1207) · `1207`
+- [符玄](Card-1208) · `1208`
+- [彦卿](Card-1209) · `1209`
+- [桂乃芬](Card-1210) · `1210`
+- [白露](Card-1211) · `1211`
+- [镜流](Card-1212) · `1212`
+- [雪衣](Card-1214) · `1214`
+- [寒鸦](Card-1215) · `1215`
+- [藿藿](Card-1217) · `1217`
+- [椒丘](Card-1218) · `1218`
+- [飞霄](Card-1220) · `1220`
+- [云璃](Card-1221) · `1221`
+- [灵砂](Card-1222) · `1222`
+- [貊泽](Card-1223) · `1223`
+- [加拉赫](Card-1301) · `1301`
+- [银枝](Card-1302) · `1302`
+- [阮·梅](Card-1303) · `1303`
+- [砂金](Card-1304) · `1304`
+- [真理医生](Card-1305) · `1305`
+- [花火](Card-1306) · `1306`
+- [黑天鹅](Card-1307) · `1307`
+- [黄泉](Card-1308) · `1308`
+- [知更鸟](Card-1309) · `1309`
+- [流萤](Card-1310) · `1310`
+- [米沙](Card-1312) · `1312`
+- [星期日](Card-1313) · `1313`
+- [翡翠](Card-1314) · `1314`
+- [波提欧](Card-1315) · `1315`
+- [乱破](Card-1317) · `1317`
+- [阿格莱雅](Card-1402) · `1402`
+- [缇宝](Card-1403) · `1403`
+- [万敌](Card-1404) · `1404`
+- [那刻夏](Card-1405) · `1405`
+- [赛飞儿](Card-1406) · `1406`
+- [遐蝶](Card-1407) · `1407`
+- [白厄](Card-1408) · `1408`
+- [风堇](Card-1409) · `1409`
+- [星神★阿哈](Card-aeon_star_aha) · `aeon_star_aha`
+- [阿哈](Card-aha) · `aha`
+- [吉尔伽美什](Card-announced_gilgamesh) · `announced_gilgamesh`
+- [姬子·启行](Card-announced_himeko_nova) · `announced_himeko_nova`
+- [远坂凛](Card-announced_rin_tohsaka) · `announced_rin_tohsaka`
+- [Archer](Card-archer) · `archer`
+- [不死途](Card-ashveil) · `ashveil`
+- [砂金·戏浪](Card-aventurine_waveflair) · `aventurine_waveflair`
+- [刻律德菈](Card-cerydra) · `cerydra`
+- [昔涟](Card-cyrene) · `cyrene`
+- [丹恒·饮月](Card-dan_heng_imbibitor_lunae) · `dan_heng_imbibitor_lunae`
+- [丹恒·腾荒](Card-dan_heng_pt) · `dan_heng_pt`
+- [绯英](Card-evanescia) · `evanescia`
+- [长夜月](Card-evernight) · `evernight`
+- [忘归人](Card-fugue) · `fugue`
+- [海瑟音](Card-hysilens) · `hysilens`
+- [三月七·巡猎](Card-march_hunt) · `march_hunt`
+- [千冶·刃](Card-mortenax_blade) · `mortenax_blade`
+- [真珠](Card-pearl) · `pearl`
+- [知更鸟·晴歌](Card-robin_summeretto) · `robin_summeretto`
+- [Saber](Card-saber) · `saber`
+- [银狼LV.999](Card-silver_wolf_lv999) · `silver_wolf_lv999`
+- [火花](Card-sparxie) · `sparxie`
+- [大丽花](Card-the_dahlia) · `the_dahlia`
+- [大黑塔](Card-the_herta) · `the_herta`
+- [爻光](Card-yao_guang) · `yao_guang`
+
+## 奇物（64）
+
+- [丰饶火漆](Relic-abundance_wax) · `abundance_wax`
+- [天使型谢债发行机](Relic-angel_debt) · `angel_debt`
+- [湮灭烛剪](Relic-annihilation_wick) · `annihilation_wick`
+- [信标着色剂](Relic-beacon_colorant) · `beacon_colorant`
+- [纯美之袍](Relic-beauty_robe) · `beauty_robe`
+- [黑洞之阱](Relic-black_hole_trap) · `black_hole_trap`
+- [血锦之纪徽章](Relic-blood_badge) · `blood_badge`
+- [碎星芳饵](Relic-broken_clock) · `broken_clock`
+- [龋齿星系模型](Relic-cavity_model) · `cavity_model`
+- [混沌特效灵药](Relic-chaos_medicine) · `chaos_medicine`
+- [混沌云芝](Relic-chaos_trametes) · `chaos_trametes`
+- [俱乐部券](Relic-club_coupon) · `club_coupon`
+- [跃迁复眼](Relic-compound_eye) · `compound_eye`
+- [腐化异木果实](Relic-corrupt_fruit) · `corrupt_fruit`
+- [银河大乐透](Relic-cosmic_lotto) · `cosmic_lotto`
+- [毁灭火漆](Relic-destruction_wax) · `destruction_wax`
+- [异木果实](Relic-dimension_dice) · `dimension_dice`
+- [降维骰子](Relic-dimensional_dice) · `dimensional_dice`
+- [香涎干酪](Relic-divination_candle) · `divination_candle`
+- [博士之袍](Relic-doctor_robe) · `doctor_robe`
+- [欢愉火漆](Relic-elation_wax) · `elation_wax`
+- [智识火漆](Relic-erudition_wax) · `erudition_wax`
+- [邪恶机械卫星#900](Relic-evil_satellite) · `evil_satellite`
+- [信仰债券](Relic-faith_bond) · `faith_bond`
+- [家族缘结](Relic-family_ties) · `family_ties`
+- [虚构机兵](Relic-fictional_machine) · `fictional_machine`
+- [愚者面具](Relic-fools_mask) · `fools_mask`
+- [福灵胶](Relic-fortune_glue) · `fortune_glue`
+- [天才俱乐部普通八卦](Relic-genius_gossip) · `genius_gossip`
+- [天外重声大碟](Relic-gold_coin) · `gold_coin`
+- [纯美骑士精神](Relic-harmony_wax) · `harmony_wax`
+- [巡猎火漆](Relic-hunt_wax) · `hunt_wax`
+- [万象无常骰](Relic-impermanence_dice) · `impermanence_dice`
+- [虫网](Relic-insect_web) · `insect_web`
+- [星际大乐透](Relic-interstellar_lotto) · `interstellar_lotto`
+- [无效文字打印机](Relic-invalid_printer) · `invalid_printer`
+- [人造陨石球](Relic-meteorite) · `meteorite`
+- [猜不透匣](Relic-mystery_box) · `mystery_box`
+- [虚无火漆](Relic-nihility_wax) · `nihility_wax`
+- [万识囊](Relic-omniscient_bag) · `omniscient_bag`
+- [「有机心脏」](Relic-organic_heart) · `organic_heart`
+- [和平的代价](Relic-peace_price) · `peace_price`
+- [粉红冲撞](Relic-pink_collision) · `pink_collision`
+- [闪耀的偏方三八面骰](Relic-polyhedral_dice) · `polyhedral_dice`
+- [存护火漆](Relic-preservation_wax) · `preservation_wax`
+- [繁育火漆](Relic-propagation_wax) · `propagation_wax`
+- [朋克洛德精神](Relic-punklorde_spirit) · `punklorde_spirit`
+- [换境桂冠](Relic-realm_crown) · `realm_crown`
+- [记忆火漆](Relic-remembrance_wax) · `remembrance_wax`
+- [阿阮袋](Relic-ruan_pouch) · `ruan_pouch`
+- [鲁珀特帝国机械齿轮](Relic-rubert_gear) · `rubert_gear`
+- [公司咕咕钟](Relic-seal_stamp) · `seal_stamp`
+- [时空棱镜](Relic-spacetime_prism) · `spacetime_prism`
+- [分裂金币](Relic-split_coin) · `split_coin`
+- [分裂银币](Relic-split_silver) · `split_silver`
+- [海绵王](Relic-sponge_king) · `sponge_king`
+- [「楼梯上的水母」](Relic-stair_jellyfish) · `stair_jellyfish`
+- [塔拉毒火焰](Relic-tala_flame) · `tala_flame`
+- [三角滚奏器](Relic-triangle_instrument) · `triangle_instrument`
+- [测不准匣](Relic-uncertainty_box) · `uncertainty_box`
+- [空无烛剪](Relic-void_wick) · `void_wick`
+- [一撮胡须火药](Relic-whisker_powder) · `whisker_powder`
+- [永不停嘴的羊皮卷](Relic-whispering_scroll) · `whispering_scroll`
+- [许愿星](Relic-wish_star) · `wish_star`
+
+## 精华（32）
+
+- [异木果实·精华](Essence-essence_abundance) · `essence_abundance`
+- [湮灭烛剪·精华](Essence-essence_annihilation) · `essence_annihilation`
+- [纯美之袍·精华](Essence-essence_beauty_robe) · `essence_beauty_robe`
+- [龋齿星系模型·精华](Essence-essence_cavity) · `essence_cavity`
+- [信标着色剂·精华](Essence-essence_colorant) · `essence_colorant`
+- [跃迁复眼·精华](Essence-essence_compound_eye) · `essence_compound_eye`
+- [毁灭火漆·精华](Essence-essence_destruction) · `essence_destruction`
+- [降维骰子·精华](Essence-essence_dimensional_dice) · `essence_dimensional_dice`
+- [银河大乐透·精华](Essence-essence_elation) · `essence_elation`
+- [欢愉火漆·精华](Essence-essence_elation_wax) · `essence_elation_wax`
+- [智识火漆·精华](Essence-essence_erudition) · `essence_erudition`
+- [家族缘结·精华](Essence-essence_family) · `essence_family`
+- [天才俱乐部普通八卦·精华](Essence-essence_genius) · `essence_genius`
+- [纯美骑士精神·精华](Essence-essence_harmony) · `essence_harmony`
+- [「有机心脏」·精华](Essence-essence_heart) · `essence_heart`
+- [巡猎火漆·精华](Essence-essence_hunt) · `essence_hunt`
+- [「楼梯上的水母」·精华](Essence-essence_jellyfish) · `essence_jellyfish`
+- [混沌特效灵药·精华](Essence-essence_medicine) · `essence_medicine`
+- [虚无火漆·精华](Essence-essence_nihility) · `essence_nihility`
+- [存护火漆·精华](Essence-essence_preservation) · `essence_preservation`
+- [时空棱镜·精华](Essence-essence_prism) · `essence_prism`
+- [繁育火漆·精华](Essence-essence_propagation) · `essence_propagation`
+- [朋克洛德精神·精华](Essence-essence_punklorde) · `essence_punklorde`
+- [换境桂冠·精华](Essence-essence_realm_crown) · `essence_realm_crown`
+- [记忆火漆·精华](Essence-essence_remembrance) · `essence_remembrance`
+- [邪恶机械卫星#900·精华](Essence-essence_satellite) · `essence_satellite`
+- [永不停嘴的羊皮卷·精华](Essence-essence_scroll) · `essence_scroll`
+- [分裂金币·精华](Essence-essence_split_coin) · `essence_split_coin`
+- [塔拉毒火焰·精华](Essence-essence_tala) · `essence_tala`
+- [黑洞之阱·精华](Essence-essence_trap) · `essence_trap`
+- [空无烛剪·精华](Essence-essence_void_wick) · `essence_void_wick`
+- [一撮胡须火药·精华](Essence-essence_whisker) · `essence_whisker`
+
+## 羁绊（21）
+
+- [丰饶](Synergy-abundance) · `abundance`
+- [星穹列车](Synergy-astral) · `astral`
+- [筑城誓约](Synergy-belobog) · `belobog`
+- [毁灭](Synergy-destruction) · `destruction`
+- [智识](Synergy-erudition) · `erudition`
+- [烈焰编队](Synergy-fire) · `fire`
+- [同谐](Synergy-harmony) · `harmony`
+- [巡猎](Synergy-hunt) · `hunt`
+- [命运剧本](Synergy-hunters) · `hunters`
+- [冻结编队](Synergy-ice) · `ice`
+- [虚数编队](Synergy-imaginary) · `imaginary`
+- [公司筹策](Synergy-ipc) · `ipc`
+- [雷霆编队](Synergy-lightning) · `lightning`
+- [虚无](Synergy-nihility) · `nihility`
+- [坚韧编队](Synergy-physical) · `physical`
+- [存护](Synergy-preservation) · `preservation`
+- [量子编队](Synergy-quantum) · `quantum`
+- [记忆](Synergy-remembrance) · `remembrance`
+- [空间站科员](Synergy-station) · `station`
+- [流风编队](Synergy-wind) · `wind`
+- [仙舟同盟](Synergy-xianzhou) · `xianzhou`
+
+## 敌方条款（32）
+
+- [邻接隔断](EnemyEffect-adjacency_audit) · `adjacency_audit`
+- [群攻摊销](EnemyEffect-attack_aoe) · `attack_aoe`
+- [扩散限额](EnemyEffect-attack_blast) · `attack_blast`
+- [单体附加税](EnemyEffect-attack_single) · `attack_single`
+- [鼹鼠追击税](EnemyEffect-consume_audit) · `consume_audit`
+- [丹恒成长审计](EnemyEffect-danheng_audit) · `danheng_audit`
+- [精华缓释](EnemyEffect-essence_audit) · `essence_audit`
+- [穷观阵裂隙](EnemyEffect-fuxuan_audit) · `fuxuan_audit`
+- [成长折旧](EnemyEffect-growth_audit) · `growth_audit`
+- [医疗折价](EnemyEffect-healing_audit) · `healing_audit`
+- [满血溢价](EnemyEffect-healthy_audit) · `healthy_audit`
+- [黑塔转动折损](EnemyEffect-herta_audit) · `herta_audit`
+- [感电稽核](EnemyEffect-kafka_audit) · `kafka_audit`
+- [六相冰折损](EnemyEffect-march_audit) · `march_audit`
+- [急救限流](EnemyEffect-natasha_audit) · `natasha_audit`
+- [丰饶限流](EnemyEffect-path_abundance) · `path_abundance`
+- [毁灭限额](EnemyEffect-path_destruction) · `path_destruction`
+- [智识稽核](EnemyEffect-path_erudition) · `path_erudition`
+- [同谐隔离](EnemyEffect-path_harmony) · `path_harmony`
+- [巡猎征税](EnemyEffect-path_hunt) · `path_hunt`
+- [虚无审查](EnemyEffect-path_nihility) · `path_nihility`
+- [存护折旧](EnemyEffect-path_preservation) · `path_preservation`
+- [暗杠限额](EnemyEffect-qingque_audit) · `qingque_audit`
+- [裂界污染](EnemyEffect-rift_pollution) · `rift_pollution`
+- [再现滞留](EnemyEffect-seele_audit) · `seele_audit`
+- [护盾折价](EnemyEffect-shield_audit) · `shield_audit`
+- [护盾滞纳金](EnemyEffect-shield_decay) · `shield_decay`
+- [贯穿反击](EnemyEffect-shield_pierce) · `shield_pierce`
+- [升星差额税](EnemyEffect-star_audit) · `star_audit`
+- [追击登记](EnemyEffect-summon_audit) · `summon_audit`
+- [羁绊征收](EnemyEffect-synergy_audit) · `synergy_audit`
+- [禁锢抵抗](EnemyEffect-welt_audit) · `welt_audit`
+
+## 剧情委派（10）
+
+- [太卜司轮值交接](Assignment-divination_shift) · `divination_shift`
+- [智库外勤归档](Assignment-express_archives) · `express_archives`
+- [巡航摄影委派](Assignment-express_photography) · `express_photography`
+- [捉鬼直播收工](Assignment-ghost_hunt_wrap) · `ghost_hunt_wrap`
+- [银鬃情报交接](Assignment-guardian_report) · `guardian_report`
+- [空间站账目结清](Assignment-ipc_settlement) · `ipc_settlement`
+- [朗道装备检修](Assignment-landau_maintenance) · `landau_maintenance`
+- [鼹鼠队探险收工](Assignment-moles_expedition) · `moles_expedition`
+- [十王司结案休假](Assignment-ten_lords_leave) · `ten_lords_leave`
+- [地火拳术集训](Assignment-wildfire_training) · `wildfire_training`
+
+## 完整数据
+
+- [角色完整非美术参数](Data-Cards)
+- [完整内容参数快照](Data-Content)
+- [精华完整非美术参数](Data-Essences)
+- [奇物完整非美术参数](Data-Relics)
+
+## 冻结算法
+
+- [冻结实现：src/ai-profile.js](Source-Ai-Profile)
+- [冻结实现：src/ai-spatial.js](Source-Ai-Spatial)
+- [冻结实现：src/ai-worker.js](Source-Ai-Worker)
+- [冻结实现：src/ai.js](Source-Ai)
+- [冻结实现：manifest.webmanifest](Source-App-Manifest)
+- [冻结实现：src/app.js](Source-App)
+- [冻结实现：src/archetype-reference.js](Source-Archetype-Reference)
+- [冻结实现：src/archetype-simulation.js](Source-Archetype-Simulation)
+- [冻结实现：src/archetypes.js](Source-Archetypes)
+- [冻结实现：src/balance-reference.js](Source-Balance-Reference)
+- [冻结实现：src/balance-v070.js](Source-Balance-V070)
+- [冻结实现：scripts/build-portable.mjs](Source-Build-Build-Portable)
+- [冻结实现：scripts/build.mjs](Source-Build-Build)
+- [冻结实现：scripts/offline-assets.mjs](Source-Build-Offline-Assets)
+- [冻结实现：scripts/server.mjs](Source-Build-Server)
+- [冻结实现：src/content.js](Source-Content)
+- [冻结实现：src/difficulty.js](Source-Difficulty)
+- [冻结实现：src/effect-info.js](Source-Effect-Info)
+- [冻结实现：src/effect-rules.js](Source-Effect-Rules)
+- [冻结实现：src/enemy-effects.js](Source-Enemy-Effects)
+- [冻结实现：src/engine.js](Source-Engine)
+- [冻结实现：src/growth-report.js](Source-Growth-Report)
+- [冻结实现：src/growth-simulation.js](Source-Growth-Simulation)
+- [冻结实现：src/growth-telemetry.js](Source-Growth-Telemetry)
+- [冻结实现：index.html](Source-Index)
+- [冻结实现：src/inspect.js](Source-Inspect)
+- [冻结算法与复原清单](Source-Manifest)
+- [冻结实现：src/mechanics.js](Source-Mechanics)
+- [冻结实现：src/offline.js](Source-Offline)
+- [冻结实现：package-lock.json](Source-Package-Lock)
+- [冻结实现：package.json](Source-Package)
+- [冻结实现：src/retirement-ai.js](Source-Retirement-Ai)
+- [冻结实现：src/retirements.js](Source-Retirements)
+- [冻结实现：src/runtime.js](Source-Runtime)
+- [冻结实现：src/save-transfer.js](Source-Save-Transfer)
+- [冻结实现：service-worker.js](Source-Service-Worker)
+- [冻结实现：src/simulation.js](Source-Simulation)
+- [冻结实现：styles.css](Source-Styles)
+- [冻结实现：src/synergies.js](Source-Synergies)
+- [冻结实现：VERSION](Source-VERSION)
