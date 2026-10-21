@@ -1,13 +1,13 @@
 import { Worker, isMainThread, parentPort, workerData } from 'node:worker_threads';
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { gzipSync } from 'node:zlib';
+import { readFile, writeFile } from 'node:fs/promises';
+import { writeV070Report } from './v070-results-io.mjs';
 import { createHash } from 'node:crypto';
-import { resolve, dirname } from 'node:path';
+import { resolve } from 'node:path';
 import { CHARACTERS } from '../src/content.js';
 import { POLICY_VERSION } from '../src/ai.js';
 import { V070_PROTOCOL, STAGES, ENEMY_SCENARIOS, buildTagStrategies, runCardSample, runLayerSample, runFutureSample, runTagCampaign, summarizeCardSamples, summarizeTagCampaigns, summarizeLayers, summarizeFuture, v070CardMetadata, formalSynergyMetadata, cardComparisons, aggregateCardPanels, summarizeLayerOverview, spatialDesignAudit } from '../src/balance-v070.js';
 
-const SOURCES = ['src/content.js', 'src/retirements.js', 'src/retirement-ai.js', 'src/archetypes.js', 'src/effect-rules.js', 'src/synergies.js', 'src/difficulty.js', 'src/enemy-effects.js', 'src/engine.js', 'src/ai-profile.js', 'src/ai.js', 'src/ai-spatial.js', 'src/simulation.js', 'src/balance-v070.js', 'scripts/balance-v070.mjs'];
+const SOURCES = ['src/content.js', 'src/retirements.js', 'src/retirement-ai.js', 'src/archetypes.js', 'src/effect-rules.js', 'src/synergies.js', 'src/difficulty.js', 'src/enemy-effects.js', 'src/engine.js', 'src/ai-profile.js', 'src/ai.js', 'src/ai-spatial.js', 'src/simulation.js', 'src/balance-v070.js', 'scripts/balance-v070.mjs', 'scripts/v070-results-io.mjs'];
 async function fingerprint() { return Object.fromEntries(await Promise.all(SOURCES.map(async path => [path, createHash('sha256').update(await readFile(new URL(`../${path}`, import.meta.url))).digest('hex')]))); }
 function perform(task, config) {
   if (config.mode === 'campaigns') return runTagCampaign({ seed: `${config.seed}:${config.split}:campaign:${task.sample}`, difficulty: config.difficulty, strategy: task.strategy, strength: config.strength });
@@ -32,13 +32,14 @@ if (!isMainThread) {
   const select = (key, all) => { const selected = option(key, 'all'); if (selected === 'all') return all; const ids = selected.split(','), values = all.filter(row => ids.includes(row.id)); if (!values.length || values.length !== ids.length) throw new Error(`Unknown ${key}`); return values; };
   const mode = option('mode', 'cards'); if (!['cards', 'layers', 'campaigns'].includes(mode)) throw new Error('mode: cards, layers, or campaigns');
   const split = option('split', 'calibration'); if (!['calibration', 'holdout', 'stress'].includes(split)) throw new Error('split: calibration, holdout, or stress');
-  const samples = integer('samples', mode === 'campaigns' ? 100 : 64, 1, 2000), start = integer('start', 0, 0, 100000), workers = integer('workers', 4, 1, 8), difficulty = integer('difficulty', 10, 1, 20), seed = option('seed', 'v070-freeze1'), strength = Number(option('strength', V070_PROTOCOL.preferenceStrength));
+  const samples = integer('samples', mode === 'campaigns' ? V070_PROTOCOL.campaignBatches[0] : V070_PROTOCOL.cardBatches[0], 1, 2000), start = integer('start', 0, 0, 100000), workers = integer('workers', 4, 1, 8), difficulty = integer('difficulty', 10, 1, 20), seed = option('seed', 'v070-freeze1'), strength = Number(option('strength', V070_PROTOCOL.preferenceStrength));
   if (!Number.isFinite(strength) || strength < 0 || strength > 100) throw new Error('strength must be [0,100]'); if (!['true', 'false'].includes(option('future', 'true'))) throw new Error('future: true or false');
   const backgrounds = option('backgrounds', 'generic,compatible').split(','); if (backgrounds.some(id => !['generic', 'compatible'].includes(id)) || new Set(backgrounds).size !== backgrounds.length) throw new Error('Unknown backgrounds');
   const cards = select('cards', CHARACTERS), strategies = select('strategies', buildTagStrategies());
   const config = { mode, samples, start, difficulty, seed, split, strength, backgrounds, stages: select('stages', STAGES), enemies: select('enemies', ENEMY_SCENARIOS), future: option('future', 'true') === 'true' };
   const tasks = []; for (let sample = start; sample < start + samples; sample++) for (const row of mode === 'campaigns' ? strategies : cards) tasks.push({ id: tasks.length, sample, ...(mode === 'campaigns' ? { strategy: row } : { focusId: row.id }) });
-  const output = resolve(option('output', `docs/benchmarks/v070-${mode}-${split}${mode === 'campaigns' ? `-d${difficulty}` : ''}.json.gz`)), sourceHashes = await fingerprint(), results = new Array(tasks.length), workerHashes = [], pool = [];
+  const output = resolve(option('output', `docs/benchmarks/v070-${mode}-${split}${mode === 'campaigns' ? `-d${difficulty}` : ''}.jsonl.gz`)), sourceHashes = await fingerprint(), results = new Array(tasks.length), workerHashes = [], pool = [];
+  if (!/\.jsonl(?:\.gz)?$/.test(output)) throw new Error('New raw reports require .jsonl.gz (or .jsonl); historical .json.gz is read-only compatibility.');
   let dispatched = 0, completed = 0, finished = false, lastLog = -1; const started = performance.now();
   const dispatch = worker => { if (dispatched < tasks.length) { worker.task = tasks[dispatched++]; worker.postMessage(worker.task); } };
   try {
@@ -54,8 +55,8 @@ if (!isMainThread) {
   const summary = mode === 'cards' ? summarizeCardSamples(rows) : mode === 'layers' ? summarizeLayers(rows) : summarizeTagCampaigns(rows, strategies);
   const aggregatePanels = mode === 'cards' ? aggregateCardPanels(rows) : [];
   const report = { gameVersion: JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8')).version, protocol: V070_PROTOCOL, config, spatialDesign: spatialDesignAudit(), policyVersion: POLICY_VERSION, sourceHashes, sourceStable, elapsedMs: Math.round(performance.now() - started), cards: v070CardMetadata(), synergies: formalSynergyMetadata(), strategies: mode === 'campaigns' ? strategies : undefined, summary, layerOverview: mode === 'layers' ? summarizeLayerOverview(rows) : undefined, cardOverview: mode === 'cards' ? summarizeCardSamples(aggregatePanels) : undefined, overviewComparisons: mode === 'cards' ? cardComparisons(aggregatePanels) : undefined, cardComparisons: mode === 'cards' ? cardComparisons(rows) : undefined, futureSummary: summarizeFuture(future), rows, future };
-  await mkdir(dirname(output), { recursive: true }); const json = JSON.stringify(report); await writeFile(output, output.endsWith('.gz') ? gzipSync(json, { level: 9 }) : json + '\n');
-  const summaryOutput = output.replace(/\.json(?:\.gz)?$/, '.summary.json'); await writeFile(summaryOutput, JSON.stringify({ ...report, rows: undefined, future: undefined }, null, 2) + '\n');
+  await writeV070Report(output, report);
+  const summaryOutput = output.replace(/\.jsonl?(?:\.gz)?$/, '.summary.json'); await writeFile(summaryOutput, JSON.stringify({ ...report, rows: undefined, future: undefined }, null, 2) + '\n');
   console.log(`${mode}: ${rows.length} observations; ${future.length} future traces; sourceStable=${sourceStable}; ${report.elapsedMs}ms; ${output}`);
   if (mode === 'campaigns') for (const row of summary) console.log(`${row.id}: ${row.wins}/${row.n}; paired=${row.pairedBaseline.ci95.mean}; ${row.pairedBaseline.status}`);
   if (!sourceStable || mode === 'campaigns' && summary.some(row => row.incomplete)) process.exitCode = 1;

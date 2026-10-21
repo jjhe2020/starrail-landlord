@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { CHARACTERS } from '../src/content.js';
 import { referenceRoster, makeCardScenario, runFutureSample, cardComparisons, ENEMY_SCENARIOS, STAGES } from '../src/balance-v070.js';
 
-test('generic peers are identical across every same-role rarity comparison, over four panels', () => {
+test('generic peers are identical across every same-role rarity comparison, over independent sample panels', () => {
   const strata = new Map(); for (const c of CHARACTERS) { const key = `${c.role}|${c.rarity}`; if (!strata.has(key)) strata.set(key, []); strata.get(key).push(c); }
   for (const group of strata.values()) for (let sample = 0; sample < 4; sample++) {
     const scenarios = group.map(c => makeCardScenario({ focusId: c.id, sample }));
@@ -64,4 +64,11 @@ test('relative equivalence propagates the sampled reference through linear bound
   assert.equal(result.status, 'insufficient');
   assert.equal(assessRelativePerformance(Array(64).fill(30), Array(64).fill(30)).status, 'equivalent');
   assert.equal(assessRelativePerformance(Array(64).fill(60), Array(64).fill(30)).status, 'outside');
+});
+
+test('formal samples draw independent shared peer panels rather than reuse four backgrounds', () => {
+  const panels = Array.from({ length: 128 }, (_, sample) => makeCardScenario({ focusId: '1002', sample }).state.roster.slice(1).map(unit => unit.id).join('|'));
+  assert.ok(new Set(panels).size > 100);
+  const early = makeCardScenario({ focusId: '1002', sample: 13 }), late = makeCardScenario({ focusId: '1002', sample: 13, stage: STAGES[2], enemy: ENEMY_SCENARIOS[3] });
+  assert.deepEqual(early.state.roster.map(unit => unit.id), late.state.roster.map(unit => unit.id));
 });

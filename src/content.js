@@ -284,13 +284,34 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "雷",
     "faction": "星核猎手",
-    "description": "相邻的雷或虚无扩散攻击者本轮对敌伤害增加30%。",
+    "description": "相邻的雷或虚无攻击者本轮对敌伤害增加15%。其中扩散攻击者对敌伤害再增加15%，合计30%。",
     "color": "#e879f9",
     "effects": [
       {
         "type": "vulnerability",
-        "value": 0.3,
-        "summary": "相邻的雷或虚无扩散攻击者本轮对敌伤害增加30%",
+        "value": 0.15,
+        "summary": "相邻的雷或虚无攻击者本轮对敌伤害增加15%",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "adjacent",
+        "stacking": "additive",
+        "scaleWithTraining": true,
+        "filter": {
+          "role": "attack",
+          "anyOf": [
+            {
+              "element": "雷"
+            },
+            {
+              "path": "虚无"
+            }
+          ]
+        }
+      },
+      {
+        "type": "vulnerability",
+        "value": 0.15,
+        "summary": "其中扩散攻击者对敌伤害再增加15%，合计30%",
         "trigger": "appearance",
         "duration": "spin",
         "target": "adjacent",
@@ -330,13 +351,34 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "量子",
     "faction": "星核猎手",
-    "description": "同行的量子或星核猎手单体攻击者本轮对敌伤害增加32%。相邻至少2名量子或虚无伙伴时，本轮敌人反击−1。",
+    "description": "同行的量子或星核猎手攻击者本轮对敌伤害增加20%。其中单体攻击者对敌伤害再增加12%，合计32%。相邻至少2名量子或虚无伙伴时，本轮敌人反击−1。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "vulnerability",
-        "value": 0.32,
-        "summary": "同行的量子或星核猎手单体攻击者本轮对敌伤害增加32%",
+        "value": 0.2,
+        "summary": "同行的量子或星核猎手攻击者本轮对敌伤害增加20%",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "row",
+        "stacking": "additive",
+        "scaleWithTraining": true,
+        "filter": {
+          "role": "attack",
+          "anyOf": [
+            {
+              "element": "量子"
+            },
+            {
+              "faction": "星核猎手"
+            }
+          ]
+        }
+      },
+      {
+        "type": "vulnerability",
+        "value": 0.12,
+        "summary": "其中单体攻击者对敌伤害再增加12%，合计32%",
         "trigger": "appearance",
         "duration": "spin",
         "target": "row",
@@ -4280,13 +4322,13 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "火",
     "faction": "仙舟罗浮",
-    "description": "相邻的火或毁灭扩散攻击者本轮对敌伤害增加32%。",
+    "description": "相邻的火或毁灭扩散攻击者本轮对敌伤害增加36%。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "vulnerability",
-        "value": 0.32,
-        "summary": "相邻的火或毁灭扩散攻击者本轮对敌伤害增加32%",
+        "value": 0.36,
+        "summary": "相邻的火或毁灭扩散攻击者本轮对敌伤害增加36%",
         "trigger": "appearance",
         "duration": "spin",
         "target": "adjacent",
@@ -5469,12 +5511,12 @@ export const CHARACTERS = [
       {
         "type": "growth",
         "value": 0.4,
-        "summary": "每第3次登场，同列的其他星际和平公司或存护永久非培养伙伴中，威力最高1人永久成长+0.4",
+        "summary": "每第2次登场，同列的其他星际和平公司或存护永久非培养伙伴中，威力最高1人永久成长+0.4",
         "trigger": "appearance",
         "duration": "run",
         "target": "column",
         "stacking": "additive",
-        "every": 3,
+        "every": 2,
         "targetLimit": 1,
         "selection": "strongest",
         "scaleWithStars": true,
@@ -5527,7 +5569,7 @@ export const CHARACTERS = [
         }
       }
     ],
-    "description": "每第3次登场，同列的其他星际和平公司或存护永久非培养伙伴中，威力最高1人永久成长+0.4。每第3次登场且相邻有星际和平公司或存护伙伴，获得1信用点。",
+    "description": "每第2次登场，同列的其他星际和平公司或存护永久非培养伙伴中，威力最高1人永久成长+0.4。每第3次登场且相邻有星际和平公司或存护伙伴，获得1信用点。",
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
@@ -5747,7 +5789,7 @@ export const CHARACTERS = [
       {
         "type": "powerMultiplier",
         "value": 1.55,
-        "summary": "相邻的欢愉或假面愚者攻击者本轮威力×1.55",
+        "summary": "相邻的量子、欢愉或假面愚者攻击者本轮威力×1.55",
         "trigger": "appearance",
         "duration": "spin",
         "target": "adjacent",
@@ -5761,6 +5803,9 @@ export const CHARACTERS = [
             },
             {
               "faction": "假面愚者"
+            },
+            {
+              "element": "量子"
             }
           ]
         }
@@ -5782,7 +5827,7 @@ export const CHARACTERS = [
         }
       }
     ],
-    "description": "相邻的欢愉或假面愚者攻击者本轮威力×1.55。每第3次登场且位于角落，获得1信用点。",
+    "description": "相邻的量子、欢愉或假面愚者攻击者本轮威力×1.55。每第3次登场且位于角落，获得1信用点。",
     "adaptation": "本作改编能力；公开名单标注已公布，非官方技能复刻；公开人物画像尚未离线收录，头像为文字标识",
     "officialRarity": 5,
     "publicationStatus": "announced",

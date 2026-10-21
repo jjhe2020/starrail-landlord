@@ -4,7 +4,7 @@ import { recommendAction, createPolicyRandom, sampleRecommendation, DEFAULT_PROF
 import { matchesEffectFilter } from './effect-rules.js';
 import { wilsonInterval } from './simulation.js';
 
-export const V070_PROTOCOL = Object.freeze({ version: 'v070-spatial-balance-v2', cardBatches: [64, 128, 256, 512], campaignBatches: [100, 200, 300, 400], cardMargin: .35, strategyMargin: .10, alpha: .05, looks: 4, futureSpins: 6, preferenceStrength: 10, rosterSize: 12 });
+export const V070_PROTOCOL = Object.freeze({ version: 'v070-spatial-balance-v3', cardBatches: [128, 256, 384, 512], campaignBatches: [100, 200, 300, 400], cardMargin: .35, strategyMargin: .10, alpha: .05, looks: 4, futureSpins: 6, preferenceStrength: 10, rosterSize: 12 });
 export const STAGES = Object.freeze([{ id: 'early', stars: 1, growth: 0, ticks: 0 }, { id: 'mid', stars: 2, growth: 2, ticks: 6 }, { id: 'late', stars: 2, growth: 6, ticks: 12 }]);
 export const ENEMY_SCENARIOS = Object.freeze([
   { id: 'standard', count: 5, hp: 1e7, attack: 5, skill: 'none', boss: false },
@@ -44,10 +44,18 @@ function incompleteBeta(x, a, b) {
   return x < (a + 1) / (a + b + 2) ? factor * betaFraction(a, b, x) / a : 1 - factor * betaFraction(b, a, 1 - x) / b;
 }
 export function studentTCdf(t, df) { if (!(df > 0)) throw new Error('df must be positive'); const tail = .5 * incompleteBeta(df / (df + t * t), df / 2, .5); return t < 0 ? tail : 1 - tail; }
-export function studentTQuantile(probability, df) {
+function calculateStudentTQuantile(probability, df) {
   if (!(probability > 0 && probability < 1 && df > 0)) throw new Error('Invalid Student-t quantile');
   if (probability < .5) return -studentTQuantile(1 - probability, df); let low = 0, high = 1; while (studentTCdf(high, df) < probability) high *= 2;
   for (let i = 0; i < 90; i++) { const middle = (low + high) / 2; if (studentTCdf(middle, df) < probability) low = middle; else high = middle; } return (low + high) / 2;
+}
+const studentTQuantiles = new Map();
+export function studentTQuantile(probability, df) {
+  const key = `${probability}:${df}`;
+  if (studentTQuantiles.has(key)) return studentTQuantiles.get(key);
+  const value = calculateStudentTQuantile(probability, df);
+  studentTQuantiles.set(key, value);
+  return value;
 }
 export function interval(values, confidence = .95) {
   if (values.some(value => !Number.isFinite(value))) throw new Error('Nonfinite observation');
@@ -110,7 +118,7 @@ export function referenceRoster(focusId, background = 'generic', seed = 'referen
 }
 export function layoutForRoster(roster, seed) { const cells = shuffled(Array.from({ length: 20 }, (_, i) => i), seed), layout = Array(20).fill(null); roster.forEach((unit, index) => { layout[cells[index]] = unit.uid; }); return layout; }
 export function makeCardScenario({ focusId, background = 'generic', sample = 0, stage = STAGES[0], enemy = ENEMY_SCENARIOS[0], split = 'calibration', seed = 'v070' } = {}) {
-  const state = newGame({ seed: `${seed}:${split}:card:${sample}` }), roster = referenceRoster(focusId, background, `${seed}:reference:${background}:panel:${hashSeed(`${seed}:reference-panel:${sample}`) % 4}`);
+  const state = newGame({ seed: `${seed}:${split}:card:${sample}` }), roster = referenceRoster(focusId, background, `${seed}:reference:${background}:sample:${sample}`);
   state.roster = roster.map(unit => ({ ...unit, stars: stage.stars, growth: stage.growth, ticks: stage.ticks + sample % 12 })); state.uidCounter = 100;
   state.phase = 'ready'; state.floor = stage.id === 'early' ? 2 : stage.id === 'mid' ? 6 : 10; state.round = sample % 12; state.spinsLeft = 100; state.hp = 300; state.maxHp = 600; state.shield = 0; state.items = []; state.essences = []; state.pendingFloor = false; state.pendingRewards = []; state.choices = []; state.activeDebuffs = []; state.overclockReady = false; state.bossStage = 0; delete state.pollution;
   state.enemySkill = { id: enemy.skill, name: enemy.id, description: '受控敌阵' };
