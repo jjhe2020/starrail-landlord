@@ -84,11 +84,17 @@ NODE_OPTIONS=--max-old-space-size=6144 node scripts/balance-v070.mjs --mode card
 NODE_OPTIONS=--max-old-space-size=6144 node scripts/balance-v070.mjs --mode layers --cards 1001,1002,1009,1004,1303 --samples 64 --workers 2 --split holdout --seed v070-freeze4 --output docs/benchmarks/v070-layers-holdout.jsonl.gz
 NODE_OPTIONS=--max-old-space-size=6144 node scripts/balance-v070.mjs --mode campaigns --samples 100 --workers 4 --split holdout --seed v070-freeze4 --difficulty 10 --output docs/benchmarks/v070-campaigns-holdout-d10.jsonl.gz
 NODE_OPTIONS=--max-old-space-size=6144 node scripts/balance-v070.mjs --mode campaigns --samples 100 --workers 4 --split stress --seed v070-freeze4 --difficulty 20 --output docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz
-NODE_OPTIONS=--max-old-space-size=6144 node scripts/summarize-v070.mjs --inputs docs/benchmarks/v070-cards-holdout.jsonl.gz,docs/benchmarks/v070-layers-holdout.jsonl.gz,docs/benchmarks/v070-campaigns-holdout-d10.jsonl.gz,docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz --output docs/V070-TEST-RESULTS
-NODE_OPTIONS=--max-old-space-size=6144 node scripts/v070-terminal-cards.mjs --inputs docs/benchmarks/v070-campaigns-holdout-d10.jsonl.gz,docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz --output docs/V070-TERMINAL-CARDS.json --final12 true
+NODE_OPTIONS=--max-old-space-size=6144 node scripts/balance-v070.mjs --mode campaigns --samples 150 --start 100 --workers 5 --split holdout --seed v070-freeze4 --difficulty 10 --output docs/benchmarks/v070-campaigns-holdout-d10-s100-249.jsonl.gz
+NODE_OPTIONS=--max-old-space-size=6144 node scripts/balance-v070.mjs --mode campaigns --samples 150 --start 250 --workers 5 --split holdout --seed v070-freeze4 --difficulty 10 --output docs/benchmarks/v070-campaigns-holdout-d10-s250-399.jsonl.gz
+NODE_OPTIONS=--max-old-space-size=8192 node scripts/merge-v070-campaign-shards.mjs --inputs docs/benchmarks/v070-campaigns-holdout-d10.jsonl.gz,docs/benchmarks/v070-campaigns-holdout-d10-s100-249.jsonl.gz,docs/benchmarks/v070-campaigns-holdout-d10-s250-399.jsonl.gz --output docs/benchmarks/v070-campaigns-holdout-d10-n400.jsonl.gz
+NODE_OPTIONS=--max-old-space-size=8192 node scripts/summarize-v070.mjs --inputs docs/benchmarks/v070-cards-holdout.jsonl.gz,docs/benchmarks/v070-layers-holdout.jsonl.gz,docs/benchmarks/v070-campaigns-holdout-d10-n400.jsonl.gz,docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz --output docs/V070-TEST-RESULTS
+NODE_OPTIONS=--max-old-space-size=8192 node scripts/v070-terminal-cards.mjs --inputs docs/benchmarks/v070-campaigns-holdout-d10-n400.jsonl.gz,docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz --output docs/V070-TERMINAL-CARDS.json --final12 true
+node scripts/v070-natural-growth-audit.mjs --inputs docs/benchmarks/v070-campaigns-holdout-d10-n400.jsonl.gz,docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz --output docs/V070-NATURAL-GROWTH.json
 ```
 
-报告生成与三屏、首次离线验证见 [报告界面说明](../report/v070/README.md)。完整观察已包含摘要，单独的 `.summary.json` 是可再生中间文件，不作为另一个独立批次计数。规则冻结后的报告阶段标签与两条DOM版本提示勘误记录在 `docs/benchmarks/v070-analysis-amendments.json`，没有修改实验规则、AI或统计决策。
+两个150种子文件是计算分片，不是额外查看检查点；只有与原100种子的严格并集才作为最终400种子判断。合并文件保留原档SHA、配置、时间与来源，自己不新增任何对局，不能与原分片重复计数。最终共14,500次策略对局，首轮100种子已经包含其中；与历史校准数据分开。
+
+报告生成与三屏、首次离线验证见 [报告界面说明](../report/v070/README.md)，最终使用同批 `--input`、`--terminal`、`--natural` 和经过审读的 `--narrative`。完整观察已包含摘要，单独的 `.summary.json` 是可再生中间文件，不作为另一个独立批次计数。规则冻结后的报告阶段标签与两条DOM版本提示勘误记录在 `docs/benchmarks/v070-analysis-amendments.json`，没有修改实验规则、AI或统计决策。
 
 ## 交付边界
 

@@ -15,7 +15,7 @@
 
 ### 0.7.0 本次实际验证记录（2026-10-21）
 
-标准检查与两种构建已成功。完整 Node 套件共581项：576通过、0失败、5项默认跳过（4个浏览器入口及可选大文件压力入口）。这些跳过项不计为已执行；真实浏览器专项另跑 `effects-browser` 4项、`inspect` 8项、`portable-browser` 6项，均通过。超过V8单字符串上限的573MB流式原始数据写读压力测试也已单独执行通过。
+标准检查与两种构建已成功。加入分片、自然成长与报告来源核验后，GitHub Actions对提交 `4fd0ed751b83691af23eb5e81c829dc9f2e36a02` 的完整 Node 套件共604项：599通过、0失败、5项默认跳过（4个浏览器入口及可选大文件压力入口）；[CI原始记录](https://github.com/jjhe2020/starrail-landlord/actions/runs/39560174816)。这些跳过项不计为已执行；真实浏览器专项另跑 `effects-browser` 4项、`inspect` 8项、`portable-browser` 6项，均通过。超过V8单字符串上限的573MB流式原始数据写读压力测试也已单独执行通过。
 
 最终设置中两条旧版提示修正为0.7后重新构建；未改变冻结规则或AI。准确交付文件 `artifacts/星穹转轮-v0.7.0.html` 为17,838,193字节、169个内嵌资源，SHA-256 `f42544fe831e89007da2ef55af7b754d2d7cb8f0ab8bb84611fe54bd46dcbad1`。该文件以 `file://` 在首次载入前断网执行1440/390/320像素检查：4项浏览器测试、151条界面断言通过，0页面异常。另核对三种宽度的新版设置/存档提示、零外部请求、无横向溢出。证据摘要见 `docs/benchmarks/v070-playable-verification.json`，截图在 `artifacts/qa-v070-release/`。这不是Android、iPad实机验证。
 

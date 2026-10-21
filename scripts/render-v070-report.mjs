@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import { resolve, dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { CHARACTERS } from '../src/content.js';
-import { validateNaturalAudit, naturalDifficultySummaries } from '../report/v070/natural-audit.mjs';
+import { validateNaturalAudit, naturalDifficultySummaries, validateTerminalCohort } from '../report/v070/natural-audit.mjs';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const options=new Map();
@@ -35,6 +35,7 @@ if(terminalData&&measured){
  for(const source of terminalData.sources||[])for(const [path,sha]of Object.entries(source.sourceHashes||{})){if(expected.has(path)){if(expected.get(path)!==sha)throw new Error('Terminal observations use a different source freeze: '+path);matched++;}}
  if(!matched)throw new Error('Terminal observations have no matching frozen source fingerprints.');
 }
+if(terminalData)validateTerminalCohort(terminalData,measured);
 if(measured&&!measured.validation?.ready)throw new Error('Input compact JSON has not passed validation; rejected results are not rendered.');
 const narrative=options.has('narrative')?JSON.parse(await readFile(resolve(root,options.get('narrative')),'utf8')):{};
 const packageInfo=JSON.parse(await readFile(join(root,'package.json'),'utf8'));
