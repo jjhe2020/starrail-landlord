@@ -58,7 +58,7 @@ test('board samples twenty unique instances without replacement', () => {
 test('single attacks use three times power and their own column', () => {
   const next = spin(singleUnit('1002'));
   const cell = next.board.findIndex(Boolean);
-  assert.deepEqual(next.lastSpin.hits, [{ cell, targetCol: cell % 5, amount: 3 }]);
+  assert.deepEqual(next.lastSpin.hits, [{ cell, targetCol: cell % 5, amount: characterById('1002').power * 3 }]);
 });
 
 test('nearest fallback chooses left on ties and ignores dead enemies', () => {
@@ -72,11 +72,11 @@ test('nearest fallback chooses left on ties and ignores dead enemies', () => {
 test('blast targets primary for two times and only immediate occupied neighbors', () => {
   const next = spin(singleUnit('1109'));
   const primary = next.board.findIndex(Boolean) % 5;
-  assert.equal(next.lastSpin.hits.find(hit => hit.targetCol === primary).amount, 2);
+  assert.equal(next.lastSpin.hits.find(hit => hit.targetCol === primary).amount, characterById('1109').power * 2);
   assert.equal(next.lastSpin.hits.length, primary === 0 || primary === 4 ? 2 : 3);
   for (const hit of next.lastSpin.hits.filter(hit => hit.targetCol !== primary)) {
     assert.equal(Math.abs(hit.targetCol - primary), 1);
-    assert.equal(hit.amount, 1);
+    assert.equal(hit.amount, characterById('1109').power);
   }
   const state = singleUnit('1109');
   state.enemies = [state.enemies[0], state.enemies[4]];
@@ -87,11 +87,12 @@ test('AOE attacks hit each living enemy once at standard power', () => {
   const state = singleUnit('1013');
   state.enemies[1].hp = 0;
   const next = spin(state);
-  assert.deepEqual(next.lastSpin.hits.map(h => h.amount), [1, 1, 1, 1]);
+  assert.deepEqual(next.lastSpin.hits.map(h => h.amount), Array(4).fill(characterById('1013').power));
 });
 
 test('support heal and overflow shield count actual gains', () => {
   const state = singleUnit('1203');
+  state.roster.push({uid:'u2',id:'1207',stars:1,growth:0,ticks:0});state.uidCounter=3;
   state.hp = 98;
   const next = spin(state);
   assert.equal(next.lastSpin.damage, 0);
@@ -99,10 +100,12 @@ test('support heal and overflow shield count actual gains', () => {
   assert.equal(next.lastSpin.shield, 4);
   assert.equal(next.resourceStats.healed, 2);
   assert.equal(next.resourceStats.shieldGained, 4);
+  assert.ok(next.lastSpin.effects.some(e=>e.sourceId==='1203'&&e.type==='shield'&&e.amount===3),'three overflow healing becomes shield before the independent one-point medical resonance');
 });
 
 test('capped shield grants do not advance essence progress', () => {
-  const state = singleUnit('1001');
+  const state = singleUnit('1104');
+  state.roster.push({uid:'u2',id:'1102',stars:1,growth:0,ticks:0});state.uidCounter=3;
   state.shield = 199;
   state.essences = [{ id: 'essence_preservation', progress: 28, triggered: false }];
   let next = spin(state);
@@ -114,13 +117,14 @@ test('capped shield grants do not advance essence progress', () => {
   assert.equal(next.essences[0].progress, 29);
 });
 
-test('base armor reduces each hit and Silver Wolf bypasses it', () => {
+test('base armor reduces each hit and an explicit ignore-armor effect bypasses it', () => {
   const armored = singleUnit('1002');
   armored.enemySkill.id = 'armor';
-  assert.equal(spin(armored).lastSpin.damage, 2);
-  const bypassed = singleUnit('1006');
+  assert.equal(spin(armored).lastSpin.damage, characterById('1002').power * 3 - 1);
+  const bypassed = singleUnit('1002');
+  bypassed.items=['punklorde_spirit'];bypassed.round=2;
   bypassed.enemySkill.id = 'armor';
-  assert.equal(spin(bypassed).lastSpin.damage, 12);
+  assert.equal(spin(bypassed).lastSpin.damage, characterById('1002').power * 3);
 });
 
 test('nine copies auto merge to three stars while preserving permanent growth', () => {
@@ -255,9 +259,11 @@ test('removal consumes a resource and invalid actions have no side effects', () 
 });
 
 test('growth stays with the sampled instance and temporary units retire after attacking', () => {
-  const growth = spin(singleUnit('1002', { ticks: 2 }));
-  assert.equal(growth.roster[0].growth, 1);
-  assert.equal(growth.board.find(Boolean).growth, 1);
+  const growing = singleUnit('1002', {ticks:3});
+  growing.roster.push({uid:'u2',id:'1207',stars:1,growth:0,ticks:0});growing.uidCounter=3;
+  const growth = spin(growing);
+  assert.equal(growth.roster[0].growth, .15);
+  assert.equal(growth.board.find(u=>u?.uid==='u1').growth, .15);
   const state = singleUnit('1109', { temporary: 1 });
   state.items.push('insect_web');
   state.hp = 90;
@@ -313,7 +319,7 @@ test('supplies have fixed benefits, two purchases per encounter, and no overcloc
   boosted = purchaseSupply(boosted, 'overclock');
   assert.equal(purchaseSupply(boosted, 'overclock'), boosted);
   const next = spin(boosted);
-  assert.equal(next.lastSpin.damage, 3.6);
+  assert.equal(next.lastSpin.damage, Math.round(characterById('1002').power * 3 * 1.2 * 100)/100);
   assert.equal(next.overclockReady, false);
   assert.equal(purchaseSupply(next, 'barrier'), next, 'supplies require ready phase');
 });

@@ -4127,3 +4127,57 @@ button.catalog-item { width: 100%; text-align: left; align-items: flex-start; }
 .route-pass { color: #a2d0b1; }
 .route-watch { color: #e4c082; }
 .rule-source { color: #d8c28f; white-space: nowrap; }
+
+/* 0.6 roles and bounded party bindings. */
+.binding-tags { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; align-items: center; }
+.role-tag, .binding-tag { max-width: 100%; border: 1px solid #607d9f88; border-radius: 4px; padding: 4px 7px; font: inherit; font-size: 10px; line-height: 1.6; overflow-wrap: anywhere; }
+.role-tag { color: #f0d29c; background: #54452e77; }
+.role-defense { color: #a5dddf; background: #25485288; }
+.role-amplifier { color: #c2b0f2; background: #45345b88; }
+.role-trainer { color: #b5e4ad; background: #304b3888; }
+.role-disruptor { color: #e6aabd; background: #53354188; }
+.binding-tag { color: #b2c8e4; background: #1e3048; cursor: pointer; text-align: left; }
+.binding-tag:hover, .binding-tag:focus-visible { border-color: #b8d7e7; color: #e8f5ff; }
+.binding-targets { border-top: 1px solid #5b6e8544; margin: 6px 0 10px; color: #aabbce; font-size: 10px; line-height: 1.8; overflow-wrap: anywhere; }
+.binding-targets summary { cursor: pointer; min-height: 36px; padding: 9px 0 4px; color: #b9cde3; }
+.card-copy .binding-targets p { font-size: 10px; line-height: 1.8; margin: 5px 0; min-height: 0; }
+.binding-member-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px 12px; margin: 14px 0; }
+.binding-member-list p { margin: 0; padding: 7px 0; border-bottom: 1px solid #5a6b8144; display: flex; flex-direction: column; }
+.binding-member-list span { font-size: 10px; color: #a4b8cf; }
+.cell-power.cell-role { color: #bce3ea; font-size: 13px; min-width: 25px; }
+.version-rules-note { padding: 11px 12px; border: 1px solid #9b855a66; border-radius: 5px; background: #4a3d2933; color: #d1c1a3; font-size: 11px; line-height: 1.9; overflow-wrap: anywhere; }
+.training-breakdown p { font-size: 11px; line-height: 1.9; }
+@media (max-width: 600px) {
+  .binding-tags { gap: 4px; }
+  .binding-tag { min-height: 36px; padding: 6px 8px; }
+  .binding-targets summary { min-height: 40px; }
+  .version-rules-note { font-size: 11px; padding: 10px; }
+  .effect-rules dl > div { grid-template-columns: 58px minmax(0,1fr); }
+  .effect-ledger li { flex-wrap: wrap; }
+  .cell-power.cell-role { font-size: 11px; min-width: 20px; }
+}
+
+/* Give the richer role and binding text a readable column on phones. */
+@media (max-width: 480px) {
+  .reward-cards { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .reward-modal .character-card { display: grid; grid-template-columns: 70px minmax(0, 1fr); align-items: start; }
+  .reward-modal .portrait-stage { height: 114px; border-radius: 7px 0 0 0; }
+  .reward-modal .portrait-stage img { width: 96px; height: 106px; max-width: none; }
+  .reward-modal .portrait-stage:before { width: 66px; height: 66px; left: 50%; }
+  .reward-modal .rarity-label { left: 6px; top: 7px; font-size: 9px; }
+  .reward-modal .card-copy { min-width: 0; padding: 12px 10px; }
+  .reward-modal .card-copy .eyebrow { font-size: 9px; min-height: 12px; }
+  .reward-modal .card-copy h3 { font-size: 18px; margin: 3px 0 8px; }
+  .reward-modal .character-tags > span { font-size: 9px; white-space: normal; }
+  .reward-modal .card-copy > p { min-height: 0; margin: 7px 0; font-size: 10px; }
+  .reward-modal .binding-tags, .reward-modal .archetype-tags { margin: 7px 0; }
+  .reward-modal .binding-tag, .reward-modal .archetype-tag { font-size: 11px; min-height: 36px; }
+  .reward-modal .role-tag { font-size: 11px; }
+  .reward-modal .skill-description { font-size: 12px; line-height: 1.7; min-height: 44px; }
+  .reward-modal .card-copy .button { min-height: 44px; font-size: 12px; }
+  .reward-modal .ai-recommendation { min-height: 52px; font-size: 11px; }
+  .reward-modal .item-card { padding: 18px; }
+}
+
+/* Keep button text and its help caption in explicit blocks for Chromium. */
+.skill-description > span { display: block; }

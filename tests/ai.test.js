@@ -148,15 +148,15 @@ test('policy RNG is reproducible and separate from all engine actions', () => {
 });
 
 test('a useful immediate merge is preferred over equivalent unconnected common characters', () => {
-  const state = offer(['1001', '1001'], ['1001', '1109', '1008']);
+  const state = offer(['1002', '1002', '1001'], ['1002', '1109', '1008']);
   const recommendation = recommendRewards(state, { lookahead: false });
   const preferred = recommendation.choices.reduce((best, choice) => choice.probability > best.probability ? choice : best);
-  assert.equal(preferred.id, '1001');
+  assert.equal(preferred.id, '1002');
   assert.match(preferred.reason, /三合一/);
 });
 
 test('policy detects chained third-star merges', () => {
-  const state = offer(['1001', '1001', '1001', '1001'], ['1001', '1109', '1008']);
+  const state = offer(['1002', '1002', '1002', '1002', '1001'], ['1002', '1109', '1008']);
   state.roster[0].stars = 2;
   state.roster[1].stars = 2;
   const recommendation = recommendRewards(state, { lookahead: false });

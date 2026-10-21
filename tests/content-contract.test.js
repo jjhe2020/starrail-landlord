@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { CHARACTERS, ITEMS, ESSENCES, characterById } from '../src/content.js';
 import { newGame, spin, skipReward, rerollRewards, chooseReward, validateSave } from '../src/engine.js';
-import { EFFECT_TYPES, EFFECT_TRIGGERS } from '../src/effect-rules.js';
+import { EFFECT_TYPES, EFFECT_TRIGGERS, matchesEffectFilter } from '../src/effect-rules.js';
 
 test('source-checked content pools contain 90 independent characters, 64 curios and 32 essences', () => {
   for (const [rows, count] of [[CHARACTERS, 90], [ITEMS, 64], [ESSENCES, 32]]) {
@@ -36,7 +36,10 @@ test('source-checked content pools contain 90 independent characters, 64 curios 
   };
   for (const [kind, rows] of [['characters', CHARACTERS], ['items', ITEMS], ['essences', ESSENCES]]) {
     for (const id of previousIds[kind]) assert.ok(rows.some(row => row.id === id), 'Stable save ID ' + id);
-    for (const row of rows) assert.equal(row.effects.every(effect => effect.legacy), previousIds[kind].includes(row.id), row.id);
+    for (const row of rows) {
+      if (kind === 'characters') assert.ok(row.kitVersion === 6 && row.effects.every(effect => !effect.legacy), row.id);
+      else assert.equal(row.effects.every(effect => effect.legacy), previousIds[kind].includes(row.id), row.id);
+    }
   }
 });
 
@@ -76,28 +79,32 @@ test('all character and curio images retain verified local source bytes and ever
 // fixtures deliberately observe game outcomes rather than effect log text.
 // Definitions are restored in finally; tests in this file run sequentially.
 const all=[...CHARACTERS.map(d=>({kind:'character',d})),...ITEMS.map(d=>({kind:'item',d})),...ESSENCES.map(d=>({kind:'essence',d}))];
-const matches=(c,f={})=>['path','element','faction','attack'].every(k=>(f[k]===undefined||c[k]===f[k])&&(f[k+'Not']===undefined||c[k]!==f[k+'Not']));
+const matches=(c,f={})=>matchesEffectFilter({id:c.id,uid:c.id,stars:f.starsMin||1,...(f.temporary?{temporary:2}:{})},f);
 const safeIds=['1002','1103','1111','1206','1210','1109','1312','1405','1305','1001','1105'];
-const pick=f=>safeIds.map(characterById).find(c=>matches(c,f)&&c.attack!=='support')||CHARACTERS.find(c=>matches(c,f)&&c.attack!=='support')||CHARACTERS.find(c=>matches(c,f))||characterById('1002');
+const pick=(f,excludedId)=>safeIds.map(characterById).find(c=>c.id!==excludedId&&matches(c,f)&&c.attack!=='support')||CHARACTERS.find(c=>c.id!==excludedId&&matches(c,f)&&c.attack!=='support')||CHARACTERS.find(c=>c.id!==excludedId&&matches(c,f))||characterById('1002');
 function fixture(entry,effect,seed){
  const state=newGame({seed:`effect-probe:${entry.d.id}:${seed}`});
  let fillers=Array(19).fill('1002');
- const requests=[effect.filter,effect.per?.filter,...[effect.condition,...(effect.conditions||[])].filter(c=>c?.metric==='present').map(c=>c.filter)].filter(f=>f&&Object.keys(f).length);
- if(requests.length)fillers=Array.from({length:19},(_,i)=>pick(requests[i%requests.length]).id);
+ const requests=[effect.filter,effect.per?.filter,...[effect.condition,...(effect.conditions||[])].filter(c=>['present','presentDistinct','neighbors'].includes(c?.metric)).map(c=>c.filter)].filter(f=>f&&Object.keys(f).length);
+ if(requests.length)fillers=Array.from({length:19},(_,i)=>pick(requests[i%requests.length],entry.d.id).id);
  const first=entry.kind==='character'?entry.d.id:'1002';
- if(effect.type==='healMultiplier')fillers=Array(19).fill('1105');
- if(effect.type==='shieldMultiplier')fillers=Array(19).fill('1001');
- if(effect.type==='buffMultiplier')fillers=['1009',...Array(18).fill('1002')];
- if(effect.type==='growthMultiplier')fillers=Array(19).fill('1002');
+ if(effect.type==='healMultiplier')fillers=['1105',...Array(18).fill('1102')];
+ if(effect.type==='shieldMultiplier'){
+  const defender=CHARACTERS.find(c=>matches(c,effect.filter)&&c.effects.some(e=>e.type==='shield'))||characterById('1001');
+  const partner=CHARACTERS.find(c=>c.role==='attack'&&c.groups.some(g=>defender.groups.includes(g)))||characterById('1002');
+  fillers=[defender.id,...Array(18).fill(partner.id)];
+ }
+ if(effect.type==='buffMultiplier')fillers=['1101',...Array(18).fill('1102')];
+ if(effect.type==='growthMultiplier')fillers=['1207',...Array(18).fill('1002')];
  let ids=[first,...fillers];
  if([effect.condition,...(effect.conditions||[])].some(c=>c&&c.metric==='neighbors'&&((c.op==='eq'&&c.value===0)||(c.op==='lte'&&c.value<=1))))ids=[first];
  if([effect.condition,...(effect.conditions||[])].some(c=>c?.metric==='roster'&&c.op==='lte'))ids=ids.slice(0,8);
  if([effect.condition,...(effect.conditions||[])].some(c=>c?.metric==='synergies'))ids=CHARACTERS.slice(0,20).map(c=>c.id);
  if(effect.trigger==='kill')ids=[first];
- state.roster=ids.map((id,index)=>({uid:`u${index+1}`,id,stars:1,growth:0,ticks:effect.every&&entry.kind==='character'?effect.every-1:effect.type==='growthMultiplier'?2:0}));
+ state.roster=ids.map((id,index)=>({uid:`u${index+1}`,id,stars:1,growth:0,ticks:effect.every&&entry.kind==='character'?effect.every-1:effect.type==='growthMultiplier'?1:0}));
  if(effect.filter?.starsMin>=2)state.roster.forEach(u=>{u.stars=effect.filter.starsMin;});
  state.uidCounter=ids.length+1;
- state.hp=30;state.shield=30;state.coins=60;state.rerolls=10;state.removals=10;
+ state.hp=30;state.shield=0;state.coins=60;state.rerolls=10;state.removals=10;
  state.round=entry.kind!=='character'&&effect.every?effect.every-1:0;state.spinsLeft=90;state.encounter.deadline=100;
  state.enemies=Array.from({length:5},(_,col)=>({id:`probe-${col}`,name:'训练靶',col,hp:100000,maxHp:100000,attack:2,boss:false}));
  state.enemySkill={id:'armor',name:'装甲校验',description:'每次命中减少1伤害'};
@@ -107,10 +114,12 @@ function fixture(entry,effect,seed){
   if(condition.metric==='coins')state.coins=condition.op==='lte'?0:90;
   if(condition.metric==='enemies'&&['eq','lte'].includes(condition.op))state.enemies=state.enemies.slice(0,condition.value);
  }
+ if(effect.type==='damage'&&entry.kind==='character'&&entry.d.role==='attack')state.roster[0].growth=4;
+ if(effect.per?.metric==='emptyColumns')state.enemies=state.enemies.slice(0,2);
  if(effect.per?.metric==='coins')state.coins=90;
  if(effect.per?.metric==='missingHp')state.hp=20;
- if(effect.per?.metric==='retirements'||effect.filter?.temporary||effect.per?.filter?.temporary||effect.type==='consume'){
-  state.roster.slice(1,7).forEach(u=>{u.temporary=effect.per?.metric==='retirements'?1:2;});
+ if(effect.per?.metric==='retirements'||effect.condition?.metric==='retirements'||effect.filter?.temporary||effect.per?.filter?.temporary||effect.type==='consume'){
+  state.roster.slice(1,7).forEach(u=>{u.temporary=effect.per?.metric==='retirements'||effect.condition?.metric==='retirements'?1:2;});
  }
  if(effect.trigger==='kill')state.enemies.forEach(enemy=>{enemy.hp=1;});
  if(entry.kind==='item')state.items=[entry.d.id];
@@ -133,7 +142,7 @@ function perform(entry,effect,seed){
   if(metric==='removals')state.resourceStats.removalsUsed=entry.d.target;
   if(metric==='creditsSpent')state.resourceStats.creditsSpent=entry.d.target;
   if(metric==='merges')state.stats.merges=entry.d.target;
-  if(metric==='healing')state.roster.push({uid:`u${state.uidCounter++}`,id:'1105',stars:1,ticks:0,growth:0});
+  if(metric==='healing'){state.roster.push({uid:`u${state.uidCounter++}`,id:'1105',stars:1,ticks:0,growth:0});state.roster.push({uid:`u${state.uidCounter++}`,id:'1102',stars:1,ticks:0,growth:0});}
   if(metric==='shield')state.roster.push({uid:`u${state.uidCounter++}`,id:'1001',stars:1,ticks:0,growth:0});
   if(metric==='retirements')state.roster.slice(1,4).forEach(u=>{u.temporary=1;});
   if(metric==='synergies'){state.roster=CHARACTERS.slice(0,20).map((c,i)=>({id:c.id,uid:`u${i+1}`,stars:1,ticks:0,growth:0}));state.uidCounter=21;}
@@ -147,10 +156,10 @@ function perform(entry,effect,seed){
  return spin(state);
 }
 function measure(s,e){
- if(['power','powerMultiplier','damage','ignoreArmor','consume'].includes(e.type))return s.lastSpin.damage;
+ if(['power','powerMultiplier','damage','ignoreArmor','consume','vulnerability'].includes(e.type))return s.lastSpin.damage;
  if(['heal','healMultiplier'].includes(e.type))return s.resourceStats.healed;
  if(['shield','shieldMultiplier'].includes(e.type))return s.resourceStats.shieldGained;
- if(e.type==='growth'||e.type==='growthMultiplier')return s.roster.filter(u=>characterById(u.id).attack!=='support').map(u=>`${u.uid}:${u.growth}`).join('|');
+ if(e.type==='growth'||e.type==='growthMultiplier')return s.roster.map(u=>`${u.uid}:${u.growth}`).join('|');
  if(e.type==='resource')return s[e.resource];
  if(e.type==='selfDamage')return s.resourceStats.hpLost;
  if(e.type==='maxHp')return s.maxHp;

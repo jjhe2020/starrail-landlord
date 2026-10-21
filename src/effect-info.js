@@ -1,3 +1,5 @@
+import { BINDING_GROUPS, CHARACTERS } from './content.js';
+
 // Presentation of explicit rule metadata. Never infer duration from prose.
 const durations = {
   instant: ['即时结算', '当次修改生命、护盾或其他资源；已经获得的资源按各自规则保留。'],
@@ -29,6 +31,7 @@ const typeNames = {
   rerolls: '获得重掷', removal: '获得移除', summon: '召唤临时角色', consume: '消耗临时角色',
   buff: '提供支援', armorIgnore: '无视装甲', incomingReduction: '降低反击',
   incomingMultiplier: '反击减伤', maxHp: '生命上限', followUp: '追加攻击',
+  vulnerability: '限定易伤', retaliationFlat: '固定反击减伤', retaliationMultiplier: '倍率反击减伤',
 };
 const stackingNames = {
   add: '同类数值相加', additive: '同类数值相加', multiply: '按倍率相乘', multiplicative: '按倍率相乘', once: '单个来源只结算一次', unique: '同名来源只生效一份',
@@ -36,6 +39,40 @@ const stackingNames = {
   accumulate: '永久累计，随实例与合成保留', none: '不叠加', resource: '进账后保留，消耗后减少', counter: '累计计数，达到条件后结算',
 };
 const readable = value => typeof value === 'string' && /[\u3400-\u9fff]/u.test(value);
+const roleNames = { attack: '攻击', defense: '防御', amplifier: '即时增幅', trainer: '永久培养', disruptor: '敌方干扰' };
+export function characterRole(entry) {
+  return entry?.roleLabel || roleNames[entry?.role] || (entry?.attack === 'support' ? '支援' : '攻击');
+}
+export function characterBindings(entry) {
+  return (entry?.groups || []).map(id => BINDING_GROUPS.find(group => group.id === id)).filter(Boolean);
+}
+export function trainingSummary(entry, growth = 0) {
+  if (entry?.role === 'attack' || (!entry?.role && entry?.attack !== 'support')) return `攻击成长 +${Math.round(growth * 100) / 100}`;
+  if (entry?.role === 'trainer') return '培养主持 · 不接受永久培养，培养量不自乘';
+  const multiplier = 1 + Math.min(Math.max(0, growth), 12) * .08;
+  return `职能培养 +${Math.round(growth * 100) / 100} · 可培养支援效能 ×${Math.round(multiplier * 100) / 100}`;
+}
+export function effectFilterLabel(filter) {
+  if (!filter || typeof filter !== 'object') return '';
+  const roles = filter.roles || (filter.role ? [filter.role] : []);
+  const groups = filter.groupsAny || filter.groups || (filter.group ? [filter.group] : []);
+  const groupLabel = groups.map(id => BINDING_GROUPS.find(group => group.id === id)?.name || id).join('或');
+  const tags = [filter.path, filter.element, filter.faction, filter.factionNot && `非${filter.factionNot}`, filter.pathNot && `非${filter.pathNot}`, filter.elementNot && `非${filter.elementNot}`, filter.attack && ({ single: '单体', blast: '扩散', aoe: '群体', support: '支援' }[filter.attack]), filter.attackNot === 'support' && '攻击角色', ...roles.map(role => roleNames[role] || role), filter.roleNot && `非${roleNames[filter.roleNot] || filter.roleNot}主职`, groupLabel, filter.temporary === true && '临时角色', filter.temporary === false && '永久角色', filter.commission === true && '见习委派', filter.commission === false && '排除见习', filter.starsMin && `至少${filter.starsMin}星`, filter.starsMax && `至多${filter.starsMax}星`, filter.excludeSelf && '排除自身'].filter(Boolean);
+  const ids = filter.ids || (filter.id ? [filter.id] : []);
+  if (ids.length) {
+    const exactGroup = BINDING_GROUPS.find(group => group.memberIds.length === ids.length && group.memberIds.every(id => ids.includes(id)));
+    tags.push(exactGroup ? exactGroup.name : ids.map(id => CHARACTERS.find(entry => entry.id === id)?.name || id).join('、'));
+  }
+  return tags.join('／');
+}
+function conditionLabel(condition) {
+  if (!condition) return '';
+  const metrics = { present: '同场人数', presentDistinct: '同场不同身份', neighbors: '相邻八格人数', roster: '编队人数', hpRatio: '生命比例', missingHp: '已损生命', shield: '现有护盾', coins: '信用点', ticks: '自身累计登场', stars: '自身星级', growth: '自身培养', round: '本关转动次数', floor: '关卡', enemies: '存活敌人数', emptyColumns: '空敌列数', blocked: '本轮真实抵伤', hpLost: '本轮损失生命', kills: '本轮击破', retirements: '本轮退场', sourcePower: '来源最终攻击威力' };
+  const filter = effectFilterLabel(condition.filter);
+  const op = { gte: '至少', lte: '至多', lt: '小于', gt: '大于', eq: '等于', mod: '为非零的倍数：' }[condition.op || 'gte'] || '至少';
+  const value = condition.metric === 'hpRatio' ? `${Math.round(condition.value * 100)}%` : condition.value;
+  return `${filter ? `${filter}的` : ''}${metrics[condition.metric] || '技能计数'}${condition.value === undefined ? '' : `${op}${value}`}`;
+}
 export function durationInfo(value) {
   const aliases = { permanent: 'run', turn: 'spin', floor: 'encounter', owned: 'whileOwned', next: 'nextSpin' };
   const key = aliases[value] || value;
@@ -57,19 +94,31 @@ export function effectRows(entry) {
     let target = resourceTargets[effect.type] || labelFor(effect.target, targetNames, '按技能指定目标');
     if (!resourceTargets[effect.type] && effect.scope === 'members' && effect.target === 'self') target = '本次登场的本羁绊成员';
     if (effect.type === 'damage') target = ['team','all','enemies'].includes(effect.target) ? '所有存活敌人' : effect.excludeOriginColumn ? '来源格以外的最近存活敌列' : '来源对应列的敌人；空列找最近存活敌人';
+    if (effect.type === 'vulnerability') target = '本轮敌人 · 仅匹配攻击者的伤害受益';
     const filter = effect.filter;
     if (filter && typeof filter === 'object') {
-      const tags = [filter.path, filter.element, filter.faction, filter.factionNot && `非${filter.factionNot}`, filter.pathNot && `非${filter.pathNot}`, filter.elementNot && `非${filter.elementNot}`, filter.attack && ({ single: '单体', blast: '扩散', aoe: '群体', support: '辅助' }[filter.attack]), filter.attackNot === 'support' && '攻击角色', filter.temporary === true && '临时角色', filter.temporary === false && '永久角色', filter.starsMin && `至少${filter.starsMin}星`, filter.starsMax && `至多${filter.starsMax}星`].filter(Boolean);
-      if (tags.length) target += ` · ${effect.type === 'damage' ? '来源角色：' : ''}${tags.join('／')}`;
+      const tags = effectFilterLabel(filter);
+      if (tags) target += ` · ${effect.type === 'damage' ? '来源角色：' : effect.type === 'vulnerability' ? '攻击者：' : ''}${tags}`;
     }
+    if (Number.isInteger(effect.targetLimit)) target += ` · 最多${effect.targetLimit}名（按目标选择规则）`;
     let trigger = labelFor(effect.trigger || effect.timing, triggerNames, '按说明条件触发');
     if (effect.stage === 'afterAttacks' || (effect.type === 'damage' && ['appearance','spin','retire'].includes(effect.trigger))) trigger += '，常规攻击后结算';
     if (effect.stage === 'afterRetaliation') trigger = '反击后仍存活时';
     const repeat = Number.isFinite(effect.every) && effect.every > 1 ? `（每 ${effect.every} 次）` : '';
-    const stacking = labelFor(effect.stacking, stackingNames, duration.key === 'spin' ? '同次可叠加，下次重新计算' : duration.key === 'resource' ? '资源累加，消耗后减少' : '按来源规则结算');
+    const conditions = [effect.condition, ...(effect.conditions || [])].filter(Boolean).map(conditionLabel);
+    if (effect.per) conditions.push(`效果按${conditionLabel(effect.per)}计算${Number.isFinite(effect.per.cap) ? `，最多计 ${effect.per.cap}` : ''}`);
+    let stacking = labelFor(effect.stacking, stackingNames, duration.key === 'spin' ? '同次可叠加，下次重新计算' : duration.key === 'resource' ? '资源累加，消耗后减少' : '按来源规则结算');
+    if (effect.type === 'vulnerability') stacking += '；同次匹配易伤总增量上限75%';
+    if (entry.role === 'amplifier' && effect.type === 'powerMultiplier') stacking += '；角色即时增幅同类总倍率上限×2.2';
+    if (effect.type === 'retaliationFlat') stacking += '；本轮总平减最多为基础反击的45%';
+    if (effect.type === 'retaliationMultiplier') stacking += '；平减后应用倍率减伤，合计最多减60%（倍率保底×0.4）';
     const scales = effect.scaleWithStars ?? effect.starScale;
-    const scaling = scales === true ? '数值随星级倍率变化' : scales === false ? '固定数值，不随星级倍增' : '';
-    return { label: effect.label || effect.summary || typeNames[effect.type] || '机制效果', duration, trigger: trigger + repeat, target, stacking, scaling };
+    let scaling = scales === true && Array.isArray(effect.starFactors) ? `温和星级：1 / 2 / 3 星分别 ×${effect.starFactors.slice(1, 4).join(' / ')}` : scales === true ? '数值随星级倍率变化' : scales === false ? '固定数值，不随星级倍增' : '';
+    if (effect.scaleWithSourcePower) scaling += `${scaling ? '；' : ''}再乘来源最终攻击威力，可与人数条件同时生效`;
+    if (effect.scaleWithTraining) scaling += `${scaling ? '；' : ''}职能培养：每点 +8%，最多计 12 点（×1.96）`;
+    if (effect.scaleWithTraining && ['powerMultiplier', 'retaliationMultiplier', 'healMultiplier', 'shieldMultiplier', 'buffMultiplier', 'growthMultiplier'].includes(effect.type)) scaling += '；只放大倍率相对1的增益或减伤部分';
+    if (effect.type === 'growth') scaling += `${scaling ? '；' : ''}培养量不被培养自身放大；培养主持不接受培养`;
+    return { label: effect.label || effect.summary || typeNames[effect.type] || '机制效果', duration, trigger: trigger + repeat, target, stacking, scaling, conditions: conditions.join('；') };
   });
 }
 export function effectBadges(entry) {

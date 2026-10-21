@@ -117,3 +117,37 @@ test('finite loop forecast matches independent real-engine seeds within a useful
   }
   assert.ok(Math.abs(completed / 100 - expected) < 0.35, `observed=${completed / 100}, expected=${expected}`);
 });
+
+
+test('high-star commission training uses gentle factors while its immediate attack bonus retains normal star scaling', () => {
+  const state = fixture(['1003', '1001', '1001'], 2);
+  const base = estimateRetirementsForAi(state, { horizon: 20 });
+  assert.ok(base.growthRates.get('u1') > 0);
+  assert.ok(base.powerAdds.get('u1') > 0);
+  for (const [stars, growthFactor, powerFactor] of [[2, 1.5, 3], [3, 2, 9]]) {
+    const promoted = structuredClone(state); promoted.roster[0].stars = stars;
+    const forecast = estimateRetirementsForAi(promoted, { horizon: 20 });
+    assert.ok(Math.abs(forecast.growthRates.get('u1') / base.growthRates.get('u1') - growthFactor) < 1e-12);
+    assert.ok(Math.abs(forecast.powerAdds.get('u1') / base.powerAdds.get('u1') - powerFactor) < 1e-12);
+    const audited = structuredClone(promoted); audited.activeDebuffs = [{ id: 'star_audit' }];
+    const penalized = estimateRetirementsForAi(audited, { horizon: 20 });
+    assert.ok(Math.abs(penalized.growthRates.get('u1') / forecast.growthRates.get('u1') - 0.8) < 1e-12);
+    assert.ok(Math.abs(penalized.powerAdds.get('u1') / forecast.powerAdds.get('u1') - 0.8) < 1e-12);
+  }
+  let matched = false;
+  for (let seed = 0; seed < 32; seed++) {
+    const ready = structuredClone(state); ready.rngState = newGame({ seed: `commission-star-${seed}` }).rngState;
+    const ordinary = spin(ready);
+    if (!ordinary.retirementStats.completed) continue;
+    matched = true;
+    assert.equal(ordinary.roster.find(unit => unit.id === '1003').growth, 0.35);
+    for (const [stars, expected] of [[2, 0.525], [3, 0.7]]) {
+      const promoted = structuredClone(ready); promoted.roster[0].stars = stars;
+      assert.ok(Math.abs(spin(promoted).roster.find(unit => unit.id === '1003').growth - expected) <= 0.0051);
+    }
+    const audited = structuredClone(ready); audited.roster[0].stars = 3; audited.activeDebuffs = [{ id: 'star_audit' }];
+    assert.equal(spin(audited).roster.find(unit => unit.id === '1003').growth, 0.56);
+    break;
+  }
+  assert.ok(matched, 'independent seeded adjacency probes must exercise an actual commission');
+});

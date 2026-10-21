@@ -5,7 +5,7 @@ import { wilsonInterval } from './simulation.js';
 import { isPolluted } from './enemy-effects.js';
 import * as archetypes from './archetypes.js';
 
-export const ARCHETYPE_BENCHMARK_VERSION = 'archetype-campaign-v3-survival';
+export const ARCHETYPE_BENCHMARK_VERSION = 'archetype-campaign-v4-bound-roles';
 export const PROBE_PROTOCOL = Object.freeze({ version: 'canonical-spin-v1', enemyCount: 5, enemyHp: 1000000, enemyAttack: 5, hpFraction: 0.5, defenseWeight: 0.36, activeDebuffs: false, overclock: false, samples: 3 });
 const REWARDS = ['recruit', 'item', 'essence'];
 const TERMINAL = ['victory', 'defeat'];
@@ -309,17 +309,15 @@ export function summarizeArchetypeBenchmark(results, strategies = buildArchetype
     });
     const formation = { n: completed, enrolledN: n, censoredIncomplete: n - completed, observedFormedIncludingIncomplete: campaigns.filter(campaign => focusedIds.some(id => formationTimes(campaign)[id] !== undefined)).length, formed: formed.length, neverFormed: unformed.length, rate: completed ? formed.length / completed : null, ci95: wilsonInterval(formed.length, completed), turn: meanInterval(perRun.formationTurn), formedWins: formed.filter(campaign => campaign.phase === 'victory').length, formedLosses: formed.filter(campaign => campaign.phase === 'defeat').length, unformedWins: unformed.filter(campaign => campaign.phase === 'victory').length, unformedLosses: unformed.filter(campaign => campaign.phase === 'defeat').length };
     const beforeFormation = meanInterval(perRun.before), afterFormation = meanInterval(perRun.after), effectsOnlyPowerRatio = meanInterval(perRun.immediateRatio), effectsOnlyGrowthPerSpin = meanInterval(perRun.growthEffect);
+    // v0.6 deliberately removes archetype auto-growth. Report association and
+    // mechanism sizes separately; the old v0.5 compensation targets do not apply.
     const checks = strategy.kind === 'baseline' ? null : {
-      preFormationBelowBaseline: beforeFormation.mean !== null && beforeFormation.mean < 1,
-      formedProgressAtLeast110: afterFormation.mean !== null && afterFormation.mean >= 1.1,
-      effectsOnlyPowerAtLeast115: effectsOnlyPowerRatio.mean !== null && effectsOnlyPowerRatio.mean >= 1.15,
-      effectsOnlyGrowthAtLeast05: effectsOnlyGrowthPerSpin.mean !== null && effectsOnlyGrowthPerSpin.mean >= 0.5,
+      effectsOnlyNotNegative: effectsOnlyPowerRatio.mean !== null && effectsOnlyPowerRatio.mean >= 1 - 1e-6,
+      noArchetypeAutoGrowth: effectsOnlyGrowthPerSpin.mean !== null && Math.abs(effectsOnlyGrowthPerSpin.mean) < 1e-6,
       statisticallyClearEffects: effectsOnlyPowerRatio.ci95[0] !== null && effectsOnlyPowerRatio.ci95[0] > 1,
       incompleteZero: campaigns.every(campaign => !campaign.stopped),
     };
-    if (checks) checks.passesDesignPointEstimate = checks.preFormationBelowBaseline && checks.incompleteZero
-      && (checks.formedProgressAtLeast110 || checks.effectsOnlyGrowthAtLeast05)
-      && (checks.effectsOnlyPowerAtLeast115 || checks.effectsOnlyGrowthAtLeast05);
+    if (checks) checks.passesRulesRegression = checks.incompleteZero && checks.effectsOnlyNotNegative && checks.noArchetypeAutoGrowth;
     const formationEventWindow = Array.from({ length: 9 }, (_, index) => {
       const offset = index - 3, progress = [], effects = [];
       for (const campaign of campaigns) {
@@ -337,7 +335,7 @@ export function summarizeArchetypeBenchmark(results, strategies = buildArchetype
       beforeFormation, afterFormation, effectsOnlyPowerRatio, effectsOnlyGrowthPerSpin, formationEventWindow, finalAllSampleProgress: meanInterval(perRun.finalProgress), finalFormedCounts: Object.fromEntries([0, 1, 2, 3].map(count => [count, campaigns.filter(campaign => Math.min(3, campaign.finalFormed.length) === count).length])), finalPlannedFormedCounts: Object.fromEntries([0, 1, 2].map(count => [count, campaigns.filter(campaign => Math.min(2, campaign.finalFormed.filter(id => campaign.finalSelected?.includes(id)).length) === count).length])), abandonedRuns: campaigns.filter(campaign => campaign.abandoned.length).length, checks, byTurn };
   });
   return { baselineByTurn: baselineByTurn.map(base => Object.fromEntries(Object.entries(base).map(([key, value]) => [key, typeof value === 'number' ? rounded(value) : value]))), strategies: reports,
-    interpretation: { power: '真实引擎标准敌阵探针：实伤 + 0.36 ×（实治疗 + min(25,实格挡+减伤) − 自伤）', growth: '本次探针实际新增永久威力；保留为独立指标，未把未来威力混进当前战力', progression: '成型前后摘要使用同转仍在对局基线均值作分母；byTurn另外并列全样本进度。v1历史校准的阶段摘要使用全样本基线分母，不能直接跨协议比较', allSample: '全样本平均：死亡当转及以后记0；胜利后保持终局战力；全样本进度与只统计仍在对局样本并列', intervention: '同一状态、同一探针种子，仅关闭目标套路效果；测即时机制贡献，不能推断通关率因果', conditional: '成型后表现、成型事件窗口和成型/未成型胜率属于观察性关联；同时报告未成型失败及各转幸存人数', intervals: '胜率与成型率为Wilson95%；战力/成型回合为以每局为单位的均值正态95%区间；小样本不保证正态近似，n<2不报区间', thresholds: '成型后进度110%、同状态效果115%或每转额外0.5永久威力是预先声明的测试版点估计门槛；checks忠实报告，未通过不宣称平衡完成' } };
+    interpretation: { power: '真实引擎标准敌阵探针：实伤 + 0.36 ×（实治疗 + min(25,实格挡+减伤) − 自伤）', growth: '本次探针实际新增永久培养；攻击者转为威力，支援转为标记职能效能；不混入当前战力', progression: '成型前后摘要使用同转仍在对局基线均值作分母；byTurn另外并列全样本进度。v1历史校准的阶段摘要使用全样本基线分母，不能直接跨协议比较', allSample: '全样本平均：死亡当转及以后记0；胜利后保持终局战力；全样本进度与只统计仍在对局样本并列', intervention: '同一状态、同一探针种子，仅关闭目标套路效果；测即时机制贡献，不能推断通关率因果', conditional: '成型后表现、成型事件窗口和成型/未成型胜率属于观察性关联；同时报告未成型失败及各转幸存人数', intervals: '胜率与成型率为Wilson95%；战力/成型回合为以每局为单位的均值正态95%区间；小样本不保证正态近似，n<2不报区间', thresholds: '0.6规则检查要求无未完成局、同状态套路贡献不为负、无套路自动永久成长；它只验证规则边界，不代表通关难度或所有套路等强。0.5的成长补偿门槛已不适用' } };
 }
 
 export function compactArchetypeCampaign(campaign) {

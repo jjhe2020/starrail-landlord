@@ -1,0 +1,871 @@
+{
+  "version": "card-growth-v1",
+  "measuredVersion": "0.5.0",
+  "seed": "growth-v050-20261021-stress",
+  "difficulty": 20,
+  "runsPerStrategy": 100,
+  "coverageRunsPerTarget": 0,
+  "targets": [],
+  "n": 1100,
+  "protocol": {
+    "version": "card-growth-v1",
+    "difficulty": 10,
+    "probeSamples": 12,
+    "probeEnemyHp": 1000000000,
+    "probeEnemyAttack": 5,
+    "hpFraction": 0.5,
+    "lookahead": false,
+    "strength": 24,
+    "coverageBonus": 80
+  },
+  "policyVersion": "archetype-actions-v7",
+  "profile": {
+    "version": "context-v3-resources",
+    "weights": {
+      "damage": 1,
+      "defense": 0.36,
+      "growth": 0.7,
+      "synergy": 0.9,
+      "merge": 0.85,
+      "economy": 0.32,
+      "tempo": 1.1,
+      "lookahead": 0.55,
+      "dilution": 1.1,
+      "flexibility": 0.7
+    },
+    "temperature": 5,
+    "lookaheadSamples": 4
+  },
+  "sourceHashes": {
+    "src/content.js": "8a147df0e927a62b2616f5a97a780dde8eabc8af9a45a846f3450c4e57d78a81",
+    "src/retirements.js": "22cc5bd413d0a40a1efde600150ed8ad9bb41598373046cfe4a89dbb098c99d2",
+    "src/retirement-ai.js": "218f9c1c1ebda049f69f32dd4e4afb745f916e848165cb4724f65682b75ab639",
+    "src/archetypes.js": "cca33f55a43aec0c3b5fcc77dab56d264e39711e9a5146a94bbe34ca862ba029",
+    "src/effect-rules.js": "ec2da53e5b0595f1ca3a72a256f7ddc2058e125f7ad06dfa9b69f16e10f7236a",
+    "src/synergies.js": "e4833d6b03c58ebbc14ef45f52f7cd55477eb97b04631f9c318212d3d2bd4c01",
+    "src/difficulty.js": "9d0ae20a3b982a7c926a27aba5889f29f761ddb4c68472e3f64afebad175ff5d",
+    "src/enemy-effects.js": "7f11e1043c613da1bae7d7022acf9d17c464400688486f532c155835bd09ea01",
+    "src/engine.js": "dbda782db44f0c2cb73851db2093c0e5122ac17629c8a0b4aede108ba2dd4fc5",
+    "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+    "src/ai.js": "b0231a39f271d35d3a8c74df5e93bbdcc206c24e6780809e3cc681f43e74829c",
+    "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+    "src/archetype-simulation.js": "10249d780e26d0f8cc8fa4cd6b5965a78cf15f1c418adb482220e5f7b414c53d",
+    "src/growth-simulation.js": "612b954c002c4152b2696eec45bb2d09f3812068b17763f76c5a0cf80635de74",
+    "src/growth-telemetry.js": "5b67c1caeef9950651b36b5095f86598cc3641c8ec9f6802daf15d5d8c3943a8",
+    "scripts/growth-balance.mjs": "d1279db9e6990393ff1e1c51b6dd7e7c6b1ff574e04a56c657a53708cbabb983"
+  },
+  "sourceStable": true,
+  "elapsedMs": 890516,
+  "metadata": [
+    {
+      "id": "1001",
+      "name": "三月七",
+      "rarity": "common",
+      "attack": "single",
+      "basePower": 1,
+      "path": "存护",
+      "description": "登场时获得3护盾，保留至抵挡伤害；上限为生命上限的2倍。存在衰减条款时按条款扣除。"
+    },
+    {
+      "id": "1002",
+      "name": "丹恒",
+      "rarity": "common",
+      "attack": "single",
+      "basePower": 1,
+      "path": "巡猎",
+      "description": "每累计登场3次，本实例永久威力+1；跨关保留，合成时继承。"
+    },
+    {
+      "id": "1003",
+      "name": "姬子",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "智识",
+      "description": "本次转动每有1位角色退场，自身本次威力+2；下次转动重新计算。"
+    },
+    {
+      "id": "1004",
+      "name": "瓦尔特",
+      "rarity": "rare",
+      "attack": "single",
+      "basePower": 3,
+      "path": "虚无",
+      "description": "登场时，使本次转动敌人的反击总伤害−2；下次转动失效。"
+    },
+    {
+      "id": "1005",
+      "name": "卡芙卡",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "虚无",
+      "description": "登场时，本次登场的虚无角色威力+1；下次转动重新计算，不永久叠加。"
+    },
+    {
+      "id": "1006",
+      "name": "银狼",
+      "rarity": "rare",
+      "attack": "single",
+      "basePower": 3,
+      "path": "虚无",
+      "description": "登场时，本次全队攻击无视装甲，自身本次威力+1；下次转动失效。"
+    },
+    {
+      "id": "1008",
+      "name": "阿兰",
+      "rarity": "common",
+      "attack": "blast",
+      "basePower": 1,
+      "path": "毁灭",
+      "description": "本次威力结算时，生命不高于上限一半则自身威力×2；生命变化后重新判断。"
+    },
+    {
+      "id": "1009",
+      "name": "艾丝妲",
+      "rarity": "common",
+      "attack": "support",
+      "basePower": 1,
+      "path": "同谐",
+      "description": "登场时，相邻八格角色本次威力+0.5；不会永久叠加。"
+    },
+    {
+      "id": "1013",
+      "name": "黑塔",
+      "rarity": "common",
+      "attack": "aoe",
+      "basePower": 1,
+      "path": "智识",
+      "description": "每第3次登场，自身本次威力+2；其他登场次数不生效。"
+    },
+    {
+      "id": "1101",
+      "name": "布洛妮娅",
+      "rarity": "uncommon",
+      "attack": "support",
+      "basePower": 2,
+      "path": "同谐",
+      "description": "登场时，相邻八格角色本次威力+1；不会永久叠加。"
+    },
+    {
+      "id": "1102",
+      "name": "希儿",
+      "rarity": "rare",
+      "attack": "single",
+      "basePower": 3,
+      "path": "巡猎",
+      "description": "自身击破敌人后，向最近存活列追加1倍自身本次威力攻击；只在本次转动结算。"
+    },
+    {
+      "id": "1103",
+      "name": "希露瓦",
+      "rarity": "common",
+      "attack": "aoe",
+      "basePower": 1,
+      "path": "智识",
+      "description": "本次每有1名相邻雷属性角色，自身本次威力+1；下次转动重新计算。"
+    },
+    {
+      "id": "1104",
+      "name": "杰帕德",
+      "rarity": "uncommon",
+      "attack": "blast",
+      "basePower": 2,
+      "path": "存护",
+      "description": "每次登场获得5护盾，保留至抵挡伤害；存在衰减条款时按条款扣除。"
+    },
+    {
+      "id": "1105",
+      "name": "娜塔莎",
+      "rarity": "common",
+      "attack": "support",
+      "basePower": 1,
+      "path": "丰饶",
+      "description": "每次登场恢复3生命，不能超过生命上限；不产生永久威力。"
+    },
+    {
+      "id": "1106",
+      "name": "佩拉",
+      "rarity": "uncommon",
+      "attack": "blast",
+      "basePower": 2,
+      "path": "虚无",
+      "description": "登场时，相邻冰属性角色本次威力+1，且本次全队攻击无视装甲；下次转动失效。"
+    },
+    {
+      "id": "1107",
+      "name": "克拉拉",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "毁灭",
+      "description": "每累计登场2次，本实例永久威力+1；跨关保留，合成时继承。"
+    },
+    {
+      "id": "1108",
+      "name": "桑博",
+      "rarity": "uncommon",
+      "attack": "single",
+      "basePower": 2,
+      "path": "虚无",
+      "description": "每次登场有25%概率加入临时虎克；从下次转动起可抽到，累计登场3次后退场。"
+    },
+    {
+      "id": "1109",
+      "name": "虎克",
+      "rarity": "common",
+      "attack": "blast",
+      "basePower": 1,
+      "path": "毁灭",
+      "description": "消耗1位相邻临时角色，使自身本次威力+4；被消耗者本次不再攻击。"
+    },
+    {
+      "id": "1205",
+      "name": "刃",
+      "rarity": "legendary",
+      "attack": "blast",
+      "basePower": 4,
+      "path": "毁灭",
+      "description": "每次登场永久威力+0.5，并消耗2生命（不会致死）；星级放大生命消耗，成长跨关保留。"
+    },
+    {
+      "id": "1204",
+      "name": "景元",
+      "rarity": "legendary",
+      "attack": "aoe",
+      "basePower": 4,
+      "path": "智识",
+      "description": "每第2次登场，自身本次威力+2；下次转动按登场计数重新判断。"
+    },
+    {
+      "id": "1203",
+      "name": "罗刹",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "丰饶",
+      "description": "每次登场恢复6生命；自身本次治疗溢出的实际数值转为护盾。"
+    },
+    {
+      "id": "1208",
+      "name": "符玄",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "存护",
+      "description": "每次登场获得6护盾，并使本次敌人反击伤害×0.8；减伤只在本次有效。"
+    },
+    {
+      "id": "1201",
+      "name": "青雀",
+      "rarity": "common",
+      "attack": "blast",
+      "basePower": 1,
+      "path": "智识",
+      "description": "每次登场有20%概率使自身本次威力×4；不改变基础或永久威力。"
+    },
+    {
+      "id": "1202",
+      "name": "停云",
+      "rarity": "uncommon",
+      "attack": "support",
+      "basePower": 2,
+      "path": "同谐",
+      "description": "本次使当前威力最高的其他角色威力+2；并列取格位靠前者，下次转动失效。"
+    },
+    {
+      "id": "1110",
+      "name": "玲可",
+      "rarity": "common",
+      "attack": "support",
+      "basePower": 1,
+      "path": "丰饶",
+      "description": "登场时恢复2生命。登场时生命≤60%，再获得2护盾。"
+    },
+    {
+      "id": "1111",
+      "name": "卢卡",
+      "rarity": "common",
+      "attack": "single",
+      "basePower": 1,
+      "path": "虚无",
+      "description": "每名相邻物理角色使自身本次威力+0.8。"
+    },
+    {
+      "id": "1112",
+      "name": "托帕&账账",
+      "rarity": "rare",
+      "attack": "single",
+      "basePower": 3,
+      "path": "巡猎",
+      "description": "每次登场获得2信用点。自身常规攻击每击破一列敌人，另获2信用点。"
+    },
+    {
+      "id": "1206",
+      "name": "素裳",
+      "rarity": "common",
+      "attack": "single",
+      "basePower": 1,
+      "path": "巡猎",
+      "description": "存活敌人不多于2列时，自身本次威力+1.5。"
+    },
+    {
+      "id": "1207",
+      "name": "驭空",
+      "rarity": "uncommon",
+      "attack": "support",
+      "basePower": 2,
+      "path": "同谐",
+      "description": "本次所有登场的虚数角色威力+0.8。"
+    },
+    {
+      "id": "1209",
+      "name": "彦卿",
+      "rarity": "rare",
+      "attack": "single",
+      "basePower": 3,
+      "path": "巡猎",
+      "description": "轮到自身登场结算时已持有护盾，则自身本次威力×1.35。"
+    },
+    {
+      "id": "1210",
+      "name": "桂乃芬",
+      "rarity": "common",
+      "attack": "blast",
+      "basePower": 1,
+      "path": "虚无",
+      "description": "本次每存活1列敌人，所有虚无角色威力+0.15（最多5列）。"
+    },
+    {
+      "id": "1211",
+      "name": "白露",
+      "rarity": "uncommon",
+      "attack": "support",
+      "basePower": 2,
+      "path": "丰饶",
+      "description": "登场时恢复3生命。治疗后生命仍≤35%，获得4护盾。"
+    },
+    {
+      "id": "1212",
+      "name": "镜流",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "毁灭",
+      "description": "每次登场消耗2生命，最多降至1。生命≤50%时，自身本次威力×1.5。"
+    },
+    {
+      "id": "1214",
+      "name": "雪衣",
+      "rarity": "uncommon",
+      "attack": "blast",
+      "basePower": 2,
+      "path": "毁灭",
+      "description": "每第3次登场，本次常规攻击后向对应列追加6伤害；空列转向最近存活列。"
+    },
+    {
+      "id": "1215",
+      "name": "寒鸦",
+      "rarity": "common",
+      "attack": "support",
+      "basePower": 1,
+      "path": "同谐",
+      "description": "本次每登场1名单体角色，获得1信用点（最多4）。本次威力最高的其他攻击角色威力+0.5。"
+    },
+    {
+      "id": "1217",
+      "name": "藿藿",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "丰饶",
+      "description": "每次登场恢复4生命。每第3次登场，额外获得4护盾。"
+    },
+    {
+      "id": "1218",
+      "name": "椒丘",
+      "rarity": "uncommon",
+      "attack": "blast",
+      "basePower": 2,
+      "path": "虚无",
+      "description": "本次登场至少2名虚无角色时，敌人反击总伤害−1.5。"
+    },
+    {
+      "id": "1220",
+      "name": "飞霄",
+      "rarity": "legendary",
+      "attack": "single",
+      "basePower": 4,
+      "path": "巡猎",
+      "description": "每第3次登场，本次常规攻击后向对应列追加15伤害；空列取最近存活列。"
+    },
+    {
+      "id": "1221",
+      "name": "云璃",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "毁灭",
+      "description": "每次登场获得3护盾。生命≤70%时，自身本次威力×1.3。"
+    },
+    {
+      "id": "1222",
+      "name": "灵砂",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "丰饶",
+      "description": "每次登场恢复3生命。每第4次登场加入临时桂乃芬，下次起可抽到，登场2次后退场。"
+    },
+    {
+      "id": "1223",
+      "name": "貊泽",
+      "rarity": "common",
+      "attack": "single",
+      "basePower": 1,
+      "path": "巡猎",
+      "description": "相邻其他角色不多于1名时，自身本次威力×1.6。"
+    },
+    {
+      "id": "1301",
+      "name": "加拉赫",
+      "rarity": "common",
+      "attack": "support",
+      "basePower": 1,
+      "path": "丰饶",
+      "description": "本次每登场1名火属性角色，恢复1生命（最多4）。"
+    },
+    {
+      "id": "1302",
+      "name": "银枝",
+      "rarity": "uncommon",
+      "attack": "aoe",
+      "basePower": 2,
+      "path": "智识",
+      "description": "每第4次登场，自身本次威力+4。"
+    },
+    {
+      "id": "1303",
+      "name": "阮·梅",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "同谐",
+      "description": "相邻其他角色本次威力+0.8。每第4次登场，使相邻非临时攻击角色各永久威力+0.25。"
+    },
+    {
+      "id": "1304",
+      "name": "砂金",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "存护",
+      "description": "每次登场获得4护盾。获得护盾后当前护盾≥20时，获得1信用点。"
+    },
+    {
+      "id": "1305",
+      "name": "真理医生",
+      "rarity": "rare",
+      "attack": "single",
+      "basePower": 3,
+      "path": "巡猎",
+      "description": "本次常规攻击后，每登场1名虚无角色向对应列追加2伤害（最多4名）。"
+    },
+    {
+      "id": "1306",
+      "name": "花火",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "同谐",
+      "description": "每第3次登场获得1次重掷。相邻其他角色本次威力+0.6。"
+    },
+    {
+      "id": "1307",
+      "name": "黑天鹅",
+      "rarity": "uncommon",
+      "attack": "blast",
+      "basePower": 2,
+      "path": "虚无",
+      "description": "本次每登场1名虚无角色，自身本次威力+0.35（最多5名）。"
+    },
+    {
+      "id": "1308",
+      "name": "黄泉",
+      "rarity": "legendary",
+      "attack": "aoe",
+      "basePower": 4,
+      "path": "虚无",
+      "description": "每第3次登场，本次全队无视装甲。每第3次登场，自身本次威力+2。"
+    },
+    {
+      "id": "1309",
+      "name": "知更鸟",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "同谐",
+      "description": "相邻至少2名角色时，所有登场角色本次威力+0.5。"
+    },
+    {
+      "id": "1310",
+      "name": "流萤",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "毁灭",
+      "description": "每次登场消耗3生命，最多降至1。生命≤55%时，自身本次威力+2。"
+    },
+    {
+      "id": "1312",
+      "name": "米沙",
+      "rarity": "common",
+      "attack": "blast",
+      "basePower": 1,
+      "path": "毁灭",
+      "description": "每第3次登场，自身本次威力×2.5。"
+    },
+    {
+      "id": "1313",
+      "name": "星期日",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "同谐",
+      "description": "所有本次登场的临时角色威力+1.2。本次威力最高的其他攻击角色威力+1。"
+    },
+    {
+      "id": "1314",
+      "name": "翡翠",
+      "rarity": "rare",
+      "attack": "aoe",
+      "basePower": 3,
+      "path": "智识",
+      "description": "消耗1位相邻临时角色，自身本次威力+3。每次登场获得1信用点。"
+    },
+    {
+      "id": "1315",
+      "name": "波提欧",
+      "rarity": "uncommon",
+      "attack": "single",
+      "basePower": 2,
+      "path": "巡猎",
+      "description": "只剩1列敌人时，自身本次威力×1.7。自身常规攻击每击破1列敌人，本实例永久威力+0.25。"
+    },
+    {
+      "id": "1317",
+      "name": "乱破",
+      "rarity": "uncommon",
+      "attack": "aoe",
+      "basePower": 2,
+      "path": "智识",
+      "description": "本次每有1列存活敌人，自身本次威力+0.3（最多5列）。"
+    },
+    {
+      "id": "1402",
+      "name": "阿格莱雅",
+      "rarity": "uncommon",
+      "attack": "support",
+      "basePower": 2,
+      "path": "记忆",
+      "description": "每第3次登场加入临时素裳；下次起可抽到，登场2次后退场。"
+    },
+    {
+      "id": "1403",
+      "name": "缇宝",
+      "rarity": "uncommon",
+      "attack": "support",
+      "basePower": 2,
+      "path": "同谐",
+      "description": "本次每登场1名群体角色，全队本次威力+0.2（最多4名）。"
+    },
+    {
+      "id": "1404",
+      "name": "万敌",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "毁灭",
+      "description": "每次登场消耗4生命，最多降至1。每次登场，本实例永久威力+0.35。"
+    },
+    {
+      "id": "1405",
+      "name": "那刻夏",
+      "rarity": "uncommon",
+      "attack": "aoe",
+      "basePower": 2,
+      "path": "智识",
+      "description": "至少4列敌人存活时，本次全队攻击无视装甲。每第3次登场，自身本次威力+1.5。"
+    },
+    {
+      "id": "1406",
+      "name": "赛飞儿",
+      "rarity": "uncommon",
+      "attack": "single",
+      "basePower": 2,
+      "path": "虚无",
+      "description": "每次登场有35%概率获得4信用点。持有至少30信用点时，自身本次威力×1.2。"
+    },
+    {
+      "id": "1407",
+      "name": "遐蝶",
+      "rarity": "legendary",
+      "attack": "aoe",
+      "basePower": 4,
+      "path": "记忆",
+      "description": "本次每登场1名临时角色，自身本次威力+0.5（最多4名）。每第4次登场加入临时丹恒；下次起可抽到，登场2次后退场。"
+    },
+    {
+      "id": "1408",
+      "name": "白厄",
+      "rarity": "legendary",
+      "attack": "blast",
+      "basePower": 4,
+      "path": "毁灭",
+      "description": "没有相邻其他角色时，自身本次威力×1.8。每第4次登场，本次常规攻击后向对应列追加12伤害。"
+    },
+    {
+      "id": "1409",
+      "name": "风堇",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "记忆",
+      "description": "每次登场恢复3生命。治疗后按缺失生命÷15获得护盾（最高5，可为小数）。"
+    },
+    {
+      "id": "march_hunt",
+      "name": "三月七·巡猎",
+      "rarity": "common",
+      "attack": "single",
+      "basePower": 1,
+      "path": "巡猎",
+      "description": "每累计登场3次，本实例永久威力+0.6。"
+    },
+    {
+      "id": "dan_heng_imbibitor_lunae",
+      "name": "丹恒·饮月",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "毁灭",
+      "description": "本次每有1位虚数角色登场，自身威力+0.35，最多计算6位。"
+    },
+    {
+      "id": "dan_heng_pt",
+      "name": "丹恒·腾荒",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "存护",
+      "description": "每次登场获得4护盾。按当前护盾÷20，使本次存护角色威力+0.3，最多计算3份。"
+    },
+    {
+      "id": "fugue",
+      "name": "忘归人",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "虚无",
+      "description": "本次至少有3位虚无角色登场时，全队攻击无视装甲。每累计登场3次，本实例永久威力+0.4。"
+    },
+    {
+      "id": "the_herta",
+      "name": "大黑塔",
+      "rarity": "rare",
+      "attack": "aoe",
+      "basePower": 3,
+      "path": "智识",
+      "description": "本次每有1位智识角色登场，自身威力+0.35，最多计算6位。"
+    },
+    {
+      "id": "hysilens",
+      "name": "海瑟音",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "虚无",
+      "description": "本次登场的虚无角色威力+0.6。"
+    },
+    {
+      "id": "cerydra",
+      "name": "刻律德菈",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "同谐",
+      "description": "本次使威力最高的其他角色威力+1.8；并列取格位靠前者。"
+    },
+    {
+      "id": "evernight",
+      "name": "长夜月",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "记忆",
+      "description": "本次每有1位记忆角色登场，自身威力+0.45，最多计算6位。"
+    },
+    {
+      "id": "cyrene",
+      "name": "昔涟",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "记忆",
+      "description": "每次登场，使本次登场的永久记忆角色永久威力+0.1；临时角色不成长。"
+    },
+    {
+      "id": "saber",
+      "name": "Saber",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "毁灭",
+      "description": "每第3次登场，自身本次威力+4。"
+    },
+    {
+      "id": "archer",
+      "name": "Archer",
+      "rarity": "rare",
+      "attack": "single",
+      "basePower": 3,
+      "path": "巡猎",
+      "description": "每有1名相邻辅助角色，自身本次威力+1.1，最多计算3位。"
+    },
+    {
+      "id": "yao_guang",
+      "name": "爻光",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "欢愉",
+      "description": "登场期间，同谐角色的邻接与定向威力增益×1.15；离场即失效。"
+    },
+    {
+      "id": "sparxie",
+      "name": "火花",
+      "rarity": "uncommon",
+      "attack": "blast",
+      "basePower": 2,
+      "path": "欢愉",
+      "description": "每第2次登场获得1信用点。本次每有1位角色退场，自身威力+0.6，最多计算8位。"
+    },
+    {
+      "id": "ashveil",
+      "name": "不死途",
+      "rarity": "rare",
+      "attack": "single",
+      "basePower": 3,
+      "path": "巡猎",
+      "description": "自身常规攻击每击破1列敌人，本实例永久威力+0.3。"
+    },
+    {
+      "id": "silver_wolf_lv999",
+      "name": "银狼LV.999",
+      "rarity": "legendary",
+      "attack": "aoe",
+      "basePower": 4,
+      "path": "欢愉",
+      "description": "本次每有1位角色退场，自身威力+0.65，最多计算6位。每第3次登场，本次全队攻击无视装甲。"
+    },
+    {
+      "id": "evanescia",
+      "name": "绯英",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "欢愉",
+      "description": "本次登场的欢愉角色威力+0.55。每第2次登场恢复2生命。"
+    },
+    {
+      "id": "mortenax_blade",
+      "name": "千冶·刃",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "虚无",
+      "description": "每次登场消耗1生命，最多降至1。按缺失生命÷15，自身本次威力+0.5，最多计算5份。"
+    },
+    {
+      "id": "the_dahlia",
+      "name": "大丽花",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "虚无",
+      "description": "本次登场的火属性角色威力+0.45。"
+    },
+    {
+      "id": "announced_himeko_nova",
+      "name": "姬子·启行",
+      "rarity": "rare",
+      "attack": "aoe",
+      "basePower": 3,
+      "path": "智识",
+      "description": "本次每有1位星穹列车角色登场，自身威力+0.3，最多计算6位。"
+    },
+    {
+      "id": "announced_gilgamesh",
+      "name": "吉尔伽美什",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "毁灭",
+      "description": "本次每有1列存活敌人，自身威力+0.25，最多计算5列。每第3次登场获得2信用点。"
+    },
+    {
+      "id": "announced_rin_tohsaka",
+      "name": "远坂凛",
+      "rarity": "uncommon",
+      "attack": "aoe",
+      "basePower": 2,
+      "path": "智识",
+      "description": "本次登场的量子角色威力+0.4。"
+    },
+    {
+      "id": "aha",
+      "name": "阿哈",
+      "rarity": "legendary",
+      "attack": "support",
+      "basePower": 4,
+      "path": "欢愉",
+      "description": "本次每有1位角色退场，本次登场的其他角色威力+0.2，最多计算4位。每次登场有10%概率获得1次重掷。星神同行者为本作改编，未设定官方战斗属性。"
+    },
+    {
+      "id": "pearl",
+      "name": "真珠",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "欢愉",
+      "description": "每次登场获得4护盾。每第3次登场获得2信用点。"
+    },
+    {
+      "id": "robin_summeretto",
+      "name": "知更鸟·晴歌",
+      "rarity": "rare",
+      "attack": "support",
+      "basePower": 3,
+      "path": "记忆",
+      "description": "本次登场的记忆角色威力+0.4。每第2次登场恢复2生命。"
+    },
+    {
+      "id": "aventurine_waveflair",
+      "name": "砂金·戏浪",
+      "rarity": "rare",
+      "attack": "single",
+      "basePower": 3,
+      "path": "欢愉",
+      "description": "按持有信用点÷20，获得2护盾，最多计算4份。当前护盾达到20时，自身本次威力×1.35。"
+    },
+    {
+      "id": "aeon_star_aha",
+      "name": "星神★阿哈",
+      "rarity": "rare",
+      "attack": "blast",
+      "basePower": 3,
+      "path": "欢愉",
+      "description": "本次登场的临时角色威力+0.7。每次登场有25%概率获得1信用点。"
+    }
+  ]
+}

@@ -2,9 +2,12 @@ import { RETIREMENT_RULES, retirementEligibility } from './retirements.js';
 import { getArchetypes, isArchetypeCore } from './archetypes.js';
 import { characterById, itemById, essenceById } from './content.js';
 import { matchesSynergyFilter } from './synergies.js';
+import { effectAmount, effectIsEligible } from './effect-rules.js';
+import { abilityEffectAmount } from './enemy-effects.js';
 
 const clamp = value => Math.max(0, Math.min(1, value));
 const stars = unit => [0, 1, 3, 9][unit.stars] || 1;
+const effectStars = (state, unit) => stars(unit) * (unit.stars > 1 && (state.activeDebuffs || []).some(effect => effect.id === 'star_audit') ? 0.8 : 1);
 const add = (map, key, value) => map.set(key, (map.get(key) || 0) + value);
 
 // Finite public-information forecast. Binomial appearance distributions respect
@@ -35,7 +38,20 @@ export function estimateRetirementsForAi(state, { horizon = 24, growthRates = ne
   const futureGrowth = (unit, turn) => {
     const appearances = Math.floor(Math.max(0, turn - 1) * draw);
     const interval = (state.activeDebuffs || []).some(d => d.id === 'danheng_audit') ? 4 : 3;
-    const native = unit.id === '1002' ? Math.floor(((unit.ticks || 0) + appearances) / interval) - Math.floor((unit.ticks || 0) / interval) : 0;
+    let native = characterById(unit.id)?.kitVersion !== 6 && unit.id === '1002' ? Math.floor(((unit.ticks || 0) + appearances) / interval) - Math.floor((unit.ticks || 0) / interval) : 0;
+    if (characterById(unit.id)?.kitVersion === 6) {
+      for (let appearance = 1; appearance <= appearances; appearance++) {
+        const appearing = { ...unit, ticks: (unit.ticks || 0) + appearance };
+        const context = { state, unit: appearing, trigger: 'appearance', star: effectStars(state, unit), metricOverrides: (metric, filter = {}) => {
+          const partners = state.roster.filter(other => (!filter.excludeSelf || other.uid !== unit.uid) && matchesSynergyFilter(other, filter, characterById));
+          if (metric === 'present') return partners.reduce((sum, other) => sum + (other.uid === unit.uid ? 1 : n <= 20 ? 1 : 19 / (n - 1)), 0);
+          if (metric === 'neighbors') return partners.filter(other => other.uid !== unit.uid).length * adjacent;
+          if (metric === 'ticks') return appearing.ticks;
+          return undefined;
+        } };
+        for (const effect of characterById(unit.id).effects || []) if (effect.type === 'growth' && effect.target === 'self' && effect.trigger === 'appearance' && effectIsEligible(effect, context)) native += abilityEffectAmount(state, appearing, effect, effectAmount(effect, context)) * (effect.chance ?? 1);
+      }
+    }
     const declared = Math.max(growthRates.get(unit.uid) || 0, archetypeGrowth.get(unit.uid) || 0);
     return unit.growth + (native + declared * Math.max(0, turn - 1) * draw) * growthScale;
   };
@@ -70,7 +86,7 @@ export function estimateRetirementsForAi(state, { horizon = 24, growthRates = ne
         }
         const completed = generatedCompletion + normalCompletion;
         total += completed; add(hostEvents, host.uid, completed);
-        add(hostGrowthArea, host.uid, completed * rule.growth * stars(host) * (turns - turn + 1));
+        add(hostGrowthArea, host.uid, completed * effectAmount({ type: 'growth', value: rule.growth, scaleWithStars: true, ...(characterById(host.id)?.kitVersion === 6 ? { starFactors: [0, 1, 1.5, 2] } : {}) }, { state, unit: host, star: effectStars(state, host) }) * (turns - turn + 1));
       }
       if (unlocked && n < 200) {
         const supplyChance = 1 - hosts.reduce((miss, host) => miss * (1 - cadence(host, turn, rule.supplyEvery)), 1);
@@ -82,11 +98,10 @@ export function estimateRetirementsForAi(state, { horizon = 24, growthRates = ne
     }
     for (const host of hosts) {
       const completed = hostEvents.get(host.uid) || 0;
-      // forecastGrowthForAi already applies passive/item growth multipliers.
-      // Only the audit (missing from its permanent branch) is folded here.
-      const audit = (state.activeDebuffs || []).some(d => d.id === 'growth_audit') ? 0.5 : 1;
-      add(result.growthRates, host.uid, 2 * (hostGrowthArea.get(host.uid) || 0) * audit / Math.max(1e-9, turns * horizon * draw));
-      add(result.powerAdds, host.uid, completed * rule.power * stars(host) / Math.max(1e-9, turns * draw));
+      // The caller applies all item, passive and audit training modifiers once.
+      if (characterById(host.id)?.role !== 'trainer') add(result.growthRates, host.uid, 2 * (hostGrowthArea.get(host.uid) || 0) / Math.max(1e-9, turns * horizon * draw));
+      const role = characterById(host.id)?.role;
+      if (!role || role === 'attack') add(result.powerAdds, host.uid, completed * rule.power * effectStars(state, host) / Math.max(1e-9, turns * draw));
     }
     for (const entry of stock) {
       result.availability.set(entry.unit.uid, clamp(1 - entry.lostArea / turns));

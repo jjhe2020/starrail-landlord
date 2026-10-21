@@ -17,8 +17,10 @@ function fixture(ids = ['1002'], extras = {}) {
 const damage = state => state.lastSpin.damage;
 const healed = state => state.lastSpin.healing;
 const shielded = state => state.lastSpin.shield;
-const adjacentBuild = () => fixture(['1009', ...Array(19).fill('1002')]);
-const incomingBuild = id => { const state = fixture([id]); state.hp = 100; state.enemies.forEach(enemy => { enemy.attack = 10; }); return state; };
+const adjacentBuild = () => fixture(['1101', ...Array(19).fill('1103')]);
+const shieldBuild = () => fixture(['1001', ...Array(19).fill('1002')]);
+const healBuild = () => fixture(['1105', '1109']);
+const incomingBuild = (id, partners = []) => { const state = fixture([id, ...partners]); state.hp = 100; state.enemies.forEach(enemy => { enemy.attack = 10; }); return state; };
 const withEffect = (state, id) => { const copy = structuredClone(state); copy.activeDebuffs = [publicDebuff(enemyDebuffById(id), 'boss', 0)]; return copy; };
 
 test('a boss round threshold applies newly added shield decay at the start of the same spin', () => {
@@ -45,14 +47,14 @@ const effects = [
   ['path_hunt', () => fixture(['1002']), damage],
   ['path_destruction', () => fixture(['1109']), damage],
   ['path_erudition', () => fixture(['1013']), damage],
-  ['path_nihility', () => fixture(['1108']), damage],
-  ['path_preservation', () => fixture(['1001']), shielded],
-  ['path_abundance', () => fixture(['1105']), healed],
+  ['path_nihility', () => fixture(['1108', '1109']), damage],
+  ['path_preservation', shieldBuild, shielded],
+  ['path_abundance', healBuild, healed],
   ['path_harmony', adjacentBuild, damage],
   ['attack_single', () => fixture(['1002']), damage],
   ['attack_blast', () => fixture(['1109']), damage],
   ['attack_aoe', () => fixture(['1013']), damage],
-  ['growth_audit', () => fixture(['1002'], { ticks: 2, growth: 4 }), s => s.roster[0].growth],
+  ['growth_audit', () => fixture(['1002', '1001'], { ticks: 3, growth: 4 }), s => s.roster[0].growth],
   ['adjacency_audit', adjacentBuild, damage],
   ['star_audit', () => fixture(['1002'], { stars: 2 }), damage],
   ['consume_audit', () => {
@@ -60,7 +62,9 @@ const effects = [
     state.roster.forEach((u, index) => { if (index % 2) u.temporary = 3; });
     return state;
   }, damage],
-  ['danheng_audit', () => fixture(['1002'], { ticks: 2 }), s => s.roster[0].growth],
+  ['danheng_audit', () => fixture(['1002', '1001'], { ticks: 3 }), s => s.roster[0].growth],
+  ['summon_audit', () => fixture(['1013'], { ticks: 2 }), damage],
+  ['qingque_audit', () => fixture(['1201'], { ticks: 2 }), damage],
   ['herta_audit', () => fixture(['1013'], { ticks: 2 }), damage],
   ['seele_audit', () => {
     const state = fixture(['1102']);
@@ -68,17 +72,17 @@ const effects = [
     state.enemies[origin].hp = 1;
     return state;
   }, damage],
-  ['kafka_audit', () => fixture(['1005', '1108']), damage],
-  ['welt_audit', () => incomingBuild('1004'), s => s.lastSpin.incoming, 'increase'],
-  ['fuxuan_audit', () => incomingBuild('1208'), s => s.lastSpin.incoming, 'increase'],
-  ['march_audit', () => fixture(['1001']), shielded],
-  ['natasha_audit', () => fixture(['1105']), healed],
+  ['kafka_audit', () => fixture(['1005', '1205']), damage],
+  ['welt_audit', () => incomingBuild('1004', ['1002']), s => s.lastSpin.incoming, 'increase'],
+  ['fuxuan_audit', () => incomingBuild('1208', ['1204', '1206']), s => s.lastSpin.incoming, 'increase'],
+  ['march_audit', shieldBuild, shielded],
+  ['natasha_audit', healBuild, healed],
   ['essence_audit', () => {
     const state = fixture(['1002']); state.essences = [{ id: 'essence_destruction', progress: 0, triggered: false }]; return state;
   }, s => s.essences[0].progress],
   ['synergy_audit', () => fixture(['1001', '1002', ...Array(18).fill('1103')]), damage],
-  ['healing_audit', () => fixture(['1105']), healed],
-  ['shield_audit', () => fixture(['1001']), shielded],
+  ['healing_audit', healBuild, healed],
+  ['shield_audit', shieldBuild, shielded],
   ['shield_pierce', () => { const state = incomingBuild('1002'); state.shield = 100; return state; }, s => s.resourceStats.hpLost, 'increase'],
   ['shield_decay', () => { const state = fixture(['1001']); state.shield = 100; return state; }, s => s.shield],
   ['healthy_audit', () => { const state = fixture(['1002']); state.hp = 90; return state; }, damage],
@@ -99,28 +103,10 @@ for (const [id, build, measure, direction] of effects) {
   });
 }
 
-for (const [id, character, count] of [
-  ['summon_audit', '1108', state => state.roster.length > 1],
-  ['qingque_audit', '1201', state => state.lastSpin.values.some(value => value > 1)],
-]) {
-  test(`probability clause ${id} reduces triggers without disabling the mechanic`, () => {
-    let normal = 0, penalized = 0;
-    for (let index = 0; index < 256; index++) {
-      const state = fixture([character]);
-      state.seed = `chance-${index}`;
-      state.rngState = newGame({ seed: state.seed }).rngState;
-      normal += Number(count(spin(state)));
-      penalized += Number(count(spin(withEffect(state, id))));
-    }
-    assert.ok(penalized > 0);
-    assert.ok(penalized < normal, `${normal} -> ${penalized}`);
-  });
-}
-
 test('catalogue has at least twenty distinct real effects and rejects irrelevant or duplicate choices', () => {
   assert.ok(ENEMY_DEBUFFS.length >= 20);
   assert.equal(new Set(ENEMY_DEBUFFS.map(effect => effect.id)).size, ENEMY_DEBUFFS.length);
-  assert.equal(new Set([...effects.map(effect => effect[0]), 'summon_audit', 'qingque_audit', 'rift_pollution']).size, ENEMY_DEBUFFS.length, 'each catalog entry has a behavioral test, including fixed pollution in pollution.test.js');
+  assert.equal(new Set([...effects.map(effect => effect[0]), 'rift_pollution']).size, ENEMY_DEBUFFS.length, 'each catalog entry has a behavioral test, including fixed pollution in pollution.test.js');
   const state = fixture(['1002']);
   const ids = getEligibleDebuffs(state).map(effect => effect.id);
   assert.ok(ids.includes('path_hunt'));
@@ -193,11 +179,11 @@ test('boss health crossings append clauses, while the next encounter resets them
 
 test('expanded healing, shielding, growth and directed support remain eligible for their real clauses', () => {
   for (const [id, build, measure] of [
-    ['healing_audit', () => fixture(['1110']), healed],
-    ['shield_audit', () => fixture(['1304']), shielded],
-    ['growth_audit', () => fixture(['1404']), state => state.roster[0].growth],
-    ['adjacency_audit', () => fixture(['1303', ...Array(19).fill('1002')]), damage],
-    ['path_harmony', () => fixture(['1303', ...Array(19).fill('1002')]), damage],
+    ['healing_audit', () => fixture(['1110', '1103']), healed],
+    ['shield_audit', () => fixture(['1304', '1107']), shielded],
+    ['growth_audit', () => fixture(['1303', ...Array(19).fill('1008')], { ticks: 2 }), state => state.roster.reduce((sum, unit) => sum + unit.growth, 0)],
+    ['adjacency_audit', () => fixture(['1313', ...Array(19).fill('1002')]), damage],
+    ['path_harmony', () => fixture(['1313', ...Array(19).fill('1002')]), damage],
   ]) {
     const state = build();
     assert.ok(getEligibleDebuffs(state).some(effect => effect.id === id), id);
@@ -241,7 +227,8 @@ test('global buffs do not attract directed-support clauses or unrelated characte
   assert.equal(enemyDebuffById('path_harmony').eligible(team), false);
   assert.equal(enemyDebuffById('adjacency_audit').eligible(team), false);
   const newSources = fixture(['1402', '1314', '1303', '1404', '1110']);
-  for (const id of ['summon_audit', 'consume_audit', 'danheng_audit', 'march_audit', 'natasha_audit']) assert.equal(enemyDebuffById(id).eligible(newSources), false, id);
+  assert.equal(enemyDebuffById('summon_audit').eligible(newSources), true, 'v0.6 extra attacks qualify for the follow-up registration clause');
+  for (const id of ['consume_audit', 'danheng_audit', 'march_audit', 'natasha_audit']) assert.equal(enemyDebuffById(id).eligible(newSources), false, id);
 });
 
 test('resonance tax selects power and additional damage but excludes purely economic, mitigation and support tiers', () => {

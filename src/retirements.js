@@ -11,7 +11,7 @@ export const RETIREMENT_RULES = Object.freeze([
   { id: 'divination_shift', sourceId: '1208', targetId: '1201', sourceName: '符玄', targetName: '青雀', name: '太卜司轮值交接', relation: '符玄与青雀是太卜司的上下级，并共同经历岁阳事件。', source: 'https://honkai-star-rail.fandom.com/wiki/Percipient' },
   { id: 'ten_lords_leave', sourceId: '1215', targetId: '1214', sourceName: '寒鸦', targetName: '雪衣', name: '十王司结案休假', relation: '寒鸦与雪衣是姐妹及十王司同僚；寒鸦邀请判决后的姐姐散步。', source: 'https://honkai-star-rail.fandom.com/wiki/Xueyi/Lore' },
   { id: 'ghost_hunt_wrap', sourceId: '1217', targetId: '1210', sourceName: '藿藿', targetName: '桂乃芬', name: '捉鬼直播收工', relation: '藿藿与桂乃芬共同捉鬼，组队语音中互相照应。', source: 'https://honkai-star-rail.fandom.com/wiki/Guinaifen/Lore' },
-].map(rule => Object.freeze({ ...rule, targetOriginalRarity: 4, every: 3, supplyEvery: 4, growth: 1.5, coins: 4, power: 3 })));
+].map(rule => Object.freeze({ ...rule, targetOriginalRarity: 4, every: 3, supplyEvery: 4, growth: rule.sourceId === '1215' ? 0 : 0.35, coins: rule.sourceId === '1215' ? 3 : 2, power: ['1003', '1102', '1107', '1112'].includes(rule.sourceId) ? 1.5 : 0 })));
 
 export const retirementRulesFor = id => RETIREMENT_RULES.filter(rule => rule.sourceId === id || rule.targetId === id);
 export const retirementRuleById = id => RETIREMENT_RULES.find(rule => rule.id === id);
@@ -39,6 +39,6 @@ export function getRetirementPreview(state, { isCore = () => false } = {}) {
     const targets = state.roster.filter(u => u.id === rule.targetId);
     const eligible = targets.filter(target => hosts.some(source => retirementEligibility(state, source, target, { isCore }).eligible));
     return { ...rule, sourceUids: hosts.map(u => u.uid), eligibleUids: eligible.map(u => u.uid), targetUids: targets.map(u => u.uid), nextAppearance: Math.min(...hosts.map(u => rule.every - u.ticks % rule.every)),
-      summary: `每${rule.every}次登场可委派1位相邻${rule.targetName}：永久离队，主持者永久威力+${rule.growth}×星级倍率、本次威力+${rule.power}×星级倍率、信用点+${rule.coins}。保护最后一位正式角色、高星、核心及已培养实例；已拥有受体后，每${rule.supplyEvery}次登场补充最多1位不计羁绊和套路身份的见习委派。` };
+      summary: `每${rule.every}次登场可委派1位相邻${rule.targetName}：永久离队，主持者永久成长+${rule.growth}（按星级1/1.5/2倍）${rule.power ? `、本次攻击威力+${rule.power}×星级倍率` : ""}、信用点+${rule.coins}；非攻击者的成长增强专职技能，培养技能本身不放大。保护最后一位正式角色、高星、核心及已培养实例；已拥有受体后，每${rule.supplyEvery}次登场补充最多1位不计羁绊和套路身份的见习委派。` };
   });
 }

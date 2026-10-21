@@ -1,13 +1,13 @@
 // Public difficulty is independent of encounter number and resource experiments.
 export const DIFFICULTY = {
-  version: 'difficulty-v6',
+  version: 'difficulty-v7-bound-roles',
   min: 1,
   max: 20,
   default: 10,
   baseHealthScale: 0.25,
-  difficulty10HealthMultiplier: 1,
+  difficulty10HealthMultiplier: 1.4,
   // Two continuous public slopes keep the lower resource bands independently tunable.
-  difficultyStepMultiplier: 1.235,
+  difficultyStepMultiplier: 1.155,
   lowerDifficultyPivot: 6,
   lowerDifficultyStepMultiplier: 1.22,
   combatLateHealthMultiplier: 1.5,

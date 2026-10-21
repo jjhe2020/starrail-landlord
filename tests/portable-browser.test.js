@@ -31,7 +31,7 @@ test('portable HTML plays from file:// on its first offline load', {
   let playwright;
   try { playwright = require('playwright'); }
   catch { playwright = require(join(homedir(), '.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright')); }
-  const browser = await playwright.chromium.launch({ headless: true, ...(process.platform === 'win32' ? { channel: 'msedge' } : {}) });
+  const browser = await playwright.chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE_PATH ? { executablePath: process.env.BROWSER_EXECUTABLE_PATH } : {}), ...(process.platform === 'win32' ? { channel: 'msedge' } : {}) });
   t.after(() => browser.close());
 
   const saved = page => page.evaluate(key => JSON.parse(localStorage.getItem(key)), saveKey);

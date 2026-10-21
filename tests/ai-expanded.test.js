@@ -13,13 +13,14 @@ function stateFor(ids, { hp = 35, shield = 20, coins = 35, ticks = 2 } = {}) {
 }
 const estimate = state => estimateEffectsForAi(state, { horizon: 20, output: 60, threat: 18, healing: 4, shields: 5, retirementRate: 1, active: getSynergies(state).filter(s => s.active) });
 
-test('new healer, shield, permanent growth, sacrifice, summon and credit mechanics are valued from shared declarations', () => {
-  const healer = estimate(stateFor(['1110']));
+test('bound healer, shield, permanent training, summon and credit mechanics are valued from shared declarations', () => {
+  const healer = estimate(stateFor(['1110', '1103']));
   assert.ok(healer.healing > 0);
   assert.ok(healer.shields > 0);
-  const grower = estimate(stateFor(['1404']));
-  assert.ok(grower.growthRates.get('u1') > 0);
-  assert.ok(grower.selfDrain > 0);
+  const grower = estimate(stateFor(['1303', '1008']));
+  assert.ok(grower.growthRates.get('u2') > 0);
+  assert.equal(grower.growthRates.get('u1') || 0, 0);
+  assert.equal(estimate(stateFor(['1404'])).selfDrain, 0, 'the v0.6 attack kit no longer charges historical self harm');
   const summoner = estimate(stateFor(['1402']));
   assert.ok(summoner.damage > 0);
   const trader = estimate(stateFor(['1112']));
@@ -27,9 +28,9 @@ test('new healer, shield, permanent growth, sacrifice, summon and credit mechani
 });
 
 test('new adjacency and directed support abilities improve actual attacker estimates instead of being invisible support bodies', () => {
-  const state = stateFor(['1303', '1313', '1002']);
+  const state = stateFor(['1303', '1313', '1008', '1002']);
   const result = estimate(state);
-  assert.ok(result.powerAdds.get('u3') > 0);
+  assert.ok(result.powerMultipliers.get('u4') > 1);
   assert.ok(result.growthRates.get('u3') > 0);
   assert.equal(result.growthRates.get('u1') || 0, 0, 'Ruan Mei teaches nearby permanent attackers rather than growing herself');
 });
@@ -48,21 +49,23 @@ test('new passive items modify old character utilities and chance scales a multi
   assert.ok(Math.abs(randomBoost.powerMultipliers.get('u1') - 1.0375) < 1e-12);
 });
 
-test('team-wide power gifts are not amplified as adjacency or directed support buffs', () => {
-  const state = stateFor(['1207', '1004']);
-  state.roster.forEach(unit => { unit.stars = 1; });
+test('training gifts retain their bounded recipients and are not multiplied as immediate buffs', () => {
+  const state = stateFor(['1207', '1002']);
+  state.roster.forEach(unit => { unit.stars = 1; unit.ticks = 1; });
   state.enemies.forEach(enemy => { enemy.hp = enemy.maxHp = 100000; });
+  const expected = estimate(state).growthRates.get('u2');
+  assert.ok(expected > 0);
   for (const items of [[], ['triangle_instrument'], ['harmony_wax'], ['triangle_instrument', 'harmony_wax']]) {
     const candidate = { ...structuredClone(state), items };
-    assert.ok(Math.abs(estimate(candidate).powerAdds.get('u2') - 0.8) < 1e-12);
+    assert.equal(estimate(candidate).growthRates.get('u2'), expected);
     const actual = spin(candidate);
-    assert.equal(actual.lastSpin.damage, 11.4);
-    assert.equal(actual.lastSpin.effects.find(e => e.sourceId === '1207' && e.targetUid === 'u2' && e.type === 'power').amount, 0.8);
+    assert.equal(actual.roster.find(unit => unit.id === '1002').growth, 0.35);
+    assert.equal(actual.lastSpin.effects.find(e => e.sourceId === '1207' && e.targetUid === 'u2' && e.type === 'growth').amount, 0.35);
   }
 });
 
 test('shared resonance model respects conditions, periodic bursts, resource gates and per-member value', () => {
-  const station = stateFor(['1009', '1013'], { ticks: 2 });
+  const station = stateFor(['1013', '1008'], { ticks: 2 });
   const burst = estimate(station);
   assert.ok(burst.powerAdds.get('u1') > 0);
   assert.ok(burst.powerAdds.get('u2') > 0);
@@ -122,16 +125,17 @@ test('new essence progression is forecast from its declared metric and resource-
   assert.ok(available.score > impossible.score);
 });
 
-test('temporary Dan Heng growth is bounded by remaining appearances instead of the whole journey', () => {
-  const state = stateFor(['1002']);
+test('temporary growth forecasts use the declared cadence and cannot outlive the instance', () => {
+  const state = stateFor(['1002', '1001']);
   const unit = { ...state.roster[0], ticks: 0, temporary: 2 };
-  assert.equal(forecastGrowthForAi(state, unit, { horizon: 24, draw: 1 }), 0);
-  unit.ticks = 2;
-  assert.equal(forecastGrowthForAi(state, unit, { horizon: 24, draw: 1 }), 1);
-  assert.equal(forecastGrowthForAi(state, unit, { horizon: 200, draw: 1 }), 1, 'extra future floors cannot outlive a two-appearance instance');
+  assert.equal(forecastGrowthForAi(state, unit, { horizon: 24, draw: 1 }), 0, 'a fresh two-appearance modern Dan Heng cannot reach appearance four');
+  unit.ticks = 3;
+  const options = { horizon: 24, draw: 1, declaredRate: 0.15 / 4 };
+  const temporary = forecastGrowthForAi(state, unit, options);
+  assert.equal(temporary, 0.15);
+  assert.equal(forecastGrowthForAi(state, unit, { ...options, horizon: 200 }), temporary);
   const permanent = { ...unit }; delete permanent.temporary;
-  assert.ok(forecastGrowthForAi(state, permanent, { horizon: 24, draw: 1 }) > forecastGrowthForAi(state, unit, { horizon: 24, draw: 1 }));
-  state.activeDebuffs.push({ id: 'danheng_audit' });
-  const fresh = { ...unit, ticks: 0 };
-  assert.equal(forecastGrowthForAi(state, fresh, { horizon: 24, draw: 1 }), 0);
+  assert.ok(forecastGrowthForAi(state, permanent, options) > temporary);
+  state.activeDebuffs.push({ id: 'growth_audit' });
+  assert.equal(forecastGrowthForAi(state, permanent, options), 0.5 * forecastGrowthForAi({ ...state, activeDebuffs: [] }, permanent, options));
 });

@@ -1,0 +1,1749 @@
+{
+  "purpose": "calibration-only; no holdout seeds",
+  "results": [
+    {
+      "scale": 1,
+      "runs": 60,
+      "wins": 60,
+      "winRate": 1,
+      "winRateCI": [
+        0.93982814785791,
+        0.9999999999999998
+      ],
+      "avgFloor": 12,
+      "avgClearedFloors": 12,
+      "avgHp": 79.46483333333335,
+      "avgTurns": 26.55,
+      "avgDamage": 6639.5,
+      "avgCoins": 356.96666666666664,
+      "avgMerges": 1.2333333333333334,
+      "avgRemovals": 6.133333333333334,
+      "avgRosterSize": 19.533333333333335,
+      "avgItems": 4.533333333333333,
+      "avgEssences": 2.9,
+      "avgActivatedEssences": 2.783333333333333,
+      "avgScore": 13815.31845254651,
+      "avgSkips": 4.633333333333334,
+      "skipsByPhase": {
+        "recruit": 244,
+        "item": 28,
+        "essence": 6
+      },
+      "failureByFloor": [
+        {
+          "floor": 1,
+          "count": 0
+        },
+        {
+          "floor": 2,
+          "count": 0
+        },
+        {
+          "floor": 3,
+          "count": 0
+        },
+        {
+          "floor": 4,
+          "count": 0
+        },
+        {
+          "floor": 5,
+          "count": 0
+        },
+        {
+          "floor": 6,
+          "count": 0
+        },
+        {
+          "floor": 7,
+          "count": 0
+        },
+        {
+          "floor": 8,
+          "count": 0
+        },
+        {
+          "floor": 9,
+          "count": 0
+        },
+        {
+          "floor": 10,
+          "count": 0
+        },
+        {
+          "floor": 11,
+          "count": 0
+        },
+        {
+          "floor": 12,
+          "count": 0
+        }
+      ],
+      "picks": {
+        "recruit": {
+          "1001": 4,
+          "1002": 37,
+          "1003": 40,
+          "1004": 24,
+          "1005": 6,
+          "1006": 1,
+          "1008": 24,
+          "1009": 1,
+          "1013": 55,
+          "1101": 4,
+          "1102": 18,
+          "1103": 54,
+          "1104": 7,
+          "1105": 6,
+          "1106": 10,
+          "1107": 20,
+          "1108": 13,
+          "1109": 38,
+          "1110": 5,
+          "1111": 6,
+          "1112": 15,
+          "1201": 32,
+          "1202": 8,
+          "1204": 11,
+          "1205": 9,
+          "1206": 15,
+          "1207": 3,
+          "1208": 1,
+          "1209": 16,
+          "1210": 21,
+          "1212": 8,
+          "1214": 11,
+          "1215": 1,
+          "1217": 2,
+          "1218": 10,
+          "1220": 3,
+          "1221": 16,
+          "1222": 1,
+          "1223": 10,
+          "1301": 5,
+          "1302": 34,
+          "1303": 11,
+          "1305": 15,
+          "1306": 13,
+          "1307": 1,
+          "1308": 11,
+          "1309": 11,
+          "1310": 35,
+          "1312": 26,
+          "1313": 12,
+          "1314": 40,
+          "1315": 14,
+          "1317": 47,
+          "1402": 9,
+          "1403": 5,
+          "1404": 6,
+          "1405": 44,
+          "1406": 4,
+          "1407": 5,
+          "1408": 3,
+          "announced_himeko_nova": 51,
+          "announced_rin_tohsaka": 14,
+          "saber": 17,
+          "the_herta": 49,
+          "mortenax_blade": 19,
+          "march_hunt": 38,
+          "skip": 244,
+          "dan_heng_imbibitor_lunae": 37,
+          "announced_gilgamesh": 33,
+          "cerydra": 14,
+          "the_dahlia": 17,
+          "evernight": 7,
+          "archer": 12,
+          "sparxie": 15,
+          "hysilens": 5,
+          "dan_heng_pt": 13,
+          "silver_wolf_lv999": 4,
+          "ashveil": 14,
+          "fugue": 8,
+          "yao_guang": 1,
+          "robin_summeretto": 1,
+          "evanescia": 1,
+          "aventurine_waveflair": 1,
+          "aha": 1
+        },
+        "item": {
+          "gold_coin": 24,
+          "whispering_scroll": 1,
+          "beauty_robe": 10,
+          "erudition_wax": 20,
+          "destruction_wax": 11,
+          "harmony_wax": 10,
+          "whisker_powder": 6,
+          "dimension_dice": 1,
+          "skip": 28,
+          "divination_candle": 14,
+          "ruan_pouch": 1,
+          "insect_web": 2,
+          "seal_stamp": 32,
+          "faith_bond": 2,
+          "compound_eye": 18,
+          "triangle_instrument": 3,
+          "void_wick": 15,
+          "split_silver": 1,
+          "hunt_wax": 7,
+          "propagation_wax": 1,
+          "cosmic_lotto": 15,
+          "genius_gossip": 16,
+          "sponge_king": 1,
+          "rubert_gear": 4,
+          "impermanence_dice": 2,
+          "corrupt_fruit": 1,
+          "tala_flame": 2,
+          "fools_mask": 5,
+          "doctor_robe": 3,
+          "abundance_wax": 2,
+          "organic_heart": 2,
+          "nihility_wax": 3,
+          "realm_crown": 2,
+          "blood_badge": 7,
+          "evil_satellite": 1,
+          "chaos_trametes": 1,
+          "angel_debt": 1,
+          "black_hole_trap": 2,
+          "club_coupon": 3,
+          "remembrance_wax": 1,
+          "meteorite": 2,
+          "uncertainty_box": 1,
+          "interstellar_lotto": 1,
+          "pink_collision": 1,
+          "wish_star": 1,
+          "annihilation_wick": 2,
+          "split_coin": 2,
+          "stair_jellyfish": 2,
+          "omniscient_bag": 3,
+          "broken_clock": 1,
+          "chaos_medicine": 1,
+          "punklorde_spirit": 1,
+          "beacon_colorant": 1
+        },
+        "essence": {
+          "essence_void_wick": 15,
+          "essence_harmony": 11,
+          "essence_whisker": 8,
+          "essence_realm_crown": 2,
+          "essence_compound_eye": 22,
+          "essence_genius": 12,
+          "essence_elation": 20,
+          "skip": 6,
+          "essence_hunt": 4,
+          "essence_destruction": 21,
+          "essence_scroll": 5,
+          "essence_erudition": 17,
+          "essence_split_coin": 6,
+          "essence_family": 1,
+          "essence_beauty_robe": 12,
+          "essence_tala": 6,
+          "essence_dimensional_dice": 2,
+          "essence_prism": 1,
+          "essence_nihility": 2,
+          "essence_medicine": 2,
+          "essence_colorant": 2,
+          "essence_heart": 1,
+          "essence_elation_wax": 1,
+          "essence_punklorde": 1
+        }
+      },
+      "avgUsage": {
+        "initialHp": 100,
+        "initialShield": 0,
+        "rerollsUsed": 17.05,
+        "paidRerolls": 3.466666666666667,
+        "removalsUsed": 6.133333333333334,
+        "supplyPurchases": 12.1,
+        "creditsSpent": 220.53333333333333,
+        "healed": 33.857166666666664,
+        "shieldGained": 174.7361666666667,
+        "shieldBlocked": 111.40383333333331,
+        "shieldDecayed": 12.295,
+        "hpLost": 54.392333333333326,
+        "freeRerolls": 13.583333333333334,
+        "paidRerollCredits": 27.733333333333334,
+        "supplyCredits": 192.8,
+        "supplyKinds": {
+          "repair": 0,
+          "barrier": 0.13333333333333333,
+          "overclock": 11.966666666666667
+        }
+      },
+      "resourceUsageRates": {
+        "rerolls": 1,
+        "removals": 1,
+        "credits": 1,
+        "defense": 0.6166666666666667
+      },
+      "defenseUsage": {
+        "hpGenerated": 8031.43,
+        "shieldGenerated": 10484.170000000002,
+        "hpConsumed": 3263.5399999999995,
+        "shieldConsumed": 6684.229999999999,
+        "shieldWasted": 737.7,
+        "hpConsumptionRate": 0.40634606788579364,
+        "shieldConsumptionRate": 0.6375545226756145,
+        "combinedRate": 0.5372642528462485,
+        "classification": "effective",
+        "thresholds": {
+          "low": 0.2,
+          "effective": 0.5
+        },
+        "method": "aggregate-consumed-over-generated",
+        "lowRate": 0,
+        "effectiveRate": 0.6166666666666667,
+        "observational": true,
+        "strata": {
+          "low": {
+            "n": 0,
+            "wins": 0,
+            "winRate": 0,
+            "winRateCI": [
+              0,
+              1
+            ],
+            "hpGenerated": 0,
+            "shieldGenerated": 0,
+            "hpConsumed": 0,
+            "shieldConsumed": 0,
+            "shieldWasted": 0,
+            "hpConsumptionRate": 0,
+            "shieldConsumptionRate": 0,
+            "combinedRate": 0,
+            "classification": "low",
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            },
+            "resourceUsageCounts": {
+              "rerolls": 0,
+              "removals": 0,
+              "credits": 0,
+              "defense": 0
+            },
+            "resourceUsageRates": {
+              "rerolls": 0,
+              "removals": 0,
+              "credits": 0,
+              "defense": 0
+            },
+            "jointActiveFour": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ]
+            },
+            "observational": true
+          },
+          "moderate": {
+            "n": 23,
+            "wins": 23,
+            "winRate": 1,
+            "winRateCI": [
+              0.8568833815495731,
+              1
+            ],
+            "hpGenerated": 2988.65,
+            "shieldGenerated": 5163.5599999999995,
+            "hpConsumed": 778.2400000000001,
+            "shieldConsumed": 2486.6699999999996,
+            "shieldWasted": 466.09000000000003,
+            "hpConsumptionRate": 0.2603985076874174,
+            "shieldConsumptionRate": 0.48158053745865254,
+            "combinedRate": 0.4004938538138738,
+            "classification": "moderate",
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            },
+            "resourceUsageCounts": {
+              "rerolls": 23,
+              "removals": 23,
+              "credits": 23,
+              "defense": 23
+            },
+            "resourceUsageRates": {
+              "rerolls": 1,
+              "removals": 1,
+              "credits": 1,
+              "defense": 1
+            },
+            "jointActiveFour": {
+              "n": 23,
+              "wins": 23,
+              "winRate": 1,
+              "winRateCI": [
+                0.8568833815495731,
+                1
+              ]
+            },
+            "observational": true
+          },
+          "effective": {
+            "n": 37,
+            "wins": 37,
+            "winRate": 1,
+            "winRateCI": [
+              0.9059421741627975,
+              1
+            ],
+            "hpGenerated": 5042.780000000001,
+            "shieldGenerated": 5320.610000000001,
+            "hpConsumed": 2485.2999999999997,
+            "shieldConsumed": 4197.56,
+            "shieldWasted": 271.61,
+            "hpConsumptionRate": 0.49284323329592,
+            "shieldConsumptionRate": 0.7889245781968609,
+            "combinedRate": 0.6448526978141322,
+            "classification": "effective",
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            },
+            "resourceUsageCounts": {
+              "rerolls": 37,
+              "removals": 37,
+              "credits": 37,
+              "defense": 37
+            },
+            "resourceUsageRates": {
+              "rerolls": 1,
+              "removals": 1,
+              "credits": 1,
+              "defense": 1
+            },
+            "jointActiveFour": {
+              "n": 37,
+              "wins": 37,
+              "winRate": 1,
+              "winRateCI": [
+                0.9059421741627975,
+                1
+              ]
+            },
+            "observational": true
+          }
+        }
+      },
+      "incomplete": 0
+    },
+    {
+      "scale": 1.2,
+      "runs": 60,
+      "wins": 59,
+      "winRate": 0.9833333333333333,
+      "winRateCI": [
+        0.9114487027240993,
+        0.9970518402052136
+      ],
+      "avgFloor": 12,
+      "avgClearedFloors": 11.983333333333333,
+      "avgHp": 74.23350000000002,
+      "avgTurns": 28.633333333333333,
+      "avgDamage": 7960.199666666666,
+      "avgCoins": 360.53333333333336,
+      "avgMerges": 1.4833333333333334,
+      "avgRemovals": 6.3,
+      "avgRosterSize": 19.466666666666665,
+      "avgItems": 4.616666666666666,
+      "avgEssences": 2.9,
+      "avgActivatedEssences": 2.783333333333333,
+      "avgScore": 13767.725164758165,
+      "avgSkips": 6.05,
+      "skipsByPhase": {
+        "recruit": 334,
+        "item": 23,
+        "essence": 6
+      },
+      "failureByFloor": [
+        {
+          "floor": 1,
+          "count": 0
+        },
+        {
+          "floor": 2,
+          "count": 0
+        },
+        {
+          "floor": 3,
+          "count": 0
+        },
+        {
+          "floor": 4,
+          "count": 0
+        },
+        {
+          "floor": 5,
+          "count": 0
+        },
+        {
+          "floor": 6,
+          "count": 0
+        },
+        {
+          "floor": 7,
+          "count": 0
+        },
+        {
+          "floor": 8,
+          "count": 0
+        },
+        {
+          "floor": 9,
+          "count": 0
+        },
+        {
+          "floor": 10,
+          "count": 0
+        },
+        {
+          "floor": 11,
+          "count": 0
+        },
+        {
+          "floor": 12,
+          "count": 1
+        }
+      ],
+      "picks": {
+        "recruit": {
+          "1001": 10,
+          "1002": 43,
+          "1003": 42,
+          "1004": 25,
+          "1005": 3,
+          "1006": 1,
+          "1008": 31,
+          "1009": 2,
+          "1013": 58,
+          "1101": 3,
+          "1102": 16,
+          "1103": 51,
+          "1104": 3,
+          "1105": 2,
+          "1106": 5,
+          "1107": 16,
+          "1108": 12,
+          "1109": 31,
+          "1110": 2,
+          "1111": 5,
+          "1112": 20,
+          "1201": 44,
+          "1202": 11,
+          "1203": 1,
+          "1204": 16,
+          "1205": 6,
+          "1206": 25,
+          "1207": 1,
+          "1208": 1,
+          "1209": 22,
+          "1210": 29,
+          "1212": 8,
+          "1214": 13,
+          "1215": 1,
+          "1218": 18,
+          "1220": 3,
+          "1221": 13,
+          "1222": 3,
+          "1223": 10,
+          "1301": 2,
+          "1302": 47,
+          "1303": 9,
+          "1305": 9,
+          "1306": 10,
+          "1307": 2,
+          "1308": 4,
+          "1309": 11,
+          "1310": 28,
+          "1312": 19,
+          "1313": 10,
+          "1314": 29,
+          "1315": 9,
+          "1317": 41,
+          "1402": 7,
+          "1403": 4,
+          "1404": 8,
+          "1405": 28,
+          "1406": 3,
+          "1407": 8,
+          "1408": 6,
+          "announced_himeko_nova": 59,
+          "march_hunt": 34,
+          "saber": 22,
+          "the_herta": 79,
+          "skip": 334,
+          "archer": 10,
+          "dan_heng_imbibitor_lunae": 39,
+          "mortenax_blade": 21,
+          "ashveil": 20,
+          "dan_heng_pt": 11,
+          "hysilens": 6,
+          "silver_wolf_lv999": 9,
+          "cerydra": 12,
+          "announced_gilgamesh": 31,
+          "sparxie": 18,
+          "yao_guang": 2,
+          "fugue": 5,
+          "the_dahlia": 13,
+          "aha": 2,
+          "evanescia": 1,
+          "announced_rin_tohsaka": 15,
+          "evernight": 6,
+          "aventurine_waveflair": 2,
+          "pearl": 3,
+          "cyrene": 1,
+          "aeon_star_aha": 3
+        },
+        "item": {
+          "seal_stamp": 34,
+          "compound_eye": 15,
+          "void_wick": 14,
+          "hunt_wax": 11,
+          "destruction_wax": 18,
+          "harmony_wax": 10,
+          "beauty_robe": 11,
+          "gold_coin": 24,
+          "broken_clock": 4,
+          "skip": 23,
+          "omniscient_bag": 3,
+          "club_coupon": 3,
+          "split_silver": 3,
+          "blood_badge": 3,
+          "cosmic_lotto": 17,
+          "genius_gossip": 12,
+          "erudition_wax": 14,
+          "rubert_gear": 2,
+          "impermanence_dice": 1,
+          "peace_price": 1,
+          "fortune_glue": 2,
+          "chaos_trametes": 2,
+          "triangle_instrument": 4,
+          "organic_heart": 1,
+          "fools_mask": 4,
+          "divination_candle": 10,
+          "realm_crown": 1,
+          "faith_bond": 5,
+          "black_hole_trap": 4,
+          "remembrance_wax": 2,
+          "elation_wax": 1,
+          "whispering_scroll": 4,
+          "nihility_wax": 3,
+          "whisker_powder": 5,
+          "spacetime_prism": 2,
+          "annihilation_wick": 1,
+          "doctor_robe": 2,
+          "tala_flame": 1,
+          "evil_satellite": 2,
+          "punklorde_spirit": 3,
+          "abundance_wax": 2,
+          "stair_jellyfish": 1,
+          "uncertainty_box": 1,
+          "preservation_wax": 1,
+          "angel_debt": 2,
+          "dimension_dice": 1,
+          "split_coin": 2,
+          "beacon_colorant": 1,
+          "dimensional_dice": 1,
+          "propagation_wax": 1,
+          "mystery_box": 1,
+          "family_ties": 1,
+          "pink_collision": 1,
+          "polyhedral_dice": 1,
+          "corrupt_fruit": 1
+        },
+        "essence": {
+          "essence_destruction": 21,
+          "essence_genius": 9,
+          "essence_tala": 4,
+          "essence_beauty_robe": 14,
+          "essence_harmony": 18,
+          "essence_hunt": 11,
+          "skip": 6,
+          "essence_void_wick": 11,
+          "essence_elation": 26,
+          "essence_split_coin": 6,
+          "essence_erudition": 14,
+          "essence_scroll": 6,
+          "essence_compound_eye": 13,
+          "essence_propagation": 1,
+          "essence_family": 1,
+          "essence_whisker": 9,
+          "essence_dimensional_dice": 1,
+          "essence_remembrance": 3,
+          "essence_nihility": 1,
+          "essence_punklorde": 2,
+          "essence_jellyfish": 1,
+          "essence_cavity": 1,
+          "essence_annihilation": 1
+        }
+      },
+      "avgUsage": {
+        "initialHp": 100,
+        "initialShield": 0,
+        "rerollsUsed": 17.133333333333333,
+        "paidRerolls": 3.1166666666666667,
+        "removalsUsed": 6.3,
+        "supplyPurchases": 12.383333333333333,
+        "creditsSpent": 222.46666666666667,
+        "healed": 34.9605,
+        "shieldGained": 185.5958333333334,
+        "shieldBlocked": 119.72849999999998,
+        "shieldDecayed": 16.895000000000003,
+        "hpLost": 60.727,
+        "freeRerolls": 14.016666666666667,
+        "paidRerollCredits": 24.933333333333334,
+        "supplyCredits": 197.53333333333333,
+        "supplyKinds": {
+          "repair": 0,
+          "barrier": 0.1,
+          "overclock": 12.283333333333333
+        }
+      },
+      "resourceUsageRates": {
+        "rerolls": 1,
+        "removals": 1,
+        "credits": 1,
+        "defense": 0.6666666666666666
+      },
+      "defenseUsage": {
+        "hpGenerated": 8097.63,
+        "shieldGenerated": 11135.750000000004,
+        "hpConsumed": 3643.62,
+        "shieldConsumed": 7183.709999999999,
+        "shieldWasted": 1013.7000000000002,
+        "hpConsumptionRate": 0.44996128496856486,
+        "shieldConsumptionRate": 0.645103383247648,
+        "combinedRate": 0.5629447346228273,
+        "classification": "effective",
+        "thresholds": {
+          "low": 0.2,
+          "effective": 0.5
+        },
+        "method": "aggregate-consumed-over-generated",
+        "lowRate": 0,
+        "effectiveRate": 0.6666666666666666,
+        "observational": true,
+        "strata": {
+          "low": {
+            "n": 0,
+            "wins": 0,
+            "winRate": 0,
+            "winRateCI": [
+              0,
+              1
+            ],
+            "hpGenerated": 0,
+            "shieldGenerated": 0,
+            "hpConsumed": 0,
+            "shieldConsumed": 0,
+            "shieldWasted": 0,
+            "hpConsumptionRate": 0,
+            "shieldConsumptionRate": 0,
+            "combinedRate": 0,
+            "classification": "low",
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            },
+            "resourceUsageCounts": {
+              "rerolls": 0,
+              "removals": 0,
+              "credits": 0,
+              "defense": 0
+            },
+            "resourceUsageRates": {
+              "rerolls": 0,
+              "removals": 0,
+              "credits": 0,
+              "defense": 0
+            },
+            "jointActiveFour": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ]
+            },
+            "observational": true
+          },
+          "moderate": {
+            "n": 20,
+            "wins": 19,
+            "winRate": 0.95,
+            "winRateCI": [
+              0.763868806553258,
+              0.9911185511992047
+            ],
+            "hpGenerated": 2682.05,
+            "shieldGenerated": 5845.64,
+            "hpConsumed": 784.74,
+            "shieldConsumed": 2717.7300000000005,
+            "shieldWasted": 747.0100000000001,
+            "hpConsumptionRate": 0.2925896236088067,
+            "shieldConsumptionRate": 0.46491573206697645,
+            "combinedRate": 0.41071732204149075,
+            "classification": "moderate",
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            },
+            "resourceUsageCounts": {
+              "rerolls": 20,
+              "removals": 20,
+              "credits": 20,
+              "defense": 20
+            },
+            "resourceUsageRates": {
+              "rerolls": 1,
+              "removals": 1,
+              "credits": 1,
+              "defense": 1
+            },
+            "jointActiveFour": {
+              "n": 20,
+              "wins": 19,
+              "winRate": 0.95,
+              "winRateCI": [
+                0.763868806553258,
+                0.9911185511992047
+              ]
+            },
+            "observational": true
+          },
+          "effective": {
+            "n": 40,
+            "wins": 40,
+            "winRate": 1,
+            "winRateCI": [
+              0.9123783988027135,
+              1
+            ],
+            "hpGenerated": 5415.58,
+            "shieldGenerated": 5290.109999999999,
+            "hpConsumed": 2858.88,
+            "shieldConsumed": 4465.98,
+            "shieldWasted": 266.69000000000005,
+            "hpConsumptionRate": 0.5278991354573287,
+            "shieldConsumptionRate": 0.8442130692934553,
+            "combinedRate": 0.6842025128693247,
+            "classification": "effective",
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            },
+            "resourceUsageCounts": {
+              "rerolls": 40,
+              "removals": 40,
+              "credits": 40,
+              "defense": 40
+            },
+            "resourceUsageRates": {
+              "rerolls": 1,
+              "removals": 1,
+              "credits": 1,
+              "defense": 1
+            },
+            "jointActiveFour": {
+              "n": 40,
+              "wins": 40,
+              "winRate": 1,
+              "winRateCI": [
+                0.9123783988027135,
+                1
+              ]
+            },
+            "observational": true
+          }
+        }
+      },
+      "incomplete": 0
+    },
+    {
+      "scale": 1.4,
+      "runs": 60,
+      "wins": 56,
+      "winRate": 0.9333333333333333,
+      "winRateCI": [
+        0.8407464268680283,
+        0.9737713012754938
+      ],
+      "avgFloor": 12,
+      "avgClearedFloors": 11.933333333333334,
+      "avgHp": 75.20666666666668,
+      "avgTurns": 31.3,
+      "avgDamage": 9213.052499999998,
+      "avgCoins": 357.55,
+      "avgMerges": 1.75,
+      "avgRemovals": 7.05,
+      "avgRosterSize": 20.333333333333332,
+      "avgItems": 4.616666666666666,
+      "avgEssences": 2.9,
+      "avgActivatedEssences": 2.7666666666666666,
+      "avgScore": 13637.8020304266,
+      "avgSkips": 6.966666666666667,
+      "skipsByPhase": {
+        "recruit": 389,
+        "item": 23,
+        "essence": 6
+      },
+      "failureByFloor": [
+        {
+          "floor": 1,
+          "count": 0
+        },
+        {
+          "floor": 2,
+          "count": 0
+        },
+        {
+          "floor": 3,
+          "count": 0
+        },
+        {
+          "floor": 4,
+          "count": 0
+        },
+        {
+          "floor": 5,
+          "count": 0
+        },
+        {
+          "floor": 6,
+          "count": 0
+        },
+        {
+          "floor": 7,
+          "count": 0
+        },
+        {
+          "floor": 8,
+          "count": 0
+        },
+        {
+          "floor": 9,
+          "count": 0
+        },
+        {
+          "floor": 10,
+          "count": 0
+        },
+        {
+          "floor": 11,
+          "count": 0
+        },
+        {
+          "floor": 12,
+          "count": 4
+        }
+      ],
+      "picks": {
+        "recruit": {
+          "1001": 11,
+          "1002": 48,
+          "1003": 47,
+          "1004": 17,
+          "1005": 4,
+          "1006": 5,
+          "1008": 31,
+          "1009": 1,
+          "1013": 62,
+          "1101": 4,
+          "1102": 14,
+          "1103": 53,
+          "1104": 6,
+          "1105": 3,
+          "1106": 6,
+          "1107": 18,
+          "1108": 16,
+          "1109": 41,
+          "1110": 4,
+          "1111": 5,
+          "1112": 17,
+          "1201": 56,
+          "1202": 18,
+          "1203": 2,
+          "1204": 13,
+          "1205": 6,
+          "1206": 20,
+          "1209": 31,
+          "1210": 26,
+          "1211": 1,
+          "1212": 6,
+          "1214": 18,
+          "1215": 4,
+          "1217": 1,
+          "1218": 18,
+          "1220": 4,
+          "1221": 15,
+          "1222": 2,
+          "1223": 12,
+          "1301": 1,
+          "1302": 45,
+          "1303": 16,
+          "1305": 10,
+          "1306": 21,
+          "1307": 1,
+          "1308": 9,
+          "1309": 17,
+          "1310": 29,
+          "1312": 15,
+          "1313": 17,
+          "1314": 28,
+          "1315": 20,
+          "1317": 38,
+          "1402": 11,
+          "1403": 3,
+          "1404": 6,
+          "1405": 41,
+          "1406": 4,
+          "1407": 7,
+          "1408": 2,
+          "1409": 2,
+          "announced_himeko_nova": 61,
+          "mortenax_blade": 12,
+          "skip": 389,
+          "march_hunt": 36,
+          "dan_heng_imbibitor_lunae": 35,
+          "saber": 22,
+          "sparxie": 17,
+          "the_herta": 67,
+          "announced_gilgamesh": 27,
+          "cerydra": 26,
+          "the_dahlia": 12,
+          "hysilens": 9,
+          "ashveil": 17,
+          "archer": 3,
+          "yao_guang": 6,
+          "silver_wolf_lv999": 7,
+          "aventurine_waveflair": 1,
+          "dan_heng_pt": 21,
+          "aha": 1,
+          "announced_rin_tohsaka": 17,
+          "evernight": 8,
+          "pearl": 3,
+          "fugue": 8,
+          "evanescia": 2,
+          "cyrene": 1,
+          "aeon_star_aha": 1
+        },
+        "item": {
+          "seal_stamp": 30,
+          "compound_eye": 17,
+          "harmony_wax": 11,
+          "hunt_wax": 8,
+          "skip": 23,
+          "cosmic_lotto": 11,
+          "destruction_wax": 11,
+          "genius_gossip": 14,
+          "gold_coin": 23,
+          "organic_heart": 2,
+          "interstellar_lotto": 2,
+          "beauty_robe": 13,
+          "divination_candle": 6,
+          "remembrance_wax": 3,
+          "club_coupon": 3,
+          "beacon_colorant": 2,
+          "void_wick": 12,
+          "dimension_dice": 2,
+          "pink_collision": 2,
+          "erudition_wax": 17,
+          "chaos_medicine": 1,
+          "rubert_gear": 1,
+          "split_coin": 3,
+          "whispering_scroll": 2,
+          "blood_badge": 7,
+          "punklorde_spirit": 1,
+          "black_hole_trap": 1,
+          "fools_mask": 7,
+          "chaos_trametes": 2,
+          "whisker_powder": 7,
+          "stair_jellyfish": 4,
+          "tala_flame": 4,
+          "preservation_wax": 2,
+          "meteorite": 3,
+          "realm_crown": 1,
+          "evil_satellite": 5,
+          "triangle_instrument": 4,
+          "broken_clock": 4,
+          "nihility_wax": 1,
+          "split_silver": 5,
+          "fictional_machine": 1,
+          "doctor_robe": 5,
+          "elation_wax": 2,
+          "annihilation_wick": 1,
+          "omniscient_bag": 4,
+          "sponge_king": 1,
+          "peace_price": 1,
+          "wish_star": 1,
+          "abundance_wax": 1,
+          "impermanence_dice": 1,
+          "ruan_pouch": 1,
+          "corrupt_fruit": 2,
+          "faith_bond": 1,
+          "family_ties": 1
+        },
+        "essence": {
+          "essence_destruction": 19,
+          "essence_compound_eye": 16,
+          "essence_hunt": 14,
+          "essence_family": 2,
+          "essence_erudition": 9,
+          "essence_elation": 23,
+          "skip": 6,
+          "essence_genius": 13,
+          "essence_harmony": 24,
+          "essence_whisker": 10,
+          "essence_jellyfish": 1,
+          "essence_split_coin": 7,
+          "essence_scroll": 7,
+          "essence_tala": 2,
+          "essence_void_wick": 9,
+          "essence_beauty_robe": 9,
+          "essence_propagation": 1,
+          "essence_preservation": 1,
+          "essence_realm_crown": 1,
+          "essence_elation_wax": 1,
+          "essence_colorant": 2,
+          "essence_remembrance": 1,
+          "essence_cavity": 1,
+          "essence_annihilation": 1
+        }
+      },
+      "avgUsage": {
+        "initialHp": 100,
+        "initialShield": 0,
+        "rerollsUsed": 17.983333333333334,
+        "paidRerolls": 3.1666666666666665,
+        "removalsUsed": 7.05,
+        "supplyPurchases": 13.55,
+        "creditsSpent": 240.8,
+        "healed": 39.645833333333336,
+        "shieldGained": 234.5751666666667,
+        "shieldBlocked": 147.59949999999998,
+        "shieldDecayed": 16.31133333333333,
+        "hpLost": 64.43916666666668,
+        "freeRerolls": 14.816666666666666,
+        "paidRerollCredits": 25.333333333333332,
+        "supplyCredits": 215.46666666666667,
+        "supplyKinds": {
+          "repair": 0.03333333333333333,
+          "barrier": 0.2,
+          "overclock": 13.316666666666666
+        }
+      },
+      "resourceUsageRates": {
+        "rerolls": 1,
+        "removals": 1,
+        "credits": 1,
+        "defense": 0.6333333333333333
+      },
+      "defenseUsage": {
+        "hpGenerated": 8378.75,
+        "shieldGenerated": 14074.510000000002,
+        "hpConsumed": 3866.3500000000004,
+        "shieldConsumed": 8855.97,
+        "shieldWasted": 978.6799999999998,
+        "hpConsumptionRate": 0.46144711323288085,
+        "shieldConsumptionRate": 0.6292204844076276,
+        "combinedRate": 0.5666134895333683,
+        "classification": "effective",
+        "thresholds": {
+          "low": 0.2,
+          "effective": 0.5
+        },
+        "method": "aggregate-consumed-over-generated",
+        "lowRate": 0,
+        "effectiveRate": 0.6333333333333333,
+        "observational": true,
+        "strata": {
+          "low": {
+            "n": 0,
+            "wins": 0,
+            "winRate": 0,
+            "winRateCI": [
+              0,
+              1
+            ],
+            "hpGenerated": 0,
+            "shieldGenerated": 0,
+            "hpConsumed": 0,
+            "shieldConsumed": 0,
+            "shieldWasted": 0,
+            "hpConsumptionRate": 0,
+            "shieldConsumptionRate": 0,
+            "combinedRate": 0,
+            "classification": "low",
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            },
+            "resourceUsageCounts": {
+              "rerolls": 0,
+              "removals": 0,
+              "credits": 0,
+              "defense": 0
+            },
+            "resourceUsageRates": {
+              "rerolls": 0,
+              "removals": 0,
+              "credits": 0,
+              "defense": 0
+            },
+            "jointActiveFour": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ]
+            },
+            "observational": true
+          },
+          "moderate": {
+            "n": 22,
+            "wins": 22,
+            "winRate": 1,
+            "winRateCI": [
+              0.8513451253913791,
+              1
+            ],
+            "hpGenerated": 2975.95,
+            "shieldGenerated": 7725.86,
+            "hpConsumed": 912.24,
+            "shieldConsumed": 3601.96,
+            "shieldWasted": 588.73,
+            "hpConsumptionRate": 0.3065374082225844,
+            "shieldConsumptionRate": 0.466221236211891,
+            "combinedRate": 0.42181649646181346,
+            "classification": "moderate",
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            },
+            "resourceUsageCounts": {
+              "rerolls": 22,
+              "removals": 22,
+              "credits": 22,
+              "defense": 22
+            },
+            "resourceUsageRates": {
+              "rerolls": 1,
+              "removals": 1,
+              "credits": 1,
+              "defense": 1
+            },
+            "jointActiveFour": {
+              "n": 22,
+              "wins": 22,
+              "winRate": 1,
+              "winRateCI": [
+                0.8513451253913791,
+                1
+              ]
+            },
+            "observational": true
+          },
+          "effective": {
+            "n": 38,
+            "wins": 34,
+            "winRate": 0.8947368421052632,
+            "winRateCI": [
+              0.7586947827711269,
+              0.9582974265244647
+            ],
+            "hpGenerated": 5402.8,
+            "shieldGenerated": 6348.650000000001,
+            "hpConsumed": 2954.1100000000006,
+            "shieldConsumed": 5254.01,
+            "shieldWasted": 389.95000000000005,
+            "hpConsumptionRate": 0.5467738950173985,
+            "shieldConsumptionRate": 0.827579091617903,
+            "combinedRate": 0.698477209195461,
+            "classification": "effective",
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            },
+            "resourceUsageCounts": {
+              "rerolls": 38,
+              "removals": 38,
+              "credits": 38,
+              "defense": 38
+            },
+            "resourceUsageRates": {
+              "rerolls": 1,
+              "removals": 1,
+              "credits": 1,
+              "defense": 1
+            },
+            "jointActiveFour": {
+              "n": 38,
+              "wins": 34,
+              "winRate": 0.8947368421052632,
+              "winRateCI": [
+                0.7586947827711269,
+                0.9582974265244647
+              ]
+            },
+            "observational": true
+          }
+        }
+      },
+      "incomplete": 0
+    },
+    {
+      "scale": 1.6,
+      "runs": 60,
+      "wins": 51,
+      "winRate": 0.85,
+      "winRateCI": [
+        0.7388541093022145,
+        0.9190255941983225
+      ],
+      "avgFloor": 11.966666666666667,
+      "avgClearedFloors": 11.816666666666666,
+      "avgHp": 63.39233333333335,
+      "avgTurns": 33.56666666666667,
+      "avgDamage": 10444.840833333334,
+      "avgCoins": 353.7,
+      "avgMerges": 1.8333333333333333,
+      "avgRemovals": 6.633333333333334,
+      "avgRosterSize": 20.55,
+      "avgItems": 4.616666666666666,
+      "avgEssences": 2.8,
+      "avgActivatedEssences": 2.6666666666666665,
+      "avgScore": 13415.474933062778,
+      "avgSkips": 8.8,
+      "skipsByPhase": {
+        "recruit": 493,
+        "item": 23,
+        "essence": 12
+      },
+      "failureByFloor": [
+        {
+          "floor": 1,
+          "count": 0
+        },
+        {
+          "floor": 2,
+          "count": 0
+        },
+        {
+          "floor": 3,
+          "count": 0
+        },
+        {
+          "floor": 4,
+          "count": 0
+        },
+        {
+          "floor": 5,
+          "count": 0
+        },
+        {
+          "floor": 6,
+          "count": 0
+        },
+        {
+          "floor": 7,
+          "count": 0
+        },
+        {
+          "floor": 8,
+          "count": 0
+        },
+        {
+          "floor": 9,
+          "count": 0
+        },
+        {
+          "floor": 10,
+          "count": 0
+        },
+        {
+          "floor": 11,
+          "count": 2
+        },
+        {
+          "floor": 12,
+          "count": 7
+        }
+      ],
+      "picks": {
+        "recruit": {
+          "1001": 5,
+          "1002": 51,
+          "1003": 47,
+          "1004": 26,
+          "1005": 6,
+          "1006": 3,
+          "1008": 36,
+          "1009": 3,
+          "1013": 66,
+          "1101": 4,
+          "1102": 12,
+          "1103": 54,
+          "1104": 3,
+          "1105": 3,
+          "1106": 12,
+          "1107": 14,
+          "1108": 8,
+          "1109": 38,
+          "1110": 5,
+          "1111": 4,
+          "1112": 18,
+          "1201": 44,
+          "1202": 13,
+          "1203": 1,
+          "1204": 17,
+          "1205": 10,
+          "1206": 16,
+          "1207": 2,
+          "1208": 1,
+          "1209": 30,
+          "1210": 24,
+          "1212": 17,
+          "1214": 16,
+          "1215": 3,
+          "1218": 20,
+          "1220": 7,
+          "1221": 22,
+          "1222": 3,
+          "1223": 17,
+          "1301": 9,
+          "1302": 30,
+          "1303": 13,
+          "1304": 1,
+          "1305": 4,
+          "1306": 12,
+          "1307": 2,
+          "1308": 7,
+          "1309": 12,
+          "1310": 40,
+          "1312": 21,
+          "1313": 16,
+          "1314": 31,
+          "1315": 14,
+          "1317": 41,
+          "1402": 12,
+          "1403": 5,
+          "1404": 5,
+          "1405": 49,
+          "1406": 8,
+          "1407": 11,
+          "announced_himeko_nova": 49,
+          "cyrene": 1,
+          "mortenax_blade": 29,
+          "announced_gilgamesh": 25,
+          "the_herta": 61,
+          "announced_rin_tohsaka": 17,
+          "march_hunt": 46,
+          "skip": 493,
+          "dan_heng_imbibitor_lunae": 50,
+          "evanescia": 4,
+          "ashveil": 28,
+          "the_dahlia": 10,
+          "cerydra": 26,
+          "archer": 8,
+          "dan_heng_pt": 14,
+          "saber": 18,
+          "fugue": 9,
+          "aventurine_waveflair": 3,
+          "sparxie": 13,
+          "silver_wolf_lv999": 10,
+          "hysilens": 5,
+          "evernight": 8,
+          "aha": 1,
+          "aeon_star_aha": 1,
+          "yao_guang": 1
+        },
+        "item": {
+          "impermanence_dice": 3,
+          "harmony_wax": 7,
+          "genius_gossip": 12,
+          "mystery_box": 1,
+          "divination_candle": 14,
+          "gold_coin": 23,
+          "erudition_wax": 22,
+          "hunt_wax": 12,
+          "seal_stamp": 31,
+          "cavity_model": 1,
+          "organic_heart": 3,
+          "void_wick": 10,
+          "compound_eye": 15,
+          "skip": 23,
+          "sponge_king": 1,
+          "split_silver": 4,
+          "invalid_printer": 1,
+          "beauty_robe": 10,
+          "doctor_robe": 2,
+          "beacon_colorant": 3,
+          "punklorde_spirit": 3,
+          "polyhedral_dice": 4,
+          "cosmic_lotto": 14,
+          "destruction_wax": 9,
+          "whispering_scroll": 4,
+          "angel_debt": 3,
+          "faith_bond": 4,
+          "split_coin": 2,
+          "dimension_dice": 3,
+          "broken_clock": 3,
+          "interstellar_lotto": 3,
+          "whisker_powder": 4,
+          "triangle_instrument": 6,
+          "preservation_wax": 2,
+          "family_ties": 1,
+          "evil_satellite": 3,
+          "black_hole_trap": 1,
+          "blood_badge": 7,
+          "fools_mask": 1,
+          "annihilation_wick": 2,
+          "rubert_gear": 4,
+          "chaos_trametes": 2,
+          "remembrance_wax": 1,
+          "tala_flame": 2,
+          "stair_jellyfish": 3,
+          "insect_web": 1,
+          "chaos_medicine": 1,
+          "wish_star": 1,
+          "meteorite": 2,
+          "fictional_machine": 1,
+          "corrupt_fruit": 1,
+          "pink_collision": 2,
+          "omniscient_bag": 1,
+          "uncertainty_box": 1
+        },
+        "essence": {
+          "essence_destruction": 18,
+          "essence_compound_eye": 16,
+          "skip": 12,
+          "essence_scroll": 6,
+          "essence_genius": 12,
+          "essence_colorant": 1,
+          "essence_whisker": 10,
+          "essence_harmony": 12,
+          "essence_elation": 23,
+          "essence_beauty_robe": 16,
+          "essence_family": 2,
+          "essence_erudition": 13,
+          "essence_split_coin": 9,
+          "essence_hunt": 9,
+          "essence_remembrance": 1,
+          "essence_void_wick": 8,
+          "essence_nihility": 2,
+          "essence_medicine": 1,
+          "essence_dimensional_dice": 2,
+          "essence_punklorde": 1,
+          "essence_realm_crown": 3,
+          "essence_satellite": 1,
+          "essence_tala": 2
+        }
+      },
+      "avgUsage": {
+        "initialHp": 100,
+        "initialShield": 0,
+        "rerollsUsed": 18.483333333333334,
+        "paidRerolls": 4.216666666666667,
+        "removalsUsed": 6.633333333333334,
+        "supplyPurchases": 13.783333333333333,
+        "creditsSpent": 253.06666666666666,
+        "healed": 46.13166666666667,
+        "shieldGained": 222.232,
+        "shieldBlocked": 157.72966666666662,
+        "shieldDecayed": 19.200833333333335,
+        "hpLost": 82.73933333333333,
+        "freeRerolls": 14.266666666666667,
+        "paidRerollCredits": 33.733333333333334,
+        "supplyCredits": 219.33333333333334,
+        "supplyKinds": {
+          "repair": 0.05,
+          "barrier": 0.16666666666666666,
+          "overclock": 13.566666666666666
+        }
+      },
+      "resourceUsageRates": {
+        "rerolls": 1,
+        "removals": 1,
+        "credits": 1,
+        "defense": 0.8333333333333334
+      },
+      "defenseUsage": {
+        "hpGenerated": 8767.9,
+        "shieldGenerated": 13333.92,
+        "hpConsumed": 4964.36,
+        "shieldConsumed": 9463.779999999997,
+        "shieldWasted": 1152.0500000000002,
+        "hpConsumptionRate": 0.5661971509711561,
+        "shieldConsumptionRate": 0.7097522709000802,
+        "combinedRate": 0.652803253306741,
+        "classification": "effective",
+        "thresholds": {
+          "low": 0.2,
+          "effective": 0.5
+        },
+        "method": "aggregate-consumed-over-generated",
+        "lowRate": 0,
+        "effectiveRate": 0.8333333333333334,
+        "observational": true,
+        "strata": {
+          "low": {
+            "n": 0,
+            "wins": 0,
+            "winRate": 0,
+            "winRateCI": [
+              0,
+              1
+            ],
+            "hpGenerated": 0,
+            "shieldGenerated": 0,
+            "hpConsumed": 0,
+            "shieldConsumed": 0,
+            "shieldWasted": 0,
+            "hpConsumptionRate": 0,
+            "shieldConsumptionRate": 0,
+            "combinedRate": 0,
+            "classification": "low",
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            },
+            "resourceUsageCounts": {
+              "rerolls": 0,
+              "removals": 0,
+              "credits": 0,
+              "defense": 0
+            },
+            "resourceUsageRates": {
+              "rerolls": 0,
+              "removals": 0,
+              "credits": 0,
+              "defense": 0
+            },
+            "jointActiveFour": {
+              "n": 0,
+              "wins": 0,
+              "winRate": 0,
+              "winRateCI": [
+                0,
+                1
+              ]
+            },
+            "observational": true
+          },
+          "moderate": {
+            "n": 10,
+            "wins": 10,
+            "winRate": 1,
+            "winRateCI": [
+              0.7224672001371107,
+              0.9999999999999999
+            ],
+            "hpGenerated": 1395.42,
+            "shieldGenerated": 3950.4599999999996,
+            "hpConsumed": 477.45000000000005,
+            "shieldConsumed": 1635.7900000000002,
+            "shieldWasted": 795.11,
+            "hpConsumptionRate": 0.3421550500924453,
+            "shieldConsumptionRate": 0.41407582914394786,
+            "combinedRate": 0.3953025507493622,
+            "classification": "moderate",
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            },
+            "resourceUsageCounts": {
+              "rerolls": 10,
+              "removals": 10,
+              "credits": 10,
+              "defense": 10
+            },
+            "resourceUsageRates": {
+              "rerolls": 1,
+              "removals": 1,
+              "credits": 1,
+              "defense": 1
+            },
+            "jointActiveFour": {
+              "n": 10,
+              "wins": 10,
+              "winRate": 1,
+              "winRateCI": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "observational": true
+          },
+          "effective": {
+            "n": 50,
+            "wins": 41,
+            "winRate": 0.82,
+            "winRateCI": [
+              0.6920394632569922,
+              0.9022980732976582
+            ],
+            "hpGenerated": 7372.48,
+            "shieldGenerated": 9383.460000000003,
+            "hpConsumed": 4486.909999999999,
+            "shieldConsumed": 7827.990000000001,
+            "shieldWasted": 356.93999999999994,
+            "hpConsumptionRate": 0.6086025326620078,
+            "shieldConsumptionRate": 0.8342327883318092,
+            "combinedRate": 0.7349572748529773,
+            "classification": "effective",
+            "thresholds": {
+              "low": 0.2,
+              "effective": 0.5
+            },
+            "resourceUsageCounts": {
+              "rerolls": 50,
+              "removals": 50,
+              "credits": 50,
+              "defense": 50
+            },
+            "resourceUsageRates": {
+              "rerolls": 1,
+              "removals": 1,
+              "credits": 1,
+              "defense": 1
+            },
+            "jointActiveFour": {
+              "n": 50,
+              "wins": 41,
+              "winRate": 0.82,
+              "winRateCI": [
+                0.6920394632569922,
+                0.9022980732976582
+              ]
+            },
+            "observational": true
+          }
+        }
+      },
+      "incomplete": 0
+    }
+  ],
+  "sourceHashes": {
+    "src/content.js": "feaba9615a5a17afb3aa882c5457301ff0352936dae59483ad9768526a2ed1cc",
+    "src/effect-rules.js": "338aceed777f1d70fe66b2e51eeb2d58335d9fcda688ef94c3b48e9025310196",
+    "src/enemy-effects.js": "0cb8d0a134e6b87d413ef4a43b99c783f1a3699d448491b8598f700f2927bb6e",
+    "src/engine.js": "c9df216d093ee665160045d922fb4e11bf80565797a34ec7d4684673313e7529",
+    "src/ai.js": "733007793545ae32ef24466fc00364524e3d4291db4c4cdc1c8d27cc3ddbd631",
+    "src/retirement-ai.js": "0047d32d02cb2ba4b1f5fa81fa7b0186749029ee189f33230959fc58e136773e",
+    "src/difficulty.js": "9d0ae20a3b982a7c926a27aba5889f29f761ddb4c68472e3f64afebad175ff5d",
+    "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95"
+  },
+  "selected": {
+    "difficulty10HealthMultiplier": 1.4,
+    "difficultyStepMultiplier": 1.155,
+    "rationale": "D10目标点估计90%–98%，独立校准60配对种子中1.4为56/60；D20总生命保持近原系数，非按资源开关调整。正式种子独立于这些校准种子。"
+  },
+  "caveat": "这是选择参数的校准样本，不是独立发行胜率；四档共享60个种子，不能算240个独立种子。仅改变D10倍率的试验，不把高难曲线未测试段当已验证。"
+}

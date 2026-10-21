@@ -184,7 +184,7 @@ test('headless campaigns dispatch the same shared reroll and supply decisions us
     state.floor = 5;
     state.coins = 80;
     state.phase = phase;
-    if (phase === 'recruit') state.choices = ['1105', '1109', '1008'];
+    if (phase === 'recruit') state.choices = ['1208', '1005', '1303'];
     else {
       state.hp = 15;
       state.roster = [{ uid: 'u1', id: '1002', stars: 1, growth: 0, ticks: 0 }];

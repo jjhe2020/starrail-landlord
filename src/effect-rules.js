@@ -2,7 +2,7 @@ import { characterById, itemById, essenceById } from './content.js';
 import { getArchetypes } from './archetypes.js';
 
 // Data-only effects are interpreted by the engine, never read back from saves.
-export const EFFECT_TYPES = Object.freeze(['power', 'powerMultiplier', 'heal', 'shield', 'growth', 'resource', 'retaliationFlat', 'retaliationMultiplier', 'ignoreArmor', 'summon', 'selfDamage', 'maxHp', 'extraSpin', 'healMultiplier', 'shieldMultiplier', 'buffMultiplier', 'growthMultiplier', 'rarityMultiplier', 'essenceProgressMultiplier', 'damage', 'consume', 'healOverflowShield']);
+export const EFFECT_TYPES = Object.freeze(['power', 'powerMultiplier', 'heal', 'shield', 'growth', 'resource', 'retaliationFlat', 'retaliationMultiplier', 'ignoreArmor', 'summon', 'selfDamage', 'maxHp', 'extraSpin', 'healMultiplier', 'shieldMultiplier', 'buffMultiplier', 'growthMultiplier', 'rarityMultiplier', 'essenceProgressMultiplier', 'damage', 'consume', 'healOverflowShield', 'vulnerability']);
 export const EFFECT_TRIGGERS = Object.freeze(['appearance', 'spin', 'floor', 'acquire', 'retire', 'kill', 'merge', 'passive', 'retaliation']);
 export const PERSISTENT_PROGRESS_METRICS = Object.freeze(['rerolls', 'removals', 'creditsSpent', 'merges']);
 
@@ -12,9 +12,11 @@ export function matchesEffectFilter(unit, filter = {}, source = null) {
   if (!c) return false;
   if (filter.id !== undefined && unit.id !== filter.id) return false;
   if (filter.ids && !filter.ids.includes(unit.id)) return false;
+  if (filter.group && !c.groups?.includes(filter.group)) return false;
+  if (filter.groupsAny && !filter.groupsAny.some(group => c.groups?.includes(group))) return false;
   if (filter.commission !== undefined && Boolean(unit.commission) !== filter.commission) return false;
-  for (const key of ['path', 'element', 'faction', 'attack']) if (filter[key] !== undefined && c[key] !== filter[key]) return false;
-  for (const key of ['path', 'element', 'faction', 'attack']) if (filter[`${key}Not`] !== undefined && c[key] === filter[`${key}Not`]) return false;
+  for (const key of ['path', 'element', 'faction', 'attack', 'role']) if (filter[key] !== undefined && c[key] !== filter[key]) return false;
+  for (const key of ['path', 'element', 'faction', 'attack', 'role']) if (filter[`${key}Not`] !== undefined && c[key] === filter[`${key}Not`]) return false;
   if (filter.temporary !== undefined && Boolean(unit.temporary || unit.status === 'expired') !== filter.temporary) return false;
   if (filter.starsMin !== undefined && unit.stars < filter.starsMin) return false;
   if (filter.starsMax !== undefined && unit.stars > filter.starsMax) return false;
@@ -87,6 +89,11 @@ export function effectIsEligible(effect, context) {
   return true;
 }
 
+export function trainingMultiplier(unit) {
+  const definition = characterById(unit?.id);
+  return definition?.kitVersion === 6 && definition.role !== 'attack' ? 1 + Math.min(12, Math.max(0, unit?.growth || 0)) * 0.08 : 1;
+}
+
 export function effectAmount(effect, context) {
   let amount = Number.isFinite(effect.value) ? effect.value : 0;
   if (effect.per) {
@@ -96,7 +103,18 @@ export function effectAmount(effect, context) {
     if (Number.isFinite(effect.per.cap)) count = Math.min(count, effect.per.cap);
     amount *= Math.max(0, count);
   }
-  if (effect.scaleWithStars) amount *= context.star ?? [0, 1, 3, 9][context.unit?.stars || 1];
+  if (effect.scaleWithStars) {
+    const stars = context.unit?.stars || 1;
+    const standard = [0, 1, 3, 9][stars];
+    const actual = context.star ?? standard;
+    amount *= effect.starFactors ? effect.starFactors[stars] * actual / standard : actual;
+  }
+  if (effect.scaleWithSourcePower) amount *= effectMetric('sourcePower', context);
+  if (effect.scaleWithTraining && effect.type !== 'growth') {
+    const training = trainingMultiplier(context.unit);
+    if (['powerMultiplier', 'retaliationMultiplier', 'healMultiplier', 'shieldMultiplier', 'buffMultiplier', 'growthMultiplier'].includes(effect.type)) amount = Math.max(0.05, 1 + (amount - 1) * training);
+    else amount *= training;
+  }
   return amount;
 }
 
@@ -110,9 +128,11 @@ export function effectTargetIndexes(effect, context) {
   indexes = indexes.filter(i => matchesEffectFilter(state.board[i], effect.filter, unit));
   if (target === 'strongest') {
     if (!effect.includeSource) indexes = indexes.filter(i => state.board[i].uid !== unit?.uid);
-    indexes.sort((a, b) => (powers[b] || 0) - (powers[a] || 0) || a - b);
+    const strength = i => powers[i] || characterById(state.board[i].id).power * [0, 1, 3, 9][state.board[i].stars] + (characterById(state.board[i].id).role === 'attack' ? state.board[i].growth : 0);
+    indexes.sort((a, b) => strength(b) - strength(a) || a - b);
     indexes = indexes.slice(0, 1);
   }
+  if (Number.isInteger(effect.targetLimit) && effect.targetLimit > 0) indexes = indexes.slice(0, effect.targetLimit);
   return indexes;
 }
 

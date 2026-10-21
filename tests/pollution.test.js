@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { newGame, spin, skipReward, chooseReward, removeSymbol, validateSave } from '../src/engine.js';
-import { CHARACTERS } from '../src/content.js';
+import { CHARACTERS, characterById } from '../src/content.js';
+import { adjacentIndexes } from '../src/effect-rules.js';
 import { getEligibleDebuffs, unitPowerMultiplier, POLLUTION_ATTACK_MULTIPLIER } from '../src/enemy-effects.js';
 
 const pollution = state => state.activeDebuffs.find(effect => effect.id === 'rift_pollution');
@@ -18,7 +19,8 @@ function encounter(floor = 4, { roster = [instance('u1', '1002'), instance('u2',
   const next = skipReward(state);
   // Isolate pollution from the independent random clauses and retaliation.
   next.activeDebuffs = next.activeDebuffs.filter(effect => effect.id === 'rift_pollution');
-  next.enemySkill = { id: 'pressure', name: '战意积蓄', description: '测试' };
+  next.enemySkill = { id: 'pressure', name: '战意积蓄', description: '每第三次转动，存活敌人的攻击总和额外增加 3。' };
+  next.enemyIntent={...next.enemyIntent,name:next.enemySkill.name,description:next.enemySkill.description};
   next.enemies.forEach(enemy => { enemy.hp = enemy.maxHp = 10000; enemy.attack = 0; });
   return next;
 }
@@ -30,8 +32,8 @@ test('pollution selects the lowest base-plus-growth permanent one-star instance 
   ];
   for (const floor of [4, 6, 8, 10, 12]) {
     const state = encounter(floor, { roster });
-    assert.equal(pollution(state).targetUid, 'u2');
-    assert.equal(pollution(state).targetName, '青雀');
+    assert.equal(pollution(state).targetUid, 'u3');
+    assert.equal(pollution(state).targetName, '艾丝妲');
     assert.equal(state.activeDebuffs.filter(effect => effect.id === 'rift_pollution').length, 1);
     assert.equal(getEligibleDebuffs(state).some(effect => effect.id === 'rift_pollution'), false);
     assert.notEqual(validateSave(state), null);
@@ -180,11 +182,15 @@ test('the shared pollution penalty changes attack power without reducing support
   const normal = spin(control);
   assert.equal(polluted.lastSpin.healing, normal.lastSpin.healing);
   assert.equal(polluted.lastSpin.shield, normal.lastSpin.shield);
-  assert.equal(polluted.lastSpin.healing, 3);
-  assert.equal(polluted.lastSpin.shield, 3);
+  assert.equal(polluted.lastSpin.healing, 2.5);
+  const protectorIndex=polluted.board.findIndex(u=>u?.id==='1001');
+  const protector=characterById('1001');
+  const matchingNeighbors=adjacentIndexes(protectorIndex).map(i=>polluted.board[i]).filter(u=>u&&characterById(u.id).groups.some(g=>protector.groups.includes(g))).length;
+  assert.equal(polluted.lastSpin.shield,Math.min(3,matchingNeighbors)*3);
   for (const id of ['1105', '1009']) {
     const cell = polluted.board.findIndex(unit => unit?.id === id);
-    assert.equal(polluted.lastSpin.values[cell], normal.lastSpin.values[cell]);
+    const marked=pollution(state).targetUid===polluted.board[cell].uid;
+    assert.equal(polluted.lastSpin.values[cell],marked?Math.round(normal.lastSpin.values[cell]*.5*100)/100:normal.lastSpin.values[cell]);
   }
 });
 

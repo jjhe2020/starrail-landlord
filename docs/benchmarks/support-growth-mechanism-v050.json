@@ -1,0 +1,555 @@
+{
+  "version": "support-growth-mechanism-v050",
+  "measuredVersion": "0.5.0",
+  "date": "2026-10-21",
+  "nodeVersion": "v24.14.0",
+  "experimentType": "single-turn-controlled-mechanism-experiment",
+  "sampling": {
+    "artificialFixtures": true,
+    "naturalCampaigns": 0,
+    "includedIn5700CampaignSample": false,
+    "pairedFixtures": 3,
+    "singleTurnResolutions": 6
+  },
+  "scope": "人工构造并通过正式存档校验的同状态单次转动；只改变指定辅助自身的永久growth。用于验证当前公式与条件，不代表自然构筑频率、通关率或完整卡牌价值。",
+  "attribution": "selfCharacterDamage只含角色原始来源；风雷追击保留synergy原始来源，计teamSharedDamage。辅助不普遍按自身永久growth增加治疗、护盾或平加支援；特定属性羁绊可将其威力转为团队追加伤害。",
+  "sourceStable": true,
+  "sourceHashes": {
+    "src/engine.js": "dbda782db44f0c2cb73851db2093c0e5122ac17629c8a0b4aede108ba2dd4fc5",
+    "src/content.js": "8a147df0e927a62b2616f5a97a780dde8eabc8af9a45a846f3450c4e57d78a81",
+    "src/synergies.js": "e4833d6b03c58ebbc14ef45f52f7cd55477eb97b04631f9c318212d3d2bd4c01",
+    "src/effect-rules.js": "ec2da53e5b0595f1ca3a72a256f7ddc2058e125f7ad06dfa9b69f16e10f7236a",
+    "src/difficulty.js": "9d0ae20a3b982a7c926a27aba5889f29f761ddb4c68472e3f64afebad175ff5d",
+    "src/enemy-effects.js": "7f11e1043c613da1bae7d7022acf9d17c464400688486f532c155835bd09ea01",
+    "src/retirements.js": "22cc5bd413d0a40a1efde600150ed8ad9bb41598373046cfe4a89dbb098c99d2",
+    "src/archetypes.js": "cca33f55a43aec0c3b5fcc77dab56d264e39711e9a5146a94bbe34ca862ba029",
+    "src/growth-telemetry.js": "5b67c1caeef9950651b36b5095f86598cc3641c8ec9f6802daf15d5d8c3943a8",
+    "scripts/probe-support-growth.mjs": "88f95037ffb40aca68bd523b4a31025ae3dbeaf7e1d919d2fe263b7f1c6315eb"
+  },
+  "cases": [
+    {
+      "id": "cyrene-self-growth",
+      "seed": "support-growth-proof",
+      "subjectId": "cyrene",
+      "subjectName": "昔涟",
+      "roster": [
+        {
+          "id": "cyrene",
+          "name": "昔涟",
+          "stars": 1,
+          "ticksBefore": 1
+        },
+        {
+          "id": "1407",
+          "name": "遐蝶",
+          "stars": 1,
+          "ticksBefore": 1
+        },
+        {
+          "id": "1409",
+          "name": "风堇",
+          "stars": 1,
+          "ticksBefore": 1
+        }
+      ],
+      "fixture": {
+        "difficulty": 10,
+        "floor": 1,
+        "roundBefore": 1,
+        "hpBefore": 50,
+        "shieldBefore": 0,
+        "enemyColumns": 5,
+        "enemyHpEach": 1000,
+        "enemyAttackEach": 0,
+        "items": [],
+        "essences": [],
+        "activeDebuffs": []
+      },
+      "intervention": {
+        "field": "roster.u1.growth",
+        "baseline": 0,
+        "boosted": 10,
+        "inputDifferences": [
+          {
+            "path": "roster[0].growth",
+            "before": 0,
+            "after": 10
+          }
+        ]
+      },
+      "baseline": {
+        "selfPower": 3.1,
+        "selfCharacterDamage": 0,
+        "teamCharacterDamage": 20.5,
+        "teamSharedDamage": 0,
+        "teamDamage": 20.5,
+        "selfHealing": 0,
+        "selfShield": 0,
+        "teamHealing": 3,
+        "teamShield": 3.13,
+        "sentFlatPower": 0,
+        "sentGrowth": 0.2,
+        "growthGrants": [
+          {
+            "targetUid": "u1",
+            "targetId": "cyrene",
+            "amount": 0.1
+          },
+          {
+            "targetUid": "u2",
+            "targetId": "1407",
+            "amount": 0.1
+          },
+          {
+            "targetUid": "u3",
+            "targetId": "1409",
+            "amount": 0.1
+          }
+        ],
+        "sharedDamageBySource": {}
+      },
+      "boosted": {
+        "selfPower": 13.1,
+        "selfCharacterDamage": 0,
+        "teamCharacterDamage": 20.5,
+        "teamSharedDamage": 0,
+        "teamDamage": 20.5,
+        "selfHealing": 0,
+        "selfShield": 0,
+        "teamHealing": 3,
+        "teamShield": 3.13,
+        "sentFlatPower": 0,
+        "sentGrowth": 0.2,
+        "growthGrants": [
+          {
+            "targetUid": "u1",
+            "targetId": "cyrene",
+            "amount": 0.1
+          },
+          {
+            "targetUid": "u2",
+            "targetId": "1407",
+            "amount": 0.1
+          },
+          {
+            "targetUid": "u3",
+            "targetId": "1409",
+            "amount": 0.1
+          }
+        ],
+        "sharedDamageBySource": {}
+      },
+      "delta": {
+        "selfPower": 10,
+        "selfCharacterDamage": 0,
+        "teamCharacterDamage": 0,
+        "teamSharedDamage": 0,
+        "teamDamage": 0,
+        "selfHealing": 0,
+        "selfShield": 0,
+        "teamHealing": 0,
+        "teamShield": 0,
+        "sentFlatPower": 0,
+        "sentGrowth": 0
+      },
+      "checks": {
+        "inputSaveValid": true,
+        "resultSaveValid": true,
+        "inputsImmutable": true,
+        "officialSpinDeepEqual": true,
+        "damageLedgerReconciles": true,
+        "sameRngAfter": true,
+        "sameBoardPositions": true,
+        "sameRewardChoices": true,
+        "expectedMetricBoundaries": true
+      },
+      "resultStateDifferences": [
+        {
+          "path": "roster[0].growth",
+          "before": 0.1,
+          "after": 10.1
+        },
+        {
+          "path": "board[2].growth",
+          "before": 0.1,
+          "after": 10.1
+        },
+        {
+          "path": "lastSpin.total",
+          "before": 10.3,
+          "after": 20.3
+        },
+        {
+          "path": "lastSpin.powerBreakdown[2].growth",
+          "before": 0.1,
+          "after": 10.1
+        },
+        {
+          "path": "lastSpin.powerBreakdown[2].final",
+          "before": 3.1,
+          "after": 13.1
+        },
+        {
+          "path": "lastSpin.values[2]",
+          "before": 3.1,
+          "after": 13.1
+        }
+      ],
+      "interpretation": "昔涟自身成长提高自身结算威力；给遐蝶和风堇的永久成长仍各为0.1，治疗、护盾及本次团队伤害均不增加。昔涟给攻击型记忆队友的成长有效，不能据此将她自身的成长解释为支援强度成长。"
+    },
+    {
+      "id": "lightning-support-growth",
+      "seed": "support-growth-proof",
+      "subjectId": "1211",
+      "subjectName": "白露",
+      "roster": [
+        {
+          "id": "1211",
+          "name": "白露",
+          "stars": 1,
+          "ticksBefore": 1
+        },
+        {
+          "id": "1202",
+          "name": "停云",
+          "stars": 1,
+          "ticksBefore": 1
+        },
+        {
+          "id": "1103",
+          "name": "希露瓦",
+          "stars": 1,
+          "ticksBefore": 1
+        }
+      ],
+      "fixture": {
+        "difficulty": 10,
+        "floor": 1,
+        "roundBefore": 1,
+        "hpBefore": 50,
+        "shieldBefore": 0,
+        "enemyColumns": 5,
+        "enemyHpEach": 1000,
+        "enemyAttackEach": 0,
+        "items": [],
+        "essences": [],
+        "activeDebuffs": []
+      },
+      "intervention": {
+        "field": "roster.u1.growth",
+        "baseline": 0,
+        "boosted": 10,
+        "inputDifferences": [
+          {
+            "path": "roster[0].growth",
+            "before": 0,
+            "after": 10
+          }
+        ]
+      },
+      "baseline": {
+        "selfPower": 4,
+        "selfCharacterDamage": 0,
+        "teamCharacterDamage": 5,
+        "teamSharedDamage": 1.4,
+        "teamDamage": 6.4,
+        "selfHealing": 3,
+        "selfShield": 0,
+        "teamHealing": 3,
+        "teamShield": 1.5,
+        "sentFlatPower": 0,
+        "sentGrowth": 0,
+        "growthGrants": [],
+        "sharedDamageBySource": {
+          "lightning": 1.4
+        }
+      },
+      "boosted": {
+        "selfPower": 14,
+        "selfCharacterDamage": 0,
+        "teamCharacterDamage": 5,
+        "teamSharedDamage": 3.4,
+        "teamDamage": 8.4,
+        "selfHealing": 3,
+        "selfShield": 0,
+        "teamHealing": 3,
+        "teamShield": 1.5,
+        "sentFlatPower": 0,
+        "sentGrowth": 0,
+        "growthGrants": [],
+        "sharedDamageBySource": {
+          "lightning": 3.4
+        }
+      },
+      "delta": {
+        "selfPower": 10,
+        "selfCharacterDamage": 0,
+        "teamCharacterDamage": 0,
+        "teamSharedDamage": 2,
+        "teamDamage": 2,
+        "selfHealing": 0,
+        "selfShield": 0,
+        "teamHealing": 0,
+        "teamShield": 0,
+        "sentFlatPower": 0,
+        "sentGrowth": 0
+      },
+      "checks": {
+        "inputSaveValid": true,
+        "resultSaveValid": true,
+        "inputsImmutable": true,
+        "officialSpinDeepEqual": true,
+        "damageLedgerReconciles": true,
+        "sameRngAfter": true,
+        "sameBoardPositions": true,
+        "sameRewardChoices": true,
+        "expectedMetricBoundaries": true
+      },
+      "resultStateDifferences": [
+        {
+          "path": "roster[0].growth",
+          "before": 0,
+          "after": 10
+        },
+        {
+          "path": "board[2].growth",
+          "before": 0,
+          "after": 10
+        },
+        {
+          "path": "enemies[1].hp",
+          "before": 997.6,
+          "after": 995.6
+        },
+        {
+          "path": "lastSpin.total",
+          "before": 7,
+          "after": 17
+        },
+        {
+          "path": "lastSpin.damage",
+          "before": 6.4,
+          "after": 8.4
+        },
+        {
+          "path": "lastSpin.events[0]",
+          "before": "造成 6.4 伤害；敌方反击 0，护盾抵挡 0。",
+          "after": "造成 8.4 伤害；敌方反击 0，护盾抵挡 0。"
+        },
+        {
+          "path": "lastSpin.hits[5].amount",
+          "before": 0.8,
+          "after": 2.8
+        },
+        {
+          "path": "lastSpin.effects[3].amount",
+          "before": 0.8,
+          "after": 2.8
+        },
+        {
+          "path": "lastSpin.powerBreakdown[2].growth",
+          "before": 0,
+          "after": 10
+        },
+        {
+          "path": "lastSpin.powerBreakdown[2].final",
+          "before": 4,
+          "after": 14
+        },
+        {
+          "path": "lastSpin.values[2]",
+          "before": 4,
+          "after": 14
+        },
+        {
+          "path": "history[1]",
+          "before": "造成 6.4 伤害；敌方反击 0，护盾抵挡 0。",
+          "after": "造成 8.4 伤害；敌方反击 0，护盾抵挡 0。"
+        },
+        {
+          "path": "stats.damage",
+          "before": 6.4,
+          "after": 8.4
+        }
+      ],
+      "interpretation": "三种雷身份激活雷羁绊，常规攻击后仍至少两列存活；白露成长+10使20%威力电弧增加2点团队来源伤害，但治疗和护盾不增加。"
+    },
+    {
+      "id": "wind-support-growth",
+      "seed": "support-growth-proof",
+      "subjectId": "1101",
+      "subjectName": "布洛妮娅",
+      "roster": [
+        {
+          "id": "1101",
+          "name": "布洛妮娅",
+          "stars": 1,
+          "ticksBefore": 1
+        },
+        {
+          "id": "1217",
+          "name": "藿藿",
+          "stars": 1,
+          "ticksBefore": 1
+        },
+        {
+          "id": "1002",
+          "name": "丹恒",
+          "stars": 1,
+          "ticksBefore": 1
+        }
+      ],
+      "fixture": {
+        "difficulty": 10,
+        "floor": 1,
+        "roundBefore": 1,
+        "hpBefore": 50,
+        "shieldBefore": 0,
+        "enemyColumns": 2,
+        "enemyHpEach": 1000,
+        "enemyAttackEach": 0,
+        "items": [],
+        "essences": [],
+        "activeDebuffs": []
+      },
+      "intervention": {
+        "field": "roster.u1.growth",
+        "baseline": 0,
+        "boosted": 10,
+        "inputDifferences": [
+          {
+            "path": "roster[0].growth",
+            "before": 0,
+            "after": 10
+          }
+        ]
+      },
+      "baseline": {
+        "selfPower": 2,
+        "selfCharacterDamage": 0,
+        "teamCharacterDamage": 3,
+        "teamSharedDamage": 1.75,
+        "teamDamage": 4.75,
+        "selfHealing": 0,
+        "selfShield": 0,
+        "teamHealing": 4,
+        "teamShield": 0,
+        "sentFlatPower": 1,
+        "sentGrowth": 0,
+        "growthGrants": [],
+        "sharedDamageBySource": {
+          "wind": 1.75
+        }
+      },
+      "boosted": {
+        "selfPower": 12,
+        "selfCharacterDamage": 0,
+        "teamCharacterDamage": 3,
+        "teamSharedDamage": 4.25,
+        "teamDamage": 7.25,
+        "selfHealing": 0,
+        "selfShield": 0,
+        "teamHealing": 4,
+        "teamShield": 0,
+        "sentFlatPower": 1,
+        "sentGrowth": 0,
+        "growthGrants": [],
+        "sharedDamageBySource": {
+          "wind": 4.25
+        }
+      },
+      "delta": {
+        "selfPower": 10,
+        "selfCharacterDamage": 0,
+        "teamCharacterDamage": 0,
+        "teamSharedDamage": 2.5,
+        "teamDamage": 2.5,
+        "selfHealing": 0,
+        "selfShield": 0,
+        "teamHealing": 0,
+        "teamShield": 0,
+        "sentFlatPower": 0,
+        "sentGrowth": 0
+      },
+      "checks": {
+        "inputSaveValid": true,
+        "resultSaveValid": true,
+        "inputsImmutable": true,
+        "officialSpinDeepEqual": true,
+        "damageLedgerReconciles": true,
+        "sameRngAfter": true,
+        "sameBoardPositions": true,
+        "sameRewardChoices": true,
+        "expectedMetricBoundaries": true
+      },
+      "resultStateDifferences": [
+        {
+          "path": "roster[0].growth",
+          "before": 0,
+          "after": 10
+        },
+        {
+          "path": "board[2].growth",
+          "before": 0,
+          "after": 10
+        },
+        {
+          "path": "enemies[1].hp",
+          "before": 998.5,
+          "after": 996
+        },
+        {
+          "path": "lastSpin.total",
+          "before": 7,
+          "after": 17
+        },
+        {
+          "path": "lastSpin.damage",
+          "before": 4.75,
+          "after": 7.25
+        },
+        {
+          "path": "lastSpin.events[0]",
+          "before": "造成 4.75 伤害；敌方反击 0，护盾抵挡 0。",
+          "after": "造成 7.25 伤害；敌方反击 0，护盾抵挡 0。"
+        },
+        {
+          "path": "lastSpin.hits[1].amount",
+          "before": 0.5,
+          "after": 3
+        },
+        {
+          "path": "lastSpin.effects[2].amount",
+          "before": 0.5,
+          "after": 3
+        },
+        {
+          "path": "lastSpin.powerBreakdown[2].growth",
+          "before": 0,
+          "after": 10
+        },
+        {
+          "path": "lastSpin.powerBreakdown[2].final",
+          "before": 2,
+          "after": 12
+        },
+        {
+          "path": "lastSpin.values[2]",
+          "before": 2,
+          "after": 12
+        },
+        {
+          "path": "history[1]",
+          "before": "造成 4.75 伤害；敌方反击 0，护盾抵挡 0。",
+          "after": "造成 7.25 伤害；敌方反击 0，护盾抵挡 0。"
+        },
+        {
+          "path": "stats.damage",
+          "before": 4.75,
+          "after": 7.25
+        }
+      ],
+      "interpretation": "三种风身份激活风羁绊，常规攻击后只剩两列；布洛妮娅成长+10使25%威力追击增加2.5点团队来源伤害，但邻接平加增益和治疗不增加。"
+    }
+  ]
+}

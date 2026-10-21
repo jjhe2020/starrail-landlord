@@ -4,7 +4,7 @@ import { CHARACTERS, ITEMS, ESSENCES } from '../src/content.js';
 import { durationInfo, effectRows, effectBadges, snapshotTitle, unitBreakdown } from '../src/effect-info.js';
 import { newGame, spin } from '../src/engine.js';
 
-test('all 160 content entries explain lifetime, trigger, recipient and stacking without untranslated DSL', () => {
+test('all content entries explain lifetime, trigger, recipient and stacking without untranslated DSL', () => {
   for (const entry of [...CHARACTERS, ...ITEMS, ...ESSENCES]) {
     const rows = effectRows(entry);
     assert.ok(rows.length > 0, entry.name);
@@ -23,7 +23,7 @@ test('resource outcomes identify shared train pools rather than implying persona
   assert.equal(shield.duration.key, 'resource');
   const support = effectRows(CHARACTERS.find(c => c.id === '1008'));
   assert.ok(support.every(row => row.duration.key === 'spin'));
-  const growth = effectRows(CHARACTERS.find(c => c.id === '1002'));
+  const growth = effectRows(CHARACTERS.find(c => c.role === 'trainer'));
   assert.ok(growth.some(row => row.duration.key === 'run'));
   const damage = effectRows({effects:[{type:'damage',trigger:'spin',target:'team',duration:'spin'}]})[0];
   assert.equal(damage.target,'所有存活敌人');

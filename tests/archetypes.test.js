@@ -44,7 +44,8 @@ test('formation counts distinct recruited identities and requires a core', () =>
 });
 
 for (const a of ARCHETYPES) test(`${a.name} produces a real payoff only after formation`, () => {
-  const ids = [a.coreIds[0], ...a.memberIds.filter(id => !a.coreIds.includes(id)).slice(0, a.threshold - 1)];
+  const attacker = a.memberIds.find(id => characterById(id).role === 'attack');
+  const ids = [...new Set([a.coreIds[0], attacker, ...a.memberIds.filter(id => !a.coreIds.includes(id))])].slice(0, a.threshold);
   const before = fixture(ids.slice(0, -1));
   assert.equal(getArchetypes(before).find(x => x.id === a.id).effects.length, 0);
   const state = fixture(ids), saved = structuredClone(state);
@@ -65,7 +66,7 @@ test('counterfactual suppression is scoped and restored after exceptions', () =>
 });
 
 test('AI sees formed archetype effects using the same identity filters as combat', () => {
-  const state = fixture(['1005', '1004', '1006', '1108', '1210', '1002']);
+  const state = fixture(['1308', '1004', '1005', '1108', '1210', '1002']);
   const estimate = estimateEffectsForAi(state);
   const off = withoutArchetypeEffects(() => estimateEffectsForAi(state));
   assert.ok((estimate.powerMultipliers.get('u1') || 1) > (off.powerMultipliers.get('u1') || 1));
@@ -82,7 +83,7 @@ test('break relay lets the strongest killer perform its own system follow-up onc
   const index = result.board.findIndex(u => u?.id === '1310');
   const followUps = result.lastSpin.effects.filter(e => e.sourceId === 'break' && e.type === 'damage');
   assert.equal(followUps.length, 1, 'system follow-up cannot recursively trigger itself');
-  assert.equal(followUps[0].amount, Math.round(result.lastSpin.values[index] * 0.8 * 100) / 100);
+  assert.equal(followUps[0].amount, Math.round(result.lastSpin.values[index] * 0.5 * 1.3 * 100) / 100);
 });
 
 test('overlapping archetypes take the highest multiplier per attacker in combat and AI', () => {
@@ -90,17 +91,17 @@ test('overlapping archetypes take the highest multiplier per attacker in combat 
   assert.ok(getArchetypes(state).find(a => a.id === 'follow_up').formed);
   assert.ok(getArchetypes(state).find(a => a.id === 'frost').formed);
   const enabled = spin(state), disabled = withoutArchetypeEffects(() => spin(state));
-  const index = enabled.board.findIndex(u => u?.id === '1304');
-  const strongestFactor = Math.max(...ARCHETYPES.filter(a => a.memberIds.includes('1304')).flatMap(a => a.effects.filter(e => e.type === 'powerMultiplier').map(e => e.value)));
+  const index = enabled.board.findIndex(u => u?.id === '1107');
+  const strongestFactor = Math.max(...ARCHETYPES.filter(a => a.memberIds.includes('1107')).flatMap(a => a.effects.filter(e => e.type === 'powerMultiplier').map(e => e.value)));
   assert.ok(Math.abs(enabled.lastSpin.values[index] / disabled.lastSpin.values[index] - strongestFactor) < 0.01);
   const estimate = estimateEffectsForAi(state), off = withoutArchetypeEffects(() => estimateEffectsForAi(state));
-  assert.ok(Math.abs(estimate.powerMultipliers.get('u2') / (off.powerMultipliers.get('u2') || 1) - strongestFactor) < 1e-8);
+  assert.ok(Math.abs(estimate.powerMultipliers.get('u5') / (off.powerMultipliers.get('u5') || 1) - strongestFactor) < 1e-8);
 });
 
 test('memory performance boosts the real summoned Sushang rather than an unreachable temporary member', () => {
   const a = ARCHETYPES.find(a => a.id === 'recollection');
   const initial = fixture(a.memberIds.slice(0, a.threshold));
-  initial.roster[0].ticks = 2;
+  initial.roster[0].ticks = 3;
   let state = spin(initial);
   while (['recruit', 'item', 'essence'].includes(state.phase)) state = skipReward(state);
   const summon = state.roster.find(u => u.id === '1206' && u.temporary === 2);
@@ -108,8 +109,9 @@ test('memory performance boosts the real summoned Sushang rather than an unreach
   const uid = summon.uid;
   const enabled = spin(state), disabled = withoutArchetypeEffects(() => spin(state), ['recollection']);
   const index = enabled.board.findIndex(u => u?.uid === uid);
-  assert.ok(enabled.lastSpin.effects.some(e => e.sourceId === 'recollection' && e.type === 'power' && e.targetUid === uid && e.amount === 2));
-  assert.equal(Math.round((enabled.lastSpin.values[index] - disabled.lastSpin.values[index]) * 100) / 100, 2);
+  assert.ok(enabled.lastSpin.effects.some(e => e.sourceId === 'recollection' && e.type === 'power' && e.targetUid === uid && e.amount === 0.6));
+  assert.equal(enabled.lastSpin.values[index],Math.round((disabled.lastSpin.values[index]+.6)*1.25*100)/100);
+  assert.ok(enabled.lastSpin.effects.some(e=>e.sourceId==='recollection'&&e.type==='powerMultiplier'&&e.targetUid===uid&&e.amount===1.25),'the real summoned group member receives the formed route multiplier too');
   assert.equal(enabled.roster.find(u => u.uid === uid).temporary, 1, 'the buff does not extend the summon');
   assert.ok(validateSave(JSON.parse(JSON.stringify(enabled))));
 });

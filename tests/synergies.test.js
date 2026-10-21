@@ -29,15 +29,15 @@ const cases = [
   ['astral', ['1001', '1002', '1109'], {}],
   ['belobog', ['1102', '1103', '1105'], { weak: true }],
   ['station', ['1009', '1013'], { ticks: 2 }],
-  ['hunters', ['1005', '1006'], {}],
+  ['hunters', ['1205', '1310'], {}],
   ['xianzhou', ['1201', '1202', '1203'], {}],
   ['hunt', ['1002', '1102'], { weak: true }],
   ['destruction', ['1008', '1107'], {}],
   ['erudition', ['1013', '1201'], { alive: 2 }],
-  ['nihility', ['1005', '1006'], { round: 1 }],
-  ['preservation', ['1001', '1104'], {}],
-  ['abundance', ['1105', '1203'], { hp: 10 }],
-  ['harmony', ['1101', '1202', '1205'], {}],
+  ['nihility', ['1308', 'mortenax_blade'], { round: 1 }],
+  ['preservation', ['1001', '1104', '1102'], {}],
+  ['abundance', ['1105', '1203', '1102', '1206'], { hp: 10 }],
+  ['harmony', ['1101', '1202', '1102', '1206'], {}],
   ['ice', ['1001', '1013', '1104'], {}],
   ['lightning', ['1103', '1008', '1202'], {}],
   ['fire', ['1009', '1003', '1109'], {}],
@@ -80,7 +80,7 @@ test('company economy triggers on entering a new encounter and cannot be reclaim
   assert.equal(JSON.stringify(actual), saved);
 });
 
-test('resonance thresholds are reachable in the 64-character pool and describe materially different styles', () => {
+test('resonance thresholds are reachable in the 90-character pool and describe materially different styles', () => {
   assert.equal(SYNERGIES.length, 21);
   assert.equal(new Set(SYNERGIES.map(s => s.style)).size, 21);
   for (const definition of SYNERGIES) {

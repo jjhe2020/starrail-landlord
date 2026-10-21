@@ -9,7 +9,9 @@ import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
-import { CHARACTERS } from '../src/content.js';
+import { CHARACTERS, BINDING_GROUPS } from '../src/content.js';
+import { POLICY_VERSION } from '../src/ai.js';
+import { ARCHETYPE_REFERENCE } from '../src/archetype-reference.js';
 const saveKey = 'astral-reels:v1';
 
 // Opt in so the ordinary engine suite never loads Playwright. Each viewport
@@ -25,7 +27,7 @@ test('effect explanations, expanded catalog and reward inspection in real browse
   try { playwright = require('playwright'); }
   catch { playwright = require(join(homedir(), '.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright')); }
 
-  let fixture = newGame({ seed: 'ui-v040-semantics' });
+  let fixture = newGame({ seed: 'ui-v060-bindings' });
   fixture.roster = ['1001', '1002', '1008', '1107', '1217', '1310', '1312', '1402'].map((id, i) => ({
     uid: `u${i + 1}`, id, stars: 1, growth: i === 1 ? 2 : 0, ticks: 3,
   }));
@@ -86,7 +88,7 @@ test('effect explanations, expanded catalog and reward inspection in real browse
 
   const screenshotDirectory = process.env.EFFECT_SCREENSHOT_DIR ? resolve(process.env.EFFECT_SCREENSHOT_DIR) : null;
   if (screenshotDirectory) await mkdir(screenshotDirectory, { recursive: true });
-  const browser = await playwright.chromium.launch({ headless: true, ...(process.platform === 'win32' ? { channel: 'msedge' } : {}) });
+  const browser = await playwright.chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE_PATH ? { executablePath: process.env.BROWSER_EXECUTABLE_PATH } : {}), ...(process.platform === 'win32' ? { channel: 'msedge' } : {}) });
   t.after(() => browser.close());
   const errors = [];
   let checkCount = 0;
@@ -180,6 +182,24 @@ test('effect explanations, expanded catalog and reward inspection in real browse
 
         await page.locator('[data-action="catalog"]').first().click();
         check(`${width}px all characters displayed`, await page.locator('[data-catalog-results] .character-card').count() === CHARACTERS.length);
+        await page.locator('[data-catalog-search]').fill('永久培养');
+        check(`${width}px role is searchable`, await page.locator('[data-catalog-results] .character-card').count() >= CHARACTERS.filter(entry => entry.role === 'trainer').length);
+        await page.locator('[data-catalog-search]').fill('即时增幅');
+        check(`${width}px amplification synonym is searchable`, await page.locator('[data-catalog-results] .role-amplifier').count() === CHARACTERS.filter(entry => entry.role === 'amplifier').length);
+        const express = BINDING_GROUPS.find(group => group.id === 'express');
+        await page.locator('[data-catalog-search]').fill(express.name);
+        check(`${width}px binding group is searchable`, await page.locator('[data-catalog-results] .binding-tag[data-id="express"]').count() === express.memberIds.length);
+        await page.locator('[data-catalog-results] .binding-tag[data-id="express"]').first().click();
+        check(`${width}px binding details list exact members and roles`, await page.locator('.binding-member-list p').count() === express.memberIds.length && (await page.locator('.inspect-popover').innerText()).includes('实际仍需满足相邻'));
+        await fits(page, `${width}px binding member details`);
+        await screenshot(page, `bindings-${width}`);
+        await page.keyboard.press('Escape');
+        await page.locator('[data-catalog-search]').fill('三月七');
+        await page.locator('.skill-description').first().click();
+        const supportText = await page.locator('.inspect-character').innerText();
+        check(`${width}px defense has no fake attack power`, supportText.includes('防御') && supportText.includes('不进行普通攻击') && !supportText.includes('基础威力'));
+        check(`${width}px defense explains bounded training`, (await page.locator('.inspect-popover').innerText()).includes('最多计 12 点'));
+        await page.keyboard.press('Escape');
         await page.locator('[data-catalog-search]').fill('虚无引爆');
         check(`${width}px routes are searchable`, await page.locator('[data-catalog-results] .character-card').count() >= 5);
         await page.locator('.archetype-tag[data-id="ink_dot"]').first().click();
@@ -201,7 +221,7 @@ test('effect explanations, expanded catalog and reward inspection in real browse
           await page.locator('[data-catalog-search]').evaluate(element => element === document.activeElement));
         await page.locator('.skill-description').click();
         const growthText = await page.locator('.inspect-popover').innerText();
-        check(`${width}px permanent team growth explained`, growthText.includes('本局永久') && growthText.includes('0.25'));
+        check(`${width}px permanent team growth explained`, growthText.includes('本局永久') && growthText.includes('永久培养') && growthText.includes('不培养临时、见习及培养者'));
         await fits(page, `${width}px catalog info`);
         await page.keyboard.press('Escape');
         await page.locator('[data-catalog-search]').fill('');
@@ -225,10 +245,17 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         await page.locator('.utility-panel [data-action="close"]').click();
 
         await page.locator('.site-header [data-action="aiLab"]').first().click();
-        await page.locator('.archetype-benchmark > summary').click();
-        check(`${width}px independent route holdout is embedded`, await page.locator('.archetype-benchmark-rows article').count() === 11);
-        await page.locator('.archetype-pressure summary').click();
-        check(`${width}px stress test and confidence intervals are available`, (await page.locator('.archetype-pressure').innerText()).includes('95%'));
+        if (ARCHETYPE_REFERENCE?.sourceStable && ARCHETYPE_REFERENCE.policyVersion === POLICY_VERSION) {
+          await page.locator('.archetype-benchmark > summary').click();
+          check(`${width}px current-policy route holdout is embedded`, await page.locator('.archetype-benchmark-rows article').count() === ARCHETYPE_REFERENCE.strategies.length);
+          if (ARCHETYPE_REFERENCE.stress?.sourceStable) {
+            await page.locator('.archetype-pressure summary').click();
+            check(`${width}px current-policy stress test and intervals available`, (await page.locator('.archetype-pressure').innerText()).includes('95%'));
+          }
+        } else {
+          check(`${width}px old-policy results do not masquerade as current balance`, await page.locator('.archetype-benchmark-pending').count() === 1 && await page.locator('.archetype-benchmark-rows article').count() === 0);
+          check(`${width}px current-rule evidence gap is explicit`, (await page.locator('.archetype-benchmark-pending').innerText()).includes('旧 0.5 评测不适用于当前规则'));
+        }
         await fits(page, `${width}px embedded balance report`);
         await screenshot(page, `balance-${width}`);
         await page.locator('.utility-panel [data-action="close"]').click();
@@ -247,7 +274,7 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         check(`${width}px skill inspection preserves the pending reward`, await page.locator('.inspect-popover').count() === 1 && await page.locator('.reward-modal').count() === 1);
         await fits(page, `${width}px reward inspector`);
         const candidateText = await page.locator('.inspect-character').innerText();
-        check(`${width}px unrecruited candidate shows base instead of historical empty-cell zero`, candidateText.includes('基础威力（含成长）') && !candidateText.includes('上次结算威力'));
+        check(`${width}px unrecruited candidate shows base instead of historical empty-cell zero`, (candidateText.includes('基础威力（含攻击成长）') || candidateText.includes('不进行普通攻击')) && !candidateText.includes('上次结算威力'));
         await page.waitForFunction(() => [...document.images].filter(image => image.loading !== 'lazy').every(image => image.complete && image.naturalWidth > 0));
         check(`${width}px displayed images decode`, await page.evaluate(() => [...document.images].filter(image => image.loading !== 'lazy').every(image => image.complete && image.naturalWidth > 0)));
         if (url.protocol === 'file:') {

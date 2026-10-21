@@ -34,40 +34,41 @@ test('temporary support power is recalculated while permanent growth is stored p
   const first = spin(state), second = spin(ready(first));
   assert.equal(powerOf(first, 'u2'), powerOf(second, 'u2'));
   assert.equal(second.roster[1].growth, 0);
-  const growth = fixture(['1404']);
+  const growth = fixture(['1207','1002']);growth.roster[0].ticks=1;
   const next = spin(growth);
-  assert.equal(next.roster[0].growth, 0.35);
-  assert.ok(next.lastSpin.effects.some(e => e.type === 'growth' && e.duration === 'run' && e.targetUid === 'u1'));
+  assert.equal(next.roster[1].growth, 0.35);
+  assert.equal(next.roster[0].growth, 0);
+  assert.ok(next.lastSpin.effects.some(e => e.type === 'growth' && e.duration === 'run' && e.targetUid === 'u2'));
 });
 
 test('star scaling enlarges numeric healing and shields, not conditional multiplier values', () => {
-  const healer = fixture(['1217']); healer.hp = 1; healer.roster[0].stars = 2; healer.roster[0].ticks = 2;
+  const healer = fixture(['1217','1206']); healer.hp = 1; healer.roster[0].stars = 2; healer.roster[0].ticks = 2;
   const healed = spin(healer);
   assert.equal(healed.lastSpin.healing, 12);
   assert.equal(healed.lastSpin.shield, 12);
   const attacker = fixture(['1312']); attacker.roster[0].ticks = 2; attacker.roster[0].stars = 2;
   const next = spin(attacker);
-  assert.equal(powerOf(next), characterById('1312').power * 3 * 2.5);
-  assert.equal(next.lastSpin.powerBreakdown.find(Boolean).multiplier, 2.5);
+  assert.equal(powerOf(next), characterById('1312').power * 3 * 2);
+  assert.equal(next.lastSpin.powerBreakdown.find(Boolean).multiplier, 2);
 });
 
 test('appearance effects check sequential conditions after their own earlier healing', () => {
-  const below = spin(fixture(['1110'], { hp: 50 }));
-  const above = spin(fixture(['1110'], { hp: 59 }));
-  assert.equal(below.hp, 52); assert.equal(below.shield, 2);
-  assert.equal(above.hp, 61); assert.equal(above.shield, 0);
+  const below = spin(fixture(['1110','1102'], { hp: 50 }));
+  const above = spin(fixture(['1110','1102'], { hp: 59 }));
+  assert.equal(below.hp, 53); assert.equal(below.shield, 2);
+  assert.equal(above.hp, 62); assert.equal(above.shield, 0);
 });
 
-test('new growth modifiers apply to original and expanded growth without changing old values', () => {
-  const original = fixture(['1002']); original.roster[0].ticks = 2; original.roster[0].growth = 4; original.items = ['impermanence_dice'];
-  assert.equal(spin(original).roster[0].growth, 5.2);
-  const expanded = fixture(['1404']); expanded.roster[0].growth = 4; expanded.items = ['impermanence_dice', 'rubert_gear'];
+test('growth modifiers change new increments while preserving previous investment', () => {
+  const original = fixture(['1002','1207']); original.roster[0].ticks = 3; original.roster[0].growth = 4; original.items = ['impermanence_dice'];
+  assert.equal(spin(original).roster[0].growth, 4.18);
+  const expanded = fixture(['1207','1002']);expanded.roster[0].ticks=1;expanded.roster[0].growth=4;expanded.roster[1].growth=4; expanded.items = ['impermanence_dice', 'rubert_gear'];
   expanded.activeDebuffs = [publicDebuff(enemyDebuffById('growth_audit'), 'difficulty', 0)];
-  assert.ok(Math.abs(spin(expanded).roster[0].growth - 4.315) <= 0.0051, 'new increment uses all three modifiers and rounds once to displayed precision');
+  assert.ok(Math.abs(spin(expanded).roster[1].growth - 4.315) <= 0.0051, 'new increment uses all three modifiers and rounds once to displayed precision');
 });
 
 test('summons join after the board draw and count actual future appearances', () => {
-  const state = fixture(['1402']); state.roster[0].ticks = 2;
+  const state = fixture(['1402']); state.roster[0].ticks = 3;
   const first = spin(state), reinforcement = first.roster.find(u => u.temporary);
   assert.equal(reinforcement.id, '1206'); assert.equal(reinforcement.temporary, 2);
   assert.equal(first.board.some(u => u?.uid === reinforcement.uid), false);
@@ -78,24 +79,28 @@ test('summons join after the board draw and count actual future appearances', ()
   assert.ok(third.lastSpin.hits.some(h => third.board[h.cell]?.uid === reinforcement.uid), 'last appearance still attacks');
 });
 
-test('new consume effects only grant power after a real adjacent temporary sacrifice', () => {
-  const noTarget = spin(fixture(['1314']));
-  assert.equal(noTarget.lastSpin.effects.some(e => e.type === 'consume'), false);
-  const state = fixture(['1314', ...Array(19).fill('1002')]); state.roster.slice(1).forEach(u => { u.temporary = 2; });
-  const next = spin(state), sacrificed = next.board.find(u => u?.status === 'consumed');
-  assert.ok(sacrificed);
-  assert.equal(next.lastSpin.hits.some(h => next.board[h.cell]?.uid === sacrificed.uid), false);
-  assert.equal(next.roster.some(u => u.uid === sacrificed.uid), false);
-  assert.ok(next.lastSpin.effects.some(e => e.sourceId === '1314' && e.type === 'power' && e.amount === 3));
+test('declarative consumption requires a real adjacent temporary target before granting power', () => {
+  const definition=characterById('1314'), original=definition.effects;
+  try {
+    definition.effects=[{type:'consume',value:3,summary:'消耗临时角色后获得3本次威力',trigger:'appearance',duration:'spin',target:'adjacent',stacking:'additive',filter:{temporary:true,excludeSelf:true}}];
+    const noTarget = spin(fixture(['1314']));
+    assert.equal(noTarget.lastSpin.effects.some(e => e.type === 'consume'), false);
+    const state = fixture(['1314', ...Array(19).fill('1002')]); state.roster.slice(1).forEach(u => { u.temporary = 2; });
+    const next = spin(state), sacrificed = next.board.find(u => u?.status === 'consumed');
+    assert.ok(sacrificed);
+    assert.equal(next.lastSpin.hits.some(h => next.board[h.cell]?.uid === sacrificed.uid), false);
+    assert.equal(next.roster.some(u => u.uid === sacrificed.uid), false);
+    assert.ok(next.lastSpin.effects.some(e => e.sourceId === '1314' && e.type === 'power' && e.amount === 3));
+  } finally { definition.effects=original; }
 });
 
 test('new natural multipliers affect old generation but fixed supplies stay fixed', () => {
-  const shielded = fixture(['1001']); shielded.items = ['peace_price'];
-  assert.equal(spin(shielded).lastSpin.shield, 3.6);
+  const shielded = fixture(['1104','1102']); shielded.items = ['peace_price'];
+  assert.equal(spin(shielded).lastSpin.shield, 4.8);
   shielded.coins = 100;
   assert.equal(purchaseSupply(shielded, 'barrier').shield, 20);
-  const healer = fixture(['1105']); healer.hp = 30; healer.items = ['corrupt_fruit'];
-  assert.equal(spin(healer).lastSpin.healing, 3.6);
+  const healer = fixture(['1105','1102']); healer.hp = 30; healer.items = ['corrupt_fruit'];
+  assert.equal(spin(healer).lastSpin.healing, 3);
   healer.coins = 100;
   assert.equal(purchaseSupply(healer, 'repair').hp, 48);
 });
@@ -103,16 +108,16 @@ test('new natural multipliers affect old generation but fixed supplies stay fixe
 test('passive recipient filters affect one-star instances and do not grow every turn', () => {
   const state = fixture(['1002']); state.items = ['compound_eye'];
   const first = spin(state), second = spin(ready(first));
-  assert.equal(powerOf(first), 1.4); assert.equal(powerOf(second), 1.4);
+  assert.equal(powerOf(first), 2.4); assert.equal(powerOf(second), 2.4);
   assert.equal(second.roster[0].growth, 0);
   state.roster[0].stars = 2;
-  assert.equal(powerOf(spin(state)), 3);
+  assert.equal(powerOf(spin(state)), 6);
 });
 
 test('a temporary unit receives temporary-only bonuses on its final attacking appearance', () => {
   const state = fixture(['1002']); state.roster[0].temporary = 1; state.items = ['elation_wax'];
   const next = spin(state);
-  assert.equal(powerOf(next), 1.8);
+  assert.equal(powerOf(next), 2.8);
   assert.equal(next.board.find(Boolean).status, 'expired');
   assert.equal(next.roster.length, 0);
 });
@@ -142,9 +147,9 @@ test('new essence one-time grants occur at the threshold and passive power start
   const state = fixture(); state.items = ['faith_bond']; state.essences = [{ id: data.id, progress: data.target - 3, triggered: false }];
   const first = spin(state);
   assert.equal(first.essences[0].triggered, true);
-  assert.equal(first.coins, 15); assert.equal(powerOf(first), 1);
+  assert.equal(first.coins, 15); assert.equal(powerOf(first), 2);
   const second = spin(ready(first));
-  assert.equal(second.coins, 18); assert.equal(powerOf(second), 1.25);
+  assert.equal(second.coins, 18); assert.equal(powerOf(second), 2.25);
 });
 
 test('original abundance remains natural healing and preservation excludes between-spin shield purchases', () => {
@@ -191,19 +196,18 @@ test('shared effect helpers support public expected metrics without accessing hi
   assert.equal(state.rngState, fixture().rngState);
 });
 
-test('effect records report the support bonus actually applied after source multipliers', () => {
-  const state = fixture(['1303', '1002']);
-  state.items = ['harmony_wax'];
-  let next, event;
-  for (let seed = 1; seed <= 64 && !event; seed++) {
-    state.rngState = seed;
-    next = spin(state);
-    event = next.lastSpin.effects.find(entry => entry.sourceId === '1303' && entry.type === 'power' && entry.targetUid === 'u2');
+test('effect records report the multiplier actually applied after support-source bonuses', () => {
+  const state = fixture(['1101', '1102']);state.items=['harmony_wax'];
+  let next,event;
+  for(let seed=1;seed<=64&&!event;seed++){
+    state.rngState=seed;next=spin(state);
+    event=next.lastSpin.effects.find(entry=>entry.sourceId==='1101'&&entry.type==='powerMultiplier'&&entry.targetUid==='u2');
   }
   assert.ok(event);
-  const breakdown = next.lastSpin.powerBreakdown[next.board.findIndex(unit => unit?.uid === 'u2')];
-  assert.equal(breakdown.flatBonus, 1.2);
-  assert.equal(event.amount, breakdown.flatBonus, 'the displayed actual bonus includes the 1.5 support multiplier');
+  const breakdown=next.lastSpin.powerBreakdown[next.board.findIndex(u=>u?.uid==='u2')];
+  const expected=1+(1.45-1)*1.5;
+  assert.equal(event.amount,Math.round(expected*100)/100);
+  assert.ok(Math.abs(breakdown.multiplier-expected*1.25)<1e-12,'source amplification multiplies the buff bonus, while the carry keeps its own attack program');
 });
 
 test('essence threshold credit rewards do not feed another essence progress in either claim order', () => {
@@ -223,16 +227,16 @@ test('essence threshold credit rewards do not feed another essence progress in e
 
 test('same-spin essence healing and shield rewards do not cascade into progress by claim order', () => {
   for (const reverse of [false, true]) {
-    const healing = fixture(['1105'], { hp: 30 });
+    const healing = fixture(['1105','1102'], { hp: 30 });
     healing.essences = [{ id: 'essence_abundance', progress: 5, triggered: false }, { id: 'essence_medicine', progress: 0, triggered: false }];
-    const shielding = fixture(['1001']);
+    const shielding = fixture(['1104','1102']);
     shielding.essences = [{ id: 'essence_realm_crown', progress: 32, triggered: false }, { id: 'essence_preservation', progress: 0, triggered: false }];
     if (reverse) { healing.essences.reverse(); shielding.essences.reverse(); }
     const healed = spin(healing), shielded = spin(shielding);
-    assert.equal(healed.essences.find(entry => entry.id === 'essence_medicine').progress, 3);
+    assert.equal(healed.essences.find(entry => entry.id === 'essence_medicine').progress, 2.5);
     assert.equal(healed.hp, 120, 'the one-time abundant heal is still granted');
-    assert.equal(shielded.essences.find(entry => entry.id === 'essence_preservation').progress, 3);
-    assert.equal(shielded.shield, 15, 'the one-time twelve shield is still granted');
+    assert.equal(shielded.essences.find(entry => entry.id === 'essence_preservation').progress, 4);
+    assert.equal(shielded.shield, 16, 'the one-time twelve shield is still granted');
   }
 });
 

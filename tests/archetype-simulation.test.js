@@ -1,12 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { newGame } from '../src/engine.js';
+import { characterById } from '../src/content.js';
 import { ARCHETYPES, getArchetypes } from '../src/archetypes.js';
 import { probeArchetypePower, updateArchetypePlan, biasArchetypeRecommendations, shouldKeepArchetypeOffer, archetypeSurvivalMode, runArchetypeCampaign, summarizeArchetypeBenchmark, meanInterval, compactArchetypeCampaign, expandArchetypeCampaign } from '../src/archetype-simulation.js';
 
 function formedState(id = ARCHETYPES[0].id) {
   const state = newGame({ seed: 'archetype-probe' }), definition = ARCHETYPES.find(entry => entry.id === id);
-  const ids = [...new Set([...definition.coreIds.slice(0, definition.coreRequired), ...definition.memberIds])].slice(0, definition.threshold);
+  const attackId = definition.memberIds.find(id => characterById(id).role === 'attack');
+  const ids = [...new Set([...definition.coreIds.slice(0, definition.coreRequired), attackId, ...definition.memberIds])].slice(0, definition.threshold);
   state.roster = ids.map((characterId, index) => ({ id: characterId, uid: `fixture-${index}`, stars: 1, growth: 0, ticks: 0 }));
   return state;
 }

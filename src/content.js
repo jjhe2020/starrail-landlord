@@ -3,6 +3,235 @@ import { SYNERGIES } from './synergies.js';
 export { SYNERGIES };
 export const RARITY_LABELS = { common: '普通', uncommon: '稀有', rare: '史诗', legendary: '传说' };
 
+export const BINDING_GROUPS = [
+  {
+    "id": "express",
+    "name": "星穹远行",
+    "memberIds": [
+      "1001",
+      "1002",
+      "1003",
+      "1004",
+      "1009",
+      "1207",
+      "1313",
+      "cyrene",
+      "march_hunt",
+      "dan_heng_imbibitor_lunae",
+      "dan_heng_pt",
+      "announced_himeko_nova"
+    ],
+    "description": "列车远行与智库接续：以同行伙伴作为保护、增幅和培养的边界。"
+  },
+  {
+    "id": "hunters",
+    "name": "猎手剧本",
+    "memberIds": [
+      "1005",
+      "1006",
+      "1205",
+      "1310",
+      "1301",
+      "1303",
+      "1306",
+      "fugue",
+      "silver_wolf_lv999",
+      "mortenax_blade"
+    ],
+    "description": "猎手与击破协作者依剧本配合，外援不会自动适配所有攻击。"
+  },
+  {
+    "id": "frost",
+    "name": "筑城守望",
+    "memberIds": [
+      "1001",
+      "1101",
+      "1102",
+      "1103",
+      "1104",
+      "1105",
+      "1106",
+      "1107",
+      "1108",
+      "1109",
+      "1110",
+      "1111",
+      "1209",
+      "1312",
+      "dan_heng_pt",
+      "pearl"
+    ],
+    "description": "城防、地下救护与护盾反击；保护和培养需要守望伙伴。"
+  },
+  {
+    "id": "mentorship",
+    "name": "仙舟授业",
+    "memberIds": [
+      "1204",
+      "1202",
+      "1203",
+      "1208",
+      "1206",
+      "1207",
+      "1209",
+      "1210",
+      "1211",
+      "1212",
+      "1214",
+      "1215",
+      "1217",
+      "1218",
+      "1220",
+      "1221",
+      "1222",
+      "1223",
+      "march_hunt",
+      "dan_heng_imbibitor_lunae",
+      "yao_guang"
+    ],
+    "description": "师承、军阵与医护接续，靠导师培养专职弟子。"
+  },
+  {
+    "id": "puppet",
+    "name": "空间站实验",
+    "memberIds": [
+      "1008",
+      "1009",
+      "1013",
+      "1302",
+      "1303",
+      "1305",
+      "1006",
+      "1003",
+      "the_herta",
+      "announced_rin_tohsaka",
+      "silver_wolf_lv999",
+      "announced_himeko_nova",
+      "1203",
+      "1405"
+    ],
+    "description": "科员开题、周期实验与智识火力，实验培养有自己的受益名单。"
+  },
+  {
+    "id": "follow_up",
+    "name": "追加投资",
+    "memberIds": [
+      "1112",
+      "1304",
+      "1305",
+      "1220",
+      "1223",
+      "march_hunt",
+      "1107",
+      "1221",
+      "1309",
+      "1314",
+      "archer",
+      "ashveil",
+      "aventurine_waveflair",
+      "pearl",
+      "1218"
+    ],
+    "description": "追击攻击者、护盾风控、投资增幅和定向培养构成闭环。"
+  },
+  {
+    "id": "ink_dot",
+    "name": "虚无引爆",
+    "memberIds": [
+      "1004",
+      "1005",
+      "1106",
+      "1108",
+      "1111",
+      "1210",
+      "1218",
+      "hysilens",
+      "mortenax_blade",
+      "1205",
+      "1307",
+      "1308",
+      "1203",
+      "1202"
+    ],
+    "description": "先施加来源受限的弱化，再由引爆攻击者兑现；持续记录提供培养。"
+  },
+  {
+    "id": "recollection",
+    "name": "忆灵共演",
+    "memberIds": [
+      "1402",
+      "1403",
+      "1404",
+      "1405",
+      "1406",
+      "1407",
+      "1408",
+      "1409",
+      "1312",
+      "1313",
+      "1307",
+      "hysilens",
+      "cyrene",
+      "cerydra",
+      "evernight",
+      "robin_summeretto",
+      "saber",
+      "1206"
+    ],
+    "description": "记忆、召援与黄金裔共演；培养、援护和攻击各有职能。"
+  },
+  {
+    "id": "elation",
+    "name": "欢愉谢幕",
+    "memberIds": [
+      "1306",
+      "aha",
+      "aeon_star_aha",
+      "1108",
+      "1210",
+      "1201",
+      "1406",
+      "1301",
+      "1312",
+      "sparxie",
+      "yao_guang",
+      "evanescia",
+      "pearl",
+      "aventurine_waveflair",
+      "1208",
+      "1105",
+      "1109",
+      "announced_gilgamesh",
+      "announced_rin_tohsaka",
+      "robin_summeretto"
+    ],
+    "description": "谢幕、周期爆发与舞台协作；热闹本身不会让全部角色永久成长。"
+  },
+  {
+    "id": "break",
+    "name": "击破接力",
+    "memberIds": [
+      "1310",
+      "1317",
+      "1315",
+      "fugue",
+      "1301",
+      "1303",
+      "1222",
+      "1206",
+      "1111",
+      "1214",
+      "the_dahlia",
+      "saber",
+      "announced_gilgamesh",
+      "1403",
+      "1215",
+      "cerydra"
+    ],
+    "description": "击破攻击者配合火力弱化、医护、接力培养与定向号令。"
+  }
+];
+
 export const CHARACTERS = [
   {
     "id": "1001",
@@ -10,31 +239,61 @@ export const CHARACTERS = [
     "enName": "March 7th",
     "assetId": 1001,
     "rarity": "common",
-    "attack": "single",
-    "power": 1,
+    "attack": "support",
+    "power": 0.35,
     "path": "存护",
     "element": "冰",
     "faction": "星穹列车",
-    "description": "登场时获得3护盾，保留至抵挡伤害；上限为生命上限的2倍。存在衰减条款时按条款扣除。",
+    "description": "每名相邻远行或守望伙伴提供3护盾，最多3名。",
     "color": "#f9a8d4",
     "effects": [
       {
         "type": "shield",
-        "summary": "每次登场获得3护盾；保留至抵挡伤害，存在衰减条款时按条款扣除",
+        "value": 3,
+        "summary": "每名相邻远行或守望伙伴提供3护盾，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 3,
         "scaleWithStars": true,
-        "legacy": true
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "express",
+              "frost"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
+        "per": {
+          "metric": "neighbors",
+          "filter": {
+            "groupsAny": [
+              "express",
+              "frost"
+            ],
+            "excludeSelf": true
+          },
+          "cap": 3
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/March_7th",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "express",
+      "frost"
+    ]
   },
   {
     "id": "1002",
@@ -43,30 +302,66 @@ export const CHARACTERS = [
     "assetId": 1002,
     "rarity": "common",
     "attack": "single",
-    "power": 1,
+    "power": 2,
     "path": "巡猎",
     "element": "风",
     "faction": "星穹列车",
-    "description": "每累计登场3次，本实例永久威力+1；跨关保留，合成时继承。",
+    "description": "同场有远行伙伴时，本次威力×1.3。每第4次登场且同场有远行伙伴，自身永久成长+0.15。",
     "color": "#6ee7b7",
     "effects": [
       {
+        "type": "powerMultiplier",
+        "value": 1.3,
+        "summary": "同场有远行伙伴时，本次威力×1.3",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "multiplicative",
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "express"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
+      },
+      {
         "type": "growth",
-        "summary": "每累计登场3次，本实例永久威力+1",
+        "value": 0.15,
+        "summary": "每第4次登场且同场有远行伙伴，自身永久成长+0.15",
         "trigger": "appearance",
         "duration": "run",
         "target": "self",
         "stacking": "additive",
-        "value": 1,
-        "every": 3,
-        "legacy": true
+        "every": 4,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "express"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Dan_Heng",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "express"
+    ]
   },
   {
     "id": "1003",
@@ -79,29 +374,47 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "火",
     "faction": "星穹列车",
-    "description": "本次转动每有1位角色退场，自身本次威力+2；下次转动重新计算。",
+    "description": "有实验或远行伙伴时，常规攻击后追加自身威力45%的轨道追击。",
     "color": "#fb923c",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次转动每有1位角色退场，自身威力+2",
+        "type": "damage",
+        "value": 0.45,
+        "summary": "有实验或远行伙伴时，常规攻击后追加自身威力45%的轨道追击",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "self",
+        "target": "column",
         "stacking": "additive",
-        "value": 2,
+        "stage": "afterAttacks",
         "per": {
-          "metric": "retirements"
+          "metric": "sourcePower"
         },
-        "scaleWithStars": true,
-        "legacy": true
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "express",
+              "puppet"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Himeko",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "express",
+      "puppet"
+    ]
   },
   {
     "id": "1004",
@@ -109,31 +422,66 @@ export const CHARACTERS = [
     "enName": "Welt",
     "assetId": 1004,
     "rarity": "rare",
-    "attack": "single",
-    "power": 3,
+    "attack": "support",
+    "power": 0.35,
     "path": "虚无",
     "element": "虚数",
     "faction": "星穹列车",
-    "description": "登场时，使本次转动敌人的反击总伤害−2；下次转动失效。",
+    "description": "本轮远行或虚无引爆攻击者对敌伤害增加20%。有远行或引爆伙伴同场时，本轮敌人反击−1.2。",
     "color": "#fbbf24",
     "effects": [
       {
-        "type": "retaliationFlat",
-        "summary": "本次转动敌人反击总伤害−2",
+        "type": "vulnerability",
+        "value": 0.2,
+        "summary": "本轮远行或虚无引爆攻击者对敌伤害增加20%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "team",
+        "target": "matching",
         "stacking": "additive",
-        "value": 2,
-        "scaleWithStars": true,
-        "legacy": true
+        "filter": {
+          "groupsAny": [
+            "express",
+            "ink_dot"
+          ],
+          "role": "attack"
+        },
+        "scaleWithTraining": true
+      },
+      {
+        "type": "retaliationFlat",
+        "value": 1.2,
+        "summary": "有远行或引爆伙伴同场时，本轮敌人反击−1.2",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "additive",
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "express",
+              "ink_dot"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Welt",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "disruptor",
+    "roleLabel": "敌方干扰",
+    "groups": [
+      "express",
+      "ink_dot"
+    ]
   },
   {
     "id": "1005",
@@ -141,34 +489,45 @@ export const CHARACTERS = [
     "enName": "Kafka",
     "assetId": 1005,
     "rarity": "rare",
-    "attack": "blast",
-    "power": 3,
+    "attack": "support",
+    "power": 0.35,
     "path": "虚无",
     "element": "雷",
     "faction": "星核猎手",
-    "description": "登场时，本次登场的虚无角色威力+1；下次转动重新计算，不永久叠加。",
+    "description": "本轮猎手或虚无引爆的扩散攻击者对敌伤害增加30%。",
     "color": "#e879f9",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次登场的所有虚无角色威力+1；不同卡芙卡实例可相加",
+        "type": "vulnerability",
+        "value": 0.3,
+        "summary": "本轮猎手或虚无引爆的扩散攻击者对敌伤害增加30%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "team",
+        "target": "matching",
         "stacking": "additive",
-        "value": 1,
         "filter": {
-          "path": "虚无"
+          "groupsAny": [
+            "hunters",
+            "ink_dot"
+          ],
+          "role": "attack",
+          "attack": "blast"
         },
-        "scaleWithStars": true,
-        "legacy": true
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Kafka",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "disruptor",
+    "roleLabel": "敌方干扰",
+    "groups": [
+      "hunters",
+      "ink_dot"
+    ]
   },
   {
     "id": "1006",
@@ -176,41 +535,67 @@ export const CHARACTERS = [
     "enName": "Silver Wolf",
     "assetId": 1006,
     "rarity": "rare",
-    "attack": "single",
-    "power": 3,
+    "attack": "support",
+    "power": 0.35,
     "path": "虚无",
     "element": "量子",
     "faction": "星核猎手",
-    "description": "登场时，本次全队攻击无视装甲，自身本次威力+1；下次转动失效。",
+    "description": "本轮猎手或实验的单体攻击者对敌伤害增加32%。至少2名猎手或实验伙伴同场时，本轮反击−1。",
     "color": "#c4b5fd",
     "effects": [
       {
-        "type": "ignoreArmor",
-        "summary": "本次转动全队攻击无视装甲",
+        "type": "vulnerability",
+        "value": 0.32,
+        "summary": "本轮猎手或实验的单体攻击者对敌伤害增加32%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "team",
-        "stacking": "unique",
-        "value": 1,
-        "legacy": true
+        "target": "matching",
+        "stacking": "additive",
+        "filter": {
+          "groupsAny": [
+            "hunters",
+            "puppet"
+          ],
+          "role": "attack",
+          "attack": "single"
+        },
+        "scaleWithTraining": true
       },
       {
-        "type": "power",
-        "summary": "本次转动自身威力+1",
+        "type": "retaliationFlat",
+        "value": 1,
+        "summary": "至少2名猎手或实验伙伴同场时，本轮反击−1",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
-        "value": 1,
-        "scaleWithStars": true,
-        "legacy": true
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "hunters",
+              "puppet"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 2
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Silver_Wolf",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "disruptor",
+    "roleLabel": "敌方干扰",
+    "groups": [
+      "hunters",
+      "puppet"
+    ]
   },
   {
     "id": "1008",
@@ -219,34 +604,39 @@ export const CHARACTERS = [
     "assetId": 1008,
     "rarity": "common",
     "attack": "blast",
-    "power": 1,
+    "power": 2,
     "path": "毁灭",
     "element": "雷",
     "faction": "黑塔空间站",
-    "description": "本次威力结算时，生命不高于上限一半则自身威力×2；生命变化后重新判断。",
+    "description": "生命不高于50%时，自身本次威力×1.7。",
     "color": "#a78bfa",
     "effects": [
       {
         "type": "powerMultiplier",
-        "summary": "结算威力时，生命≤50%则自身本次威力×2",
+        "value": 1.7,
+        "summary": "生命不高于50%时，自身本次威力×1.7",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "value": 2,
         "condition": {
           "metric": "hpRatio",
           "op": "lte",
           "value": 0.5
-        },
-        "legacy": true
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Arlan",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "puppet"
+    ]
   },
   {
     "id": "1009",
@@ -255,30 +645,54 @@ export const CHARACTERS = [
     "assetId": 1009,
     "rarity": "common",
     "attack": "support",
-    "power": 1,
+    "power": 0.35,
     "path": "同谐",
     "element": "火",
     "faction": "黑塔空间站",
-    "description": "登场时，相邻八格角色本次威力+0.5；不会永久叠加。",
+    "description": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.3；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
     "color": "#fda4af",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次转动相邻八格角色威力+0.5",
+        "type": "growth",
+        "value": 0.3,
+        "summary": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.3；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
         "trigger": "appearance",
-        "duration": "spin",
+        "duration": "run",
         "target": "adjacent",
         "stacking": "additive",
-        "value": 0.5,
+        "every": 3,
+        "targetLimit": 2,
+        "filter": {
+          "groupsAny": [
+            "express",
+            "puppet"
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        },
         "scaleWithStars": true,
-        "legacy": true
+        "starFactors": [
+          0,
+          1,
+          1.5,
+          2
+        ]
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Asta",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "trainer",
+    "roleLabel": "永久培养",
+    "groups": [
+      "express",
+      "puppet"
+    ]
   },
   {
     "id": "1013",
@@ -287,31 +701,39 @@ export const CHARACTERS = [
     "assetId": 1013,
     "rarity": "common",
     "attack": "aoe",
-    "power": 1,
+    "power": 2,
     "path": "智识",
     "element": "冰",
     "faction": "黑塔空间站",
-    "description": "每第3次登场，自身本次威力+2；其他登场次数不生效。",
+    "description": "每第3次登场，向所有存活敌列追加自身威力65%的旋转追击。",
     "color": "#c4b5fd",
     "effects": [
       {
-        "type": "power",
-        "summary": "每第3次登场，自身本次威力+2",
+        "type": "damage",
+        "value": 0.65,
+        "summary": "每第3次登场，向所有存活敌列追加自身威力65%的旋转追击",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "self",
+        "target": "all",
         "stacking": "additive",
-        "value": 2,
-        "every": 3,
-        "scaleWithStars": true,
-        "legacy": true
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Herta",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "puppet"
+    ]
   },
   {
     "id": "1101",
@@ -320,30 +742,42 @@ export const CHARACTERS = [
     "assetId": 1101,
     "rarity": "uncommon",
     "attack": "support",
-    "power": 2,
+    "power": 0.35,
     "path": "同谐",
     "element": "风",
     "faction": "贝洛伯格",
-    "description": "登场时，相邻八格角色本次威力+1；不会永久叠加。",
+    "description": "相邻同组攻击者本轮威力×1.45。",
     "color": "#bae6fd",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次转动相邻八格角色威力+1",
+        "type": "powerMultiplier",
+        "value": 1.45,
+        "summary": "相邻同组攻击者本轮威力×1.45",
         "trigger": "appearance",
         "duration": "spin",
         "target": "adjacent",
-        "stacking": "additive",
-        "value": 1,
-        "scaleWithStars": true,
-        "legacy": true
+        "stacking": "multiplicative",
+        "filter": {
+          "groupsAny": [
+            "frost"
+          ],
+          "role": "attack",
+          "excludeSelf": true
+        },
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Bronya",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "amplifier",
+    "roleLabel": "即时辅助",
+    "groups": [
+      "frost"
+    ]
   },
   {
     "id": "1102",
@@ -356,25 +790,44 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "量子",
     "faction": "贝洛伯格",
-    "description": "自身击破敌人后，向最近存活列追加1倍自身本次威力攻击；只在本次转动结算。",
+    "description": "自身常规攻击击破后，向最近存活列追加自身威力90%的再现。单体突袭：本次威力×1.25。",
     "color": "#a78bfa",
     "effects": [
       {
         "type": "damage",
-        "summary": "自身击破敌人后，向最近存活列追加1倍自身本次威力攻击",
+        "value": 0.9,
+        "summary": "自身常规攻击击破后，向最近存活列追加自身威力90%的再现",
         "trigger": "kill",
         "duration": "spin",
         "target": "column",
         "stacking": "additive",
-        "value": 1,
-        "legacy": true
+        "stage": "beforeAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "oncePerSpin": true
+      },
+      {
+        "type": "powerMultiplier",
+        "value": 1.25,
+        "summary": "单体突袭：本次威力×1.25",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "multiplicative"
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Seele",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "frost"
+    ]
   },
   {
     "id": "1103",
@@ -383,36 +836,45 @@ export const CHARACTERS = [
     "assetId": 1103,
     "rarity": "common",
     "attack": "aoe",
-    "power": 1,
+    "power": 2,
     "path": "智识",
     "element": "雷",
     "faction": "贝洛伯格",
-    "description": "本次每有1名相邻雷属性角色，自身本次威力+1；下次转动重新计算。",
+    "description": "每名相邻守望伙伴使自身本次威力+0.45，最多3名。",
     "color": "#fde68a",
     "effects": [
       {
         "type": "power",
-        "summary": "每有1名相邻雷属性角色，自身本次威力+1",
+        "value": 0.45,
+        "summary": "每名相邻守望伙伴使自身本次威力+0.45，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
-        "value": 1,
+        "scaleWithStars": true,
         "per": {
           "metric": "neighbors",
           "filter": {
-            "element": "雷"
-          }
-        },
-        "scaleWithStars": true,
-        "legacy": true
+            "groupsAny": [
+              "frost"
+            ],
+            "excludeSelf": true
+          },
+          "cap": 3
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Serval",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "frost"
+    ]
   },
   {
     "id": "1104",
@@ -420,31 +882,58 @@ export const CHARACTERS = [
     "enName": "Gepard",
     "assetId": 1104,
     "rarity": "uncommon",
-    "attack": "blast",
-    "power": 2,
+    "attack": "support",
+    "power": 0.35,
     "path": "存护",
     "element": "冰",
     "faction": "贝洛伯格",
-    "description": "每次登场获得5护盾，保留至抵挡伤害；存在衰减条款时按条款扣除。",
+    "description": "每名同场守望伙伴提供4护盾，最多3名。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "shield",
-        "summary": "每次登场获得5护盾",
+        "value": 4,
+        "summary": "每名同场守望伙伴提供4护盾，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 5,
         "scaleWithStars": true,
-        "legacy": true
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "frost"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
+        "per": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "frost"
+            ],
+            "excludeSelf": true
+          },
+          "cap": 3
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Gepard",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "frost"
+    ]
   },
   {
     "id": "1105",
@@ -453,30 +942,60 @@ export const CHARACTERS = [
     "assetId": 1105,
     "rarity": "common",
     "attack": "support",
-    "power": 1,
+    "power": 0.35,
     "path": "丰饶",
     "element": "物理",
     "faction": "贝洛伯格",
-    "description": "每次登场恢复3生命，不能超过生命上限；不产生永久威力。",
+    "description": "每名同场守望或欢愉伙伴恢复2.5生命，最多3名。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "heal",
-        "summary": "每次登场恢复3生命，不叠成永久威力",
+        "value": 2.5,
+        "summary": "每名同场守望或欢愉伙伴恢复2.5生命，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 3,
         "scaleWithStars": true,
-        "legacy": true
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "frost",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
+        "per": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "frost",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "cap": 3
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Natasha",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "frost",
+      "elation"
+    ]
   },
   {
     "id": "1106",
@@ -484,44 +1003,44 @@ export const CHARACTERS = [
     "enName": "Pela",
     "assetId": 1106,
     "rarity": "uncommon",
-    "attack": "blast",
-    "power": 2,
+    "attack": "support",
+    "power": 0.35,
     "path": "虚无",
     "element": "冰",
     "faction": "贝洛伯格",
-    "description": "登场时，相邻冰属性角色本次威力+1，且本次全队攻击无视装甲；下次转动失效。",
+    "description": "本轮守望或引爆攻击者对敌伤害增加25%。",
     "color": "#93c5fd",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次转动相邻冰属性角色威力+1",
+        "type": "vulnerability",
+        "value": 0.25,
+        "summary": "本轮守望或引爆攻击者对敌伤害增加25%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "adjacent",
+        "target": "matching",
         "stacking": "additive",
-        "value": 1,
         "filter": {
-          "element": "冰"
+          "groupsAny": [
+            "frost",
+            "ink_dot"
+          ],
+          "role": "attack"
         },
-        "scaleWithStars": true,
-        "legacy": true
-      },
-      {
-        "type": "ignoreArmor",
-        "summary": "本次转动全队攻击无视装甲",
-        "trigger": "appearance",
-        "duration": "spin",
-        "target": "team",
-        "stacking": "unique",
-        "value": 1,
-        "legacy": true
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Pela",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "disruptor",
+    "roleLabel": "敌方干扰",
+    "groups": [
+      "frost",
+      "ink_dot"
+    ]
   },
   {
     "id": "1107",
@@ -534,26 +1053,40 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "物理",
     "faction": "贝洛伯格",
-    "description": "每累计登场2次，本实例永久威力+1；跨关保留，合成时继承。",
+    "description": "护盾达到8时，常规攻击后追加自身威力80%的史瓦罗反击。",
     "color": "#fca5a5",
     "effects": [
       {
-        "type": "growth",
-        "summary": "每累计登场2次，本实例永久威力+1",
+        "type": "damage",
+        "value": 0.8,
+        "summary": "护盾达到8时，常规攻击后追加自身威力80%的史瓦罗反击",
         "trigger": "appearance",
-        "duration": "run",
-        "target": "self",
+        "duration": "spin",
+        "target": "column",
         "stacking": "additive",
-        "value": 1,
-        "every": 2,
-        "legacy": true
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "condition": {
+          "metric": "shield",
+          "op": "gte",
+          "value": 8
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Clara",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "frost",
+      "follow_up"
+    ]
   },
   {
     "id": "1108",
@@ -561,33 +1094,81 @@ export const CHARACTERS = [
     "enName": "Sampo",
     "assetId": 1108,
     "rarity": "uncommon",
-    "attack": "single",
-    "power": 2,
+    "attack": "support",
+    "power": 0.35,
     "path": "虚无",
     "element": "风",
     "faction": "贝洛伯格",
-    "description": "每次登场有25%概率加入临时虎克；从下次转动起可抽到，累计登场3次后退场。",
+    "description": "本轮守望、引爆或欢愉攻击者对敌伤害增加20%。每名相邻同组伙伴令敌人本轮反击−0.5，最多3名。",
     "color": "#6ee7b7",
     "effects": [
       {
-        "type": "summon",
-        "summary": "每次登场有25%概率加入一位临时虎克；下次转动起可抽到，登场3次后退场",
+        "type": "vulnerability",
+        "value": 0.2,
+        "summary": "本轮守望、引爆或欢愉攻击者对敌伤害增加20%",
         "trigger": "appearance",
-        "duration": "appearances",
+        "duration": "spin",
+        "target": "matching",
+        "stacking": "additive",
+        "filter": {
+          "groupsAny": [
+            "frost",
+            "ink_dot",
+            "elation"
+          ],
+          "role": "attack"
+        },
+        "scaleWithTraining": true
+      },
+      {
+        "type": "retaliationFlat",
+        "value": 0.5,
+        "summary": "每名相邻同组伙伴令敌人本轮反击−0.5，最多3名",
+        "trigger": "appearance",
+        "duration": "spin",
         "target": "self",
         "stacking": "additive",
-        "value": 1,
-        "chance": 0.25,
-        "characterId": "1109",
-        "durationAppearances": 3,
-        "legacy": true
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "frost",
+              "ink_dot",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
+        "per": {
+          "metric": "neighbors",
+          "filter": {
+            "groupsAny": [
+              "frost",
+              "ink_dot",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "cap": 3
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Sampo",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "disruptor",
+    "roleLabel": "敌方干扰",
+    "groups": [
+      "frost",
+      "ink_dot",
+      "elation"
+    ]
   },
   {
     "id": "1109",
@@ -596,33 +1177,62 @@ export const CHARACTERS = [
     "assetId": 1109,
     "rarity": "common",
     "attack": "blast",
-    "power": 1,
+    "power": 2,
     "path": "毁灭",
     "element": "火",
     "faction": "贝洛伯格",
-    "description": "消耗1位相邻临时角色，使自身本次威力+4；被消耗者本次不再攻击。",
+    "description": "每第3次登场，引燃自身本次威力+1.3。同场有守望或欢愉伙伴时追加自身威力35%的爆破。",
     "color": "#fdba74",
     "effects": [
       {
-        "type": "consume",
-        "summary": "消耗1位相邻临时角色，使自身本次威力+4；目标不再攻击",
+        "type": "power",
+        "value": 1.3,
+        "summary": "每第3次登场，引燃自身本次威力+1.3",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "adjacent",
+        "target": "self",
         "stacking": "additive",
-        "value": 4,
-        "filter": {
-          "temporary": true
-        },
         "scaleWithStars": true,
-        "legacy": true
+        "every": 3
+      },
+      {
+        "type": "damage",
+        "value": 0.35,
+        "summary": "同场有守望或欢愉伙伴时追加自身威力35%的爆破",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "column",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "frost",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Hook",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "frost",
+      "elation"
+    ]
   },
   {
     "id": "1205",
@@ -631,41 +1241,55 @@ export const CHARACTERS = [
     "assetId": 1205,
     "rarity": "legendary",
     "attack": "blast",
-    "power": 4,
+    "power": 3.8,
     "path": "毁灭",
     "element": "风",
     "faction": "星核猎手",
-    "description": "每次登场永久威力+0.5，并消耗2生命（不会致死）；星级放大生命消耗，成长跨关保留。",
+    "description": "生命不高于55%时，自身本次威力×1.6。每第4次登场且生命不高于55%，自身永久成长+0.15。",
     "color": "#f87171",
     "effects": [
       {
+        "type": "powerMultiplier",
+        "value": 1.6,
+        "summary": "生命不高于55%时，自身本次威力×1.6",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "multiplicative",
+        "condition": {
+          "metric": "hpRatio",
+          "op": "lte",
+          "value": 0.55
+        }
+      },
+      {
         "type": "growth",
-        "summary": "每次登场，本实例永久威力+0.5",
+        "value": 0.15,
+        "summary": "每第4次登场且生命不高于55%，自身永久成长+0.15",
         "trigger": "appearance",
         "duration": "run",
         "target": "self",
         "stacking": "additive",
-        "value": 0.5,
-        "legacy": true
-      },
-      {
-        "type": "selfDamage",
-        "summary": "每次登场消耗2生命，最多降至1；星级放大消耗",
-        "trigger": "appearance",
-        "duration": "instant",
-        "target": "self",
-        "stacking": "additive",
-        "value": 2,
-        "nonlethal": true,
-        "scaleWithStars": true,
-        "legacy": true
+        "every": 4,
+        "condition": {
+          "metric": "hpRatio",
+          "op": "lte",
+          "value": 0.55
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Blade",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "hunters",
+      "ink_dot"
+    ]
   },
   {
     "id": "1204",
@@ -674,31 +1298,39 @@ export const CHARACTERS = [
     "assetId": 1204,
     "rarity": "legendary",
     "attack": "aoe",
-    "power": 4,
+    "power": 3.8,
     "path": "智识",
     "element": "雷",
     "faction": "仙舟罗浮",
-    "description": "每第2次登场，自身本次威力+2；下次转动按登场计数重新判断。",
+    "description": "每第2次登场，神君向所有存活列追加自身威力80%的攻击。",
     "color": "#fcd34d",
     "effects": [
       {
-        "type": "power",
-        "summary": "每第2次登场，自身本次威力+2",
+        "type": "damage",
+        "value": 0.8,
+        "summary": "每第2次登场，神君向所有存活列追加自身威力80%的攻击",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "self",
+        "target": "all",
         "stacking": "additive",
-        "value": 2,
-        "every": 2,
-        "scaleWithStars": true,
-        "legacy": true
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 2
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Jing_Yuan",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "mentorship"
+    ]
   },
   {
     "id": "1203",
@@ -707,40 +1339,51 @@ export const CHARACTERS = [
     "assetId": 1203,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "丰饶",
     "element": "虚数",
     "faction": "仙舟罗浮",
-    "description": "每次登场恢复6生命；自身本次治疗溢出的实际数值转为护盾。",
+    "description": "有授业、引爆或实验伙伴同场时恢复5生命，溢出部分转为护盾。",
     "color": "#bef264",
     "effects": [
       {
-        "type": "heal",
-        "summary": "每次登场恢复6生命",
+        "type": "healOverflowShield",
+        "value": 5,
+        "summary": "有授业、引爆或实验伙伴同场时恢复5生命，溢出部分转为护盾",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 6,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "mentorship",
+              "puppet",
+              "ink_dot"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
         "scaleWithStars": true,
-        "legacy": true
-      },
-      {
-        "type": "healOverflowShield",
-        "summary": "自身本次治疗溢出的实际数值转为护盾",
-        "trigger": "appearance",
-        "duration": "spin",
-        "target": "self",
-        "stacking": "unique",
-        "value": 1,
-        "legacy": true
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Luocha",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "mentorship",
+      "puppet",
+      "ink_dot"
+    ]
   },
   {
     "id": "1208",
@@ -748,41 +1391,72 @@ export const CHARACTERS = [
     "enName": "Fu Xuan",
     "assetId": 1208,
     "rarity": "rare",
-    "attack": "blast",
-    "power": 3,
+    "attack": "support",
+    "power": 0.35,
     "path": "存护",
     "element": "量子",
     "faction": "仙舟罗浮",
-    "description": "每次登场获得6护盾，并使本次敌人反击伤害×0.8；减伤只在本次有效。",
+    "description": "有授业或欢愉伙伴同场时获得5护盾。至少2名授业或欢愉伙伴同场时，敌人本轮反击×0.9。",
     "color": "#f0abfc",
     "effects": [
       {
         "type": "shield",
-        "summary": "每次登场获得6护盾",
+        "value": 5,
+        "summary": "有授业或欢愉伙伴同场时获得5护盾",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 6,
         "scaleWithStars": true,
-        "legacy": true
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "mentorship",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       },
       {
         "type": "retaliationMultiplier",
-        "summary": "本次转动敌人反击伤害×0.8；多个符玄倍率相乘",
+        "value": 0.9,
+        "summary": "至少2名授业或欢愉伙伴同场时，敌人本轮反击×0.9",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "team",
+        "target": "self",
         "stacking": "multiplicative",
-        "value": 0.8,
-        "legacy": true
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "mentorship",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 2
+        },
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Fu_Xuan",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "mentorship",
+      "elation"
+    ]
   },
   {
     "id": "1201",
@@ -791,30 +1465,35 @@ export const CHARACTERS = [
     "assetId": 1201,
     "rarity": "common",
     "attack": "blast",
-    "power": 1,
+    "power": 2,
     "path": "智识",
     "element": "量子",
     "faction": "仙舟罗浮",
-    "description": "每次登场有20%概率使自身本次威力×4；不改变基础或永久威力。",
+    "description": "每第3次登场，凑齐牌面使本次威力×2.2。",
     "color": "#5eead4",
     "effects": [
       {
         "type": "powerMultiplier",
-        "summary": "每次登场有20%概率使自身本次威力×4",
+        "value": 2.2,
+        "summary": "每第3次登场，凑齐牌面使本次威力×2.2",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "value": 4,
-        "chance": 0.2,
-        "legacy": true
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Qingque",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "elation"
+    ]
   },
   {
     "id": "1202",
@@ -823,33 +1502,44 @@ export const CHARACTERS = [
     "assetId": 1202,
     "rarity": "uncommon",
     "attack": "support",
-    "power": 2,
+    "power": 0.35,
     "path": "同谐",
     "element": "雷",
     "faction": "仙舟罗浮",
-    "description": "本次使当前威力最高的其他角色威力+2；并列取格位靠前者，下次转动失效。",
+    "description": "威力最高的1名其他同组攻击者本轮威力×1.55。",
     "color": "#fdba74",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次转动使当前威力最高的其他角色威力+2；并列取格位靠前者",
+        "type": "powerMultiplier",
+        "value": 1.55,
+        "summary": "威力最高的1名其他同组攻击者本轮威力×1.55",
         "trigger": "appearance",
         "duration": "spin",
         "target": "strongest",
-        "stacking": "additive",
-        "value": 2,
+        "stacking": "multiplicative",
         "filter": {
+          "groupsAny": [
+            "mentorship",
+            "ink_dot"
+          ],
+          "role": "attack",
           "excludeSelf": true
         },
-        "scaleWithStars": true,
-        "legacy": true
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Tingyun",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "amplifier",
+    "roleLabel": "即时辅助",
+    "groups": [
+      "mentorship",
+      "ink_dot"
+    ]
   },
   {
     "id": "1110",
@@ -858,44 +1548,76 @@ export const CHARACTERS = [
     "assetId": 1110,
     "rarity": "common",
     "attack": "support",
-    "power": 1,
+    "power": 0.35,
     "path": "丰饶",
     "element": "量子",
     "faction": "贝洛伯格",
-    "description": "登场时恢复2生命。登场时生命≤60%，再获得2护盾。",
+    "description": "有守望伙伴同场时恢复3生命。有守望伙伴同场且生命不高于60%时，获得2护盾。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "heal",
-        "summary": "登场时恢复2生命",
+        "value": 3,
+        "summary": "有守望伙伴同场时恢复3生命",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 2,
-        "scaleWithStars": true
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "frost"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       },
       {
         "type": "shield",
-        "summary": "登场时生命≤60%，再获得2护盾",
+        "value": 2,
+        "summary": "有守望伙伴同场且生命不高于60%时，获得2护盾",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 2,
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
         "condition": {
-          "metric": "hpRatio",
-          "op": "lte",
-          "value": 0.6
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "frost"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
         },
-        "scaleWithStars": true
+        "conditions": [
+          {
+            "metric": "hpRatio",
+            "op": "lte",
+            "value": 0.6
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Lynx",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "frost"
+    ]
   },
   {
     "id": "1111",
@@ -903,36 +1625,47 @@ export const CHARACTERS = [
     "enName": "Luka",
     "assetId": 1111,
     "rarity": "common",
-    "attack": "single",
-    "power": 1,
+    "attack": "support",
+    "power": 0.35,
     "path": "虚无",
     "element": "物理",
     "faction": "贝洛伯格",
-    "description": "每名相邻物理角色使自身本次威力+0.8。",
+    "description": "本轮守望或击破的单体攻击者对敌伤害增加30%。",
     "color": "#e2e8f0",
     "effects": [
       {
-        "type": "power",
-        "summary": "每名相邻物理角色使自身本次威力+0.8",
+        "type": "vulnerability",
+        "value": 0.3,
+        "summary": "本轮守望或击破的单体攻击者对敌伤害增加30%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "self",
+        "target": "matching",
         "stacking": "additive",
-        "value": 0.8,
-        "per": {
-          "metric": "neighbors",
-          "filter": {
-            "element": "物理"
-          }
+        "filter": {
+          "groupsAny": [
+            "frost",
+            "ink_dot",
+            "break"
+          ],
+          "role": "attack",
+          "attack": "single"
         },
-        "scaleWithStars": true
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Luka",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "disruptor",
+    "roleLabel": "敌方干扰",
+    "groups": [
+      "frost",
+      "ink_dot",
+      "break"
+    ]
   },
   {
     "id": "1112",
@@ -945,35 +1678,56 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "火",
     "faction": "星际和平公司",
-    "description": "每次登场获得2信用点。自身常规攻击每击破一列敌人，另获2信用点。",
+    "description": "同场至少2名追加投资伙伴时，账账追加自身威力55%的攻击。自身常规击破后获得2信用点。",
     "color": "#fb923c",
     "effects": [
       {
-        "type": "resource",
-        "summary": "每次登场获得2信用点",
+        "type": "damage",
+        "value": 0.55,
+        "summary": "同场至少2名追加投资伙伴时，账账追加自身威力55%的攻击",
         "trigger": "appearance",
-        "duration": "resource",
-        "target": "self",
-        "stacking": "resource",
-        "value": 2,
-        "resource": "coins"
+        "duration": "spin",
+        "target": "column",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "follow_up"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 2
+        }
       },
       {
         "type": "resource",
-        "summary": "自身常规攻击每击破一列敌人，另获2信用点",
+        "value": 2,
+        "summary": "自身常规击破后获得2信用点",
         "trigger": "kill",
         "duration": "resource",
         "target": "self",
-        "stacking": "resource",
-        "value": 2,
-        "resource": "coins"
+        "stacking": "additive",
+        "resource": "coins",
+        "oncePerSpin": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Topaz_%26_Numby",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "follow_up"
+    ]
   },
   {
     "id": "1206",
@@ -982,34 +1736,55 @@ export const CHARACTERS = [
     "assetId": 1206,
     "rarity": "common",
     "attack": "single",
-    "power": 1,
+    "power": 2,
     "path": "巡猎",
     "element": "物理",
     "faction": "仙舟罗浮",
-    "description": "存活敌人不多于2列时，自身本次威力+1.5。",
+    "description": "剩余不多于2列敌人时，自身本次威力×1.45。每第3次登场，剑势追加自身威力45%的攻击。",
     "color": "#e2e8f0",
     "effects": [
       {
-        "type": "power",
-        "summary": "存活敌人不多于2列时，自身本次威力+1.5",
+        "type": "powerMultiplier",
+        "value": 1.45,
+        "summary": "剩余不多于2列敌人时，自身本次威力×1.45",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
-        "stacking": "additive",
-        "value": 1.5,
+        "stacking": "multiplicative",
         "condition": {
           "metric": "enemies",
           "op": "lte",
           "value": 2
+        }
+      },
+      {
+        "type": "damage",
+        "value": 0.45,
+        "summary": "每第3次登场，剑势追加自身威力45%的攻击",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "column",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
         },
-        "scaleWithStars": true
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Sushang",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "mentorship",
+      "break",
+      "recollection"
+    ]
   },
   {
     "id": "1207",
@@ -1018,32 +1793,54 @@ export const CHARACTERS = [
     "assetId": 1207,
     "rarity": "uncommon",
     "attack": "support",
-    "power": 2,
+    "power": 0.35,
     "path": "同谐",
     "element": "虚数",
     "faction": "仙舟罗浮",
-    "description": "本次所有登场的虚数角色威力+0.8。",
+    "description": "每第2次登场，威力最高的1名其他同组永久非培养角色永久成长+0.35；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
     "color": "#fcd34d",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次所有登场的虚数角色威力+0.8",
+        "type": "growth",
+        "value": 0.35,
+        "summary": "每第2次登场，威力最高的1名其他同组永久非培养角色永久成长+0.35；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
         "trigger": "appearance",
-        "duration": "spin",
-        "target": "team",
+        "duration": "run",
+        "target": "strongest",
         "stacking": "additive",
-        "value": 0.8,
+        "every": 2,
+        "targetLimit": 1,
         "filter": {
-          "element": "虚数"
+          "groupsAny": [
+            "express",
+            "mentorship"
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
         },
-        "scaleWithStars": true
+        "scaleWithStars": true,
+        "starFactors": [
+          0,
+          1,
+          1.5,
+          2
+        ]
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Yukong",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "trainer",
+    "roleLabel": "永久培养",
+    "groups": [
+      "express",
+      "mentorship"
+    ]
   },
   {
     "id": "1209",
@@ -1056,21 +1853,21 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "冰",
     "faction": "仙舟罗浮",
-    "description": "轮到自身登场结算时已持有护盾，则自身本次威力×1.35。",
+    "description": "持有至少5护盾时，自身本次威力×1.65。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "powerMultiplier",
-        "summary": "轮到自身登场结算时已持有护盾，则自身本次威力×1.35",
+        "value": 1.65,
+        "summary": "持有至少5护盾时，自身本次威力×1.65",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "value": 1.35,
         "condition": {
           "metric": "shield",
           "op": "gte",
-          "value": 1
+          "value": 5
         }
       }
     ],
@@ -1078,7 +1875,14 @@ export const CHARACTERS = [
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Yanqing",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "frost",
+      "mentorship"
+    ]
   },
   {
     "id": "1210",
@@ -1086,37 +1890,46 @@ export const CHARACTERS = [
     "enName": "Guinaifen",
     "assetId": 1210,
     "rarity": "common",
-    "attack": "blast",
-    "power": 1,
+    "attack": "support",
+    "power": 0.35,
     "path": "虚无",
     "element": "火",
     "faction": "仙舟罗浮",
-    "description": "本次每存活1列敌人，所有虚无角色威力+0.15（最多5列）。",
+    "description": "本轮授业、引爆或欢愉攻击者对敌伤害增加22%。",
     "color": "#fb923c",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次每存活1列敌人，所有虚无角色威力+0.15（最多5列）",
+        "type": "vulnerability",
+        "value": 0.22,
+        "summary": "本轮授业、引爆或欢愉攻击者对敌伤害增加22%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "team",
+        "target": "matching",
         "stacking": "additive",
-        "value": 0.15,
         "filter": {
-          "path": "虚无"
+          "groupsAny": [
+            "mentorship",
+            "ink_dot",
+            "elation"
+          ],
+          "role": "attack"
         },
-        "per": {
-          "metric": "enemies",
-          "cap": 5
-        },
-        "scaleWithStars": true
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Guinaifen",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "disruptor",
+    "roleLabel": "敌方干扰",
+    "groups": [
+      "mentorship",
+      "ink_dot",
+      "elation"
+    ]
   },
   {
     "id": "1211",
@@ -1125,44 +1938,86 @@ export const CHARACTERS = [
     "assetId": 1211,
     "rarity": "uncommon",
     "attack": "support",
-    "power": 2,
+    "power": 0.35,
     "path": "丰饶",
     "element": "雷",
     "faction": "仙舟罗浮",
-    "description": "登场时恢复3生命。治疗后生命仍≤35%，获得4护盾。",
+    "description": "每名同场授业伙伴恢复3生命，最多3名。有授业伙伴同场且生命不高于35%时，获得3护盾。",
     "color": "#e879f9",
     "effects": [
       {
         "type": "heal",
-        "summary": "登场时恢复3生命",
+        "value": 3,
+        "summary": "每名同场授业伙伴恢复3生命，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 3,
-        "scaleWithStars": true
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "mentorship"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
+        "per": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "mentorship"
+            ],
+            "excludeSelf": true
+          },
+          "cap": 3
+        }
       },
       {
         "type": "shield",
-        "summary": "治疗后生命仍≤35%，获得4护盾",
+        "value": 3,
+        "summary": "有授业伙伴同场且生命不高于35%时，获得3护盾",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 4,
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
         "condition": {
-          "metric": "hpRatio",
-          "op": "lte",
-          "value": 0.35
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "mentorship"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
         },
-        "scaleWithStars": true
+        "conditions": [
+          {
+            "metric": "hpRatio",
+            "op": "lte",
+            "value": 0.35
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Bailu",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "mentorship"
+    ]
   },
   {
     "id": "1212",
@@ -1175,39 +2030,49 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "冰",
     "faction": "仙舟罗浮",
-    "description": "每次登场消耗2生命，最多降至1。生命≤50%时，自身本次威力×1.5。",
+    "description": "生命不高于60%时，转魄使本次威力×1.65。每第3次登场追加自身威力40%的剑光。",
     "color": "#93c5fd",
     "effects": [
       {
-        "type": "selfDamage",
-        "summary": "每次登场消耗2生命，最多降至1",
-        "trigger": "appearance",
-        "duration": "instant",
-        "target": "self",
-        "stacking": "additive",
-        "value": 2,
-        "nonlethal": true
-      },
-      {
         "type": "powerMultiplier",
-        "summary": "生命≤50%时，自身本次威力×1.5",
+        "value": 1.65,
+        "summary": "生命不高于60%时，转魄使本次威力×1.65",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "value": 1.5,
         "condition": {
           "metric": "hpRatio",
           "op": "lte",
-          "value": 0.5
+          "value": 0.6
         }
+      },
+      {
+        "type": "damage",
+        "value": 0.4,
+        "summary": "每第3次登场追加自身威力40%的剑光",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "column",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Jingliu",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "mentorship"
+    ]
   },
   {
     "id": "1214",
@@ -1216,30 +2081,40 @@ export const CHARACTERS = [
     "assetId": 1214,
     "rarity": "uncommon",
     "attack": "blast",
-    "power": 2,
+    "power": 2.5,
     "path": "毁灭",
     "element": "量子",
     "faction": "仙舟罗浮",
-    "description": "每第3次登场，本次常规攻击后向对应列追加6伤害；空列转向最近存活列。",
+    "description": "每第3次登场，向最近存活列追加自身威力100%的天罚。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "damage",
-        "summary": "每第3次登场，本次常规攻击后向对应列追加6伤害；空列转向最近存活列",
+        "value": 1,
+        "summary": "每第3次登场，向最近存活列追加自身威力100%的天罚",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
         "stacking": "additive",
-        "value": 6,
-        "every": 3,
-        "scaleWithStars": true
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Xueyi",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "mentorship",
+      "break"
+    ]
   },
   {
     "id": "1215",
@@ -1248,50 +2123,76 @@ export const CHARACTERS = [
     "assetId": 1215,
     "rarity": "common",
     "attack": "support",
-    "power": 1,
+    "power": 0.35,
     "path": "同谐",
     "element": "物理",
     "faction": "仙舟罗浮",
-    "description": "本次每登场1名单体角色，获得1信用点（最多4）。本次威力最高的其他攻击角色威力+0.5。",
+    "description": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.3；不培养临时、见习及培养者；培养量按星级×1/1.5/2。有授业或击破伙伴同场时获得1信用点。",
     "color": "#e2e8f0",
     "effects": [
       {
+        "type": "growth",
+        "value": 0.3,
+        "summary": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.3；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "trigger": "appearance",
+        "duration": "run",
+        "target": "adjacent",
+        "stacking": "additive",
+        "every": 3,
+        "targetLimit": 2,
+        "filter": {
+          "groupsAny": [
+            "mentorship",
+            "break"
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        },
+        "scaleWithStars": true,
+        "starFactors": [
+          0,
+          1,
+          1.5,
+          2
+        ]
+      },
+      {
         "type": "resource",
-        "summary": "本次每登场1名单体角色，获得1信用点（最多4）",
+        "value": 1,
+        "summary": "有授业或击破伙伴同场时获得1信用点",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
-        "stacking": "resource",
-        "value": 1,
+        "stacking": "additive",
         "resource": "coins",
-        "per": {
+        "condition": {
           "metric": "present",
           "filter": {
-            "attack": "single"
+            "groupsAny": [
+              "mentorship",
+              "break"
+            ],
+            "excludeSelf": true
           },
-          "cap": 4
+          "op": "gte",
+          "value": 1
         }
-      },
-      {
-        "type": "power",
-        "summary": "本次威力最高的其他攻击角色威力+0.5",
-        "trigger": "appearance",
-        "duration": "spin",
-        "target": "strongest",
-        "stacking": "additive",
-        "value": 0.5,
-        "filter": {
-          "excludeSelf": true,
-          "attackNot": "support"
-        },
-        "scaleWithStars": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Hanya",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "trainer",
+    "roleLabel": "永久培养",
+    "groups": [
+      "mentorship",
+      "break"
+    ]
   },
   {
     "id": "1217",
@@ -1300,40 +2201,80 @@ export const CHARACTERS = [
     "assetId": 1217,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "丰饶",
     "element": "风",
     "faction": "仙舟罗浮",
-    "description": "每次登场恢复4生命。每第3次登场，额外获得4护盾。",
+    "description": "每名同场授业伙伴恢复4生命，最多2名。每第3次登场且有授业伙伴同场，获得3护盾。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "heal",
-        "summary": "每次登场恢复4生命",
+        "value": 4,
+        "summary": "每名同场授业伙伴恢复4生命，最多2名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 4,
-        "scaleWithStars": true
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "mentorship"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
+        "per": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "mentorship"
+            ],
+            "excludeSelf": true
+          },
+          "cap": 2
+        }
       },
       {
         "type": "shield",
-        "summary": "每第3次登场，额外获得4护盾",
+        "value": 3,
+        "summary": "每第3次登场且有授业伙伴同场，获得3护盾",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 4,
-        "every": 3,
-        "scaleWithStars": true
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "mentorship"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Huohuo",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "mentorship"
+    ]
   },
   {
     "id": "1218",
@@ -1341,38 +2282,69 @@ export const CHARACTERS = [
     "enName": "Jiaoqiu",
     "assetId": 1218,
     "rarity": "uncommon",
-    "attack": "blast",
-    "power": 2,
+    "attack": "support",
+    "power": 0.35,
     "path": "虚无",
     "element": "火",
     "faction": "仙舟曜青",
-    "description": "本次登场至少2名虚无角色时，敌人反击总伤害−1.5。",
+    "description": "本轮授业、引爆或追加投资攻击者对敌伤害增加24%。至少2名同组伙伴同场时，敌人本轮反击−1。",
     "color": "#fb923c",
     "effects": [
       {
-        "type": "retaliationFlat",
-        "summary": "本次登场至少2名虚无角色时，敌人反击总伤害−1.5",
+        "type": "vulnerability",
+        "value": 0.24,
+        "summary": "本轮授业、引爆或追加投资攻击者对敌伤害增加24%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "team",
+        "target": "matching",
         "stacking": "additive",
-        "value": 1.5,
+        "filter": {
+          "groupsAny": [
+            "mentorship",
+            "follow_up",
+            "ink_dot"
+          ],
+          "role": "attack"
+        },
+        "scaleWithTraining": true
+      },
+      {
+        "type": "retaliationFlat",
+        "value": 1,
+        "summary": "至少2名同组伙伴同场时，敌人本轮反击−1",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "additive",
+        "scaleWithTraining": true,
         "condition": {
           "metric": "present",
-          "op": "gte",
-          "value": 2,
           "filter": {
-            "path": "虚无"
-          }
-        },
-        "scaleWithStars": true
+            "groupsAny": [
+              "mentorship",
+              "follow_up",
+              "ink_dot"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 2
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Jiaoqiu",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "disruptor",
+    "roleLabel": "敌方干扰",
+    "groups": [
+      "mentorship",
+      "follow_up",
+      "ink_dot"
+    ]
   },
   {
     "id": "1220",
@@ -1381,30 +2353,61 @@ export const CHARACTERS = [
     "assetId": 1220,
     "rarity": "legendary",
     "attack": "single",
-    "power": 4,
+    "power": 3.8,
     "path": "巡猎",
     "element": "风",
     "faction": "仙舟曜青",
-    "description": "每第3次登场，本次常规攻击后向对应列追加15伤害；空列取最近存活列。",
+    "description": "每第3次登场，向最近存活列追加自身威力115%的飞黄追击。同场有授业或追加投资伙伴时，本次威力×1.2。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "damage",
-        "summary": "每第3次登场，本次常规攻击后向对应列追加15伤害；空列取最近存活列",
+        "value": 1.15,
+        "summary": "每第3次登场，向最近存活列追加自身威力115%的飞黄追击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
         "stacking": "additive",
-        "value": 15,
-        "every": 3,
-        "scaleWithStars": true
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 3
+      },
+      {
+        "type": "powerMultiplier",
+        "value": 1.2,
+        "summary": "同场有授业或追加投资伙伴时，本次威力×1.2",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "multiplicative",
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "mentorship",
+              "follow_up"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Feixiao",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "mentorship",
+      "follow_up"
+    ]
   },
   {
     "id": "1221",
@@ -1417,31 +2420,25 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "物理",
     "faction": "仙舟朱明",
-    "description": "每次登场获得3护盾。生命≤70%时，自身本次威力×1.3。",
+    "description": "持有至少6护盾时，常规攻击后追加自身威力80%的看破。",
     "color": "#e2e8f0",
     "effects": [
       {
-        "type": "shield",
-        "summary": "每次登场获得3护盾",
-        "trigger": "appearance",
-        "duration": "resource",
-        "target": "self",
-        "stacking": "additive",
-        "value": 3,
-        "scaleWithStars": true
-      },
-      {
-        "type": "powerMultiplier",
-        "summary": "生命≤70%时，自身本次威力×1.3",
+        "type": "damage",
+        "value": 0.8,
+        "summary": "持有至少6护盾时，常规攻击后追加自身威力80%的看破",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "self",
-        "stacking": "multiplicative",
-        "value": 1.3,
+        "target": "column",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
         "condition": {
-          "metric": "hpRatio",
-          "op": "lte",
-          "value": 0.7
+          "metric": "shield",
+          "op": "gte",
+          "value": 6
         }
       }
     ],
@@ -1449,7 +2446,14 @@ export const CHARACTERS = [
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Yunli",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "mentorship",
+      "follow_up"
+    ]
   },
   {
     "id": "1222",
@@ -1458,41 +2462,84 @@ export const CHARACTERS = [
     "assetId": 1222,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "丰饶",
     "element": "火",
     "faction": "仙舟罗浮",
-    "description": "每次登场恢复3生命。每第4次登场加入临时桂乃芬，下次起可抽到，登场2次后退场。",
+    "description": "每名同场授业或击破伙伴恢复3生命，最多3名。每第4次登场且有同组伙伴，浮元提供3护盾。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "heal",
-        "summary": "每次登场恢复3生命",
+        "value": 3,
+        "summary": "每名同场授业或击破伙伴恢复3生命，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 3,
-        "scaleWithStars": true
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "mentorship",
+              "break"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
+        "per": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "mentorship",
+              "break"
+            ],
+            "excludeSelf": true
+          },
+          "cap": 3
+        }
       },
       {
-        "type": "summon",
-        "summary": "每第4次登场加入临时桂乃芬，下次起可抽到，登场2次后退场",
+        "type": "shield",
+        "value": 3,
+        "summary": "每第4次登场且有同组伙伴，浮元提供3护盾",
         "trigger": "appearance",
-        "duration": "appearances",
+        "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 1,
-        "every": 4,
-        "characterId": "1210",
-        "durationAppearances": 2
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "mentorship",
+              "break"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
+        "every": 4
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Lingsha",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "mentorship",
+      "break"
+    ]
   },
   {
     "id": "1223",
@@ -1501,21 +2548,21 @@ export const CHARACTERS = [
     "assetId": 1223,
     "rarity": "common",
     "attack": "single",
-    "power": 1,
+    "power": 2,
     "path": "巡猎",
     "element": "雷",
     "faction": "仙舟曜青",
-    "description": "相邻其他角色不多于1名时，自身本次威力×1.6。",
+    "description": "相邻角色不多于1名时，隐匿使本次威力×1.7。",
     "color": "#e879f9",
     "effects": [
       {
         "type": "powerMultiplier",
-        "summary": "相邻其他角色不多于1名时，自身本次威力×1.6",
+        "value": 1.7,
+        "summary": "相邻角色不多于1名时，隐匿使本次威力×1.7",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "value": 1.6,
         "condition": {
           "metric": "neighbors",
           "op": "lte",
@@ -1527,7 +2574,14 @@ export const CHARACTERS = [
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Moze",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "mentorship",
+      "follow_up"
+    ]
   },
   {
     "id": "1301",
@@ -1536,36 +2590,63 @@ export const CHARACTERS = [
     "assetId": 1301,
     "rarity": "common",
     "attack": "support",
-    "power": 1,
+    "power": 0.35,
     "path": "丰饶",
     "element": "火",
     "faction": "匹诺康尼",
-    "description": "本次每登场1名火属性角色，恢复1生命（最多4）。",
+    "description": "每名同场猎手、击破或欢愉伙伴恢复2生命，最多3名。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "heal",
-        "summary": "本次每登场1名火属性角色，恢复1生命（最多4）",
+        "value": 2,
+        "summary": "每名同场猎手、击破或欢愉伙伴恢复2生命，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 1,
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "hunters",
+              "elation",
+              "break"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
         "per": {
           "metric": "present",
           "filter": {
-            "element": "火"
+            "groupsAny": [
+              "hunters",
+              "elation",
+              "break"
+            ],
+            "excludeSelf": true
           },
-          "cap": 4
-        },
-        "scaleWithStars": true
+          "cap": 3
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Gallagher",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "hunters",
+      "elation",
+      "break"
+    ]
   },
   {
     "id": "1302",
@@ -1574,30 +2655,39 @@ export const CHARACTERS = [
     "assetId": 1302,
     "rarity": "uncommon",
     "attack": "aoe",
-    "power": 2,
+    "power": 2.5,
     "path": "智识",
     "element": "物理",
     "faction": "纯美骑士",
-    "description": "每第4次登场，自身本次威力+4。",
+    "description": "每第4次登场，向所有存活列追加自身威力85%的纯美礼赞。",
     "color": "#e2e8f0",
     "effects": [
       {
-        "type": "power",
-        "summary": "每第4次登场，自身本次威力+4",
+        "type": "damage",
+        "value": 0.85,
+        "summary": "每第4次登场，向所有存活列追加自身威力85%的纯美礼赞",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "self",
+        "target": "all",
         "stacking": "additive",
-        "value": 4,
-        "every": 4,
-        "scaleWithStars": true
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 4
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Argenti",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "puppet"
+    ]
   },
   {
     "id": "1303",
@@ -1606,43 +2696,56 @@ export const CHARACTERS = [
     "assetId": 1303,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "同谐",
     "element": "冰",
     "faction": "黑塔空间站",
-    "description": "相邻其他角色本次威力+0.8。每第4次登场，使相邻非临时攻击角色各永久威力+0.25。",
+    "description": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
     "color": "#93c5fd",
     "effects": [
       {
-        "type": "power",
-        "summary": "相邻其他角色本次威力+0.8",
-        "trigger": "appearance",
-        "duration": "spin",
-        "target": "adjacent",
-        "stacking": "additive",
-        "value": 0.8,
-        "scaleWithStars": true
-      },
-      {
         "type": "growth",
-        "summary": "每第4次登场，使相邻非临时攻击角色各永久威力+0.25",
+        "value": 0.4,
+        "summary": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
         "trigger": "appearance",
         "duration": "run",
         "target": "adjacent",
         "stacking": "additive",
-        "value": 0.25,
-        "every": 4,
+        "every": 3,
+        "targetLimit": 2,
         "filter": {
-          "attackNot": "support",
-          "temporary": false
-        }
+          "groupsAny": [
+            "hunters",
+            "puppet",
+            "break"
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        },
+        "scaleWithStars": true,
+        "starFactors": [
+          0,
+          1,
+          1.5,
+          2
+        ]
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Ruan_Mei",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "trainer",
+    "roleLabel": "永久培养",
+    "groups": [
+      "hunters",
+      "puppet",
+      "break"
+    ]
   },
   {
     "id": "1304",
@@ -1650,45 +2753,86 @@ export const CHARACTERS = [
     "enName": "Aventurine",
     "assetId": 1304,
     "rarity": "rare",
-    "attack": "blast",
-    "power": 3,
+    "attack": "support",
+    "power": 0.35,
     "path": "存护",
     "element": "虚数",
     "faction": "星际和平公司",
-    "description": "每次登场获得4护盾。获得护盾后当前护盾≥20时，获得1信用点。",
+    "description": "每名同场追加投资伙伴提供3.5护盾，最多3名。有追加投资伙伴同场且护盾达到18时，获得1信用点。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "shield",
-        "summary": "每次登场获得4护盾",
+        "value": 3.5,
+        "summary": "每名同场追加投资伙伴提供3.5护盾，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 4,
-        "scaleWithStars": true
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "follow_up"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
+        "per": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "follow_up"
+            ],
+            "excludeSelf": true
+          },
+          "cap": 3
+        }
       },
       {
         "type": "resource",
-        "summary": "获得护盾后当前护盾≥20时，获得1信用点",
+        "value": 1,
+        "summary": "有追加投资伙伴同场且护盾达到18时，获得1信用点",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
-        "stacking": "resource",
-        "value": 1,
+        "stacking": "additive",
         "resource": "coins",
         "condition": {
-          "metric": "shield",
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "follow_up"
+            ],
+            "excludeSelf": true
+          },
           "op": "gte",
-          "value": 20
-        }
+          "value": 1
+        },
+        "conditions": [
+          {
+            "metric": "shield",
+            "op": "gte",
+            "value": 18
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Aventurine",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "follow_up"
+    ]
   },
   {
     "id": "1305",
@@ -1701,32 +2845,45 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "虚数",
     "faction": "博识学会",
-    "description": "本次常规攻击后，每登场1名虚无角色向对应列追加2伤害（最多4名）。",
+    "description": "每名同场追加投资或实验干扰者提供一次威力35%的追击，最多3名。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "damage",
-        "summary": "本次常规攻击后，每登场1名虚无角色向对应列追加2伤害（最多4名）",
+        "value": 0.35,
+        "summary": "每名同场追加投资或实验干扰者提供一次威力35%的追击，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
         "stacking": "additive",
-        "value": 2,
+        "stage": "afterAttacks",
         "per": {
           "metric": "present",
           "filter": {
-            "path": "虚无"
+            "groupsAny": [
+              "puppet",
+              "follow_up"
+            ],
+            "excludeSelf": true,
+            "role": "disruptor"
           },
-          "cap": 4
+          "cap": 3
         },
-        "scaleWithStars": true
+        "scaleWithSourcePower": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Dr._Ratio",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "puppet",
+      "follow_up"
+    ]
   },
   {
     "id": "1306",
@@ -1735,40 +2892,67 @@ export const CHARACTERS = [
     "assetId": 1306,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "同谐",
     "element": "量子",
     "faction": "假面愚者",
-    "description": "每第3次登场获得1次重掷。相邻其他角色本次威力+0.6。",
+    "description": "相邻同组攻击者本轮威力×1.45。每第4次登场且有同组伙伴同场，获得1次重掷。",
     "color": "#c4b5fd",
     "effects": [
       {
-        "type": "resource",
-        "summary": "每第3次登场获得1次重掷",
-        "trigger": "appearance",
-        "duration": "resource",
-        "target": "self",
-        "stacking": "resource",
-        "value": 1,
-        "every": 3,
-        "resource": "rerolls"
-      },
-      {
-        "type": "power",
-        "summary": "相邻其他角色本次威力+0.6",
+        "type": "powerMultiplier",
+        "value": 1.45,
+        "summary": "相邻同组攻击者本轮威力×1.45",
         "trigger": "appearance",
         "duration": "spin",
         "target": "adjacent",
+        "stacking": "multiplicative",
+        "filter": {
+          "groupsAny": [
+            "hunters",
+            "elation"
+          ],
+          "role": "attack",
+          "excludeSelf": true
+        },
+        "scaleWithTraining": true
+      },
+      {
+        "type": "resource",
+        "value": 1,
+        "summary": "每第4次登场且有同组伙伴同场，获得1次重掷",
+        "trigger": "appearance",
+        "duration": "resource",
+        "target": "self",
         "stacking": "additive",
-        "value": 0.6,
-        "scaleWithStars": true
+        "every": 4,
+        "resource": "rerolls",
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "hunters",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Sparkle",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "amplifier",
+    "roleLabel": "即时辅助",
+    "groups": [
+      "hunters",
+      "elation"
+    ]
   },
   {
     "id": "1307",
@@ -1776,37 +2960,55 @@ export const CHARACTERS = [
     "enName": "Black Swan",
     "assetId": 1307,
     "rarity": "uncommon",
-    "attack": "blast",
-    "power": 2,
+    "attack": "support",
+    "power": 0.35,
     "path": "虚无",
     "element": "风",
     "faction": "流光忆庭",
-    "description": "本次每登场1名虚无角色，自身本次威力+0.35（最多5名）。",
+    "description": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.35；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
     "color": "#6ee7b7",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次每登场1名虚无角色，自身本次威力+0.35（最多5名）",
-        "trigger": "appearance",
-        "duration": "spin",
-        "target": "self",
-        "stacking": "additive",
+        "type": "growth",
         "value": 0.35,
-        "per": {
-          "metric": "present",
-          "filter": {
-            "path": "虚无"
-          },
-          "cap": 5
+        "summary": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.35；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "trigger": "appearance",
+        "duration": "run",
+        "target": "adjacent",
+        "stacking": "additive",
+        "every": 3,
+        "targetLimit": 2,
+        "filter": {
+          "groupsAny": [
+            "ink_dot",
+            "recollection"
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
         },
-        "scaleWithStars": true
+        "scaleWithStars": true,
+        "starFactors": [
+          0,
+          1,
+          1.5,
+          2
+        ]
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Black_Swan",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "trainer",
+    "roleLabel": "永久培养",
+    "groups": [
+      "ink_dot",
+      "recollection"
+    ]
   },
   {
     "id": "1308",
@@ -1815,40 +3017,60 @@ export const CHARACTERS = [
     "assetId": 1308,
     "rarity": "legendary",
     "attack": "aoe",
-    "power": 4,
+    "power": 3.8,
     "path": "虚无",
     "element": "雷",
     "faction": "自灭者",
-    "description": "每第3次登场，本次全队无视装甲。每第3次登场，自身本次威力+2。",
+    "description": "每第3次登场，向所有存活列追加自身威力65%的终结斩。每名同场虚无引爆干扰者使自身本次威力+0.65，最多3名。",
     "color": "#e879f9",
     "effects": [
       {
-        "type": "ignoreArmor",
-        "summary": "每第3次登场，本次全队无视装甲",
+        "type": "damage",
+        "value": 0.65,
+        "summary": "每第3次登场，向所有存活列追加自身威力65%的终结斩",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "team",
-        "stacking": "unique",
-        "value": 1,
+        "target": "all",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
         "every": 3
       },
       {
         "type": "power",
-        "summary": "每第3次登场，自身本次威力+2",
+        "value": 0.65,
+        "summary": "每名同场虚无引爆干扰者使自身本次威力+0.65，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
-        "value": 2,
-        "every": 3,
-        "scaleWithStars": true
+        "scaleWithStars": true,
+        "per": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "ink_dot"
+            ],
+            "excludeSelf": true,
+            "role": "disruptor"
+          },
+          "cap": 3
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Acheron",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "ink_dot"
+    ]
   },
   {
     "id": "1309",
@@ -1857,34 +3079,53 @@ export const CHARACTERS = [
     "assetId": 1309,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "同谐",
     "element": "物理",
     "faction": "匹诺康尼",
-    "description": "相邻至少2名角色时，所有登场角色本次威力+0.5。",
+    "description": "同场同组攻击者本轮威力×1.35。",
     "color": "#e2e8f0",
     "effects": [
       {
-        "type": "power",
-        "summary": "相邻至少2名角色时，所有登场角色本次威力+0.5",
+        "type": "powerMultiplier",
+        "value": 1.35,
+        "summary": "同场同组攻击者本轮威力×1.35",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "team",
-        "stacking": "additive",
-        "value": 0.5,
+        "target": "matching",
+        "stacking": "multiplicative",
+        "filter": {
+          "groupsAny": [
+            "follow_up"
+          ],
+          "role": "attack",
+          "excludeSelf": true
+        },
+        "scaleWithTraining": true,
         "condition": {
-          "metric": "neighbors",
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "follow_up"
+            ],
+            "excludeSelf": true
+          },
           "op": "gte",
           "value": 2
-        },
-        "scaleWithStars": true
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Robin",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "amplifier",
+    "roleLabel": "即时辅助",
+    "groups": [
+      "follow_up"
+    ]
   },
   {
     "id": "1310",
@@ -1897,40 +3138,57 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "火",
     "faction": "星核猎手",
-    "description": "每次登场消耗3生命，最多降至1。生命≤55%时，自身本次威力+2。",
+    "description": "至少2名猎手或击破伙伴同场时，完全燃烧使本次威力×1.45。每第3次登场追加自身威力50%的超击破。",
     "color": "#fb923c",
     "effects": [
       {
-        "type": "selfDamage",
-        "summary": "每次登场消耗3生命，最多降至1",
-        "trigger": "appearance",
-        "duration": "instant",
-        "target": "self",
-        "stacking": "additive",
-        "value": 3,
-        "nonlethal": true
-      },
-      {
-        "type": "power",
-        "summary": "生命≤55%时，自身本次威力+2",
+        "type": "powerMultiplier",
+        "value": 1.45,
+        "summary": "至少2名猎手或击破伙伴同场时，完全燃烧使本次威力×1.45",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
-        "stacking": "additive",
-        "value": 2,
+        "stacking": "multiplicative",
         "condition": {
-          "metric": "hpRatio",
-          "op": "lte",
-          "value": 0.55
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "hunters",
+              "break"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 2
+        }
+      },
+      {
+        "type": "damage",
+        "value": 0.5,
+        "summary": "每第3次登场追加自身威力50%的超击破",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "column",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
         },
-        "scaleWithStars": true
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Firefly",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "hunters",
+      "break"
+    ]
   },
   {
     "id": "1312",
@@ -1939,21 +3197,21 @@ export const CHARACTERS = [
     "assetId": 1312,
     "rarity": "common",
     "attack": "blast",
-    "power": 1,
+    "power": 2,
     "path": "毁灭",
     "element": "冰",
     "faction": "匹诺康尼",
-    "description": "每第3次登场，自身本次威力×2.5。",
+    "description": "每第3次登场，行李连击使自身本次威力×2。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "powerMultiplier",
-        "summary": "每第3次登场，自身本次威力×2.5",
+        "value": 2,
+        "summary": "每第3次登场，行李连击使自身本次威力×2",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "value": 2.5,
         "every": 3
       }
     ],
@@ -1961,7 +3219,15 @@ export const CHARACTERS = [
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Misha",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "frost",
+      "recollection",
+      "elation"
+    ]
   },
   {
     "id": "1313",
@@ -1970,46 +3236,63 @@ export const CHARACTERS = [
     "assetId": 1313,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "同谐",
     "element": "虚数",
     "faction": "匹诺康尼",
-    "description": "所有本次登场的临时角色威力+1.2。本次威力最高的其他攻击角色威力+1。",
+    "description": "威力最高的1名其他同组攻击者本轮威力×1.5。同场远行或共演临时攻击者本次威力+0.6。",
     "color": "#fcd34d",
     "effects": [
       {
-        "type": "power",
-        "summary": "所有本次登场的临时角色威力+1.2",
-        "trigger": "appearance",
-        "duration": "spin",
-        "target": "team",
-        "stacking": "additive",
-        "value": 1.2,
-        "filter": {
-          "temporary": true
-        },
-        "scaleWithStars": true
-      },
-      {
-        "type": "power",
-        "summary": "本次威力最高的其他攻击角色威力+1",
+        "type": "powerMultiplier",
+        "value": 1.5,
+        "summary": "威力最高的1名其他同组攻击者本轮威力×1.5",
         "trigger": "appearance",
         "duration": "spin",
         "target": "strongest",
-        "stacking": "additive",
-        "value": 1,
+        "stacking": "multiplicative",
         "filter": {
-          "excludeSelf": true,
-          "attackNot": "support"
+          "groupsAny": [
+            "express",
+            "recollection"
+          ],
+          "role": "attack",
+          "excludeSelf": true
         },
-        "scaleWithStars": true
+        "scaleWithTraining": true
+      },
+      {
+        "type": "power",
+        "value": 0.6,
+        "summary": "同场远行或共演临时攻击者本次威力+0.6",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "matching",
+        "stacking": "additive",
+        "scaleWithStars": true,
+        "filter": {
+          "groupsAny": [
+            "express",
+            "recollection"
+          ],
+          "role": "attack",
+          "temporary": true
+        },
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Sunday",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "amplifier",
+    "roleLabel": "即时辅助",
+    "groups": [
+      "express",
+      "recollection"
+    ]
   },
   {
     "id": "1314",
@@ -2022,38 +3305,64 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "量子",
     "faction": "星际和平公司",
-    "description": "消耗1位相邻临时角色，自身本次威力+3。每次登场获得1信用点。",
+    "description": "每名同场追加投资攻击者使翡翠追加自身威力25%的清算，最多3名。有追加投资伙伴同场时获得1信用点。",
     "color": "#c4b5fd",
     "effects": [
       {
-        "type": "consume",
-        "summary": "消耗1位相邻临时角色，自身本次威力+3",
+        "type": "damage",
+        "value": 0.25,
+        "summary": "每名同场追加投资攻击者使翡翠追加自身威力25%的清算，最多3名",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "adjacent",
+        "target": "column",
         "stacking": "additive",
-        "value": 3,
-        "filter": {
-          "temporary": true
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "follow_up"
+            ],
+            "excludeSelf": true,
+            "role": "attack"
+          },
+          "cap": 3
         },
-        "scaleWithStars": true
+        "scaleWithSourcePower": true
       },
       {
         "type": "resource",
-        "summary": "每次登场获得1信用点",
+        "value": 1,
+        "summary": "有追加投资伙伴同场时获得1信用点",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
-        "stacking": "resource",
-        "value": 1,
-        "resource": "coins"
+        "stacking": "additive",
+        "resource": "coins",
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "follow_up"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Jade",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "follow_up"
+    ]
   },
   {
     "id": "1315",
@@ -2062,21 +3371,21 @@ export const CHARACTERS = [
     "assetId": 1315,
     "rarity": "uncommon",
     "attack": "single",
-    "power": 2,
+    "power": 2.5,
     "path": "巡猎",
     "element": "物理",
     "faction": "巡海游侠",
-    "description": "只剩1列敌人时，自身本次威力×1.7。自身常规攻击每击破1列敌人，本实例永久威力+0.25。",
+    "description": "仅剩1列敌人时，本次威力×1.75。自身常规击破后追加自身威力35%的决斗追击。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "powerMultiplier",
-        "summary": "只剩1列敌人时，自身本次威力×1.7",
+        "value": 1.75,
+        "summary": "仅剩1列敌人时，本次威力×1.75",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "value": 1.7,
         "condition": {
           "metric": "enemies",
           "op": "eq",
@@ -2084,20 +3393,31 @@ export const CHARACTERS = [
         }
       },
       {
-        "type": "growth",
-        "summary": "自身常规攻击每击破1列敌人，本实例永久威力+0.25",
+        "type": "damage",
+        "value": 0.35,
+        "summary": "自身常规击破后追加自身威力35%的决斗追击",
         "trigger": "kill",
-        "duration": "run",
-        "target": "self",
+        "duration": "spin",
+        "target": "column",
         "stacking": "additive",
-        "value": 0.25
+        "stage": "beforeAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "oncePerSpin": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Boothill",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "break"
+    ]
   },
   {
     "id": "1317",
@@ -2106,33 +3426,39 @@ export const CHARACTERS = [
     "assetId": 1317,
     "rarity": "uncommon",
     "attack": "aoe",
-    "power": 2,
+    "power": 2.5,
     "path": "智识",
     "element": "虚数",
     "faction": "巡海游侠",
-    "description": "本次每有1列存活敌人，自身本次威力+0.3（最多5列）。",
+    "description": "每列存活敌人使本次威力+0.35，最多5列。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "power",
-        "summary": "本次每有1列存活敌人，自身本次威力+0.3（最多5列）",
+        "value": 0.35,
+        "summary": "每列存活敌人使本次威力+0.35，最多5列",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
-        "value": 0.3,
+        "scaleWithStars": true,
         "per": {
           "metric": "enemies",
           "cap": 5
-        },
-        "scaleWithStars": true
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Rappa",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "break"
+    ]
   },
   {
     "id": "1402",
@@ -2140,23 +3466,37 @@ export const CHARACTERS = [
     "enName": "Aglaea",
     "assetId": 1402,
     "rarity": "uncommon",
-    "attack": "support",
-    "power": 2,
+    "attack": "single",
+    "power": 2.5,
     "path": "记忆",
     "element": "雷",
     "faction": "翁法罗斯",
-    "description": "每第3次登场加入临时素裳；下次起可抽到，登场2次后退场。",
+    "description": "每第2次登场，衣匠追加自身威力60%的双人攻击。每第4次登场召来临时素裳，下次起可抽中，登场2次后离队。",
     "color": "#e879f9",
     "effects": [
       {
+        "type": "damage",
+        "value": 0.6,
+        "summary": "每第2次登场，衣匠追加自身威力60%的双人攻击",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "column",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 2
+      },
+      {
         "type": "summon",
-        "summary": "每第3次登场加入临时素裳；下次起可抽到，登场2次后退场",
+        "value": 1,
+        "summary": "每第4次登场召来临时素裳，下次起可抽中，登场2次后离队",
         "trigger": "appearance",
         "duration": "appearances",
         "target": "self",
         "stacking": "additive",
-        "value": 1,
-        "every": 3,
+        "every": 4,
         "characterId": "1206",
         "durationAppearances": 2
       }
@@ -2165,7 +3505,13 @@ export const CHARACTERS = [
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Aglaea",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "recollection"
+    ]
   },
   {
     "id": "1403",
@@ -2174,36 +3520,54 @@ export const CHARACTERS = [
     "assetId": 1403,
     "rarity": "uncommon",
     "attack": "support",
-    "power": 2,
+    "power": 0.35,
     "path": "同谐",
     "element": "量子",
     "faction": "翁法罗斯",
-    "description": "本次每登场1名群体角色，全队本次威力+0.2（最多4名）。",
+    "description": "每第2次登场，威力最高的1名其他同组永久非培养角色永久成长+0.3；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
     "color": "#c4b5fd",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次每登场1名群体角色，全队本次威力+0.2（最多4名）",
+        "type": "growth",
+        "value": 0.3,
+        "summary": "每第2次登场，威力最高的1名其他同组永久非培养角色永久成长+0.3；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
         "trigger": "appearance",
-        "duration": "spin",
-        "target": "team",
+        "duration": "run",
+        "target": "strongest",
         "stacking": "additive",
-        "value": 0.2,
-        "per": {
-          "metric": "present",
-          "filter": {
-            "attack": "aoe"
-          },
-          "cap": 4
+        "every": 2,
+        "targetLimit": 1,
+        "filter": {
+          "groupsAny": [
+            "recollection",
+            "break"
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
         },
-        "scaleWithStars": true
+        "scaleWithStars": true,
+        "starFactors": [
+          0,
+          1,
+          1.5,
+          2
+        ]
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Tribbie",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "trainer",
+    "roleLabel": "永久培养",
+    "groups": [
+      "recollection",
+      "break"
+    ]
   },
   {
     "id": "1404",
@@ -2216,34 +3580,49 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "虚数",
     "faction": "翁法罗斯",
-    "description": "每次登场消耗4生命，最多降至1。每次登场，本实例永久威力+0.35。",
+    "description": "生命不高于55%时，战意使本次威力×1.6。每第3次登场追加自身威力45%的决战攻击。",
     "color": "#fcd34d",
     "effects": [
       {
-        "type": "selfDamage",
-        "summary": "每次登场消耗4生命，最多降至1",
+        "type": "powerMultiplier",
+        "value": 1.6,
+        "summary": "生命不高于55%时，战意使本次威力×1.6",
         "trigger": "appearance",
-        "duration": "instant",
+        "duration": "spin",
         "target": "self",
-        "stacking": "additive",
-        "value": 4,
-        "nonlethal": true
+        "stacking": "multiplicative",
+        "condition": {
+          "metric": "hpRatio",
+          "op": "lte",
+          "value": 0.55
+        }
       },
       {
-        "type": "growth",
-        "summary": "每次登场，本实例永久威力+0.35",
+        "type": "damage",
+        "value": 0.45,
+        "summary": "每第3次登场追加自身威力45%的决战攻击",
         "trigger": "appearance",
-        "duration": "run",
-        "target": "self",
+        "duration": "spin",
+        "target": "column",
         "stacking": "additive",
-        "value": 0.35
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Mydei",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "recollection"
+    ]
   },
   {
     "id": "1405",
@@ -2252,44 +3631,54 @@ export const CHARACTERS = [
     "assetId": 1405,
     "rarity": "uncommon",
     "attack": "aoe",
-    "power": 2,
+    "power": 2.5,
     "path": "智识",
     "element": "风",
     "faction": "翁法罗斯",
-    "description": "至少4列敌人存活时，本次全队攻击无视装甲。每第3次登场，自身本次威力+1.5。",
+    "description": "每列空列使自身本次威力+0.45，最多4列。每第3次登场追加自身威力50%的演算追击。",
     "color": "#6ee7b7",
     "effects": [
       {
-        "type": "ignoreArmor",
-        "summary": "至少4列敌人存活时，本次全队攻击无视装甲",
-        "trigger": "appearance",
-        "duration": "spin",
-        "target": "team",
-        "stacking": "unique",
-        "value": 1,
-        "condition": {
-          "metric": "enemies",
-          "op": "gte",
-          "value": 4
-        }
-      },
-      {
         "type": "power",
-        "summary": "每第3次登场，自身本次威力+1.5",
+        "value": 0.45,
+        "summary": "每列空列使自身本次威力+0.45，最多4列",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
-        "value": 1.5,
-        "every": 3,
-        "scaleWithStars": true
+        "scaleWithStars": true,
+        "per": {
+          "metric": "emptyColumns",
+          "cap": 4
+        }
+      },
+      {
+        "type": "damage",
+        "value": 0.5,
+        "summary": "每第3次登场追加自身威力50%的演算追击",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "column",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Anaxa",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "puppet",
+      "recollection"
+    ]
   },
   {
     "id": "1406",
@@ -2297,37 +3686,53 @@ export const CHARACTERS = [
     "enName": "Cipher",
     "assetId": 1406,
     "rarity": "uncommon",
-    "attack": "single",
-    "power": 2,
+    "attack": "support",
+    "power": 0.35,
     "path": "虚无",
     "element": "量子",
     "faction": "翁法罗斯",
-    "description": "每次登场有35%概率获得4信用点。持有至少30信用点时，自身本次威力×1.2。",
+    "description": "本轮欢愉或共演的群体攻击者对敌伤害增加25%。每第2次登场且有同组伙伴同场，获得1信用点。",
     "color": "#c4b5fd",
     "effects": [
       {
+        "type": "vulnerability",
+        "value": 0.25,
+        "summary": "本轮欢愉或共演的群体攻击者对敌伤害增加25%",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "matching",
+        "stacking": "additive",
+        "filter": {
+          "groupsAny": [
+            "recollection",
+            "elation"
+          ],
+          "role": "attack",
+          "attack": "aoe"
+        },
+        "scaleWithTraining": true
+      },
+      {
         "type": "resource",
-        "summary": "每次登场有35%概率获得4信用点",
+        "value": 1,
+        "summary": "每第2次登场且有同组伙伴同场，获得1信用点",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
-        "stacking": "resource",
-        "value": 4,
-        "chance": 0.35,
-        "resource": "coins"
-      },
-      {
-        "type": "powerMultiplier",
-        "summary": "持有至少30信用点时，自身本次威力×1.2",
-        "trigger": "appearance",
-        "duration": "spin",
-        "target": "self",
-        "stacking": "multiplicative",
-        "value": 1.2,
+        "stacking": "additive",
+        "resource": "coins",
+        "every": 2,
         "condition": {
-          "metric": "coins",
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "recollection",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
           "op": "gte",
-          "value": 30
+          "value": 1
         }
       }
     ],
@@ -2335,7 +3740,14 @@ export const CHARACTERS = [
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Cipher",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "disruptor",
+    "roleLabel": "敌方干扰",
+    "groups": [
+      "recollection",
+      "elation"
+    ]
   },
   {
     "id": "1407",
@@ -2344,48 +3756,59 @@ export const CHARACTERS = [
     "assetId": 1407,
     "rarity": "legendary",
     "attack": "aoe",
-    "power": 4,
+    "power": 3.8,
     "path": "记忆",
     "element": "量子",
     "faction": "翁法罗斯",
-    "description": "本次每登场1名临时角色，自身本次威力+0.5（最多4名）。每第4次登场加入临时丹恒；下次起可抽到，登场2次后退场。",
+    "description": "每名同场忆灵共演伙伴使自身本次威力+0.4，最多3名。每第3次登场，向所有存活敌列追加自身威力75%的死龙吐息。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "power",
-        "summary": "本次每登场1名临时角色，自身本次威力+0.5（最多4名）",
+        "value": 0.4,
+        "summary": "每名同场忆灵共演伙伴使自身本次威力+0.4，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
-        "value": 0.5,
+        "scaleWithStars": true,
         "per": {
           "metric": "present",
           "filter": {
-            "temporary": true
+            "groupsAny": [
+              "recollection"
+            ],
+            "excludeSelf": true
           },
-          "cap": 4
-        },
-        "scaleWithStars": true
+          "cap": 3
+        }
       },
       {
-        "type": "summon",
-        "summary": "每第4次登场加入临时丹恒；下次起可抽到，登场2次后退场",
+        "type": "damage",
+        "value": 0.75,
+        "summary": "每第3次登场，向所有存活敌列追加自身威力75%的死龙吐息",
         "trigger": "appearance",
-        "duration": "appearances",
-        "target": "self",
+        "duration": "spin",
+        "target": "all",
         "stacking": "additive",
-        "value": 1,
-        "every": 4,
-        "characterId": "1002",
-        "durationAppearances": 2
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Castorice",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "recollection"
+    ]
   },
   {
     "id": "1408",
@@ -2394,44 +3817,53 @@ export const CHARACTERS = [
     "assetId": 1408,
     "rarity": "legendary",
     "attack": "blast",
-    "power": 4,
+    "power": 3.8,
     "path": "毁灭",
     "element": "物理",
     "faction": "翁法罗斯",
-    "description": "没有相邻其他角色时，自身本次威力×1.8。每第4次登场，本次常规攻击后向对应列追加12伤害。",
+    "description": "相邻角色不多于1名时，负世使本次威力×1.8。每第4次登场追加自身威力80%的黎明斩击。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "powerMultiplier",
-        "summary": "没有相邻其他角色时，自身本次威力×1.8",
+        "value": 1.8,
+        "summary": "相邻角色不多于1名时，负世使本次威力×1.8",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "value": 1.8,
         "condition": {
           "metric": "neighbors",
-          "op": "eq",
-          "value": 0
+          "op": "lte",
+          "value": 1
         }
       },
       {
         "type": "damage",
-        "summary": "每第4次登场，本次常规攻击后向对应列追加12伤害",
+        "value": 0.8,
+        "summary": "每第4次登场追加自身威力80%的黎明斩击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
         "stacking": "additive",
-        "value": 12,
-        "every": 4,
-        "scaleWithStars": true
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 4
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Phainon",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "recollection"
+    ]
   },
   {
     "id": "1409",
@@ -2440,44 +3872,73 @@ export const CHARACTERS = [
     "assetId": 1409,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "记忆",
     "element": "风",
     "faction": "翁法罗斯",
-    "description": "每次登场恢复3生命。治疗后按缺失生命÷15获得护盾（最高5，可为小数）。",
+    "description": "有忆灵共演伙伴同场时恢复5生命。有忆灵共演伙伴同场时，按缺失生命的12%获得护盾，最多4.8。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "heal",
-        "summary": "每次登场恢复3生命",
+        "value": 5,
+        "summary": "有忆灵共演伙伴同场时恢复5生命",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 3,
-        "scaleWithStars": true
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "recollection"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       },
       {
         "type": "shield",
-        "summary": "治疗后按缺失生命÷15获得护盾（最高5，可为小数）",
+        "value": 0.12,
+        "summary": "有忆灵共演伙伴同场时，按缺失生命的12%获得护盾，最多4.8",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 1,
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "recollection"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
         "per": {
           "metric": "missingHp",
-          "divisor": 15,
-          "cap": 5
-        },
-        "scaleWithStars": true
+          "cap": 40
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Hyacine",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "recollection"
+    ]
   },
   {
     "id": "march_hunt",
@@ -2486,29 +3947,76 @@ export const CHARACTERS = [
     "assetId": 1224,
     "rarity": "common",
     "attack": "single",
-    "power": 1,
+    "power": 2,
     "path": "巡猎",
     "element": "虚数",
     "faction": "星穹列车",
-    "description": "每累计登场3次，本实例永久威力+0.6。",
+    "description": "至少1名相邻同组伙伴时，剑花追加自身威力45%的攻击。每第4次登场且相邻有同组伙伴，自身永久成长+0.15。",
     "color": "#fcd34d",
     "effects": [
       {
+        "type": "damage",
+        "value": 0.45,
+        "summary": "至少1名相邻同组伙伴时，剑花追加自身威力45%的攻击",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "column",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "groupsAny": [
+              "express",
+              "mentorship",
+              "follow_up"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
+      },
+      {
         "type": "growth",
-        "summary": "每累计登场3次，本实例永久威力+0.6",
+        "value": 0.15,
+        "summary": "每第4次登场且相邻有同组伙伴，自身永久成长+0.15",
         "trigger": "appearance",
         "duration": "run",
         "target": "self",
         "stacking": "additive",
-        "value": 0.6,
-        "every": 3
+        "every": 4,
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "groupsAny": [
+              "express",
+              "mentorship",
+              "follow_up"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 4,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/March_7th",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "express",
+      "mentorship",
+      "follow_up"
+    ]
   },
   {
     "id": "dan_heng_imbibitor_lunae",
@@ -2521,32 +4029,43 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "虚数",
     "faction": "星穹列车",
-    "description": "本次每有1位虚数角色登场，自身威力+0.35，最多计算6位。",
+    "description": "每名同场远行或授业伙伴使自身本次威力+0.4，最多3名。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "power",
-        "summary": "本次每有1位虚数角色登场，自身威力+0.35，最多计算6位",
+        "value": 0.4,
+        "summary": "每名同场远行或授业伙伴使自身本次威力+0.4，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
-        "value": 0.35,
+        "scaleWithStars": true,
         "per": {
           "metric": "present",
           "filter": {
-            "element": "虚数"
+            "groupsAny": [
+              "express",
+              "mentorship"
+            ],
+            "excludeSelf": true
           },
-          "cap": 6
-        },
-        "scaleWithStars": true
+          "cap": 3
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Dan_Heng_%E2%80%A2_Imbibitor_Lunae",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "express",
+      "mentorship"
+    ]
   },
   {
     "id": "dan_heng_pt",
@@ -2555,47 +4074,60 @@ export const CHARACTERS = [
     "assetId": 1414,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "存护",
     "element": "物理",
     "faction": "星穹列车",
-    "description": "每次登场获得4护盾。按当前护盾÷20，使本次存护角色威力+0.3，最多计算3份。",
+    "description": "每名同场远行或守望伙伴提供3.5护盾，最多3名。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "shield",
-        "summary": "每次登场获得4护盾",
+        "value": 3.5,
+        "summary": "每名同场远行或守望伙伴提供3.5护盾，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 4,
-        "scaleWithStars": true
-      },
-      {
-        "type": "power",
-        "summary": "按当前护盾÷20，使本次存护角色威力+0.3，最多计算3份",
-        "trigger": "appearance",
-        "duration": "spin",
-        "target": "team",
-        "stacking": "additive",
-        "value": 0.3,
-        "filter": {
-          "path": "存护"
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "express",
+              "frost"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
         },
         "per": {
-          "metric": "shield",
-          "divisor": 20,
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "express",
+              "frost"
+            ],
+            "excludeSelf": true
+          },
           "cap": 3
-        },
-        "scaleWithStars": true
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Dan_Heng_%E2%80%A2_Permansor_Terrae",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "express",
+      "frost"
+    ]
   },
   {
     "id": "fugue",
@@ -2603,47 +4135,45 @@ export const CHARACTERS = [
     "enName": "Fugue",
     "assetId": 1225,
     "rarity": "rare",
-    "attack": "blast",
-    "power": 3,
+    "attack": "support",
+    "power": 0.35,
     "path": "虚无",
     "element": "火",
     "faction": "仙舟罗浮",
-    "description": "本次至少有3位虚无角色登场时，全队攻击无视装甲。每累计登场3次，本实例永久威力+0.4。",
+    "description": "本轮猎手或击破的扩散攻击者对敌伤害增加30%。",
     "color": "#fb923c",
     "effects": [
       {
-        "type": "ignoreArmor",
-        "summary": "本次至少有3位虚无角色登场时，全队攻击无视装甲",
+        "type": "vulnerability",
+        "value": 0.3,
+        "summary": "本轮猎手或击破的扩散攻击者对敌伤害增加30%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "team",
-        "stacking": "unique",
-        "value": 1,
-        "condition": {
-          "metric": "present",
-          "filter": {
-            "path": "虚无"
-          },
-          "op": "gte",
-          "value": 3
-        }
-      },
-      {
-        "type": "growth",
-        "summary": "每累计登场3次，本实例永久威力+0.4",
-        "trigger": "appearance",
-        "duration": "run",
-        "target": "self",
+        "target": "matching",
         "stacking": "additive",
-        "value": 0.4,
-        "every": 3
+        "filter": {
+          "groupsAny": [
+            "hunters",
+            "break"
+          ],
+          "role": "attack",
+          "attack": "blast"
+        },
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Fugue",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "disruptor",
+    "roleLabel": "敌方干扰",
+    "groups": [
+      "hunters",
+      "break"
+    ]
   },
   {
     "id": "the_herta",
@@ -2656,32 +4186,56 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "冰",
     "faction": "黑塔空间站",
-    "description": "本次每有1位智识角色登场，自身威力+0.35，最多计算6位。",
+    "description": "每名同场实验攻击者使本次威力+0.5，最多3名。每第3次登场，向所有存活敌列追加自身威力50%的解题攻击。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "power",
-        "summary": "本次每有1位智识角色登场，自身威力+0.35，最多计算6位",
+        "value": 0.5,
+        "summary": "每名同场实验攻击者使本次威力+0.5，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
-        "value": 0.35,
+        "scaleWithStars": true,
         "per": {
           "metric": "present",
           "filter": {
-            "path": "智识"
+            "groupsAny": [
+              "puppet"
+            ],
+            "excludeSelf": true,
+            "role": "attack"
           },
-          "cap": 6
+          "cap": 3
+        }
+      },
+      {
+        "type": "damage",
+        "value": 0.5,
+        "summary": "每第3次登场，向所有存活敌列追加自身威力50%的解题攻击",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "all",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
         },
-        "scaleWithStars": true
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/The_Herta",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "puppet"
+    ]
   },
   {
     "id": "hysilens",
@@ -2689,33 +4243,66 @@ export const CHARACTERS = [
     "enName": "Hysilens",
     "assetId": 1410,
     "rarity": "rare",
-    "attack": "blast",
-    "power": 3,
+    "attack": "support",
+    "power": 0.35,
     "path": "虚无",
     "element": "物理",
     "faction": "翁法罗斯",
-    "description": "本次登场的虚无角色威力+0.6。",
+    "description": "本轮引爆或共演攻击者对敌伤害增加28%。至少2名引爆或共演伙伴同场时，敌人本轮反击×0.9。",
     "color": "#e2e8f0",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次登场的虚无角色威力+0.6",
+        "type": "vulnerability",
+        "value": 0.28,
+        "summary": "本轮引爆或共演攻击者对敌伤害增加28%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "team",
+        "target": "matching",
         "stacking": "additive",
-        "value": 0.6,
         "filter": {
-          "path": "虚无"
+          "groupsAny": [
+            "ink_dot",
+            "recollection"
+          ],
+          "role": "attack"
         },
-        "scaleWithStars": true
+        "scaleWithTraining": true
+      },
+      {
+        "type": "retaliationMultiplier",
+        "value": 0.9,
+        "summary": "至少2名引爆或共演伙伴同场时，敌人本轮反击×0.9",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "multiplicative",
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "ink_dot",
+              "recollection"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 2
+        },
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Hysilens",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "disruptor",
+    "roleLabel": "敌方干扰",
+    "groups": [
+      "ink_dot",
+      "recollection"
+    ]
   },
   {
     "id": "cerydra",
@@ -2724,29 +4311,44 @@ export const CHARACTERS = [
     "assetId": 1412,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "同谐",
     "element": "风",
     "faction": "翁法罗斯",
-    "description": "本次使威力最高的其他角色威力+1.8；并列取格位靠前者。",
+    "description": "威力最高的1名其他同组攻击者本轮威力×1.6。",
     "color": "#6ee7b7",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次使威力最高的其他角色威力+1.8；并列取格位靠前者",
+        "type": "powerMultiplier",
+        "value": 1.6,
+        "summary": "威力最高的1名其他同组攻击者本轮威力×1.6",
         "trigger": "appearance",
         "duration": "spin",
         "target": "strongest",
-        "stacking": "additive",
-        "value": 1.8,
-        "scaleWithStars": true
+        "stacking": "multiplicative",
+        "filter": {
+          "groupsAny": [
+            "recollection",
+            "break"
+          ],
+          "role": "attack",
+          "excludeSelf": true
+        },
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Cerydra",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "amplifier",
+    "roleLabel": "即时辅助",
+    "groups": [
+      "recollection",
+      "break"
+    ]
   },
   {
     "id": "evernight",
@@ -2759,32 +4361,43 @@ export const CHARACTERS = [
     "path": "记忆",
     "element": "冰",
     "faction": "翁法罗斯",
-    "description": "本次每有1位记忆角色登场，自身威力+0.45，最多计算6位。",
+    "description": "每名同场忆灵共演辅助角色贡献一次自身威力40%的忆幕追击，最多2名。",
     "color": "#93c5fd",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次每有1位记忆角色登场，自身威力+0.45，最多计算6位",
+        "type": "damage",
+        "value": 0.4,
+        "summary": "每名同场忆灵共演辅助角色贡献一次自身威力40%的忆幕追击，最多2名",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "self",
+        "target": "column",
         "stacking": "additive",
-        "value": 0.45,
+        "stage": "afterAttacks",
         "per": {
           "metric": "present",
           "filter": {
-            "path": "记忆"
+            "groupsAny": [
+              "recollection"
+            ],
+            "excludeSelf": true,
+            "roleNot": "attack"
           },
-          "cap": 6
+          "cap": 2
         },
-        "scaleWithStars": true
+        "scaleWithSourcePower": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Evernight",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "recollection"
+    ]
   },
   {
     "id": "cyrene",
@@ -2793,31 +4406,54 @@ export const CHARACTERS = [
     "assetId": 1415,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "记忆",
     "element": "冰",
     "faction": "翁法罗斯",
-    "description": "每次登场，使本次登场的永久记忆角色永久威力+0.1；临时角色不成长。",
+    "description": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.45；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "growth",
-        "summary": "每次登场，使本次登场的永久记忆角色永久威力+0.1；临时角色不成长",
+        "value": 0.45,
+        "summary": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.45；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
         "trigger": "appearance",
         "duration": "run",
-        "target": "team",
+        "target": "adjacent",
         "stacking": "additive",
-        "value": 0.1,
+        "every": 3,
+        "targetLimit": 2,
         "filter": {
-          "path": "记忆"
-        }
+          "groupsAny": [
+            "express",
+            "recollection"
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        },
+        "scaleWithStars": true,
+        "starFactors": [
+          0,
+          1,
+          1.5,
+          2
+        ]
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Cyrene",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "trainer",
+    "roleLabel": "永久培养",
+    "groups": [
+      "express",
+      "recollection"
+    ]
   },
   {
     "id": "saber",
@@ -2830,26 +4466,36 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "风",
     "faction": "异世界",
-    "description": "每第3次登场，自身本次威力+4。",
+    "description": "每第3次登场，向所有存活敌列追加自身威力80%的誓约胜利之剑。",
     "color": "#6ee7b7",
     "effects": [
       {
-        "type": "power",
-        "summary": "每第3次登场，自身本次威力+4",
+        "type": "damage",
+        "value": 0.8,
+        "summary": "每第3次登场，向所有存活敌列追加自身威力80%的誓约胜利之剑",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "self",
+        "target": "all",
         "stacking": "additive",
-        "value": 4,
-        "every": 3,
-        "scaleWithStars": true
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Saber",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "recollection",
+      "break"
+    ]
   },
   {
     "id": "archer",
@@ -2862,32 +4508,43 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "量子",
     "faction": "异世界",
-    "description": "每有1名相邻辅助角色，自身本次威力+1.1，最多计算3位。",
+    "description": "每名相邻追加投资辅助角色贡献一次自身威力40%的投影追击，最多3名。",
     "color": "#e879f9",
     "effects": [
       {
-        "type": "power",
-        "summary": "每有1名相邻辅助角色，自身本次威力+1.1，最多计算3位",
+        "type": "damage",
+        "value": 0.4,
+        "summary": "每名相邻追加投资辅助角色贡献一次自身威力40%的投影追击，最多3名",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "self",
+        "target": "column",
         "stacking": "additive",
-        "value": 1.1,
+        "stage": "afterAttacks",
         "per": {
           "metric": "neighbors",
           "filter": {
-            "attack": "support"
+            "groupsAny": [
+              "follow_up"
+            ],
+            "excludeSelf": true,
+            "roleNot": "attack"
           },
           "cap": 3
         },
-        "scaleWithStars": true
+        "scaleWithSourcePower": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Archer",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "follow_up"
+    ]
   },
   {
     "id": "yao_guang",
@@ -2896,31 +4553,54 @@ export const CHARACTERS = [
     "assetId": 1502,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "欢愉",
     "element": "物理",
     "faction": "仙舟玉阙",
-    "description": "登场期间，同谐角色的邻接与定向威力增益×1.15；离场即失效。",
+    "description": "每第2次登场，威力最高的1名其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
     "color": "#e2e8f0",
     "effects": [
       {
-        "type": "buffMultiplier",
-        "summary": "登场期间，同谐角色的邻接与定向威力增益×1.15；离场即失效",
-        "trigger": "passive",
-        "duration": "spin",
-        "target": "team",
-        "stacking": "multiplicative",
-        "value": 1.15,
+        "type": "growth",
+        "value": 0.4,
+        "summary": "每第2次登场，威力最高的1名其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "trigger": "appearance",
+        "duration": "run",
+        "target": "strongest",
+        "stacking": "additive",
+        "every": 2,
+        "targetLimit": 1,
         "filter": {
-          "path": "同谐"
-        }
+          "groupsAny": [
+            "mentorship",
+            "elation"
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        },
+        "scaleWithStars": true,
+        "starFactors": [
+          0,
+          1,
+          1.5,
+          2
+        ]
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Yao_Guang",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "trainer",
+    "roleLabel": "永久培养",
+    "groups": [
+      "mentorship",
+      "elation"
+    ]
   },
   {
     "id": "sparxie",
@@ -2929,44 +4609,53 @@ export const CHARACTERS = [
     "assetId": 1501,
     "rarity": "uncommon",
     "attack": "blast",
-    "power": 2,
+    "power": 2.5,
     "path": "欢愉",
     "element": "火",
     "faction": "假面愚者",
-    "description": "每第2次登场获得1信用点。本次每有1位角色退场，自身威力+0.6，最多计算8位。",
+    "description": "本轮每名退场角色使自身本次威力+0.7，最多3名。每第2次登场追加自身威力40%的舞台爆破。",
     "color": "#fb923c",
     "effects": [
       {
-        "type": "resource",
-        "summary": "每第2次登场获得1信用点",
-        "trigger": "appearance",
-        "duration": "resource",
-        "target": "self",
-        "stacking": "additive",
-        "value": 1,
-        "every": 2,
-        "resource": "coins"
-      },
-      {
         "type": "power",
-        "summary": "本次每有1位角色退场，自身威力+0.6，最多计算8位",
-        "trigger": "passive",
+        "value": 0.7,
+        "summary": "本轮每名退场角色使自身本次威力+0.7，最多3名",
+        "trigger": "spin",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
-        "value": 0.6,
+        "scaleWithStars": true,
         "per": {
           "metric": "retirements",
-          "cap": 8
+          "cap": 3
+        }
+      },
+      {
+        "type": "damage",
+        "value": 0.4,
+        "summary": "每第2次登场追加自身威力40%的舞台爆破",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "column",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
         },
-        "scaleWithStars": true
+        "every": 2
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Sparxie",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "elation"
+    ]
   },
   {
     "id": "ashveil",
@@ -2979,24 +4668,48 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "雷",
     "faction": "巡海游侠",
-    "description": "自身常规攻击每击破1列敌人，本实例永久威力+0.3。",
+    "description": "仅剩不多于2列敌人时，追猎追加自身威力65%的攻击。本次威力×1.25。",
     "color": "#c4b5fd",
     "effects": [
       {
-        "type": "growth",
-        "summary": "自身常规攻击每击破1列敌人，本实例永久威力+0.3",
-        "trigger": "kill",
-        "duration": "run",
-        "target": "self",
+        "type": "damage",
+        "value": 0.65,
+        "summary": "仅剩不多于2列敌人时，追猎追加自身威力65%的攻击",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "column",
         "stacking": "additive",
-        "value": 0.3
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "condition": {
+          "metric": "enemies",
+          "op": "lte",
+          "value": 2
+        }
+      },
+      {
+        "type": "powerMultiplier",
+        "value": 1.25,
+        "summary": "本次威力×1.25",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "multiplicative"
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Ashveil",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "follow_up"
+    ]
   },
   {
     "id": "silver_wolf_lv999",
@@ -3005,43 +4718,54 @@ export const CHARACTERS = [
     "assetId": 1506,
     "rarity": "legendary",
     "attack": "aoe",
-    "power": 4,
+    "power": 3.8,
     "path": "欢愉",
     "element": "虚数",
     "faction": "星核猎手",
-    "description": "本次每有1位角色退场，自身威力+0.65，最多计算6位。每第3次登场，本次全队攻击无视装甲。",
+    "description": "每第3次登场，向所有存活列追加自身威力75%的满级连段。本轮每名退场角色使自身本次威力+0.6，最多3名。",
     "color": "#fcd34d",
     "effects": [
       {
+        "type": "damage",
+        "value": 0.75,
+        "summary": "每第3次登场，向所有存活列追加自身威力75%的满级连段",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "all",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 3
+      },
+      {
         "type": "power",
-        "summary": "本次每有1位角色退场，自身威力+0.65，最多计算6位",
-        "trigger": "passive",
+        "value": 0.6,
+        "summary": "本轮每名退场角色使自身本次威力+0.6，最多3名",
+        "trigger": "spin",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
-        "value": 0.65,
+        "scaleWithStars": true,
         "per": {
           "metric": "retirements",
-          "cap": 6
-        },
-        "scaleWithStars": true
-      },
-      {
-        "type": "ignoreArmor",
-        "summary": "每第3次登场，本次全队攻击无视装甲",
-        "trigger": "appearance",
-        "duration": "spin",
-        "target": "team",
-        "stacking": "unique",
-        "value": 1,
-        "every": 3
+          "cap": 3
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Silver_Wolf_LV.999",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "hunters",
+      "puppet"
+    ]
   },
   {
     "id": "evanescia",
@@ -3049,44 +4773,60 @@ export const CHARACTERS = [
     "enName": "Evanescia",
     "assetId": 1505,
     "rarity": "rare",
-    "attack": "blast",
-    "power": 3,
+    "attack": "support",
+    "power": 0.35,
     "path": "欢愉",
     "element": "物理",
     "faction": "二相乐园",
-    "description": "本次登场的欢愉角色威力+0.55。每第2次登场恢复2生命。",
+    "description": "同场同组攻击者本轮威力×1.4。登场期间，同组防御者的护盾获取量×1.15。",
     "color": "#e2e8f0",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次登场的欢愉角色威力+0.55",
+        "type": "powerMultiplier",
+        "value": 1.4,
+        "summary": "同场同组攻击者本轮威力×1.4",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "team",
-        "stacking": "additive",
-        "value": 0.55,
+        "target": "matching",
+        "stacking": "multiplicative",
         "filter": {
-          "path": "欢愉"
+          "groupsAny": [
+            "elation"
+          ],
+          "role": "attack",
+          "excludeSelf": true
         },
-        "scaleWithStars": true
+        "scaleWithTraining": true,
+        "every": 2
       },
       {
-        "type": "heal",
-        "summary": "每第2次登场恢复2生命",
-        "trigger": "appearance",
-        "duration": "resource",
-        "target": "self",
-        "stacking": "additive",
-        "value": 2,
-        "every": 2,
-        "scaleWithStars": true
+        "type": "shieldMultiplier",
+        "value": 1.15,
+        "summary": "登场期间，同组防御者的护盾获取量×1.15",
+        "trigger": "passive",
+        "duration": "spin",
+        "target": "matching",
+        "stacking": "multiplicative",
+        "filter": {
+          "groupsAny": [
+            "elation"
+          ],
+          "role": "defense"
+        },
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Evanescia",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "amplifier",
+    "roleLabel": "即时辅助",
+    "groups": [
+      "elation"
+    ]
   },
   {
     "id": "mortenax_blade",
@@ -3099,40 +4839,51 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "火",
     "faction": "星核猎手",
-    "description": "每次登场消耗1生命，最多降至1。按缺失生命÷15，自身本次威力+0.5，最多计算5份。",
+    "description": "每缺失10生命，本次威力+0.32，最多5份。每第3次登场追加自身威力50%的锻焰追击。",
     "color": "#fb923c",
     "effects": [
       {
-        "type": "selfDamage",
-        "summary": "每次登场消耗1生命，最多降至1",
-        "trigger": "appearance",
-        "duration": "instant",
-        "target": "self",
-        "stacking": "additive",
-        "value": 1,
-        "nonlethal": true
-      },
-      {
         "type": "power",
-        "summary": "按缺失生命÷15，自身本次威力+0.5，最多计算5份",
+        "value": 0.32,
+        "summary": "每缺失10生命，本次威力+0.32，最多5份",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
-        "value": 0.5,
+        "scaleWithStars": true,
         "per": {
           "metric": "missingHp",
-          "divisor": 15,
+          "divisor": 10,
           "cap": 5
+        }
+      },
+      {
+        "type": "damage",
+        "value": 0.5,
+        "summary": "每第3次登场追加自身威力50%的锻焰追击",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "column",
+        "stacking": "additive",
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
         },
-        "scaleWithStars": true
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Mortenax_Blade",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "hunters",
+      "ink_dot"
+    ]
   },
   {
     "id": "the_dahlia",
@@ -3140,33 +4891,63 @@ export const CHARACTERS = [
     "enName": "The Dahlia",
     "assetId": 1321,
     "rarity": "rare",
-    "attack": "blast",
-    "power": 3,
+    "attack": "support",
+    "power": 0.35,
     "path": "虚无",
     "element": "火",
     "faction": "焚化工",
-    "description": "本次登场的火属性角色威力+0.45。",
+    "description": "本轮击破接力攻击者对敌伤害增加32%。有击破伙伴相邻时，敌人本轮反击−1。",
     "color": "#fb923c",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次登场的火属性角色威力+0.45",
+        "type": "vulnerability",
+        "value": 0.32,
+        "summary": "本轮击破接力攻击者对敌伤害增加32%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "team",
+        "target": "matching",
         "stacking": "additive",
-        "value": 0.45,
         "filter": {
-          "element": "火"
+          "groupsAny": [
+            "break"
+          ],
+          "role": "attack"
         },
-        "scaleWithStars": true
+        "scaleWithTraining": true
+      },
+      {
+        "type": "retaliationFlat",
+        "value": 1,
+        "summary": "有击破伙伴相邻时，敌人本轮反击−1",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "additive",
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "groupsAny": [
+              "break"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/The_Dahlia",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "disruptor",
+    "roleLabel": "敌方干扰",
+    "groups": [
+      "break"
+    ]
   },
   {
     "id": "announced_himeko_nova",
@@ -3179,32 +4960,44 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "火",
     "faction": "星穹列车",
-    "description": "本次每有1位星穹列车角色登场，自身威力+0.3，最多计算6位。",
+    "description": "每名同场远行或实验伙伴贡献一次自身威力30%的启行追击，最多3名。",
     "color": "#fb923c",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次每有1位星穹列车角色登场，自身威力+0.3，最多计算6位",
+        "type": "damage",
+        "value": 0.3,
+        "summary": "每名同场远行或实验伙伴贡献一次自身威力30%的启行追击，最多3名",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "self",
+        "target": "column",
         "stacking": "additive",
-        "value": 0.3,
+        "stage": "afterAttacks",
         "per": {
           "metric": "present",
           "filter": {
-            "faction": "星穹列车"
+            "groupsAny": [
+              "express",
+              "puppet"
+            ],
+            "excludeSelf": true
           },
-          "cap": 6
+          "cap": 3
         },
-        "scaleWithStars": true
+        "scaleWithSourcePower": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Himeko_%E2%80%A2_Nova",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "express",
+      "puppet"
+    ]
   },
   {
     "id": "announced_gilgamesh",
@@ -3217,40 +5010,50 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "雷",
     "faction": "异世界",
-    "description": "本次每有1列存活敌人，自身威力+0.25，最多计算5列。每第3次登场获得2信用点。",
+    "description": "每列存活敌人使本次威力+0.35，最多5列。每第3次登场追加自身威力60%的王之财宝。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "power",
-        "summary": "本次每有1列存活敌人，自身威力+0.25，最多计算5列",
+        "value": 0.35,
+        "summary": "每列存活敌人使本次威力+0.35，最多5列",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
-        "value": 0.25,
+        "scaleWithStars": true,
         "per": {
           "metric": "enemies",
           "cap": 5
-        },
-        "scaleWithStars": true
+        }
       },
       {
-        "type": "resource",
-        "summary": "每第3次登场获得2信用点",
+        "type": "damage",
+        "value": 0.6,
+        "summary": "每第3次登场追加自身威力60%的王之财宝",
         "trigger": "appearance",
-        "duration": "resource",
-        "target": "self",
+        "duration": "spin",
+        "target": "column",
         "stacking": "additive",
-        "value": 2,
-        "every": 3,
-        "resource": "coins"
+        "stage": "afterAttacks",
+        "per": {
+          "metric": "sourcePower"
+        },
+        "every": 3
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Gilgamesh",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "attack",
+    "roleLabel": "攻击",
+    "groups": [
+      "elation",
+      "break"
+    ]
   },
   {
     "id": "announced_rin_tohsaka",
@@ -3258,33 +5061,64 @@ export const CHARACTERS = [
     "enName": "Rin Tohsaka",
     "assetId": 1508,
     "rarity": "uncommon",
-    "attack": "aoe",
-    "power": 2,
+    "attack": "support",
+    "power": 0.35,
     "path": "智识",
     "element": "量子",
     "faction": "异世界",
-    "description": "本次登场的量子角色威力+0.4。",
+    "description": "相邻同组攻击者本轮威力×1.35。每第3次登场，相邻同组攻击者本次威力再+0.5。",
     "color": "#e879f9",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次登场的量子角色威力+0.4",
+        "type": "powerMultiplier",
+        "value": 1.35,
+        "summary": "相邻同组攻击者本轮威力×1.35",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "team",
-        "stacking": "additive",
-        "value": 0.4,
+        "target": "adjacent",
+        "stacking": "multiplicative",
         "filter": {
-          "element": "量子"
+          "groupsAny": [
+            "puppet",
+            "elation"
+          ],
+          "role": "attack",
+          "excludeSelf": true
         },
-        "scaleWithStars": true
+        "scaleWithTraining": true
+      },
+      {
+        "type": "power",
+        "value": 0.5,
+        "summary": "每第3次登场，相邻同组攻击者本次威力再+0.5",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "adjacent",
+        "stacking": "additive",
+        "scaleWithStars": true,
+        "every": 3,
+        "filter": {
+          "groupsAny": [
+            "puppet",
+            "elation"
+          ],
+          "role": "attack"
+        },
+        "scaleWithTraining": true
       }
     ],
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Rin_Tohsaka",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "amplifier",
+    "roleLabel": "即时辅助",
+    "groups": [
+      "puppet",
+      "elation"
+    ]
   },
   {
     "id": "aha",
@@ -3293,46 +5127,74 @@ export const CHARACTERS = [
     "assetId": "aha-symbol",
     "rarity": "legendary",
     "attack": "support",
-    "power": 4,
+    "power": 0.35,
     "path": "欢愉",
     "element": "无（改编）",
     "faction": "星神",
-    "description": "本次每有1位角色退场，本次登场的其他角色威力+0.2，最多计算4位。每次登场有10%概率获得1次重掷。星神同行者为本作改编，未设定官方战斗属性。",
+    "description": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2。每第4次登场且有欢愉伙伴同场，获得1次重掷。",
     "color": "#fbbf24",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次每有1位角色退场，本次登场的其他角色威力+0.2，最多计算4位",
-        "trigger": "passive",
-        "duration": "spin",
-        "target": "team",
+        "type": "growth",
+        "value": 0.4,
+        "summary": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "trigger": "appearance",
+        "duration": "run",
+        "target": "adjacent",
         "stacking": "additive",
-        "value": 0.2,
+        "every": 3,
+        "targetLimit": 2,
         "filter": {
-          "excludeSelf": true
+          "groupsAny": [
+            "elation"
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
         },
-        "per": {
-          "metric": "retirements",
-          "cap": 4
-        }
+        "scaleWithStars": true,
+        "starFactors": [
+          0,
+          1,
+          1.5,
+          2
+        ]
       },
       {
         "type": "resource",
-        "summary": "每次登场有10%概率获得1次重掷",
+        "value": 1,
+        "summary": "每第4次登场且有欢愉伙伴同场，获得1次重掷",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 1,
+        "every": 4,
         "resource": "rerolls",
-        "chance": 0.1
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "星神同行者为本作改编；无官方可玩星级或战斗属性；头像为文字标识",
     "officialRarity": null,
     "publicationStatus": "adapted-aeon",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Aha",
-    "portraitKind": "text-symbol"
+    "portraitKind": "text-symbol",
+    "kitVersion": 6,
+    "role": "trainer",
+    "roleLabel": "永久培养",
+    "groups": [
+      "elation"
+    ]
   },
   {
     "id": "pearl",
@@ -3341,40 +5203,80 @@ export const CHARACTERS = [
     "assetId": 1503,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "欢愉",
     "element": "冰",
     "faction": "星际和平公司",
     "color": "#93c5fd",
     "effects": [
       {
-        "type": "shield",
-        "summary": "每次登场获得4护盾",
+        "type": "growth",
+        "value": 0.4,
+        "summary": "每第3次登场，威力最高的1名其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
         "trigger": "appearance",
-        "duration": "resource",
-        "target": "self",
+        "duration": "run",
+        "target": "strongest",
         "stacking": "additive",
-        "value": 4,
-        "scaleWithStars": true
+        "every": 3,
+        "targetLimit": 1,
+        "filter": {
+          "groupsAny": [
+            "frost",
+            "follow_up",
+            "elation"
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        },
+        "scaleWithStars": true,
+        "starFactors": [
+          0,
+          1,
+          1.5,
+          2
+        ]
       },
       {
         "type": "resource",
-        "summary": "每第3次登场获得2信用点",
+        "value": 1,
+        "summary": "每第3次登场且有守望、投资或欢愉伙伴同场，获得1信用点",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 2,
         "every": 3,
-        "resource": "coins"
+        "resource": "coins",
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "frost",
+              "follow_up",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
-    "description": "每次登场获得4护盾。每第3次登场获得2信用点。",
+    "description": "每第3次登场，威力最高的1名其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2。每第3次登场且有守望、投资或欢愉伙伴同场，获得1信用点。",
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Pearl",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "trainer",
+    "roleLabel": "永久培养",
+    "groups": [
+      "frost",
+      "follow_up",
+      "elation"
+    ]
   },
   {
     "id": "robin_summeretto",
@@ -3383,43 +5285,84 @@ export const CHARACTERS = [
     "assetId": 1512,
     "rarity": "rare",
     "attack": "support",
-    "power": 3,
+    "power": 0.35,
     "path": "记忆",
     "element": "风",
     "faction": "匹诺康尼",
     "color": "#6ee7b7",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次登场的记忆角色威力+0.4",
-        "trigger": "appearance",
-        "duration": "spin",
-        "target": "team",
-        "stacking": "additive",
-        "value": 0.4,
-        "filter": {
-          "path": "记忆"
-        },
-        "scaleWithStars": true
-      },
-      {
         "type": "heal",
-        "summary": "每第2次登场恢复2生命",
+        "value": 3,
+        "summary": "每名相邻共演或欢愉伙伴恢复3生命，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 2,
-        "every": 2,
-        "scaleWithStars": true
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "recollection",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
+        "per": {
+          "metric": "neighbors",
+          "filter": {
+            "groupsAny": [
+              "recollection",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "cap": 3
+        }
+      },
+      {
+        "type": "shield",
+        "value": 3,
+        "summary": "每第2次登场且有同组伙伴，获得3护盾",
+        "trigger": "appearance",
+        "duration": "resource",
+        "target": "self",
+        "stacking": "additive",
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "recollection",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
+        "every": 2
       }
     ],
-    "description": "本次登场的记忆角色威力+0.4。每第2次登场恢复2生命。",
+    "description": "每名相邻共演或欢愉伙伴恢复3生命，最多3名。每第2次登场且有同组伙伴，获得3护盾。",
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Robin_%E2%80%A2_Summeretto",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "recollection",
+      "elation"
+    ]
   },
   {
     "id": "aventurine_waveflair",
@@ -3427,8 +5370,8 @@ export const CHARACTERS = [
     "enName": "Aventurine • Waveflair",
     "assetId": 1513,
     "rarity": "rare",
-    "attack": "single",
-    "power": 3,
+    "attack": "support",
+    "power": 0.35,
     "path": "欢愉",
     "element": "量子",
     "faction": "星际和平公司",
@@ -3436,40 +5379,75 @@ export const CHARACTERS = [
     "effects": [
       {
         "type": "shield",
-        "summary": "按持有信用点÷20，获得2护盾，最多计算4份",
+        "value": 2.8,
+        "summary": "每名同场追加投资或欢愉伙伴提供2.8护盾，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 2,
-        "per": {
-          "metric": "coins",
-          "divisor": 20,
-          "cap": 4
+        "scaleWithStars": true,
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "follow_up",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
         },
-        "scaleWithStars": true
+        "per": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "follow_up",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "cap": 3
+        }
       },
       {
-        "type": "powerMultiplier",
-        "summary": "当前护盾达到20时，自身本次威力×1.35",
+        "type": "resource",
+        "value": 1,
+        "summary": "每第3次登场且至少2名同组伙伴同场时，获得1信用点",
         "trigger": "appearance",
-        "duration": "spin",
+        "duration": "resource",
         "target": "self",
-        "stacking": "multiplicative",
-        "value": 1.35,
+        "stacking": "additive",
+        "resource": "coins",
+        "every": 3,
         "condition": {
-          "metric": "shield",
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "follow_up",
+              "elation"
+            ],
+            "excludeSelf": true
+          },
           "op": "gte",
-          "value": 20
+          "value": 2
         }
       }
     ],
-    "description": "按持有信用点÷20，获得2护盾，最多计算4份。当前护盾达到20时，自身本次威力×1.35。",
+    "description": "每名同场追加投资或欢愉伙伴提供2.8护盾，最多3名。每第3次登场且至少2名同组伙伴同场时，获得1信用点。",
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Aventurine_%E2%80%A2_Waveflair",
-    "portraitKind": "game-art"
+    "portraitKind": "game-art",
+    "kitVersion": 6,
+    "role": "defense",
+    "roleLabel": "防御",
+    "groups": [
+      "follow_up",
+      "elation"
+    ]
   },
   {
     "id": "aeon_star_aha",
@@ -3477,44 +5455,70 @@ export const CHARACTERS = [
     "enName": "Aeon ★ Aha",
     "assetId": "aeon-star-aha",
     "rarity": "rare",
-    "attack": "blast",
-    "power": 3,
+    "attack": "support",
+    "power": 0.35,
     "path": "欢愉",
     "element": "量子",
     "faction": "假面愚者",
     "color": "#fbbf24",
     "effects": [
       {
-        "type": "power",
-        "summary": "本次登场的临时角色威力+0.7",
-        "trigger": "appearance",
+        "type": "powerMultiplier",
+        "value": 1.45,
+        "summary": "同场同组攻击者本轮威力×1.45",
+        "trigger": "spin",
         "duration": "spin",
-        "target": "team",
-        "stacking": "additive",
-        "value": 0.7,
+        "target": "matching",
+        "stacking": "multiplicative",
         "filter": {
-          "temporary": true
+          "groupsAny": [
+            "elation"
+          ],
+          "role": "attack",
+          "excludeSelf": true
         },
-        "scaleWithStars": true
+        "scaleWithTraining": true,
+        "condition": {
+          "metric": "retirements",
+          "op": "gte",
+          "value": 1
+        }
       },
       {
         "type": "resource",
-        "summary": "每次登场有25%概率获得1信用点",
+        "value": 1,
+        "summary": "每第3次登场且有欢愉伙伴同场，获得1信用点",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "value": 1,
-        "chance": 0.25,
-        "resource": "coins"
+        "every": 3,
+        "resource": "coins",
+        "condition": {
+          "metric": "present",
+          "filter": {
+            "groupsAny": [
+              "elation"
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
-    "description": "本次登场的临时角色威力+0.7。每次登场有25%概率获得1信用点。",
+    "description": "同场同组攻击者本轮威力×1.45。每第3次登场且有欢愉伙伴同场，获得1信用点。",
     "adaptation": "本作改编能力；公开名单标注已公布，非官方技能复刻；公开人物画像尚未离线收录，头像为文字标识",
     "officialRarity": 5,
     "publicationStatus": "announced",
     "sourceUrl": "https://honkai-star-rail.fandom.com/wiki/Aeon_%E2%98%85_Aha",
-    "portraitKind": "text-symbol"
+    "portraitKind": "text-symbol",
+    "kitVersion": 6,
+    "role": "amplifier",
+    "roleLabel": "即时辅助",
+    "groups": [
+      "elation"
+    ]
   }
 ];
 
@@ -5865,7 +7869,7 @@ export const ESSENCES = [
     "progress": {
       "metric": "shield"
     },
-    "description": "取得后累计实际获得护盾达到35：达标时立即获得12基础护盾。之后本局存护角色每次威力+0.7。",
+    "description": "取得后累计实际获得护盾达到35：达标时立即获得12基础护盾。之后本局存护防御者的护盾获取量×1.15。",
     "effects": [
       {
         "type": "shield",
@@ -5877,15 +7881,16 @@ export const ESSENCES = [
         "value": 12
       },
       {
-        "type": "power",
-        "summary": "之后本局存护角色每次威力+0.7",
+        "type": "shieldMultiplier",
+        "summary": "之后本局存护防御者的护盾获取量×1.15",
         "trigger": "passive",
         "duration": "run",
         "target": "team",
-        "stacking": "additive",
-        "value": 0.7,
+        "stacking": "multiplicative",
+        "value": 1.15,
         "filter": {
-          "path": "存护"
+          "path": "存护",
+          "role": "defense"
         }
       }
     ],

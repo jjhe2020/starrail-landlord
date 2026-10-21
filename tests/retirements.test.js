@@ -55,7 +55,7 @@ test('all ten pairs remove only an adjacent eligible instance before its utility
     assert.equal(next.retirementStats.completed, 1);
     assert.equal(next.retirementStats.permanent, 1);
     assert.equal(next.stats.destroyed, 1);
-    assert.ok(next.lastSpin.effects.some(e => e.type === 'growth' && e.sourceUid === 'u1' && e.amount === 1.5));
+    assert.equal(next.lastSpin.effects.some(e => e.type === 'growth' && e.sourceUid === 'u1' && e.amount === rule.growth && e.amount > 0), rule.growth > 0, rule.name);
     assert.notEqual(validateSave(next), null, rule.name);
   }
 });
@@ -121,7 +121,7 @@ test('automatic supply supports repeated completed assignments without erasing t
   assert.equal(state.retirementStats.permanent, 0);
   assert.equal(state.roster.filter(u => u.id === rule.targetId && !u.commission).length, 1);
   assert.ok(state.roster.filter(u => u.commission === rule.id).length <= 1);
-  assert.ok(state.roster.find(u => u.id === rule.sourceId).growth >= 3);
+  assert.ok(state.roster.find(u => u.id === rule.sourceId).growth >= 0.7);
   assert.notEqual(validateSave(state), null);
 });
 
