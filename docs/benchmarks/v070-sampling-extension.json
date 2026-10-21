@@ -1,0 +1,44 @@
+{
+  "registeredAt": "2026-10-21T06:41:47.279Z",
+  "phase": "after initial 100-seed D10 look; before additional seeds",
+  "protocol": "v070-spatial-balance-v3",
+  "seed": "v070-freeze4",
+  "gameplayOrAiChanges": false,
+  "difficulty": 10,
+  "split": "holdout",
+  "initialSamples": 100,
+  "targetSamples": 400,
+  "allStrategies": 29,
+  "inspectedCheckpoints": [
+    100
+  ],
+  "nextInspectedCheckpoint": 400,
+  "reason": "All 28 primary paired strategy comparisons remain insufficient; baseline63/100 and policy range51-74/100 do not establish ±10pp equivalence or a clear practical outlier. Improve precision at the preregistered maximum without selecting policies.",
+  "shards": [
+    {
+      "start": 100,
+      "samples": 150
+    },
+    {
+      "start": 250,
+      "samples": 150
+    }
+  ],
+  "shardNote": "Computational shards are not additional statistical looks. Per-shard summaries will not be used for decisions; merge all 400 common seeds before inspection.",
+  "stressDifficulty20Samples": 100,
+  "initialInput": {
+    "file": "docs/benchmarks/v070-campaigns-holdout-d10.jsonl.gz",
+    "sha256": "25e18fd8daa6da8dfb48bd9c298c4de586b7d82bb86bbea08da79c481f8c0ab6",
+    "baselineWins": 63,
+    "samplesPerStrategy": 100,
+    "policyWinRange": [
+      51,
+      74
+    ],
+    "nonBaselineComparisons": {
+      "insufficient": 28,
+      "equivalent": 0,
+      "outside": 0
+    }
+  }
+}

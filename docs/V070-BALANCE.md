@@ -36,6 +36,8 @@
 
 全部职能的通用比较为44项等价、17项分量超界、32项区间不足、9项参考不足；另102项适配比较仅描述潜力。17项超界涉及16张卡，不代表16张整卡已经证明过强或过弱。两种背景中90张卡均观察到非零边际收益，但这也不能保证任意随意搭配都有收益。完整分量解释见[留出审读备忘](V070-HOLDOUT-CARD-INTERPRETATION.md)。
 
+位置也有实际收益差，不只是技能带了空间字段：中期五列高血标准靶的同阵容位置置换中，两种背景均有89/90张卡出现非零的技能边际变化；样本中各卡变化比例的平均为通用47.0%、适配68.6%。该场景唯一无变化的是波提欧，因为没有残局或击破，其技能本就不发动；其他敌阵另报。银枝的间接变化来自受援位置，不改变它作为直接全场技能例外的身份。上述比例为样本描述，不是独立玩家操作收益或全局平衡检验。
+
 关键差异有可以解释的交换：停云通用/适配增伤14.02/31.37，布洛妮娅6.94/45.35、远坂凛5.91/40.38；稳定性与组合上限不同。三月七适配平均生成18.84盾，当轮保护3.51生命，结束仍多保留15.33盾；只比较当轮净生命会漏掉存量。忘归人的窄形态36%易伤与大丽花的较宽34%易伤加保护，已有专长取舍，不能只按单列数字判强弱。
 
 十名培养者在适配标准靶六回合轨迹中均有正向伤害收益，95%区间均在零以上。昔涟六回合增伤19.71，首轮增量1.05、第六轮5.68；真珠增伤6.32（95%区间5.21–7.43），真实新增成长0.781。这是从零成长开始的引擎轨迹，支持“培养需要后续兑现”；不是把预设高成长换算成已获得收益。
@@ -59,7 +61,11 @@
 
 ## 完整拿牌对局
 
-等待D10/D20各29种策略、每策略100个共同种子的完整记录。不会用0.6、校准批或部分进度替代正式结果。
+D10首批为29种策略各100个共同种子，共2,900局；无标签偏好基础AI为63/100，Wilson95%区间53.2%–71.8%，各标签策略为51%–74%。全部28项对基础AI的±10个百分点比较仍为证据不足，最小FDR q约0.628。首批未出现可直接据此调参的明确实践超界，区间也不能证明等价。因此按预注册上限统一补至D10每策略400局，不挑策略、不换规则，完整补样计划见 `docs/benchmarks/v070-sampling-extension.json`；补样结果尚待完整记录。
+
+D20压力测试为29种策略各100个共同种子，共2,900局，已全部到达真实终局，来源稳定。基础AI0/100，各标签策略0%–3%，只能视为当前高难的通关率地板，不能宣称高难曲线已平衡。部分策略的±10pp比较可落在范围内，但这只说明都在低通关率区域，不能当作玩法质量或多套路可行性的证明。
+
+D20基础AI有88局生命失败、12局期限失败；丰饶偏好为72/28，存护偏好为59/38并通关3局。防御让部分死亡转为超时，说明生存有用但单堆它无法解决输出期限；也可能涉及当前AI的构筑和行动能力，不能从AI低胜率断言真人绝不可能通过。D20每策略仅22%–42%的对局到达12层，后期到达者均值因此必须连同未到达计零的全体曲线看。
 
 ## 可查证据
 
@@ -68,6 +74,21 @@
 - [校准批解读，仅作调参历史](V070-CALIBRATION-INTERPRETATION.md)
 - `docs/benchmarks/v070-freeze-manifest.json`：本批规则、AI与生产脚本指纹及计划样本量。
 - `docs/benchmarks/v070-playable-verification.json`：实际单HTML的文件哈希、离线与屏宽验证；不代表Android或iPad实机验证。
+
+## 复跑
+
+以下命令对应本轮冻结规则，不能替换种子后挑选较好结果。机器内存有限时依次运行，不同时解析多份大型原始文件。重新运行的计时或生成时间可以改变归档哈希；相同规则、配置、种子的逐条观察应一致。
+
+```sh
+NODE_OPTIONS=--max-old-space-size=6144 node scripts/balance-v070.mjs --mode cards --samples 128 --workers 2 --split holdout --seed v070-freeze4 --output docs/benchmarks/v070-cards-holdout.jsonl.gz
+NODE_OPTIONS=--max-old-space-size=6144 node scripts/balance-v070.mjs --mode layers --cards 1001,1002,1009,1004,1303 --samples 64 --workers 2 --split holdout --seed v070-freeze4 --output docs/benchmarks/v070-layers-holdout.jsonl.gz
+NODE_OPTIONS=--max-old-space-size=6144 node scripts/balance-v070.mjs --mode campaigns --samples 100 --workers 4 --split holdout --seed v070-freeze4 --difficulty 10 --output docs/benchmarks/v070-campaigns-holdout-d10.jsonl.gz
+NODE_OPTIONS=--max-old-space-size=6144 node scripts/balance-v070.mjs --mode campaigns --samples 100 --workers 4 --split stress --seed v070-freeze4 --difficulty 20 --output docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz
+NODE_OPTIONS=--max-old-space-size=6144 node scripts/summarize-v070.mjs --inputs docs/benchmarks/v070-cards-holdout.jsonl.gz,docs/benchmarks/v070-layers-holdout.jsonl.gz,docs/benchmarks/v070-campaigns-holdout-d10.jsonl.gz,docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz --output docs/V070-TEST-RESULTS
+NODE_OPTIONS=--max-old-space-size=6144 node scripts/v070-terminal-cards.mjs --inputs docs/benchmarks/v070-campaigns-holdout-d10.jsonl.gz,docs/benchmarks/v070-campaigns-stress-d20.jsonl.gz --output docs/V070-TERMINAL-CARDS.json --final12 true
+```
+
+报告生成与三屏、首次离线验证见 [报告界面说明](../report/v070/README.md)。完整观察已包含摘要，单独的 `.summary.json` 是可再生中间文件，不作为另一个独立批次计数。规则冻结后的报告阶段标签与两条DOM版本提示勘误记录在 `docs/benchmarks/v070-analysis-amendments.json`，没有修改实验规则、AI或统计决策。
 
 ## 交付边界
 
