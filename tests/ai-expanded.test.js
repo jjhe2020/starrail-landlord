@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { CHARACTERS, ITEMS, ESSENCES, characterById } from '../src/content.js';
-import { newGame, getSynergies, spin } from '../src/engine.js';
+import { newGame, getSynergies, spin, inspectSpin } from '../src/engine.js';
 import { estimateEffectsForAi, forecastGrowthForAi, recommendRewards, POLICY_VERSION } from '../src/ai.js';
 
 function stateFor(ids, { hp = 35, shield = 20, coins = 35, ticks = 2 } = {}) {
@@ -14,21 +14,21 @@ function stateFor(ids, { hp = 35, shield = 20, coins = 35, ticks = 2 } = {}) {
 const estimate = state => estimateEffectsForAi(state, { horizon: 20, output: 60, threat: 18, healing: 4, shields: 5, retirementRate: 1, active: getSynergies(state).filter(s => s.active) });
 
 test('bound healer, shield, permanent training, summon and credit mechanics are valued from shared declarations', () => {
-  const healer = estimate(stateFor(['1110', '1103']));
+  const healer = estimate(stateFor(['1110', '1109']));
   assert.ok(healer.healing > 0);
   assert.ok(healer.shields > 0);
-  const grower = estimate(stateFor(['1303', '1008']));
+  const grower = estimate(stateFor(['1303', '1013']));
   assert.ok(grower.growthRates.get('u2') > 0);
   assert.equal(grower.growthRates.get('u1') || 0, 0);
   assert.equal(estimate(stateFor(['1404'])).selfDrain, 0, 'the v0.6 attack kit no longer charges historical self harm');
-  const summoner = estimate(stateFor(['1402']));
+  const summoner = estimate(stateFor(['1402', '1404']));
   assert.ok(summoner.damage > 0);
   const trader = estimate(stateFor(['1112']));
   assert.ok(trader.economy > 0);
 });
 
 test('new adjacency and directed support abilities improve actual attacker estimates instead of being invisible support bodies', () => {
-  const state = stateFor(['1303', '1313', '1008', '1002']);
+  const state = stateFor(['1303', '1313', '1013', '1008']);
   const result = estimate(state);
   assert.ok(result.powerMultipliers.get('u4') > 1);
   assert.ok(result.growthRates.get('u3') > 0);
@@ -58,7 +58,7 @@ test('training gifts retain their bounded recipients and are not multiplied as i
   for (const items of [[], ['triangle_instrument'], ['harmony_wax'], ['triangle_instrument', 'harmony_wax']]) {
     const candidate = { ...structuredClone(state), items };
     assert.equal(estimate(candidate).growthRates.get('u2'), expected);
-    const actual = spin(candidate);
+    const actual = inspectSpin(candidate, { layoutUids: ['u1', 'u2', ...Array(18).fill(null)] }).state;
     assert.equal(actual.roster.find(unit => unit.id === '1002').growth, 0.35);
     assert.equal(actual.lastSpin.effects.find(e => e.sourceId === '1207' && e.targetUid === 'u2' && e.type === 'growth').amount, 0.35);
   }
@@ -132,7 +132,7 @@ test('temporary growth forecasts use the declared cadence and cannot outlive the
   unit.ticks = 3;
   const options = { horizon: 24, draw: 1, declaredRate: 0.15 / 4 };
   const temporary = forecastGrowthForAi(state, unit, options);
-  assert.equal(temporary, 0.15);
+  assert.ok(Math.abs(temporary - 0.15 * 5.5 / 19) < 1e-12, 'self training needs its matching partner to land adjacent');
   assert.equal(forecastGrowthForAi(state, unit, { ...options, horizon: 200 }), temporary);
   const permanent = { ...unit }; delete permanent.temporary;
   assert.ok(forecastGrowthForAi(state, permanent, options) > temporary);

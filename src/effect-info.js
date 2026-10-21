@@ -1,4 +1,4 @@
-import { BINDING_GROUPS, CHARACTERS } from './content.js';
+import { CHARACTERS } from './content.js';
 
 // Presentation of explicit rule metadata. Never infer duration from prose.
 const durations = {
@@ -23,7 +23,7 @@ const targetNames = {
   allies: '其他登场角色', highest: '威力最高的其他登场角色', highestAlly: '威力最高的其他登场角色',
   lowest: '威力最低的其他登场角色', lowestAlly: '威力最低的其他登场角色', strongest: '当前威力最高的其他登场角色', matching: '符合条件的登场角色',
   roster: '永久编队', resource: '列车资源', train: '列车资源', enemy: '敌人',
-  enemies: '存活敌人', column: '对应列', summon: '新召唤的临时实例',
+  enemies: '存活敌人', row: '同行五格', column: '同列四格', aligned: '同行或同列', summon: '新召唤的临时实例',
 };
 const typeNames = {
   growth: '永久成长', power: '威力修正', powerAdd: '威力加成', powerMultiplier: '条件倍率',
@@ -43,9 +43,7 @@ const roleNames = { attack: '攻击', defense: '防御', amplifier: '即时增�
 export function characterRole(entry) {
   return entry?.roleLabel || roleNames[entry?.role] || (entry?.attack === 'support' ? '支援' : '攻击');
 }
-export function characterBindings(entry) {
-  return (entry?.groups || []).map(id => BINDING_GROUPS.find(group => group.id === id)).filter(Boolean);
-}
+export function characterBindings() { return []; }
 export function trainingSummary(entry, growth = 0) {
   if (entry?.role === 'attack' || (!entry?.role && entry?.attack !== 'support')) return `攻击成长 +${Math.round(growth * 100) / 100}`;
   if (entry?.role === 'trainer') return '培养主持 · 不接受永久培养，培养量不自乘';
@@ -55,19 +53,16 @@ export function trainingSummary(entry, growth = 0) {
 export function effectFilterLabel(filter) {
   if (!filter || typeof filter !== 'object') return '';
   const roles = filter.roles || (filter.role ? [filter.role] : []);
-  const groups = filter.groupsAny || filter.groups || (filter.group ? [filter.group] : []);
-  const groupLabel = groups.map(id => BINDING_GROUPS.find(group => group.id === id)?.name || id).join('或');
-  const tags = [filter.path, filter.element, filter.faction, filter.factionNot && `非${filter.factionNot}`, filter.pathNot && `非${filter.pathNot}`, filter.elementNot && `非${filter.elementNot}`, filter.attack && ({ single: '单体', blast: '扩散', aoe: '群体', support: '支援' }[filter.attack]), filter.attackNot === 'support' && '攻击角色', ...roles.map(role => roleNames[role] || role), filter.roleNot && `非${roleNames[filter.roleNot] || filter.roleNot}主职`, groupLabel, filter.temporary === true && '临时角色', filter.temporary === false && '永久角色', filter.commission === true && '见习委派', filter.commission === false && '排除见习', filter.starsMin && `至少${filter.starsMin}星`, filter.starsMax && `至多${filter.starsMax}星`, filter.excludeSelf && '排除自身'].filter(Boolean);
+  const tags = [filter.path, filter.element, filter.faction, filter.factionNot && `非${filter.factionNot}`, filter.pathNot && `非${filter.pathNot}`, filter.elementNot && `非${filter.elementNot}`, filter.attack && ({ single: '单体', blast: '扩散', aoe: '群体', support: '支援' }[filter.attack]), filter.attackNot === 'support' && '攻击角色', ...roles.map(role => roleNames[role] || role), filter.roleNot && `非${roleNames[filter.roleNot] || filter.roleNot}主职`, filter.anyOf && `（${filter.anyOf.map(effectFilterLabel).join('或')}）`, filter.temporary === true && '临时角色', filter.temporary === false && '永久角色', filter.commission === true && '见习委派', filter.commission === false && '排除见习', filter.starsMin && `至少${filter.starsMin}星`, filter.starsMax && `至多${filter.starsMax}星`, filter.excludeSelf && '排除自身'].filter(Boolean);
   const ids = filter.ids || (filter.id ? [filter.id] : []);
   if (ids.length) {
-    const exactGroup = BINDING_GROUPS.find(group => group.memberIds.length === ids.length && group.memberIds.every(id => ids.includes(id)));
-    tags.push(exactGroup ? exactGroup.name : ids.map(id => CHARACTERS.find(entry => entry.id === id)?.name || id).join('、'));
+    tags.push(ids.map(id => CHARACTERS.find(entry => entry.id === id)?.name || id).join('、'));
   }
   return tags.join('／');
 }
 function conditionLabel(condition) {
   if (!condition) return '';
-  const metrics = { present: '同场人数', presentDistinct: '同场不同身份', neighbors: '相邻八格人数', roster: '编队人数', hpRatio: '生命比例', missingHp: '已损生命', shield: '现有护盾', coins: '信用点', ticks: '自身累计登场', stars: '自身星级', growth: '自身培养', round: '本关转动次数', floor: '关卡', enemies: '存活敌人数', emptyColumns: '空敌列数', blocked: '本轮真实抵伤', hpLost: '本轮损失生命', kills: '本轮击破', retirements: '本轮退场', sourcePower: '来源最终攻击威力' };
+  const metrics = { present: '同场人数', presentDistinct: '同场不同身份', neighbors: '相邻八格人数', row: '同行其他人数', column: '同列其他人数', aligned: '同行或同列其他人数', edge: '处于棋盘边缘', corner: '处于四角', emptyNeighbors: '相邻空格数', roster: '编队人数', hpRatio: '生命比例', missingHp: '已损生命', shield: '现有护盾', coins: '信用点', ticks: '自身累计登场', stars: '自身星级', growth: '自身培养', round: '本关转动次数', floor: '关卡', enemies: '存活敌人数', emptyColumns: '空敌列数', blocked: '本轮真实抵伤', hpLost: '本轮损失生命', kills: '本轮击破', retirements: '本轮退场', sourcePower: '来源最终攻击威力' };
   const filter = effectFilterLabel(condition.filter);
   const op = { gte: '至少', lte: '至多', lt: '小于', gt: '大于', eq: '等于', mod: '为非零的倍数：' }[condition.op || 'gte'] || '至少';
   const value = condition.metric === 'hpRatio' ? `${Math.round(condition.value * 100)}%` : condition.value;
@@ -94,7 +89,9 @@ export function effectRows(entry) {
     let target = resourceTargets[effect.type] || labelFor(effect.target, targetNames, '按技能指定目标');
     if (!resourceTargets[effect.type] && effect.scope === 'members' && effect.target === 'self') target = '本次登场的本羁绊成员';
     if (effect.type === 'damage') target = ['team','all','enemies'].includes(effect.target) ? '所有存活敌人' : effect.excludeOriginColumn ? '来源格以外的最近存活敌列' : '来源对应列的敌人；空列找最近存活敌人';
-    if (effect.type === 'vulnerability') target = '本轮敌人 · 仅匹配攻击者的伤害受益';
+    if (effect.type === 'vulnerability') target = `本轮敌人 · 仅${targetNames[effect.target] || '匹配'}的攻击者伤害受益`;
+    if (effect.range) target += ` · 范围限${targetNames[effect.range] || effect.range}`;
+    if (effect.selection === 'strongest') target += ' · 范围内优先威力最高者';
     const filter = effect.filter;
     if (filter && typeof filter === 'object') {
       const tags = effectFilterLabel(filter);

@@ -2,10 +2,9 @@ import { getPassiveEffectSources } from './effect-rules.js';
 import { CHARACTERS, ITEMS, ESSENCES, SYNERGIES, characterById, itemById, essenceById } from './content.js';
 import { DIFFICULTY, lateDifficultyMultiplier, normalizeDifficulty, difficultyHealthMultiplier } from './difficulty.js';
 import { ENEMY_DEBUFFS, enemyDebuffById, hasDebuff, getEligibleDebuffs, publicDebuff, unitPowerMultiplier, utilityMultiplier, abilityEffectAmount, pollutionDescription, legacyPollutionDescription, isPolluted } from './enemy-effects.js';
-import { getEffectSources, effectIsEligible, effectAmount, effectTargetIndexes, matchesEffectFilter, cumulativeProgressValue, PERSISTENT_PROGRESS_METRICS } from './effect-rules.js';
+import { getEffectSources, effectIsEligible, effectAmount, effectTargetIndexes, matchesEffectFilter, cumulativeProgressValue, PERSISTENT_PROGRESS_METRICS, setEffectDiagnostics, clearEffectDiagnostics } from './effect-rules.js';
 import { getSynergiesFor, synergyOffenseScale } from './synergies.js';
 import { RETIREMENT_RULES, retirementRuleById, retirementEligibility, newRetirementStats } from './retirements.js';
-import { isArchetypeCore } from './archetypes.js';
 
 export const SAVE_VERSION = 2;
 export const BOARD_COLUMNS = 5;
@@ -24,8 +23,8 @@ const copy = value => structuredClone(value);
 const rounded = value => Math.round(value * 100) / 100;
 const spinHitObservers = new WeakMap();
 const spinModifiers = new WeakMap();
-const isLegacyUnit = unit => characterById(unit.id).kitVersion !== 6;
-const attackGrowth = unit => characterById(unit.id).kitVersion !== 6 || characterById(unit.id).role === 'attack' ? unit.growth : 0;
+const isLegacyUnit = unit => (characterById(unit.id).kitVersion || 0) < 6;
+const attackGrowth = unit => (characterById(unit.id).kitVersion || 0) < 6 || characterById(unit.id).role === 'attack' ? unit.growth : 0;
 const newSpinRecord = (floor = 1, round = 0) => ({ floor, round, total: 0, damage: 0, coins: 0, healing: 0, shield: 0, incoming: 0, events: [], hits: [], effects: [], powerBreakdown: Array(BOARD_SIZE).fill(null), values: Array(BOARD_SIZE).fill(0) });
 const hasItem = (state, id) => state.items.includes(id);
 const hasEssence = (state, id) => state.essences.some(e => e.id === id && e.triggered);
@@ -60,7 +59,7 @@ function passiveMultiplier(state, type, extras = {}) {
     for (const effect of source.effects) {
       if (effect.trigger !== 'passive' || effect.type !== type || !effectIsEligible(effect, context)) continue;
       if (effect.filter && (!extras.unit || !matchesEffectFilter(extras.unit, effect.filter, source.unit))) continue;
-      if (effect.target === 'self' && source.unit && source.unit.uid !== extras.unit?.uid) continue;
+      if (source.unit && extras.unit && (effect.target || effect.range) && !effectTargetIndexes(effect, context).some(i => state.board[i]?.uid === extras.unit.uid)) continue;
       const factor = effectAmount(effect, context);
       multiplier *= factor;
       if (extras.record && factor !== 1) effectEvent(state, source, type, factor, 'spin', extras.targetUid || extras.unit?.uid, effect.summary || source.definition.name);
@@ -84,7 +83,7 @@ function runEffects(state, trigger, context = {}, options = {}) {
       if (effect.scope === 'members' && !matchesEffectFilter(active.unit, source.definition.filter || { [source.definition.kind]: source.definition.tag })) continue;
       if (effect.scope === 'members' && effect.filter && (effect.type === 'damage' || effect.target === 'self') && !matchesEffectFilter(active.unit, effect.filter, source.unit)) continue;
       if (!effectIsEligible(effect, active)) continue;
-      const useKey = `${source.sourceType}:${source.sourceId}:${effect.id || effectIndex}${effect.scope === 'members' ? `:${active.unit?.uid}` : ''}`;
+      const useKey = `${source.sourceType}:${source.sourceId}:${source.sourceUid || 'global'}:${effect.id || effectIndex}${effect.scope === 'members' ? `:${active.unit?.uid}` : ''}`;
       if (effect.oncePerSpin && context.effectUses?.has(useKey)) continue;
       if (Number.isFinite(effect.chance) && random(state) >= effect.chance) continue;
       if (effect.oncePerSpin) context.effectUses?.add(useKey);
@@ -115,7 +114,8 @@ function runEffects(state, trigger, context = {}, options = {}) {
         }
       } else if (effect.type === 'vulnerability') {
         context.vulnerabilities ||= [];
-        context.vulnerabilities.push({ filter: effect.filter || {}, amount, source });
+        const targetUids = effectTargetIndexes(effect, active).map(i => state.board[i].uid);
+        context.vulnerabilities.push({ filter: effect.filter || {}, targetUids, amount, source });
         effectEvent(state, source, 'vulnerability', amount, 'spin', null, effect.summary);
       } else if (effect.type === 'resource') {
         const field = effect.resource || 'coins';
@@ -170,11 +170,10 @@ function resolveEffectDamage(state, effect, source, active, context, amount) {
 }
 
 function applyPowerEffects(state, context) {
-  const archetypeMultipliers = new Map();
   const supportMultipliers = new Map();
   for (const { effect, source, context: savedContext } of context.pendingPowerEffects || []) {
     if (source.sourceUid && context.consumed?.has(source.sourceUid)) continue;
-    const active = { ...savedContext, powers: context.powers, consumed: context.consumed, metrics: context.metrics };
+    const active = { ...savedContext, powers: context.powers, consumed: context.consumed, metrics: context.metrics, retirements: context.retirements };
     let amount = effectAmount(effect, active);
     if (source.sourceType === 'character') amount = abilityEffectAmount(state, source.unit, effect, amount);
     if (source.sourceType === 'synergy' && effect.type === 'power') amount *= synergyOffenseScale(state);
@@ -187,21 +186,14 @@ function applyPowerEffects(state, context) {
         appliedAmount *= buffScale;
         context.powers[index] += appliedAmount;
       }
-      else if (source.sourceType === 'archetype') {
-        const previous = archetypeMultipliers.get(index) || 1;
-        const next = Math.max(previous, amount);
-        if (next === previous) continue;
-        appliedAmount = next / previous;
-        archetypeMultipliers.set(index, next);
-        context.powerMultipliers[index] *= appliedAmount;
-      } else if (source.sourceType === 'character' && source.definition.kitVersion === 6 && source.definition.role === 'amplifier') {
+      else if (source.sourceType === 'character' && source.definition.kitVersion >= 6 && source.definition.role === 'amplifier') {
         const previous = supportMultipliers.get(index) || 1;
         const next = Math.min(2.2, previous * Math.max(1, 1 + (amount - 1) * buffScale));
         appliedAmount = next / previous;
         supportMultipliers.set(index, next);
         context.powerMultipliers[index] *= appliedAmount;
       } else { appliedAmount = 1 + (amount - 1) * buffScale; context.powerMultipliers[index] *= appliedAmount; }
-      const label = source.sourceType === 'archetype' && effect.type === 'powerMultiplier' ? `${effect.summary}（套路倍率取最高，本步×${rounded(appliedAmount)}）` : effect.summary;
+      const label = effect.summary;
       effectEvent(state, source, effect.type, appliedAmount, effect.duration || 'spin', state.board[index].uid, label);
     }
   }
@@ -460,10 +452,10 @@ function resolveCommissions(state, consumed, generated, metrics) {
         generated.push(trainee);
         const stats = state.retirementStats.byRule[rule.id] ||= { completed: 0, permanent: 0, supplied: 0 };
         stats.supplied += 1; state.retirementStats.supplied += 1;
-        effectEvent(state, source, 'commission', 1, 'run', trainee.uid, `${rule.name}：补充见习委派，下轮起登场，不计羁绊和套路身份`);
+        effectEvent(state, source, 'commission', 1, 'run', trainee.uid, `${rule.name}：补充见习委派，下轮起登场，不计羁绊身份`);
       }
       if (nextTick % rule.every !== 0) continue;
-      const candidates = neighbors(index).map(i => state.board[i]).filter(target => retirementEligibility(state, source, target, { consumed, isCore: isArchetypeCore }).eligible);
+      const candidates = neighbors(index).map(i => state.board[i]).filter(target => retirementEligibility(state, source, target, { consumed }).eligible);
       // Prefer generated assignments; among ordinary extras, preserve the most trained.
       candidates.sort((a, b) => Number(Boolean(b.commission)) - Number(Boolean(a.commission)) || a.growth - b.growth || a.ticks - b.ticks || a.uid.localeCompare(b.uid));
       const target = candidates[0];
@@ -607,8 +599,8 @@ function attackEnemy(state, cell, enemy, amount, ignoresArmor, onKill = null, ef
   if (!enemy || enemy.hp <= 0) return false;
   const armor = state.enemySkill.id === 'armor' && !ignoresArmor ? 1 : 0;
   const attacker = effectSource ? actingUnit : state.board[cell];
-  const canExploit = attacker && characterById(attacker.id).role === 'attack' && (!effectSource || ['character', 'archetype', 'synergy'].includes(effectSource.sourceType));
-  const extra = canExploit ? (spinModifiers.get(state)?.vulnerabilities || []).filter(entry => matchesEffectFilter(attacker, entry.filter)).reduce((sum, entry) => sum + entry.amount, 0) : 0;
+  const canExploit = attacker && characterById(attacker.id).role === 'attack' && (!effectSource || ['character', 'synergy'].includes(effectSource.sourceType));
+  const extra = canExploit ? (spinModifiers.get(state)?.vulnerabilities || []).filter(entry => entry.targetUids.includes(attacker.uid) && matchesEffectFilter(attacker, entry.filter)).reduce((sum, entry) => sum + entry.amount, 0) : 0;
   const damage = rounded(Math.min(enemy.hp, Math.max(0, amount * (1 + Math.min(.75, extra)) - armor)));
   enemy.hp = rounded(Math.max(0, enemy.hp - damage));
   state.lastSpin.damage = rounded(state.lastSpin.damage + damage);
@@ -635,7 +627,7 @@ function combatAttacks(state, powers, ignoresArmor, onKill = null) {
     if (!primary) return;
     if (c.attack === 'single') {
       const killed = attackEnemy(state, cell, primary, power * 3, ignoresArmor, onKill);
-      if (killed && c.kitVersion !== 6 && c.id === '1102') {
+      if (killed && (c.kitVersion || 0) < 6 && c.id === '1102') {
         const next = nearestEnemy(state.enemies, primary.col);
         if (next) { attackEnemy(state, cell, next, power * (hasDebuff(state, 'seele_audit') ? 0.5 : 1), ignoresArmor, onKill); record(state, '希儿：击破后触发再现追击。'); }
       }
@@ -651,10 +643,11 @@ function combatAttacks(state, powers, ignoresArmor, onKill = null) {
   });
 }
 
-function resolveSpin(previous, diagnosticHits = null) {
+function resolveSpin(previous, diagnosticHits = null, diagnosticOptions = null) {
   if (previous?.phase !== 'ready') return previous;
   const state = copy(previous);
   if (diagnosticHits) spinHitObservers.set(state, diagnosticHits);
+  if (diagnosticOptions) setEffectDiagnostics(state, diagnosticOptions);
   state.round += 1;
   state.spinsLeft -= 1;
   state.stats.spins += 1;
@@ -667,6 +660,11 @@ function resolveSpin(previous, diagnosticHits = null) {
     effectEvent(state, { id: 'shield_decay', name: '护盾滞纳金' }, 'shieldLoss', beforeShield - state.shield, 'instant', null, '本次开始已有护盾衰减20%');
   }
   drawBoard(state);
+  if (diagnosticOptions?.layoutUids) {
+    const layout = diagnosticOptions.layoutUids, ids = layout.filter(uid => uid !== null);
+    if (layout.length !== BOARD_SIZE || new Set(ids).size !== ids.length || ids.some(uid => !state.roster.some(u => u.uid === uid && !u.temporary))) throw new RangeError('Diagnostic layout must contain 20 slots and unique permanent roster UIDs or null');
+    state.board = layout.map(uid => uid === null ? null : copy(state.roster.find(u => u.uid === uid)));
+  }
   const polluted = state.board.find(instance => instance && isPolluted(state, instance.uid));
   if (polluted) {
     const beforeHp = state.hp;
@@ -927,12 +925,13 @@ export function spin(previous) {
   return state;
 }
 
-export function inspectSpin(previous) {
+export function inspectSpin(previous, options = undefined) {
   const hits = [];
-  const state = resolveSpin(previous, hits);
+  const state = resolveSpin(previous, hits, options);
+  clearEffectDiagnostics(state);
   spinHitObservers.delete(state);
   spinModifiers.delete(state);
-  return { state, hits };
+  return { state, hits, ...(options ? { diagnostics: { protocol: 'spin-interventions-v1' } } : {}) };
 }
 
 export function chooseReward(previous, index) {

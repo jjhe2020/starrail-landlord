@@ -3,235 +3,6 @@ import { SYNERGIES } from './synergies.js';
 export { SYNERGIES };
 export const RARITY_LABELS = { common: '普通', uncommon: '稀有', rare: '史诗', legendary: '传说' };
 
-export const BINDING_GROUPS = [
-  {
-    "id": "express",
-    "name": "星穹远行",
-    "memberIds": [
-      "1001",
-      "1002",
-      "1003",
-      "1004",
-      "1009",
-      "1207",
-      "1313",
-      "cyrene",
-      "march_hunt",
-      "dan_heng_imbibitor_lunae",
-      "dan_heng_pt",
-      "announced_himeko_nova"
-    ],
-    "description": "列车远行与智库接续：以同行伙伴作为保护、增幅和培养的边界。"
-  },
-  {
-    "id": "hunters",
-    "name": "猎手剧本",
-    "memberIds": [
-      "1005",
-      "1006",
-      "1205",
-      "1310",
-      "1301",
-      "1303",
-      "1306",
-      "fugue",
-      "silver_wolf_lv999",
-      "mortenax_blade"
-    ],
-    "description": "猎手与击破协作者依剧本配合，外援不会自动适配所有攻击。"
-  },
-  {
-    "id": "frost",
-    "name": "筑城守望",
-    "memberIds": [
-      "1001",
-      "1101",
-      "1102",
-      "1103",
-      "1104",
-      "1105",
-      "1106",
-      "1107",
-      "1108",
-      "1109",
-      "1110",
-      "1111",
-      "1209",
-      "1312",
-      "dan_heng_pt",
-      "pearl"
-    ],
-    "description": "城防、地下救护与护盾反击；保护和培养需要守望伙伴。"
-  },
-  {
-    "id": "mentorship",
-    "name": "仙舟授业",
-    "memberIds": [
-      "1204",
-      "1202",
-      "1203",
-      "1208",
-      "1206",
-      "1207",
-      "1209",
-      "1210",
-      "1211",
-      "1212",
-      "1214",
-      "1215",
-      "1217",
-      "1218",
-      "1220",
-      "1221",
-      "1222",
-      "1223",
-      "march_hunt",
-      "dan_heng_imbibitor_lunae",
-      "yao_guang"
-    ],
-    "description": "师承、军阵与医护接续，靠导师培养专职弟子。"
-  },
-  {
-    "id": "puppet",
-    "name": "空间站实验",
-    "memberIds": [
-      "1008",
-      "1009",
-      "1013",
-      "1302",
-      "1303",
-      "1305",
-      "1006",
-      "1003",
-      "the_herta",
-      "announced_rin_tohsaka",
-      "silver_wolf_lv999",
-      "announced_himeko_nova",
-      "1203",
-      "1405"
-    ],
-    "description": "科员开题、周期实验与智识火力，实验培养有自己的受益名单。"
-  },
-  {
-    "id": "follow_up",
-    "name": "追加投资",
-    "memberIds": [
-      "1112",
-      "1304",
-      "1305",
-      "1220",
-      "1223",
-      "march_hunt",
-      "1107",
-      "1221",
-      "1309",
-      "1314",
-      "archer",
-      "ashveil",
-      "aventurine_waveflair",
-      "pearl",
-      "1218"
-    ],
-    "description": "追击攻击者、护盾风控、投资增幅和定向培养构成闭环。"
-  },
-  {
-    "id": "ink_dot",
-    "name": "虚无引爆",
-    "memberIds": [
-      "1004",
-      "1005",
-      "1106",
-      "1108",
-      "1111",
-      "1210",
-      "1218",
-      "hysilens",
-      "mortenax_blade",
-      "1205",
-      "1307",
-      "1308",
-      "1203",
-      "1202"
-    ],
-    "description": "先施加来源受限的弱化，再由引爆攻击者兑现；持续记录提供培养。"
-  },
-  {
-    "id": "recollection",
-    "name": "忆灵共演",
-    "memberIds": [
-      "1402",
-      "1403",
-      "1404",
-      "1405",
-      "1406",
-      "1407",
-      "1408",
-      "1409",
-      "1312",
-      "1313",
-      "1307",
-      "hysilens",
-      "cyrene",
-      "cerydra",
-      "evernight",
-      "robin_summeretto",
-      "saber",
-      "1206"
-    ],
-    "description": "记忆、召援与黄金裔共演；培养、援护和攻击各有职能。"
-  },
-  {
-    "id": "elation",
-    "name": "欢愉谢幕",
-    "memberIds": [
-      "1306",
-      "aha",
-      "aeon_star_aha",
-      "1108",
-      "1210",
-      "1201",
-      "1406",
-      "1301",
-      "1312",
-      "sparxie",
-      "yao_guang",
-      "evanescia",
-      "pearl",
-      "aventurine_waveflair",
-      "1208",
-      "1105",
-      "1109",
-      "announced_gilgamesh",
-      "announced_rin_tohsaka",
-      "robin_summeretto"
-    ],
-    "description": "谢幕、周期爆发与舞台协作；热闹本身不会让全部角色永久成长。"
-  },
-  {
-    "id": "break",
-    "name": "击破接力",
-    "memberIds": [
-      "1310",
-      "1317",
-      "1315",
-      "fugue",
-      "1301",
-      "1303",
-      "1222",
-      "1206",
-      "1111",
-      "1214",
-      "the_dahlia",
-      "saber",
-      "announced_gilgamesh",
-      "1403",
-      "1215",
-      "cerydra"
-    ],
-    "description": "击破攻击者配合火力弱化、医护、接力培养与定向号令。"
-  }
-];
-
 export const CHARACTERS = [
   {
     "id": "1001",
@@ -244,25 +15,29 @@ export const CHARACTERS = [
     "path": "存护",
     "element": "冰",
     "faction": "星穹列车",
-    "description": "每名相邻远行或守望伙伴提供3护盾，最多3名。",
+    "description": "每名相邻的星穹列车或存护伙伴提供3护盾，最多3名。",
     "color": "#f9a8d4",
     "effects": [
       {
         "type": "shield",
         "value": 3,
-        "summary": "每名相邻远行或守望伙伴提供3护盾，最多3名",
+        "summary": "每名相邻的星穹列车或存护伙伴提供3护盾，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "express",
-              "frost"
+            "anyOf": [
+              {
+                "faction": "星穹列车"
+              },
+              {
+                "path": "存护"
+              }
             ],
             "excludeSelf": true
           },
@@ -272,9 +47,13 @@ export const CHARACTERS = [
         "per": {
           "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "express",
-              "frost"
+            "anyOf": [
+              {
+                "faction": "星穹列车"
+              },
+              {
+                "path": "存护"
+              }
             ],
             "excludeSelf": true
           },
@@ -289,11 +68,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "express",
-      "frost"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "1002",
@@ -306,49 +81,63 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "风",
     "faction": "星穹列车",
-    "description": "同场有远行伙伴时，本次威力×1.3。每第4次登场且同场有远行伙伴，自身永久成长+0.15。",
+    "description": "相邻有星穹列车或同谐伙伴时，本次威力×1.4。每第4次登场且相邻有星穹列车或同谐伙伴，自身永久成长+0.15。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.3,
-        "summary": "同场有远行伙伴时，本次威力×1.3",
+        "value": 1.4,
+        "summary": "相邻有星穹列车或同谐伙伴时，本次威力×1.4",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "express"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
-          "value": 1
-        }
+        "conditions": [
+          {
+            "metric": "neighbors",
+            "filter": {
+              "anyOf": [
+                {
+                  "faction": "星穹列车"
+                },
+                {
+                  "path": "同谐"
+                }
+              ],
+              "excludeSelf": true
+            },
+            "op": "gte",
+            "value": 1
+          }
+        ]
       },
       {
         "type": "growth",
         "value": 0.15,
-        "summary": "每第4次登场且同场有远行伙伴，自身永久成长+0.15",
+        "summary": "每第4次登场且相邻有星穹列车或同谐伙伴，自身永久成长+0.15",
         "trigger": "appearance",
         "duration": "run",
         "target": "self",
         "stacking": "additive",
         "every": 4,
-        "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "express"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
-          "value": 1
-        }
+        "conditions": [
+          {
+            "metric": "neighbors",
+            "filter": {
+              "anyOf": [
+                {
+                  "faction": "星穹列车"
+                },
+                {
+                  "path": "同谐"
+                }
+              ],
+              "excludeSelf": true
+            },
+            "op": "gte",
+            "value": 1
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
@@ -358,10 +147,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "express"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1003",
@@ -374,13 +160,13 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "火",
     "faction": "星穹列车",
-    "description": "有实验或远行伙伴时，常规攻击后追加自身威力45%的轨道追击。",
+    "description": "同列有其他火或智识伙伴时，常规攻击后追加自身威力50%的轨道追击。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "damage",
-        "value": 0.45,
-        "summary": "有实验或远行伙伴时，常规攻击后追加自身威力45%的轨道追击",
+        "value": 0.5,
+        "summary": "同列有其他火或智识伙伴时，常规攻击后追加自身威力50%的轨道追击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -390,11 +176,15 @@ export const CHARACTERS = [
           "metric": "sourcePower"
         },
         "condition": {
-          "metric": "present",
+          "metric": "column",
           "filter": {
-            "groupsAny": [
-              "express",
-              "puppet"
+            "anyOf": [
+              {
+                "element": "火"
+              },
+              {
+                "path": "智识"
+              }
             ],
             "excludeSelf": true
           },
@@ -410,11 +200,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "express",
-      "puppet"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1004",
@@ -427,41 +213,49 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "虚数",
     "faction": "星穹列车",
-    "description": "本轮远行或虚无引爆攻击者对敌伤害增加20%。有远行或引爆伙伴同场时，本轮敌人反击−1.2。",
+    "description": "相邻的虚数或星穹列车攻击者本轮对敌伤害增加24%。相邻有虚数或虚无伙伴时，本轮敌人反击−1.1。",
     "color": "#fbbf24",
     "effects": [
       {
         "type": "vulnerability",
-        "value": 0.2,
-        "summary": "本轮远行或虚无引爆攻击者对敌伤害增加20%",
+        "value": 0.24,
+        "summary": "相邻的虚数或星穹列车攻击者本轮对敌伤害增加24%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "adjacent",
         "stacking": "additive",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "express",
-            "ink_dot"
-          ],
-          "role": "attack"
-        },
-        "scaleWithTraining": true
+          "role": "attack",
+          "anyOf": [
+            {
+              "faction": "星穹列车"
+            },
+            {
+              "element": "虚数"
+            }
+          ]
+        }
       },
       {
         "type": "retaliationFlat",
-        "value": 1.2,
-        "summary": "有远行或引爆伙伴同场时，本轮敌人反击−1.2",
+        "value": 1.1,
+        "summary": "相邻有虚数或虚无伙伴时，本轮敌人反击−1.1",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithTraining": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "express",
-              "ink_dot"
+            "anyOf": [
+              {
+                "element": "虚数"
+              },
+              {
+                "path": "虚无"
+              }
             ],
             "excludeSelf": true
           },
@@ -477,11 +271,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "disruptor",
-    "roleLabel": "敌方干扰",
-    "groups": [
-      "express",
-      "ink_dot"
-    ]
+    "roleLabel": "敌方干扰"
   },
   {
     "id": "1005",
@@ -494,26 +284,30 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "雷",
     "faction": "星核猎手",
-    "description": "本轮猎手或虚无引爆的扩散攻击者对敌伤害增加30%。",
+    "description": "相邻的雷或虚无扩散攻击者本轮对敌伤害增加30%。",
     "color": "#e879f9",
     "effects": [
       {
         "type": "vulnerability",
         "value": 0.3,
-        "summary": "本轮猎手或虚无引爆的扩散攻击者对敌伤害增加30%",
+        "summary": "相邻的雷或虚无扩散攻击者本轮对敌伤害增加30%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "adjacent",
         "stacking": "additive",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "hunters",
-            "ink_dot"
-          ],
           "role": "attack",
+          "anyOf": [
+            {
+              "element": "雷"
+            },
+            {
+              "path": "虚无"
+            }
+          ],
           "attack": "blast"
-        },
-        "scaleWithTraining": true
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -523,11 +317,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "disruptor",
-    "roleLabel": "敌方干扰",
-    "groups": [
-      "hunters",
-      "ink_dot"
-    ]
+    "roleLabel": "敌方干扰"
   },
   {
     "id": "1006",
@@ -540,42 +330,50 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "量子",
     "faction": "星核猎手",
-    "description": "本轮猎手或实验的单体攻击者对敌伤害增加32%。至少2名猎手或实验伙伴同场时，本轮反击−1。",
+    "description": "同行的量子或星核猎手单体攻击者本轮对敌伤害增加32%。相邻至少2名量子或虚无伙伴时，本轮敌人反击−1。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "vulnerability",
         "value": 0.32,
-        "summary": "本轮猎手或实验的单体攻击者对敌伤害增加32%",
+        "summary": "同行的量子或星核猎手单体攻击者本轮对敌伤害增加32%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "row",
         "stacking": "additive",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "hunters",
-            "puppet"
-          ],
           "role": "attack",
+          "anyOf": [
+            {
+              "element": "量子"
+            },
+            {
+              "faction": "星核猎手"
+            }
+          ],
           "attack": "single"
-        },
-        "scaleWithTraining": true
+        }
       },
       {
         "type": "retaliationFlat",
         "value": 1,
-        "summary": "至少2名猎手或实验伙伴同场时，本轮反击−1",
+        "summary": "相邻至少2名量子或虚无伙伴时，本轮敌人反击−1",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithTraining": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "hunters",
-              "puppet"
+            "anyOf": [
+              {
+                "element": "量子"
+              },
+              {
+                "path": "虚无"
+              }
             ],
             "excludeSelf": true
           },
@@ -591,11 +389,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "disruptor",
-    "roleLabel": "敌方干扰",
-    "groups": [
-      "hunters",
-      "puppet"
-    ]
+    "roleLabel": "敌方干扰"
   },
   {
     "id": "1008",
@@ -608,22 +402,29 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "雷",
     "faction": "黑塔空间站",
-    "description": "生命不高于50%时，自身本次威力×1.7。",
+    "description": "位于边缘且生命不高于50%时，本次威力×1.8。",
     "color": "#a78bfa",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.7,
-        "summary": "生命不高于50%时，自身本次威力×1.7",
+        "value": 1.8,
+        "summary": "位于边缘且生命不高于50%时，本次威力×1.8",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "condition": {
-          "metric": "hpRatio",
-          "op": "lte",
-          "value": 0.5
-        }
+        "conditions": [
+          {
+            "metric": "edge",
+            "op": "eq",
+            "value": 1
+          },
+          {
+            "metric": "hpRatio",
+            "op": "lte",
+            "value": 0.5
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
@@ -633,10 +434,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "puppet"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1009",
@@ -649,36 +447,40 @@ export const CHARACTERS = [
     "path": "同谐",
     "element": "火",
     "faction": "黑塔空间站",
-    "description": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.3；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
+    "description": "每第3次登场，至多2名相邻的火或巡猎永久非培养伙伴各永久成长+0.35。",
     "color": "#fda4af",
     "effects": [
       {
         "type": "growth",
-        "value": 0.3,
-        "summary": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.3；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "value": 0.35,
+        "summary": "每第3次登场，至多2名相邻的火或巡猎永久非培养伙伴各永久成长+0.35",
         "trigger": "appearance",
         "duration": "run",
         "target": "adjacent",
         "stacking": "additive",
         "every": 3,
         "targetLimit": 2,
-        "filter": {
-          "groupsAny": [
-            "express",
-            "puppet"
-          ],
-          "excludeSelf": true,
-          "roleNot": "trainer",
-          "temporary": false,
-          "commission": false
-        },
         "scaleWithStars": true,
         "starFactors": [
           0,
           1,
           1.5,
           2
-        ]
+        ],
+        "filter": {
+          "anyOf": [
+            {
+              "element": "火"
+            },
+            {
+              "path": "巡猎"
+            }
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -688,11 +490,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "trainer",
-    "roleLabel": "永久培养",
-    "groups": [
-      "express",
-      "puppet"
-    ]
+    "roleLabel": "永久培养"
   },
   {
     "id": "1013",
@@ -705,13 +503,13 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "冰",
     "faction": "黑塔空间站",
-    "description": "每第3次登场，向所有存活敌列追加自身威力65%的旋转追击。",
+    "description": "每第3次登场且位于角落，向所有存活敌列追加自身威力75%的旋转追击。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "damage",
-        "value": 0.65,
-        "summary": "每第3次登场，向所有存活敌列追加自身威力65%的旋转追击",
+        "value": 0.75,
+        "summary": "每第3次登场且位于角落，向所有存活敌列追加自身威力75%的旋转追击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "all",
@@ -720,7 +518,12 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "corner",
+          "op": "eq",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -730,10 +533,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "puppet"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1101",
@@ -746,25 +546,29 @@ export const CHARACTERS = [
     "path": "同谐",
     "element": "风",
     "faction": "贝洛伯格",
-    "description": "相邻同组攻击者本轮威力×1.45。",
+    "description": "相邻的风或贝洛伯格攻击者本轮威力×1.5。",
     "color": "#bae6fd",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.45,
-        "summary": "相邻同组攻击者本轮威力×1.45",
+        "value": 1.5,
+        "summary": "相邻的风或贝洛伯格攻击者本轮威力×1.5",
         "trigger": "appearance",
         "duration": "spin",
         "target": "adjacent",
         "stacking": "multiplicative",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "frost"
-          ],
           "role": "attack",
-          "excludeSelf": true
-        },
-        "scaleWithTraining": true
+          "anyOf": [
+            {
+              "element": "风"
+            },
+            {
+              "faction": "贝洛伯格"
+            }
+          ]
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -774,10 +578,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "amplifier",
-    "roleLabel": "即时辅助",
-    "groups": [
-      "frost"
-    ]
+    "roleLabel": "即时辅助"
   },
   {
     "id": "1102",
@@ -790,13 +591,13 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "量子",
     "faction": "贝洛伯格",
-    "description": "自身常规攻击击破后，向最近存活列追加自身威力90%的再现。单体突袭：本次威力×1.25。",
+    "description": "相邻有量子或虚无伙伴时，自身常规击破后向最近存活列追加自身威力90%的再现。相邻有量子或虚无伙伴时，本次威力×1.3。",
     "color": "#a78bfa",
     "effects": [
       {
         "type": "damage",
         "value": 0.9,
-        "summary": "自身常规攻击击破后，向最近存活列追加自身威力90%的再现",
+        "summary": "相邻有量子或虚无伙伴时，自身常规击破后向最近存活列追加自身威力90%的再现",
         "trigger": "kill",
         "duration": "spin",
         "target": "column",
@@ -805,16 +606,50 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "oncePerSpin": true
+        "oncePerSpin": true,
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "量子"
+              },
+              {
+                "path": "虚无"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       },
       {
         "type": "powerMultiplier",
-        "value": 1.25,
-        "summary": "单体突袭：本次威力×1.25",
+        "value": 1.3,
+        "summary": "相邻有量子或虚无伙伴时，本次威力×1.3",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
-        "stacking": "multiplicative"
+        "stacking": "multiplicative",
+        "conditions": [
+          {
+            "metric": "neighbors",
+            "filter": {
+              "anyOf": [
+                {
+                  "element": "量子"
+                },
+                {
+                  "path": "虚无"
+                }
+              ],
+              "excludeSelf": true
+            },
+            "op": "gte",
+            "value": 1
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
@@ -824,10 +659,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "frost"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1103",
@@ -840,13 +672,13 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "雷",
     "faction": "贝洛伯格",
-    "description": "每名相邻守望伙伴使自身本次威力+0.45，最多3名。",
+    "description": "每名相邻的雷或贝洛伯格伙伴使本次威力+0.55，最多3名。",
     "color": "#fde68a",
     "effects": [
       {
         "type": "power",
-        "value": 0.45,
-        "summary": "每名相邻守望伙伴使自身本次威力+0.45，最多3名",
+        "value": 0.55,
+        "summary": "每名相邻的雷或贝洛伯格伙伴使本次威力+0.55，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
@@ -855,8 +687,13 @@ export const CHARACTERS = [
         "per": {
           "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "frost"
+            "anyOf": [
+              {
+                "element": "雷"
+              },
+              {
+                "faction": "贝洛伯格"
+              }
             ],
             "excludeSelf": true
           },
@@ -871,10 +708,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "frost"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1104",
@@ -887,24 +721,29 @@ export const CHARACTERS = [
     "path": "存护",
     "element": "冰",
     "faction": "贝洛伯格",
-    "description": "每名同场守望伙伴提供4护盾，最多3名。",
+    "description": "每名相邻的冰或贝洛伯格伙伴提供4护盾，最多3名。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "shield",
         "value": 4,
-        "summary": "每名同场守望伙伴提供4护盾，最多3名",
+        "summary": "每名相邻的冰或贝洛伯格伙伴提供4护盾，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "frost"
+            "anyOf": [
+              {
+                "element": "冰"
+              },
+              {
+                "faction": "贝洛伯格"
+              }
             ],
             "excludeSelf": true
           },
@@ -912,10 +751,15 @@ export const CHARACTERS = [
           "value": 1
         },
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "frost"
+            "anyOf": [
+              {
+                "element": "冰"
+              },
+              {
+                "faction": "贝洛伯格"
+              }
             ],
             "excludeSelf": true
           },
@@ -930,10 +774,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "frost"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "1105",
@@ -946,25 +787,29 @@ export const CHARACTERS = [
     "path": "丰饶",
     "element": "物理",
     "faction": "贝洛伯格",
-    "description": "每名同场守望或欢愉伙伴恢复2.5生命，最多3名。",
+    "description": "每名相邻的巡猎或毁灭伙伴恢复2.8生命，最多3名。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "heal",
-        "value": 2.5,
-        "summary": "每名同场守望或欢愉伙伴恢复2.5生命，最多3名",
+        "value": 2.8,
+        "summary": "每名相邻的巡猎或毁灭伙伴恢复2.8生命，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "frost",
-              "elation"
+            "anyOf": [
+              {
+                "path": "巡猎"
+              },
+              {
+                "path": "毁灭"
+              }
             ],
             "excludeSelf": true
           },
@@ -972,11 +817,15 @@ export const CHARACTERS = [
           "value": 1
         },
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "frost",
-              "elation"
+            "anyOf": [
+              {
+                "path": "巡猎"
+              },
+              {
+                "path": "毁灭"
+              }
             ],
             "excludeSelf": true
           },
@@ -991,11 +840,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "frost",
-      "elation"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "1106",
@@ -1008,25 +853,29 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "冰",
     "faction": "贝洛伯格",
-    "description": "本轮守望或引爆攻击者对敌伤害增加25%。",
+    "description": "同列的冰或贝洛伯格攻击者本轮对敌伤害增加28%。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "vulnerability",
-        "value": 0.25,
-        "summary": "本轮守望或引爆攻击者对敌伤害增加25%",
+        "value": 0.28,
+        "summary": "同列的冰或贝洛伯格攻击者本轮对敌伤害增加28%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "column",
         "stacking": "additive",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "frost",
-            "ink_dot"
-          ],
-          "role": "attack"
-        },
-        "scaleWithTraining": true
+          "role": "attack",
+          "anyOf": [
+            {
+              "element": "冰"
+            },
+            {
+              "faction": "贝洛伯格"
+            }
+          ]
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -1036,11 +885,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "disruptor",
-    "roleLabel": "敌方干扰",
-    "groups": [
-      "frost",
-      "ink_dot"
-    ]
+    "roleLabel": "敌方干扰"
   },
   {
     "id": "1107",
@@ -1053,13 +898,13 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "物理",
     "faction": "贝洛伯格",
-    "description": "护盾达到8时，常规攻击后追加自身威力80%的史瓦罗反击。",
+    "description": "护盾达到8且相邻有物理或存护伙伴时，常规攻击后追加自身威力85%的史瓦罗反击。",
     "color": "#fca5a5",
     "effects": [
       {
         "type": "damage",
-        "value": 0.8,
-        "summary": "护盾达到8时，常规攻击后追加自身威力80%的史瓦罗反击",
+        "value": 0.85,
+        "summary": "护盾达到8且相邻有物理或存护伙伴时，常规攻击后追加自身威力85%的史瓦罗反击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -1068,11 +913,29 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "condition": {
-          "metric": "shield",
-          "op": "gte",
-          "value": 8
-        }
+        "conditions": [
+          {
+            "metric": "shield",
+            "op": "gte",
+            "value": 8
+          },
+          {
+            "metric": "neighbors",
+            "filter": {
+              "anyOf": [
+                {
+                  "element": "物理"
+                },
+                {
+                  "path": "存护"
+                }
+              ],
+              "excludeSelf": true
+            },
+            "op": "gte",
+            "value": 1
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
@@ -1082,11 +945,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "frost",
-      "follow_up"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1108",
@@ -1099,56 +958,49 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "风",
     "faction": "贝洛伯格",
-    "description": "本轮守望、引爆或欢愉攻击者对敌伤害增加20%。每名相邻同组伙伴令敌人本轮反击−0.5，最多3名。",
+    "description": "相邻的风或虚无攻击者本轮对敌伤害增加22%。每名相邻的风或虚无伙伴令敌人本轮反击−0.5，最多3名。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "vulnerability",
-        "value": 0.2,
-        "summary": "本轮守望、引爆或欢愉攻击者对敌伤害增加20%",
+        "value": 0.22,
+        "summary": "相邻的风或虚无攻击者本轮对敌伤害增加22%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "adjacent",
         "stacking": "additive",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "frost",
-            "ink_dot",
-            "elation"
-          ],
-          "role": "attack"
-        },
-        "scaleWithTraining": true
+          "role": "attack",
+          "anyOf": [
+            {
+              "path": "虚无"
+            },
+            {
+              "element": "风"
+            }
+          ]
+        }
       },
       {
         "type": "retaliationFlat",
         "value": 0.5,
-        "summary": "每名相邻同组伙伴令敌人本轮反击−0.5，最多3名",
+        "summary": "每名相邻的风或虚无伙伴令敌人本轮反击−0.5，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithTraining": true,
-        "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "frost",
-              "ink_dot",
-              "elation"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
-          "value": 1
-        },
         "per": {
           "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "frost",
-              "ink_dot",
-              "elation"
+            "anyOf": [
+              {
+                "path": "虚无"
+              },
+              {
+                "element": "风"
+              }
             ],
             "excludeSelf": true
           },
@@ -1163,12 +1015,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "disruptor",
-    "roleLabel": "敌方干扰",
-    "groups": [
-      "frost",
-      "ink_dot",
-      "elation"
-    ]
+    "roleLabel": "敌方干扰"
   },
   {
     "id": "1109",
@@ -1181,24 +1028,40 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "火",
     "faction": "贝洛伯格",
-    "description": "每第3次登场，引燃自身本次威力+1.3。同场有守望或欢愉伙伴时追加自身威力35%的爆破。",
+    "description": "每第3次登场且相邻有火或贝洛伯格伙伴，本次威力+1.5。位于边缘时，常规攻击后追加自身威力35%的爆破。",
     "color": "#fdba74",
     "effects": [
       {
         "type": "power",
-        "value": 1.3,
-        "summary": "每第3次登场，引燃自身本次威力+1.3",
+        "value": 1.5,
+        "summary": "每第3次登场且相邻有火或贝洛伯格伙伴，本次威力+1.5",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithStars": true,
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "火"
+              },
+              {
+                "faction": "贝洛伯格"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       },
       {
         "type": "damage",
         "value": 0.35,
-        "summary": "同场有守望或欢愉伙伴时追加自身威力35%的爆破",
+        "summary": "位于边缘时，常规攻击后追加自身威力35%的爆破",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -1208,15 +1071,8 @@ export const CHARACTERS = [
           "metric": "sourcePower"
         },
         "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "frost",
-              "elation"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
+          "metric": "edge",
+          "op": "eq",
           "value": 1
         }
       }
@@ -1228,11 +1084,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "frost",
-      "elation"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1205",
@@ -1245,37 +1097,62 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "风",
     "faction": "星核猎手",
-    "description": "生命不高于55%时，自身本次威力×1.6。每第4次登场且生命不高于55%，自身永久成长+0.15。",
+    "description": "相邻空位至少3格且生命不高于55%时，本次威力×1.65。每第4次登场且生命不高于55%、相邻有风或星核猎手伙伴，自身永久成长+0.15。",
     "color": "#f87171",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.6,
-        "summary": "生命不高于55%时，自身本次威力×1.6",
+        "value": 1.65,
+        "summary": "相邻空位至少3格且生命不高于55%时，本次威力×1.65",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "condition": {
-          "metric": "hpRatio",
-          "op": "lte",
-          "value": 0.55
-        }
+        "conditions": [
+          {
+            "metric": "emptyNeighbors",
+            "op": "gte",
+            "value": 3
+          },
+          {
+            "metric": "hpRatio",
+            "op": "lte",
+            "value": 0.55
+          }
+        ]
       },
       {
         "type": "growth",
         "value": 0.15,
-        "summary": "每第4次登场且生命不高于55%，自身永久成长+0.15",
+        "summary": "每第4次登场且生命不高于55%、相邻有风或星核猎手伙伴，自身永久成长+0.15",
         "trigger": "appearance",
         "duration": "run",
         "target": "self",
         "stacking": "additive",
         "every": 4,
-        "condition": {
-          "metric": "hpRatio",
-          "op": "lte",
-          "value": 0.55
-        }
+        "conditions": [
+          {
+            "metric": "hpRatio",
+            "op": "lte",
+            "value": 0.55
+          },
+          {
+            "metric": "neighbors",
+            "filter": {
+              "anyOf": [
+                {
+                  "element": "风"
+                },
+                {
+                  "faction": "星核猎手"
+                }
+              ],
+              "excludeSelf": true
+            },
+            "op": "gte",
+            "value": 1
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
@@ -1285,11 +1162,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "hunters",
-      "ink_dot"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1204",
@@ -1302,13 +1175,13 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "雷",
     "faction": "仙舟罗浮",
-    "description": "每第2次登场，神君向所有存活列追加自身威力80%的攻击。",
+    "description": "每第2次登场且同列有其他雷或智识伙伴，神君向所有存活敌列追加自身威力85%的攻击。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "damage",
-        "value": 0.8,
-        "summary": "每第2次登场，神君向所有存活列追加自身威力80%的攻击",
+        "value": 0.85,
+        "summary": "每第2次登场且同列有其他雷或智识伙伴，神君向所有存活敌列追加自身威力85%的攻击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "all",
@@ -1317,7 +1190,23 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 2
+        "every": 2,
+        "condition": {
+          "metric": "column",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "雷"
+              },
+              {
+                "path": "智识"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -1327,10 +1216,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "mentorship"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1203",
@@ -1343,32 +1229,35 @@ export const CHARACTERS = [
     "path": "丰饶",
     "element": "虚数",
     "faction": "仙舟罗浮",
-    "description": "有授业、引爆或实验伙伴同场时恢复5生命，溢出部分转为护盾。",
+    "description": "相邻有虚数或毁灭伙伴时恢复6生命，溢出转为护盾。",
     "color": "#bef264",
     "effects": [
       {
         "type": "healOverflowShield",
-        "value": 5,
-        "summary": "有授业、引爆或实验伙伴同场时恢复5生命，溢出部分转为护盾",
+        "value": 6,
+        "summary": "相邻有虚数或毁灭伙伴时恢复6生命，溢出转为护盾",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
+        "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "mentorship",
-              "puppet",
-              "ink_dot"
+            "anyOf": [
+              {
+                "element": "虚数"
+              },
+              {
+                "path": "毁灭"
+              }
             ],
             "excludeSelf": true
           },
           "op": "gte",
           "value": 1
-        },
-        "scaleWithStars": true,
-        "scaleWithTraining": true
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -1378,12 +1267,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "mentorship",
-      "puppet",
-      "ink_dot"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "1208",
@@ -1396,25 +1280,29 @@ export const CHARACTERS = [
     "path": "存护",
     "element": "量子",
     "faction": "仙舟罗浮",
-    "description": "有授业或欢愉伙伴同场时获得5护盾。至少2名授业或欢愉伙伴同场时，敌人本轮反击×0.9。",
+    "description": "相邻有量子或同谐伙伴时获得5护盾。同行至少2名其他量子或存护伙伴时，本轮敌人反击×0.88。",
     "color": "#f0abfc",
     "effects": [
       {
         "type": "shield",
         "value": 5,
-        "summary": "有授业或欢愉伙伴同场时获得5护盾",
+        "summary": "相邻有量子或同谐伙伴时获得5护盾",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "mentorship",
-              "elation"
+            "anyOf": [
+              {
+                "element": "量子"
+              },
+              {
+                "path": "同谐"
+              }
             ],
             "excludeSelf": true
           },
@@ -1424,25 +1312,29 @@ export const CHARACTERS = [
       },
       {
         "type": "retaliationMultiplier",
-        "value": 0.9,
-        "summary": "至少2名授业或欢愉伙伴同场时，敌人本轮反击×0.9",
+        "value": 0.88,
+        "summary": "同行至少2名其他量子或存护伙伴时，本轮敌人反击×0.88",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
+        "scaleWithTraining": true,
         "condition": {
-          "metric": "present",
+          "metric": "row",
           "filter": {
-            "groupsAny": [
-              "mentorship",
-              "elation"
+            "anyOf": [
+              {
+                "element": "量子"
+              },
+              {
+                "path": "存护"
+              }
             ],
             "excludeSelf": true
           },
           "op": "gte",
           "value": 2
-        },
-        "scaleWithTraining": true
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -1452,11 +1344,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "mentorship",
-      "elation"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "1201",
@@ -1469,18 +1357,35 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "量子",
     "faction": "仙舟罗浮",
-    "description": "每第3次登场，凑齐牌面使本次威力×2.2。",
+    "description": "每第3次登场且同行有其他量子或同谐伙伴，本次威力×2.35。",
     "color": "#5eead4",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 2.2,
-        "summary": "每第3次登场，凑齐牌面使本次威力×2.2",
+        "value": 2.35,
+        "summary": "每第3次登场且同行有其他量子或同谐伙伴，本次威力×2.35",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "every": 3
+        "conditions": [],
+        "every": 3,
+        "condition": {
+          "metric": "row",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "量子"
+              },
+              {
+                "path": "同谐"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -1490,10 +1395,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "elation"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1202",
@@ -1506,26 +1408,31 @@ export const CHARACTERS = [
     "path": "同谐",
     "element": "雷",
     "faction": "仙舟罗浮",
-    "description": "威力最高的1名其他同组攻击者本轮威力×1.55。",
+    "description": "相邻的雷或巡猎攻击者中，威力最高1人本轮威力×1.6。",
     "color": "#fdba74",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.55,
-        "summary": "威力最高的1名其他同组攻击者本轮威力×1.55",
+        "value": 1.6,
+        "summary": "相邻的雷或巡猎攻击者中，威力最高1人本轮威力×1.6",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "strongest",
+        "target": "adjacent",
         "stacking": "multiplicative",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "mentorship",
-            "ink_dot"
-          ],
           "role": "attack",
-          "excludeSelf": true
+          "anyOf": [
+            {
+              "element": "雷"
+            },
+            {
+              "path": "巡猎"
+            }
+          ]
         },
-        "scaleWithTraining": true
+        "selection": "strongest",
+        "targetLimit": 1
       }
     ],
     "adaptation": "本作改编能力",
@@ -1535,11 +1442,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "amplifier",
-    "roleLabel": "即时辅助",
-    "groups": [
-      "mentorship",
-      "ink_dot"
-    ]
+    "roleLabel": "即时辅助"
   },
   {
     "id": "1110",
@@ -1552,24 +1455,29 @@ export const CHARACTERS = [
     "path": "丰饶",
     "element": "量子",
     "faction": "贝洛伯格",
-    "description": "有守望伙伴同场时恢复3生命。有守望伙伴同场且生命不高于60%时，获得2护盾。",
+    "description": "相邻有量子或毁灭伙伴时恢复4生命。生命不高于60%且相邻有量子或毁灭伙伴时，获得2.5护盾。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "heal",
-        "value": 3,
-        "summary": "有守望伙伴同场时恢复3生命",
+        "value": 4,
+        "summary": "相邻有量子或毁灭伙伴时恢复4生命",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "frost"
+            "anyOf": [
+              {
+                "element": "量子"
+              },
+              {
+                "path": "毁灭"
+              }
             ],
             "excludeSelf": true
           },
@@ -1579,30 +1487,35 @@ export const CHARACTERS = [
       },
       {
         "type": "shield",
-        "value": 2,
-        "summary": "有守望伙伴同场且生命不高于60%时，获得2护盾",
+        "value": 2.5,
+        "summary": "生命不高于60%且相邻有量子或毁灭伙伴时，获得2.5护盾",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
-        "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "frost"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
-          "value": 1
-        },
+        "scaleWithStars": true,
         "conditions": [
           {
             "metric": "hpRatio",
             "op": "lte",
             "value": 0.6
+          },
+          {
+            "metric": "neighbors",
+            "filter": {
+              "anyOf": [
+                {
+                  "element": "量子"
+                },
+                {
+                  "path": "毁灭"
+                }
+              ],
+              "excludeSelf": true
+            },
+            "op": "gte",
+            "value": 1
           }
         ]
       }
@@ -1614,10 +1527,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "frost"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "1111",
@@ -1630,27 +1540,30 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "物理",
     "faction": "贝洛伯格",
-    "description": "本轮守望或击破的单体攻击者对敌伤害增加30%。",
+    "description": "相邻的物理或巡猎单体攻击者本轮对敌伤害增加32%。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "vulnerability",
-        "value": 0.3,
-        "summary": "本轮守望或击破的单体攻击者对敌伤害增加30%",
+        "value": 0.32,
+        "summary": "相邻的物理或巡猎单体攻击者本轮对敌伤害增加32%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "adjacent",
         "stacking": "additive",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "frost",
-            "ink_dot",
-            "break"
-          ],
           "role": "attack",
+          "anyOf": [
+            {
+              "element": "物理"
+            },
+            {
+              "path": "巡猎"
+            }
+          ],
           "attack": "single"
-        },
-        "scaleWithTraining": true
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -1660,12 +1573,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "disruptor",
-    "roleLabel": "敌方干扰",
-    "groups": [
-      "frost",
-      "ink_dot",
-      "break"
-    ]
+    "roleLabel": "敌方干扰"
   },
   {
     "id": "1112",
@@ -1678,43 +1586,50 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "火",
     "faction": "星际和平公司",
-    "description": "同场至少2名追加投资伙伴时，账账追加自身威力55%的攻击。自身常规击破后获得2信用点。",
+    "description": "每名同列的其他巡猎或星际和平公司伙伴贡献一次威力55%的账账追击，最多2名。位于边缘时，自身常规击破后获得2信用点。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "damage",
         "value": 0.55,
-        "summary": "同场至少2名追加投资伙伴时，账账追加自身威力55%的攻击",
+        "summary": "每名同列的其他巡猎或星际和平公司伙伴贡献一次威力55%的账账追击，最多2名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
         "stacking": "additive",
         "stage": "afterAttacks",
         "per": {
-          "metric": "sourcePower"
-        },
-        "condition": {
-          "metric": "present",
+          "metric": "column",
           "filter": {
-            "groupsAny": [
-              "follow_up"
+            "anyOf": [
+              {
+                "faction": "星际和平公司"
+              },
+              {
+                "path": "巡猎"
+              }
             ],
             "excludeSelf": true
           },
-          "op": "gte",
-          "value": 2
-        }
+          "cap": 2
+        },
+        "scaleWithSourcePower": true
       },
       {
         "type": "resource",
         "value": 2,
-        "summary": "自身常规击破后获得2信用点",
+        "summary": "位于边缘时，自身常规击破后获得2信用点",
         "trigger": "kill",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
         "resource": "coins",
-        "oncePerSpin": true
+        "oncePerSpin": true,
+        "condition": {
+          "metric": "edge",
+          "op": "eq",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -1724,10 +1639,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "follow_up"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1206",
@@ -1740,27 +1652,34 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "物理",
     "faction": "仙舟罗浮",
-    "description": "剩余不多于2列敌人时，自身本次威力×1.45。每第3次登场，剑势追加自身威力45%的攻击。",
+    "description": "位于边缘且剩余不多于2列敌人时，本次威力×1.5。每第3次登场且相邻有物理或巡猎伙伴，剑势追加自身威力50%的攻击。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.45,
-        "summary": "剩余不多于2列敌人时，自身本次威力×1.45",
+        "value": 1.5,
+        "summary": "位于边缘且剩余不多于2列敌人时，本次威力×1.5",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "condition": {
-          "metric": "enemies",
-          "op": "lte",
-          "value": 2
-        }
+        "conditions": [
+          {
+            "metric": "edge",
+            "op": "eq",
+            "value": 1
+          },
+          {
+            "metric": "enemies",
+            "op": "lte",
+            "value": 2
+          }
+        ]
       },
       {
         "type": "damage",
-        "value": 0.45,
-        "summary": "每第3次登场，剑势追加自身威力45%的攻击",
+        "value": 0.5,
+        "summary": "每第3次登场且相邻有物理或巡猎伙伴，剑势追加自身威力50%的攻击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -1769,7 +1688,23 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "物理"
+              },
+              {
+                "path": "巡猎"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -1779,12 +1714,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "mentorship",
-      "break",
-      "recollection"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1207",
@@ -1797,36 +1727,41 @@ export const CHARACTERS = [
     "path": "同谐",
     "element": "虚数",
     "faction": "仙舟罗浮",
-    "description": "每第2次登场，威力最高的1名其他同组永久非培养角色永久成长+0.35；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
+    "description": "每第2次登场，相邻的虚数或巡猎永久非培养伙伴中，威力最高1人永久成长+0.35。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "growth",
         "value": 0.35,
-        "summary": "每第2次登场，威力最高的1名其他同组永久非培养角色永久成长+0.35；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "summary": "每第2次登场，相邻的虚数或巡猎永久非培养伙伴中，威力最高1人永久成长+0.35",
         "trigger": "appearance",
         "duration": "run",
-        "target": "strongest",
+        "target": "adjacent",
         "stacking": "additive",
         "every": 2,
         "targetLimit": 1,
-        "filter": {
-          "groupsAny": [
-            "express",
-            "mentorship"
-          ],
-          "excludeSelf": true,
-          "roleNot": "trainer",
-          "temporary": false,
-          "commission": false
-        },
+        "selection": "strongest",
         "scaleWithStars": true,
         "starFactors": [
           0,
           1,
           1.5,
           2
-        ]
+        ],
+        "filter": {
+          "anyOf": [
+            {
+              "element": "虚数"
+            },
+            {
+              "path": "巡猎"
+            }
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -1836,11 +1771,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "trainer",
-    "roleLabel": "永久培养",
-    "groups": [
-      "express",
-      "mentorship"
-    ]
+    "roleLabel": "永久培养"
   },
   {
     "id": "1209",
@@ -1853,22 +1784,29 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "冰",
     "faction": "仙舟罗浮",
-    "description": "持有至少5护盾时，自身本次威力×1.65。",
+    "description": "位于边缘且护盾达到5时，本次威力×1.7。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.65,
-        "summary": "持有至少5护盾时，自身本次威力×1.65",
+        "value": 1.7,
+        "summary": "位于边缘且护盾达到5时，本次威力×1.7",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "condition": {
-          "metric": "shield",
-          "op": "gte",
-          "value": 5
-        }
+        "conditions": [
+          {
+            "metric": "edge",
+            "op": "eq",
+            "value": 1
+          },
+          {
+            "metric": "shield",
+            "op": "gte",
+            "value": 5
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
@@ -1878,11 +1816,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "frost",
-      "mentorship"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1210",
@@ -1895,26 +1829,29 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "火",
     "faction": "仙舟罗浮",
-    "description": "本轮授业、引爆或欢愉攻击者对敌伤害增加22%。",
+    "description": "相邻的火或虚无攻击者本轮对敌伤害增加24%。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "vulnerability",
-        "value": 0.22,
-        "summary": "本轮授业、引爆或欢愉攻击者对敌伤害增加22%",
+        "value": 0.24,
+        "summary": "相邻的火或虚无攻击者本轮对敌伤害增加24%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "adjacent",
         "stacking": "additive",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "mentorship",
-            "ink_dot",
-            "elation"
-          ],
-          "role": "attack"
-        },
-        "scaleWithTraining": true
+          "role": "attack",
+          "anyOf": [
+            {
+              "element": "火"
+            },
+            {
+              "path": "虚无"
+            }
+          ]
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -1924,12 +1861,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "disruptor",
-    "roleLabel": "敌方干扰",
-    "groups": [
-      "mentorship",
-      "ink_dot",
-      "elation"
-    ]
+    "roleLabel": "敌方干扰"
   },
   {
     "id": "1211",
@@ -1942,24 +1874,29 @@ export const CHARACTERS = [
     "path": "丰饶",
     "element": "雷",
     "faction": "仙舟罗浮",
-    "description": "每名同场授业伙伴恢复3生命，最多3名。有授业伙伴同场且生命不高于35%时，获得3护盾。",
+    "description": "每名相邻的雷或丰饶伙伴恢复3生命，最多3名。生命不高于35%且相邻有雷或丰饶伙伴时，获得3护盾。",
     "color": "#e879f9",
     "effects": [
       {
         "type": "heal",
         "value": 3,
-        "summary": "每名同场授业伙伴恢复3生命，最多3名",
+        "summary": "每名相邻的雷或丰饶伙伴恢复3生命，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "mentorship"
+            "anyOf": [
+              {
+                "element": "雷"
+              },
+              {
+                "path": "丰饶"
+              }
             ],
             "excludeSelf": true
           },
@@ -1967,10 +1904,15 @@ export const CHARACTERS = [
           "value": 1
         },
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "mentorship"
+            "anyOf": [
+              {
+                "element": "雷"
+              },
+              {
+                "path": "丰饶"
+              }
             ],
             "excludeSelf": true
           },
@@ -1980,29 +1922,34 @@ export const CHARACTERS = [
       {
         "type": "shield",
         "value": 3,
-        "summary": "有授业伙伴同场且生命不高于35%时，获得3护盾",
+        "summary": "生命不高于35%且相邻有雷或丰饶伙伴时，获得3护盾",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
-        "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "mentorship"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
-          "value": 1
-        },
+        "scaleWithStars": true,
         "conditions": [
           {
             "metric": "hpRatio",
             "op": "lte",
             "value": 0.35
+          },
+          {
+            "metric": "neighbors",
+            "filter": {
+              "anyOf": [
+                {
+                  "element": "雷"
+                },
+                {
+                  "path": "丰饶"
+                }
+              ],
+              "excludeSelf": true
+            },
+            "op": "gte",
+            "value": 1
           }
         ]
       }
@@ -2014,10 +1961,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "mentorship"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "1212",
@@ -2030,27 +1974,45 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "冰",
     "faction": "仙舟罗浮",
-    "description": "生命不高于60%时，转魄使本次威力×1.65。每第3次登场追加自身威力40%的剑光。",
+    "description": "生命不高于60%且相邻有冰或毁灭伙伴时，本次威力×1.7。每第3次登场且同行有其他冰或毁灭伙伴，追加自身威力45%的剑光。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.65,
-        "summary": "生命不高于60%时，转魄使本次威力×1.65",
+        "value": 1.7,
+        "summary": "生命不高于60%且相邻有冰或毁灭伙伴时，本次威力×1.7",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "condition": {
-          "metric": "hpRatio",
-          "op": "lte",
-          "value": 0.6
-        }
+        "conditions": [
+          {
+            "metric": "hpRatio",
+            "op": "lte",
+            "value": 0.6
+          },
+          {
+            "metric": "neighbors",
+            "filter": {
+              "anyOf": [
+                {
+                  "element": "冰"
+                },
+                {
+                  "path": "毁灭"
+                }
+              ],
+              "excludeSelf": true
+            },
+            "op": "gte",
+            "value": 1
+          }
+        ]
       },
       {
         "type": "damage",
-        "value": 0.4,
-        "summary": "每第3次登场追加自身威力40%的剑光",
+        "value": 0.45,
+        "summary": "每第3次登场且同行有其他冰或毁灭伙伴，追加自身威力45%的剑光",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -2059,7 +2021,23 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "row",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "冰"
+              },
+              {
+                "path": "毁灭"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -2069,10 +2047,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "mentorship"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1214",
@@ -2085,13 +2060,13 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "量子",
     "faction": "仙舟罗浮",
-    "description": "每第3次登场，向最近存活列追加自身威力100%的天罚。",
+    "description": "每第3次登场且位于角落，向最近存活列追加自身威力115%的天罚。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "damage",
-        "value": 1,
-        "summary": "每第3次登场，向最近存活列追加自身威力100%的天罚",
+        "value": 1.15,
+        "summary": "每第3次登场且位于角落，向最近存活列追加自身威力115%的天罚",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -2100,7 +2075,12 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "corner",
+          "op": "eq",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -2110,11 +2090,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "mentorship",
-      "break"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1215",
@@ -2127,52 +2103,61 @@ export const CHARACTERS = [
     "path": "同谐",
     "element": "物理",
     "faction": "仙舟罗浮",
-    "description": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.3；不培养临时、见习及培养者；培养量按星级×1/1.5/2。有授业或击破伙伴同场时获得1信用点。",
+    "description": "每第3次登场，至多2名相邻的物理或毁灭永久非培养伙伴各永久成长+0.3。每第3次登场且相邻有物理或仙舟罗浮伙伴，获得1信用点。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "growth",
         "value": 0.3,
-        "summary": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.3；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "summary": "每第3次登场，至多2名相邻的物理或毁灭永久非培养伙伴各永久成长+0.3",
         "trigger": "appearance",
         "duration": "run",
         "target": "adjacent",
         "stacking": "additive",
         "every": 3,
         "targetLimit": 2,
-        "filter": {
-          "groupsAny": [
-            "mentorship",
-            "break"
-          ],
-          "excludeSelf": true,
-          "roleNot": "trainer",
-          "temporary": false,
-          "commission": false
-        },
         "scaleWithStars": true,
         "starFactors": [
           0,
           1,
           1.5,
           2
-        ]
+        ],
+        "filter": {
+          "anyOf": [
+            {
+              "element": "物理"
+            },
+            {
+              "path": "毁灭"
+            }
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        }
       },
       {
         "type": "resource",
         "value": 1,
-        "summary": "有授业或击破伙伴同场时获得1信用点",
+        "summary": "每第3次登场且相邻有物理或仙舟罗浮伙伴，获得1信用点",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
         "resource": "coins",
+        "every": 3,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "mentorship",
-              "break"
+            "anyOf": [
+              {
+                "element": "物理"
+              },
+              {
+                "faction": "仙舟罗浮"
+              }
             ],
             "excludeSelf": true
           },
@@ -2188,11 +2173,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "trainer",
-    "roleLabel": "永久培养",
-    "groups": [
-      "mentorship",
-      "break"
-    ]
+    "roleLabel": "永久培养"
   },
   {
     "id": "1217",
@@ -2205,24 +2186,29 @@ export const CHARACTERS = [
     "path": "丰饶",
     "element": "风",
     "faction": "仙舟罗浮",
-    "description": "每名同场授业伙伴恢复4生命，最多2名。每第3次登场且有授业伙伴同场，获得3护盾。",
+    "description": "每名相邻的同谐或仙舟罗浮伙伴恢复4生命，最多2名。每第3次登场且相邻有同谐或仙舟罗浮伙伴，获得3护盾。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "heal",
         "value": 4,
-        "summary": "每名同场授业伙伴恢复4生命，最多2名",
+        "summary": "每名相邻的同谐或仙舟罗浮伙伴恢复4生命，最多2名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "mentorship"
+            "anyOf": [
+              {
+                "path": "同谐"
+              },
+              {
+                "faction": "仙舟罗浮"
+              }
             ],
             "excludeSelf": true
           },
@@ -2230,10 +2216,15 @@ export const CHARACTERS = [
           "value": 1
         },
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "mentorship"
+            "anyOf": [
+              {
+                "path": "同谐"
+              },
+              {
+                "faction": "仙舟罗浮"
+              }
             ],
             "excludeSelf": true
           },
@@ -2243,25 +2234,30 @@ export const CHARACTERS = [
       {
         "type": "shield",
         "value": 3,
-        "summary": "每第3次登场且有授业伙伴同场，获得3护盾",
+        "summary": "每第3次登场且相邻有同谐或仙舟罗浮伙伴，获得3护盾",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "every": 3,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "mentorship"
+            "anyOf": [
+              {
+                "path": "同谐"
+              },
+              {
+                "faction": "仙舟罗浮"
+              }
             ],
             "excludeSelf": true
           },
           "op": "gte",
           "value": 1
-        },
-        "every": 3
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -2271,10 +2267,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "mentorship"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "1218",
@@ -2287,43 +2280,49 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "火",
     "faction": "仙舟曜青",
-    "description": "本轮授业、引爆或追加投资攻击者对敌伤害增加24%。至少2名同组伙伴同场时，敌人本轮反击−1。",
+    "description": "同行的火或虚无攻击者本轮对敌伤害增加25%。相邻至少2名火或虚无伙伴时，本轮敌人反击−1。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "vulnerability",
-        "value": 0.24,
-        "summary": "本轮授业、引爆或追加投资攻击者对敌伤害增加24%",
+        "value": 0.25,
+        "summary": "同行的火或虚无攻击者本轮对敌伤害增加25%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "row",
         "stacking": "additive",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "mentorship",
-            "follow_up",
-            "ink_dot"
-          ],
-          "role": "attack"
-        },
-        "scaleWithTraining": true
+          "role": "attack",
+          "anyOf": [
+            {
+              "element": "火"
+            },
+            {
+              "path": "虚无"
+            }
+          ]
+        }
       },
       {
         "type": "retaliationFlat",
         "value": 1,
-        "summary": "至少2名同组伙伴同场时，敌人本轮反击−1",
+        "summary": "相邻至少2名火或虚无伙伴时，本轮敌人反击−1",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithTraining": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "mentorship",
-              "follow_up",
-              "ink_dot"
+            "anyOf": [
+              {
+                "element": "火"
+              },
+              {
+                "path": "虚无"
+              }
             ],
             "excludeSelf": true
           },
@@ -2339,12 +2338,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "disruptor",
-    "roleLabel": "敌方干扰",
-    "groups": [
-      "mentorship",
-      "follow_up",
-      "ink_dot"
-    ]
+    "roleLabel": "敌方干扰"
   },
   {
     "id": "1220",
@@ -2357,13 +2351,13 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "风",
     "faction": "仙舟曜青",
-    "description": "每第3次登场，向最近存活列追加自身威力115%的飞黄追击。同场有授业或追加投资伙伴时，本次威力×1.2。",
+    "description": "每第3次登场且相邻有风或巡猎伙伴，向最近存活列追加自身威力115%的飞黄追击。位于边缘时，本次威力×1.25。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "damage",
         "value": 1.15,
-        "summary": "每第3次登场，向最近存活列追加自身威力115%的飞黄追击",
+        "summary": "每第3次登场且相邻有风或巡猎伙伴，向最近存活列追加自身威力115%的飞黄追击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -2372,28 +2366,39 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
-      },
-      {
-        "type": "powerMultiplier",
-        "value": 1.2,
-        "summary": "同场有授业或追加投资伙伴时，本次威力×1.2",
-        "trigger": "appearance",
-        "duration": "spin",
-        "target": "self",
-        "stacking": "multiplicative",
+        "every": 3,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "mentorship",
-              "follow_up"
+            "anyOf": [
+              {
+                "element": "风"
+              },
+              {
+                "path": "巡猎"
+              }
             ],
             "excludeSelf": true
           },
           "op": "gte",
           "value": 1
         }
+      },
+      {
+        "type": "powerMultiplier",
+        "value": 1.25,
+        "summary": "位于边缘时，本次威力×1.25",
+        "trigger": "appearance",
+        "duration": "spin",
+        "target": "self",
+        "stacking": "multiplicative",
+        "conditions": [
+          {
+            "metric": "edge",
+            "op": "eq",
+            "value": 1
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
@@ -2403,11 +2408,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "mentorship",
-      "follow_up"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1221",
@@ -2420,13 +2421,13 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "物理",
     "faction": "仙舟朱明",
-    "description": "持有至少6护盾时，常规攻击后追加自身威力80%的看破。",
+    "description": "护盾达到6且相邻有物理或存护伙伴时，常规攻击后追加自身威力85%的看破。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "damage",
-        "value": 0.8,
-        "summary": "持有至少6护盾时，常规攻击后追加自身威力80%的看破",
+        "value": 0.85,
+        "summary": "护盾达到6且相邻有物理或存护伙伴时，常规攻击后追加自身威力85%的看破",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -2435,11 +2436,29 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "condition": {
-          "metric": "shield",
-          "op": "gte",
-          "value": 6
-        }
+        "conditions": [
+          {
+            "metric": "shield",
+            "op": "gte",
+            "value": 6
+          },
+          {
+            "metric": "neighbors",
+            "filter": {
+              "anyOf": [
+                {
+                  "element": "物理"
+                },
+                {
+                  "path": "存护"
+                }
+              ],
+              "excludeSelf": true
+            },
+            "op": "gte",
+            "value": 1
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
@@ -2449,11 +2468,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "mentorship",
-      "follow_up"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1222",
@@ -2466,25 +2481,29 @@ export const CHARACTERS = [
     "path": "丰饶",
     "element": "火",
     "faction": "仙舟罗浮",
-    "description": "每名同场授业或击破伙伴恢复3生命，最多3名。每第4次登场且有同组伙伴，浮元提供3护盾。",
+    "description": "每名相邻的火或毁灭伙伴恢复3生命，最多3名。每第4次登场且相邻有火或毁灭伙伴，浮元提供3护盾。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "heal",
         "value": 3,
-        "summary": "每名同场授业或击破伙伴恢复3生命，最多3名",
+        "summary": "每名相邻的火或毁灭伙伴恢复3生命，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "mentorship",
-              "break"
+            "anyOf": [
+              {
+                "element": "火"
+              },
+              {
+                "path": "毁灭"
+              }
             ],
             "excludeSelf": true
           },
@@ -2492,11 +2511,15 @@ export const CHARACTERS = [
           "value": 1
         },
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "mentorship",
-              "break"
+            "anyOf": [
+              {
+                "element": "火"
+              },
+              {
+                "path": "毁灭"
+              }
             ],
             "excludeSelf": true
           },
@@ -2506,26 +2529,30 @@ export const CHARACTERS = [
       {
         "type": "shield",
         "value": 3,
-        "summary": "每第4次登场且有同组伙伴，浮元提供3护盾",
+        "summary": "每第4次登场且相邻有火或毁灭伙伴，浮元提供3护盾",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "every": 4,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "mentorship",
-              "break"
+            "anyOf": [
+              {
+                "element": "火"
+              },
+              {
+                "path": "毁灭"
+              }
             ],
             "excludeSelf": true
           },
           "op": "gte",
           "value": 1
-        },
-        "every": 4
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -2535,11 +2562,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "mentorship",
-      "break"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "1223",
@@ -2563,11 +2586,13 @@ export const CHARACTERS = [
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "condition": {
-          "metric": "neighbors",
-          "op": "lte",
-          "value": 1
-        }
+        "conditions": [
+          {
+            "metric": "neighbors",
+            "op": "lte",
+            "value": 1
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
@@ -2577,11 +2602,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "mentorship",
-      "follow_up"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1301",
@@ -2594,26 +2615,29 @@ export const CHARACTERS = [
     "path": "丰饶",
     "element": "火",
     "faction": "匹诺康尼",
-    "description": "每名同场猎手、击破或欢愉伙伴恢复2生命，最多3名。",
+    "description": "每名相邻的火或虚无伙伴恢复2.8生命，最多3名。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "heal",
-        "value": 2,
-        "summary": "每名同场猎手、击破或欢愉伙伴恢复2生命，最多3名",
+        "value": 2.8,
+        "summary": "每名相邻的火或虚无伙伴恢复2.8生命，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "hunters",
-              "elation",
-              "break"
+            "anyOf": [
+              {
+                "element": "火"
+              },
+              {
+                "path": "虚无"
+              }
             ],
             "excludeSelf": true
           },
@@ -2621,12 +2645,15 @@ export const CHARACTERS = [
           "value": 1
         },
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "hunters",
-              "elation",
-              "break"
+            "anyOf": [
+              {
+                "element": "火"
+              },
+              {
+                "path": "虚无"
+              }
             ],
             "excludeSelf": true
           },
@@ -2641,12 +2668,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "hunters",
-      "elation",
-      "break"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "1302",
@@ -2659,13 +2681,13 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "物理",
     "faction": "纯美骑士",
-    "description": "每第4次登场，向所有存活列追加自身威力85%的纯美礼赞。",
+    "description": "每第4次登场，向所有存活敌列追加自身威力85%的纯美礼赞。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "damage",
         "value": 0.85,
-        "summary": "每第4次登场，向所有存活列追加自身威力85%的纯美礼赞",
+        "summary": "每第4次登场，向所有存活敌列追加自身威力85%的纯美礼赞",
         "trigger": "appearance",
         "duration": "spin",
         "target": "all",
@@ -2674,7 +2696,8 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 4
+        "every": 4,
+        "globalException": "长周期全列爆发，保留少量不依赖位置的技能"
       }
     ],
     "adaptation": "本作改编能力",
@@ -2684,10 +2707,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "puppet"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1303",
@@ -2700,37 +2720,40 @@ export const CHARACTERS = [
     "path": "同谐",
     "element": "冰",
     "faction": "黑塔空间站",
-    "description": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
+    "description": "每第3次登场，至多2名相邻的冰或智识永久非培养伙伴各永久成长+0.4。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "growth",
         "value": 0.4,
-        "summary": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "summary": "每第3次登场，至多2名相邻的冰或智识永久非培养伙伴各永久成长+0.4",
         "trigger": "appearance",
         "duration": "run",
         "target": "adjacent",
         "stacking": "additive",
         "every": 3,
         "targetLimit": 2,
-        "filter": {
-          "groupsAny": [
-            "hunters",
-            "puppet",
-            "break"
-          ],
-          "excludeSelf": true,
-          "roleNot": "trainer",
-          "temporary": false,
-          "commission": false
-        },
         "scaleWithStars": true,
         "starFactors": [
           0,
           1,
           1.5,
           2
-        ]
+        ],
+        "filter": {
+          "anyOf": [
+            {
+              "element": "冰"
+            },
+            {
+              "path": "智识"
+            }
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -2740,12 +2763,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "trainer",
-    "roleLabel": "永久培养",
-    "groups": [
-      "hunters",
-      "puppet",
-      "break"
-    ]
+    "roleLabel": "永久培养"
   },
   {
     "id": "1304",
@@ -2758,24 +2776,29 @@ export const CHARACTERS = [
     "path": "存护",
     "element": "虚数",
     "faction": "星际和平公司",
-    "description": "每名同场追加投资伙伴提供3.5护盾，最多3名。有追加投资伙伴同场且护盾达到18时，获得1信用点。",
+    "description": "每名相邻的巡猎或星际和平公司伙伴提供3.5护盾，最多3名。护盾达到18且相邻有星际和平公司或存护伙伴时，获得1信用点。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "shield",
         "value": 3.5,
-        "summary": "每名同场追加投资伙伴提供3.5护盾，最多3名",
+        "summary": "每名相邻的巡猎或星际和平公司伙伴提供3.5护盾，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "follow_up"
+            "anyOf": [
+              {
+                "faction": "星际和平公司"
+              },
+              {
+                "path": "巡猎"
+              }
             ],
             "excludeSelf": true
           },
@@ -2783,10 +2806,15 @@ export const CHARACTERS = [
           "value": 1
         },
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "follow_up"
+            "anyOf": [
+              {
+                "faction": "星际和平公司"
+              },
+              {
+                "path": "巡猎"
+              }
             ],
             "excludeSelf": true
           },
@@ -2796,28 +2824,33 @@ export const CHARACTERS = [
       {
         "type": "resource",
         "value": 1,
-        "summary": "有追加投资伙伴同场且护盾达到18时，获得1信用点",
+        "summary": "护盾达到18且相邻有星际和平公司或存护伙伴时，获得1信用点",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
         "resource": "coins",
-        "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "follow_up"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
-          "value": 1
-        },
         "conditions": [
           {
             "metric": "shield",
             "op": "gte",
             "value": 18
+          },
+          {
+            "metric": "neighbors",
+            "filter": {
+              "anyOf": [
+                {
+                  "faction": "星际和平公司"
+                },
+                {
+                  "path": "存护"
+                }
+              ],
+              "excludeSelf": true
+            },
+            "op": "gte",
+            "value": 1
           }
         ]
       }
@@ -2829,10 +2862,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "follow_up"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "1305",
@@ -2845,27 +2875,23 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "虚数",
     "faction": "博识学会",
-    "description": "每名同场追加投资或实验干扰者提供一次威力35%的追击，最多3名。",
+    "description": "每名相邻的虚无伙伴贡献一次威力38%的推理追击，最多3名。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "damage",
-        "value": 0.35,
-        "summary": "每名同场追加投资或实验干扰者提供一次威力35%的追击，最多3名",
+        "value": 0.38,
+        "summary": "每名相邻的虚无伙伴贡献一次威力38%的推理追击，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
         "stacking": "additive",
         "stage": "afterAttacks",
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "puppet",
-              "follow_up"
-            ],
-            "excludeSelf": true,
-            "role": "disruptor"
+            "path": "虚无",
+            "excludeSelf": true
           },
           "cap": 3
         },
@@ -2879,11 +2905,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "puppet",
-      "follow_up"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1306",
@@ -2896,47 +2918,43 @@ export const CHARACTERS = [
     "path": "同谐",
     "element": "量子",
     "faction": "假面愚者",
-    "description": "相邻同组攻击者本轮威力×1.45。每第4次登场且有同组伙伴同场，获得1次重掷。",
+    "description": "相邻的量子或欢愉攻击者本轮威力×1.5。每第4次登场且位于角落，获得1次重掷。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.45,
-        "summary": "相邻同组攻击者本轮威力×1.45",
+        "value": 1.5,
+        "summary": "相邻的量子或欢愉攻击者本轮威力×1.5",
         "trigger": "appearance",
         "duration": "spin",
         "target": "adjacent",
         "stacking": "multiplicative",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "hunters",
-            "elation"
-          ],
           "role": "attack",
-          "excludeSelf": true
-        },
-        "scaleWithTraining": true
+          "anyOf": [
+            {
+              "element": "量子"
+            },
+            {
+              "path": "欢愉"
+            }
+          ]
+        }
       },
       {
         "type": "resource",
         "value": 1,
-        "summary": "每第4次登场且有同组伙伴同场，获得1次重掷",
+        "summary": "每第4次登场且位于角落，获得1次重掷",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "every": 4,
         "resource": "rerolls",
+        "every": 4,
         "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "hunters",
-              "elation"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
+          "metric": "corner",
+          "op": "eq",
           "value": 1
         }
       }
@@ -2948,11 +2966,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "amplifier",
-    "roleLabel": "即时辅助",
-    "groups": [
-      "hunters",
-      "elation"
-    ]
+    "roleLabel": "即时辅助"
   },
   {
     "id": "1307",
@@ -2965,36 +2979,40 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "风",
     "faction": "流光忆庭",
-    "description": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.35；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
+    "description": "每第3次登场，至多2名相邻的虚无或风永久非培养伙伴各永久成长+0.35。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "growth",
         "value": 0.35,
-        "summary": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.35；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "summary": "每第3次登场，至多2名相邻的虚无或风永久非培养伙伴各永久成长+0.35",
         "trigger": "appearance",
         "duration": "run",
         "target": "adjacent",
         "stacking": "additive",
         "every": 3,
         "targetLimit": 2,
-        "filter": {
-          "groupsAny": [
-            "ink_dot",
-            "recollection"
-          ],
-          "excludeSelf": true,
-          "roleNot": "trainer",
-          "temporary": false,
-          "commission": false
-        },
         "scaleWithStars": true,
         "starFactors": [
           0,
           1,
           1.5,
           2
-        ]
+        ],
+        "filter": {
+          "anyOf": [
+            {
+              "path": "虚无"
+            },
+            {
+              "element": "风"
+            }
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -3004,11 +3022,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "trainer",
-    "roleLabel": "永久培养",
-    "groups": [
-      "ink_dot",
-      "recollection"
-    ]
+    "roleLabel": "永久培养"
   },
   {
     "id": "1308",
@@ -3021,13 +3035,13 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "雷",
     "faction": "自灭者",
-    "description": "每第3次登场，向所有存活列追加自身威力65%的终结斩。每名同场虚无引爆干扰者使自身本次威力+0.65，最多3名。",
+    "description": "每第3次登场且相邻有虚无伙伴，向所有存活敌列追加自身威力70%的终结斩。每名相邻的虚无伙伴使本次威力+0.7，最多2名。",
     "color": "#e879f9",
     "effects": [
       {
         "type": "damage",
-        "value": 0.65,
-        "summary": "每第3次登场，向所有存活列追加自身威力65%的终结斩",
+        "value": 0.7,
+        "summary": "每第3次登场且相邻有虚无伙伴，向所有存活敌列追加自身威力70%的终结斩",
         "trigger": "appearance",
         "duration": "spin",
         "target": "all",
@@ -3036,27 +3050,33 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "path": "虚无",
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       },
       {
         "type": "power",
-        "value": 0.65,
-        "summary": "每名同场虚无引爆干扰者使自身本次威力+0.65，最多3名",
+        "value": 0.7,
+        "summary": "每名相邻的虚无伙伴使本次威力+0.7，最多2名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithStars": true,
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "ink_dot"
-            ],
-            "excludeSelf": true,
-            "role": "disruptor"
+            "path": "虚无",
+            "excludeSelf": true
           },
-          "cap": 3
+          "cap": 2
         }
       }
     ],
@@ -3067,10 +3087,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "ink_dot"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1309",
@@ -3083,35 +3100,28 @@ export const CHARACTERS = [
     "path": "同谐",
     "element": "物理",
     "faction": "匹诺康尼",
-    "description": "同场同组攻击者本轮威力×1.35。",
+    "description": "同行的物理或巡猎攻击者本轮威力×1.4。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.35,
-        "summary": "同场同组攻击者本轮威力×1.35",
+        "value": 1.4,
+        "summary": "同行的物理或巡猎攻击者本轮威力×1.4",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "row",
         "stacking": "multiplicative",
-        "filter": {
-          "groupsAny": [
-            "follow_up"
-          ],
-          "role": "attack",
-          "excludeSelf": true
-        },
         "scaleWithTraining": true,
-        "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "follow_up"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
-          "value": 2
+        "filter": {
+          "role": "attack",
+          "anyOf": [
+            {
+              "element": "物理"
+            },
+            {
+              "path": "巡猎"
+            }
+          ]
         }
       }
     ],
@@ -3122,10 +3132,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "amplifier",
-    "roleLabel": "即时辅助",
-    "groups": [
-      "follow_up"
-    ]
+    "roleLabel": "即时辅助"
   },
   {
     "id": "1310",
@@ -3138,34 +3145,40 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "火",
     "faction": "星核猎手",
-    "description": "至少2名猎手或击破伙伴同场时，完全燃烧使本次威力×1.45。每第3次登场追加自身威力50%的超击破。",
+    "description": "相邻至少2名火或毁灭伙伴时，完全燃烧使本次威力×1.5。每第3次登场且相邻有火或毁灭伙伴，追加自身威力55%的超击破。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.45,
-        "summary": "至少2名猎手或击破伙伴同场时，完全燃烧使本次威力×1.45",
+        "value": 1.5,
+        "summary": "相邻至少2名火或毁灭伙伴时，完全燃烧使本次威力×1.5",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "hunters",
-              "break"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
-          "value": 2
-        }
+        "conditions": [
+          {
+            "metric": "neighbors",
+            "filter": {
+              "anyOf": [
+                {
+                  "element": "火"
+                },
+                {
+                  "path": "毁灭"
+                }
+              ],
+              "excludeSelf": true
+            },
+            "op": "gte",
+            "value": 2
+          }
+        ]
       },
       {
         "type": "damage",
-        "value": 0.5,
-        "summary": "每第3次登场追加自身威力50%的超击破",
+        "value": 0.55,
+        "summary": "每第3次登场且相邻有火或毁灭伙伴，追加自身威力55%的超击破",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -3174,7 +3187,23 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "火"
+              },
+              {
+                "path": "毁灭"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -3184,11 +3213,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "hunters",
-      "break"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1312",
@@ -3201,18 +3226,35 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "冰",
     "faction": "匹诺康尼",
-    "description": "每第3次登场，行李连击使自身本次威力×2。",
+    "description": "每第3次登场且同行有其他冰或记忆伙伴，行李连击使本次威力×2.1。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 2,
-        "summary": "每第3次登场，行李连击使自身本次威力×2",
+        "value": 2.1,
+        "summary": "每第3次登场且同行有其他冰或记忆伙伴，行李连击使本次威力×2.1",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "every": 3
+        "conditions": [],
+        "every": 3,
+        "condition": {
+          "metric": "row",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "冰"
+              },
+              {
+                "path": "记忆"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -3222,12 +3264,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "frost",
-      "recollection",
-      "elation"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1313",
@@ -3240,45 +3277,44 @@ export const CHARACTERS = [
     "path": "同谐",
     "element": "虚数",
     "faction": "匹诺康尼",
-    "description": "威力最高的1名其他同组攻击者本轮威力×1.5。同场远行或共演临时攻击者本次威力+0.6。",
+    "description": "同列的记忆或毁灭攻击者本轮威力×1.45。相邻的临时攻击者本次威力+0.7。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.5,
-        "summary": "威力最高的1名其他同组攻击者本轮威力×1.5",
+        "value": 1.45,
+        "summary": "同列的记忆或毁灭攻击者本轮威力×1.45",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "strongest",
+        "target": "column",
         "stacking": "multiplicative",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "express",
-            "recollection"
-          ],
           "role": "attack",
-          "excludeSelf": true
-        },
-        "scaleWithTraining": true
+          "anyOf": [
+            {
+              "path": "记忆"
+            },
+            {
+              "path": "毁灭"
+            }
+          ]
+        }
       },
       {
         "type": "power",
-        "value": 0.6,
-        "summary": "同场远行或共演临时攻击者本次威力+0.6",
+        "value": 0.7,
+        "summary": "相邻的临时攻击者本次威力+0.7",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "adjacent",
         "stacking": "additive",
-        "scaleWithStars": true,
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "express",
-            "recollection"
-          ],
           "role": "attack",
           "temporary": true
         },
-        "scaleWithTraining": true
+        "scaleWithStars": true
       }
     ],
     "adaptation": "本作改编能力",
@@ -3288,11 +3324,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "amplifier",
-    "roleLabel": "即时辅助",
-    "groups": [
-      "express",
-      "recollection"
-    ]
+    "roleLabel": "即时辅助"
   },
   {
     "id": "1314",
@@ -3305,26 +3337,30 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "量子",
     "faction": "星际和平公司",
-    "description": "每名同场追加投资攻击者使翡翠追加自身威力25%的清算，最多3名。有追加投资伙伴同场时获得1信用点。",
+    "description": "每名相邻的其他星际和平公司或智识伙伴贡献一次威力30%的清算，最多3名。位于边缘时，获得1信用点。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "damage",
-        "value": 0.25,
-        "summary": "每名同场追加投资攻击者使翡翠追加自身威力25%的清算，最多3名",
+        "value": 0.3,
+        "summary": "每名相邻的其他星际和平公司或智识伙伴贡献一次威力30%的清算，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
         "stacking": "additive",
         "stage": "afterAttacks",
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "follow_up"
+            "anyOf": [
+              {
+                "faction": "星际和平公司"
+              },
+              {
+                "path": "智识"
+              }
             ],
-            "excludeSelf": true,
-            "role": "attack"
+            "excludeSelf": true
           },
           "cap": 3
         },
@@ -3333,21 +3369,15 @@ export const CHARACTERS = [
       {
         "type": "resource",
         "value": 1,
-        "summary": "有追加投资伙伴同场时获得1信用点",
+        "summary": "位于边缘时，获得1信用点",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
         "resource": "coins",
         "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "follow_up"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
+          "metric": "edge",
+          "op": "eq",
           "value": 1
         }
       }
@@ -3359,10 +3389,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "follow_up"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1315",
@@ -3375,27 +3402,34 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "物理",
     "faction": "巡海游侠",
-    "description": "仅剩1列敌人时，本次威力×1.75。自身常规击破后追加自身威力35%的决斗追击。",
+    "description": "位于边缘且仅剩1列敌人时，本次威力×1.8。位于边缘时，自身常规击破后追加自身威力40%的决斗追击。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.75,
-        "summary": "仅剩1列敌人时，本次威力×1.75",
+        "value": 1.8,
+        "summary": "位于边缘且仅剩1列敌人时，本次威力×1.8",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "condition": {
-          "metric": "enemies",
-          "op": "eq",
-          "value": 1
-        }
+        "conditions": [
+          {
+            "metric": "edge",
+            "op": "eq",
+            "value": 1
+          },
+          {
+            "metric": "enemies",
+            "op": "lte",
+            "value": 1
+          }
+        ]
       },
       {
         "type": "damage",
-        "value": 0.35,
-        "summary": "自身常规击破后追加自身威力35%的决斗追击",
+        "value": 0.4,
+        "summary": "位于边缘时，自身常规击破后追加自身威力40%的决斗追击",
         "trigger": "kill",
         "duration": "spin",
         "target": "column",
@@ -3404,7 +3438,12 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "oncePerSpin": true
+        "oncePerSpin": true,
+        "condition": {
+          "metric": "edge",
+          "op": "eq",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -3414,10 +3453,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "break"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1317",
@@ -3430,18 +3466,34 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "虚数",
     "faction": "巡海游侠",
-    "description": "每列存活敌人使本次威力+0.35，最多5列。",
+    "description": "相邻有虚数或智识伙伴时，每列存活敌人使本次威力+0.35，最多5列。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "power",
         "value": 0.35,
-        "summary": "每列存活敌人使本次威力+0.35，最多5列",
+        "summary": "相邻有虚数或智识伙伴时，每列存活敌人使本次威力+0.35，最多5列",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithStars": true,
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "虚数"
+              },
+              {
+                "path": "智识"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
         "per": {
           "metric": "enemies",
           "cap": 5
@@ -3455,10 +3507,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "break"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1402",
@@ -3471,13 +3520,13 @@ export const CHARACTERS = [
     "path": "记忆",
     "element": "雷",
     "faction": "翁法罗斯",
-    "description": "每第2次登场，衣匠追加自身威力60%的双人攻击。每第4次登场召来临时素裳，下次起可抽中，登场2次后离队。",
+    "description": "每第2次登场且相邻有记忆或翁法罗斯伙伴，衣匠追加自身威力65%的双人攻击。每第4次登场且同行有其他记忆或翁法罗斯伙伴，召来临时素裳，下次起可抽中，登场2次后离队。",
     "color": "#e879f9",
     "effects": [
       {
         "type": "damage",
-        "value": 0.6,
-        "summary": "每第2次登场，衣匠追加自身威力60%的双人攻击",
+        "value": 0.65,
+        "summary": "每第2次登场且相邻有记忆或翁法罗斯伙伴，衣匠追加自身威力65%的双人攻击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -3486,19 +3535,51 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 2
+        "every": 2,
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "anyOf": [
+              {
+                "path": "记忆"
+              },
+              {
+                "faction": "翁法罗斯"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       },
       {
         "type": "summon",
         "value": 1,
-        "summary": "每第4次登场召来临时素裳，下次起可抽中，登场2次后离队",
+        "summary": "每第4次登场且同行有其他记忆或翁法罗斯伙伴，召来临时素裳，下次起可抽中，登场2次后离队",
         "trigger": "appearance",
         "duration": "appearances",
         "target": "self",
         "stacking": "additive",
         "every": 4,
         "characterId": "1206",
-        "durationAppearances": 2
+        "durationAppearances": 2,
+        "condition": {
+          "metric": "row",
+          "filter": {
+            "anyOf": [
+              {
+                "path": "记忆"
+              },
+              {
+                "faction": "翁法罗斯"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -3508,10 +3589,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "recollection"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1403",
@@ -3524,36 +3602,41 @@ export const CHARACTERS = [
     "path": "同谐",
     "element": "量子",
     "faction": "翁法罗斯",
-    "description": "每第2次登场，威力最高的1名其他同组永久非培养角色永久成长+0.3；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
+    "description": "每第2次登场，相邻的量子或翁法罗斯永久非培养伙伴中，威力最高1人永久成长+0.3。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "growth",
         "value": 0.3,
-        "summary": "每第2次登场，威力最高的1名其他同组永久非培养角色永久成长+0.3；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "summary": "每第2次登场，相邻的量子或翁法罗斯永久非培养伙伴中，威力最高1人永久成长+0.3",
         "trigger": "appearance",
         "duration": "run",
-        "target": "strongest",
+        "target": "adjacent",
         "stacking": "additive",
         "every": 2,
         "targetLimit": 1,
-        "filter": {
-          "groupsAny": [
-            "recollection",
-            "break"
-          ],
-          "excludeSelf": true,
-          "roleNot": "trainer",
-          "temporary": false,
-          "commission": false
-        },
+        "selection": "strongest",
         "scaleWithStars": true,
         "starFactors": [
           0,
           1,
           1.5,
           2
-        ]
+        ],
+        "filter": {
+          "anyOf": [
+            {
+              "element": "量子"
+            },
+            {
+              "faction": "翁法罗斯"
+            }
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -3563,11 +3646,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "trainer",
-    "roleLabel": "永久培养",
-    "groups": [
-      "recollection",
-      "break"
-    ]
+    "roleLabel": "永久培养"
   },
   {
     "id": "1404",
@@ -3580,27 +3659,34 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "虚数",
     "faction": "翁法罗斯",
-    "description": "生命不高于55%时，战意使本次威力×1.6。每第3次登场追加自身威力45%的决战攻击。",
+    "description": "位于边缘且生命不高于55%时，本次威力×1.65。每第3次登场且相邻有虚数或毁灭伙伴，追加自身威力50%的决战攻击。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.6,
-        "summary": "生命不高于55%时，战意使本次威力×1.6",
+        "value": 1.65,
+        "summary": "位于边缘且生命不高于55%时，本次威力×1.65",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "condition": {
-          "metric": "hpRatio",
-          "op": "lte",
-          "value": 0.55
-        }
+        "conditions": [
+          {
+            "metric": "edge",
+            "op": "eq",
+            "value": 1
+          },
+          {
+            "metric": "hpRatio",
+            "op": "lte",
+            "value": 0.55
+          }
+        ]
       },
       {
         "type": "damage",
-        "value": 0.45,
-        "summary": "每第3次登场追加自身威力45%的决战攻击",
+        "value": 0.5,
+        "summary": "每第3次登场且相邻有虚数或毁灭伙伴，追加自身威力50%的决战攻击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -3609,7 +3695,23 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "虚数"
+              },
+              {
+                "path": "毁灭"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -3619,10 +3721,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "recollection"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1405",
@@ -3635,27 +3734,27 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "风",
     "faction": "翁法罗斯",
-    "description": "每列空列使自身本次威力+0.45，最多4列。每第3次登场追加自身威力50%的演算追击。",
+    "description": "每格相邻空位使本次威力+0.22，最多4格。每第3次登场且同列有其他风或智识伙伴，追加自身威力55%的演算追击。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "power",
-        "value": 0.45,
-        "summary": "每列空列使自身本次威力+0.45，最多4列",
+        "value": 0.22,
+        "summary": "每格相邻空位使本次威力+0.22，最多4格",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithStars": true,
         "per": {
-          "metric": "emptyColumns",
+          "metric": "emptyNeighbors",
           "cap": 4
         }
       },
       {
         "type": "damage",
-        "value": 0.5,
-        "summary": "每第3次登场追加自身威力50%的演算追击",
+        "value": 0.55,
+        "summary": "每第3次登场且同列有其他风或智识伙伴，追加自身威力55%的演算追击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -3664,7 +3763,23 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "column",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "风"
+              },
+              {
+                "path": "智识"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -3674,11 +3789,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "puppet",
-      "recollection"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1406",
@@ -3691,31 +3802,35 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "量子",
     "faction": "翁法罗斯",
-    "description": "本轮欢愉或共演的群体攻击者对敌伤害增加25%。每第2次登场且有同组伙伴同场，获得1信用点。",
+    "description": "相邻的量子或翁法罗斯群体攻击者本轮对敌伤害增加28%。每第2次登场且位于角落，获得1信用点。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "vulnerability",
-        "value": 0.25,
-        "summary": "本轮欢愉或共演的群体攻击者对敌伤害增加25%",
+        "value": 0.28,
+        "summary": "相邻的量子或翁法罗斯群体攻击者本轮对敌伤害增加28%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "adjacent",
         "stacking": "additive",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "recollection",
-            "elation"
-          ],
           "role": "attack",
+          "anyOf": [
+            {
+              "element": "量子"
+            },
+            {
+              "faction": "翁法罗斯"
+            }
+          ],
           "attack": "aoe"
-        },
-        "scaleWithTraining": true
+        }
       },
       {
         "type": "resource",
         "value": 1,
-        "summary": "每第2次登场且有同组伙伴同场，获得1信用点",
+        "summary": "每第2次登场且位于角落，获得1信用点",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
@@ -3723,15 +3838,8 @@ export const CHARACTERS = [
         "resource": "coins",
         "every": 2,
         "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "recollection",
-              "elation"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
+          "metric": "corner",
+          "op": "eq",
           "value": 1
         }
       }
@@ -3743,11 +3851,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "disruptor",
-    "roleLabel": "敌方干扰",
-    "groups": [
-      "recollection",
-      "elation"
-    ]
+    "roleLabel": "敌方干扰"
   },
   {
     "id": "1407",
@@ -3760,23 +3864,28 @@ export const CHARACTERS = [
     "path": "记忆",
     "element": "量子",
     "faction": "翁法罗斯",
-    "description": "每名同场忆灵共演伙伴使自身本次威力+0.4，最多3名。每第3次登场，向所有存活敌列追加自身威力75%的死龙吐息。",
+    "description": "每名相邻的其他记忆或翁法罗斯伙伴使本次威力+0.5，最多3名。每第3次登场且同列至少2名其他记忆或翁法罗斯伙伴，向所有存活敌列追加自身威力80%的死龙吐息。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "power",
-        "value": 0.4,
-        "summary": "每名同场忆灵共演伙伴使自身本次威力+0.4，最多3名",
+        "value": 0.5,
+        "summary": "每名相邻的其他记忆或翁法罗斯伙伴使本次威力+0.5，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithStars": true,
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "recollection"
+            "anyOf": [
+              {
+                "path": "记忆"
+              },
+              {
+                "faction": "翁法罗斯"
+              }
             ],
             "excludeSelf": true
           },
@@ -3785,8 +3894,8 @@ export const CHARACTERS = [
       },
       {
         "type": "damage",
-        "value": 0.75,
-        "summary": "每第3次登场，向所有存活敌列追加自身威力75%的死龙吐息",
+        "value": 0.8,
+        "summary": "每第3次登场且同列至少2名其他记忆或翁法罗斯伙伴，向所有存活敌列追加自身威力80%的死龙吐息",
         "trigger": "appearance",
         "duration": "spin",
         "target": "all",
@@ -3795,7 +3904,23 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "column",
+          "filter": {
+            "anyOf": [
+              {
+                "path": "记忆"
+              },
+              {
+                "faction": "翁法罗斯"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 2
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -3805,10 +3930,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "recollection"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1408",
@@ -3821,7 +3943,7 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "物理",
     "faction": "翁法罗斯",
-    "description": "相邻角色不多于1名时，负世使本次威力×1.8。每第4次登场追加自身威力80%的黎明斩击。",
+    "description": "相邻角色不多于1名时，负世使本次威力×1.8。每第4次登场且位于边缘，追加自身威力90%的黎明斩击。",
     "color": "#e2e8f0",
     "effects": [
       {
@@ -3832,16 +3954,18 @@ export const CHARACTERS = [
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
-        "condition": {
-          "metric": "neighbors",
-          "op": "lte",
-          "value": 1
-        }
+        "conditions": [
+          {
+            "metric": "neighbors",
+            "op": "lte",
+            "value": 1
+          }
+        ]
       },
       {
         "type": "damage",
-        "value": 0.8,
-        "summary": "每第4次登场追加自身威力80%的黎明斩击",
+        "value": 0.9,
+        "summary": "每第4次登场且位于边缘，追加自身威力90%的黎明斩击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -3850,7 +3974,12 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 4
+        "every": 4,
+        "condition": {
+          "metric": "edge",
+          "op": "eq",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -3860,10 +3989,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "recollection"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "1409",
@@ -3876,24 +4002,29 @@ export const CHARACTERS = [
     "path": "记忆",
     "element": "风",
     "faction": "翁法罗斯",
-    "description": "有忆灵共演伙伴同场时恢复5生命。有忆灵共演伙伴同场时，按缺失生命的12%获得护盾，最多4.8。",
+    "description": "相邻有记忆或风伙伴时恢复5生命。相邻有记忆或风伙伴时，按缺失生命的12%获得护盾，最多4.8。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "heal",
         "value": 5,
-        "summary": "有忆灵共演伙伴同场时恢复5生命",
+        "summary": "相邻有记忆或风伙伴时恢复5生命",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "recollection"
+            "anyOf": [
+              {
+                "element": "风"
+              },
+              {
+                "path": "记忆"
+              }
             ],
             "excludeSelf": true
           },
@@ -3904,18 +4035,23 @@ export const CHARACTERS = [
       {
         "type": "shield",
         "value": 0.12,
-        "summary": "有忆灵共演伙伴同场时，按缺失生命的12%获得护盾，最多4.8",
+        "summary": "相邻有记忆或风伙伴时，按缺失生命的12%获得护盾，最多4.8",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "recollection"
+            "anyOf": [
+              {
+                "element": "风"
+              },
+              {
+                "path": "记忆"
+              }
             ],
             "excludeSelf": true
           },
@@ -3935,10 +4071,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "recollection"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "march_hunt",
@@ -3951,13 +4084,13 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "虚数",
     "faction": "星穹列车",
-    "description": "至少1名相邻同组伙伴时，剑花追加自身威力45%的攻击。每第4次登场且相邻有同组伙伴，自身永久成长+0.15。",
+    "description": "相邻有巡猎或星穹列车伙伴时，剑花追加自身威力50%的攻击。每第4次登场且相邻有巡猎或星穹列车伙伴，自身永久成长+0.15。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "damage",
-        "value": 0.45,
-        "summary": "至少1名相邻同组伙伴时，剑花追加自身威力45%的攻击",
+        "value": 0.5,
+        "summary": "相邻有巡猎或星穹列车伙伴时，剑花追加自身威力50%的攻击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -3969,10 +4102,13 @@ export const CHARACTERS = [
         "condition": {
           "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "express",
-              "mentorship",
-              "follow_up"
+            "anyOf": [
+              {
+                "faction": "星穹列车"
+              },
+              {
+                "path": "巡猎"
+              }
             ],
             "excludeSelf": true
           },
@@ -3983,25 +4119,30 @@ export const CHARACTERS = [
       {
         "type": "growth",
         "value": 0.15,
-        "summary": "每第4次登场且相邻有同组伙伴，自身永久成长+0.15",
+        "summary": "每第4次登场且相邻有巡猎或星穹列车伙伴，自身永久成长+0.15",
         "trigger": "appearance",
         "duration": "run",
         "target": "self",
         "stacking": "additive",
         "every": 4,
-        "condition": {
-          "metric": "neighbors",
-          "filter": {
-            "groupsAny": [
-              "express",
-              "mentorship",
-              "follow_up"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
-          "value": 1
-        }
+        "conditions": [
+          {
+            "metric": "neighbors",
+            "filter": {
+              "anyOf": [
+                {
+                  "faction": "星穹列车"
+                },
+                {
+                  "path": "巡猎"
+                }
+              ],
+              "excludeSelf": true
+            },
+            "op": "gte",
+            "value": 1
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
@@ -4011,12 +4152,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "express",
-      "mentorship",
-      "follow_up"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "dan_heng_imbibitor_lunae",
@@ -4029,24 +4165,28 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "虚数",
     "faction": "星穹列车",
-    "description": "每名同场远行或授业伙伴使自身本次威力+0.4，最多3名。",
+    "description": "每名同行的其他虚数或毁灭伙伴使本次威力+0.5，最多3名。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "power",
-        "value": 0.4,
-        "summary": "每名同场远行或授业伙伴使自身本次威力+0.4，最多3名",
+        "value": 0.5,
+        "summary": "每名同行的其他虚数或毁灭伙伴使本次威力+0.5，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithStars": true,
         "per": {
-          "metric": "present",
+          "metric": "row",
           "filter": {
-            "groupsAny": [
-              "express",
-              "mentorship"
+            "anyOf": [
+              {
+                "element": "虚数"
+              },
+              {
+                "path": "毁灭"
+              }
             ],
             "excludeSelf": true
           },
@@ -4061,11 +4201,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "express",
-      "mentorship"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "dan_heng_pt",
@@ -4078,25 +4214,29 @@ export const CHARACTERS = [
     "path": "存护",
     "element": "物理",
     "faction": "星穹列车",
-    "description": "每名同场远行或守望伙伴提供3.5护盾，最多3名。",
+    "description": "每名同列的其他星穹列车或物理伙伴提供3.5护盾，最多3名。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "shield",
         "value": 3.5,
-        "summary": "每名同场远行或守望伙伴提供3.5护盾，最多3名",
+        "summary": "每名同列的其他星穹列车或物理伙伴提供3.5护盾，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "column",
           "filter": {
-            "groupsAny": [
-              "express",
-              "frost"
+            "anyOf": [
+              {
+                "faction": "星穹列车"
+              },
+              {
+                "element": "物理"
+              }
             ],
             "excludeSelf": true
           },
@@ -4104,11 +4244,15 @@ export const CHARACTERS = [
           "value": 1
         },
         "per": {
-          "metric": "present",
+          "metric": "column",
           "filter": {
-            "groupsAny": [
-              "express",
-              "frost"
+            "anyOf": [
+              {
+                "faction": "星穹列车"
+              },
+              {
+                "element": "物理"
+              }
             ],
             "excludeSelf": true
           },
@@ -4123,11 +4267,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "express",
-      "frost"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "fugue",
@@ -4140,26 +4280,30 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "火",
     "faction": "仙舟罗浮",
-    "description": "本轮猎手或击破的扩散攻击者对敌伤害增加30%。",
+    "description": "相邻的火或毁灭扩散攻击者本轮对敌伤害增加32%。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "vulnerability",
-        "value": 0.3,
-        "summary": "本轮猎手或击破的扩散攻击者对敌伤害增加30%",
+        "value": 0.32,
+        "summary": "相邻的火或毁灭扩散攻击者本轮对敌伤害增加32%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "adjacent",
         "stacking": "additive",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "hunters",
-            "break"
-          ],
           "role": "attack",
+          "anyOf": [
+            {
+              "element": "火"
+            },
+            {
+              "path": "毁灭"
+            }
+          ],
           "attack": "blast"
-        },
-        "scaleWithTraining": true
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -4169,11 +4313,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "disruptor",
-    "roleLabel": "敌方干扰",
-    "groups": [
-      "hunters",
-      "break"
-    ]
+    "roleLabel": "敌方干扰"
   },
   {
     "id": "the_herta",
@@ -4186,34 +4326,38 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "冰",
     "faction": "黑塔空间站",
-    "description": "每名同场实验攻击者使本次威力+0.5，最多3名。每第3次登场，向所有存活敌列追加自身威力50%的解题攻击。",
+    "description": "每名相邻的其他冰或智识伙伴使本次威力+0.5，最多3名。每第3次登场且同列有其他冰或智识伙伴，向所有存活敌列追加自身威力55%的解题攻击。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "power",
         "value": 0.5,
-        "summary": "每名同场实验攻击者使本次威力+0.5，最多3名",
+        "summary": "每名相邻的其他冰或智识伙伴使本次威力+0.5，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithStars": true,
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "puppet"
+            "anyOf": [
+              {
+                "element": "冰"
+              },
+              {
+                "path": "智识"
+              }
             ],
-            "excludeSelf": true,
-            "role": "attack"
+            "excludeSelf": true
           },
           "cap": 3
         }
       },
       {
         "type": "damage",
-        "value": 0.5,
-        "summary": "每第3次登场，向所有存活敌列追加自身威力50%的解题攻击",
+        "value": 0.55,
+        "summary": "每第3次登场且同列有其他冰或智识伙伴，向所有存活敌列追加自身威力55%的解题攻击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "all",
@@ -4222,7 +4366,23 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "column",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "冰"
+              },
+              {
+                "path": "智识"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -4232,10 +4392,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "puppet"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "hysilens",
@@ -4248,47 +4405,55 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "物理",
     "faction": "翁法罗斯",
-    "description": "本轮引爆或共演攻击者对敌伤害增加28%。至少2名引爆或共演伙伴同场时，敌人本轮反击×0.9。",
+    "description": "同列的物理或翁法罗斯攻击者本轮对敌伤害增加28%。相邻至少2名物理或虚无伙伴时，本轮敌人反击×0.9。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "vulnerability",
         "value": 0.28,
-        "summary": "本轮引爆或共演攻击者对敌伤害增加28%",
+        "summary": "同列的物理或翁法罗斯攻击者本轮对敌伤害增加28%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "column",
         "stacking": "additive",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "ink_dot",
-            "recollection"
-          ],
-          "role": "attack"
-        },
-        "scaleWithTraining": true
+          "role": "attack",
+          "anyOf": [
+            {
+              "element": "物理"
+            },
+            {
+              "faction": "翁法罗斯"
+            }
+          ]
+        }
       },
       {
         "type": "retaliationMultiplier",
         "value": 0.9,
-        "summary": "至少2名引爆或共演伙伴同场时，敌人本轮反击×0.9",
+        "summary": "相邻至少2名物理或虚无伙伴时，本轮敌人反击×0.9",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "multiplicative",
+        "scaleWithTraining": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "ink_dot",
-              "recollection"
+            "anyOf": [
+              {
+                "element": "物理"
+              },
+              {
+                "path": "虚无"
+              }
             ],
             "excludeSelf": true
           },
           "op": "gte",
           "value": 2
-        },
-        "scaleWithTraining": true
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -4298,11 +4463,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "disruptor",
-    "roleLabel": "敌方干扰",
-    "groups": [
-      "ink_dot",
-      "recollection"
-    ]
+    "roleLabel": "敌方干扰"
   },
   {
     "id": "cerydra",
@@ -4315,26 +4476,31 @@ export const CHARACTERS = [
     "path": "同谐",
     "element": "风",
     "faction": "翁法罗斯",
-    "description": "威力最高的1名其他同组攻击者本轮威力×1.6。",
+    "description": "相邻的风或翁法罗斯攻击者中，威力最高1人本轮威力×1.6。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "powerMultiplier",
         "value": 1.6,
-        "summary": "威力最高的1名其他同组攻击者本轮威力×1.6",
+        "summary": "相邻的风或翁法罗斯攻击者中，威力最高1人本轮威力×1.6",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "strongest",
+        "target": "adjacent",
         "stacking": "multiplicative",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "recollection",
-            "break"
-          ],
           "role": "attack",
-          "excludeSelf": true
+          "anyOf": [
+            {
+              "element": "风"
+            },
+            {
+              "faction": "翁法罗斯"
+            }
+          ]
         },
-        "scaleWithTraining": true
+        "selection": "strongest",
+        "targetLimit": 1
       }
     ],
     "adaptation": "本作改编能力",
@@ -4344,11 +4510,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "amplifier",
-    "roleLabel": "即时辅助",
-    "groups": [
-      "recollection",
-      "break"
-    ]
+    "roleLabel": "即时辅助"
   },
   {
     "id": "evernight",
@@ -4361,26 +4523,31 @@ export const CHARACTERS = [
     "path": "记忆",
     "element": "冰",
     "faction": "翁法罗斯",
-    "description": "每名同场忆灵共演辅助角色贡献一次自身威力40%的忆幕追击，最多2名。",
+    "description": "每名相邻的记忆或同谐非攻击伙伴贡献一次自身威力45%的忆幕追击，最多2名。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "damage",
-        "value": 0.4,
-        "summary": "每名同场忆灵共演辅助角色贡献一次自身威力40%的忆幕追击，最多2名",
+        "value": 0.45,
+        "summary": "每名相邻的记忆或同谐非攻击伙伴贡献一次自身威力45%的忆幕追击，最多2名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
         "stacking": "additive",
         "stage": "afterAttacks",
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "recollection"
+            "anyOf": [
+              {
+                "path": "记忆"
+              },
+              {
+                "path": "同谐"
+              }
             ],
-            "excludeSelf": true,
-            "roleNot": "attack"
+            "roleNot": "attack",
+            "excludeSelf": true
           },
           "cap": 2
         },
@@ -4394,10 +4561,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "recollection"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "cyrene",
@@ -4410,36 +4574,40 @@ export const CHARACTERS = [
     "path": "记忆",
     "element": "冰",
     "faction": "翁法罗斯",
-    "description": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.45；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
+    "description": "每第3次登场，至多2名同行的其他记忆或翁法罗斯永久非培养伙伴各永久成长+0.45。",
     "color": "#93c5fd",
     "effects": [
       {
         "type": "growth",
         "value": 0.45,
-        "summary": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.45；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "summary": "每第3次登场，至多2名同行的其他记忆或翁法罗斯永久非培养伙伴各永久成长+0.45",
         "trigger": "appearance",
         "duration": "run",
-        "target": "adjacent",
+        "target": "row",
         "stacking": "additive",
         "every": 3,
         "targetLimit": 2,
-        "filter": {
-          "groupsAny": [
-            "express",
-            "recollection"
-          ],
-          "excludeSelf": true,
-          "roleNot": "trainer",
-          "temporary": false,
-          "commission": false
-        },
         "scaleWithStars": true,
         "starFactors": [
           0,
           1,
           1.5,
           2
-        ]
+        ],
+        "filter": {
+          "anyOf": [
+            {
+              "path": "记忆"
+            },
+            {
+              "faction": "翁法罗斯"
+            }
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -4449,11 +4617,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "trainer",
-    "roleLabel": "永久培养",
-    "groups": [
-      "express",
-      "recollection"
-    ]
+    "roleLabel": "永久培养"
   },
   {
     "id": "saber",
@@ -4466,13 +4630,13 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "风",
     "faction": "异世界",
-    "description": "每第3次登场，向所有存活敌列追加自身威力80%的誓约胜利之剑。",
+    "description": "每第3次登场且位于边缘，向所有存活敌列追加自身威力85%的誓约胜利之剑。",
     "color": "#6ee7b7",
     "effects": [
       {
         "type": "damage",
-        "value": 0.8,
-        "summary": "每第3次登场，向所有存活敌列追加自身威力80%的誓约胜利之剑",
+        "value": 0.85,
+        "summary": "每第3次登场且位于边缘，向所有存活敌列追加自身威力85%的誓约胜利之剑",
         "trigger": "appearance",
         "duration": "spin",
         "target": "all",
@@ -4481,7 +4645,12 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "edge",
+          "op": "eq",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -4491,11 +4660,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "recollection",
-      "break"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "archer",
@@ -4508,13 +4673,13 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "量子",
     "faction": "异世界",
-    "description": "每名相邻追加投资辅助角色贡献一次自身威力40%的投影追击，最多3名。",
+    "description": "每名相邻的同谐或智识非攻击伙伴贡献一次自身威力45%的投影追击，最多3名。",
     "color": "#e879f9",
     "effects": [
       {
         "type": "damage",
-        "value": 0.4,
-        "summary": "每名相邻追加投资辅助角色贡献一次自身威力40%的投影追击，最多3名",
+        "value": 0.45,
+        "summary": "每名相邻的同谐或智识非攻击伙伴贡献一次自身威力45%的投影追击，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -4523,11 +4688,16 @@ export const CHARACTERS = [
         "per": {
           "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "follow_up"
+            "anyOf": [
+              {
+                "path": "同谐"
+              },
+              {
+                "path": "智识"
+              }
             ],
-            "excludeSelf": true,
-            "roleNot": "attack"
+            "roleNot": "attack",
+            "excludeSelf": true
           },
           "cap": 3
         },
@@ -4541,10 +4711,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "follow_up"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "yao_guang",
@@ -4557,36 +4724,50 @@ export const CHARACTERS = [
     "path": "欢愉",
     "element": "物理",
     "faction": "仙舟玉阙",
-    "description": "每第2次登场，威力最高的1名其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2。",
+    "description": "每第2次登场，同列的其他欢愉或仙舟永久非培养伙伴中，威力最高1人永久成长+0.4。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "growth",
         "value": 0.4,
-        "summary": "每第2次登场，威力最高的1名其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "summary": "每第2次登场，同列的其他欢愉或仙舟永久非培养伙伴中，威力最高1人永久成长+0.4",
         "trigger": "appearance",
         "duration": "run",
-        "target": "strongest",
+        "target": "column",
         "stacking": "additive",
         "every": 2,
         "targetLimit": 1,
-        "filter": {
-          "groupsAny": [
-            "mentorship",
-            "elation"
-          ],
-          "excludeSelf": true,
-          "roleNot": "trainer",
-          "temporary": false,
-          "commission": false
-        },
+        "selection": "strongest",
         "scaleWithStars": true,
         "starFactors": [
           0,
           1,
           1.5,
           2
-        ]
+        ],
+        "filter": {
+          "anyOf": [
+            {
+              "path": "欢愉"
+            },
+            {
+              "faction": "仙舟罗浮"
+            },
+            {
+              "faction": "仙舟曜青"
+            },
+            {
+              "faction": "仙舟朱明"
+            },
+            {
+              "faction": "仙舟玉阙"
+            }
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -4596,11 +4777,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "trainer",
-    "roleLabel": "永久培养",
-    "groups": [
-      "mentorship",
-      "elation"
-    ]
+    "roleLabel": "永久培养"
   },
   {
     "id": "sparxie",
@@ -4613,18 +4790,34 @@ export const CHARACTERS = [
     "path": "欢愉",
     "element": "火",
     "faction": "假面愚者",
-    "description": "本轮每名退场角色使自身本次威力+0.7，最多3名。每第2次登场追加自身威力40%的舞台爆破。",
+    "description": "相邻有欢愉或火伙伴时，本轮每名退场角色使本次威力+0.8，最多3名。每第2次登场且位于边缘，追加自身威力45%的舞台爆破。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "power",
-        "value": 0.7,
-        "summary": "本轮每名退场角色使自身本次威力+0.7，最多3名",
-        "trigger": "spin",
+        "value": 0.8,
+        "summary": "相邻有欢愉或火伙伴时，本轮每名退场角色使本次威力+0.8，最多3名",
+        "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithStars": true,
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "anyOf": [
+              {
+                "path": "欢愉"
+              },
+              {
+                "element": "火"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
         "per": {
           "metric": "retirements",
           "cap": 3
@@ -4632,8 +4825,8 @@ export const CHARACTERS = [
       },
       {
         "type": "damage",
-        "value": 0.4,
-        "summary": "每第2次登场追加自身威力40%的舞台爆破",
+        "value": 0.45,
+        "summary": "每第2次登场且位于边缘，追加自身威力45%的舞台爆破",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -4642,7 +4835,12 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 2
+        "every": 2,
+        "condition": {
+          "metric": "edge",
+          "op": "eq",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -4652,10 +4850,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "elation"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "ashveil",
@@ -4668,13 +4863,13 @@ export const CHARACTERS = [
     "path": "巡猎",
     "element": "雷",
     "faction": "巡海游侠",
-    "description": "仅剩不多于2列敌人时，追猎追加自身威力65%的攻击。本次威力×1.25。",
+    "description": "剩余不多于2列敌人且相邻角色不多于1名时，追猎追加自身威力70%的攻击。位于边缘时，本次威力×1.3。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "damage",
-        "value": 0.65,
-        "summary": "仅剩不多于2列敌人时，追猎追加自身威力65%的攻击",
+        "value": 0.7,
+        "summary": "剩余不多于2列敌人且相邻角色不多于1名时，追猎追加自身威力70%的攻击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -4683,20 +4878,34 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "condition": {
-          "metric": "enemies",
-          "op": "lte",
-          "value": 2
-        }
+        "conditions": [
+          {
+            "metric": "enemies",
+            "op": "lte",
+            "value": 2
+          },
+          {
+            "metric": "neighbors",
+            "op": "lte",
+            "value": 1
+          }
+        ]
       },
       {
         "type": "powerMultiplier",
-        "value": 1.25,
-        "summary": "本次威力×1.25",
+        "value": 1.3,
+        "summary": "位于边缘时，本次威力×1.3",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
-        "stacking": "multiplicative"
+        "stacking": "multiplicative",
+        "conditions": [
+          {
+            "metric": "edge",
+            "op": "eq",
+            "value": 1
+          }
+        ]
       }
     ],
     "adaptation": "本作改编能力",
@@ -4706,10 +4915,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "follow_up"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "silver_wolf_lv999",
@@ -4722,13 +4928,13 @@ export const CHARACTERS = [
     "path": "欢愉",
     "element": "虚数",
     "faction": "星核猎手",
-    "description": "每第3次登场，向所有存活列追加自身威力75%的满级连段。本轮每名退场角色使自身本次威力+0.6，最多3名。",
+    "description": "每第3次登场且位于角落，向所有存活列追加自身威力80%的满级连段。相邻有量子或欢愉伙伴时，本轮每名退场角色使本次威力+0.7，最多3名。",
     "color": "#fcd34d",
     "effects": [
       {
         "type": "damage",
-        "value": 0.75,
-        "summary": "每第3次登场，向所有存活列追加自身威力75%的满级连段",
+        "value": 0.8,
+        "summary": "每第3次登场且位于角落，向所有存活列追加自身威力80%的满级连段",
         "trigger": "appearance",
         "duration": "spin",
         "target": "all",
@@ -4737,17 +4943,38 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "corner",
+          "op": "eq",
+          "value": 1
+        }
       },
       {
         "type": "power",
-        "value": 0.6,
-        "summary": "本轮每名退场角色使自身本次威力+0.6，最多3名",
-        "trigger": "spin",
+        "value": 0.7,
+        "summary": "相邻有量子或欢愉伙伴时，本轮每名退场角色使本次威力+0.7，最多3名",
+        "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithStars": true,
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "量子"
+              },
+              {
+                "path": "欢愉"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
         "per": {
           "metric": "retirements",
           "cap": 3
@@ -4761,11 +4988,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "hunters",
-      "puppet"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "evanescia",
@@ -4778,42 +5001,50 @@ export const CHARACTERS = [
     "path": "欢愉",
     "element": "物理",
     "faction": "二相乐园",
-    "description": "同场同组攻击者本轮威力×1.4。登场期间，同组防御者的护盾获取量×1.15。",
+    "description": "同行的欢愉或物理攻击者本轮威力×1.45。相邻的存护或欢愉防御者护盾获取量×1.2。",
     "color": "#e2e8f0",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.4,
-        "summary": "同场同组攻击者本轮威力×1.4",
+        "value": 1.45,
+        "summary": "同行的欢愉或物理攻击者本轮威力×1.45",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "row",
         "stacking": "multiplicative",
-        "filter": {
-          "groupsAny": [
-            "elation"
-          ],
-          "role": "attack",
-          "excludeSelf": true
-        },
         "scaleWithTraining": true,
-        "every": 2
+        "filter": {
+          "role": "attack",
+          "anyOf": [
+            {
+              "path": "欢愉"
+            },
+            {
+              "element": "物理"
+            }
+          ]
+        }
       },
       {
         "type": "shieldMultiplier",
-        "value": 1.15,
-        "summary": "登场期间，同组防御者的护盾获取量×1.15",
+        "value": 1.2,
+        "summary": "相邻的存护或欢愉防御者护盾获取量×1.2",
         "trigger": "passive",
         "duration": "spin",
-        "target": "matching",
+        "target": "adjacent",
         "stacking": "multiplicative",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "elation"
-          ],
-          "role": "defense"
-        },
-        "scaleWithTraining": true
+          "role": "defense",
+          "anyOf": [
+            {
+              "path": "存护"
+            },
+            {
+              "path": "欢愉"
+            }
+          ]
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -4823,10 +5054,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "amplifier",
-    "roleLabel": "即时辅助",
-    "groups": [
-      "elation"
-    ]
+    "roleLabel": "即时辅助"
   },
   {
     "id": "mortenax_blade",
@@ -4839,18 +5067,34 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "火",
     "faction": "星核猎手",
-    "description": "每缺失10生命，本次威力+0.32，最多5份。每第3次登场追加自身威力50%的锻焰追击。",
+    "description": "相邻有火或虚无伙伴时，每缺失10生命使本次威力+0.35，最多5份。每第3次登场且位于边缘，追加自身威力55%的锻焰追击。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "power",
-        "value": 0.32,
-        "summary": "每缺失10生命，本次威力+0.32，最多5份",
+        "value": 0.35,
+        "summary": "相邻有火或虚无伙伴时，每缺失10生命使本次威力+0.35，最多5份",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithStars": true,
+        "condition": {
+          "metric": "neighbors",
+          "filter": {
+            "anyOf": [
+              {
+                "element": "火"
+              },
+              {
+                "path": "虚无"
+              }
+            ],
+            "excludeSelf": true
+          },
+          "op": "gte",
+          "value": 1
+        },
         "per": {
           "metric": "missingHp",
           "divisor": 10,
@@ -4859,8 +5103,8 @@ export const CHARACTERS = [
       },
       {
         "type": "damage",
-        "value": 0.5,
-        "summary": "每第3次登场追加自身威力50%的锻焰追击",
+        "value": 0.55,
+        "summary": "每第3次登场且位于边缘，追加自身威力55%的锻焰追击",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -4869,7 +5113,12 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "edge",
+          "op": "eq",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -4879,11 +5128,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "hunters",
-      "ink_dot"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "the_dahlia",
@@ -4896,29 +5141,34 @@ export const CHARACTERS = [
     "path": "虚无",
     "element": "火",
     "faction": "焚化工",
-    "description": "本轮击破接力攻击者对敌伤害增加32%。有击破伙伴相邻时，敌人本轮反击−1。",
+    "description": "相邻的火或毁灭攻击者本轮对敌伤害增加34%。相邻有火或毁灭伙伴时，本轮敌人反击−1。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "vulnerability",
-        "value": 0.32,
-        "summary": "本轮击破接力攻击者对敌伤害增加32%",
+        "value": 0.34,
+        "summary": "相邻的火或毁灭攻击者本轮对敌伤害增加34%",
         "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "adjacent",
         "stacking": "additive",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "break"
-          ],
-          "role": "attack"
-        },
-        "scaleWithTraining": true
+          "role": "attack",
+          "anyOf": [
+            {
+              "element": "火"
+            },
+            {
+              "path": "毁灭"
+            }
+          ]
+        }
       },
       {
         "type": "retaliationFlat",
         "value": 1,
-        "summary": "有击破伙伴相邻时，敌人本轮反击−1",
+        "summary": "相邻有火或毁灭伙伴时，本轮敌人反击−1",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
@@ -4927,8 +5177,13 @@ export const CHARACTERS = [
         "condition": {
           "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "break"
+            "anyOf": [
+              {
+                "element": "火"
+              },
+              {
+                "path": "毁灭"
+              }
             ],
             "excludeSelf": true
           },
@@ -4944,10 +5199,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "disruptor",
-    "roleLabel": "敌方干扰",
-    "groups": [
-      "break"
-    ]
+    "roleLabel": "敌方干扰"
   },
   {
     "id": "announced_himeko_nova",
@@ -4960,24 +5212,28 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "火",
     "faction": "星穹列车",
-    "description": "每名同场远行或实验伙伴贡献一次自身威力30%的启行追击，最多3名。",
+    "description": "每名同列的其他火或智识伙伴贡献一次自身威力35%的启行追击，最多3名。",
     "color": "#fb923c",
     "effects": [
       {
         "type": "damage",
-        "value": 0.3,
-        "summary": "每名同场远行或实验伙伴贡献一次自身威力30%的启行追击，最多3名",
+        "value": 0.35,
+        "summary": "每名同列的其他火或智识伙伴贡献一次自身威力35%的启行追击，最多3名",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
         "stacking": "additive",
         "stage": "afterAttacks",
         "per": {
-          "metric": "present",
+          "metric": "column",
           "filter": {
-            "groupsAny": [
-              "express",
-              "puppet"
+            "anyOf": [
+              {
+                "element": "火"
+              },
+              {
+                "path": "智识"
+              }
             ],
             "excludeSelf": true
           },
@@ -4993,11 +5249,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "express",
-      "puppet"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "announced_gilgamesh",
@@ -5010,18 +5262,23 @@ export const CHARACTERS = [
     "path": "毁灭",
     "element": "雷",
     "faction": "异世界",
-    "description": "每列存活敌人使本次威力+0.35，最多5列。每第3次登场追加自身威力60%的王之财宝。",
+    "description": "位于边缘时，每列存活敌人使本次威力+0.35，最多5列。每第3次登场且位于角落，追加自身威力65%的王之财宝。",
     "color": "#c4b5fd",
     "effects": [
       {
         "type": "power",
         "value": 0.35,
-        "summary": "每列存活敌人使本次威力+0.35，最多5列",
+        "summary": "位于边缘时，每列存活敌人使本次威力+0.35，最多5列",
         "trigger": "appearance",
         "duration": "spin",
         "target": "self",
         "stacking": "additive",
         "scaleWithStars": true,
+        "condition": {
+          "metric": "edge",
+          "op": "eq",
+          "value": 1
+        },
         "per": {
           "metric": "enemies",
           "cap": 5
@@ -5029,8 +5286,8 @@ export const CHARACTERS = [
       },
       {
         "type": "damage",
-        "value": 0.6,
-        "summary": "每第3次登场追加自身威力60%的王之财宝",
+        "value": 0.65,
+        "summary": "每第3次登场且位于角落，追加自身威力65%的王之财宝",
         "trigger": "appearance",
         "duration": "spin",
         "target": "column",
@@ -5039,7 +5296,12 @@ export const CHARACTERS = [
         "per": {
           "metric": "sourcePower"
         },
-        "every": 3
+        "every": 3,
+        "condition": {
+          "metric": "corner",
+          "op": "eq",
+          "value": 1
+        }
       }
     ],
     "adaptation": "本作改编能力",
@@ -5049,11 +5311,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "attack",
-    "roleLabel": "攻击",
-    "groups": [
-      "elation",
-      "break"
-    ]
+    "roleLabel": "攻击"
   },
   {
     "id": "announced_rin_tohsaka",
@@ -5066,45 +5324,52 @@ export const CHARACTERS = [
     "path": "智识",
     "element": "量子",
     "faction": "异世界",
-    "description": "相邻同组攻击者本轮威力×1.35。每第3次登场，相邻同组攻击者本次威力再+0.5。",
+    "description": "相邻的量子或异世界攻击者本轮威力×1.4。每第3次登场，相邻的量子或异世界攻击者本次威力再+0.55。",
     "color": "#e879f9",
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.35,
-        "summary": "相邻同组攻击者本轮威力×1.35",
+        "value": 1.4,
+        "summary": "相邻的量子或异世界攻击者本轮威力×1.4",
         "trigger": "appearance",
         "duration": "spin",
         "target": "adjacent",
         "stacking": "multiplicative",
+        "scaleWithTraining": true,
         "filter": {
-          "groupsAny": [
-            "puppet",
-            "elation"
-          ],
           "role": "attack",
-          "excludeSelf": true
-        },
-        "scaleWithTraining": true
+          "anyOf": [
+            {
+              "element": "量子"
+            },
+            {
+              "faction": "异世界"
+            }
+          ]
+        }
       },
       {
         "type": "power",
-        "value": 0.5,
-        "summary": "每第3次登场，相邻同组攻击者本次威力再+0.5",
+        "value": 0.55,
+        "summary": "每第3次登场，相邻的量子或异世界攻击者本次威力再+0.55",
         "trigger": "appearance",
         "duration": "spin",
         "target": "adjacent",
         "stacking": "additive",
-        "scaleWithStars": true,
+        "scaleWithTraining": true,
         "every": 3,
         "filter": {
-          "groupsAny": [
-            "puppet",
-            "elation"
-          ],
-          "role": "attack"
+          "role": "attack",
+          "anyOf": [
+            {
+              "element": "量子"
+            },
+            {
+              "faction": "异世界"
+            }
+          ]
         },
-        "scaleWithTraining": true
+        "scaleWithStars": true
       }
     ],
     "adaptation": "本作改编能力",
@@ -5114,11 +5379,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "amplifier",
-    "roleLabel": "即时辅助",
-    "groups": [
-      "puppet",
-      "elation"
-    ]
+    "roleLabel": "即时辅助"
   },
   {
     "id": "aha",
@@ -5131,55 +5392,54 @@ export const CHARACTERS = [
     "path": "欢愉",
     "element": "无（改编）",
     "faction": "星神",
-    "description": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2。每第4次登场且有欢愉伙伴同场，获得1次重掷。",
+    "description": "每第3次登场，至多2名相邻的欢愉或假面愚者永久非培养伙伴各永久成长+0.4。每第4次登场且位于角落，获得1次重掷。",
     "color": "#fbbf24",
     "effects": [
       {
         "type": "growth",
         "value": 0.4,
-        "summary": "每第3次登场，按格位顺序选择至多2名相邻其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "summary": "每第3次登场，至多2名相邻的欢愉或假面愚者永久非培养伙伴各永久成长+0.4",
         "trigger": "appearance",
         "duration": "run",
         "target": "adjacent",
         "stacking": "additive",
         "every": 3,
         "targetLimit": 2,
-        "filter": {
-          "groupsAny": [
-            "elation"
-          ],
-          "excludeSelf": true,
-          "roleNot": "trainer",
-          "temporary": false,
-          "commission": false
-        },
         "scaleWithStars": true,
         "starFactors": [
           0,
           1,
           1.5,
           2
-        ]
+        ],
+        "filter": {
+          "anyOf": [
+            {
+              "path": "欢愉"
+            },
+            {
+              "faction": "假面愚者"
+            }
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        }
       },
       {
         "type": "resource",
         "value": 1,
-        "summary": "每第4次登场且有欢愉伙伴同场，获得1次重掷",
+        "summary": "每第4次登场且位于角落，获得1次重掷",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "every": 4,
         "resource": "rerolls",
+        "every": 4,
         "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "elation"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
+          "metric": "corner",
+          "op": "eq",
           "value": 1
         }
       }
@@ -5191,10 +5451,7 @@ export const CHARACTERS = [
     "portraitKind": "text-symbol",
     "kitVersion": 6,
     "role": "trainer",
-    "roleLabel": "永久培养",
-    "groups": [
-      "elation"
-    ]
+    "roleLabel": "永久培养"
   },
   {
     "id": "pearl",
@@ -5212,49 +5469,56 @@ export const CHARACTERS = [
       {
         "type": "growth",
         "value": 0.4,
-        "summary": "每第3次登场，威力最高的1名其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2",
+        "summary": "每第3次登场，同列的其他星际和平公司或存护永久非培养伙伴中，威力最高1人永久成长+0.4",
         "trigger": "appearance",
         "duration": "run",
-        "target": "strongest",
+        "target": "column",
         "stacking": "additive",
         "every": 3,
         "targetLimit": 1,
-        "filter": {
-          "groupsAny": [
-            "frost",
-            "follow_up",
-            "elation"
-          ],
-          "excludeSelf": true,
-          "roleNot": "trainer",
-          "temporary": false,
-          "commission": false
-        },
+        "selection": "strongest",
         "scaleWithStars": true,
         "starFactors": [
           0,
           1,
           1.5,
           2
-        ]
+        ],
+        "filter": {
+          "anyOf": [
+            {
+              "faction": "星际和平公司"
+            },
+            {
+              "path": "存护"
+            }
+          ],
+          "excludeSelf": true,
+          "roleNot": "trainer",
+          "temporary": false,
+          "commission": false
+        }
       },
       {
         "type": "resource",
         "value": 1,
-        "summary": "每第3次登场且有守望、投资或欢愉伙伴同场，获得1信用点",
+        "summary": "每第3次登场且相邻有星际和平公司或存护伙伴，获得1信用点",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "every": 3,
         "resource": "coins",
+        "every": 3,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "frost",
-              "follow_up",
-              "elation"
+            "anyOf": [
+              {
+                "faction": "星际和平公司"
+              },
+              {
+                "path": "存护"
+              }
             ],
             "excludeSelf": true
           },
@@ -5263,7 +5527,7 @@ export const CHARACTERS = [
         }
       }
     ],
-    "description": "每第3次登场，威力最高的1名其他同组永久非培养角色永久成长+0.4；不培养临时、见习及培养者；培养量按星级×1/1.5/2。每第3次登场且有守望、投资或欢愉伙伴同场，获得1信用点。",
+    "description": "每第3次登场，同列的其他星际和平公司或存护永久非培养伙伴中，威力最高1人永久成长+0.4。每第3次登场且相邻有星际和平公司或存护伙伴，获得1信用点。",
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
@@ -5271,12 +5535,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "trainer",
-    "roleLabel": "永久培养",
-    "groups": [
-      "frost",
-      "follow_up",
-      "elation"
-    ]
+    "roleLabel": "永久培养"
   },
   {
     "id": "robin_summeretto",
@@ -5294,19 +5553,23 @@ export const CHARACTERS = [
       {
         "type": "heal",
         "value": 3,
-        "summary": "每名相邻共演或欢愉伙伴恢复3生命，最多3名",
+        "summary": "每名相邻的记忆或风伙伴恢复3生命，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "recollection",
-              "elation"
+            "anyOf": [
+              {
+                "element": "风"
+              },
+              {
+                "path": "记忆"
+              }
             ],
             "excludeSelf": true
           },
@@ -5316,9 +5579,13 @@ export const CHARACTERS = [
         "per": {
           "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "recollection",
-              "elation"
+            "anyOf": [
+              {
+                "element": "风"
+              },
+              {
+                "path": "记忆"
+              }
             ],
             "excludeSelf": true
           },
@@ -5328,29 +5595,33 @@ export const CHARACTERS = [
       {
         "type": "shield",
         "value": 3,
-        "summary": "每第2次登场且有同组伙伴，获得3护盾",
+        "summary": "每第2次登场且同行至少2名其他记忆或风伙伴，获得3护盾",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "every": 2,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "row",
           "filter": {
-            "groupsAny": [
-              "recollection",
-              "elation"
+            "anyOf": [
+              {
+                "element": "风"
+              },
+              {
+                "path": "记忆"
+              }
             ],
             "excludeSelf": true
           },
           "op": "gte",
-          "value": 1
-        },
-        "every": 2
+          "value": 2
+        }
       }
     ],
-    "description": "每名相邻共演或欢愉伙伴恢复3生命，最多3名。每第2次登场且有同组伙伴，获得3护盾。",
+    "description": "每名相邻的记忆或风伙伴恢复3生命，最多3名。每第2次登场且同行至少2名其他记忆或风伙伴，获得3护盾。",
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
@@ -5358,11 +5629,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "recollection",
-      "elation"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "aventurine_waveflair",
@@ -5379,20 +5646,24 @@ export const CHARACTERS = [
     "effects": [
       {
         "type": "shield",
-        "value": 2.8,
-        "summary": "每名同场追加投资或欢愉伙伴提供2.8护盾，最多3名",
+        "value": 3,
+        "summary": "每名相邻的星际和平公司或欢愉伙伴提供3护盾，最多3名",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "scaleWithStars": true,
         "scaleWithTraining": true,
+        "scaleWithStars": true,
         "condition": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "follow_up",
-              "elation"
+            "anyOf": [
+              {
+                "faction": "星际和平公司"
+              },
+              {
+                "path": "欢愉"
+              }
             ],
             "excludeSelf": true
           },
@@ -5400,11 +5671,15 @@ export const CHARACTERS = [
           "value": 1
         },
         "per": {
-          "metric": "present",
+          "metric": "neighbors",
           "filter": {
-            "groupsAny": [
-              "follow_up",
-              "elation"
+            "anyOf": [
+              {
+                "faction": "星际和平公司"
+              },
+              {
+                "path": "欢愉"
+              }
             ],
             "excludeSelf": true
           },
@@ -5414,28 +5689,39 @@ export const CHARACTERS = [
       {
         "type": "resource",
         "value": 1,
-        "summary": "每第3次登场且至少2名同组伙伴同场时，获得1信用点",
+        "summary": "每第3次登场且位于边缘、相邻至少2名星际和平公司或欢愉伙伴，获得1信用点",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
         "resource": "coins",
         "every": 3,
-        "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "follow_up",
-              "elation"
-            ],
-            "excludeSelf": true
+        "conditions": [
+          {
+            "metric": "edge",
+            "op": "eq",
+            "value": 1
           },
-          "op": "gte",
-          "value": 2
-        }
+          {
+            "metric": "neighbors",
+            "filter": {
+              "anyOf": [
+                {
+                  "faction": "星际和平公司"
+                },
+                {
+                  "path": "欢愉"
+                }
+              ],
+              "excludeSelf": true
+            },
+            "op": "gte",
+            "value": 2
+          }
+        ]
       }
     ],
-    "description": "每名同场追加投资或欢愉伙伴提供2.8护盾，最多3名。每第3次登场且至少2名同组伙伴同场时，获得1信用点。",
+    "description": "每名相邻的星际和平公司或欢愉伙伴提供3护盾，最多3名。每第3次登场且位于边缘、相邻至少2名星际和平公司或欢愉伙伴，获得1信用点。",
     "adaptation": "本作改编能力",
     "officialRarity": 5,
     "publicationStatus": "released",
@@ -5443,11 +5729,7 @@ export const CHARACTERS = [
     "portraitKind": "game-art",
     "kitVersion": 6,
     "role": "defense",
-    "roleLabel": "防御",
-    "groups": [
-      "follow_up",
-      "elation"
-    ]
+    "roleLabel": "防御"
   },
   {
     "id": "aeon_star_aha",
@@ -5464,50 +5746,43 @@ export const CHARACTERS = [
     "effects": [
       {
         "type": "powerMultiplier",
-        "value": 1.45,
-        "summary": "同场同组攻击者本轮威力×1.45",
-        "trigger": "spin",
+        "value": 1.55,
+        "summary": "相邻的欢愉或假面愚者攻击者本轮威力×1.55",
+        "trigger": "appearance",
         "duration": "spin",
-        "target": "matching",
+        "target": "adjacent",
         "stacking": "multiplicative",
-        "filter": {
-          "groupsAny": [
-            "elation"
-          ],
-          "role": "attack",
-          "excludeSelf": true
-        },
         "scaleWithTraining": true,
-        "condition": {
-          "metric": "retirements",
-          "op": "gte",
-          "value": 1
+        "filter": {
+          "role": "attack",
+          "anyOf": [
+            {
+              "path": "欢愉"
+            },
+            {
+              "faction": "假面愚者"
+            }
+          ]
         }
       },
       {
         "type": "resource",
         "value": 1,
-        "summary": "每第3次登场且有欢愉伙伴同场，获得1信用点",
+        "summary": "每第3次登场且位于角落，获得1信用点",
         "trigger": "appearance",
         "duration": "resource",
         "target": "self",
         "stacking": "additive",
-        "every": 3,
         "resource": "coins",
+        "every": 3,
         "condition": {
-          "metric": "present",
-          "filter": {
-            "groupsAny": [
-              "elation"
-            ],
-            "excludeSelf": true
-          },
-          "op": "gte",
+          "metric": "corner",
+          "op": "eq",
           "value": 1
         }
       }
     ],
-    "description": "同场同组攻击者本轮威力×1.45。每第3次登场且有欢愉伙伴同场，获得1信用点。",
+    "description": "相邻的欢愉或假面愚者攻击者本轮威力×1.55。每第3次登场且位于角落，获得1信用点。",
     "adaptation": "本作改编能力；公开名单标注已公布，非官方技能复刻；公开人物画像尚未离线收录，头像为文字标识",
     "officialRarity": 5,
     "publicationStatus": "announced",
@@ -5515,10 +5790,7 @@ export const CHARACTERS = [
     "portraitKind": "text-symbol",
     "kitVersion": 6,
     "role": "amplifier",
-    "roleLabel": "即时辅助",
-    "groups": [
-      "elation"
-    ]
+    "roleLabel": "即时辅助"
   }
 ];
 

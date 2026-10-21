@@ -200,12 +200,18 @@ total = round(base(f) × level(D) × late(f)
 
 网页与单文件版使用同一引擎。浏览器沿用兼容存储键 `astral-reels:v1`，内部 `game.version` 为 2。单文件版的存档交换包 `format='astral-reels-save'` 的格式版本仍为 1，与内部游戏状态版本不同；导入同时校验游戏、统计、设置和 AI 档案。更新 HTML 前应导出存档，不同文件路径、版本或浏览器可能使用独立存储。离线实现见 [OFFLINE.md](OFFLINE.md)，验证见 [TESTING.md](../TESTING.md)。
 
-## 套路与委派的结算边界（0.5引入，0.6收敛收益）
+## 正式标签、空间与内部测试策略（0.7）
 
-`src/archetypes.js` 是可信数据：`ARCHETYPES` 定义成员、核心、不同身份门槛及成型效果，`getArchetypes(state)` 每次从当前正式编队推导状态，不信任存档中的套路声明。`archetypesForCharacter(id)` 服务详情与搜索；`isArchetypeCore(id)` 服务正式实例的委派保护。仅同一身份的正常永久实例计数，`temporary` 或 `commission` 不计；移除导致人数不足后当轮重新计算。成型效果作为 `archetype` 来源进入 `getEffectSources` / `getPassiveEffectSources`，AI也读取同样定义与`ids`过滤。套路不是阵营羁绊，不吃香涎干酪或羁绊审计的进攻系数。
+角色过滤读取可信内容的命途、属性、阵营、攻击形态与主职。`anyOf` 内部为 OR，与外层过滤 AND；存档上伪造标签不产生规则。旧 `group/groupsAny` 不再匹配。正式羁绊仍是游戏规则；`src/archetypes.js` 仅从正式标签计算内部拿牌策略的覆盖，核心名单为空、效果恒为空，不进入效果来源或委派保护。
 
-`src/retirements.js` 定义10组剧情委派。抽盘与污染检查后、登场技能前，按主持者下一次实际登场计数检查每3次结案、每4次补充；结案受体立即进入consumed集合，跳过其登场能力与攻击，并在结算末尾统一从roster删除。正式委派保留最后同名身份，见习从不计身份，因此本轮编队激活人数不会因结案被错误追认；实际登场条件排除consumed。生成的见习在结算末尾加入，下一轮起可抽中。合格额外正式受体为一星、成长≤1、非核心且保留最后一位正式同名；系统见习不受最后同名/成长/核心保护，但必须匹配所属委派规则。星级、来源、规则ID、状态标记及统计都有导入校验，旧v2缺少`retirementStats`时补零。详见 [RETIREMENTS.md](RETIREMENTS.md)。
+`adjacent` 为5×4棋盘不越界的八邻格。目标支持 `row/column/aligned`（含自身，可用 `excludeSelf` 排除），计数同名 metric 则只计其他格。`edge/corner` 返回0或1，`emptyNeighbors` 只数相邻空格。`range` 进一步限制目标域，`selection:'strongest'` 在过滤后的范围内按当前威力排序，再执行 `targetLimit`。角色被动倍率同样检查受益来源是否在空间目标内；不会因持有一张局部被动而全队生效。
 
-`withoutArchetypeEffects(callback, ids=null)`仅是同步实验干预：try/finally恢复模块作用域的抑制计数，不写存档、不改变formation人数；传入指定ID只关闭目标套路，避免把其他套路贡献归给目标。真实客户端不提供该开关。`src/archetype-simulation.js`共享引擎和公开AI决策，在独立状态与独立策略随机数下记录筹备与放弃；探针使用固定公共抽样种子，不窥视对局下一次随机数。报告保存所有关键源码SHA-256与采样方案。
+易伤在来源登场时捕获本轮空间范围内匹配攻击者 UID，只增强这些攻击者的普通攻击与归属技能伤害；奇物全场伤害不冒领该收益。相同易伤总增量上限75%；角色即时增幅同类倍率上限×2.2，与攻击者自身倍率分开。队列中的临时威力在结算时读取本轮最终退场计数，包含自然到期，避免早登场者遗漏之后的退场。
 
-同一角色同时属于多个已成型套路时，套路powerMultiplier只取最高值，不互相连乘；其他来源按当前结算；0.6角色即时增幅另受同类×2.2上限约束。不同套路的永久成长、追击、抵伤反击等功能可并存。AI采用同样的最高倍率合成，效果记录标明本步实际乘数。击破接力的系统追击使用includeSource=true，允许最强击破者自己追加；角色技能中‘最强其他角色’默认仍排除自身。
+剧情委派仍检查真实相邻关系，保护高星、已培养实例与最后正式同名；内部拿牌方向不享受核心保护。生成的见习下次起可抽中，不计正式羁绊身份。详见 [RETIREMENTS.md](RETIREMENTS.md)。
+
+### 真实引擎诊断接口
+
+`inspectSpin(previous, options)` 与公开 `spin` 走同一个结算函数，返回 `{state,hits}`；无选项时状态完全相等。有选项时额外返回诊断协议标识 `spin-interventions-v1`。可指定 `layoutUids`（20格、唯一正式实例UID或null），`suppressSkillUids`（仅关闭指定实例声明技能，保留普通攻击），`suppressCharacterEffectTypes`，`suppressSynergyIds`。先消耗正常抽盘随机数，再覆盖诊断布局；只递增实际上场者计数。开关保存在短生命周期 WeakMap，不写存档，不从存档读取。受控布局是实验条件，不冒充自然对局。
+
+独立统计协议、分组单位、实际等价范围和冻结要求见 [V070-TEST-PROTOCOL.md](V070-TEST-PROTOCOL.md)。历史0.5/0.6数据保留，不能用作0.7的平衡背书。

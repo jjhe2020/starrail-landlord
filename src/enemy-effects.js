@@ -7,7 +7,7 @@ const characters = state => state.roster.map(u => characterById(u.id)).filter(Bo
 const hasCharacter = (state, id) => state.roster.some(u => u.id === id);
 const hasPath = (state, path) => characters(state).some(c => c.path === path);
 const hasAttack = (state, attack) => characters(state).some(c => c.attack === attack);
-const isDirectedBuff = effect => ['power', 'powerMultiplier'].includes(effect.type) && ['adjacent', 'strongest', 'matching'].includes(effect.target);
+const isDirectedBuff = effect => ['power', 'powerMultiplier'].includes(effect.type) && (['adjacent', 'row', 'column', 'aligned', 'strongest', 'matching'].includes(effect.target) || effect.selection === 'strongest');
 const adjacency = (state, path = null) => state.roster.length > 1 && characters(state).some(character => (!path || character.path === path) && character.effects?.some(isDirectedBuff));
 const liveDefinitions = state => [
   ...characters(state),
@@ -44,11 +44,11 @@ export const ENEMY_DEBUFFS = [
   clause('consume_audit', '鼹鼠追击税', '虎克的额外追击伤害降低 50%。', s => hasCharacter(s, '1109')),
   clause('danheng_audit', '丹恒成长审计', '丹恒本层新增的自身永久成长降低 50%；已有成长保留。', s => hasCharacter(s, '1002')),
   clause('herta_audit', '黑塔转动折损', '黑塔周期技能的追加伤害降低 50%。', s => hasCharacter(s, '1013')),
-  clause('qingque_audit', '暗杠限额', '青雀周期爆发的倍率加成降低 50%（2.2 倍变为 1.6 倍）。', s => hasCharacter(s, '1201')),
+  clause('qingque_audit', '暗杠限额', '青雀周期爆发的额外倍率降低 50%（未培养时 2.35 倍变为 1.675 倍）。', s => hasCharacter(s, '1201')),
   clause('seele_audit', '再现滞留', '希儿击破追击的威力降低 50%。', s => hasCharacter(s, '1102')),
-  clause('kafka_audit', '感电稽核', '卡芙卡为指定猎手/引爆组扩散攻击提供的易伤降低 50%。', s => hasCharacter(s, '1005')),
+  clause('kafka_audit', '感电稽核', '卡芙卡为相邻雷或虚无扩散攻击者提供的易伤降低 50%。', s => hasCharacter(s, '1005')),
   clause('welt_audit', '禁锢抵抗', '瓦尔特降低敌人反击伤害的效果降低 50%。', s => hasCharacter(s, '1004')),
-  clause('fuxuan_audit', '穷观阵裂隙', '符玄的条件反击减伤效果降低 50%（未培养时 10% 变为 5%）。', s => hasCharacter(s, '1208')),
+  clause('fuxuan_audit', '穷观阵裂隙', '符玄的同行条件反击减伤效果降低 50%（未培养时 12% 变为 6%）。', s => hasCharacter(s, '1208')),
   clause('march_audit', '六相冰折损', '三月七产生的护盾降低 50%。', s => hasCharacter(s, '1001')),
   clause('natasha_audit', '急救限流', '娜塔莎的治疗降低 50%。', s => hasCharacter(s, '1105')),
   clause('essence_audit', '精华缓释', '尚未触发的精华进度获取降低 25%。', s => s.essences.some(e => !e.triggered)),
@@ -112,7 +112,7 @@ export function utilityMultiplier(state, instance, kind) {
 // Healing/shield/buff paths are applied at their utility entry points, once.
 export function abilityEffectAmount(state, instance, effect, amount) {
   const character = characterById(instance?.id);
-  if (character?.kitVersion !== 6) return amount;
+  if (!(character?.kitVersion >= 6)) return amount;
   if (effect.type === 'damage') {
     if (hasDebuff(state, 'summon_audit')) amount *= 0.75;
     if ((instance.id === '1109' && hasDebuff(state, 'consume_audit')) ||

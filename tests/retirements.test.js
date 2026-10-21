@@ -60,7 +60,7 @@ test('all ten pairs remove only an adjacent eligible instance before its utility
   }
 });
 
-test('last ordinary copy, high stars, trained characters and cores are protected', () => {
+test('last ordinary copy, high stars and trained characters are protected; internal cores grant no immunity', () => {
   const rule = RETIREMENT_RULES[0], state = fixture([rule.sourceId, rule.targetId, rule.targetId]);
   const [source, target] = state.roster;
   const eligible = () => retirementEligibility(state, source, target, { isCore: isArchetypeCore }).eligible;
@@ -69,7 +69,7 @@ test('last ordinary copy, high stars, trained characters and cores are protected
   target.stars = 1; target.growth = 1.01; assert.equal(eligible(), false);
   target.growth = 0; target.temporary = 2; assert.equal(eligible(), false);
   delete target.temporary;
-  assert.equal(retirementEligibility(state, source, target, { isCore: () => true }).eligible, false);
+  assert.equal(retirementEligibility(state, source, target, { isCore: () => true }).eligible, true, 'obsolete internal core callback cannot grant immunity');
   state.roster.pop(); assert.equal(eligible(), false);
   target.commission = rule.id; target.origin = source.uid;
   assert.equal(retirementEligibility(state, source, target, { isCore: () => true }).eligible, true);
@@ -170,6 +170,7 @@ test('previews reveal cadence, protected targets, relationship and actual eligib
   assert.equal(preview.nextAppearance, 1);
   assert.deepEqual(preview.eligibleUids, ['u2', 'u3']);
   assert.match(preview.summary, /永久离队/);
-  assert.match(preview.summary, /核心/);
+  assert.doesNotMatch(preview.summary, /套路|核心/);
+  assert.match(preview.summary, /已培养/);
   state.roster.pop(); assert.deepEqual(getRetirementPreview(state)[0].eligibleUids, []);
 });

@@ -1,16 +1,16 @@
 import { characterById, itemById, essenceById } from './content.js';
 import * as engine from './engine.js';
 import { DEFAULT_PROFILE, validateProfile } from './ai-profile.js';
-import { getArchetypes } from './archetypes.js';
 import { unitPowerMultiplier, utilityMultiplier, abilityEffectAmount, isPolluted, POLLUTION_ATTACK_MULTIPLIER } from './enemy-effects.js';
-import { effectAmount, effectIsEligible, estimatedEffectContribution } from './effect-rules.js';
-import { distinctPresenceProbability, estimateSynergyContributions, matchesSynergyFilter, synergyOffenseScale } from './synergies.js';
+import { effectAmount, matchesEffectFilter } from './effect-rules.js';
+import { SPATIAL_METRICS, spatialMetricMean, spatialConditionProbability, effectRecipientChances, expectedEffectAmountForAi } from './ai-spatial.js';
+import { distinctPresenceProbability, estimateSynergyContributions, synergyOffenseScale } from './synergies.js';
 import { estimateRetirementsForAi } from './retirement-ai.js';
 const { BOARD_SIZE, STAR_MULTIPLIERS, chooseReward, skipReward, spin, getSynergies, rerollRewards, removeSymbol } = engine;
 
 export { DEFAULT_PROFILE, validateProfile } from './ai-profile.js';
 // Algorithm version is independent from a saved profile's reusable model weights.
-export const POLICY_VERSION = 'v060-bound-role-actions-v1';
+export const POLICY_VERSION = 'v070-spatial-tag-actions-v1';
 export const RESOURCE_KEYS = Object.freeze(['rerolls', 'removals', 'credits', 'defense']);
 export const SUPPLY_KINDS = Object.freeze(['repair', 'barrier', 'overclock']);
 const REWARD_PHASES = ['recruit', 'item', 'essence'];
@@ -28,7 +28,7 @@ const clamp = (number, low, high) => Math.min(high, Math.max(low, number));
 const has = (state, id) => state.items.includes(id);
 const star = unit => STAR_MULTIPLIERS[unit.stars] || 1;
 const effectStar = (state, unit) => star(unit) * (unit.stars > 1 && state.activeDebuffs.some(effect => effect.id === 'star_audit') ? 0.8 : 1);
-const legacyKit = id => characterById(id)?.kitVersion !== 6;
+const legacyKit = id => !(characterById(id)?.kitVersion >= 6);
 const attacks = unit => { const c = characterById(unit.id); return c?.role ? c.role === 'attack' : c?.attack !== 'support'; };
 const basePower = unit => characterById(unit.id).power * star(unit) + (attacks(unit) ? unit.growth : 0);
 const growthRate = id => !legacyKit(id) ? 0 : id === '1002' ? 1 / 3 : id === '1107' ? 0.5 : id === '1205' ? 0.5 : 0;
@@ -49,12 +49,12 @@ export function forecastGrowthForAi(state, unit, { horizon = futureHorizon(state
       for (let appearance = 1; appearance <= appearances; appearance++) {
         const appearing = { ...unit, ticks: (unit.ticks || 0) + appearance };
         const context = { state, unit: appearing, trigger: 'appearance', star: effectStar(state, unit), metricOverrides: (metric, filter = {}) => {
-          const partners = state.roster.filter(other => (!filter.excludeSelf || other.uid !== unit.uid) && matchesSynergyFilter(other, filter, characterById));
+          const partners = state.roster.filter(other => matchesEffectFilter(other, filter, unit));
           if (metric === 'present') return partners.reduce((sum, other) => sum + (other.uid === unit.uid ? 1 : state.roster.length <= BOARD_SIZE ? 1 : (BOARD_SIZE - 1) / (state.roster.length - 1)), 0);
-          if (metric === 'neighbors') return partners.filter(other => other.uid !== unit.uid).length * 5.5 / 19 * Math.min(1, 19 / Math.max(1, state.roster.length - 1));
+          if (SPATIAL_METRICS.includes(metric)) return spatialMetricMean(state, unit, metric, filter);
           return undefined;
         } };
-        for (const effect of selfTraining) if (effectIsEligible(effect, context)) acquired += abilityEffectAmount(state, appearing, effect, effectAmount(effect, context)) * (effect.chance ?? 1);
+        for (const effect of selfTraining) acquired += abilityEffectAmount(state, appearing, effect, expectedEffectAmountForAi(effect, context)) * (effect.chance ?? 1);
         area += acquired;
       }
       return appearances ? area / appearances * multiplier : 0;
@@ -137,7 +137,6 @@ function declaredGlobalMultiplier(state, unit, activations) {
 export function estimateEffectsForAi(state, { horizon = futureHorizon(state), activations = {}, active = getSynergies(state).filter(s => s.active), healing = 0, shields = 0, output = 0, threat = 0, retirementRate = 0, commissionForecast } = {}) {
   const roster = state.roster, n = roster.length, draw = Math.min(1, BOARD_SIZE / Math.max(1, n));
   const coDraw = n <= BOARD_SIZE ? 1 : (BOARD_SIZE - 1) / Math.max(1, n - 1);
-  const pair = 5.5 / 19 * Math.min(1, 19 / Math.max(1, n - 1));
   const alive = state.enemies.filter(e => e.hp > 0).length;
   const baseline = basePower;
   const result = { powerAdds: new Map(), powerMultipliers: new Map(), growthRates: new Map(), buffMultipliers: new Map(), damage: 0, healing: 0, shields: 0, reduction: 0, selfDrain: 0, economy: 0, flexibility: 0, armorBreak: 0, tempo: 0, healMultiplier: 1, shieldMultiplier: 1, growthMultiplier: 1, essenceMultiplier: 1, utilityGrowth: 0, vulnerabilityMultipliers: new Map(), shieldSourceMultipliers: new Map(), healSourceMultipliers: new Map() };
@@ -147,7 +146,7 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
   };
   const commissions = commissionForecast || estimateRetirementsForAi(state, { horizon });
   if (!commissionForecast) retirementRate += commissions.completionRate;
-  const matching = (unit, filter, source) => (!filter?.excludeSelf || source?.uid !== unit.uid) && (filter?.starsMax === undefined || unit.stars <= filter.starsMax) && matchesSynergyFilter(unit, filter, characterById);
+  const matching = (unit, filter, source) => matchesEffectFilter(unit, filter, source);
   const matched = (filter, source) => roster.filter(unit => matching(unit, filter, source));
   const metrics = (metric, filter = {}, source) => {
     const units = () => matched(filter, source);
@@ -164,7 +163,7 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
       case 'roster': return units().length;
       case 'present': return units().reduce((sum, unit) => sum + (source?.uid === unit.uid ? 1 : source ? coDraw : draw), 0);
       case 'presentDistinct': return [...new Set(units().map(unit => unit.id))].reduce((sum, id) => sum + distinctPresenceProbability(state, { ...filter, id }, 1, key => key === id ? characterById(key) : null), 0);
-      case 'neighbors': return units().filter(unit => unit.uid !== source?.uid).length * pair;
+      case 'neighbors': case 'row': case 'column': case 'aligned': case 'edge': case 'corner': case 'emptyNeighbors': return spatialMetricMean(state, source, metric, filter);
       case 'emptyColumns': return 5 - alive;
       case 'enemies': return alive;
       case 'synergies': return active.length;
@@ -218,18 +217,7 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
       for (let i = 1; i <= opportunities; i++) if (((source?.ticks || 0) + i) % condition.value === 0) successes++;
       return successes / opportunities;
     }
-    if (condition.metric === 'neighbors') {
-      // Exact expectation of a random future position is enough for amounts;
-      // threshold chances use a bounded binomial approximation, not old board.
-      const others = matched(condition.filter || {}, source).filter(u => u.uid !== source?.uid).length;
-      if (!others) return compare(0, condition) ? 1 : 0;
-      let probability = 0, mass = (1 - pair) ** others;
-      for (let k = 0; k <= others; k++) {
-        if (compare(k, condition)) probability += mass;
-        mass *= (others - k) / (k + 1) * pair / Math.max(1e-9, 1 - pair);
-      }
-      return clamp(probability, 0, 1);
-    }
+    if (SPATIAL_METRICS.includes(condition.metric)) return spatialConditionProbability(state, source, condition);
     return compare(metrics(condition.metric, condition.filter, source), condition) ? 1 : 0;
   };
   const frequency = (effect, source, sourceType) => {
@@ -254,13 +242,11 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
     return rate;
   };
   const sources = [];
-  const archetypeMultipliers = new Map();
   const amplifierMultipliers = new Map();
   const vulnerabilityAdds = new Map();
   const attributedDamage = [];
   let retaliationFactor = 1;
   let flatReduction = 0;
-  for (const archetype of getArchetypes(state)) if (archetype.effects.length) sources.push({ definition: archetype, sourceType: 'archetype', activation: 1 });
   for (const unit of roster) sources.push({ definition: characterById(unit.id), unit, sourceType: 'character', activation: 1 });
   for (const id of state.items) sources.push({ definition: itemById(id), sourceType: 'item', activation: 1 });
   for (const entry of state.essences) sources.push({ definition: essenceById(entry.id), sourceType: 'essence', activation: entry.triggered ? 1 : activations[entry.id] || 0, triggered: entry.triggered });
@@ -272,32 +258,25 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
     // Conditions and periodic chance were integrated above; values/per/star are
     // interpreted by the exact shared DSL helper used by the engine.
     const scalar = { ...effect, condition: undefined, conditions: undefined, every: undefined, chance: undefined };
-    let amount = estimatedEffectContribution(scalar, context);
+    const spatialConditions = [effect.condition, ...(effect.conditions || [])].filter(condition => condition && SPATIAL_METRICS.includes(condition.metric));
+    const spatialWeight = spatialConditions.reduce((weight, condition) => weight * conditionChance(condition, source), 1);
+    let amount = expectedEffectAmountForAi({ ...scalar, conditions: spatialConditions }, context) / Math.max(1e-12, spatialWeight);
     if (sourceType === 'character') amount = abilityEffectAmount(state, source, effect, amount);
     if (!Number.isFinite(amount)) return;
     const offense = sourceType === 'synergy' ? synergyOffenseScale(state) : 1;
-    const needsTargets = ['power','powerMultiplier','growth'].includes(effect.type) || effect.type === 'damage' && effect.target === 'strongest';
-    const targets = needsTargets ? roster.filter(unit => matching(unit, effect.filter, source) && (effect.target !== 'self' || source?.uid === unit.uid)) : [];
-    const strongest = effect.target === 'strongest' ? targets.filter(unit => effect.includeSource || unit.uid !== source?.uid).sort((a, b) => baseline(b) - baseline(a) || a.uid.localeCompare(b.uid, 'en'))[0] : null;
-    const targetChance = target => {
-      const chance = effect.target === 'self' ? 1 : effect.target === 'adjacent' ? pair : effect.target === 'column' ? coDraw / 5 : source ? coDraw : 1;
-      if (!Number.isInteger(effect.targetLimit) || effect.target === 'strongest' || effect.target === 'self') return chance;
-      return chance * Math.min(1, Math.max(0, effect.targetLimit) / Math.max(1e-9, targets.length * chance));
-    };
+    const needsRecipients = ['power', 'powerMultiplier', 'growth', 'vulnerability'].includes(effect.type);
+    const recipientChances = needsRecipients ? effectRecipientChances(state, source, effect, { power: baseline }) : new Map();
+    const targets = roster.filter(unit => (recipientChances.get(unit.uid) || 0) > 0);
+    const targetChance = target => recipientChances.get(target.uid) || 0;
     if (effect.type === 'power' || effect.type === 'powerMultiplier') {
-      const affected = effect.target === 'strongest' ? (strongest ? [strongest] : []) : targets;
+      const affected = targets;
       for (const target of affected) {
         const chance = rate / Math.max(draw, 1e-9) * targetChance(target) * (source ? 1 : draw);
-        const isSupportBuff = sourceType === 'character' && characterById(source?.id)?.role === 'amplifier' || ['adjacent', 'strongest'].includes(effect.target);
+        const isSupportBuff = sourceType === 'character' && characterById(source?.id)?.role === 'amplifier' || ['adjacent', 'row', 'column', 'aligned', 'strongest'].includes(effect.target) || effect.selection === 'strongest';
         const buff = isSupportBuff ? (sourceType === 'character' ? utilityMultiplier(state, source, 'buff') : 1) * (has(state, 'harmony_wax') ? 1.5 : 1) * (result.buffMultipliers.get(source?.uid) || 1) : 1;
         if (effect.type === 'power') {
           result.powerAdds.set(target.uid, (result.powerAdds.get(target.uid) || 0) + amount * chance * offense * buff);
           if (attacks(target)) recordUtilityForecast(source, scalar, amount, chance * offense * buff * attackFactor(state, characterById(target.id).attack, true) * draw);
-        } else if (sourceType === 'archetype') {
-          const previous = archetypeMultipliers.get(target.uid) || 1;
-          const next = Math.max(previous, 1 + (amount - 1) * chance * offense);
-          result.powerMultipliers.set(target.uid, (result.powerMultipliers.get(target.uid) || 1) * next / previous);
-          archetypeMultipliers.set(target.uid, next);
         } else if (sourceType === 'character' && characterById(source.id)?.role === 'amplifier') {
           const previous = amplifierMultipliers.get(target.uid) || 1;
           const next = Math.min(2.2, previous * Math.max(1, 1 + (amount - 1) * buff * chance));
@@ -324,8 +303,8 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
       // Flat and proportional reductions are combined once after all sources.
       recordUtilityForecast(source, scalar, amount, threat * rate * 0.36);
     } else if (effect.type === 'vulnerability') {
-      for (const target of matched(effect.filter, source).filter(attacks)) {
-        const chance = source ? rate / Math.max(draw, 1e-9) * (source.uid !== target.uid ? coDraw : 1) : rate;
+      for (const target of targets.filter(attacks)) {
+        const chance = rate / Math.max(draw, 1e-9) * targetChance(target) * (source ? 1 : draw);
         const previous = vulnerabilityAdds.get(target.uid) || 0;
         const next = Math.min(0.75, previous + amount * chance);
         vulnerabilityAdds.set(target.uid, next);
@@ -336,7 +315,7 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
     else if (effect.type === 'damage') {
       attributedDamage.push({ effect: scalar, source, sourceType, amount, rate, offense });
     } else if (effect.type === 'growth') {
-      const affected = effect.target === 'strongest' ? (strongest ? [strongest] : []) : targets;
+      const affected = targets;
       for (const target of affected) {
         const chance = rate / Math.max(draw, 1e-9) * targetChance(target) * (source ? 1 : draw);
         result.growthRates.set(target.uid, (result.growthRates.get(target.uid) || 0) + amount * chance);
@@ -350,7 +329,7 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
       const summoned = characterById(effect.characterId);
       if (summoned) result.damage += amount * rate * summoned.power * attackFactor(state, summoned.attack, true) * (effect.durationAppearances || 3) * 0.65;
     } else if (effect.type === 'consume') {
-      const chance = Math.min(1, matched({ ...effect.filter, temporary: true }, source).length * pair);
+      const chance = spatialConditionProbability(state, source, { metric: 'neighbors', value: 1, filter: { ...effect.filter, temporary: true } });
       if (source) result.powerAdds.set(source.uid, (result.powerAdds.get(source.uid) || 0) + amount * chance * rate / Math.max(draw, 1e-9));
     } else if (effect.type === 'ignoreArmor' && state.enemySkill?.id === 'armor') result.armorBreak += rate;
     else if (effect.type === 'rarityMultiplier') result.flexibility += Math.max(0, amount - 1) * activation * horizon * 0.25;
@@ -389,15 +368,18 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
   for (const [uid, amount] of commissions.powerAdds) result.powerAdds.set(uid, (result.powerAdds.get(uid) || 0) + amount);
   for (const entry of attributedDamage) {
     const { effect, source, sourceType, rate, offense } = entry;
-    const strongest = effect.target === 'strongest' ? matched(effect.filter, source).filter(unit => effect.includeSource || unit.uid !== source?.uid).sort((a, b) => metrics('sourcePower', {}, b) - metrics('sourcePower', {}, a))[0] : null;
-    const attacker = effect.target === 'strongest' ? strongest : source;
-    if (effect.target === 'strongest' && !attacker) continue;
-    let amount = entry.amount;
-    if (effect.per?.metric === 'sourcePower' || effect.scaleWithSourcePower || effect.target === 'strongest') {
-      amount = effectAmount(effect, { state, unit: attacker, star: source ? effectStar(state, source) : 1, trigger: effect.trigger, metricOverrides: (metric, filter) => metrics(metric, filter, attacker) });
-      if (sourceType === 'character') amount = abilityEffectAmount(state, source, effect, amount);
+    const borrowed = effect.target === 'strongest' || effect.selection === 'strongest';
+    const recipients = borrowed ? effectRecipientChances(state, source, effect, { power: unit => metrics('sourcePower', {}, unit) }) : new Map([[source?.uid, 1]]);
+    for (const [uid, chance] of recipients) {
+      if (!(chance > 0)) continue;
+      const attacker = borrowed ? roster.find(unit => unit.uid === uid) : source;
+      let amount = entry.amount;
+      if (effect.per?.metric === 'sourcePower' || effect.scaleWithSourcePower || borrowed) {
+        amount = expectedEffectAmountForAi(effect, { state, unit: attacker, star: source ? effectStar(state, source) : 1, trigger: effect.trigger, metricOverrides: (metric, filter) => metrics(metric, filter, attacker) });
+        if (sourceType === 'character') amount = abilityEffectAmount(state, source, effect, amount);
+      }
+      result.damage += amount * rate * chance * offense * (effect.target === 'team' || effect.target === 'all' ? alive : 1) * (result.vulnerabilityMultipliers.get(attacker?.uid) || 1);
     }
-    result.damage += amount * rate * offense * (effect.target === 'team' || effect.target === 'all' ? alive : 1) * (result.vulnerabilityMultipliers.get(attacker?.uid) || 1);
   }
   if (enabled(state, 'credits')) result.economy += commissions.economy;
   result.flexibility += commissions.flexibility;
@@ -566,16 +548,6 @@ function rosterMetrics(state) {
     const members = roster.filter(unit => !unit.temporary && !unit.commission && characterById(unit.id)[synergy.kind] === synergy.tag);
     synergyPotential += members.reduce((sum, unit) => sum + characterById(unit.id).power * star(unit), 0) * draw * 0.12 / remaining;
   }
-  const programs = new Map();
-  for (const unit of roster.filter(u => !u.temporary && !u.commission)) {
-    const c = characterById(unit.id);
-    for (const group of c.groups || []) {
-      if (!programs.has(group)) programs.set(group, { roles: new Set(), attackPower: 0 });
-      const program = programs.get(group); program.roles.add(c.role);
-      if (attacks(unit)) program.attackPower += basePower(unit);
-    }
-  }
-  synergyPotential += [...programs.values()].map(program => program.attackPower * draw * Math.max(0, program.roles.size - 1) * 0.14).sort((a, b) => b - a).slice(0, 2).reduce((sum, value) => sum + value, 0);
   const economy = enabled(state, 'credits') ? (((has(state, 'faith_bond') ? 3 : 0) + (has(state, 'angel_debt') ? 2 : 0) + (has(state, 'insect_web') ? retirementRate * 4 : 0) + declarative.economy) * Math.max(0.35, output / 80) + Math.log1p(state.coins) * 0.25) : 0;
   const flexibility = (has(state, 'fortune_glue') ? 3 * clamp(horizon / 15, 0, 1) : 0) + (enabled(state, 'rerolls') && has(state, 'chaos_trametes') ? 1.4 : 0)
     + (enabled(state, 'removals') && has(state, 'angel_debt') && length >= 18 ? 1.4 : 0) + (enabled(state, 'rerolls') ? effect('essence_harmony') * 0.6 + (has(state, 'broken_clock') ? 0.4 : 0) + Math.log1p(state.rerolls) * 0.2 : 0) + (enabled(state, 'removals') ? Math.log1p(state.removals) * 0.25 : 0) + declarative.flexibility;

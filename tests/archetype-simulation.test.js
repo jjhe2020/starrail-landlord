@@ -19,8 +19,8 @@ test('canonical power probes use real effects, do not mutate the campaign, and i
   const first = probeArchetypePower(state, { samples: 2 });
   assert.deepEqual(first, probeArchetypePower(state, { samples: 2 }));
   assert.deepEqual(state, original);
-  assert.ok(first.damage > first.withoutArchetypes.damage);
-  assert.ok(first.powerEffectRatio > 1);
+  assert.equal(first.damage, first.withoutArchetypes.damage);
+  assert.equal(first.powerEffectRatio, 1);
   assert.ok(first.power >= first.damage);
 });
 
@@ -38,7 +38,7 @@ test('adaptive planner retains at most two formed lines and records abandoned ca
 });
 
 test('planning preferences normalize real reward action probabilities and keep skip available', () => {
-  const state = newGame(), id = ARCHETYPES[0].coreIds[0];
+  const state = newGame(), id = ARCHETYPES[0].memberIds[0];
   state.phase = 'recruit'; state.choices = [id, '1002'];
   const recommendation = { choices: [{ id, index: 0, action: 'choose', score: 0, probability: 1 / 3 }, { id: '1002', index: 1, action: 'choose', score: 0, probability: 1 / 3 }, { id: 'skip', index: 2, action: 'skip', score: 0, probability: 1 / 3 }] };
   const biased = biasArchetypeRecommendations(state, recommendation, { selected: [ARCHETYPES[0].id] });
@@ -48,7 +48,7 @@ test('planning preferences normalize real reward action probabilities and keep s
   assert.equal(recommendation.choices[0].score, 0);
 });
 
-test('a public missing core and a final forming identity are protected from reroll, while duplicates and unrelated offers are not', () => {
+test('a final target-tag identity are protected from reroll, while duplicates and unrelated offers are not', () => {
   const definition = ARCHETYPES[0], state = formedState(definition.id), plan = { selected: [definition.id] };
   state.phase = 'recruit';
   const missing = state.roster.pop().id;
@@ -56,10 +56,6 @@ test('a public missing core and a final forming identity are protected from rero
   assert.equal(shouldKeepArchetypeOffer(state, plan), true);
   state.choices = [state.roster[0].id];
   assert.equal(shouldKeepArchetypeOffer(state, plan), false);
-  const core = state.roster.find(unit => definition.coreIds.includes(unit.id)).id;
-  state.roster = state.roster.filter(unit => !definition.coreIds.includes(unit.id));
-  state.choices = [core];
-  assert.equal(shouldKeepArchetypeOffer(state, plan), true);
   assert.equal(shouldKeepArchetypeOffer(state, { selected: [] }), false);
   state.choices = ['1002'];
   assert.equal(shouldKeepArchetypeOffer(state, plan), false);
@@ -71,7 +67,7 @@ test('survival priority suppresses preference using only public HP and deadline 
   assert.deepEqual(state, original);
   state.hp = 20; state.shield = 0;
   assert.equal(archetypeSurvivalMode(state).scale, 0);
-  state.phase = 'recruit'; state.choices = [ARCHETYPES[0].coreIds[0]];
+  state.phase = 'recruit'; state.choices = [ARCHETYPES[0].memberIds[0]];
   const recommendation = { choices: [{ id: state.choices[0], index: 0, action: 'choose', score: 0, probability: 0.5 }, { id: 'skip', index: 1, action: 'skip', score: 0, probability: 0.5 }] };
   assert.equal(biasArchetypeRecommendations(state, recommendation, { selected: [ARCHETYPES[0].id] }, { strength: 0 }), recommendation);
   state.stats.spins = 6;

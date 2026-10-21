@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { newGame, spin } from '../src/engine.js';
+import { newGame, spin, inspectSpin as inspectControlled } from '../src/engine.js';
 import { characterById } from '../src/content.js';
 import { inspectSpin } from '../src/growth-telemetry.js';
 
@@ -49,10 +49,12 @@ test('global item damage keeps its item source even when legacy hits use cell ze
 });
 
 test('character ability damage is separate from its normal attack and keeps the instance', () => {
-  const state = fixture(['1220']);
+  const state = fixture(['1220','1002']);
   state.roster[0].ticks = 2;
-  const result = inspectSpin(state);
+  const layoutUids=Array(20).fill(null);layoutUids[6]='u1';layoutUids[7]='u2';
+  const result = inspectControlled(state,{layoutUids});
   assertDamageLedger(result);
+  result.hits=result.hits.filter(h=>h.sourceUid==='u1');
   const power = result.state.lastSpin.values[result.hits[0].cell];
   const extra = characterById('1220').effects.find(e => e.type === 'damage').value;
   assert.deepEqual(result.hits.map(({ amount, kind, sourceType, sourceId, sourceUid }) => ({ amount, kind, sourceType, sourceId, sourceUid })), [
@@ -62,9 +64,10 @@ test('character ability damage is separate from its normal attack and keeps the 
 });
 
 test('Seele resurgence remains attributed character skill damage and records actual capped loss', () => {
-  const state = fixture(['1102']);
+  const state = fixture(['1102','1006']);
   state.enemies.forEach(enemy => { enemy.hp = 1; });
-  const result = inspectSpin(state);
+  const layoutUids=Array(20).fill(null);layoutUids[6]='u1';layoutUids[7]='u2';
+  const result = inspectControlled(state,{layoutUids});
   assertDamageLedger(result);
   assert.equal(result.hits.length, 2);
   assert.equal(new Set(result.hits.map(hit => hit.targetCol)).size, 2);

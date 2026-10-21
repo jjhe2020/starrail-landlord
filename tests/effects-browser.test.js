@@ -9,9 +9,7 @@ import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
-import { CHARACTERS, BINDING_GROUPS } from '../src/content.js';
-import { POLICY_VERSION } from '../src/ai.js';
-import { ARCHETYPE_REFERENCE } from '../src/archetype-reference.js';
+import { CHARACTERS } from '../src/content.js';
 const saveKey = 'astral-reels:v1';
 
 // Opt in so the ordinary engine suite never loads Playwright. Each viewport
@@ -111,6 +109,19 @@ test('effect explanations, expanded catalog and reward inspection in real browse
     if (screenshotDirectory) await page.screenshot({ path: join(screenshotDirectory, `${name}.png`), fullPage: false });
   }
 
+  async function closeInspector(page) {
+    // Read the current close control and click its viewport point directly.
+    // Locator auto-scroll can race a transient hover popup's scroll dismissal.
+    const box=await page.evaluate(()=>{
+      const control=document.querySelector('.inspect-close');
+      if(!control) return null;
+      const rect=control.getBoundingClientRect();
+      return {x:rect.x,y:rect.y,width:rect.width,height:rect.height};
+    });
+    if(box) await page.mouse.click(box.x+box.width/2,box.y+box.height/2);
+    check('closing the inspector preserves its catalog', await page.locator('[data-catalog-search]').count() === 1);
+  }
+
   async function longPress(context, page, locator) {
     const point = await locator.evaluate(element => {
       const bounds = element.getBoundingClientRect();
@@ -186,28 +197,28 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         check(`${width}px role is searchable`, await page.locator('[data-catalog-results] .character-card').count() >= CHARACTERS.filter(entry => entry.role === 'trainer').length);
         await page.locator('[data-catalog-search]').fill('即时增幅');
         check(`${width}px amplification synonym is searchable`, await page.locator('[data-catalog-results] .role-amplifier').count() === CHARACTERS.filter(entry => entry.role === 'amplifier').length);
-        const express = BINDING_GROUPS.find(group => group.id === 'express');
-        await page.locator('[data-catalog-search]').fill(express.name);
-        check(`${width}px binding group is searchable`, await page.locator('[data-catalog-results] .binding-tag[data-id="express"]').count() === express.memberIds.length);
-        await page.locator('[data-catalog-results] .binding-tag[data-id="express"]').first().click();
-        check(`${width}px binding details list exact members and roles`, await page.locator('.binding-member-list p').count() === express.memberIds.length && (await page.locator('.inspect-popover').innerText()).includes('实际仍需满足相邻'));
-        await fits(page, `${width}px binding member details`);
-        await screenshot(page, `bindings-${width}`);
-        await page.keyboard.press('Escape');
+        await page.locator('[data-catalog-search]').fill('星穹列车');
+        check(`${width}px official faction is searchable`, await page.locator('[data-catalog-results] .character-card').count() >= CHARACTERS.filter(entry => entry.faction === '星穹列车').length);
+        const displayedFactions = await page.locator('[data-catalog-results] .binding-tag').allTextContents();
+        check(`${width}px character identity shows official factions`, displayedFactions.every(name => CHARACTERS.some(entry => entry.faction === name)));
+        check(`${width}px no test strategy tags on character cards`, await page.locator('[data-catalog-results] .archetype-tag').count() === 0);
+        await fits(page, `${width}px official label search`);
+        await screenshot(page, `labels-${width}`);
         await page.locator('[data-catalog-search]').fill('三月七');
         await page.locator('.skill-description').first().click();
         const supportText = await page.locator('.inspect-character').innerText();
         check(`${width}px defense has no fake attack power`, supportText.includes('防御') && supportText.includes('不进行普通攻击') && !supportText.includes('基础威力'));
         check(`${width}px defense explains bounded training`, (await page.locator('.inspect-popover').innerText()).includes('最多计 12 点'));
-        await page.keyboard.press('Escape');
+        await closeInspector(page);
         await page.locator('[data-catalog-search]').fill('虚无引爆');
-        check(`${width}px routes are searchable`, await page.locator('[data-catalog-results] .character-card').count() >= 5);
-        await page.locator('.archetype-tag[data-id="ink_dot"]').first().click();
-        const routeText = await page.locator('.inspect-popover').innerText();
-        check(`${width}px route threshold and core explained`, routeText.includes('5 个不同永久成员') && routeText.includes('核心') && routeText.includes('成型收益'));
-        await fits(page, `${width}px archetype details`);
-        await screenshot(page, `archetypes-${width}`);
-        await page.keyboard.press('Escape');
+        check(`${width}px internal strategy is not a character skill tag`, await page.locator('[data-catalog-results] .character-card').count() === 0);
+        await page.locator('[data-catalog-search]').fill('佩拉');
+        await page.locator('.skill-description[data-character-id="1106"]').click();
+        const spatialText = await page.locator('.inspect-popover').innerText();
+        check(`${width}px actual position and public recipient tags explained: ${spatialText}`, spatialText.includes('同列') && spatialText.includes('冰或贝洛伯格') && spatialText.includes('攻击者'));
+        await fits(page, `${width}px position details`);
+        await screenshot(page, `positions-${width}`);
+        await closeInspector(page);
         await page.locator('[data-catalog-search]').fill('太卜司轮值交接');
         check(`${width}px story commissions are searchable`, await page.locator('[data-catalog-results] .character-card').count() === 2);
         await page.locator('.skill-description').first().click();
@@ -215,15 +226,15 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         const commissionText = await page.locator('.inspect-popover').innerText();
         check(`${width}px actual permanent departure and protection explained`, commissionText.includes('永久离队') && commissionText.includes('最后正式同名') && commissionText.includes('补1位见习'));
         await fits(page, `${width}px commission details`);
-        await page.keyboard.press('Escape');
+        await closeInspector(page);
         await page.locator('[data-catalog-search]').fill('阮·梅');
         check(`${width}px catalog search retains input focus`, await page.locator('[data-catalog-results] .character-card').count() === 1 &&
           await page.locator('[data-catalog-search]').evaluate(element => element === document.activeElement));
         await page.locator('.skill-description').click();
         const growthText = await page.locator('.inspect-popover').innerText();
-        check(`${width}px permanent team growth explained`, growthText.includes('本局永久') && growthText.includes('永久培养') && growthText.includes('不培养临时、见习及培养者'));
+        check(`${width}px permanent team growth explained`, growthText.includes('本局永久') && growthText.includes('永久培养') && growthText.includes('永久角色') && growthText.includes('排除见习') && growthText.includes('非永久培养主职') && growthText.includes('相邻'));
         await fits(page, `${width}px catalog info`);
-        await page.keyboard.press('Escape');
+        await closeInspector(page);
         await page.locator('[data-catalog-search]').fill('');
         await page.locator('[data-action="catalogTab"][data-tab="items"]').click();
         check(`${width}px 64 unique item cards`, await page.locator('[data-catalog-results] .catalog-item').count() === 64);
@@ -231,7 +242,7 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         await page.locator('[data-catalog-results] .catalog-item').first().click();
         const itemText = await page.locator('.inspect-popover').innerText();
         check(`${width}px item trigger and duration explained`, itemText.includes('持续') && itemText.includes('叠加'));
-        await page.keyboard.press('Escape');
+        await closeInspector(page);
         await page.locator('[data-action="catalogTab"][data-tab="essences"]').click();
         check(`${width}px 32 essence cards and local art`, await page.locator('[data-catalog-results] .catalog-item').count() === 32 &&
           await page.locator('[data-catalog-results] .curio-art img').count() === 32);
@@ -245,17 +256,10 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         await page.locator('.utility-panel [data-action="close"]').click();
 
         await page.locator('.site-header [data-action="aiLab"]').first().click();
-        if (ARCHETYPE_REFERENCE?.sourceStable && ARCHETYPE_REFERENCE.policyVersion === POLICY_VERSION) {
-          await page.locator('.archetype-benchmark > summary').click();
-          check(`${width}px current-policy route holdout is embedded`, await page.locator('.archetype-benchmark-rows article').count() === ARCHETYPE_REFERENCE.strategies.length);
-          if (ARCHETYPE_REFERENCE.stress?.sourceStable) {
-            await page.locator('.archetype-pressure summary').click();
-            check(`${width}px current-policy stress test and intervals available`, (await page.locator('.archetype-pressure').innerText()).includes('95%'));
-          }
-        } else {
-          check(`${width}px old-policy results do not masquerade as current balance`, await page.locator('.archetype-benchmark-pending').count() === 1 && await page.locator('.archetype-benchmark-rows article').count() === 0);
-          check(`${width}px current-rule evidence gap is explicit`, (await page.locator('.archetype-benchmark-pending').innerText()).includes('旧 0.5 评测不适用于当前规则'));
-        }
+        check(`${width}px old results do not masquerade as current balance`, await page.locator('.archetype-benchmark-pending').count() === 1 && await page.locator('.archetype-benchmark-rows article').count() === 0);
+        await page.locator('.archetype-benchmark-pending details > summary').click();
+        const evidenceText = await page.locator('.archetype-benchmark-pending').innerText();
+        check(`${width}px evidence status and strategy separation are explicit`, evidenceText.includes('旧版胜率不适用于本版') && evidenceText.includes('内部拿牌策略') && evidenceText.includes('没有额外成型奖励'));
         await fits(page, `${width}px embedded balance report`);
         await screenshot(page, `balance-${width}`);
         await page.locator('.utility-panel [data-action="close"]').click();

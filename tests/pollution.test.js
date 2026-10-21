@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { newGame, spin, skipReward, chooseReward, removeSymbol, validateSave } from '../src/engine.js';
 import { CHARACTERS, characterById } from '../src/content.js';
-import { adjacentIndexes } from '../src/effect-rules.js';
+import { adjacentIndexes, matchesEffectFilter } from '../src/effect-rules.js';
 import { getEligibleDebuffs, unitPowerMultiplier, POLLUTION_ATTACK_MULTIPLIER } from '../src/enemy-effects.js';
 
 const pollution = state => state.activeDebuffs.find(effect => effect.id === 'rift_pollution');
@@ -182,10 +182,13 @@ test('the shared pollution penalty changes attack power without reducing support
   const normal = spin(control);
   assert.equal(polluted.lastSpin.healing, normal.lastSpin.healing);
   assert.equal(polluted.lastSpin.shield, normal.lastSpin.shield);
-  assert.equal(polluted.lastSpin.healing, 2.5);
+  const healerIndex=polluted.board.findIndex(u=>u?.id==='1105');
+  const healerEffect=characterById('1105').effects[0];
+  const healNeighbors=adjacentIndexes(healerIndex).map(i=>polluted.board[i]).filter(u=>matchesEffectFilter(u,healerEffect.per.filter,polluted.board[healerIndex])).length;
+  assert.equal(polluted.lastSpin.healing,Math.min(3,healNeighbors)*2.8);
   const protectorIndex=polluted.board.findIndex(u=>u?.id==='1001');
   const protector=characterById('1001');
-  const matchingNeighbors=adjacentIndexes(protectorIndex).map(i=>polluted.board[i]).filter(u=>u&&characterById(u.id).groups.some(g=>protector.groups.includes(g))).length;
+  const matchingNeighbors=adjacentIndexes(protectorIndex).map(i=>polluted.board[i]).filter(u=>matchesEffectFilter(u,protector.effects[0].per.filter,polluted.board[protectorIndex])).length;
   assert.equal(polluted.lastSpin.shield,Math.min(3,matchingNeighbors)*3);
   for (const id of ['1105', '1009']) {
     const cell = polluted.board.findIndex(unit => unit?.id === id);

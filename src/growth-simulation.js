@@ -104,7 +104,7 @@ export function runGrowthCampaign({ seed = 'growth', difficulty = 10, strategy =
     if (action.type === 'reroll' && ((survival.scale === 1 && shouldKeepArchetypeOffer(state, plan)) || targetVisible)) action = { type: 'reward', recommendation: recommendRewards(state, { profile, lookahead: false }) };
     if (action.type === 'remove' && strategy.kind !== 'baseline') {
       const unit = state.roster.find(entry => entry.uid === action.uid);
-      const finalIdentity = unit && state.roster.filter(entry => permanent(entry) && entry.id === unit.id).length === 1;
+      const finalIdentity = permanent(unit) && state.roster.filter(entry => permanent(entry) && entry.id === unit.id).length === 1;
       const needed = strategy.kind === 'coverage' ? unit?.id === strategy.targetId : getArchetypes(state).some(status => plan.selected.includes(status.id) && status.memberIds.includes(unit?.id));
       if (finalIdentity && needed && survival.scale === 1 && !isPolluted(state, unit.uid)) action = REWARDS.includes(state.phase) ? { type: 'reward', recommendation: recommendRewards(state, { profile, lookahead: false }) } : { type: 'spin' };
     }

@@ -1,8 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { newGame, spin, skipReward, validateSave } from '../src/engine.js';
+import { newGame, spin as randomSpin, inspectSpin, skipReward, validateSave } from '../src/engine.js';
 import { CHARACTERS } from '../src/content.js';
 import { ENEMY_DEBUFFS, enemyDebuffById, getEligibleDebuffs, publicDebuff } from '../src/enemy-effects.js';
+
+// Clause comparisons hold a legal board layout fixed so the matching spatial
+// skill actually fires in both arms; cadence, damage and clauses are real engine rules.
+function spin(state) {
+  if (state.roster.length > 20 || state.roster.some(unit => unit.temporary)) return randomSpin(state);
+  const layoutUids = state.roster.map(unit => unit.uid);
+  while (layoutUids.length < 20) layoutUids.push(null);
+  return inspectSpin(state, { layoutUids }).state;
+}
 
 function fixture(ids = ['1002'], extras = {}) {
   const state = newGame({ seed: 'effects' });
@@ -47,7 +56,7 @@ const effects = [
   ['path_hunt', () => fixture(['1002']), damage],
   ['path_destruction', () => fixture(['1109']), damage],
   ['path_erudition', () => fixture(['1013']), damage],
-  ['path_nihility', () => fixture(['1108', '1109']), damage],
+  ['path_nihility', () => fixture(['1308', '1109']), damage],
   ['path_preservation', shieldBuild, shielded],
   ['path_abundance', healBuild, healed],
   ['path_harmony', adjacentBuild, damage],
@@ -64,17 +73,17 @@ const effects = [
   }, damage],
   ['danheng_audit', () => fixture(['1002', '1001'], { ticks: 3 }), s => s.roster[0].growth],
   ['summon_audit', () => fixture(['1013'], { ticks: 2 }), damage],
-  ['qingque_audit', () => fixture(['1201'], { ticks: 2 }), damage],
+  ['qingque_audit', () => fixture(['1201', '1202'], { ticks: 2 }), damage],
   ['herta_audit', () => fixture(['1013'], { ticks: 2 }), damage],
   ['seele_audit', () => {
-    const state = fixture(['1102']);
+    const state = fixture(['1102', '1201']);
     const origin = spin(state).board.findIndex(Boolean) % 5;
     state.enemies[origin].hp = 1;
     return state;
   }, damage],
-  ['kafka_audit', () => fixture(['1005', '1205']), damage],
-  ['welt_audit', () => incomingBuild('1004', ['1002']), s => s.lastSpin.incoming, 'increase'],
-  ['fuxuan_audit', () => incomingBuild('1208', ['1204', '1206']), s => s.lastSpin.incoming, 'increase'],
+  ['kafka_audit', () => fixture(['1005', '1008']), damage],
+  ['welt_audit', () => incomingBuild('1004', ['1006']), s => s.lastSpin.incoming, 'increase'],
+  ['fuxuan_audit', () => incomingBuild('1208', ['1201', '1102']), s => s.lastSpin.incoming, 'increase'],
   ['march_audit', shieldBuild, shielded],
   ['natasha_audit', healBuild, healed],
   ['essence_audit', () => {
@@ -179,11 +188,11 @@ test('boss health crossings append clauses, while the next encounter resets them
 
 test('expanded healing, shielding, growth and directed support remain eligible for their real clauses', () => {
   for (const [id, build, measure] of [
-    ['healing_audit', () => fixture(['1110', '1103']), healed],
-    ['shield_audit', () => fixture(['1304', '1107']), shielded],
-    ['growth_audit', () => fixture(['1303', ...Array(19).fill('1008')], { ticks: 2 }), state => state.roster.reduce((sum, unit) => sum + unit.growth, 0)],
-    ['adjacency_audit', () => fixture(['1313', ...Array(19).fill('1002')]), damage],
-    ['path_harmony', () => fixture(['1313', ...Array(19).fill('1002')]), damage],
+    ['healing_audit', () => fixture(['1110', '1109']), healed],
+    ['shield_audit', () => fixture(['1304', '1112']), shielded],
+    ['growth_audit', () => fixture(['1303', ...Array(19).fill('1013')], { ticks: 2 }), state => state.roster.reduce((sum, unit) => sum + unit.growth, 0)],
+    ['adjacency_audit', () => fixture(['1313', ...Array(19).fill('1008')]), damage],
+    ['path_harmony', () => fixture(['1313', ...Array(19).fill('1008')]), damage],
   ]) {
     const state = build();
     assert.ok(getEligibleDebuffs(state).some(effect => effect.id === id), id);

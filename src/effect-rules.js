@@ -1,5 +1,4 @@
 import { characterById, itemById, essenceById } from './content.js';
-import { getArchetypes } from './archetypes.js';
 
 // Data-only effects are interpreted by the engine, never read back from saves.
 export const EFFECT_TYPES = Object.freeze(['power', 'powerMultiplier', 'heal', 'shield', 'growth', 'resource', 'retaliationFlat', 'retaliationMultiplier', 'ignoreArmor', 'summon', 'selfDamage', 'maxHp', 'extraSpin', 'healMultiplier', 'shieldMultiplier', 'buffMultiplier', 'growthMultiplier', 'rarityMultiplier', 'essenceProgressMultiplier', 'damage', 'consume', 'healOverflowShield', 'vulnerability']);
@@ -12,8 +11,8 @@ export function matchesEffectFilter(unit, filter = {}, source = null) {
   if (!c) return false;
   if (filter.id !== undefined && unit.id !== filter.id) return false;
   if (filter.ids && !filter.ids.includes(unit.id)) return false;
-  if (filter.group && !c.groups?.includes(filter.group)) return false;
-  if (filter.groupsAny && !filter.groupsAny.some(group => c.groups?.includes(group))) return false;
+  if (filter.group || filter.groupsAny) return false; // Obsolete internal testing labels cannot grant mechanics.
+  if (filter.anyOf && !filter.anyOf.some(part => matchesEffectFilter(unit, part, source))) return false;
   if (filter.commission !== undefined && Boolean(unit.commission) !== filter.commission) return false;
   for (const key of ['path', 'element', 'faction', 'attack', 'role']) if (filter[key] !== undefined && c[key] !== filter[key]) return false;
   for (const key of ['path', 'element', 'faction', 'attack', 'role']) if (filter[`${key}Not`] !== undefined && c[key] === filter[`${key}Not`]) return false;
@@ -29,6 +28,30 @@ export function adjacentIndexes(index) {
   const result = [], row = Math.floor(index / 5), col = index % 5;
   for (let r = Math.max(0, row - 1); r <= Math.min(3, row + 1); r++) for (let c = Math.max(0, col - 1); c <= Math.min(4, col + 1); c++) if (r !== row || c !== col) result.push(r * 5 + c);
   return result;
+}
+
+// All spatial domains use the same 5 x 4 board and never wrap across an edge.
+export function spatialIndexes(range, index, { includeSelf = true } = {}) {
+  if (!Number.isInteger(index) || index < 0 || index >= 20) return [];
+  const row = Math.floor(index / 5), column = index % 5;
+  let indexes = range === 'adjacent' ? adjacentIndexes(index) : Array.from({ length: 20 }, (_, i) => i).filter(i =>
+    range === 'self' ? i === index : range === 'row' ? Math.floor(i / 5) === row :
+    range === 'column' ? i % 5 === column : range === 'aligned' ? Math.floor(i / 5) === row || i % 5 === column : true);
+  return includeSelf ? indexes : indexes.filter(i => i !== index);
+}
+
+// Ephemeral diagnostic switches are never serialized or read from a save.
+const diagnostics = new WeakMap();
+export function setEffectDiagnostics(state, options) { diagnostics.set(state, options); }
+export function clearEffectDiagnostics(state) { diagnostics.delete(state); }
+function diagnosticSources(state, sources) {
+  const options = diagnostics.get(state);
+  if (!options) return sources;
+  return sources.filter(source => source.sourceType !== 'synergy' || !options.suppressSynergyIds?.includes(source.sourceId)).map(source => {
+    if (source.sourceType !== 'character') return source;
+    const effects = options.suppressSkillUids?.includes(source.sourceUid) ? [] : source.effects.filter(effect => !options.suppressCharacterEffectTypes?.includes(effect.type));
+    return { ...source, effects };
+  }).filter(source => source.effects.length);
 }
 
 export function effectMetric(metric, context, filter = {}) {
@@ -51,6 +74,10 @@ export function effectMetric(metric, context, filter = {}) {
     case 'round': return state.round;
     case 'floor': return state.floor;
     case 'neighbors': return filtered(adjacentIndexes(index).map(i => state.board[i]).filter(u => u && u.status !== 'consumed' && !consumed.has(u.uid))).length;
+    case 'row': case 'column': case 'aligned': return filtered(spatialIndexes(metric, index, { includeSelf: false }).map(i => state.board[i]).filter(u => u && u.status !== 'consumed' && !consumed.has(u.uid))).length;
+    case 'edge': return Number(Number.isInteger(index) && (index < 5 || index >= 15 || index % 5 === 0 || index % 5 === 4));
+    case 'corner': return Number([0, 4, 15, 19].includes(index));
+    case 'emptyNeighbors': return adjacentIndexes(index).filter(i => !state.board[i] || state.board[i].status === 'consumed' || consumed.has(state.board[i].uid)).length;
     case 'present': return filtered(present).length;
     case 'presentDistinct': return new Set(filtered(present).map(u => u.id)).size;
     case 'roster': return filtered(state.roster || []).length;
@@ -91,7 +118,7 @@ export function effectIsEligible(effect, context) {
 
 export function trainingMultiplier(unit) {
   const definition = characterById(unit?.id);
-  return definition?.kitVersion === 6 && definition.role !== 'attack' ? 1 + Math.min(12, Math.max(0, unit?.growth || 0)) * 0.08 : 1;
+  return definition?.kitVersion >= 6 && definition.role !== 'attack' ? 1 + Math.min(12, Math.max(0, unit?.growth || 0)) * 0.08 : 1;
 }
 
 export function effectAmount(effect, context) {
@@ -123,14 +150,14 @@ export function effectTargetIndexes(effect, context) {
   let indexes = state.board.map((u, i) => u && u.status !== 'consumed' && !consumed.has(u.uid) ? i : -1).filter(i => i >= 0);
   const target = effect.target || (unit ? 'self' : 'team');
   if (target === 'self') indexes = Number.isInteger(index) ? [index] : [];
-  else if (target === 'adjacent') indexes = indexes.filter(i => adjacentIndexes(index).includes(i));
-  else if (target === 'column') indexes = indexes.filter(i => i % 5 === index % 5);
+  else if (['adjacent', 'row', 'column', 'aligned'].includes(target)) indexes = indexes.filter(i => spatialIndexes(target, index).includes(i));
+  if (effect.range) indexes = indexes.filter(i => spatialIndexes(effect.range, index).includes(i));
   indexes = indexes.filter(i => matchesEffectFilter(state.board[i], effect.filter, unit));
-  if (target === 'strongest') {
+  if (target === 'strongest' || effect.selection === 'strongest') {
     if (!effect.includeSource) indexes = indexes.filter(i => state.board[i].uid !== unit?.uid);
     const strength = i => powers[i] || characterById(state.board[i].id).power * [0, 1, 3, 9][state.board[i].stars] + (characterById(state.board[i].id).role === 'attack' ? state.board[i].growth : 0);
     indexes.sort((a, b) => strength(b) - strength(a) || a - b);
-    indexes = indexes.slice(0, 1);
+    if (target === 'strongest') indexes = indexes.slice(0, 1);
   }
   if (Number.isInteger(effect.targetLimit) && effect.targetLimit > 0) indexes = indexes.slice(0, effect.targetLimit);
   return indexes;
@@ -154,8 +181,7 @@ export function getEffectSources(state, { trigger = 'passive', unit = null, inde
   for (const id of state.items) result.push(source(itemById(id), 'item'));
   for (const entry of state.essences) if (entry.triggered) result.push(source(essenceById(entry.id), 'essence'));
   for (const synergy of synergies) result.push({ definition: synergy, sourceType: 'synergy', sourceId: synergy.id, unit: null, index: null, effects: synergy.effects || [] });
-  for (const archetype of getArchetypes(state)) if (archetype.effects.length) result.push(source(archetype, 'archetype'));
-  return result.filter(entry => entry.effects.length);
+  return diagnosticSources(state, result.filter(entry => entry.effects.length));
 }
 
 export function cumulativeProgressValue(state, metric) {
@@ -197,6 +223,5 @@ export function getPassiveEffectSources(state, type, synergies) {
   for (const id of state.items) add(itemById(id),'item');
   for (const entry of state.essences) if (entry.triggered) add(essenceById(entry.id),'essence');
   for (const synergy of synergies) add(synergy,'synergy');
-  for (const archetype of getArchetypes(state)) if (archetype.effects.length) add(archetype, 'archetype');
-  return result;
+  return diagnosticSources(state, result);
 }

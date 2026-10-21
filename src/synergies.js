@@ -56,8 +56,8 @@ export function matchesSynergyFilter(unit, filter, characterById) {
   if (filter?.id !== undefined && unit.id !== filter.id) return false;
   if (filter?.ids && !filter.ids.includes(unit.id)) return false;
   if (filter?.commission !== undefined && Boolean(unit.commission) !== filter.commission) return false;
-  if (filter?.group !== undefined && !c.groups?.includes(filter.group)) return false;
-  if (filter?.groupsAny && !filter.groupsAny.some(group => c.groups?.includes(group))) return false;
+  if (filter?.group || filter?.groupsAny) return false;
+  if (filter?.anyOf && !filter.anyOf.some(part => matchesSynergyFilter(unit, part, characterById))) return false;
   for (const key of ['path', 'element', 'faction', 'attack', 'role']) {
     if (filter?.[key] !== undefined && c[key] !== filter[key]) return false;
     if (filter?.[`${key}Not`] !== undefined && c[key] === filter[`${key}Not`]) return false;

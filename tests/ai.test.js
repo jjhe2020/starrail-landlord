@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { newGame, spin, getSynergies } from '../src/engine.js';
+import { newGame, spin, getSynergies, chooseReward } from '../src/engine.js';
 import { recommendRewards, sampleRecommendation, createPolicyRandom, recommendRemoval, evaluateRun, DEFAULT_PROFILE, validateProfile, POLICY_VERSION } from '../src/ai.js';
 
 function offer(ids, choices, { phase = 'recruit', hp = 100 } = {}) {
@@ -160,8 +160,9 @@ test('policy detects chained third-star merges', () => {
   state.roster[0].stars = 2;
   state.roster[1].stars = 2;
   const recommendation = recommendRewards(state, { lookahead: false });
-  assert.ok(recommendation.choices[0].probability > recommendation.choices[1].probability);
+  assert.ok(recommendation.choices[0].score > recommendation.choices.at(-1).score, 'a real chain merge gains value over skipping');
   assert.match(recommendation.choices[0].reason, /三星/);
+  assert.equal(chooseReward(state, 0).roster.find(unit => unit.id === '1002').stars, 3);
 });
 
 test('completing distinct-character synergies improves a supporting recruitment', () => {

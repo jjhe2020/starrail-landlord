@@ -19,26 +19,25 @@ export const newRetirementStats = () => ({ completed: 0, permanent: 0, supplied:
 
 // Protect invested units and the player's last ordinary copy. Commission copies
 // are generated work assignments and never count as permanent team identities.
-export function retirementEligibility(state, source, target, { isCore = () => false, consumed = new Set() } = {}) {
+export function retirementEligibility(state, source, target, { consumed = new Set() } = {}) {
   const rule = RETIREMENT_RULES.find(entry => entry.sourceId === source?.id && entry.targetId === target?.id);
   if (!rule || source?.uid === target?.uid) return { eligible: false, reason: '没有对应委派关系' };
   if (source.temporary || source.commission || source.status || consumed.has(source.uid)) return { eligible: false, reason: '主持者必须是正式角色' };
   if (target.temporary || target.status || consumed.has(target.uid)) return { eligible: false, reason: '临时角色或已离队角色不能完成正式委派' };
   if (target.stars !== 1) return { eligible: false, reason: '保护所有二星及三星角色' };
   if (target.commission && target.commission !== rule.id) return { eligible: false, reason: '此见习委派属于其他关系' };
-  if (!target.commission && isCore(target.id)) return { eligible: false, reason: '保护套路核心的正式实例' };
   if (!target.commission && target.growth > 1) return { eligible: false, reason: '保护永久成长超过1的正式实例' };
   const ordinary = state.roster.filter(u => u.id === target.id && !u.temporary && !u.commission && !consumed.has(u.uid));
   if (!target.commission && ordinary.length < 2) return { eligible: false, reason: '保留最后一位正式同名角色' };
   return { eligible: true, reason: target.commission ? '见习委派可结案' : '额外的一星低成长角色可委派', rule };
 }
 
-export function getRetirementPreview(state, { isCore = () => false } = {}) {
+export function getRetirementPreview(state) {
   return RETIREMENT_RULES.filter(rule => state.roster.some(u => u.id === rule.sourceId && !u.temporary && !u.commission)).map(rule => {
     const hosts = state.roster.filter(u => u.id === rule.sourceId && !u.temporary && !u.commission);
     const targets = state.roster.filter(u => u.id === rule.targetId);
-    const eligible = targets.filter(target => hosts.some(source => retirementEligibility(state, source, target, { isCore }).eligible));
+    const eligible = targets.filter(target => hosts.some(source => retirementEligibility(state, source, target, {}).eligible));
     return { ...rule, sourceUids: hosts.map(u => u.uid), eligibleUids: eligible.map(u => u.uid), targetUids: targets.map(u => u.uid), nextAppearance: Math.min(...hosts.map(u => rule.every - u.ticks % rule.every)),
-      summary: `每${rule.every}次登场可委派1位相邻${rule.targetName}：永久离队，主持者永久成长+${rule.growth}（按星级1/1.5/2倍）${rule.power ? `、本次攻击威力+${rule.power}×星级倍率` : ""}、信用点+${rule.coins}；非攻击者的成长增强专职技能，培养技能本身不放大。保护最后一位正式角色、高星、核心及已培养实例；已拥有受体后，每${rule.supplyEvery}次登场补充最多1位不计羁绊和套路身份的见习委派。` };
+      summary: `每${rule.every}次登场可委派1位相邻${rule.targetName}：永久离队，主持者永久成长+${rule.growth}（按星级1/1.5/2倍）${rule.power ? `、本次攻击威力+${rule.power}×星级倍率` : ""}、信用点+${rule.coins}；非攻击者的成长增强专职技能，培养技能本身不放大。保护最后一位正式角色、高星及已培养实例；已拥有受体后，每${rule.supplyEvery}次登场补充最多1位不计羁绊身份的见习委派。` };
   });
 }

@@ -1,117 +1,24 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ARCHETYPES, getArchetypes, archetypesForCharacter, withoutArchetypeEffects } from '../src/archetypes.js';
-import { newGame, spin, skipReward, validateSave } from '../src/engine.js';
-import { characterById } from '../src/content.js';
-import { estimateEffectsForAi } from '../src/ai.js';
-
-function fixture(ids) {
-  const state = newGame({ seed: 'archetype-outcome-probe' });
-  state.roster = ids.map((id, i) => ({ id, uid: `u${i + 1}`, stars: 1, ticks: 0, growth: 0 }));
-  state.uidCounter = ids.length + 1;
-  state.hp = 50;
-  state.enemies = Array.from({ length: 5 }, (_, col) => ({ id: `probe-${col}`, name: '训练靶', col, hp: 100000, maxHp: 100000, attack: 5, boss: false }));
-  state.enemySkill = { id: 'pressure', name: '战意积蓄', description: '每三轮增加反击' };
-  return state;
-}
-
-test('every route has real members, a core gate, and overlapping mechanical partners', () => {
-  assert.equal(ARCHETYPES.length, 8);
-  assert.equal(new Set(ARCHETYPES.map(a => a.id)).size, ARCHETYPES.length);
-  assert.ok(archetypesForCharacter('1305').length >= 2);
-  for (const a of ARCHETYPES) {
-    assert.ok(a.memberIds.length >= a.threshold + 3);
-    for (const id of a.memberIds) assert.ok(characterById(id), `${a.id}: ${id}`);
-    assert.ok(a.coreIds.every(id => a.memberIds.includes(id)));
-    assert.ok(a.effects.length >= 2);
+import { ARCHETYPES, getArchetypes, archetypesForCharacter, isArchetypeCore } from '../src/archetypes.js';
+import { CHARACTERS } from '../src/content.js';
+import { newGame } from '../src/engine.js';
+test('internal routes derive every member exclusively from formal public tags and grant no rules',()=>{
+  assert.equal(ARCHETYPES.length,8);
+  for(const route of ARCHETYPES){
+    const expected=CHARACTERS.filter(c=>route.filters.some(f=>Object.entries(f).every(([k,v])=>c[k]===v))).map(c=>c.id);
+    assert.deepEqual(route.memberIds,expected);assert.ok(expected.length>=route.threshold);
+    assert.ok(route.filters.every(f=>Object.keys(f).every(k=>['path','element','faction'].includes(k))));
+    assert.deepEqual(route.effects,[]);assert.deepEqual(route.coreIds,[]);assert.equal(route.coreRequired,0);
   }
+  for(const c of CHARACTERS){assert.equal(isArchetypeCore(c.id),false);assert.deepEqual(archetypesForCharacter(c.id),ARCHETYPES.filter(r=>r.memberIds.includes(c.id)));}
 });
-
-test('formation counts distinct recruited identities and requires a core', () => {
-  const a = ARCHETYPES.find(a => a.id === 'elation');
-  const members = a.memberIds.filter(id => !a.coreIds.includes(id)).slice(0, a.threshold);
-  assert.equal(getArchetypes(fixture(members)).find(x => x.id === a.id).formed, false);
-  const state = fixture([a.coreIds[0], members[0], members[0]]);
-  assert.equal(getArchetypes(state).find(x => x.id === a.id).count, 2);
-  state.roster.push({ id: members[1], uid: 'u4', stars: 3, growth: 0, ticks: 0, temporary: 2 });
-  state.roster.push({ id: members[2], uid: 'u5', stars: 1, growth: 0, ticks: 0, commission: 'ghost_hunt_wrap' });
-  assert.equal(getArchetypes(state).find(x => x.id === a.id).formed, false);
-  state.roster.push({ id: members[1], uid: 'u6', stars: 1, growth: 0, ticks: 0 });
-  state.roster.push({ id: members[2], uid: 'u7', stars: 1, growth: 0, ticks: 0 });
-  assert.equal(getArchetypes(state).find(x => x.id === a.id).formed, true);
-  state.roster = state.roster.filter(u => u.id !== a.coreIds[0]);
-  assert.equal(getArchetypes(state).find(x => x.id === a.id).formed, false);
-});
-
-for (const a of ARCHETYPES) test(`${a.name} produces a real payoff only after formation`, () => {
-  const attacker = a.memberIds.find(id => characterById(id).role === 'attack');
-  const ids = [...new Set([a.coreIds[0], attacker, ...a.memberIds.filter(id => !a.coreIds.includes(id))])].slice(0, a.threshold);
-  const before = fixture(ids.slice(0, -1));
-  assert.equal(getArchetypes(before).find(x => x.id === a.id).effects.length, 0);
-  const state = fixture(ids), saved = structuredClone(state);
-  const enabled = spin(state);
-  const disabled = withoutArchetypeEffects(() => spin(state));
-  assert.deepEqual(state, saved, 'engine action preserves input');
-  assert.ok(enabled.lastSpin.effects.some(e => e.sourceId === a.id), 'the named route actually executes');
-  assert.ok(enabled.lastSpin.damage > disabled.lastSpin.damage * 1.12 || enabled.roster.reduce((s, u) => s + u.growth, 0) > disabled.roster.reduce((s, u) => s + u.growth, 0) + 0.2,
-    'direct damage or future growth improves on exactly the same roster and draw');
-  assert.ok(validateSave(JSON.parse(JSON.stringify(enabled))), 'route results round-trip');
-  assert.deepEqual(spin(state), enabled, 'fixed seeds reproduce the outcome');
-});
-
-test('counterfactual suppression is scoped and restored after exceptions', () => {
-  const a = ARCHETYPES[0], state = fixture([a.coreIds[0], ...a.memberIds.filter(id => !a.coreIds.includes(id)).slice(0, a.threshold - 1)]);
-  assert.throws(() => withoutArchetypeEffects(() => { throw Error('probe'); }));
-  assert.ok(getArchetypes(state).find(x => x.id === a.id).effects.length);
-});
-
-test('AI sees formed archetype effects using the same identity filters as combat', () => {
-  const state = fixture(['1308', '1004', '1005', '1108', '1210', '1002']);
-  const estimate = estimateEffectsForAi(state);
-  const off = withoutArchetypeEffects(() => estimateEffectsForAi(state));
-  assert.ok((estimate.powerMultipliers.get('u1') || 1) > (off.powerMultipliers.get('u1') || 1));
-  assert.equal(estimate.powerMultipliers.get('u6') || 1, off.powerMultipliers.get('u6') || 1, 'unrelated Dan Heng receives no route multiplier');
-});
-
-test('break relay lets the strongest killer perform its own system follow-up once', () => {
-  const state = fixture(['1310', '1317', '1315', 'fugue', '1301']);
-  state.seed = 'review-break-killer';
-  state.rngState = newGame({ seed: state.seed }).rngState;
-  state.roster[0].growth = 1000;
-  state.enemies[1].hp = 1000;
-  const result = spin(state);
-  const index = result.board.findIndex(u => u?.id === '1310');
-  const followUps = result.lastSpin.effects.filter(e => e.sourceId === 'break' && e.type === 'damage');
-  assert.equal(followUps.length, 1, 'system follow-up cannot recursively trigger itself');
-  assert.equal(followUps[0].amount, Math.round(result.lastSpin.values[index] * 0.5 * 1.3 * 100) / 100);
-});
-
-test('overlapping archetypes take the highest multiplier per attacker in combat and AI', () => {
-  const state = fixture(['1112', '1304', '1223', 'march_hunt', '1107', '1001', '1103', '1104']);
-  assert.ok(getArchetypes(state).find(a => a.id === 'follow_up').formed);
-  assert.ok(getArchetypes(state).find(a => a.id === 'frost').formed);
-  const enabled = spin(state), disabled = withoutArchetypeEffects(() => spin(state));
-  const index = enabled.board.findIndex(u => u?.id === '1107');
-  const strongestFactor = Math.max(...ARCHETYPES.filter(a => a.memberIds.includes('1107')).flatMap(a => a.effects.filter(e => e.type === 'powerMultiplier').map(e => e.value)));
-  assert.ok(Math.abs(enabled.lastSpin.values[index] / disabled.lastSpin.values[index] - strongestFactor) < 0.01);
-  const estimate = estimateEffectsForAi(state), off = withoutArchetypeEffects(() => estimateEffectsForAi(state));
-  assert.ok(Math.abs(estimate.powerMultipliers.get('u5') / (off.powerMultipliers.get('u5') || 1) - strongestFactor) < 1e-8);
-});
-
-test('memory performance boosts the real summoned Sushang rather than an unreachable temporary member', () => {
-  const a = ARCHETYPES.find(a => a.id === 'recollection');
-  const initial = fixture(a.memberIds.slice(0, a.threshold));
-  initial.roster[0].ticks = 3;
-  let state = spin(initial);
-  while (['recruit', 'item', 'essence'].includes(state.phase)) state = skipReward(state);
-  const summon = state.roster.find(u => u.id === '1206' && u.temporary === 2);
-  assert.ok(summon, 'Aglaea really summons Sushang through the public spin action');
-  const uid = summon.uid;
-  const enabled = spin(state), disabled = withoutArchetypeEffects(() => spin(state), ['recollection']);
-  const index = enabled.board.findIndex(u => u?.uid === uid);
-  assert.ok(enabled.lastSpin.effects.some(e => e.sourceId === 'recollection' && e.type === 'power' && e.targetUid === uid && e.amount === 0.6));
-  assert.equal(enabled.lastSpin.values[index],Math.round((disabled.lastSpin.values[index]+.6)*1.25*100)/100);
-  assert.ok(enabled.lastSpin.effects.some(e=>e.sourceId==='recollection'&&e.type==='powerMultiplier'&&e.targetUid===uid&&e.amount===1.25),'the real summoned group member receives the formed route multiplier too');
-  assert.equal(enabled.roster.find(u => u.uid === uid).temporary, 1, 'the buff does not extend the summon');
-  assert.ok(validateSave(JSON.parse(JSON.stringify(enabled))));
+test('internal coverage counts only distinct permanent noncommission identities',()=>{
+  const route=ARCHETYPES[0],s=newGame();
+  s.roster=route.memberIds.slice(0,route.threshold).map((id,i)=>({id,uid:`u${i}`,stars:1,growth:0,ticks:0}));
+  assert.equal(getArchetypes(s)[0].formed,true);
+  s.roster.at(-1).temporary=2;s.roster.push({...s.roster[0],uid:'duplicate'});
+  assert.equal(getArchetypes(s)[0].count,route.threshold-1);assert.equal(getArchetypes(s)[0].formed,false);
+  delete s.roster.at(-2).temporary;s.roster.at(-2).commission='test';
+  assert.equal(getArchetypes(s)[0].count,route.threshold-1);
 });

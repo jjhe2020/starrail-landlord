@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { newGame, spin, chooseReward, skipReward, rerollRewards, removeSymbol, continueEndless, purchaseSupply, getSynergies, validateSave, getSaveStatus, nearestEnemy, SAVE_VERSION } from '../src/engine.js';
+import { newGame, spin, inspectSpin, chooseReward, skipReward, rerollRewards, removeSymbol, continueEndless, purchaseSupply, getSynergies, validateSave, getSaveStatus, nearestEnemy, SAVE_VERSION } from '../src/engine.js';
 import { CHARACTERS, ITEMS, ESSENCES, characterById } from '../src/content.js';
 
 export function arrive(floor, options = {}) {
@@ -70,7 +70,7 @@ test('nearest fallback chooses left on ties and ignores dead enemies', () => {
 });
 
 test('blast targets primary for two times and only immediate occupied neighbors', () => {
-  const next = spin(singleUnit('1109'));
+  const next = inspectSpin(singleUnit('1109'), {suppressSkillUids:['u1']}).state;
   const primary = next.board.findIndex(Boolean) % 5;
   assert.equal(next.lastSpin.hits.find(hit => hit.targetCol === primary).amount, characterById('1109').power * 2);
   assert.equal(next.lastSpin.hits.length, primary === 0 || primary === 4 ? 2 : 3);
@@ -80,7 +80,7 @@ test('blast targets primary for two times and only immediate occupied neighbors'
   }
   const state = singleUnit('1109');
   state.enemies = [state.enemies[0], state.enemies[4]];
-  assert.equal(spin(state).lastSpin.hits.length, 1);
+  assert.equal(inspectSpin(state,{suppressSkillUids:['u1']}).state.lastSpin.hits.length, 1);
 });
 
 test('AOE attacks hit each living enemy once at standard power', () => {
@@ -97,10 +97,10 @@ test('support heal and overflow shield count actual gains', () => {
   const next = spin(state);
   assert.equal(next.lastSpin.damage, 0);
   assert.equal(next.lastSpin.healing, 2);
-  assert.equal(next.lastSpin.shield, 4);
+  assert.equal(next.lastSpin.shield, 5);
   assert.equal(next.resourceStats.healed, 2);
-  assert.equal(next.resourceStats.shieldGained, 4);
-  assert.ok(next.lastSpin.effects.some(e=>e.sourceId==='1203'&&e.type==='shield'&&e.amount===3),'three overflow healing becomes shield before the independent one-point medical resonance');
+  assert.equal(next.resourceStats.shieldGained, 5);
+  assert.ok(next.lastSpin.effects.some(e=>e.sourceId==='1203'&&e.type==='shield'&&e.amount===4),'four overflow healing becomes shield before the independent one-point medical resonance');
 });
 
 test('capped shield grants do not advance essence progress', () => {
@@ -290,7 +290,8 @@ test('essences activate once, while defense experiments retain natural healing a
   disabled.hp = 50;
   disabled.items.push('dimension_dice', 'preservation_wax');
   disabled.essences = [{ id: 'essence_abundance', progress: 5, triggered: false }];
-  const next = spin(disabled);
+  const layoutUids=Array(20).fill(null);disabled.roster.forEach((u,i)=>layoutUids[[6,7,8,11,12][i]]=u.uid);
+  const next = inspectSpin(disabled,{layoutUids}).state;
   assert.equal(next.maxHp, 120);
   assert.equal(next.hp, 120);
   assert.ok(next.lastSpin.healing > 0);

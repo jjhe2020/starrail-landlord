@@ -5,7 +5,7 @@ import { wilsonInterval } from './simulation.js';
 import { isPolluted } from './enemy-effects.js';
 import * as archetypes from './archetypes.js';
 
-export const ARCHETYPE_BENCHMARK_VERSION = 'archetype-campaign-v4-bound-roles';
+export const ARCHETYPE_BENCHMARK_VERSION = 'tag-policy-campaign-v5-spatial';
 export const PROBE_PROTOCOL = Object.freeze({ version: 'canonical-spin-v1', enemyCount: 5, enemyHp: 1000000, enemyAttack: 5, hpFraction: 0.5, defenseWeight: 0.36, activeDebuffs: false, overclock: false, samples: 3 });
 const REWARDS = ['recruit', 'item', 'essence'];
 const TERMINAL = ['victory', 'defeat'];
@@ -103,7 +103,7 @@ export function biasArchetypeRecommendations(state, recommendation, plan, { stre
       if (!status.memberIds.includes(choice.id)) continue;
       const alreadyOwned = state.roster.some(unit => !unit.temporary && !unit.commission && unit.id === choice.id);
       const weight = status.formed ? 1.8 : anyFormed ? 0.5 : 1;
-      const core = status.coreIds.includes(choice.id) && status.coreCount < (status.coreRequired || 1);
+      const core = status.coreIds.includes(choice.id) && status.coreCount < (status.coreRequired ?? 0);
       bonus += strength * weight * (alreadyOwned ? 0.45 : 1) + (core ? strength * 0.6 : 0);
     }
     return { ...choice, score: choice.score + bonus, archetypeBonus: bonus };
@@ -121,7 +121,7 @@ export function shouldKeepArchetypeOffer(state, plan) {
   const identities = new Set(state.roster.filter(unit => !unit.temporary && !unit.commission).map(unit => unit.id));
   return archetypes.getArchetypes(state).filter(status => plan.selected.includes(status.id) && !status.formed).some(status => state.choices.some(id => {
     if (identities.has(id) || !status.memberIds.includes(id)) return false;
-    const isCore = status.coreIds.includes(id), requiredCores = status.coreRequired || 1;
+    const isCore = status.coreIds.includes(id), requiredCores = status.coreRequired ?? 0;
     const missingCore = isCore && status.coreCount < requiredCores;
     const completesLine = status.count < status.threshold && status.count + 1 >= status.threshold && status.coreCount + Number(isCore) >= requiredCores;
     return missingCore || completesLine;

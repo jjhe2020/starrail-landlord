@@ -85,13 +85,14 @@ const pick=(f,excludedId)=>safeIds.map(characterById).find(c=>c.id!==excludedId&
 function fixture(entry,effect,seed){
  const state=newGame({seed:`effect-probe:${entry.d.id}:${seed}`});
  let fillers=Array(19).fill('1002');
- const requests=[effect.filter,effect.per?.filter,...[effect.condition,...(effect.conditions||[])].filter(c=>['present','presentDistinct','neighbors'].includes(c?.metric)).map(c=>c.filter)].filter(f=>f&&Object.keys(f).length);
+ const requests=[effect.filter,effect.per?.filter,...[effect.condition,...(effect.conditions||[])].filter(c=>['present','presentDistinct','neighbors','row','column','aligned'].includes(c?.metric)).map(c=>c.filter)].filter(f=>f&&Object.keys(f).length);
  if(requests.length)fillers=Array.from({length:19},(_,i)=>pick(requests[i%requests.length],entry.d.id).id);
  const first=entry.kind==='character'?entry.d.id:'1002';
  if(effect.type==='healMultiplier')fillers=['1105',...Array(18).fill('1102')];
  if(effect.type==='shieldMultiplier'){
   const defender=CHARACTERS.find(c=>matches(c,effect.filter)&&c.effects.some(e=>e.type==='shield'))||characterById('1001');
-  const partner=CHARACTERS.find(c=>c.role==='attack'&&c.groups.some(g=>defender.groups.includes(g)))||characterById('1002');
+  const defenseEffect=defender.effects.find(e=>['shield','heal','healOverflowShield'].includes(e.type));
+  const partner=pick(defenseEffect?.condition?.filter||defenseEffect?.per?.filter,defender.id);
   fillers=[defender.id,...Array(18).fill(partner.id)];
  }
  if(effect.type==='buffMultiplier')fillers=['1101',...Array(18).fill('1102')];
@@ -99,8 +100,12 @@ function fixture(entry,effect,seed){
  let ids=[first,...fillers];
  if([effect.condition,...(effect.conditions||[])].some(c=>c&&c.metric==='neighbors'&&((c.op==='eq'&&c.value===0)||(c.op==='lte'&&c.value<=1))))ids=[first];
  if([effect.condition,...(effect.conditions||[])].some(c=>c?.metric==='roster'&&c.op==='lte'))ids=ids.slice(0,8);
+ if(effect.per?.metric==='emptyNeighbors'||[effect.condition,...(effect.conditions||[])].some(c=>c?.metric==='emptyNeighbors'))ids=ids.slice(0,4);
  if([effect.condition,...(effect.conditions||[])].some(c=>c?.metric==='synergies'))ids=CHARACTERS.slice(0,20).map(c=>c.id);
- if(effect.trigger==='kill')ids=[first];
+ if(effect.trigger==='kill') {
+  const support=requests.map(f=>CHARACTERS.find(c=>c.id!==first&&c.role!=='attack'&&matches(c,f))).find(Boolean);
+  ids=support?[first,support.id,support.id]:[first];
+ }
  state.roster=ids.map((id,index)=>({uid:`u${index+1}`,id,stars:1,growth:0,ticks:effect.every&&entry.kind==='character'?effect.every-1:effect.type==='growthMultiplier'?1:0}));
  if(effect.filter?.starsMin>=2)state.roster.forEach(u=>{u.stars=effect.filter.starsMin;});
  state.uidCounter=ids.length+1;
@@ -179,7 +184,7 @@ for (const entry of all) {
     if (effect.legacy) continue;
     test('content ' + entry.kind + ' ' + entry.d.id + '[' + index + '] changes real ' + effect.type + ' outcomes', () => {
       let changed = false;
-      const limit = effect.chance !== undefined || effect.type === 'rarityMultiplier' ? 128 : 12;
+      const limit = effect.chance !== undefined || effect.type === 'rarityMultiplier' ? 128 : 48;
       for (let seed = 0; seed < limit && !changed; seed++) {
         let enabled, disabled;
         try {
