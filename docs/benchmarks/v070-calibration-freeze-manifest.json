@@ -1,0 +1,14 @@
+{
+  "candidateCommit": "8fd73ca69ffa13f551f7d94956616319b359f6e6",
+  "protocolSha256": "5cfe4e8082b1481c77967a2162541cc11e5ff97df7848a9f1c7bc5d142e6689a",
+  "files": {
+    "docs/V070-TEST-PROTOCOL.md": "5cfe4e8082b1481c77967a2162541cc11e5ff97df7848a9f1c7bc5d142e6689a",
+    "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+    "src/content.js": "88b829d893c28bd9b8e30761775ef942d6c7f4f74db8b4e8fcaa92e5d9fdfcd6",
+    "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+    "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+    "src/balance-v070.js": "1d78602b0a614c0eb21f919d9b65a0a23cc3880ce1ad7be0a7e3ac46d4f8c399",
+    "scripts/balance-v070.mjs": "6dd33cb2d5407a87de254f58902c3bec29b8835fd3810a10283d1073bbcf217e"
+  },
+  "invalidPilots": "Two interrupted calibration attempts were discarded during independent review before any formal holdout. No interrupted batch is used for balance claims."
+}

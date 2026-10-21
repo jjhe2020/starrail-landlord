@@ -1,0 +1,11 @@
+{
+  "purpose": "Predeclared multiplier intervention contexts before any completed calibration or holdout results",
+  "focusIds": ["1001", "1002", "1009", "1004", "1303"],
+  "reason": "Train protection, single-target attack, station training, enemy interference and expanded mentor contexts; every 12-card background has the common five-role quotas. All active character DSL effects and each formal synergy are separately switched off in every context.",
+  "samples": 64,
+  "stages": ["early", "mid", "late"],
+  "enemies": ["standard", "killable", "armor", "boss", "retaliation"],
+  "backgrounds": ["generic", "compatible"],
+  "unit": "Independent layout group, averaging repeated contexts within the same sample before intervals",
+  "scope": "Tests marginal effects in these specified mixed-team contexts, not every possible combination. The normal-attack body is retained; base layer means temporary flat power effects, not deleting ordinary attacks."
+}

@@ -1,0 +1,76 @@
+{
+  "version": "0.7.0",
+  "candidateSourceCommit": "c7c3e54",
+  "file": "artifacts/星穹转轮-v0.7.0.html",
+  "bytes": 17838193,
+  "sha256": "f42544fe831e89007da2ef55af7b754d2d7cb8f0ab8bb84611fe54bd46dcbad1",
+  "checks": [
+    {
+      "name": "effects-browser",
+      "tests": 4,
+      "uiAssertions": 151,
+      "passed": true
+    },
+    {
+      "name": "inspect-browser",
+      "tests": 8,
+      "uiAssertions": null,
+      "passed": true
+    },
+    {
+      "name": "portable-browser",
+      "tests": 6,
+      "uiAssertions": null,
+      "passed": true
+    }
+  ],
+  "viewports": [
+    1440,
+    390,
+    320
+  ],
+  "offlineFile": true,
+  "firstLoadExternalRequests": 0,
+  "caveat": "Desktop Chrome at real file:// with offline network and touch/narrow viewport emulation. Android/iPad physical devices were not tested.",
+  "suite": {
+    "executedAt": "2026-10-21",
+    "tests": 581,
+    "passed": 576,
+    "failed": 0,
+    "skipped": 5,
+    "skipNotes": "Four browser opt-in entry points and optional IO stress; browser checks and >512MiB stress were also executed separately."
+  },
+  "standardChecks": {
+    "syntax": true,
+    "tests": true,
+    "build": true,
+    "portableBuild": true
+  },
+  "presentationAmendment": "Two settings/save version labels corrected after gameplay freeze; rule and AI hashes unchanged.",
+  "finalCopyChecks": [
+    {
+      "width": 1440,
+      "settingsVersion": "0.7",
+      "saveMigrationVersion": "0.7",
+      "externalRequests": 0,
+      "pageErrors": 0,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 390,
+      "settingsVersion": "0.7",
+      "saveMigrationVersion": "0.7",
+      "externalRequests": 0,
+      "pageErrors": 0,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 320,
+      "settingsVersion": "0.7",
+      "saveMigrationVersion": "0.7",
+      "externalRequests": 0,
+      "pageErrors": 0,
+      "horizontalOverflow": false
+    }
+  ]
+}

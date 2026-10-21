@@ -1,0 +1,65 @@
+{
+  "candidateCommit": "c7c3e54a514220eea31f1cc74e27072dd7e761c0",
+  "seed": "v070-freeze4",
+  "protocolVersion": "v070-spatial-balance-v3",
+  "planned": {
+    "cards": {
+      "samples": 128,
+      "allCards": true
+    },
+    "layers": {
+      "samples": 64,
+      "focusIds": [
+        "1001",
+        "1002",
+        "1009",
+        "1004",
+        "1303"
+      ]
+    },
+    "campaigns": {
+      "samplesPerStrategy": 100,
+      "strategies": 29,
+      "difficulties": [
+        10,
+        20
+      ]
+    }
+  },
+  "files": {
+    "docs/V070-TEST-PROTOCOL.md": "c3169d96045339358a067434a51c970c995984d439be06f604786597f30d8ce9",
+    "docs/benchmarks/v070-module-panel.json": "e195342afc52878872bd837dedba47540c1eb4f340da1d0e6edd162fe6d0418b",
+    "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+    "src/ai-spatial.js": "4b0c2172fe2ca2de2e7e29e4dee714b1074238fb6bbed854d0fa6ce49e455d4c",
+    "src/ai-worker.js": "36ab3c392271674757822c92f414d7f18776236b88f8bdc6c1d4df79b9106e58",
+    "src/ai.js": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+    "src/app.js": "adf85b30764975e414cafccf6cfb33a8a47080f28962547ae3d1153958b6c518",
+    "src/archetype-reference.js": "119f3287a651cd70ef74656a760654acd1b415b29c77c994770ed1693697a26a",
+    "src/archetype-simulation.js": "3390a5972ad7af862f7150d1d7ecefc50791ec3fb3d87b3700d7fdef5dd24cc4",
+    "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+    "src/balance-reference.js": "85dc73e0089bdda139a951ccf1315fce18f2c6d3b7614e62681b370889bb580c",
+    "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+    "src/content.js": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+    "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+    "src/effect-info.js": "18730a8a49be4f491e40137b60f48e969d48959c31c0471d0eaaa5b53f29222f",
+    "src/effect-rules.js": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+    "src/enemy-effects.js": "c0723a73c430d800991b133f3049ca2b62ab88c2567eb4c911dbb775b8d933db",
+    "src/engine.js": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255",
+    "src/growth-report.js": "60bce96633a0276c0554ec7b8df1dc6a4afe47d56bec77471b3903d767f6fa9c",
+    "src/growth-simulation.js": "5fd07f0f6f096134ae65255ce1d537f222f494ac72dedee0ca3910ff1e06d907",
+    "src/growth-telemetry.js": "28db1cddbcee8f37cb9c3ea596fe43f8114ae34c18a3d8d14d995df45ff9d205",
+    "src/inspect.js": "758408434321b1f499c66b279aa505761406eaf08bfa92fa27c9cfcb250f90fc",
+    "src/mechanics.js": "f1536e90fe005916beda0bb8ec63cc0845a24e967bf6a2c58a12fc751b429392",
+    "src/offline.js": "1cd1be89d902d19a2b8bb5596f04660e4bf8bbecdf1885561f514c817345abb4",
+    "src/retirement-ai.js": "be07079b4a53b003225962d7bd5e7fa0bbc59a0a1443c2efd2e7c2611ec5269a",
+    "src/retirements.js": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+    "src/runtime.js": "15e92774219913ded4aacf8d36ba84828472f5f965377c2293518909a13a0045",
+    "src/save-transfer.js": "14b87c2380d9042876886538beed6f3f88ed92b76bdd8a28c03271f1f8350071",
+    "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+    "src/synergies.js": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+    "scripts/balance-v070.mjs": "3eed559eaf7f2aefc06640ef7e8b960f168c01289d736623d84367fdd0dea496",
+    "scripts/v070-results-io.mjs": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5",
+    "scripts/summarize-v070.mjs": "780f57ff2b0934c75710cf73ec4acc643a110104459ff09b4a5def4f72da984e"
+  },
+  "notes": "Formal holdout begins after this manifest. Old calibration is kept separately; it is not combined with the current rules."
+}

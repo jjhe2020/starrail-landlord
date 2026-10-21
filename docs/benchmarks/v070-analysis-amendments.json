@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-10-21T06:14:07.632Z",
+  "gameplaySourceChanged": false,
+  "collectorSourceChanged": false,
+  "changes": [
+    {
+      "file": "scripts/summarize-v070.mjs",
+      "before": "780f57ff2b0934c75710cf73ec4acc643a110104459ff09b4a5def4f72da984e",
+      "after": "9c5791e7d6f0b707b02210c125315aed9773fdea55a506685b9227efbbdb1af3",
+      "scope": "report phase label only",
+      "reason": "Stress split is independently frozen validation, not calibration. Accept holdout+stress as validation phase; no calculation, raw data, source hashes, thresholds or statistical decisions changed."
+    },
+    {
+      "file": "src/app.js",
+      "before": "adf85b30764975e414cafccf6cfb33a8a47080f28962547ae3d1153958b6c518",
+      "after": "3e4980e2b475a2faf167cad5d0ac7d1f762918eb7a7037b7d6546a3168a68416",
+      "scope": "two settings/save migration version labels only",
+      "reason": "Correct stale v0.6 text to v0.7. This file is DOM presentation, not in collector rule/AI fingerprint; no combat or sampling change. Playable artifact must be rebuilt and verified."
+    }
+  ],
+  "uiCopyChanged": true
+}
