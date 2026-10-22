@@ -21,7 +21,8 @@ const ENEMY_SKILLS = [
 ];
 const copy = value => structuredClone(value);
 const rounded = value => Math.round(value * 100) / 100;
-const spinHitObservers = new WeakMap();
+const spinObservers = new WeakMap();
+const observeSpinStage = (state, stage) => { const observer = spinObservers.get(state); if (observer) observer.stage = stage; };
 const spinModifiers = new WeakMap();
 const isLegacyUnit = unit => (characterById(unit.id).kitVersion || 0) < 6;
 const attackGrowth = unit => (characterById(unit.id).kitVersion || 0) < 6 || characterById(unit.id).role === 'attack' ? unit.growth : 0;
@@ -49,6 +50,8 @@ function effectEvent(state, source, type, amount, duration = 'spin', targetUid =
   if (targetUid) event.targetUid = targetUid;
   if (Number.isFinite(amount)) event.amount = rounded(amount);
   state.lastSpin.effects.push(event);
+  const observer = spinObservers.get(state);
+  if (observer) observer.effects.push({ ...event, stage: observer.stage });
 }
 
 function passiveMultiplier(state, type, extras = {}) {
@@ -605,11 +608,11 @@ function attackEnemy(state, cell, enemy, amount, ignoresArmor, onKill = null, ef
   enemy.hp = rounded(Math.max(0, enemy.hp - damage));
   state.lastSpin.damage = rounded(state.lastSpin.damage + damage);
   if (damage > 0) state.lastSpin.hits.push({ cell, targetCol: enemy.col, amount: damage });
-  const observer = spinHitObservers.get(state);
+  const observer = spinObservers.get(state);
   if (damage > 0 && observer) {
     const sourceId = effectSource?.sourceId || effectSource?.id || attacker?.id || 'system';
     const sourceUid = effectSource ? effectSource.sourceUid || effectSource.uid : attacker?.uid;
-    observer.push({ cell, targetCol: enemy.col, amount: damage, kind: effectSource ? 'effect' : 'attack', sourceType: effectSource?.sourceType || (effectSource ? 'system' : 'character'), sourceId, ...(sourceUid ? { sourceUid } : {}) });
+    observer.hits.push({ cell, targetCol: enemy.col, amount: damage, kind: effectSource ? 'effect' : 'attack', sourceType: effectSource?.sourceType || (effectSource ? 'system' : 'character'), sourceId, ...(sourceUid ? { sourceUid } : {}), stage: observer.stage });
   }
   if (enemy.hp === 0) onKill?.(cell, enemy);
   return enemy.hp === 0;
@@ -643,10 +646,10 @@ function combatAttacks(state, powers, ignoresArmor, onKill = null) {
   });
 }
 
-function resolveSpin(previous, diagnosticHits = null, diagnosticOptions = null) {
+function resolveSpin(previous, observer = null, diagnosticOptions = null) {
   if (previous?.phase !== 'ready') return previous;
   const state = copy(previous);
-  if (diagnosticHits) spinHitObservers.set(state, diagnosticHits);
+  if (observer) { observer.stage = 'beforeAttacks'; spinObservers.set(state, observer); }
   if (diagnosticOptions) setEffectDiagnostics(state, diagnosticOptions);
   state.round += 1;
   state.spinsLeft -= 1;
@@ -859,16 +862,19 @@ function resolveSpin(previous, diagnosticHits = null, diagnosticOptions = null) 
   state.overclockReady = false;
   effectContext.ignoresArmor ||= ignoresArmor;
   spinModifiers.set(state, effectContext);
+  observeSpinStage(state, 'attack');
   combatAttacks(state, powers, effectContext.ignoresArmor, cell => {
     metrics.kills = (metrics.kills || 0) + 1;
     runEffects(state, 'kill', { ...effectContext, unit: state.board[cell], index: cell });
   });
+  observeSpinStage(state, 'afterAttacks');
   state.board.forEach((unit, index) => {
     if (!unit || consumed.has(unit.uid)) return;
     runEffects(state, 'appearance', { ...effectContext, unit, index }, { stage: 'afterAttacks' });
   });
   for (const pending of effectContext.pendingDamageEffects) resolveEffectDamage(state, pending.effect, pending.source, pending.active, effectContext, pending.amount);
   runEffects(state, 'spin', effectContext, { stage: 'afterAttacks' });
+  observeSpinStage(state, 'retaliation');
   let incoming = state.enemies.filter(e => e.hp > 0).reduce((sum, e) => sum + e.attack, 0);
   const alive = state.enemies.some(e => e.hp > 0);
   if (alive && state.enemySkill.id === 'pressure' && state.round % 3 === 0) incoming += 3;
@@ -883,6 +889,7 @@ function resolveSpin(previous, diagnosticHits = null, diagnosticOptions = null) 
   state.resourceStats.shieldBlocked = rounded(state.resourceStats.shieldBlocked + blocked);
   state.resourceStats.hpLost = rounded(state.resourceStats.hpLost + beforeHp - state.hp);
   metrics.blocked = rounded(blocked); metrics.hpLost = rounded(beforeHp - state.hp);
+  observeSpinStage(state, 'afterRetaliation');
   if (state.hp > 0) runEffects(state, 'retaliation', effectContext, { stage: 'afterRetaliation' });
   record(state, `造成 ${rounded(state.lastSpin.damage)} 伤害；敌方反击 ${incoming}，护盾抵挡 ${rounded(blocked)}。`);
   state.enemyIntent = nextIntent(state);
@@ -910,6 +917,7 @@ function resolveSpin(previous, diagnosticHits = null, diagnosticOptions = null) 
     state.choices = [];
     record(state, state.hp <= 0 ? '列车护卫失守，本次开拓结束。' : '回合期限已到，裂界仍未清除。本次开拓结束。');
   } else if (clear) {
+    observeSpinStage(state, 'arrival');
     finishFloor(state);
   } else {
     state.pendingRewards = ['recruit'];
@@ -926,12 +934,12 @@ export function spin(previous) {
 }
 
 export function inspectSpin(previous, options = undefined) {
-  const hits = [];
-  const state = resolveSpin(previous, hits, options);
+  const observer = { hits: [], effects: [], stage: 'beforeAttacks' };
+  const state = resolveSpin(previous, observer, options);
   clearEffectDiagnostics(state);
-  spinHitObservers.delete(state);
+  spinObservers.delete(state);
   spinModifiers.delete(state);
-  return { state, hits, ...(options ? { diagnostics: { protocol: 'spin-interventions-v1' } } : {}) };
+  return { state, hits: observer.hits, effects: observer.effects, ...(options ? { diagnostics: { protocol: 'spin-interventions-v1' } } : {}) };
 }
 
 export function chooseReward(previous, index) {

@@ -1,0 +1,93 @@
+{
+  "version": "0.7.1",
+  "date": "2026-10-23",
+  "timezone": "Asia/Shanghai",
+  "baselineCommit": "91a3870b921811fb4886944dcb510975f72be694",
+  "assets": [
+    {
+      "filename": "星穹转轮-v0.7.1.html",
+      "bytes": 18110850,
+      "sha256": "f1ba0377fda23dcb19ecd688422463b5a54c196b12df5e34a6a11107456357a3"
+    },
+    {
+      "filename": "motion-mobile-proof.mp4",
+      "bytes": 1428399,
+      "sha256": "a27d664886e62257ec8453b3406bc4197773f3ad7b54c5be454fc11770ab5637"
+    },
+    {
+      "filename": "motion-desktop-proof.mp4",
+      "bytes": 2361084,
+      "sha256": "de638181884c9b94cb5f74c615067ef4dfcede1a247e0c70e78b775aa261ea5f"
+    }
+  ],
+  "testedPortableMatchesFinal": true,
+  "testedRuntimeHashesMatchFinal": true,
+  "check": {
+    "passed": true,
+    "offlineAssets": 204,
+    "portraits": 90
+  },
+  "unitTests": {
+    "total": 621,
+    "passed": 615,
+    "skipped": 6,
+    "failed": 0
+  },
+  "browserRegression": {
+    "passed": 18,
+    "failed": 0,
+    "uiAssertions": 148
+  },
+  "motionBrowser": {
+    "passed": 12,
+    "scenarios": 11,
+    "protocol": "file:",
+    "networkAttempts": 0,
+    "uncaughtErrors": 0,
+    "physicalDeviceTested": false
+  },
+  "unchangedGameplaySources": [
+    {
+      "path": "src/content.js",
+      "sha256": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "src/ai.js",
+      "sha256": "46d12561258ce546cab0fb8d76ccae3efc006e2e1ae1faaa72511ac1dc9a690c",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "src/ai-profile.js",
+      "sha256": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "src/difficulty.js",
+      "sha256": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "src/effect-rules.js",
+      "sha256": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "src/synergies.js",
+      "sha256": "0be0844dc631f56ade5adfa85ca44734bdcb92af0937d848e6a18bf0e494a697",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "src/archetypes.js",
+      "sha256": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "src/retirements.js",
+      "sha256": "9edb0f7468bd9877df041d8bd26a2709dc401e2c52d02aee3066a0e51120717c",
+      "unchangedFromBaseline": true
+    }
+  ],
+  "engineChange": "Transient presentation phase observers only; no game state/save/rule/RNG changes. inspectSpin state equals spin.",
+  "notes": "Private GitHub release; no Site deployment. Download verification follows publication."
+}

@@ -1,0 +1,50 @@
+# 0.7.1 战斗与界面动效
+
+用户目标：表现实际的角色攻击、护盾等战斗动作，让转轮与选择界面更像游戏；美术由 AI 生成，轻量且一次战斗在三秒以内完成。
+
+## 设计
+
+- 透明四格图集分别表现星芒斩击、冰蓝护盾、翠绿治疗与紫金共鸣。运行资源 512×512、91,668 字节；一张图复用四种视觉，避免视频纹理、大型序列帧或持续粒子循环。生成原图、精确提示词和归属见 `report/v071-motion/art-manifest.json`。
+- 转轮滚动 360 ms，支援在 440–620 ms 开始，普通攻击在 700–1,500 ms 开始，追加攻击 1,650 ms，敌方反击 1,900 ms，受击后反击 2,040 ms。飞行后命中更新血条与实际伤害，最晚一个光效于 2,590 ms 内结束，2,640 ms 结束战斗演出，奖励入场 260 ms。新窗口首次解码、浏览器调度与 DOM 更新仍需实际测量。
+- 同一阶段、来源和目标的连击合并为一次伤害反馈，保留全部实际伤害。支援依赖当次真实触发记录，不因为角色具有某个主职就播放“成功施放”；培养/增幅的实际对象以细光线与光环连接。全局奇物等效果从棋盘共鸣中心发出。
+- 使用临时战斗快照保留原敌阵，敌人命中归零后退场；跨关时先打完原敌阵再采用下一状态。存护受击后反击发生在敌方行动之后。入关事件不会重播成当前战斗的支援。
+- 单条 requestAnimationFrame 调度；临时图形节点最多 48 个，超额只省略装饰，命中和状态结算不丢失。主要动画使用 transform/opacity，不做逐帧模糊、复杂阴影或整页重绘。手机窄屏去掉光束阴影。开始战斗时把离开屏幕的敌阵带回可见区域。
+- 奖励弹出时面板与候选短距离入场。选择后候选高亮、面板 180 ms 离场，期间锁定重复选择；手动与 AI 代打共用。医疗/护盾/超频购买后显示短到账提示。
+- 动效开关覆盖战斗与面板，跟随系统减少动态效果。页面进入后台、系统切换为减少动态效果，或浏览器动画失败时，结束装饰并采用已算出的真实结算，恢复操作。
+
+## 游戏与平衡边界
+
+0.7.1 保留 0.7.0 的全部角色内容、AI 策略、公开标签与数值规则。引擎只为 `inspectSpin()` 添加临时阶段观察记录；不写入游戏状态或存档，不消耗额外种子随机数。
+
+| 发版观察维度 | 此版本的处理与结论边界 |
+| --- | --- |
+| 单卡 | 沿用 0.7.0 的技能与数值；逐卡行为回归验证，不作为新的平衡统计 |
+| 公开标签拿牌策略 | AI 与命途/属性/阵营等规则保持不变；沿用原样本口径与限制 |
+| 职能乘区 | 攻击、即时增幅、培养、易伤、生存收益由同一引擎求值；动画不参与公式 |
+| 成长 | 实际永久培养记录驱动演出，不新增成长收益或成型奖励 |
+| 前中后期 | 时长固定，不因高星、多段、满盘或跨关拉长；不把浏览器压力阵容称作自然成长样本 |
+
+原始平衡证据仍见 `V070-TEST-RESULTS.md`、`V070-FINAL-INTERPRETATION.md` 等原报告；本次没有新的平衡校准或“已重新平衡”的声明。
+
+## 复现与证据
+
+`tests/combat-motion.test.js` 验证实际命中不丢失、实例 UID 归属、来源与阶段、反击和抵挡口径、输入不变性、种子确定性及观察模式/普通引擎结果等价。`tests/motion-browser.test.js` 在全新离线 file:// 环境运行完整单文件；使用隔离存档，不操作现有玩家数据。
+
+```sh
+npm run check
+npm test
+npm run build
+npm run build:portable
+MOTION_BROWSER_TESTS=1 MOTION_EVIDENCE_DIR=report/v071-motion \
+  BROWSER_EXECUTABLE_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' \
+  node --test tests/motion-browser.test.js
+PORTABLE_BROWSER_TESTS=1 EFFECT_BROWSER_TESTS=1 INSPECT_BROWSER_TESTS=1 \
+  BROWSER_EXECUTABLE_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' \
+  node --test tests/portable-browser.test.js tests/effects-browser.test.js tests/inspect.test.js
+```
+
+浏览器原始数据、截图与短视频保存在 `report/v071-motion/`，最终运行结果见该目录的 `VERIFICATION.md` 与 `browser-metrics.json`。压力用例采用人为构造的 20 人混合主职满盘、五个高血量敌人；另有五列一击清场、实际窄屏点击、受击后反击、关闭/减少动效及异常降级用例。这些是功能与性能样本，不能当作自然对局胜率或逐卡平衡数据。
+
+测试覆盖桌面 Chrome 与 390/320 像素触屏视口，记录战斗耗时、帧间隔、Long Tasks、临时节点峰值、零 HTTP 请求和精确引擎状态。帧数据仅代表该电脑和浏览器，窄屏模拟不等于 Android/iPad 实机兼容验证。
+
+更新 HTML 前先从旧文件导出存档；文件路径、版本与浏览器可能使用各自独立存储。每次提供带版本号的 HTML 与私有 GitHub Release；本次不自动部署 Site。

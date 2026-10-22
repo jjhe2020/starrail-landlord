@@ -5,3 +5,4 @@ Saber、Archer、吉尔伽美什、远坂凛等联动角色亦涉及 Fate 系列
 本项目为同人实验，不表示官方授权或合作，不主张第三方人物画像为原创。
 游戏头像、奇物图的原始URL、固定提交与SHA-256见各目录source-manifest.json；整理仓库许可见StarRailRes-LICENSE.txt。
 AHA与AHA★为项目分别排版绘制的文字标识，不能视为官方人物画像。
+effects/astral-fx.webp 为 2026-10-23 使用内置 OpenAI image_gen.imagegen 为本项目生成的抽象战斗特效图集；未提供参考图片，未提取官方游戏特效。原图、精确提示词、生成模式、处理参数及 SHA-256 见 report/v071-motion/art-manifest.json 与 docs/ASSETS.md。AI 特效与第三方人物画像的来源及归属分别记录。

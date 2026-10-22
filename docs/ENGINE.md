@@ -215,3 +215,10 @@ total = round(base(f) × level(D) × late(f)
 `inspectSpin(previous, options)` 与公开 `spin` 走同一个结算函数，返回 `{state,hits}`；无选项时状态完全相等。有选项时额外返回诊断协议标识 `spin-interventions-v1`。可指定 `layoutUids`（20格、唯一正式实例UID或null），`suppressSkillUids`（仅关闭指定实例声明技能，保留普通攻击），`suppressCharacterEffectTypes`，`suppressSynergyIds`。先消耗正常抽盘随机数，再覆盖诊断布局；只递增实际上场者计数。开关保存在短生命周期 WeakMap，不写存档，不从存档读取。受控布局是实验条件，不冒充自然对局。
 
 独立统计协议、分组单位、实际等价范围和冻结要求见 [V070-TEST-PROTOCOL.md](V070-TEST-PROTOCOL.md)。历史0.5/0.6数据保留，不能用作0.7的平衡背书。
+
+
+## 0.7.1 呈现层隔离
+
+`combat-motion.js` 将引擎的实际命中和当前转动的效果记录变成确定性时间表；不运行技能，不抽随机数，不写入输入。`combat-player.js` 只更新临时画面，使用一条 requestAnimationFrame 调度、有上限的透明图集精灵与 transform/opacity 动画，结束时清理临时节点和监听器。`app.js` 在演出期间锁定修改动作，保留原敌阵到实际命中，最后才采用完整引擎状态并弹出奖励。
+
+`inspectSpin()` 无干预选项运行，与 `spin()` 返回的游戏状态完全相同；额外命中归属仅用于真实角色/系统来源的演出。演出失败、后台切换、系统减少动态效果也必须完成已求出的结算，并恢复输入。退出动画不能重复选择同一个奖励。存档与 AI 仍使用纯引擎结果；AI 选择奖励复用手动选择的过渡与锁定逻辑。规则数值、技能条件、存档版本和种子随机序列保持 0.7.0。

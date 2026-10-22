@@ -1,0 +1,30 @@
+▶ effect explanations, expanded catalog and reward inspection in real browsers
+  ✔ 1440px: duration rules, nonblocking details and catalog (2748.437125ms)
+  ✔ 390px: duration rules, nonblocking details and catalog (2759.755666ms)
+  ✔ 320px: duration rules, nonblocking details and catalog (2532.514791ms)
+✔ effect explanations, expanded catalog and reward inspection in real browsers (8915.235167ms)
+ℹ 148 UI checks passed; 0 uncaught page errors; isolated localhost server.
+▶ inspector keeps explanations local and preserves page interactions
+  ✔ hover crosses into the explanation, then dismisses on leave (741.667291ms)
+  ✔ clicking another detail switches immediately; outside click still acts (131.887875ms)
+  ✔ long press explains a resource and suppresses only its generated click (517.37325ms)
+  ✔ scrolling and moving a touch cancel the pending hold (1027.749209ms)
+  ✔ a partial render removes the explanation only when its anchor disappears (93.11425ms)
+  ✔ a tall explanation opens after pointer click without stealing its pointerup (144.813334ms)
+  ✔ keyboard focus is described and Escape closes only this explanation (46.281ms)
+✔ inspector keeps explanations local and preserves page interactions (4246.255167ms)
+▶ portable HTML plays from file:// on its first offline load
+  ✔ 1265px: embedded images, classic Blob Worker, gameplay and refresh (1715.188083ms)
+  ✔ 390px: embedded images, classic Blob Worker, gameplay and refresh (1614.057667ms)
+  ✔ 320px: embedded images, classic Blob Worker, gameplay and refresh (1372.959791ms)
+  ✔ 820px: embedded images, classic Blob Worker, gameplay and refresh (1445.503167ms)
+  ✔ blocked local storage still allows offline gameplay and portable save files (1253.56525ms)
+✔ portable HTML plays from file:// on its first offline load (8863.861792ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8963.430542

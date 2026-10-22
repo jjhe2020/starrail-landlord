@@ -4181,3 +4181,48 @@ button.catalog-item { width: 100%; text-align: left; align-items: flex-start; }
 
 /* Keep button text and its help caption in explicit blocks for Chromium. */
 .skill-description > span { display: block; }
+
+/* v0.7.1: a short, bounded combat performance with AI-painted atlas sprites. */
+.arena { position: relative; isolation: isolate; }
+.combat-status { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 9px; min-height: 25px; margin: 2px 0 -5px; color: #8396b2; font-size: 10px; letter-spacing: 2px; }
+.combat-status:before, .combat-status:after { content: ''; width: 30px; height: 1px; background: linear-gradient(90deg, transparent, #7e9dc780); }
+.combat-status:after { transform: rotate(180deg); }
+.arena[aria-busy="true"] .combat-status { color: #ccdefb; }
+.arena[aria-busy="true"] .reel-cell { pointer-events: none; }
+.combat-fx-layer { position: absolute; inset: 0; overflow: hidden; z-index: 8; pointer-events: none; border-radius: inherit; contain: layout paint style; }
+.fx-sprite, .fx-number, .fx-beam { position: absolute; pointer-events: none; will-change: transform, opacity; }
+.fx-sprite { background-image: url('./public/assets/effects/astral-fx.webp'); background-size: 200% 200%; background-repeat: no-repeat; }
+.fx-beam { height: 3px; border-radius: 100%; transform-origin: left center; background: linear-gradient(90deg, transparent, var(--fx-color, #b9eaff) 55%, #fff 90%); box-shadow: 0 0 7px var(--fx-color, #b9eaff); }
+.fx-hostile { height: 2px; }
+.fx-number { z-index: 2; white-space: nowrap; font-family: var(--mono); font-size: clamp(17px, 2.3vw, 25px); font-weight: 800; color: var(--fx-color, #f8dfac); text-shadow: 0 2px 3px #070b16, 1px 0 #070b16, -1px 0 #070b16; letter-spacing: -.5px; }
+.fx-support-number { font-family: inherit; font-size: 12px; letter-spacing: .5px; }
+.enemy-art { transition: opacity .22s, transform .22s; }
+.enemy-defeated .enemy-art { opacity: 0; transform: translateY(-6px) scale(.82); }
+.enemy-defeated .enemy-name, .enemy-defeated .enemy-intent { opacity: .3; }
+.enemy-health i { transition: width .13s ease-out; }
+.modal-enter { animation: astralPanelIn .26s cubic-bezier(.16,1,.3,1) both; }
+.modal-enter .character-card, .modal-enter .item-card { animation: astralCardIn .2s cubic-bezier(.16,1,.3,1) both; }
+.modal-enter .character-card:nth-child(2), .modal-enter .item-card:nth-child(2) { animation-delay: 30ms; }
+.modal-enter .character-card:nth-child(3), .modal-enter .item-card:nth-child(3) { animation-delay: 60ms; }
+.modal-leaving { animation: astralPanelOut .18s ease-in both; pointer-events: none; }
+.backdrop-leaving { animation: astralBackdropOut .18s ease-in both; pointer-events: none; }
+.choice-confirmed { box-shadow: inset 0 0 0 2px #e2c385; }
+.supplies-panel { position: relative; }
+.purchase-feedback { position: absolute; left: 50%; top: 42%; z-index: 3; pointer-events: none; white-space: nowrap; color: #bdefff; background: #142d41f2; border: 1px solid #8ed8f07a; padding: 8px 12px; border-radius: 4px; font-size: 12px; animation: purchaseFloat .65s ease-out both; }
+@keyframes astralPanelIn { from { opacity: 0; transform: translateY(15px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes astralCardIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes astralPanelOut { to { opacity: 0; transform: translateY(-8px) scale(.97); } }
+@keyframes astralBackdropOut { to { opacity: 0; } }
+@keyframes purchaseFloat { 0% { opacity: 0; transform: translate(-50%,8px) scale(.9); } 22%,65% { opacity: 1; transform: translate(-50%,-5px) scale(1); } 100% { opacity: 0; transform: translate(-50%,-22px) scale(1); } }
+.motion-disabled .modal-backdrop, .motion-disabled .modal-enter, .motion-disabled .modal-enter *, .motion-disabled .modal-leaving, .motion-disabled .purchase-feedback { animation: none !important; }
+.motion-disabled .combat-fx-layer { display: none; }
+@media(max-width:680px) {
+  .combat-status { font-size: 9px; letter-spacing: 1.2px; min-height: 22px; }
+  .fx-beam { height: 2px; box-shadow: none; }
+  .fx-support-number { font-size: 10px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .modal-enter, .modal-enter *, .modal-leaving, .purchase-feedback { animation: none !important; }
+  .combat-fx-layer { display: none; }
+  .enemy-art, .enemy-health i { transition: none; }
+}

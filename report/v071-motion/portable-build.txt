@@ -1,0 +1,5 @@
+
+> starrail-landlord@0.7.1 build:portable
+> node scripts/build-portable.mjs
+
+离线单文件已生成：/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/artifacts/星穹转轮-v0.7.1.html · 17.27 MB · 170 个内嵌资源（含来源和许可记录）。

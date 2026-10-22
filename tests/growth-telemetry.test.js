@@ -44,7 +44,7 @@ test('global item damage keeps its item source even when legacy hits use cell ze
   assertDamageLedger(result);
   assert.equal(result.hits.length, 5);
   for (const hit of result.hits) {
-    assert.deepEqual(hit, { cell: 0, targetCol: hit.targetCol, amount: 2, kind: 'effect', sourceType: 'item', sourceId: 'meteorite' });
+    assert.deepEqual(hit, { cell: 0, targetCol: hit.targetCol, amount: 2, kind: 'effect', sourceType: 'item', sourceId: 'meteorite', stage: 'afterAttacks' });
   }
 });
 

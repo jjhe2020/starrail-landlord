@@ -10,7 +10,7 @@ const realRoot = await realpath(root);
 const portArg = process.argv.indexOf('--port');
 const port = Number(portArg >= 0 ? process.argv[portArg + 1] : process.env.PORT || 5173);
 const host = process.argv.includes('--host') ? '0.0.0.0' : '127.0.0.1';
-const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.png': 'image/png', '.svg': 'image/svg+xml', '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.txt': 'text/plain; charset=utf-8' };
+const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.txt': 'text/plain; charset=utf-8' };
 const isServablePath = path => !path.includes('\\') && !path.includes('\0') &&
   /^(?:index\.html$|styles\.css$|manifest\.webmanifest$|service-worker\.js$|src\/.+|public\/.+)/.test(path) &&
   !path.split('/').some(part => part.startsWith('.'));

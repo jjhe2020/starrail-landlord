@@ -197,6 +197,12 @@
 
 `public/icons/icon-192.png`、`icon-512.png`、`maskable-512.png` 与 `apple-touch-icon.png` 是本项目使用基础形状绘制的原创转轮、星芒与轨道图标。沿用深蓝、紫、青与浅金配色，未使用第三方角色画像。maskable 图案位于中心安全区域，适用于安卓桌面裁剪；iPad 使用 180 × 180 PNG。
 
+## AI 生成的战斗特效图集（v0.7.1）
+
+`public/assets/effects/astral-fx.webp` 是 2026-10-23 使用内置 OpenAI `image_gen.imagegen` 为本项目生成的透明战斗特效图集，没有提供参考图片，也没有提取或改绘官方游戏特效。画面采用青白斩击、冰蓝护盾、碧绿治疗、紫金共鸣四种抽象能量效果；这种星空科幻视觉方向不表示复刻《崩坏：星穹铁道》的具体技能美术。
+
+运行时共用一张 512 × 512 WebP（91,668 字节），分为 2 × 2 格，每格 256 × 256。左上为攻击，右上为护盾，左下为治疗，右下为共鸣；每格四边保留至少 38 像素透明留白。原始生成图为 1254 × 1254 RGBA PNG，后处理仅包括按象限裁切、缩放、透明留白和 WebP 压缩，保留生成的透明通道。原图、精确提示词、工具模式、处理参数及原图/运行时文件的 SHA-256 保存在 [v0.7.1 特效生成清单](../report/v071-motion/art-manifest.json)；精确提示词另存于 [art-prompt.txt](../report/v071-motion/art-prompt.txt)。该 AI 生成素材与既有第三方角色头像的来源及归属分别记录。
+
 ## 规则参考
 
 《幸运房东》的玩法参考来自 [TrampolineTales 的 Steam 官方商店页](https://store.steampowered.com/app/1404850/Luck_be_a_Landlord/) 与开发者 [Content Patch #9 — Essences 公告](https://steamcommunity.com/ogg/1404850/announcements/detail/5510701238793103300)。公告由 Steam 官方新闻 API 核验，作者为 TrampolineTales。

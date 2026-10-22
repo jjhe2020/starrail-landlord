@@ -1,0 +1,12 @@
+Use case: stylized-concept
+Asset type: one production game VFX sprite atlas, transparent RGBA, square 1024 by 1024.
+Primary request: A single 2 by 2 evenly spaced sprite atlas of four beautiful isolated sci-fi fantasy combat effects for a lightweight browser game inspired by polished astral JRPG battles. These are luminous effect sprites, NOT icons or UI cards.
+Scene/backdrop: genuinely transparent empty background, no black fill, no checkerboard, no ground or environment.
+Composition/framing: Divide the whole square into four equal 512 by 512 invisible cells. Each effect centered exactly at its own cell center, contained in the middle 70% of that cell with ample completely transparent margins, zero effect spill between cells. Orthographic front view. Do not draw cell borders.
+Upper-left cell: cyan-white crescent blade slash crossing a brilliant compact star impact; elegant tapered arc, tiny sharp light shards, energetic readable shape.
+Upper-right cell: icy cyan translucent shield halo, circular rim and hexagonal crystalline facets, bright rim accents, transparent open center, luminous protective ring.
+Lower-left cell: jade and mint healing ring with gently rising small diamond motes, soft luminous swirl and a few sparkles, transparent open center, readable restorative energy.
+Lower-right cell: violet and gold stellar resonance ring, refined orbit lines and a small four-point starburst, transparent open center, dynamic cosmic energy.
+Style/medium: premium hand-painted 2D game VFX, crisp luminous strokes, restrained bloom, saturated jewel tones, polished cosmic science-fantasy. Beautiful at 128 px per effect, strong uncluttered silhouette.
+Lighting/mood: vibrant radiant energy, controlled glow fading smoothly to actual transparency.
+Constraints: only these four effects; truly transparent backgrounds; each sprite clearly separated; no characters, no objects, no text, no letters, no numbers, no watermark, no logos, no interface, no panel framing. Keep all pixels within their individual cells, generous transparent padding.

@@ -1,6 +1,8 @@
 # 星穹转轮 · Starrail Landlord
 
-0.7.0 可玩测试版 · 在浏览器中运行的星穹铁道主题转轮构筑游戏，适配桌面与手机。灵感来自《幸运房东》的符号构筑循环，使用独立实现的规则引擎与界面。
+0.7.1 动效测试版 · 在浏览器中运行的星穹铁道主题转轮构筑游戏，适配桌面与手机。灵感来自《幸运房东》的符号构筑循环，使用独立实现的规则引擎与界面。
+
+0.7.1 增加 AI 生成的攻击、护盾、治疗和共鸣特效，转轮落位、角色动作、敌方反击与奖励面板串成少于 3 秒的演出；设置中可关闭，系统减少动态效果时自动降级。设计与当前验证边界见 [战斗与界面动效](docs/MOTION.md)。
 
 完整现版规则见 **[GitHub Wiki](https://github.com/jjhe2020/starrail-landlord/wiki)**：315 个正文与附录页面，包含全部角色、奇物、精华、羁绊、敌方条款与剧情委派，以及底层公式、结算时序、随机算法、AI、存档和离线规则。Wiki 与 v0.7.0 发布基线对齐；源码镜像与维护方法见 [Wiki 维护](docs/WIKI.md)。
 
@@ -62,7 +64,7 @@ npm run dev -- --host --port 5174
 
 ### Android 与 PC 传文件直接玩
 
-每次可交付版本在检查通过后提交并推送相关代码、文档与证据，创建对应 Git 标签和 GitHub Release，并上传当次带版本号的 HTML；仓库保持私有。本版成品和报告从[GitHub Release v0.7.0](https://github.com/jjhe2020/starrail-landlord/releases/tag/v0.7.0)下载。最终 HTML 可直接转发，首次打开无需联网、账号或后端。开发电脑先 `npm ci`，再运行 `npm run build:portable`；成品位于 `artifacts/`。PC 可直接用浏览器打开，Android 可传到下载目录，在文件管理器中选择「用浏览器打开」。游戏、全部图片、CSS 与 AI 都内嵌，不要用聊天软件或文档预览器的 HTML 预览代替浏览器。
+每次可交付版本在检查通过后提交并推送相关代码、文档与证据，创建对应 Git 标签和 GitHub Release，并上传当次带版本号的 HTML；仓库保持私有。本版成品和验证记录从[GitHub Release v0.7.1](https://github.com/jjhe2020/starrail-landlord/releases/tag/v0.7.1)下载。最终 HTML 可直接转发，首次打开无需联网、账号或后端。开发电脑先 `npm ci`，再运行 `npm run build:portable`；成品位于 `artifacts/`。PC 可直接用浏览器打开，Android 可传到下载目录，在文件管理器中选择「用浏览器打开」。游戏、全部图片、CSS 与 AI 都内嵌，不要用聊天软件或文档预览器的 HTML 预览代替浏览器。
 
 本地文件的自动存档取决于浏览器与文件权限；设置提供「导出存档／导入存档」。关闭文件、移动文件、切换浏览器或传入新版前，建议导出存档。此方式已通过 Chromium 浏览器 `file://` 测试，尚未实测红米文件管理器的 `content://` 打开路径。iPad 文件 App 不保证执行交互式 HTML，应使用支持本地交互网页的浏览器或网页容器。
 
