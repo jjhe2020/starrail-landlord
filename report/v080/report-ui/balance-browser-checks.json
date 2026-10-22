@@ -1,0 +1,528 @@
+{
+  "checkedAt": "2026-10-22T20:52:16.761Z",
+  "browser": "Chrome 155.0.8059.85",
+  "report": {
+    "path": "report/v080-balance/index.html",
+    "sha256": "968774d6ddb9d5443f5f0d2221699a76ac30b6b96ea0cb1766fac700885f34f7"
+  },
+  "gameUnmodified": {
+    "path": "artifacts/星穹转轮-v0.8.0.html",
+    "sha256": "4febf00786db4eef0d357c1ccae141a707aa7ca3cdd65ff28708c329a5b52d9d",
+    "verifiedAfter": true
+  },
+  "scope": "Read-only offline report UI check in desktop browser at 1440 and 390 CSS px; not physical-device verification.",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 980,
+      "checks": [
+        {
+          "name": "initial character rows",
+          "actual": 90,
+          "expected": 90
+        },
+        {
+          "name": "initial character count",
+          "actual": "90 / 90",
+          "expected": "90 / 90"
+        },
+        {
+          "name": "initial stage rows",
+          "actual": 270,
+          "expected": 270
+        },
+        {
+          "name": "strategy rows",
+          "actual": 29,
+          "expected": 29
+        },
+        {
+          "name": "future trajectory rows",
+          "actual": 14,
+          "expected": 14
+        },
+        {
+          "name": "tuning rows populated",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "layerRows rows populated",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "sources rows populated",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "populated table values contain no undefined or NaN",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "all local evidence links resolve",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "no page horizontal overflow",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "table font at least 14px",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "compatible background preserves 90 cards",
+          "actual": 90,
+          "expected": 90
+        },
+        {
+          "name": "compatible background updates values",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "generic background restores values",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "role filter narrows rows",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "role filter contains only defense",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "stage table follows role filter",
+          "actual": 39,
+          "expected": 39
+        },
+        {
+          "name": "name search finds one card",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "name": "name search result",
+          "actual": "阿格莱雅",
+          "expected": "阿格莱雅"
+        },
+        {
+          "name": "stage table follows name search",
+          "actual": 3,
+          "expected": 3
+        },
+        {
+          "name": "tag search finds matching cards",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "tag search excludes nonmatching cards",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "empty result count",
+          "actual": "0 / 90",
+          "expected": "0 / 90"
+        },
+        {
+          "name": "empty result rows",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "name": "clear search restores rows",
+          "actual": 90,
+          "expected": 90
+        },
+        {
+          "name": "D10 sample counts",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "D20 sample counts",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "D20 preserves strategy rows",
+          "actual": 29,
+          "expected": 29
+        },
+        {
+          "name": "future background updates values",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "future background preserves rows",
+          "actual": 14,
+          "expected": 14
+        },
+        {
+          "name": "no unhandled page errors",
+          "actual": [],
+          "expected": []
+        },
+        {
+          "name": "no network dependency",
+          "actual": [],
+          "expected": []
+        },
+        {
+          "name": "no final page overflow",
+          "actual": true,
+          "expected": true
+        }
+      ],
+      "errors": [],
+      "httpRequests": [],
+      "screenshots": [
+        {
+          "file": "balance-1440-overview.png",
+          "sha256": "0dbee8df6bf3a9097a5a6dbe201c49986da3557e62e0999da5af8b52d5ca8f84"
+        },
+        {
+          "file": "balance-1440-characters.png",
+          "sha256": "6b9fc6d3dd7df9e4ace432b98e9554c24f2806f876f36edfda0b7c3130a5e86c"
+        },
+        {
+          "file": "balance-1440-aglaea.png",
+          "sha256": "1f3b2eb59291da9910408ea969b37c463e740c66542c425056cfbdc8bff724ae"
+        },
+        {
+          "file": "balance-1440-d20-strategies.png",
+          "sha256": "9b229e6639219231e3a56e43907603409f2218f56957416b1edca649328ee8bc"
+        },
+        {
+          "file": "balance-1440-layers.png",
+          "sha256": "0e9df8711c09afc1d04a5462e15a09e8bbbcddfd66c5faf702e543afb3040717"
+        },
+        {
+          "file": "balance-1440-evidence.png",
+          "sha256": "5b4b9c5343e5f727eaebc758bc4030c0bf629893fada6ed9155a1ed2fa7d86d4"
+        }
+      ],
+      "evidenceLinks": [
+        {
+          "path": "report/v080/implementation.html",
+          "exists": true
+        },
+        {
+          "path": "report/v080-balance/PROTOCOL.md",
+          "exists": true
+        },
+        {
+          "path": "report/v080-balance/final2-snapshot.json",
+          "exists": true
+        },
+        {
+          "path": "report/v080-balance/final-analysis.json",
+          "exists": true
+        },
+        {
+          "path": "docs/benchmarks/v080-final1-tuning-probe.jsonl.gz",
+          "exists": true
+        },
+        {
+          "path": "docs/benchmarks/v080-final1-yanqing-condition.jsonl.gz",
+          "exists": true
+        },
+        {
+          "path": "docs/benchmarks/v080-final2-cards-holdout.jsonl.gz",
+          "exists": true
+        },
+        {
+          "path": "docs/benchmarks/v080-final2-layers-holdout.jsonl.gz",
+          "exists": true
+        },
+        {
+          "path": "docs/benchmarks/v080-final2-campaigns-holdout-d10.jsonl.gz",
+          "exists": true
+        },
+        {
+          "path": "docs/benchmarks/v080-final2-campaigns-stress-d20.jsonl.gz",
+          "exists": true
+        },
+        {
+          "path": "docs/benchmarks/v080-baseline-campaigns-calibration-d10.jsonl.gz",
+          "exists": true
+        },
+        {
+          "path": "docs/benchmarks/v080-baseline-cards-calibration.jsonl.gz",
+          "exists": true
+        },
+        {
+          "path": "docs/benchmarks/v080-baseline-layers-calibration.jsonl.gz",
+          "exists": true
+        },
+        {
+          "path": "docs/benchmarks/v080-candidate1-campaigns-calibration-d10.jsonl.gz",
+          "exists": true
+        },
+        {
+          "path": "docs/benchmarks/v080-candidate1-cards-calibration.jsonl.gz",
+          "exists": true
+        },
+        {
+          "path": "docs/benchmarks/v080-final1-campaigns-calibration-d10.jsonl.gz",
+          "exists": true
+        },
+        {
+          "path": "report/v080-balance/version-comparison.json",
+          "exists": true
+        }
+      ],
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      },
+      "typography": {
+        "fontSize": "14px",
+        "lineHeight": "23.1px"
+      },
+      "defenseCount": 13,
+      "characterTable": {
+        "clientWidth": 1390,
+        "scrollWidth": 1390
+      }
+    },
+    {
+      "width": 390,
+      "height": 980,
+      "checks": [
+        {
+          "name": "initial character rows",
+          "actual": 90,
+          "expected": 90
+        },
+        {
+          "name": "initial character count",
+          "actual": "90 / 90",
+          "expected": "90 / 90"
+        },
+        {
+          "name": "initial stage rows",
+          "actual": 270,
+          "expected": 270
+        },
+        {
+          "name": "strategy rows",
+          "actual": 29,
+          "expected": 29
+        },
+        {
+          "name": "future trajectory rows",
+          "actual": 14,
+          "expected": 14
+        },
+        {
+          "name": "tuning rows populated",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "layerRows rows populated",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "sources rows populated",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "populated table values contain no undefined or NaN",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "no page horizontal overflow",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "table font at least 14px",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "compatible background preserves 90 cards",
+          "actual": 90,
+          "expected": 90
+        },
+        {
+          "name": "compatible background updates values",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "generic background restores values",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "role filter narrows rows",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "role filter contains only defense",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "stage table follows role filter",
+          "actual": 39,
+          "expected": 39
+        },
+        {
+          "name": "name search finds one card",
+          "actual": 1,
+          "expected": 1
+        },
+        {
+          "name": "name search result",
+          "actual": "阿格莱雅",
+          "expected": "阿格莱雅"
+        },
+        {
+          "name": "stage table follows name search",
+          "actual": 3,
+          "expected": 3
+        },
+        {
+          "name": "table scroll reaches final comparison column",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "tag search finds matching cards",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "tag search excludes nonmatching cards",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "empty result count",
+          "actual": "0 / 90",
+          "expected": "0 / 90"
+        },
+        {
+          "name": "empty result rows",
+          "actual": 0,
+          "expected": 0
+        },
+        {
+          "name": "clear search restores rows",
+          "actual": 90,
+          "expected": 90
+        },
+        {
+          "name": "D10 sample counts",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "D20 sample counts",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "D20 preserves strategy rows",
+          "actual": 29,
+          "expected": 29
+        },
+        {
+          "name": "future background updates values",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "name": "future background preserves rows",
+          "actual": 14,
+          "expected": 14
+        },
+        {
+          "name": "no unhandled page errors",
+          "actual": [],
+          "expected": []
+        },
+        {
+          "name": "no network dependency",
+          "actual": [],
+          "expected": []
+        },
+        {
+          "name": "no final page overflow",
+          "actual": true,
+          "expected": true
+        }
+      ],
+      "errors": [],
+      "httpRequests": [],
+      "screenshots": [
+        {
+          "file": "balance-390-overview.png",
+          "sha256": "8d1957527b428f99ddb66eec2f4051519b0ce8ff50d63d33c5b8936cb3d768de"
+        },
+        {
+          "file": "balance-390-characters.png",
+          "sha256": "05ba7be6400e0f1fc36d5fd16cd08669e2df5875dc3e394c2967f298d6b37d3a"
+        },
+        {
+          "file": "balance-390-aglaea.png",
+          "sha256": "8fa8e9821fac646167a539c2a2e1f663ce40e6b382019c038195c37be442e551"
+        },
+        {
+          "file": "balance-390-aglaea-last-columns.png",
+          "sha256": "4ef3c189d7cb61cd1b93937952e848ce8124012a3a1bb8d4133998492457ff55"
+        },
+        {
+          "file": "balance-390-d20-strategies.png",
+          "sha256": "b62d6c53a40c190503013b2f62044f13fcebf654217313e04a59294055b419db"
+        },
+        {
+          "file": "balance-390-layers.png",
+          "sha256": "6615bb7059984f3a55e3fab412bd1ab7876df8e76877fff82b5bbf0ec3aa4e45"
+        },
+        {
+          "file": "balance-390-evidence.png",
+          "sha256": "6bbf47c117ec0f6f99890dc5d55a702bd919e0db1a80ef4dbd12f021d0fc519b"
+        }
+      ],
+      "dimensions": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      },
+      "typography": {
+        "fontSize": "14px",
+        "lineHeight": "23.1px"
+      },
+      "defenseCount": 13,
+      "characterTable": {
+        "clientWidth": 360,
+        "scrollWidth": 1173
+      }
+    }
+  ],
+  "reportUnmodified": true,
+  "passed": true
+}

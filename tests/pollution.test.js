@@ -6,7 +6,7 @@ import { adjacentIndexes, matchesEffectFilter } from '../src/effect-rules.js';
 import { getEligibleDebuffs, unitPowerMultiplier, POLLUTION_ATTACK_MULTIPLIER } from '../src/enemy-effects.js';
 
 const pollution = state => state.activeDebuffs.find(effect => effect.id === 'rift_pollution');
-const instance = (uid, id, extra = {}) => ({ uid, id, stars: 1, growth: 0, ticks: 0, ...extra });
+const instance = (uid, id, extra = {}) => ({ uid,id,stars:1,growth:0,ticks:0,attackBonus:extra.growth || 0,...extra });
 
 function encounter(floor = 4, { roster = [instance('u1', '1002'), instance('u2', '1102')], seed = 'pollution', difficulty = 10, resourceAccess } = {}) {
   const state = newGame({ seed, difficulty, resourceAccess });
@@ -28,18 +28,18 @@ function encounter(floor = 4, { roster = [instance('u1', '1002'), instance('u2',
 test('pollution selects the lowest base-plus-growth permanent one-star instance only once on fixed encounters', () => {
   const roster = [
     instance('u1', '1002', { growth: 5 }), instance('u2', '1201'), instance('u3', '1009'),
-    instance('u4', '1001', { temporary: 3 }), instance('u5', '1013', { stars: 2 }),
+    instance('u4', '1001', {deleteAfterAppearances:3}), instance('u5', '1013', { stars: 2 }),
   ];
   for (const floor of [4, 6, 8, 10, 12]) {
     const state = encounter(floor, { roster });
-    assert.equal(pollution(state).targetUid, 'u3');
-    assert.equal(pollution(state).targetName, '艾丝妲');
+    assert.equal(pollution(state).targetUid, 'u4');
+    assert.equal(pollution(state).targetName, '三月七');
     assert.equal(state.activeDebuffs.filter(effect => effect.id === 'rift_pollution').length, 1);
     assert.equal(getEligibleDebuffs(state).some(effect => effect.id === 'rift_pollution'), false);
     assert.notEqual(validateSave(state), null);
   }
   for (const floor of [2, 3, 5, 7, 9, 11]) assert.equal(pollution(encounter(floor, { roster })), undefined);
-  const noTarget = encounter(4, { roster: [instance('u1', '1002', { stars: 2 }), instance('u2', '1109', { temporary: 2 })] });
+  const noTarget = encounter(4, { roster: [instance('u1', '1002', { stars: 2 }), instance('u2', '1109', {stars:2})] });
   assert.equal(pollution(noTarget), undefined);
   assert.equal(noTarget.roster[0].stars, 2, 'no forced downgrades to create a target');
 });
@@ -65,9 +65,11 @@ test('the marked instance pays six health, personal half power and one shared at
   assert.equal(next.resourceStats.hpLost, 6);
   const target = pollution(state).targetUid;
   const cell = next.board.findIndex(unit => unit?.uid === target);
-  assert.ok(Math.abs(next.lastSpin.values[cell] - plain.lastSpin.values[cell] * 0.5 * POLLUTION_ATTACK_MULTIPLIER) <= 0.01);
+  const damage=(s,uid)=>s.lastSpin.hits.filter(hit=>hit.sourceUid===uid).reduce((sum,hit)=>sum+hit.amount,0);
+  assert.equal(next.lastSpin.values[cell],plain.lastSpin.values[cell]);
+  assert.ok(Math.abs(damage(next,target)-damage(plain,target)*.5*POLLUTION_ATTACK_MULTIPLIER)<=.03);
   for (const [index, unit] of next.board.entries()) {
-    if (unit && unit.uid !== target) assert.ok(Math.abs(next.lastSpin.values[index] - plain.lastSpin.values[index] * POLLUTION_ATTACK_MULTIPLIER) <= 0.01, 'all other attackers pay the shared penalty once, including a same-character copy');
+    if (unit && unit.uid !== target) assert.ok(Math.abs(damage(next,unit.uid) - damage(plain,unit.uid) * POLLUTION_ATTACK_MULTIPLIER) <= 0.03, 'all other attackers pay the shared penalty once, including a same-character copy');
   }
   assert.notEqual(validateSave(next), null);
 });
@@ -185,15 +187,15 @@ test('the shared pollution penalty changes attack power without reducing support
   const healerIndex=polluted.board.findIndex(u=>u?.id==='1105');
   const healerEffect=characterById('1105').effects[0];
   const healNeighbors=adjacentIndexes(healerIndex).map(i=>polluted.board[i]).filter(u=>matchesEffectFilter(u,healerEffect.per.filter,polluted.board[healerIndex])).length;
-  assert.equal(polluted.lastSpin.healing,Math.min(3,healNeighbors)*2.8);
+  assert.equal(polluted.lastSpin.healing,Math.round(Math.min(3,healNeighbors)*healerEffect.value*polluted.lastSpin.values[healerIndex]*100)/100);
   const protectorIndex=polluted.board.findIndex(u=>u?.id==='1001');
   const protector=characterById('1001');
   const matchingNeighbors=adjacentIndexes(protectorIndex).map(i=>polluted.board[i]).filter(u=>matchesEffectFilter(u,protector.effects[0].per.filter,polluted.board[protectorIndex])).length;
-  assert.equal(polluted.lastSpin.shield,Math.min(3,matchingNeighbors)*3);
+  assert.equal(polluted.lastSpin.shield,Math.round(Math.min(3,matchingNeighbors)*protector.effects[0].value*polluted.lastSpin.values[protectorIndex]*100)/100);
   for (const id of ['1105', '1009']) {
     const cell = polluted.board.findIndex(unit => unit?.id === id);
     const marked=pollution(state).targetUid===polluted.board[cell].uid;
-    assert.equal(polluted.lastSpin.values[cell],marked?Math.round(normal.lastSpin.values[cell]*.5*100)/100:normal.lastSpin.values[cell]);
+    assert.equal(polluted.lastSpin.values[cell],normal.lastSpin.values[cell]);
   }
 });
 

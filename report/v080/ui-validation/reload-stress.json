@@ -1,0 +1,90 @@
+{
+  "artifactSha256": "4febf00786db4eef0d357c1ccae141a707aa7ca3cdd65ff28708c329a5b52d9d",
+  "method": "Independent immutable byte copy of the same release HTML; 12 fresh offline browser contexts, alternating 1265 and 390 pixels, real spin and reward click followed by reload. Transcribed from completed diagnostic command output.",
+  "results": [
+    {
+      "iteration": 0,
+      "width": 1265,
+      "spinsBeforeReload": 1,
+      "spinsAtInitialization": 1,
+      "spinsAfterReload": 1
+    },
+    {
+      "iteration": 1,
+      "width": 390,
+      "spinsBeforeReload": 1,
+      "spinsAtInitialization": 1,
+      "spinsAfterReload": 1
+    },
+    {
+      "iteration": 2,
+      "width": 1265,
+      "spinsBeforeReload": 1,
+      "spinsAtInitialization": 1,
+      "spinsAfterReload": 1
+    },
+    {
+      "iteration": 3,
+      "width": 390,
+      "spinsBeforeReload": 1,
+      "spinsAtInitialization": 1,
+      "spinsAfterReload": 1
+    },
+    {
+      "iteration": 4,
+      "width": 1265,
+      "spinsBeforeReload": 1,
+      "spinsAtInitialization": 1,
+      "spinsAfterReload": 1
+    },
+    {
+      "iteration": 5,
+      "width": 390,
+      "spinsBeforeReload": 1,
+      "spinsAtInitialization": 1,
+      "spinsAfterReload": 1
+    },
+    {
+      "iteration": 6,
+      "width": 1265,
+      "spinsBeforeReload": 1,
+      "spinsAtInitialization": 1,
+      "spinsAfterReload": 1
+    },
+    {
+      "iteration": 7,
+      "width": 390,
+      "spinsBeforeReload": 1,
+      "spinsAtInitialization": 1,
+      "spinsAfterReload": 1
+    },
+    {
+      "iteration": 8,
+      "width": 1265,
+      "spinsBeforeReload": 1,
+      "spinsAtInitialization": 1,
+      "spinsAfterReload": 1
+    },
+    {
+      "iteration": 9,
+      "width": 390,
+      "spinsBeforeReload": 1,
+      "spinsAtInitialization": 1,
+      "spinsAfterReload": 1
+    },
+    {
+      "iteration": 10,
+      "width": 1265,
+      "spinsBeforeReload": 1,
+      "spinsAtInitialization": 1,
+      "spinsAfterReload": 1
+    },
+    {
+      "iteration": 11,
+      "width": 390,
+      "spinsBeforeReload": 1,
+      "spinsAtInitialization": 1,
+      "spinsAfterReload": 1
+    }
+  ]
+}

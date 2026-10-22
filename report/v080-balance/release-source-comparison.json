@@ -1,0 +1,235 @@
+{
+  "checkedAtUtc": "2026-10-22T20:47:42.692523+00:00",
+  "snapshot": "final2",
+  "productionAndSamplingFiles": [
+    {
+      "file": "src/ai-profile.js",
+      "sampledSha256": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+      "currentSha256": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+      "matches": true
+    },
+    {
+      "file": "src/ai-spatial.js",
+      "sampledSha256": "934f112c95764a92f687b753448d431dbbfc602c7ad5ff7ddefa61e5b6f9850b",
+      "currentSha256": "934f112c95764a92f687b753448d431dbbfc602c7ad5ff7ddefa61e5b6f9850b",
+      "matches": true
+    },
+    {
+      "file": "src/ai-worker.js",
+      "sampledSha256": "36ab3c392271674757822c92f414d7f18776236b88f8bdc6c1d4df79b9106e58",
+      "currentSha256": "36ab3c392271674757822c92f414d7f18776236b88f8bdc6c1d4df79b9106e58",
+      "matches": true
+    },
+    {
+      "file": "src/ai.js",
+      "sampledSha256": "73feab4a568864bf3bba2acc7f9174dc535555290de40de522aff5e11648719c",
+      "currentSha256": "73feab4a568864bf3bba2acc7f9174dc535555290de40de522aff5e11648719c",
+      "matches": true
+    },
+    {
+      "file": "src/app.js",
+      "sampledSha256": "17270dbb528142107ae30d613fedf7a849b253727d10eb237a280fb458a1ef8c",
+      "currentSha256": "17270dbb528142107ae30d613fedf7a849b253727d10eb237a280fb458a1ef8c",
+      "matches": true
+    },
+    {
+      "file": "src/archetype-reference.js",
+      "sampledSha256": "119f3287a651cd70ef74656a760654acd1b415b29c77c994770ed1693697a26a",
+      "currentSha256": "119f3287a651cd70ef74656a760654acd1b415b29c77c994770ed1693697a26a",
+      "matches": true
+    },
+    {
+      "file": "src/archetype-simulation.js",
+      "sampledSha256": "3390a5972ad7af862f7150d1d7ecefc50791ec3fb3d87b3700d7fdef5dd24cc4",
+      "currentSha256": "3390a5972ad7af862f7150d1d7ecefc50791ec3fb3d87b3700d7fdef5dd24cc4",
+      "matches": true
+    },
+    {
+      "file": "src/archetypes.js",
+      "sampledSha256": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+      "currentSha256": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+      "matches": true
+    },
+    {
+      "file": "src/attributes.js",
+      "sampledSha256": "1b57a4d09e224fb025bf0f2a53df4676b3e5a9c1f61d07ca0392c8479b1493d8",
+      "currentSha256": "1b57a4d09e224fb025bf0f2a53df4676b3e5a9c1f61d07ca0392c8479b1493d8",
+      "matches": true
+    },
+    {
+      "file": "src/balance-reference.js",
+      "sampledSha256": "85dc73e0089bdda139a951ccf1315fce18f2c6d3b7614e62681b370889bb580c",
+      "currentSha256": "85dc73e0089bdda139a951ccf1315fce18f2c6d3b7614e62681b370889bb580c",
+      "matches": true
+    },
+    {
+      "file": "src/balance-v070.js",
+      "sampledSha256": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+      "currentSha256": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+      "matches": true
+    },
+    {
+      "file": "src/balance-v080.js",
+      "sampledSha256": "ef6ceeea7343266e589c47e8e17cb9d0ec13f607977adab97df05c54381a639b",
+      "currentSha256": "ef6ceeea7343266e589c47e8e17cb9d0ec13f607977adab97df05c54381a639b",
+      "matches": true
+    },
+    {
+      "file": "src/combat-motion.js",
+      "sampledSha256": "03f4635b8b0a8b6c8368545f0616f9ca4b690d72029783277aa417bef55f01cf",
+      "currentSha256": "03f4635b8b0a8b6c8368545f0616f9ca4b690d72029783277aa417bef55f01cf",
+      "matches": true
+    },
+    {
+      "file": "src/combat-player.js",
+      "sampledSha256": "2c08e669075774a9e2889761eee6cd43499f871a5f86ae248e65ae39b9cdc539",
+      "currentSha256": "2c08e669075774a9e2889761eee6cd43499f871a5f86ae248e65ae39b9cdc539",
+      "matches": true
+    },
+    {
+      "file": "src/content.js",
+      "sampledSha256": "aea6b58716370b4d35baa04d0f178c50efd2cdb5b24385bbe6dc3ebb7e7ba8d4",
+      "currentSha256": "aea6b58716370b4d35baa04d0f178c50efd2cdb5b24385bbe6dc3ebb7e7ba8d4",
+      "matches": true
+    },
+    {
+      "file": "src/difficulty.js",
+      "sampledSha256": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+      "currentSha256": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+      "matches": true
+    },
+    {
+      "file": "src/effect-info.js",
+      "sampledSha256": "f05e78adeadfeb2e44b23593ae2252065bc65e27e733038aadfcc1f608a1cabf",
+      "currentSha256": "f05e78adeadfeb2e44b23593ae2252065bc65e27e733038aadfcc1f608a1cabf",
+      "matches": true
+    },
+    {
+      "file": "src/effect-rules.js",
+      "sampledSha256": "f7d2abb5576883a1f9abd2590e0a49b63cfdad2438c99db3eaec4ba7c054ff83",
+      "currentSha256": "f7d2abb5576883a1f9abd2590e0a49b63cfdad2438c99db3eaec4ba7c054ff83",
+      "matches": true
+    },
+    {
+      "file": "src/enemy-effects.js",
+      "sampledSha256": "cd654be40741c912ea1064d7c09434ff3287065ca8da6af360fbcd0e76e04424",
+      "currentSha256": "cd654be40741c912ea1064d7c09434ff3287065ca8da6af360fbcd0e76e04424",
+      "matches": true
+    },
+    {
+      "file": "src/engine.js",
+      "sampledSha256": "06b43ac361226346e0463fbbdf24c278ff30b66d42de7dee07488b42211f6290",
+      "currentSha256": "06b43ac361226346e0463fbbdf24c278ff30b66d42de7dee07488b42211f6290",
+      "matches": true
+    },
+    {
+      "file": "src/growth-report.js",
+      "sampledSha256": "aeb46f54c6c6d24f07e1b618fdf2e959c5a1cb018214dc146026009f691603a5",
+      "currentSha256": "aeb46f54c6c6d24f07e1b618fdf2e959c5a1cb018214dc146026009f691603a5",
+      "matches": true
+    },
+    {
+      "file": "src/growth-simulation.js",
+      "sampledSha256": "aa541eae6925fe26c55544974e743c573033e6b41c50147c8a7513d8325e907d",
+      "currentSha256": "aa541eae6925fe26c55544974e743c573033e6b41c50147c8a7513d8325e907d",
+      "matches": true
+    },
+    {
+      "file": "src/growth-telemetry.js",
+      "sampledSha256": "28db1cddbcee8f37cb9c3ea596fe43f8114ae34c18a3d8d14d995df45ff9d205",
+      "currentSha256": "28db1cddbcee8f37cb9c3ea596fe43f8114ae34c18a3d8d14d995df45ff9d205",
+      "matches": true
+    },
+    {
+      "file": "src/inspect.js",
+      "sampledSha256": "758408434321b1f499c66b279aa505761406eaf08bfa92fa27c9cfcb250f90fc",
+      "currentSha256": "758408434321b1f499c66b279aa505761406eaf08bfa92fa27c9cfcb250f90fc",
+      "matches": true
+    },
+    {
+      "file": "src/mechanics.js",
+      "sampledSha256": "cb3a23ce69f64f0a180404ea67f4657733e9452a40f48f9dd6af669a609cb565",
+      "currentSha256": "cb3a23ce69f64f0a180404ea67f4657733e9452a40f48f9dd6af669a609cb565",
+      "matches": true
+    },
+    {
+      "file": "src/offline.js",
+      "sampledSha256": "1cd1be89d902d19a2b8bb5596f04660e4bf8bbecdf1885561f514c817345abb4",
+      "currentSha256": "1cd1be89d902d19a2b8bb5596f04660e4bf8bbecdf1885561f514c817345abb4",
+      "matches": true
+    },
+    {
+      "file": "src/retirement-ai.js",
+      "sampledSha256": "b2b324e95964e12ef7818279f1fbc01edfeef8f713b010b1d3cc910ef4edc25c",
+      "currentSha256": "b2b324e95964e12ef7818279f1fbc01edfeef8f713b010b1d3cc910ef4edc25c",
+      "matches": true
+    },
+    {
+      "file": "src/retirements.js",
+      "sampledSha256": "92edad425b4c033e64da5b8a146e1dfef53e7bf5380c45da81dd88451149ead5",
+      "currentSha256": "92edad425b4c033e64da5b8a146e1dfef53e7bf5380c45da81dd88451149ead5",
+      "matches": true
+    },
+    {
+      "file": "src/runtime.js",
+      "sampledSha256": "15e92774219913ded4aacf8d36ba84828472f5f965377c2293518909a13a0045",
+      "currentSha256": "15e92774219913ded4aacf8d36ba84828472f5f965377c2293518909a13a0045",
+      "matches": true
+    },
+    {
+      "file": "src/save-transfer.js",
+      "sampledSha256": "14b87c2380d9042876886538beed6f3f88ed92b76bdd8a28c03271f1f8350071",
+      "currentSha256": "14b87c2380d9042876886538beed6f3f88ed92b76bdd8a28c03271f1f8350071",
+      "matches": true
+    },
+    {
+      "file": "src/simulation.js",
+      "sampledSha256": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+      "currentSha256": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+      "matches": true
+    },
+    {
+      "file": "src/synergies.js",
+      "sampledSha256": "4f701b64dc869bff6b13cacef9958cce6d2ad08b50edd033ca821ada413dc004",
+      "currentSha256": "4f701b64dc869bff6b13cacef9958cce6d2ad08b50edd033ca821ada413dc004",
+      "matches": true
+    },
+    {
+      "file": "src/ui-motion.js",
+      "sampledSha256": "f59428f6067073a5e8833ffd7c7b86c89918a9393d99cf68295697381c95c1f5",
+      "currentSha256": "f59428f6067073a5e8833ffd7c7b86c89918a9393d99cf68295697381c95c1f5",
+      "matches": true
+    },
+    {
+      "file": "scripts/balance-v080.mjs",
+      "sampledSha256": "b473c4f690f359b6004679477ea48b13d7e86a424017dac4181df775bc09dd18",
+      "currentSha256": "b473c4f690f359b6004679477ea48b13d7e86a424017dac4181df775bc09dd18",
+      "matches": true
+    },
+    {
+      "file": "scripts/v070-results-io.mjs",
+      "sampledSha256": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5",
+      "currentSha256": "76d8efb3ad3066ad9bce428d4d7ff89c20c0ab9b058357fe77a58e5420ed3dd5",
+      "matches": true
+    }
+  ],
+  "allProductionAndSamplingMatch": true,
+  "changedNonSamplingScripts": [
+    {
+      "file": "scripts/analyze-v080.mjs",
+      "snapshotSha256": "97880483276d8cdcc6cca2c36c56a2c0d83f291b4167e5ba82ec1b3e8e35a0fc",
+      "currentSha256": "be2215f8c418000743bf178d636a2459ea4d3474cf34982f754c3762132c9905"
+    },
+    {
+      "file": "scripts/render-v080-balance.mjs",
+      "snapshotSha256": "42548a33c0304feffe22d6d94f729e9bd0c477c14e96be7b3503dcb030c3402b",
+      "currentSha256": "916304d02eadc97b53b82d22121abcddeb0462284624a964f7bce1eaa0c5349a"
+    },
+    {
+      "file": "scripts/render-v080-implementation.mjs",
+      "snapshotSha256": "437d7622354b955b7975130119d7b63020480be561ff08cb2ce44542123e667e",
+      "currentSha256": "01364d5ca8ddcbfda0d08b6718cb85f4c7a2e430292a895bcb006e92120edf09"
+    }
+  ],
+  "nonSamplingNote": "Only analysis/presentation scripts may differ from the frozen sampler; report output source hashes are retained separately in render-manifest.json. These script changes do not alter the sampled engine or AI."
+}

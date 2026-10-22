@@ -58,7 +58,7 @@ test('board samples twenty unique instances without replacement', () => {
 test('single attacks use three times power and their own column', () => {
   const next = spin(singleUnit('1002'));
   const cell = next.board.findIndex(Boolean);
-  assert.deepEqual(next.lastSpin.hits, [{ cell, targetCol: cell % 5, amount: characterById('1002').power * 3 }]);
+  assert.deepEqual(next.lastSpin.hits.map(({cell,targetCol,amount})=>({cell,targetCol,amount})), [{ cell, targetCol: cell % 5, amount: characterById('1002').baseAttack * characterById('1002').normalAttack.primary }]);
 });
 
 test('nearest fallback chooses left on ties and ignores dead enemies', () => {
@@ -95,7 +95,7 @@ test('support heal and overflow shield count actual gains', () => {
   state.roster.push({uid:'u2',id:'1207',stars:1,growth:0,ticks:0});state.uidCounter=3;
   state.hp = 98;
   const next = spin(state);
-  assert.equal(next.lastSpin.damage, 0);
+  assert.ok(next.lastSpin.damage > 0, 'support default attacks also deal damage');
   assert.equal(next.lastSpin.healing, 2);
   assert.equal(next.lastSpin.shield, 5);
   assert.equal(next.resourceStats.healed, 2);
@@ -140,12 +140,12 @@ test('nine copies auto merge to three stars while preserving permanent growth', 
   assert.equal(state.stats.merges, 4);
 });
 
-test('synergies count distinct permanent identities, not copies, stars or reinforcements', () => {
+test('synergies count all distinct character identities, including created characters', () => {
   const state = newGame();
-  state.roster = [{ uid: 'u1', id: '1001', stars: 1 }, { uid: 'u2', id: '1001', stars: 3 }, { uid: 'u3', id: '1003', stars: 1, temporary: 3 }];
-  assert.equal(getSynergies(state).find(s => s.id === 'astral').count, 1);
-  state.roster.push({ uid: 'u4', id: '1002', stars: 1 });
+  state.roster = [{ uid: 'u1', id: '1001', stars: 1 }, { uid: 'u2', id: '1001', stars: 3 }, { uid: 'u3', id: '1003', stars: 1, origin: 'u1' }];
   assert.equal(getSynergies(state).find(s => s.id === 'astral').count, 2);
+  state.roster.push({ uid: 'u4', id: '1002', stars: 1 });
+  assert.equal(getSynergies(state).find(s => s.id === 'astral').count, 3);
 });
 
 test('floor-end rewards occur recruit then item then essence, and advance exactly once', () => {
@@ -264,7 +264,7 @@ test('growth stays with the sampled instance and temporary units retire after at
   const growth = spin(growing);
   assert.equal(growth.roster[0].growth, .15);
   assert.equal(growth.board.find(u=>u?.uid==='u1').growth, .15);
-  const state = singleUnit('1109', { temporary: 1 });
+  const state = singleUnit('1109', { deleteAfterAppearances: 1 });
   state.items.push('insect_web');
   state.hp = 90;
   const next = spin(state);
@@ -376,7 +376,7 @@ test('authentic version-one combat migrates without rerolling its encounter; cla
   const legacy = JSON.parse(readFileSync(new URL('./fixtures/legacy-combat-v1.json', import.meta.url), 'utf8'));
   const migrated = validateSave(legacy);
   assert.equal(getSaveStatus(legacy), 'migrated');
-  assert.equal(migrated.version, 2);
+  assert.equal(migrated.version, SAVE_VERSION);
   assert.equal(migrated.difficulty, 10);
   assert.equal(migrated.migratedFromVersion, 1);
   assert.equal(migrated.resourceStats.initialHp, legacy.hp);

@@ -7,7 +7,7 @@ import { newGame, spin, validateSave } from '../src/engine.js';
 const roles = ['attack','defense','amplifier','trainer','disruptor'];
 const spatialMetrics = new Set(['neighbors','row','column','aligned','emptyNeighbors','edge','corner']);
 const spatialTargets = new Set(['adjacent','row','column','aligned']);
-const spatial = effect => spatialTargets.has(effect.target) || spatialTargets.has(effect.range) || spatialMetrics.has(effect.per?.metric) || [effect.condition,...(effect.conditions || [])].some(condition => spatialMetrics.has(condition?.metric));
+const spatial = effect => spatialTargets.has(effect.target) || spatialTargets.has(effect.range) || ['adjacent','column','enemyColumn'].includes(effect.eventRange) || spatialMetrics.has(effect.per?.metric) || [effect.condition,...(effect.conditions || [])].some(condition => spatialMetrics.has(condition?.metric));
 const instance = (id,index=0) => ({id,uid:'u'+(index+1),stars:1,ticks:4,growth:0});
 function filters(effect) { return [effect.filter,effect.per?.filter,...[effect.condition,...(effect.conditions || [])].map(c=>c?.filter)].filter(Boolean); }
 function inspectFilter(filter) {
@@ -32,12 +32,12 @@ test('all 90 kits retain public identities and five complementary roles without 
   assert.equal(new Set(CHARACTERS.map(c=>c.id)).size,90);
   assert.equal(new Set(CHARACTERS.map(c=>JSON.stringify(c.effects))).size,90,'each identity has a distinct kit');
   for(const c of CHARACTERS){
-    assert.equal(c.kitVersion,6,c.id);
+    assert.equal(c.kitVersion,8,c.id);
     assert.ok(roles.includes(c.role) && c.roleLabel,c.id);
     assert.ok(c.path && c.element && c.faction && c.sourceUrl,c.id);
     assert.equal(c.groups,undefined,c.id);
     assert.ok(c.effects.length && c.effects.every(e=>!e.legacy),c.id);
-    assert.equal(c.description,c.effects.map(e=>e.summary+'。').join(''),c.id);
+    assert.ok(c.description && !/待定|伙伴|成长|临时角色|威力/.test(c.description),c.id);
     for(const e of c.effects) for(const f of filters(e)){
       inspectFilter(f);
       assert.ok(CHARACTERS.some(other=>matchesEffectFilter({...instance(other.id,1),...(f.temporary?{temporary:2}:{})},f,instance(c.id))),c.id+': reachable public label filter');
@@ -57,33 +57,34 @@ test('at least 90 percent of skill entries use actual spatial rules and every ex
   assert.ok(all.some(({e})=>e.per?.metric==='emptyNeighbors'),'empty neighboring cells have gameplay');
 });
 
-test('attack roles have intrinsic attacks and utility training cannot replace an attack carry',()=>{
-  const scalable=new Set(['heal','healOverflowShield','shield','power','powerMultiplier','shieldMultiplier','vulnerability','retaliationFlat','retaliationMultiplier']);
+test('all roles have intrinsic attacks and support multipliers are individually smaller than carry baselines',()=>{
+  const scalable=new Set(['heal','healOverflowShield','shield']);
   for(const c of CHARACTERS){
     if(c.role==='attack'){
       assert.ok(['single','blast','aoe'].includes(c.attack),c.id);
-      assert.ok(c.power>=2&&c.power<=3.8,c.id);
+      assert.ok(c.baseAttack>=1.5&&c.baseAttack<=4,c.id);
     }else{
-      assert.equal(c.attack,'support',c.id);
-      assert.ok(c.power<1,c.id);
+      assert.ok(['single','blast','aoe'].includes(c.attack),c.id);
+      assert.ok(c.baseAttack>=1,c.id);
+      assert.ok(c.normalAttack.primary<=.6,c.id);
       for(const e of c.effects){
-        assert.ok(!['damage','selfDamage','consume'].includes(e.type),c.id);
-        if(scalable.has(e.type))assert.equal(e.scaleWithTraining,true,c.id+'/'+e.type);
+        if(scalable.has(e.type))assert.equal(e.attackRatio,true,c.id+'/'+e.type);
+        assert.equal(e.scaleWithTraining,undefined,c.id);
       }
     }
   }
   const s=fixture(CHARACTERS.filter(c=>c.role!=='attack').slice(0,20).map(c=>c.id));
   s.roster.forEach(u=>{u.growth=12;u.stars=3;});
   const result=spin(s);
-  assert.equal(result.lastSpin.damage,0);
+  assert.ok(result.lastSpin.damage>0);
   assert.ok(validateSave(result));
 });
 
-test('all ten trainers use public tags and a local range, with no recursive or temporary training',()=>{
+test('all ten permanent attribute supports use public tags and a local range with equal character eligibility',()=>{
   const trainers=CHARACTERS.filter(c=>c.role==='trainer');
   assert.equal(trainers.length,10);
   const selfGrowers=[];
-  for(const c of CHARACTERS) for(const e of c.effects.filter(e=>e.type==='growth')){
+  for(const c of CHARACTERS) for(const e of c.effects.filter(e=>e.type==='attackGrowth')){
     assert.equal(e.scaleWithTraining,undefined,c.id);
     if(e.target==='self'){
       selfGrowers.push(c.id);
@@ -95,18 +96,18 @@ test('all ten trainers use public tags and a local range, with no recursive or t
     assert.ok(spatialTargets.has(e.target),c.id);
     assert.ok(e.every>=2 && e.targetLimit>=1 && e.targetLimit<=2,c.id);
     assert.equal(e.filter.excludeSelf,true,c.id);
-    assert.equal(e.filter.roleNot,'trainer',c.id);
-    assert.equal(e.filter.temporary,false,c.id);
-    assert.equal(e.filter.commission,false,c.id);
-    assert.deepEqual(e.starFactors,[0,1,1.5,2],c.id);
+    assert.equal(e.filter.roleNot,undefined,c.id);
+    assert.equal(e.filter.temporary,undefined,c.id);
+    assert.equal(e.filter.commission,undefined,c.id);
+    assert.equal(e.starFactors,undefined,c.id);
     assert.ok(e.filter.anyOf?.some(f=>f.path||f.element||f.faction),c.id);
   }
   assert.deepEqual(selfGrowers.sort(),['1002','1205','march_hunt'].sort());
 });
 
 test('amplifiers and enemy vulnerability act only on position-limited matching attacks',()=>{
-  for(const c of CHARACTERS) for(const e of c.effects.filter(e=>e.type==='vulnerability'||c.role==='amplifier'&&['power','powerMultiplier'].includes(e.type))){
-    assert.equal(e.filter.role,'attack',c.id);
+  for(const c of CHARACTERS) for(const e of c.effects.filter(e=>e.type==='vulnerability'||c.role==='amplifier'&&['power','attackPercent','damageBonus'].includes(e.type))){
+    assert.equal(e.filter.role,undefined,c.id);
     assert.ok(spatialTargets.has(e.target),c.id);
     if(e.selection==='strongest') assert.equal(e.targetLimit,1,c.id);
     if(e.type==='vulnerability')assert.ok(e.value>0&&e.value<=.4,c.id);

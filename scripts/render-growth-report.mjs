@@ -1,3 +1,4 @@
+import { translateAttributeReport } from '../src/growth-report.js';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -11,7 +12,7 @@ export function renderGrowthHtml(report, sourceName = 'summary.json') {
     throw new Error('Input must be a summarizeGrowthCampaigns summary with nonempty groups and card arrays.');
   }
   const measuredVersion = escapeHtml(report.metadata?.measuredVersion || '未标版本');
-  return `<!doctype html>
+  const html = `<!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
@@ -45,6 +46,7 @@ const finite = value => typeof value === 'number' && Number.isFinite(value);
 const esc = value => String(value == null ? '' : value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const num = value => finite(value) ? value.toLocaleString('zh-CN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) : '—';
 const int = value => finite(value) ? value.toLocaleString('zh-CN') : '—';
+const isSupport = card => card.role ? card.role !== 'attack' : card.attack === 'support';
 const roleNames = { single:'单体', blast:'扩散', aoe:'群体', support:'辅助' };
 const cohortName = cohort => cohort === 'coverage' ? '覆盖补测' : '自然构筑';
 const outcomeNames = { all:'全部完成局', victory:'胜局', defeat:'败局' };
@@ -91,8 +93,8 @@ function selectedRows() {
   const query = $('search').value.trim().toLocaleLowerCase('zh-CN'), role = $('role').value;
   return activeGroup.cards.map(card => ({card, data:definition(card, $('outcome').value)})).filter(({card,data}) => {
     if (query && ![card.name,card.id,card.description,card.path].some(text => String(text || '').toLocaleLowerCase('zh-CN').includes(query))) return false;
-    if (role === 'attack' && card.attack === 'support') return false;
-    if (role === 'support' && card.attack !== 'support') return false;
+    if (role === 'attack' && isSupport(card)) return false;
+    if (role === 'support' && !isSupport(card)) return false;
     if (['single','blast','aoe'].includes(role) && card.attack !== role) return false;
     if (role === 'zero' && !data.allDirectDamageZero) return false;
     return true;
@@ -120,7 +122,7 @@ function renderRows(rows) {
   $('row-count').textContent = '显示 ' + rows.length + ' / ' + activeGroup.cards.length + ' 张';
   renderHeaders();
   $('table-body').innerHTML = rows.length ? sortedRows(rows).map(({card,data}) => '<tr>' + columns.map(column => {
-    if (column.text) return '<td><button class="card-button" data-card="' + esc(card.id) + '" type="button"><span class="card-name">' + esc(card.name) + '</span></button><span class="card-role">' + esc(roleNames[card.attack] || card.attack || '未知类型') + ' · ' + esc(card.path || '') + (card.attack === 'support' || data.allDirectDamageZero ? ' · 看辅助' : '') + '</span></td>';
+    if (column.text) return '<td><button class="card-button" data-card="' + esc(card.id) + '" type="button"><span class="card-name">' + esc(card.name) + '</span></button><span class="card-role">' + esc(roleNames[card.attack] || card.attack || '未知类型') + ' · ' + esc(card.path || '') + (isSupport(card) || data.allDirectDamageZero ? ' · 看辅助' : '') + '</span></td>';
     if (column.status) {
       const damage = statusText(data.precision?.damagePerAppearance), growth = statusText(data.precision?.endGrowth);
       return '<td><span class="metric ' + damage.cls + '">直伤：' + damage.text + '</span><span class="metric-sub ' + growth.cls + '">成长：' + growth.text + '</span></td>';
@@ -133,7 +135,7 @@ function renderRows(rows) {
 function renderCharts(rows) {
   const observed = rows.filter(row => row.data.endGrowth?.n && finite(row.data.endGrowth.mean)).sort((a,b) => b.data.endGrowth.mean - a.data.endGrowth.mean || String(a.card.id).localeCompare(String(b.card.id)));
   const scale = Math.max(1, ...observed.map(row => Math.abs(row.data.endGrowth.mean)));
-  const bars = (list,low) => list.length ? list.map(({card,data}) => '<div class="bar-row"><span class="bar-name" title="' + esc((card.attack === 'support' ? '辅助型 · ' : data.allDirectDamageZero ? '零直伤观测 · ' : '') + card.name) + '">' + esc((card.attack === 'support' ? '辅 · ' : data.allDirectDamageZero ? '零直伤 · ' : '') + card.name) + '</span><div class="track"><div class="bar' + (low ? ' low' : '') + '" style="width:' + Math.max(0,Math.min(100,Math.abs(data.endGrowth.mean) / scale * 100)) + '%"></div></div><span class="bar-value">' + num(data.endGrowth.mean) + '<span class="metric-sub">n=' + int(data.endGrowth.n) + '</span></span></div>').join('') : '<p class="small">当前没有终局持有观测。</p>';
+  const bars = (list,low) => list.length ? list.map(({card,data}) => '<div class="bar-row"><span class="bar-name" title="' + esc((isSupport(card) ? '辅助型 · ' : data.allDirectDamageZero ? '零直伤观测 · ' : '') + card.name) + '">' + esc((isSupport(card) ? '辅 · ' : data.allDirectDamageZero ? '零直伤 · ' : '') + card.name) + '</span><div class="track"><div class="bar' + (low ? ' low' : '') + '" style="width:' + Math.max(0,Math.min(100,Math.abs(data.endGrowth.mean) / scale * 100)) + '%"></div></div><span class="bar-value">' + num(data.endGrowth.mean) + '<span class="metric-sub">n=' + int(data.endGrowth.n) + '</span></span></div>').join('') : '<p class="small">当前没有终局持有观测。</p>';
   $('high-bars').innerHTML = bars(observed.slice(0,10),false);
   $('low-bars').innerHTML = bars(observed.slice(-10).reverse(),true);
   $('chart-caption').textContent = 'D' + activeGroup.difficulty + ' · ' + cohortName(activeGroup.cohort) + ' · ' + outcomeNames[$('outcome').value] + '。图表随卡名和类型筛选变化；零成长照常显示，未观测卡牌保留在下表。';
@@ -229,6 +231,7 @@ updateCohort();
 </script>
 </body>
 </html>\n`;
+  return report.metadata?.protocol?.attributeUnit === 'attackBonus' ? translateAttributeReport(html) : html;
 }
 
 async function main() {

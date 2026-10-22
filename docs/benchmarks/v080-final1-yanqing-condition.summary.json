@@ -1,0 +1,612 @@
+{
+  "gameVersion": "0.8.0",
+  "protocol": {
+    "version": "v080-yanqing-current-condition-v1",
+    "description": "位于边缘且护盾至少为5时，本次转动造成的伤害提高70%。",
+    "correction": "Earlier full-HP probe used an obsolete assumption and does not cover the current skill. Its raw records remain retained; this probe supplies actual edge + shield>=5 conditions.",
+    "independentUnit": "layout group"
+  },
+  "config": {
+    "mode": "condition-probe",
+    "samples": 128,
+    "seed": "v080-yanqing-shield-condition",
+    "split": "calibration"
+  },
+  "sourceHashes": {
+    "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+    "src/ai-spatial.js": "934f112c95764a92f687b753448d431dbbfc602c7ad5ff7ddefa61e5b6f9850b",
+    "src/ai-worker.js": "36ab3c392271674757822c92f414d7f18776236b88f8bdc6c1d4df79b9106e58",
+    "src/ai.js": "04fb8ebde2189176e242b27ef0c906c75a7aec86c15352d96d1c229f12929ab4",
+    "src/app.js": "afd5e7e4d63d7c08925fb5d81c83c1b63a1783186bb2a55dc48e6c7947bc3b55",
+    "src/archetype-reference.js": "119f3287a651cd70ef74656a760654acd1b415b29c77c994770ed1693697a26a",
+    "src/archetype-simulation.js": "3390a5972ad7af862f7150d1d7ecefc50791ec3fb3d87b3700d7fdef5dd24cc4",
+    "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+    "src/attributes.js": "1b57a4d09e224fb025bf0f2a53df4676b3e5a9c1f61d07ca0392c8479b1493d8",
+    "src/balance-reference.js": "85dc73e0089bdda139a951ccf1315fce18f2c6d3b7614e62681b370889bb580c",
+    "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+    "src/balance-v080.js": "ef6ceeea7343266e589c47e8e17cb9d0ec13f607977adab97df05c54381a639b",
+    "src/combat-motion.js": "03f4635b8b0a8b6c8368545f0616f9ca4b690d72029783277aa417bef55f01cf",
+    "src/combat-player.js": "2c08e669075774a9e2889761eee6cd43499f871a5f86ae248e65ae39b9cdc539",
+    "src/content.js": "b380c7f38372dd3708d1ebee7c20d6e1d26c8003cbfaec06b2dcb4fa1f23c168",
+    "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+    "src/effect-info.js": "f05e78adeadfeb2e44b23593ae2252065bc65e27e733038aadfcc1f608a1cabf",
+    "src/effect-rules.js": "f7d2abb5576883a1f9abd2590e0a49b63cfdad2438c99db3eaec4ba7c054ff83",
+    "src/enemy-effects.js": "cd654be40741c912ea1064d7c09434ff3287065ca8da6af360fbcd0e76e04424",
+    "src/engine.js": "c6b0c33b423c331f019a9f5e03285c7cb1c43efc6b86c4eeb57c7a25ce7cfc5a",
+    "src/growth-report.js": "aeb46f54c6c6d24f07e1b618fdf2e959c5a1cb018214dc146026009f691603a5",
+    "src/growth-simulation.js": "aa541eae6925fe26c55544974e743c573033e6b41c50147c8a7513d8325e907d",
+    "src/growth-telemetry.js": "28db1cddbcee8f37cb9c3ea596fe43f8114ae34c18a3d8d14d995df45ff9d205",
+    "src/inspect.js": "758408434321b1f499c66b279aa505761406eaf08bfa92fa27c9cfcb250f90fc",
+    "src/mechanics.js": "cb3a23ce69f64f0a180404ea67f4657733e9452a40f48f9dd6af669a609cb565",
+    "src/offline.js": "1cd1be89d902d19a2b8bb5596f04660e4bf8bbecdf1885561f514c817345abb4",
+    "src/retirement-ai.js": "b2b324e95964e12ef7818279f1fbc01edfeef8f713b010b1d3cc910ef4edc25c",
+    "src/retirements.js": "92edad425b4c033e64da5b8a146e1dfef53e7bf5380c45da81dd88451149ead5",
+    "src/runtime.js": "15e92774219913ded4aacf8d36ba84828472f5f965377c2293518909a13a0045",
+    "src/save-transfer.js": "14b87c2380d9042876886538beed6f3f88ed92b76bdd8a28c03271f1f8350071",
+    "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+    "src/synergies.js": "4f701b64dc869bff6b13cacef9958cce6d2ad08b50edd033ca821ada413dc004",
+    "src/ui-motion.js": "f59428f6067073a5e8833ffd7c7b86c89918a9393d99cf68295697381c95c1f5",
+    "scripts/probe-v080-yanqing.mjs": "6451ee6dd8a498912e4343f345f9d399d99d7fa9d60347ec2c94665a1df84716"
+  },
+  "sourceStable": true,
+  "scenarios": [
+    {
+      "id": "edge-shield5",
+      "index": 0,
+      "shield": 5
+    },
+    {
+      "id": "edge-shield0",
+      "index": 0,
+      "shield": 0
+    },
+    {
+      "id": "interior-shield5",
+      "index": 6,
+      "shield": 5
+    }
+  ],
+  "summary": [
+    {
+      "background": "generic",
+      "stage": "early",
+      "scenario": "edge-shield5",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 6.644297,
+        "sd": 0.831525,
+        "se": 0.073497,
+        "ci": [
+          6.498859,
+          6.789734
+        ],
+        "confidence": 0.95,
+        "p": 0
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 6.644297,
+        "sd": 0.831525,
+        "se": 0.073497,
+        "ci": [
+          6.498859,
+          6.789734
+        ],
+        "confidence": 0.95,
+        "p": 0
+      }
+    },
+    {
+      "background": "generic",
+      "stage": "early",
+      "scenario": "edge-shield0",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "background": "generic",
+      "stage": "early",
+      "scenario": "interior-shield5",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "background": "generic",
+      "stage": "mid",
+      "scenario": "edge-shield5",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 24.267344,
+        "sd": 2.999855,
+        "se": 0.265152,
+        "ci": [
+          23.742655,
+          24.792032
+        ],
+        "confidence": 0.95,
+        "p": 0
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 24.267344,
+        "sd": 2.999855,
+        "se": 0.265152,
+        "ci": [
+          23.742655,
+          24.792032
+        ],
+        "confidence": 0.95,
+        "p": 0
+      }
+    },
+    {
+      "background": "generic",
+      "stage": "mid",
+      "scenario": "edge-shield0",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "background": "generic",
+      "stage": "mid",
+      "scenario": "interior-shield5",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "background": "generic",
+      "stage": "late",
+      "scenario": "edge-shield5",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 33.035703,
+        "sd": 4.041721,
+        "se": 0.357241,
+        "ci": [
+          32.328788,
+          33.742619
+        ],
+        "confidence": 0.95,
+        "p": 0
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 33.035703,
+        "sd": 4.041721,
+        "se": 0.357241,
+        "ci": [
+          32.328788,
+          33.742619
+        ],
+        "confidence": 0.95,
+        "p": 0
+      }
+    },
+    {
+      "background": "generic",
+      "stage": "late",
+      "scenario": "edge-shield0",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "background": "generic",
+      "stage": "late",
+      "scenario": "interior-shield5",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "background": "compatible",
+      "stage": "early",
+      "scenario": "edge-shield5",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 7.19,
+        "sd": 1.793562,
+        "se": 0.15853,
+        "ci": [
+          6.876298,
+          7.503702
+        ],
+        "confidence": 0.95,
+        "p": 0
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 7.19,
+        "sd": 1.793562,
+        "se": 0.15853,
+        "ci": [
+          6.876298,
+          7.503702
+        ],
+        "confidence": 0.95,
+        "p": 0
+      }
+    },
+    {
+      "background": "compatible",
+      "stage": "early",
+      "scenario": "edge-shield0",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "background": "compatible",
+      "stage": "early",
+      "scenario": "interior-shield5",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "background": "compatible",
+      "stage": "mid",
+      "scenario": "edge-shield5",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 26.249609,
+        "sd": 6.580731,
+        "se": 0.58166,
+        "ci": [
+          25.098609,
+          27.400609
+        ],
+        "confidence": 0.95,
+        "p": 0
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 26.249609,
+        "sd": 6.580731,
+        "se": 0.58166,
+        "ci": [
+          25.098609,
+          27.400609
+        ],
+        "confidence": 0.95,
+        "p": 0
+      }
+    },
+    {
+      "background": "compatible",
+      "stage": "mid",
+      "scenario": "edge-shield0",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "background": "compatible",
+      "stage": "mid",
+      "scenario": "interior-shield5",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "background": "compatible",
+      "stage": "late",
+      "scenario": "edge-shield5",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 35.780313,
+        "sd": 8.976611,
+        "se": 0.793428,
+        "ci": [
+          34.210262,
+          37.350363
+        ],
+        "confidence": 0.95,
+        "p": 0
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 35.780313,
+        "sd": 8.976611,
+        "se": 0.793428,
+        "ci": [
+          34.210262,
+          37.350363
+        ],
+        "confidence": 0.95,
+        "p": 0
+      }
+    },
+    {
+      "background": "compatible",
+      "stage": "late",
+      "scenario": "edge-shield0",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "background": "compatible",
+      "stage": "late",
+      "scenario": "interior-shield5",
+      "n": 128,
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      },
+      "focusDamageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    }
+  ],
+  "elapsedMs": 6449
+}

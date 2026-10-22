@@ -23,7 +23,8 @@ test('bound healer, shield, permanent training, summon and credit mechanics are 
   assert.equal(estimate(stateFor(['1404'])).selfDrain, 0, 'the v0.6 attack kit no longer charges historical self harm');
   const summoner = estimate(stateFor(['1402', '1404']));
   assert.ok(summoner.damage > 0);
-  const trader = estimate(stateFor(['1112']));
+  const traderState = stateFor(['1112']); traderState.items = ['faith_bond'];
+  const trader = estimate(traderState);
   assert.ok(trader.economy > 0);
 });
 
@@ -46,7 +47,7 @@ test('new passive items modify old character utilities and chance scales a multi
   const mask = stateFor(['1002']);
   mask.items = ['fools_mask'];
   const randomBoost = estimate(mask);
-  assert.ok(Math.abs(randomBoost.powerMultipliers.get('u1') - 1.0375) < 1e-12);
+  assert.ok(Math.abs(randomBoost.damageBonuses.get('u1') - .0375) < 1e-12);
 });
 
 test('training gifts retain their bounded recipients and are not multiplied as immediate buffs', () => {
@@ -60,7 +61,7 @@ test('training gifts retain their bounded recipients and are not multiplied as i
     assert.equal(estimate(candidate).growthRates.get('u2'), expected);
     const actual = inspectSpin(candidate, { layoutUids: ['u1', 'u2', ...Array(18).fill(null)] }).state;
     assert.equal(actual.roster.find(unit => unit.id === '1002').growth, 0.35);
-    assert.equal(actual.lastSpin.effects.find(e => e.sourceId === '1207' && e.targetUid === 'u2' && e.type === 'growth').amount, 0.35);
+    assert.equal(actual.lastSpin.effects.find(e => e.sourceId === '1207' && e.targetUid === 'u2' && e.type === 'attackGrowth').amount, 0.35);
   }
 });
 
@@ -74,7 +75,7 @@ test('shared resonance model respects conditions, periodic bursts, resource gate
   assert.equal(estimate(trader).economy, 0);
   const low = stateFor(['1008', '1107'], { hp: 40 });
   const high = stateFor(['1008', '1107'], { hp: 90 });
-  assert.ok(estimate(low).powerMultipliers.get('u1') > (estimate(high).powerMultipliers.get('u1') || 1));
+  assert.ok((estimate(low).damageBonuses.get('u1') || 0) > (estimate(high).damageBonuses.get('u1') || 0));
 });
 
 test('expanded static estimates and no-lookahead advice cannot see hidden RNG, seed or a stale displayed board', () => {

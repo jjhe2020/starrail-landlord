@@ -1,0 +1,975 @@
+{
+  "gameVersion": "0.8.0",
+  "protocol": {
+    "version": "v080-declared-parameter-probe-v1",
+    "independentUnit": "layout group",
+    "samples": 32,
+    "conditionSamples": 128,
+    "note": "Before/after parameter values on the SAME final engine. One focus character parameter intervention at a time; other characters retain final values. This is calibration evidence, not holdout."
+  },
+  "config": {
+    "mode": "parameter-probe",
+    "seed": "v080-migration1",
+    "split": "calibration"
+  },
+  "sourceHashes": {
+    "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+    "src/ai-spatial.js": "934f112c95764a92f687b753448d431dbbfc602c7ad5ff7ddefa61e5b6f9850b",
+    "src/ai-worker.js": "36ab3c392271674757822c92f414d7f18776236b88f8bdc6c1d4df79b9106e58",
+    "src/ai.js": "04fb8ebde2189176e242b27ef0c906c75a7aec86c15352d96d1c229f12929ab4",
+    "src/app.js": "afd5e7e4d63d7c08925fb5d81c83c1b63a1783186bb2a55dc48e6c7947bc3b55",
+    "src/archetype-reference.js": "119f3287a651cd70ef74656a760654acd1b415b29c77c994770ed1693697a26a",
+    "src/archetype-simulation.js": "3390a5972ad7af862f7150d1d7ecefc50791ec3fb3d87b3700d7fdef5dd24cc4",
+    "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+    "src/attributes.js": "1b57a4d09e224fb025bf0f2a53df4676b3e5a9c1f61d07ca0392c8479b1493d8",
+    "src/balance-reference.js": "85dc73e0089bdda139a951ccf1315fce18f2c6d3b7614e62681b370889bb580c",
+    "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+    "src/balance-v080.js": "ef6ceeea7343266e589c47e8e17cb9d0ec13f607977adab97df05c54381a639b",
+    "src/combat-motion.js": "03f4635b8b0a8b6c8368545f0616f9ca4b690d72029783277aa417bef55f01cf",
+    "src/combat-player.js": "2c08e669075774a9e2889761eee6cd43499f871a5f86ae248e65ae39b9cdc539",
+    "src/content.js": "b380c7f38372dd3708d1ebee7c20d6e1d26c8003cbfaec06b2dcb4fa1f23c168",
+    "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+    "src/effect-info.js": "f05e78adeadfeb2e44b23593ae2252065bc65e27e733038aadfcc1f608a1cabf",
+    "src/effect-rules.js": "f7d2abb5576883a1f9abd2590e0a49b63cfdad2438c99db3eaec4ba7c054ff83",
+    "src/enemy-effects.js": "cd654be40741c912ea1064d7c09434ff3287065ca8da6af360fbcd0e76e04424",
+    "src/engine.js": "c6b0c33b423c331f019a9f5e03285c7cb1c43efc6b86c4eeb57c7a25ce7cfc5a",
+    "src/growth-report.js": "aeb46f54c6c6d24f07e1b618fdf2e959c5a1cb018214dc146026009f691603a5",
+    "src/growth-simulation.js": "aa541eae6925fe26c55544974e743c573033e6b41c50147c8a7513d8325e907d",
+    "src/growth-telemetry.js": "28db1cddbcee8f37cb9c3ea596fe43f8114ae34c18a3d8d14d995df45ff9d205",
+    "src/inspect.js": "758408434321b1f499c66b279aa505761406eaf08bfa92fa27c9cfcb250f90fc",
+    "src/mechanics.js": "cb3a23ce69f64f0a180404ea67f4657733e9452a40f48f9dd6af669a609cb565",
+    "src/offline.js": "1cd1be89d902d19a2b8bb5596f04660e4bf8bbecdf1885561f514c817345abb4",
+    "src/retirement-ai.js": "b2b324e95964e12ef7818279f1fbc01edfeef8f713b010b1d3cc910ef4edc25c",
+    "src/retirements.js": "92edad425b4c033e64da5b8a146e1dfef53e7bf5380c45da81dd88451149ead5",
+    "src/runtime.js": "15e92774219913ded4aacf8d36ba84828472f5f965377c2293518909a13a0045",
+    "src/save-transfer.js": "14b87c2380d9042876886538beed6f3f88ed92b76bdd8a28c03271f1f8350071",
+    "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+    "src/synergies.js": "4f701b64dc869bff6b13cacef9958cce6d2ad08b50edd033ca821ada413dc004",
+    "src/ui-motion.js": "f59428f6067073a5e8833ffd7c7b86c89918a9393d99cf68295697381c95c1f5",
+    "scripts/probe-v080-tuning.mjs": "6c2cadfe6d28deae75d04d619489ff96e23b0b64a1a580e7b856fc9e8af769a8"
+  },
+  "sourceStable": true,
+  "changes": [
+    {
+      "id": "aventurine_waveflair",
+      "before": {
+        "baseAttack": 2,
+        "primary": 0.1
+      },
+      "after": {
+        "baseAttack": 2.5,
+        "primary": 3
+      }
+    },
+    {
+      "id": "1110",
+      "before": {
+        "heal": 2,
+        "shield": 1.25
+      },
+      "after": {
+        "heal": 1.5,
+        "shield": 1
+      }
+    }
+  ],
+  "summary": [
+    {
+      "focusId": "aventurine_waveflair",
+      "name": "砂金·戏浪",
+      "background": "generic",
+      "n": 32,
+      "metrics": {
+        "presenceDamage": {
+          "before": {
+            "n": 32,
+            "mean": 2.956729,
+            "sd": 3.039135,
+            "se": 0.537248,
+            "ci": [
+              1.861004,
+              4.052454
+            ],
+            "confidence": 0.95,
+            "p": 0.000005
+          },
+          "after": {
+            "n": 32,
+            "mean": 25.288021,
+            "sd": 5.242564,
+            "se": 0.926763,
+            "ci": [
+              23.397875,
+              27.178167
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": 22.331292,
+            "sd": 3.638768,
+            "se": 0.643249,
+            "ci": [
+              21.019376,
+              23.643207
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "skillDamage": {
+          "before": {
+            "n": 32,
+            "mean": 0.51025,
+            "sd": 1.084146,
+            "se": 0.191652,
+            "ci": [
+              0.119374,
+              0.901126
+            ],
+            "confidence": 0.95,
+            "p": 0.012189
+          },
+          "after": {
+            "n": 32,
+            "mean": 0.611375,
+            "sd": 1.304696,
+            "se": 0.23064,
+            "ci": [
+              0.140982,
+              1.081768
+            ],
+            "confidence": 0.95,
+            "p": 0.012534
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": 0.101125,
+            "sd": 0.234509,
+            "se": 0.041456,
+            "ci": [
+              0.016575,
+              0.185675
+            ],
+            "confidence": 0.95,
+            "p": 0.020634
+          }
+        },
+        "netHpSaved": {
+          "before": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          },
+          "after": {
+            "n": 32,
+            "mean": 0.010417,
+            "sd": 0.058926,
+            "se": 0.010417,
+            "ci": [
+              -0.010828,
+              0.031662
+            ],
+            "confidence": 0.95,
+            "p": 0.325053
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": 0.010417,
+            "sd": 0.058926,
+            "se": 0.010417,
+            "ci": [
+              -0.010828,
+              0.031662
+            ],
+            "confidence": 0.95,
+            "p": 0.325053
+          }
+        },
+        "shieldRemaining": {
+          "before": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          },
+          "after": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          }
+        },
+        "healing": {
+          "before": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          },
+          "after": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          }
+        }
+      }
+    },
+    {
+      "focusId": "aventurine_waveflair",
+      "name": "砂金·戏浪",
+      "background": "compatible",
+      "n": 32,
+      "metrics": {
+        "presenceDamage": {
+          "before": {
+            "n": 32,
+            "mean": 9.669396,
+            "sd": 5.607259,
+            "se": 0.991233,
+            "ci": [
+              7.647763,
+              11.691028
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "after": {
+            "n": 32,
+            "mean": 37.174833,
+            "sd": 12.892298,
+            "se": 2.279058,
+            "ci": [
+              32.526664,
+              41.823002
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": 27.505437,
+            "sd": 8.312216,
+            "se": 1.469406,
+            "ci": [
+              24.508564,
+              30.502311
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "skillDamage": {
+          "before": {
+            "n": 32,
+            "mean": 7.487083,
+            "sd": 4.645553,
+            "se": 0.821225,
+            "ci": [
+              5.812183,
+              9.161984
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "after": {
+            "n": 32,
+            "mean": 8.629292,
+            "sd": 5.353636,
+            "se": 0.946398,
+            "ci": [
+              6.6991,
+              10.559483
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": 1.142208,
+            "sd": 0.717665,
+            "se": 0.126866,
+            "ci": [
+              0.883463,
+              1.400954
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "netHpSaved": {
+          "before": {
+            "n": 32,
+            "mean": 0.041146,
+            "sd": 0.092262,
+            "se": 0.01631,
+            "ci": [
+              0.007882,
+              0.07441
+            ],
+            "confidence": 0.95,
+            "p": 0.016989
+          },
+          "after": {
+            "n": 32,
+            "mean": 0.036979,
+            "sd": 0.095013,
+            "se": 0.016796,
+            "ci": [
+              0.002723,
+              0.071235
+            ],
+            "confidence": 0.95,
+            "p": 0.03526
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": -0.004167,
+            "sd": 0.123857,
+            "se": 0.021895,
+            "ci": [
+              -0.048822,
+              0.040488
+            ],
+            "confidence": 0.95,
+            "p": 0.850313
+          }
+        },
+        "shieldRemaining": {
+          "before": {
+            "n": 32,
+            "mean": 0.028438,
+            "sd": 0.073446,
+            "se": 0.012983,
+            "ci": [
+              0.001958,
+              0.054917
+            ],
+            "confidence": 0.95,
+            "p": 0.03615
+          },
+          "after": {
+            "n": 32,
+            "mean": 0.050312,
+            "sd": 0.106826,
+            "se": 0.018884,
+            "ci": [
+              0.011798,
+              0.088827
+            ],
+            "confidence": 0.95,
+            "p": 0.012134
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": 0.021875,
+            "sd": 0.123828,
+            "se": 0.02189,
+            "ci": [
+              -0.02277,
+              0.06652
+            ],
+            "confidence": 0.95,
+            "p": 0.325376
+          }
+        },
+        "healing": {
+          "before": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          },
+          "after": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          }
+        }
+      }
+    },
+    {
+      "focusId": "1110",
+      "name": "玲可",
+      "background": "generic",
+      "n": 32,
+      "metrics": {
+        "presenceDamage": {
+          "before": {
+            "n": 32,
+            "mean": 4.464604,
+            "sd": 3.51693,
+            "se": 0.621711,
+            "ci": [
+              3.196616,
+              5.732593
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "after": {
+            "n": 32,
+            "mean": 4.464604,
+            "sd": 3.51693,
+            "se": 0.621711,
+            "ci": [
+              3.196616,
+              5.732593
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          }
+        },
+        "skillDamage": {
+          "before": {
+            "n": 32,
+            "mean": 0.602625,
+            "sd": 2.382905,
+            "se": 0.421242,
+            "ci": [
+              -0.256504,
+              1.461754
+            ],
+            "confidence": 0.95,
+            "p": 0.162551
+          },
+          "after": {
+            "n": 32,
+            "mean": 0.602625,
+            "sd": 2.382905,
+            "se": 0.421242,
+            "ci": [
+              -0.256504,
+              1.461754
+            ],
+            "confidence": 0.95,
+            "p": 0.162551
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          }
+        },
+        "netHpSaved": {
+          "before": {
+            "n": 32,
+            "mean": 17.378437,
+            "sd": 10.707044,
+            "se": 1.892756,
+            "ci": [
+              13.518136,
+              21.238739
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "after": {
+            "n": 32,
+            "mean": 13.661,
+            "sd": 8.458075,
+            "se": 1.49519,
+            "ci": [
+              10.611539,
+              16.710461
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": -3.717437,
+            "sd": 2.363532,
+            "se": 0.417817,
+            "ci": [
+              -4.569582,
+              -2.865293
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "shieldRemaining": {
+          "before": {
+            "n": 32,
+            "mean": 2.867125,
+            "sd": 3.303026,
+            "se": 0.583898,
+            "ci": [
+              1.676257,
+              4.057993
+            ],
+            "confidence": 0.95,
+            "p": 0.000028
+          },
+          "after": {
+            "n": 32,
+            "mean": 2.480917,
+            "sd": 2.752116,
+            "se": 0.48651,
+            "ci": [
+              1.488673,
+              3.47316
+            ],
+            "confidence": 0.95,
+            "p": 0.000016
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": -0.386208,
+            "sd": 0.860963,
+            "se": 0.152198,
+            "ci": [
+              -0.696619,
+              -0.075798
+            ],
+            "confidence": 0.95,
+            "p": 0.016409
+          }
+        },
+        "healing": {
+          "before": {
+            "n": 32,
+            "mean": 11.567917,
+            "sd": 6.99362,
+            "se": 1.236309,
+            "ci": [
+              9.046448,
+              14.089385
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "after": {
+            "n": 32,
+            "mean": 8.67625,
+            "sd": 5.245566,
+            "se": 0.927294,
+            "ci": [
+              6.785022,
+              10.567478
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": -2.891667,
+            "sd": 1.748054,
+            "se": 0.309015,
+            "ci": [
+              -3.521907,
+              -2.261426
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      }
+    },
+    {
+      "focusId": "1110",
+      "name": "玲可",
+      "background": "compatible",
+      "n": 32,
+      "metrics": {
+        "presenceDamage": {
+          "before": {
+            "n": 32,
+            "mean": 2.826604,
+            "sd": 1.236834,
+            "se": 0.218643,
+            "ci": [
+              2.380678,
+              3.27253
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "after": {
+            "n": 32,
+            "mean": 2.826604,
+            "sd": 1.236834,
+            "se": 0.218643,
+            "ci": [
+              2.380678,
+              3.27253
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          }
+        },
+        "skillDamage": {
+          "before": {
+            "n": 32,
+            "mean": 0.09275,
+            "sd": 0.292986,
+            "se": 0.051793,
+            "ci": [
+              -0.012883,
+              0.198383
+            ],
+            "confidence": 0.95,
+            "p": 0.083099
+          },
+          "after": {
+            "n": 32,
+            "mean": 0.09275,
+            "sd": 0.292986,
+            "se": 0.051793,
+            "ci": [
+              -0.012883,
+              0.198383
+            ],
+            "confidence": 0.95,
+            "p": 0.083099
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": 0,
+            "sd": 0,
+            "se": 0,
+            "ci": [
+              0,
+              0
+            ],
+            "confidence": 0.95,
+            "p": 1
+          }
+        },
+        "netHpSaved": {
+          "before": {
+            "n": 32,
+            "mean": 18.075583,
+            "sd": 0.567564,
+            "se": 0.100332,
+            "ci": [
+              17.870955,
+              18.280212
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "after": {
+            "n": 32,
+            "mean": 13.828792,
+            "sd": 0.503199,
+            "se": 0.088954,
+            "ci": [
+              13.647369,
+              14.010214
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": -4.246792,
+            "sd": 0.075395,
+            "se": 0.013328,
+            "ci": [
+              -4.273974,
+              -4.219609
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "shieldRemaining": {
+          "before": {
+            "n": 32,
+            "mean": 7.7915,
+            "sd": 0.782155,
+            "se": 0.138267,
+            "ci": [
+              7.509503,
+              8.073497
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "after": {
+            "n": 32,
+            "mean": 6.405375,
+            "sd": 0.764538,
+            "se": 0.135153,
+            "ci": [
+              6.12973,
+              6.68102
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": -1.386125,
+            "sd": 0.027227,
+            "se": 0.004813,
+            "ci": [
+              -1.395941,
+              -1.376309
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "healing": {
+          "before": {
+            "n": 32,
+            "mean": 14.685417,
+            "sd": 0.106066,
+            "se": 0.01875,
+            "ci": [
+              14.647176,
+              14.723658
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "after": {
+            "n": 32,
+            "mean": 11.014063,
+            "sd": 0.07955,
+            "se": 0.014062,
+            "ci": [
+              10.985382,
+              11.042743
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "pairedChange": {
+            "n": 32,
+            "mean": -3.671354,
+            "sd": 0.026517,
+            "se": 0.004688,
+            "ci": [
+              -3.680914,
+              -3.661794
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      }
+    }
+  ],
+  "conditionSummary": [
+    {
+      "focusId": "1209",
+      "background": "generic",
+      "stage": "early",
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "focusId": "1209",
+      "background": "generic",
+      "stage": "mid",
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "focusId": "1209",
+      "background": "generic",
+      "stage": "late",
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "focusId": "1209",
+      "background": "compatible",
+      "stage": "early",
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "focusId": "1209",
+      "background": "compatible",
+      "stage": "mid",
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    },
+    {
+      "focusId": "1209",
+      "background": "compatible",
+      "stage": "late",
+      "damageAdded": {
+        "n": 128,
+        "mean": 0,
+        "sd": 0,
+        "se": 0,
+        "ci": [
+          0,
+          0
+        ],
+        "confidence": 0.95,
+        "p": 1
+      }
+    }
+  ],
+  "elapsedMs": 41619
+}

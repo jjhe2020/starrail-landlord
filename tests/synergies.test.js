@@ -6,7 +6,7 @@ import { SYNERGIES, getSynergiesFor, distinctPresenceProbability, synergyOffense
 
 function fixture(ids, { hp = 45, shield = 100, round = 0, ticks = 0, alive = 5, weak = false, seed = 'resonance-behavior' } = {}) {
   const state = newGame({ seed });
-  state.roster = ids.map((entry, i) => ({ uid: `u${i + 1}`, id: typeof entry === 'string' ? entry : entry.id, stars: 1, growth: 0, ticks, ...(typeof entry === 'object' ? entry : {}) }));
+  state.roster = ids.map((entry, i) => ({ uid: `u${i + 1}`, id: typeof entry === 'string' ? entry : entry.id, stars: 1, growth:0,attackBonus: 0, ticks, ...(typeof entry === 'object' ? entry : {}) }));
   state.uidCounter = ids.length + 1;
   state.hp = hp;
   state.shield = shield;
@@ -45,7 +45,7 @@ const cases = [
   ['quantum', ['1006', '1102', '1201'], {}],
   ['physical', ['1105', '1107'], { weak: true }],
   ['imaginary', ['1004', '1203'], {}],
-  ['remembrance', ['1402', '1407', { id: '1002', temporary: 2 }], {}],
+  ['remembrance', ['1402', '1407', { id: 'garmentmaker' }], {}],
 ];
 
 for (const [id, ids, options] of cases) test(`${id} resonance changes real spin results and reports its own actual source`, () => {
@@ -92,13 +92,13 @@ test('resonance thresholds are reachable in the 90-character pool and describe m
   }
 });
 
-test('duplicate, starred and temporary copies never add permanent resonance identities', () => {
-  const state = fixture(['1001', { id: '1001', stars: 3 }, { id: '1002', temporary: 2 }]);
+test('same-name copies count once and created different identities count normally', () => {
+  const state = fixture(['1001', { id: '1001', stars: 3 }, { id: '1002', commission:'express_archives' }]);
   const synergy = getSynergiesFor(state, characterById).find(s => s.id === 'astral');
-  assert.equal(synergy.count, 1);
-  assert.equal(synergy.active, false);
-  assert.deepEqual(synergy.effects, []);
-  state.roster.push({ uid: 'u4', id: '1002', stars: 1, growth: 0, ticks: 0 });
+  assert.equal(synergy.count, 2);
+  assert.equal(synergy.active, true);
+  assert.ok(synergy.effects.length);
+  state.roster.push({ uid: 'u4', id: '1002', stars: 1, growth:0,attackBonus: 0, ticks: 0 });
   assert.equal(getSynergiesFor(state, characterById).find(s => s.id === 'astral').count, 2);
 });
 
@@ -121,13 +121,41 @@ test('offense amplifier and tax combine once without affecting resource quantiti
   const state = fixture(['1001', '1002', '1109']);
   assert.equal(synergyOffenseScale(state), 1);
   state.items.push('divination_candle');
-  assert.equal(synergyOffenseScale(state), 1.5);
+  assert.equal(synergyOffenseScale(state), 1, 'curio damage-bonus amplification belongs to its declared effect, not this general tax scalar');
   state.activeDebuffs.push({ id: 'synergy_audit' });
-  assert.equal(synergyOffenseScale(state), 1.125);
+  assert.equal(synergyOffenseScale(state), .75);
   const resource = fixture(['1112', '1304']);
   resource.phase = 'recruit'; resource.pendingFloor = true; resource.enemies.forEach(e => { e.hp = 0; }); resource.choices = ['1001'];
   const plain = skipReward(resource);
   resource.items.push('divination_candle');
   const amplified = skipReward(resource);
   assert.equal(amplified.coins, plain.coins);
+});
+
+test('preservation reflection uses blocked damage and enemy vulnerability without counting as a character follow-up', () => {
+  const definitions = ['1001', '1104'].map(characterById);
+  const saved = definitions.map(c => c.effects);
+  try {
+    definitions.forEach(c => { c.effects = []; });
+    const state = fixture(['1001', '1104']);
+    state.essences = [{ id: 'essence_elation_wax', progress: 0, triggered: false }];
+    const reflected = result => result.lastSpin.hits.filter(hit => hit.sourceId === 'preservation');
+    const base = spin(state);
+    assert.equal(reflected(base)[0].amount, 12.5);
+    definitions[1].effects = [
+      { type: 'attackPercent', value: 2, target: 'team', trigger: 'appearance' },
+      { type: 'damageBonus', value: 2, target: 'team', trigger: 'appearance' },
+    ];
+    state.items = ['elation_wax'];
+    const boosted = spin(state);
+    assert.equal(reflected(boosted)[0].attackType, 'environmental');
+    assert.equal(reflected(boosted)[0].amount, reflected(base)[0].amount);
+    assert.equal(boosted.lastSpin.followUpAttacks || 0, 0);
+    assert.equal(boosted.essences[0].progress, 0);
+    assert.ok(boosted.lastSpin.damage > base.lastSpin.damage);
+    definitions[1].effects.push({ type: 'enemyVulnerability', value: .2, target: 'occupiedColumns', trigger: 'appearance' });
+    assert.equal(reflected(spin(state))[0].amount, 15);
+  } finally {
+    definitions.forEach((c, i) => { c.effects = saved[i]; });
+  }
 });

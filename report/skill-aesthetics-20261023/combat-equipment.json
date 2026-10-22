@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "scope": "10项现有奇物的候选点评；仅评审，不应用游戏。",
+  "rows": [
+    {
+      "id": "elation_wax",
+      "name": "欢愉火漆",
+      "current": "持有时，临时角色每次威力+0.8。",
+      "critique": "目前依赖用户已要求删除的角色身份类别，也没有利用角色追加攻击的共同机制。它最适合成为追加攻击构筑的入口。",
+      "proposal": "持有期间，我方角色的追加攻击造成的伤害提高25%。",
+      "changeKind": "机制重构；25%为待测候选值",
+      "axis": "造成伤害提高：仅追加攻击",
+      "currentMechanics": "当前为power固定值+0.8，filter.temporary=true，不是追加攻击增幅。",
+      "notes": "25%与通用造成伤害提高相加后进入同一乘区；仅给已标记为追加攻击的角色攻击结算，不把所有额外伤害自动改成追加攻击。",
+      "source": {
+        "path": "src/content.js",
+        "line": 6704
+      },
+      "currentEffects": [
+        {
+          "type": "power",
+          "summary": "持有时，临时角色每次威力+0.8",
+          "trigger": "passive",
+          "duration": "whileOwned",
+          "target": "team",
+          "stacking": "additive",
+          "value": 0.8,
+          "filter": {
+            "temporary": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "nihility_wax",
+      "name": "虚无火漆",
+      "current": "持有期间，虚无角色的本次威力+1；每次重新计算。",
+      "critique": "给虚无角色自己加输出，较难表达削弱敌人的辅助价值。改为敌列易伤，可以让攻击位置与队伍协作更重要。",
+      "proposal": "每次转动，有虚无角色登场的列，其对应敌人本次受到的伤害提高10%。同列有多名虚无角色时，该效果不重复叠加。",
+      "changeKind": "机制重构；10%为待测候选值",
+      "axis": "敌方受到伤害提高",
+      "currentMechanics": "当前为虚无角色power固定值+1；没有给敌人添加独立易伤。",
+      "notes": "在攻击前确定本次有虚无角色的敌列，持续至转动结束。增幅施加在敌人身上，服务所有攻击它的角色；与其他同类受到伤害提高相加。",
+      "source": {
+        "path": "src/content.js",
+        "line": 6099
+      },
+      "currentEffects": [
+        {
+          "type": "power",
+          "summary": "持有时，虚无角色每次威力+1",
+          "trigger": "passive",
+          "duration": "whileOwned",
+          "target": "team",
+          "stacking": "additive",
+          "value": 1,
+          "filter": {
+            "path": "虚无"
+          },
+          "legacy": true
+        }
+      ]
+    },
+    {
+      "id": "gold_coin",
+      "name": "天外重声大碟",
+      "current": "持有期间，所有登场角色的本次威力+0.3；每次重新计算，不永久叠加。",
+      "critique": "固定数值补强能帮助低基础攻击力角色，也能与百分比攻击力增幅形成区别。适合保留为直接、易懂的基础奇物。",
+      "proposal": "持有期间，所有登场角色的攻击力增加0.3。每次转动重新计算，不累积。",
+      "changeKind": "属性模型迁移；保留原固定值",
+      "axis": "固定攻击力增加",
+      "currentMechanics": "当前每个登场实例power+0.3，之后仍参加威力乘数结算；非攻击角色的治疗护盾不是直接按此power计算。",
+      "notes": "迁移后0.3会被新攻击力百分比区放大，也会提高按攻击力计算的治疗和护盾；所以全体收益不同于当前实现，不能称纯文案等价。",
+      "source": {
+        "path": "src/content.js",
+        "line": 5893
+      },
+      "currentEffects": [
+        {
+          "type": "power",
+          "summary": "持有时，每次登场角色威力+0.3；每次重新计算",
+          "trigger": "passive",
+          "duration": "whileOwned",
+          "target": "team",
+          "stacking": "additive",
+          "value": 0.3,
+          "legacy": true
+        }
+      ]
+    },
+    {
+      "id": "broken_clock",
+      "name": "碎星芳饵",
+      "current": "持有期间，全队本次威力×1.2；取得时立即获得2次重掷。",
+      "critique": "保留全队输出及取得时重掷的通用性，但明确它提高伤害，让它与攻击力奇物产生可理解的功能差异。",
+      "proposal": "持有期间，我方角色造成的伤害提高20%。取得时获得2次重掷。",
+      "changeKind": "属性模型迁移；保留20%和2次",
+      "axis": "造成伤害提高：通用",
+      "currentMechanics": "当前全队power乘1.2；取得时立即增加2次重掷。",
+      "notes": "20%进入统一造成伤害区，与追加攻击专属增伤相加；不提高治疗和护盾。现有多个powerMultiplier往往连乘，迁移为同区相加后组合收益会变化。",
+      "source": {
+        "path": "src/content.js",
+        "line": 6342
+      },
+      "currentEffects": [
+        {
+          "type": "powerMultiplier",
+          "summary": "持有时，全队每次威力×1.2",
+          "trigger": "passive",
+          "duration": "whileOwned",
+          "target": "team",
+          "stacking": "multiplicative",
+          "value": 1.2,
+          "legacy": true
+        },
+        {
+          "type": "resource",
+          "summary": "取得时立即获得2次重掷",
+          "trigger": "acquire",
+          "duration": "resource",
+          "target": "team",
+          "stacking": "unique",
+          "value": 2,
+          "resource": "rerolls",
+          "legacy": true
+        }
+      ]
+    },
+    {
+      "id": "rubert_gear",
+      "name": "鲁珀特帝国机械齿轮",
+      "current": "持有期间，角色的永久成长获取量×1.5；已获得的成长在之后保留。",
+      "critique": "应把取得的属性写清楚；直接作用于永久攻击力增量，既保留长期投资主题，也去掉隐含的非攻击角色折算。",
+      "proposal": "持有期间，角色通过技能获得的本局永久攻击力固定增量提高50%。已经获得的攻击力保留至本局结束。",
+      "changeKind": "机制重构；保留增量倍率1.5",
+      "axis": "永久固定攻击力的取得量",
+      "currentMechanics": "当前放大growth获取量1.5倍；攻击角色转为固定威力，非攻击角色转为有限的支援效果系数。",
+      "notes": "候选只放大明确写出的永久固定攻击力增加，不放大本次攻击力、不重复放大已得数值、也不放大合成星级。原委派等非技能来源是否纳入需另明确；本候选收窄来源，不能隐式全部沿用。",
+      "source": {
+        "path": "src/content.js",
+        "line": 6375
+      },
+      "currentEffects": [
+        {
+          "type": "growthMultiplier",
+          "summary": "持有时，角色的永久成长获取量×1.5",
+          "trigger": "passive",
+          "duration": "whileOwned",
+          "target": "team",
+          "stacking": "multiplicative",
+          "value": 1.5,
+          "legacy": true
+        }
+      ]
+    },
+    {
+      "id": "preservation_wax",
+      "name": "存护火漆",
+      "current": "持有期间，护盾获取量×1.5；进入新关时获得8基础护盾。",
+      "critique": "已经有清晰的防御专长，应保留护盾轴，避免所有奇物都改成伤害增幅。",
+      "proposal": "持有期间，获得的护盾量提高50%。每个新关开始时，获得8点基础护盾；该数值再按护盾量加成结算。",
+      "changeKind": "保留专长并统一表达；叠加方式待新模型统一",
+      "axis": "护盾量提高",
+      "currentMechanics": "当前护盾获取量乘1.5，新关授予的8点也经shield函数再受本奇物和其他护盾修正；仅本奇物且无其他修正时为12点。",
+      "notes": "角色护盾可以先按攻击力×各自护盾倍率求基础值，之后进入护盾量区。入关赠盾是奇物固定值，不应凭空绑定某名角色攻击力。",
+      "source": {
+        "path": "src/content.js",
+        "line": 5938
+      },
+      "currentEffects": [
+        {
+          "type": "shieldMultiplier",
+          "summary": "持有时，护盾获取量×1.5",
+          "trigger": "passive",
+          "duration": "whileOwned",
+          "target": "team",
+          "stacking": "multiplicative",
+          "value": 1.5,
+          "legacy": true
+        },
+        {
+          "type": "shield",
+          "summary": "进入新关时获得8基础护盾",
+          "trigger": "floor",
+          "duration": "resource",
+          "target": "team",
+          "stacking": "additive",
+          "value": 8,
+          "legacy": true
+        }
+      ]
+    },
+    {
+      "id": "abundance_wax",
+      "name": "丰饶火漆",
+      "current": "持有期间，治疗量×1.5；取得时立即恢复20基础生命。",
+      "critique": "已经能独立服务治疗构筑。保留治疗加成，同时说明取得时20是基础量，避免玩家以为只恢复20点。",
+      "proposal": "持有期间，提供的治疗量提高50%。取得时恢复20点基础生命；该数值再按治疗量加成结算。",
+      "changeKind": "保留专长并统一表达；叠加方式待新模型统一",
+      "axis": "治疗量提高",
+      "currentMechanics": "当前治疗量乘1.5，取得时恢复20基础生命也经过heal函数；仅本奇物、无其他修正且缺血足够时恢复30点。",
+      "notes": "角色治疗先按攻击力×各自治疗倍率计算，再计治疗量加成；伤害提高和敌方易伤不进入治疗。奇物取得时的固定治疗可以继续保留固定值。",
+      "source": {
+        "path": "src/content.js",
+        "line": 5970
+      },
+      "currentEffects": [
+        {
+          "type": "healMultiplier",
+          "summary": "持有时，治疗量×1.5",
+          "trigger": "passive",
+          "duration": "whileOwned",
+          "target": "team",
+          "stacking": "multiplicative",
+          "value": 1.5,
+          "legacy": true
+        },
+        {
+          "type": "heal",
+          "summary": "取得时立即恢复20基础生命，受治疗倍率影响",
+          "trigger": "acquire",
+          "duration": "resource",
+          "target": "team",
+          "stacking": "unique",
+          "value": 20,
+          "legacy": true
+        }
+      ]
+    },
+    {
+      "id": "evil_satellite",
+      "name": "邪恶机械卫星#900",
+      "current": "每次转动敌人反击总伤害−1。",
+      "critique": "原“敌人反击”容易与角色反击技能混淆，也容易把合计减1读成每名敌人减1。先改成敌方造成伤害的语言，并保留总额范围。",
+      "proposal": "每次转动，敌方在攻击阶段造成的总伤害降低1点。",
+      "changeKind": "保留固定量纲；叠加上限和结算顺序待统一",
+      "axis": "敌方造成伤害降低：固定总额",
+      "currentMechanics": "当前retaliationFlat=1，加总到incomingReduction；敌方全部存活列攻击先求和，固定减伤合计最多减45%，之后才结算百分比减伤与护盾。",
+      "notes": "不是每名敌人各减少1点。当前固定减伤45%上限只属于现行机制；新候选采用先按来源百分比降低、再固定总减伤，固定上限尚待定，不能声称迁移等价。",
+      "source": {
+        "path": "src/content.js",
+        "line": 7248
+      },
+      "currentEffects": [
+        {
+          "type": "retaliationFlat",
+          "summary": "每次转动敌人反击总伤害−1",
+          "trigger": "spin",
+          "duration": "spin",
+          "target": "team",
+          "stacking": "additive",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "meteorite",
+      "name": "人造陨石球",
+      "current": "每第4次转动，本次常规攻击后对所有存活敌人各追加2伤害。",
+      "critique": "它是固定的奇物伤害，原“各追加2伤害”会在统一专有名词后造成混淆。适合保留定时伤害用途，但不冒充角色追加攻击。",
+      "proposal": "每第4次转动，所有角色的常规攻击结算后，对所有存活敌人各造成2点伤害。",
+      "changeKind": "澄清伤害来源；保留原周期和基础值",
+      "axis": "固定奇物伤害",
+      "currentMechanics": "当前damage=2、every=4，在afterAttacks阶段对全部存活敌人调用伤害结算，仍可能受装甲等当前伤害规则影响。",
+      "notes": "候选仍是奇物的2点基础伤害，不触发“角色发动追加攻击”相关效果，也不享受角色追加攻击专属增伤。若要纳入追加攻击，须新定义实施攻击的角色、攻击力来源及攻击倍率，不能仅改名称。 新模型候选：2点基础值仍受目标适用的通用受伤提高影响，但不受仅追加攻击受伤提高影响，也不读取角色攻击力或角色增伤。",
+      "source": {
+        "path": "src/content.js",
+        "line": 7155
+      },
+      "currentEffects": [
+        {
+          "type": "damage",
+          "summary": "每第4次转动，本次常规攻击后对所有存活敌人各追加2伤害",
+          "trigger": "spin",
+          "duration": "instant",
+          "target": "team",
+          "stacking": "additive",
+          "value": 2,
+          "every": 4
+        }
+      ]
+    },
+    {
+      "id": "faith_bond",
+      "name": "信仰债券",
+      "current": "每次转动获得3信用点，可保存后用于重掷或补给。",
+      "critique": "信用点收益已经清楚，保留经济能力能使奇物选择不只是在伤害乘区之间挑一个。",
+      "proposal": "每次转动获得3信用点，可保存后用于重掷或补给。",
+      "changeKind": "保留原设计与原文",
+      "axis": "资源",
+      "currentMechanics": "当前每次转动获得3信用点，不依赖攻击力或追加攻击次数。",
+      "notes": "本轮无需改动。追加攻击次数变多，不应无文案依据地增加此资源收益。",
+      "source": {
+        "path": "src/content.js",
+        "line": 5915
+      },
+      "currentEffects": [
+        {
+          "type": "resource",
+          "summary": "每次转动获得3信用点",
+          "trigger": "spin",
+          "duration": "resource",
+          "target": "team",
+          "stacking": "resource",
+          "value": 3,
+          "resource": "coins",
+          "legacy": true
+        }
+      ]
+    }
+  ],
+  "sourceNotes": [
+    "用户口述“仪器”，现有内容表ITEMS及游戏内名称为“奇物”。此处沿用现有名称；不推断用户已经要求另改类别名。",
+    "读取当前src/content.js与src/engine.js原文和执行逻辑。现有奇物效果属于本作改编，不能把同名星铁物品的官方规则当成本作当前规则。",
+    "新的25%、10%仅用于让候选可阅读与讨论，未做平衡测试；原值保留也不代表迁移后的数值等价。",
+    "攻击力提高、造成伤害提高、敌方受到伤害提高为三类效果。追加攻击专属增伤仍与通用伤害提高在同一个造成伤害区相加；追加攻击专属易伤与通用易伤在受到伤害区相加。",
+    "固定奇物伤害及取得时固定治疗/护盾可以保留来源明确的固定量，不应为了统一角色公式而临时给奇物创造角色攻击力。",
+    "该表未穷举64项奇物和32项精华。欢愉火漆等机制变化若实施，其对应精华、旧存档和展示文案也必须同步设计。",
+    "HoYoWiki位于官方平台，但内容含社区协作条目与攻略，不将整个页面视为米哈游对公式的正式技术说明。此次只核对术语与明确效果表达。"
+  ],
+  "sources": [
+    {
+      "title": "HoYoWiki：Follow-Up Attack（追加攻击）",
+      "url": "https://wiki.hoyolab.com/m/hsr/entry/1244?lang=en-us",
+      "kind": "HoYoWiki 官方平台条目",
+      "supports": "解释追加攻击是满足条件后由角色或召唤实体实施的攻击，并区别附加伤害；支持统一事件名和来源区分。条目中灵砂实例还给出按攻击力比例恢复生命的例子。",
+      "access": "本次检索读到官方平台搜索索引正文。中文入口直接打开返回空正文；未逐项核验此条目全部数值。"
+    },
+    {
+      "title": "HoYoWiki：「欢愉」的祝福",
+      "url": "https://wiki.hoyolab.com/pc/hsr/entry/1012?lang=zh-cn",
+      "kind": "HoYoWiki 官方平台条目",
+      "supports": "同时存在角色追加攻击造成伤害提高，以及敌人受到追加攻击伤害提高的表达；支持追加攻击专用增益及两种作用对象。",
+      "access": "本次检索读到条目正文索引；直接打开页面返回空正文。仅作术语依据，不据此复刻星铁乘区公式。"
+    },
+    {
+      "title": "HoYoWiki：停云",
+      "url": "https://wiki.hoyolab.com/pc/hsr/entry/25?lang=zh-cn",
+      "kind": "HoYoWiki 官方平台条目",
+      "supports": "终结技与装备条目分别使用造成的伤害提高和攻击力提高，可作为两种独立属性的表述参考。",
+      "access": "本次检索读到官方平台条目正文索引；直接打开返回空正文。页面包含社区攻略，本报告仅援引其列出的技能及装备效果用语。"
+    },
+    {
+      "title": "HoYoWiki：银狼及光锥「雨一直下」",
+      "url": "https://wiki.hoyolab.com/pc/hsr/entry/710?lang=zh-cn",
+      "kind": "HoYoWiki 官方平台条目",
+      "supports": "光锥状态作用于敌方，使其受到的伤害提高；支持将易伤写在敌人身上的表达。",
+      "access": "本次检索读到光锥效果正文索引；直接打开返回空正文。无需将该效果照搬为银狼在本作的技能。"
+    },
+    {
+      "title": "HoYoWiki：偏偏希望无价",
+      "url": "https://wiki.hoyolab.com/pc/hsr/entry/2646?lang=zh-cn",
+      "kind": "HoYoWiki 官方平台条目",
+      "supports": "光锥按明确条件提高追加攻击造成的伤害，支持让装备专门服务追加攻击。",
+      "access": "本次通过官方域名搜索索引核对措辞，未完整逐项验证该光锥数据。"
+    }
+  ]
+}

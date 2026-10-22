@@ -7,7 +7,7 @@ import { adjacentIndexes } from '../src/effect-rules.js';
 
 function fixture(ids, seed = 'commission-0') {
   const state = newGame({ seed });
-  state.roster = ids.map((id, index) => ({ uid: `u${index + 1}`, id, stars: 1, growth: 0, ticks: index === 0 ? 2 : 0 }));
+  state.roster = ids.map((id, index) => ({ uid: `u${index + 1}`, id, stars: 1, growth:0,attackBonus: 0, ticks: index === 0 ? 2 : 0 }));
   state.uidCounter = ids.length + 1;
   state.board = Array(20).fill(null);
   state.enemies = Array.from({ length: 5 }, (_, col) => ({ id: `test-${col}`, name: '委派测试靶', col, hp: 100000, maxHp: 100000, attack: 0, boss: false }));
@@ -55,7 +55,7 @@ test('all ten pairs remove only an adjacent eligible instance before its utility
     assert.equal(next.retirementStats.completed, 1);
     assert.equal(next.retirementStats.permanent, 1);
     assert.equal(next.stats.destroyed, 1);
-    assert.equal(next.lastSpin.effects.some(e => e.type === 'growth' && e.sourceUid === 'u1' && e.amount === rule.growth && e.amount > 0), rule.growth > 0, rule.name);
+    assert.equal(next.lastSpin.effects.some(e => e.type === 'attackGrowth' && e.sourceUid === 'u1' && e.amount === rule.attackGrowth && e.amount > 0), rule.attackGrowth > 0, rule.name);
     assert.notEqual(validateSave(next), null, rule.name);
   }
 });
@@ -66,14 +66,14 @@ test('last ordinary copy, high stars and trained characters are protected; inter
   const eligible = () => retirementEligibility(state, source, target, { isCore: isArchetypeCore }).eligible;
   assert.equal(eligible(), true);
   target.stars = 2; assert.equal(eligible(), false);
-  target.stars = 1; target.growth = 1.01; assert.equal(eligible(), false);
-  target.growth = 0; target.temporary = 2; assert.equal(eligible(), false);
-  delete target.temporary;
+  target.stars = 1; target.attackBonus = 1.01; assert.equal(eligible(), false);
+  target.attackBonus = 0; target.commission = rule.id; assert.equal(eligible(), true);
+  delete target.commission;
   assert.equal(retirementEligibility(state, source, target, { isCore: () => true }).eligible, true, 'obsolete internal core callback cannot grant immunity');
   state.roster.pop(); assert.equal(eligible(), false);
   target.commission = rule.id; target.origin = source.uid;
-  assert.equal(retirementEligibility(state, source, target, { isCore: () => true }).eligible, true);
-  source.temporary = 2; assert.equal(eligible(), false);
+  assert.equal(retirementEligibility(state, source, target, { isCore: () => true }).eligible, false, 'created origin does not bypass last-copy protection');
+  source.commission = rule.id; assert.equal(eligible(), false);
 });
 
 test('cadence and eight-neighbor adjacency are real gates, not roster-wide removal', () => {
@@ -92,7 +92,7 @@ test('cadence and eight-neighbor adjacency are real gates, not roster-wide remov
   assert.equal(adjacentIndexes(4).includes(5), false, 'row ends do not wrap');
 });
 
-test('commission generation needs a real relationship and cannot multiply supply or free merges', () => {
+test('commission generation needs a real relationship, shares its supply cap and permits normal merging', () => {
   const rule = RETIREMENT_RULES[0];
   const absent = fixture([rule.sourceId]); absent.roster[0].ticks = 3;
   assert.equal(spin(absent).roster.some(u => u.commission), false);
@@ -105,44 +105,35 @@ test('commission generation needs a real relationship and cannot multiply supply
   assert.equal(first.retirementStats.supplied, 1);
   first.choices = [rule.targetId]; first.phase = 'recruit'; first.pendingRewards = []; first.pendingFloor = false;
   const recruited = chooseReward(first, 0);
-  assert.equal(recruited.roster.filter(u => u.id === rule.targetId && !u.commission).length, 2);
-  assert.equal(recruited.stats.merges, 0, 'one assignment plus two ordinary copies cannot merge');
+  assert.equal(recruited.roster.filter(u => u.id === rule.targetId).length, 1);
+  assert.equal(recruited.roster.find(u => u.id === rule.targetId).stars, 2);
+  assert.equal(recruited.stats.merges, 1, 'created and recruited copies merge by the same three-copy rule');
   assert.notEqual(validateSave(recruited), null);
 });
 
-test('automatic supply supports repeated completed assignments without erasing the last recruit', () => {
+test('automatic supply can complete assignments and preserves the last character regardless of origin', () => {
   const rule = RETIREMENT_RULES[0];
   let state = fixture([rule.sourceId, rule.targetId]); state.roster[0].ticks = 0;
   // Long, nonlethal fixture; every action still goes through the real seeded engine.
   state.spinsLeft = 80; state.encounter.deadline = 80;
-  for (let index = 0; index < 32; index++) state = ready(spin(state));
-  assert.ok(state.retirementStats.supplied >= 3);
-  assert.ok(state.retirementStats.completed >= 2);
-  assert.equal(state.retirementStats.permanent, 0);
-  assert.equal(state.roster.filter(u => u.id === rule.targetId && !u.commission).length, 1);
+  for (let index = 0; index < 64; index++) state = ready(spin(state));
+  assert.ok(state.retirementStats.supplied >= 1);
+  assert.ok(state.retirementStats.completed >= 1);
+  assert.ok(state.retirementStats.permanent <= state.retirementStats.completed);
+  assert.ok(state.roster.filter(u => u.id === rule.targetId).length >= 1);
   assert.ok(state.roster.filter(u => u.commission === rule.id).length <= 1);
-  assert.ok(state.roster.find(u => u.id === rule.sourceId).growth >= 0.7);
+  assert.ok(state.roster.find(u => u.id === rule.sourceId).attackBonus >= 0.35);
   assert.notEqual(validateSave(state), null);
 });
 
-test('generated and already departed identities never create archetype or resonance membership', () => {
+test('created identities count toward resonance and retain last-copy protection', () => {
   const rule = RETIREMENT_RULES[0], state = fixture(['1104', '1103', '1106', rule.sourceId]);
-  const prior = getArchetypes(state).map(a => ({ id: a.id, count: a.count, active: a.active }));
-  const synergies = getSynergies(state).map(s => ({ id: s.id, count: s.count, active: s.active }));
-  state.roster.push({ uid: 'u5', id: rule.targetId, stars: 1, growth: 0, ticks: 0, commission: rule.id, origin: 'u4' }); state.uidCounter = 6;
+  state.roster.push({ uid: 'u5', id: rule.targetId, stars: 1, growth:0,attackBonus: 0, ticks: 0, commission: rule.id, origin: 'u4' }); state.uidCounter = 6;
   state.roster[3].ticks = 2;
   state.retirementStats.supplied = 1; state.retirementStats.byRule[rule.id] = { completed: 0, permanent: 0, supplied: 1 };
-  assert.deepEqual(getArchetypes(state).map(a => ({ id: a.id, count: a.count, active: a.active })), prior);
-  assert.deepEqual(getSynergies(state).map(s => ({ id: s.id, count: s.count, active: s.active })), synergies);
-  let next;
-  for (let index = 1; index < 100; index++) {
-    state.rngState = index;
-    next = spin(state);
-    if (next.retirementStats.completed) break;
-  }
-  assert.equal(next.retirementStats.completed, 1);
-  assert.equal(next.roster.some(u => u.uid === 'u5'), false);
-  assert.deepEqual(getArchetypes(next).map(a => ({ id: a.id, count: a.count, active: a.active })), prior);
+  assert.equal(getSynergies(state).find(s=>s.id==='astral').count,2);
+  assert.equal(retirementEligibility(state,state.roster[3],state.roster[4]).eligible,false);
+  const next=spin(state);assert.equal(next.retirementStats.completed,0);assert.ok(next.roster.some(u=>u.uid==='u5'));
 });
 
 test('save validation migrates old v2 counters and rejects forged assignment capabilities', () => {
@@ -159,7 +150,7 @@ test('save validation migrates old v2 counters and rejects forged assignment cap
   const inventory = fixture(['1003', '1001', '1001']);
   inventory.roster.slice(1).forEach(u => { u.commission = RETIREMENT_RULES[0].id; u.origin = 'u1'; });
   inventory.retirementStats = { completed: 0, permanent: 0, supplied: 2, byRule: { [RETIREMENT_RULES[0].id]: { completed: 0, permanent: 0, supplied: 2 } } };
-  assert.equal(validateSave(inventory), null, 'balanced totals cannot smuggle two pending assignments through the one-person cap');
+  assert.ok(validateSave(inventory), 'origin history does not remove character rights; actual creation still enforces its one-pending cap');
   inventory.roster.pop(); inventory.retirementStats.supplied = 0; inventory.retirementStats.byRule[RETIREMENT_RULES[0].id].supplied = 0;
   assert.equal(validateSave(inventory), null, 'an existing pending assignment needs an unspent supply record');
 });
@@ -169,8 +160,8 @@ test('previews reveal cadence, protected targets, relationship and actual eligib
   const preview = getRetirementPreview(state, { isCore: isArchetypeCore })[0];
   assert.equal(preview.nextAppearance, 1);
   assert.deepEqual(preview.eligibleUids, ['u2', 'u3']);
-  assert.match(preview.summary, /永久离队/);
+  assert.match(preview.summary, /从本局删除/);
   assert.doesNotMatch(preview.summary, /套路|核心/);
-  assert.match(preview.summary, /已培养/);
+  assert.match(preview.summary, /永久攻击力增量不超过1/);
   state.roster.pop(); assert.deepEqual(getRetirementPreview(state)[0].eligibleUids, []);
 });

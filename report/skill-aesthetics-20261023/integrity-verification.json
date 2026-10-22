@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-23",
+  "revision": "卡面固有属性与技能分离",
+  "reviewedSnapshotVersion": "0.7.0",
+  "workspaceVersionAtBuild": "0.7.1",
+  "characters": 90,
+  "descriptionMatches": 90,
+  "loreReviews": 90,
+  "loreReferences": 146,
+  "terminologyRuleCandidates": 12,
+  "newCopyUsesUnifiedTerms": true,
+  "fieldsAndRanges": "pass",
+  "standaloneScript": "syntax passed; embedded dataset identical",
+  "baselineHashes": "all pass",
+  "semanticReviewCount": 7,
+  "sourceEffectsRemainUnchanged": true
+}

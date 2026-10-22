@@ -42,11 +42,12 @@ test('legacy rental saves are explicitly rejected without converting their progr
 test('original version-one combat exports migrate without replacing the current encounter', () => {
   const legacy = JSON.parse(readFileSync(new URL('./fixtures/legacy-combat-v1.json', import.meta.url), 'utf8'));
   const restored = importSave(JSON.stringify({ format: 'astral-reels-save', version: 1, payload: payloadFor(legacy) }));
-  assert.equal(restored.game.version, 2);
+  assert.equal(restored.game.version, 3);
   assert.equal(restored.game.difficulty, 10);
-  for (const key of ['seed', 'rngState', 'floor', 'phase', 'hp', 'shield', 'coins', 'roster', 'board', 'enemies', 'choices', 'items', 'essences']) {
+  for (const key of ['seed', 'rngState', 'floor', 'phase', 'hp', 'shield', 'coins', 'enemies', 'choices', 'items', 'essences']) {
     assert.deepEqual(restored.game[key], legacy[key], `migration preserves ${key}`);
   }
+  for (const key of ['roster','board']) assert.deepEqual(restored.game[key].map(u=>u && {uid:u.uid,id:u.id,stars:u.stars,ticks:u.ticks,attackBonus:u.attackBonus}),legacy[key].map(u=>u && {uid:u.uid,id:u.id,stars:u.stars,ticks:u.ticks,attackBonus:u.growth}));
   assert.deepEqual(importSave(exportSave(restored)), restored, 'migrated games can be exported and restored again');
 });
 

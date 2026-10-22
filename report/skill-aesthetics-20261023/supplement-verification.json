@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-23",
+  "revision": "术语与剧情补充",
+  "scope": "评审报告；未应用游戏规则",
+  "integrity": {
+    "date": "2026-10-23",
+    "revision": "术语与剧情补充",
+    "reviewedSnapshotVersion": "0.7.0",
+    "workspaceVersionAtBuild": "0.7.1",
+    "characters": 90,
+    "descriptionMatches": 90,
+    "loreReviews": 90,
+    "loreReferences": 146,
+    "terminologyRuleCandidates": 12,
+    "newCopyUsesUnifiedTerms": true,
+    "fieldsAndRanges": "pass",
+    "standaloneScript": "syntax passed; embedded dataset identical",
+    "baselineHashes": "all pass",
+    "semanticReviewCount": 7,
+    "sourceEffectsRemainUnchanged": true
+  },
+  "static": {
+    "htmlIds": "unique; literal script targets exist",
+    "loreFilterOptions": 6,
+    "csvCharacters": 90,
+    "csvColumns": 15,
+    "csvOriginalsAndDrafts": "identical to review-data",
+    "ruleCandidates": 12,
+    "loreCounts": {
+      "有依据": 26,
+      "可接受改编": 40,
+      "联系偏弱": 21,
+      "需重构": 3
+    },
+    "browserVisualCheck": "blocked: file protocol denied by browser policy; no workaround attempted"
+  },
+  "projectChecks": {
+    "version": "0.7.1",
+    "check": "passed:90 portraits,204 offline assets",
+    "test": {
+      "total": 621,
+      "passed": 615,
+      "skipped": 6,
+      "failed": 0
+    },
+    "build": "passed:204 offline assets"
+  },
+  "browserCheck": {
+    "status": "not completed",
+    "reason": "Browser security policy rejected authority to inspect file: URL",
+    "workaroundAttempted": false,
+    "qualification": "旧截图仅证明首轮；补充版未重新进行桌面与窄屏可视验收。"
+  },
+  "gameWorkingTree": "clean; only report directory untracked",
+  "gameRulesApplied": false,
+  "releaseOrDeployment": false,
+  "htmlSha256": "df300a3e34a32bdd3c47c45a5afc0b6b796ab43a87596ced617befd0b4fda8bf"
+}

@@ -1,4 +1,5 @@
 import { characterById } from './content.js';
+import { getCharacterAttributes } from './attributes.js';
 import { adjacentIndexes, matchesEffectFilter, effectAmount, effectIsEligible } from './effect-rules.js';
 
 // Public-information forecasts average the twenty possible future source cells.
@@ -70,10 +71,7 @@ export function expectedEffectAmountForAi(effect, context) {
   return amount * otherWeight;
 }
 
-const defaultPower = unit => {
-  const c = characterById(unit.id);
-  return c.power * ([0, 1, 3, 9][unit.stars] || 1) + (c.role === 'attack' ? unit.growth || 0 : 0);
-};
+const defaultPower = unit => getCharacterAttributes(unit).attack;
 
 // Chances are conditional on the source appearing. For a source-free passive,
 // they are conditional on the recipient appearing, matching power estimates.

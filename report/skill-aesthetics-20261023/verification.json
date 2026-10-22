@@ -1,0 +1,56 @@
+{
+  "date": "2026-10-23",
+  "scope": "独立设计评审与单文件报告，不验收并行0.7.1动效改动",
+  "gameCodeChangedByThisTask": false,
+  "gameReleaseCreated": false,
+  "siteDeployed": false,
+  "integrity": {
+    "characters": 90,
+    "originalDescriptionsMatch": 90,
+    "semanticItems": 7,
+    "sourceSnapshot": "91a3870b921811fb4886944dcb510975f72be694",
+    "snapshotVersion": "0.7.0",
+    "workspaceVersionDuringReport": "0.7.1",
+    "currentCharacterDefinitionsIdentical": true
+  },
+  "projectBaselineChecks": {
+    "check": "passed: 90 portraits and 200 offline assets",
+    "test": {
+      "total": 612,
+      "passed": 607,
+      "skipped": 5,
+      "failed": 0
+    },
+    "build": "passed: 200 offline assets",
+    "qualification": "本轮较早阶段运行；并行0.7.1修改后的整个工作区不在本报告验收范围内"
+  },
+  "reportBrowserChecks": {
+    "search": "passed; full text including reviews",
+    "combinedFilters": "passed; trainer + 建议精简 = 3",
+    "semanticFilter": "passed; 7 rows",
+    "emptyResults": "passed",
+    "reset": "passed; 90 rows",
+    "csvExport": {
+      "characters": 90,
+      "columns": 13,
+      "encoding": "UTF-8 BOM",
+      "allOriginalDescriptionsMatch": true
+    },
+    "desktop1280": "DOM结构、列名、90行和无水平溢出通过；以实际窗口截图作辅助",
+    "narrow723": "视觉检查通过，转换为逐角色卡片，无水平溢出",
+    "narrow390": "浏览器模拟布局与视觉检查通过，无水平溢出；不是实机验收",
+    "screenshots": [
+      "preview.png",
+      "mobile-preview.png"
+    ]
+  },
+  "artifacts": [
+    "index.html",
+    "角色技能点评-v0.7.0-20261023.md",
+    "星穹转轮-技能评审-v0.7.0-90角色.csv",
+    "current-skills.json",
+    "review-data.json",
+    "source-manifest.json",
+    "integrity-verification.json"
+  ]
+}

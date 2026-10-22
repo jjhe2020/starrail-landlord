@@ -1,0 +1,31 @@
+{
+  "artifact": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/report/v080/implementation.html",
+  "sha256": "df83e68717f3f8db23bfccb4e220d5746b8ad6dc553a0453f4e2c5344c860bd1",
+  "deviceScope": "desktop Chromium viewports only",
+  "checks": [
+    {
+      "width": 1440,
+      "fit": {
+        "viewport": 1440,
+        "document": 1440,
+        "body": 1440
+      },
+      "allCharacters": 90,
+      "defenseCount": 13,
+      "rebuildCount": 18,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "fit": {
+        "viewport": 390,
+        "document": 390,
+        "body": 390
+      },
+      "allCharacters": 90,
+      "defenseCount": 13,
+      "rebuildCount": 18,
+      "errors": []
+    }
+  ]
+}

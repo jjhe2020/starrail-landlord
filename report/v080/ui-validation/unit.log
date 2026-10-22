@@ -1,0 +1,24 @@
+✔ each hit survives cell/column aggregation, including killed enemies and duplicate character IDs (3.020791ms)
+✔ support effects require actual current positive records and use instance UIDs (0.446375ms)
+✔ diagnostic provenance distinguishes global cell-zero damage and real character sources (0.20025ms)
+✔ retaliation uses resource accounting so shield decay, healing and self damage are not called blocked attacks (0.17875ms)
+✔ presentation is immutable and deterministic, bounded below three seconds with all positive hits retained (5.977334ms)
+✔ inspectSpin without interventions produces exactly the same gameplay result as spin (10.822417ms)
+✔ actual preservation counterattack follows incoming damage and keeps its attacker alive until then (1.346ms)
+✔ the same source and target stay separate across normal, follow-up and counterattack phases (0.200333ms)
+✔ a front-row follow-up waits for its later normal-attack trigger and distinct events stay separate (0.52825ms)
+✔ AI reads each configured normal multiplier without applying the range baseline twice (1.230042ms)
+✔ AI separates attack, generic damage, follow-up-only damage and enemy vulnerability (2.632292ms)
+✔ star audit reduces the attack base but preserves permanent attack and star-scaled train gifts (0.548916ms)
+✔ environmental shield reflection ignores attacker damage bonuses and only uses enemy vulnerability (1.655333ms)
+✔ card attributes expose real role-independent attack and configured target multipliers (1.220167ms)
+✔ follow-up and self-deletion explanations retain type and actual lifecycle (0.296833ms)
+✔ live UI keeps solid card attributes outside the special skill description (1.56075ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 135.010542

@@ -6,21 +6,17 @@ import { estimateEffectsForAi } from '../src/ai.js';
 
 function fixture(ids, ticks = 0) {
   const state = newGame({ seed: 'commission-ai' });
-  state.roster = ids.map((id, index) => ({ uid: `u${index + 1}`, id, stars: 1, growth: 0, ticks: index === 0 ? ticks : 0 }));
+  state.roster = ids.map((id, index) => ({ uid: `u${index + 1}`, id, stars: 1, growth:0,attackBonus: 0, ticks: index === 0 ? ticks : 0 }));
   state.uidCounter = ids.length + 1; state.board = Array(20).fill(null);
   return state;
 }
 
-test('no relationship, temporary hosts and assignment hosts produce no imaginary loop income', () => {
+test('no relationship creates no income, while origin history never disables a legitimate host', () => {
   assert.equal(estimateRetirementsForAi(fixture(['1003']), { horizon: 32 }).expectedCompletions, 0);
-  assert.equal(estimateRetirementsForAi(fixture(['1001', '1001']), { horizon: 32 }).expectedCompletions, 0);
-  for (const marker of [{ temporary: 3 }, { commission: 'not-a-host' }]) {
-    const state = fixture(['1003', '1001', '1001'], 2); Object.assign(state.roster[0], marker);
-    const result = estimateRetirementsForAi(state, { horizon: 32 });
-    assert.equal(result.expectedCompletions, 0);
-    assert.equal(result.economy, 0);
-    assert.equal(result.growthRates.size, 0);
-  }
+  assert.equal(estimateRetirementsForAi(fixture(['1001','1001']), { horizon: 32 }).expectedCompletions, 0);
+  const state=fixture(['1003','1001','1001'],2),baseline=estimateRetirementsForAi(state,{horizon:32});
+  state.roster[0].origin='u99';
+  assert.deepEqual(estimateRetirementsForAi(state,{horizon:32}),baseline);
 });
 
 test('last normal identity enables later supply but is never treated as infinitely consumable stock', () => {
@@ -29,8 +25,9 @@ test('last normal identity enables later supply but is never treated as infinite
   assert.equal(short.expectedCompletions, 0, 'first supply appears only on appearance four');
   const long = estimateRetirementsForAi(state, { horizon: 32 });
   assert.ok(long.expectedCompletions > 2);
-  assert.equal(long.byRule.express_photography.ordinaryRemoved, 0);
-  assert.equal(long.availability.has('u2'), false, 'the last official recruit remains for all turns');
+  assert.ok(long.byRule.express_photography.ordinaryRemoved>=0&&long.byRule.express_photography.ordinaryRemoved<=1);
+  assert.ok(long.byRule.express_photography.retainedCopies>=1-1e-9);
+  assert.ok(long.availability.get('u2')>0, 'an original copy may leave once another exists; final protection applies to either origin');
   assert.ok(long.byRule.express_photography.pending <= 1);
   assert.ok(long.byRule.express_photography.completed <= long.byRule.express_photography.supplied);
 });
@@ -48,7 +45,7 @@ test('cadence offset and finite final encounter prevent rewards that cannot occu
 
 test('normal material is capped by extra copies and future training closes eligibility windows', () => {
   const state = fixture(['1004', '1002', '1002']);
-  state.roster.slice(1).forEach(u => { u.ticks = 2; u.growth = 1; });
+  state.roster.slice(1).forEach(u => { u.ticks = 2; u.attackBonus = 1; });
   const delayed = estimateRetirementsForAi(state, { horizon: 24 });
   assert.equal(delayed.byRule.express_archives.ordinaryRemoved, 0, 'Dan Heng grows beyond one before the first eligible host appearance');
   state.roster[0].ticks = 2;
@@ -82,7 +79,7 @@ test('AI integrates permanent growth and spendable credits, and discounts retire
   assert.ok(result.economy > 0);
   assert.ok(result.retirementAvailability.get('u2') < 1);
   assert.ok(result.retirementAvailability.get('u3') < 1);
-  assert.ok(result.retirementAvailability.get('u2') + result.retirementAvailability.get('u3') >= 1, 'at least one ordinary copy survives every simulated turn');
+  assert.ok(estimateRetirementsForAi(state,{horizon:24}).byRule.express_photography.retainedCopies>=1-1e-9,'at least one character remains, regardless of recruitment or creation origin');
   state.resourceAccess.credits = false;
   const disabled = estimateEffectsForAi(state, { horizon: 24 });
   assert.equal(disabled.economy, 0);
@@ -98,6 +95,29 @@ test('forecast is pure and invariant to hidden seed, RNG and previous board', ()
   hidden.lastSpin.damage = 1e8;
   assert.deepEqual(estimateRetirementsForAi(hidden, { horizon: 24 }), result);
   assert.deepEqual(state, before);
+});
+
+test('skill permanent-attack increments combine additively when forecasting eligibility', () => {
+  const state = fixture(['1003', '1001', '1001']);
+  state.items = ['rubert_gear', 'impermanence_dice'];
+  const growthRates = new Map([['u2', .29], ['u3', .29]]);
+  const detected = estimateRetirementsForAi(state, { horizon: 3, growthRates });
+  const additive = estimateRetirementsForAi(state, { horizon: 3, growthRates, growthMultiplier: 1.7 });
+  const compounded = estimateRetirementsForAi(state, { horizon: 3, growthRates, growthMultiplier: 1.8 });
+  assert.deepEqual(detected, additive);
+  assert.ok(detected.expectedCompletions > 0);
+  assert.equal(compounded.expectedCompletions, 0);
+});
+
+test('commission permanent attack respects the enemy audit and excludes skill-only curios', () => {
+  const state = fixture(['1003', '1001', '1001'], 2);
+  const base = estimateRetirementsForAi(state, { horizon: 1 });
+  state.items = ['rubert_gear', 'impermanence_dice'];
+  assert.equal(estimateRetirementsForAi(state, { horizon: 1 }).growthRates.get('u1'), base.growthRates.get('u1'));
+  state.activeDebuffs = [{ id: 'growth_audit' }];
+  const audited = estimateRetirementsForAi(state, { horizon: 1 });
+  assert.equal(audited.expectedCompletions, base.expectedCompletions);
+  assert.equal(audited.growthRates.get('u1'), base.growthRates.get('u1') * .5);
 });
 
 test('finite loop forecast matches independent real-engine seeds within a useful tolerance', () => {
@@ -119,20 +139,20 @@ test('finite loop forecast matches independent real-engine seeds within a useful
 });
 
 
-test('high-star commission training uses gentle factors while its immediate attack bonus retains normal star scaling', () => {
+test('commission fixed attribute rewards stay fixed across stars and star audits', () => {
   const state = fixture(['1003', '1001', '1001'], 2);
   const base = estimateRetirementsForAi(state, { horizon: 20 });
   assert.ok(base.growthRates.get('u1') > 0);
   assert.ok(base.powerAdds.get('u1') > 0);
-  for (const [stars, growthFactor, powerFactor] of [[2, 1.5, 3], [3, 2, 9]]) {
+  for (const [stars, growthFactor, powerFactor] of [[2, 1, 1], [3, 1, 1]]) {
     const promoted = structuredClone(state); promoted.roster[0].stars = stars;
     const forecast = estimateRetirementsForAi(promoted, { horizon: 20 });
     assert.ok(Math.abs(forecast.growthRates.get('u1') / base.growthRates.get('u1') - growthFactor) < 1e-12);
     assert.ok(Math.abs(forecast.powerAdds.get('u1') / base.powerAdds.get('u1') - powerFactor) < 1e-12);
     const audited = structuredClone(promoted); audited.activeDebuffs = [{ id: 'star_audit' }];
     const penalized = estimateRetirementsForAi(audited, { horizon: 20 });
-    assert.ok(Math.abs(penalized.growthRates.get('u1') / forecast.growthRates.get('u1') - 0.8) < 1e-12);
-    assert.ok(Math.abs(penalized.powerAdds.get('u1') / forecast.powerAdds.get('u1') - 0.8) < 1e-12);
+    assert.ok(Math.abs(penalized.growthRates.get('u1') / forecast.growthRates.get('u1') - 1) < 1e-12);
+    assert.ok(Math.abs(penalized.powerAdds.get('u1') / forecast.powerAdds.get('u1') - 1) < 1e-12);
   }
   let matched = false;
   for (let seed = 0; seed < 32; seed++) {
@@ -140,13 +160,13 @@ test('high-star commission training uses gentle factors while its immediate atta
     const ordinary = spin(ready);
     if (!ordinary.retirementStats.completed) continue;
     matched = true;
-    assert.equal(ordinary.roster.find(unit => unit.id === '1003').growth, 0.35);
-    for (const [stars, expected] of [[2, 0.525], [3, 0.7]]) {
+    assert.equal(ordinary.roster.find(unit => unit.id === '1003').attackBonus, 0.35);
+    for (const [stars, expected] of [[2, 0.35], [3, 0.35]]) {
       const promoted = structuredClone(ready); promoted.roster[0].stars = stars;
-      assert.ok(Math.abs(spin(promoted).roster.find(unit => unit.id === '1003').growth - expected) <= 0.0051);
+      assert.ok(Math.abs(spin(promoted).roster.find(unit => unit.id === '1003').attackBonus - expected) <= 0.0051);
     }
     const audited = structuredClone(ready); audited.roster[0].stars = 3; audited.activeDebuffs = [{ id: 'star_audit' }];
-    assert.equal(spin(audited).roster.find(unit => unit.id === '1003').growth, 0.56);
+    assert.equal(spin(audited).roster.find(unit => unit.id === '1003').attackBonus, 0.35);
     break;
   }
   assert.ok(matched, 'independent seeded adjacency probes must exercise an actual commission');

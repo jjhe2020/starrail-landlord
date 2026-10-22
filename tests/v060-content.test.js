@@ -10,12 +10,12 @@ import { newGame, validateSave } from '../src/engine.js';
 
 test('save v2 carries old accumulated growth forward through the new role rules',()=>{
   const s=newGame({seed:'v060-save-v070-kit'});
-  s.roster[0].growth=8;
+  s.version=2;for(const u of s.roster){u.growth=u.attackBonus;delete u.attackBonus;}s.roster[0].growth=8;
   const saved=validateSave(JSON.parse(JSON.stringify(s)));
   assert.ok(saved);
-  assert.equal(saved.roster[0].growth,8);
-  assert.ok(Math.abs(trainingMultiplier(saved.roster[0])-1.64)<1e-9);
-  assert.equal(characterById(saved.roster[0].id).attack,'support');
+  assert.equal(saved.roster[0].attackBonus,8);
+  assert.equal(trainingMultiplier(saved.roster[0]),1);
+  assert.equal(characterById(saved.roster[0].id).attack,'single');
 });
 
 test('AI and engine agree on current public identity and professional role filters',()=>{
@@ -31,13 +31,13 @@ test('AI and engine agree on current public identity and professional role filte
   }
 });
 
-test('canonical commissions preserve ten relationships and cannot train the trainers recursively',()=>{
+test('adapted commissions preserve ten relationship references and explicit fixed attribute rewards',()=>{
   assert.equal(RETIREMENT_RULES.length,10);
   for(const rule of RETIREMENT_RULES){
     const c=characterById(rule.sourceId);
-    assert.ok(rule.every>=3 && rule.growth<=.5,rule.id);
+    assert.ok(rule.every>=3 && rule.attackGrowth<=.5,rule.id);
     if(c.role!=='attack')assert.equal(rule.power,0,rule.id);
-    if(c.role==='trainer')assert.equal(rule.growth,0,rule.id);
+    if(c.role==='trainer')assert.equal(rule.attackGrowth,0,rule.id);
     assert.ok(rule.relation&&rule.source&&characterById(rule.targetId),rule.id);
   }
 });

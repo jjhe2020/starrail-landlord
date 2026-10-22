@@ -1,0 +1,4742 @@
+{
+  "raw": "docs/benchmarks/v080-final2-campaigns-holdout-d10.jsonl.gz",
+  "sourceStable": true,
+  "nPerPolicy": 32,
+  "policies": 29,
+  "rows": 928,
+  "incomplete": 0,
+  "baseline": {
+    "wins": 17,
+    "n": 32,
+    "winRate": 0.53125,
+    "winRateCI95": [
+      0.3644951711897464,
+      0.6913061289193116
+    ]
+  },
+  "allPoliciesWinsRange": [
+    14,
+    28
+  ],
+  "lowPolicies": [
+    "命途：欢愉"
+  ],
+  "highPolicies": [
+    "属性：虚数"
+  ],
+  "relativeStatusCounts": {
+    "insufficient": 28
+  },
+  "deaths": {
+    "hp": 278,
+    "deadline": 46
+  },
+  "summary": [
+    {
+      "id": "baseline",
+      "name": "无标签偏好",
+      "filters": [],
+      "mode": "any",
+      "n": 32,
+      "wins": 17,
+      "winRate": 0.53125,
+      "winRateCI95": [
+        0.3644951711897464,
+        0.6913061289193116
+      ],
+      "incomplete": 0,
+      "deathHp": 12,
+      "deathDeadline": 3,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0,
+          "ci": [
+            -0.135693,
+            0.135693
+          ],
+          "confidence": 0.95,
+          "positive": 0,
+          "negative": 0,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0,
+          "ci": [
+            -0.107179,
+            0.107179
+          ],
+          "confidence": 0.9,
+          "positive": 0,
+          "negative": 0,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0,
+          "ci": [
+            -0.163148,
+            0.163148
+          ],
+          "confidence": 0.975,
+          "positive": 0,
+          "negative": 0,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.846726,
+            "sd": 2.385228,
+            "se": 0.421653,
+            "ci": [
+              23.98676,
+              25.706693
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.846726,
+            "sd": 2.385228,
+            "se": 0.421653,
+            "ci": [
+              23.98676,
+              25.706693
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 151.684809,
+            "sd": 19.578594,
+            "se": 3.461039,
+            "ci": [
+              144.625973,
+              158.743645
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 151.684809,
+            "sd": 19.578594,
+            "se": 3.461039,
+            "ci": [
+              144.625973,
+              158.743645
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 413.471783,
+            "sd": 48.344723,
+            "se": 8.54622,
+            "ci": [
+              396.041652,
+              430.901914
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 413.471783,
+            "sd": 48.344723,
+            "se": 8.54622,
+            "ci": [
+              396.041652,
+              430.901914
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 1,
+      "q": 1
+    },
+    {
+      "id": "path:丰饶",
+      "name": "命途：丰饶",
+      "filters": [
+        {
+          "path": "丰饶"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 20,
+      "winRate": 0.625,
+      "winRateCI95": [
+        0.4525440735307745,
+        0.7706611269054578
+      ],
+      "incomplete": 0,
+      "deathHp": 10,
+      "deathDeadline": 2,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.167744,
+            0.329801
+          ],
+          "confidence": 0.95,
+          "positive": 5,
+          "negative": 2,
+          "p": 0.453125,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.132827,
+            0.300231
+          ],
+          "confidence": 0.9,
+          "positive": 5,
+          "negative": 2,
+          "p": 0.453125,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.199615,
+            0.356525
+          ],
+          "confidence": 0.975,
+          "positive": 5,
+          "negative": 2,
+          "p": 0.453125,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.9016,
+            "sd": 2.646713,
+            "se": 0.467877,
+            "ci": [
+              23.947358,
+              25.855842
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.9016,
+            "sd": 2.646713,
+            "se": 0.467877,
+            "ci": [
+              23.947358,
+              25.855842
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 144.567232,
+            "sd": 19.556069,
+            "se": 3.457057,
+            "ci": [
+              137.516517,
+              151.617947
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 144.567232,
+            "sd": 19.556069,
+            "se": 3.457057,
+            "ci": [
+              137.516517,
+              151.617947
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 407.348337,
+            "sd": 44.465172,
+            "se": 7.860406,
+            "ci": [
+              391.316933,
+              423.379741
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 407.348337,
+            "sd": 44.465172,
+            "se": 7.860406,
+            "ci": [
+              391.316933,
+              423.379741
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.453125,
+      "q": 0.818143
+    },
+    {
+      "id": "path:同谐",
+      "name": "命途：同谐",
+      "filters": [
+        {
+          "path": "同谐"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 20,
+      "winRate": 0.625,
+      "winRateCI95": [
+        0.4525440735307745,
+        0.7706611269054578
+      ],
+      "incomplete": 0,
+      "deathHp": 11,
+      "deathDeadline": 1,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.237131,
+            0.399188
+          ],
+          "confidence": 0.95,
+          "positive": 9,
+          "negative": 6,
+          "p": 0.607239,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.197446,
+            0.36485
+          ],
+          "confidence": 0.9,
+          "positive": 9,
+          "negative": 6,
+          "p": 0.607239,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.272315,
+            0.429225
+          ],
+          "confidence": 0.975,
+          "positive": 9,
+          "negative": 6,
+          "p": 0.607239,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 23.837054,
+            "sd": 2.429437,
+            "se": 0.429468,
+            "ci": [
+              22.961148,
+              24.712959
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 23.837054,
+            "sd": 2.429437,
+            "se": 0.429468,
+            "ci": [
+              22.961148,
+              24.712959
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 151.150347,
+            "sd": 17.595011,
+            "se": 3.110388,
+            "ci": [
+              144.806669,
+              157.494025
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 151.150347,
+            "sd": 17.595011,
+            "se": 3.110388,
+            "ci": [
+              144.806669,
+              157.494025
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 415.960669,
+            "sd": 54.408002,
+            "se": 9.618067,
+            "ci": [
+              396.344492,
+              435.576845
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 415.960669,
+            "sd": 54.408002,
+            "se": 9.618067,
+            "ci": [
+              396.344492,
+              435.576845
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.607239,
+      "q": 0.838568
+    },
+    {
+      "id": "path:存护",
+      "name": "命途：存护",
+      "filters": [
+        {
+          "path": "存护"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 24,
+      "winRate": 0.75,
+      "winRateCI95": [
+        0.5789344100575552,
+        0.8674759908149096
+      ],
+      "incomplete": 0,
+      "deathHp": 6,
+      "deathDeadline": 2,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.21875,
+          "ci": [
+            -0.064305,
+            0.442439
+          ],
+          "confidence": 0.95,
+          "positive": 8,
+          "negative": 1,
+          "p": 0.039063,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.21875,
+          "ci": [
+            -0.024919,
+            0.415528
+          ],
+          "confidence": 0.9,
+          "positive": 8,
+          "negative": 1,
+          "p": 0.039063,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.21875,
+          "ci": [
+            -0.100395,
+            0.466518
+          ],
+          "confidence": 0.975,
+          "positive": 8,
+          "negative": 1,
+          "p": 0.039063,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.747954,
+            "sd": 2.431458,
+            "se": 0.429825,
+            "ci": [
+              23.87132,
+              25.624588
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.747954,
+            "sd": 2.431458,
+            "se": 0.429825,
+            "ci": [
+              23.87132,
+              25.624588
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 152.685503,
+            "sd": 17.92025,
+            "se": 3.167883,
+            "ci": [
+              146.224564,
+              159.146443
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 152.685503,
+            "sd": 17.92025,
+            "se": 3.167883,
+            "ci": [
+              146.224564,
+              159.146443
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 413.917368,
+            "sd": 44.445079,
+            "se": 7.856854,
+            "ci": [
+              397.893209,
+              429.941528
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 413.917368,
+            "sd": 44.445079,
+            "se": 7.856854,
+            "ci": [
+              397.893209,
+              429.941528
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.039063,
+      "q": 0.226565
+    },
+    {
+      "id": "path:巡猎",
+      "name": "命途：巡猎",
+      "filters": [
+        {
+          "path": "巡猎"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 18,
+      "winRate": 0.5625,
+      "winRateCI95": [
+        0.3932559113685198,
+        0.7183466888495963
+      ],
+      "incomplete": 0,
+      "deathHp": 14,
+      "deathDeadline": 0,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        31,
+        31
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.03125,
+          "ci": [
+            -0.279882,
+            0.333901
+          ],
+          "confidence": 0.95,
+          "positive": 7,
+          "negative": 6,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.03125,
+          "ci": [
+            -0.242853,
+            0.298654
+          ],
+          "confidence": 0.9,
+          "positive": 7,
+          "negative": 6,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.03125,
+          "ci": [
+            -0.312709,
+            0.365012
+          ],
+          "confidence": 0.975,
+          "positive": 7,
+          "negative": 6,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.857701,
+            "sd": 2.925697,
+            "se": 0.517195,
+            "ci": [
+              23.802874,
+              25.912527
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.857701,
+            "sd": 2.925697,
+            "se": 0.517195,
+            "ci": [
+              23.802874,
+              25.912527
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 149.808507,
+            "sd": 19.642051,
+            "se": 3.472257,
+            "ci": [
+              142.726793,
+              156.890221
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 149.808507,
+            "sd": 19.642051,
+            "se": 3.472257,
+            "ci": [
+              142.726793,
+              156.890221
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 412.25264,
+            "sd": 46.819588,
+            "se": 8.276612,
+            "ci": [
+              395.372378,
+              429.132901
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 412.25264,
+            "sd": 46.819588,
+            "se": 8.276612,
+            "ci": [
+              395.372378,
+              429.132901
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 1,
+      "q": 1
+    },
+    {
+      "id": "path:智识",
+      "name": "命途：智识",
+      "filters": [
+        {
+          "path": "智识"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 22,
+      "winRate": 0.6875,
+      "winRateCI95": [
+        0.5143332169904459,
+        0.8204745836639026
+      ],
+      "incomplete": 0,
+      "deathHp": 9,
+      "deathDeadline": 1,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.15625,
+          "ci": [
+            -0.148722,
+            0.418818
+          ],
+          "confidence": 0.95,
+          "positive": 8,
+          "negative": 3,
+          "p": 0.226562,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.15625,
+          "ci": [
+            -0.109658,
+            0.388664
+          ],
+          "confidence": 0.9,
+          "positive": 8,
+          "negative": 3,
+          "p": 0.226562,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.15625,
+          "ci": [
+            -0.183943,
+            0.445459
+          ],
+          "confidence": 0.975,
+          "positive": 8,
+          "negative": 3,
+          "p": 0.226562,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 25.081585,
+            "sd": 2.953632,
+            "se": 0.522133,
+            "ci": [
+              24.016687,
+              26.146483
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 25.081585,
+            "sd": 2.953632,
+            "se": 0.522133,
+            "ci": [
+              24.016687,
+              26.146483
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 153.185851,
+            "sd": 15.580467,
+            "se": 2.754264,
+            "ci": [
+              147.568493,
+              158.803208
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 153.185851,
+            "sd": 15.580467,
+            "se": 2.754264,
+            "ci": [
+              147.568493,
+              158.803208
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 418.407561,
+            "sd": 48.236843,
+            "se": 8.52715,
+            "ci": [
+              401.016325,
+              435.798798
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 418.407561,
+            "sd": 48.236843,
+            "se": 8.52715,
+            "ci": [
+              401.016325,
+              435.798798
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.226562,
+      "q": 0.644878
+    },
+    {
+      "id": "path:欢愉",
+      "name": "命途：欢愉",
+      "filters": [
+        {
+          "path": "欢愉"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 14,
+      "winRate": 0.4375,
+      "winRateCI95": [
+        0.2816533111504036,
+        0.6067440886314801
+      ],
+      "incomplete": 0,
+      "deathHp": 14,
+      "deathDeadline": 4,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": -0.09375,
+          "ci": [
+            -0.351625,
+            0.189567
+          ],
+          "confidence": 0.95,
+          "positive": 3,
+          "negative": 6,
+          "p": 0.507813,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": -0.09375,
+          "ci": [
+            -0.32069,
+            0.153286
+          ],
+          "confidence": 0.9,
+          "positive": 3,
+          "negative": 6,
+          "p": 0.507813,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": -0.09375,
+          "ci": [
+            -0.379255,
+            0.222345
+          ],
+          "confidence": 0.975,
+          "positive": 3,
+          "negative": 6,
+          "p": 0.507813,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.203609,
+            "sd": 2.702517,
+            "se": 0.477742,
+            "ci": [
+              23.229247,
+              25.17797
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.203609,
+            "sd": 2.702517,
+            "se": 0.477742,
+            "ci": [
+              23.229247,
+              25.17797
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 152.113678,
+            "sd": 21.786182,
+            "se": 3.851289,
+            "ci": [
+              144.258922,
+              159.968434
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 152.113678,
+            "sd": 21.786182,
+            "se": 3.851289,
+            "ci": [
+              144.258922,
+              159.968434
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 405.193934,
+            "sd": 47.235955,
+            "se": 8.350216,
+            "ci": [
+              388.163556,
+              422.224312
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 405.193934,
+            "sd": 47.235955,
+            "se": 8.350216,
+            "ci": [
+              388.163556,
+              422.224312
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.507813,
+      "q": 0.818143
+    },
+    {
+      "id": "path:毁灭",
+      "name": "命途：毁灭",
+      "filters": [
+        {
+          "path": "毁灭"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 20,
+      "winRate": 0.625,
+      "winRateCI95": [
+        0.4525440735307745,
+        0.7706611269054578
+      ],
+      "incomplete": 0,
+      "deathHp": 11,
+      "deathDeadline": 1,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        31,
+        31
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.223696,
+            0.385754
+          ],
+          "confidence": 0.95,
+          "positive": 8,
+          "negative": 5,
+          "p": 0.581055,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.185017,
+            0.352421
+          ],
+          "confidence": 0.9,
+          "positive": 8,
+          "negative": 5,
+          "p": 0.581055,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.258154,
+            0.415064
+          ],
+          "confidence": 0.975,
+          "positive": 8,
+          "negative": 5,
+          "p": 0.581055,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 25.000372,
+            "sd": 2.598285,
+            "se": 0.459316,
+            "ci": [
+              24.06359,
+              25.937154
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 25.000372,
+            "sd": 2.598285,
+            "se": 0.459316,
+            "ci": [
+              24.06359,
+              25.937154
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 152.685503,
+            "sd": 15.607961,
+            "se": 2.759124,
+            "ci": [
+              147.058233,
+              158.312774
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 152.685503,
+            "sd": 15.607961,
+            "se": 2.759124,
+            "ci": [
+              147.058233,
+              158.312774
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 399.626852,
+            "sd": 54.106599,
+            "se": 9.564786,
+            "ci": [
+              380.119343,
+              419.134362
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 399.626852,
+            "sd": 54.106599,
+            "se": 9.564786,
+            "ci": [
+              380.119343,
+              419.134362
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.581055,
+      "q": 0.838568
+    },
+    {
+      "id": "path:虚无",
+      "name": "命途：虚无",
+      "filters": [
+        {
+          "path": "虚无"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 21,
+      "winRate": 0.65625,
+      "winRateCI95": [
+        0.4831108797896222,
+        0.7958956207556682
+      ],
+      "incomplete": 0,
+      "deathHp": 8,
+      "deathDeadline": 3,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.125,
+          "ci": [
+            -0.201872,
+            0.417949
+          ],
+          "confidence": 0.95,
+          "positive": 9,
+          "negative": 5,
+          "p": 0.42395,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.125,
+          "ci": [
+            -0.161896,
+            0.385101
+          ],
+          "confidence": 0.9,
+          "positive": 9,
+          "negative": 5,
+          "p": 0.42395,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.125,
+          "ci": [
+            -0.237487,
+            0.4467
+          ],
+          "confidence": 0.975,
+          "positive": 9,
+          "negative": 5,
+          "p": 0.42395,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.627232,
+            "sd": 2.837354,
+            "se": 0.501578,
+            "ci": [
+              23.604257,
+              25.650207
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.627232,
+            "sd": 2.837354,
+            "se": 0.501578,
+            "ci": [
+              23.604257,
+              25.650207
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 146.920139,
+            "sd": 15.054681,
+            "se": 2.661317,
+            "ci": [
+              141.492347,
+              152.34793
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 146.920139,
+            "sd": 15.054681,
+            "se": 2.661317,
+            "ci": [
+              141.492347,
+              152.34793
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 412.654763,
+            "sd": 41.774352,
+            "se": 7.384732,
+            "ci": [
+              397.593503,
+              427.716023
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 412.654763,
+            "sd": 41.774352,
+            "se": 7.384732,
+            "ci": [
+              397.593503,
+              427.716023
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.42395,
+      "q": 0.818143
+    },
+    {
+      "id": "path:记忆",
+      "name": "命途：记忆",
+      "filters": [
+        {
+          "path": "记忆"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 15,
+      "winRate": 0.46875,
+      "winRateCI95": [
+        0.30869387108068835,
+        0.6355048288102536
+      ],
+      "incomplete": 0,
+      "deathHp": 14,
+      "deathDeadline": 3,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": -0.0625,
+          "ci": [
+            -0.293166,
+            0.185128
+          ],
+          "confidence": 0.95,
+          "positive": 2,
+          "negative": 4,
+          "p": 0.6875,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": -0.0625,
+          "ci": [
+            -0.263372,
+            0.15177
+          ],
+          "confidence": 0.9,
+          "positive": 2,
+          "negative": 4,
+          "p": 0.6875,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": -0.0625,
+          "ci": [
+            -0.320284,
+            0.215677
+          ],
+          "confidence": 0.975,
+          "positive": 2,
+          "negative": 4,
+          "p": 0.6875,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.71503,
+            "sd": 2.231399,
+            "se": 0.394459,
+            "ci": [
+              23.910524,
+              25.519535
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.71503,
+            "sd": 2.231399,
+            "se": 0.394459,
+            "ci": [
+              23.910524,
+              25.519535
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 150.149653,
+            "sd": 17.06083,
+            "se": 3.015957,
+            "ci": [
+              143.998567,
+              156.300738
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 150.149653,
+            "sd": 17.06083,
+            "se": 3.015957,
+            "ci": [
+              143.998567,
+              156.300738
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 408.144622,
+            "sd": 38.766786,
+            "se": 6.853064,
+            "ci": [
+              394.167705,
+              422.121539
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 408.144622,
+            "sd": 38.766786,
+            "se": 6.853064,
+            "ci": [
+              394.167705,
+              422.121539
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.6875,
+      "q": 0.90625
+    },
+    {
+      "id": "element:冰",
+      "name": "属性：冰",
+      "filters": [
+        {
+          "element": "冰"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 25,
+      "winRate": 0.78125,
+      "winRateCI95": [
+        0.6124500635075647,
+        0.8897616374739581
+      ],
+      "incomplete": 0,
+      "deathHp": 6,
+      "deathDeadline": 1,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.25,
+          "ci": [
+            -0.080857,
+            0.513011
+          ],
+          "confidence": 0.95,
+          "positive": 11,
+          "negative": 3,
+          "p": 0.057373,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.25,
+          "ci": [
+            -0.038077,
+            0.484488
+          ],
+          "confidence": 0.9,
+          "positive": 11,
+          "negative": 3,
+          "p": 0.057373,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.25,
+          "ci": [
+            -0.119424,
+            0.53785
+          ],
+          "confidence": 0.975,
+          "positive": 11,
+          "negative": 3,
+          "p": 0.057373,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.034598,
+            "sd": 2.410015,
+            "se": 0.426034,
+            "ci": [
+              23.165695,
+              24.903501
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.034598,
+            "sd": 2.410015,
+            "se": 0.426034,
+            "ci": [
+              23.165695,
+              24.903501
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 149.717535,
+            "sd": 15.281359,
+            "se": 2.701388,
+            "ci": [
+              144.208017,
+              155.227052
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 149.717535,
+            "sd": 15.281359,
+            "se": 2.701388,
+            "ci": [
+              144.208017,
+              155.227052
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 405.637745,
+            "sd": 49.878528,
+            "se": 8.817361,
+            "ci": [
+              387.654618,
+              423.620872
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 405.637745,
+            "sd": 49.878528,
+            "se": 8.817361,
+            "ci": [
+              387.654618,
+              423.620872
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.057373,
+      "q": 0.237688
+    },
+    {
+      "id": "element:火",
+      "name": "属性：火",
+      "filters": [
+        {
+          "element": "火"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 23,
+      "winRate": 0.71875,
+      "winRateCI95": [
+        0.5462549057408342,
+        0.8443541950225723
+      ],
+      "incomplete": 0,
+      "deathHp": 9,
+      "deathDeadline": 0,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.1875,
+          "ci": [
+            -0.126897,
+            0.451012
+          ],
+          "confidence": 0.95,
+          "positive": 9,
+          "negative": 3,
+          "p": 0.145996,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.1875,
+          "ci": [
+            -0.086536,
+            0.421344
+          ],
+          "confidence": 0.9,
+          "positive": 9,
+          "negative": 3,
+          "p": 0.145996,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.1875,
+          "ci": [
+            -0.163276,
+            0.477095
+          ],
+          "confidence": 0.975,
+          "positive": 9,
+          "negative": 3,
+          "p": 0.145996,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.675521,
+            "sd": 3.024973,
+            "se": 0.534745,
+            "ci": [
+              23.584902,
+              25.76614
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.675521,
+            "sd": 3.024973,
+            "se": 0.534745,
+            "ci": [
+              23.584902,
+              25.76614
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 153.185851,
+            "sd": 17.896309,
+            "se": 3.16365,
+            "ci": [
+              146.733543,
+              159.638158
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 153.185851,
+            "sd": 17.896309,
+            "se": 3.16365,
+            "ci": [
+              146.733543,
+              159.638158
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 415.129823,
+            "sd": 48.427339,
+            "se": 8.560825,
+            "ci": [
+              397.669905,
+              432.58974
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 415.129823,
+            "sd": 48.427339,
+            "se": 8.560825,
+            "ci": [
+              397.669905,
+              432.58974
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.145996,
+      "q": 0.470432
+    },
+    {
+      "id": "element:物理",
+      "name": "属性：物理",
+      "filters": [
+        {
+          "element": "物理"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 16,
+      "winRate": 0.5,
+      "winRateCI95": [
+        0.33630882869327483,
+        0.6636911713067252
+      ],
+      "incomplete": 0,
+      "deathHp": 13,
+      "deathDeadline": 3,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": -0.03125,
+          "ci": [
+            -0.347075,
+            0.293056
+          ],
+          "confidence": 0.95,
+          "positive": 7,
+          "negative": 8,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": -0.03125,
+          "ci": [
+            -0.310827,
+            0.255026
+          ],
+          "confidence": 0.9,
+          "positive": 7,
+          "negative": 8,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": -0.03125,
+          "ci": [
+            -0.378913,
+            0.32661
+          ],
+          "confidence": 0.975,
+          "positive": 7,
+          "negative": 8,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.5109,
+            "sd": 2.728924,
+            "se": 0.48241,
+            "ci": [
+              23.527018,
+              25.494782
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.5109,
+            "sd": 2.728924,
+            "se": 0.48241,
+            "ci": [
+              23.527018,
+              25.494782
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 153.682949,
+            "sd": 18.409999,
+            "se": 3.254459,
+            "ci": [
+              147.045436,
+              160.320462
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 153.682949,
+            "sd": 18.409999,
+            "se": 3.254459,
+            "ci": [
+              147.045436,
+              160.320462
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 411.634649,
+            "sd": 54.214413,
+            "se": 9.583845,
+            "ci": [
+              392.088269,
+              431.18103
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 411.634649,
+            "sd": 54.214413,
+            "se": 9.583845,
+            "ci": [
+              392.088269,
+              431.18103
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 1,
+      "q": 1
+    },
+    {
+      "id": "element:虚数",
+      "name": "属性：虚数",
+      "filters": [
+        {
+          "element": "虚数"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 28,
+      "winRate": 0.875,
+      "winRateCI95": [
+        0.7193169451834978,
+        0.9502986561251991
+      ],
+      "incomplete": 0,
+      "deathHp": 4,
+      "deathDeadline": 0,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.34375,
+          "ci": [
+            0.008621,
+            0.58559
+          ],
+          "confidence": 0.95,
+          "positive": 13,
+          "negative": 2,
+          "p": 0.007385,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.34375,
+          "ci": [
+            0.053725,
+            0.560089
+          ],
+          "confidence": 0.9,
+          "positive": 13,
+          "negative": 2,
+          "p": 0.007385,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.34375,
+          "ci": [
+            -0.032351,
+            0.607687
+          ],
+          "confidence": 0.975,
+          "positive": 13,
+          "negative": 2,
+          "p": 0.007385,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.780878,
+            "sd": 2.615835,
+            "se": 0.462419,
+            "ci": [
+              23.837769,
+              25.723987
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.780878,
+            "sd": 2.615835,
+            "se": 0.462419,
+            "ci": [
+              23.837769,
+              25.723987
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 152.382899,
+            "sd": 17.469367,
+            "se": 3.088177,
+            "ci": [
+              146.084521,
+              158.681278
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 152.382899,
+            "sd": 17.469367,
+            "se": 3.088177,
+            "ci": [
+              146.084521,
+              158.681278
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 417.991015,
+            "sd": 51.830723,
+            "se": 9.162464,
+            "ci": [
+              399.304047,
+              436.677983
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 417.991015,
+            "sd": 51.830723,
+            "se": 9.162464,
+            "ci": [
+              399.304047,
+              436.677983
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.007385,
+      "q": 0.169926
+    },
+    {
+      "id": "element:量子",
+      "name": "属性：量子",
+      "filters": [
+        {
+          "element": "量子"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 18,
+      "winRate": 0.5625,
+      "winRateCI95": [
+        0.3932559113685198,
+        0.7183466888495963
+      ],
+      "incomplete": 0,
+      "deathHp": 12,
+      "deathDeadline": 2,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.03125,
+          "ci": [
+            -0.264541,
+            0.318561
+          ],
+          "confidence": 0.95,
+          "positive": 6,
+          "negative": 5,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.03125,
+          "ci": [
+            -0.228646,
+            0.284447
+          ],
+          "confidence": 0.9,
+          "positive": 6,
+          "negative": 5,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.03125,
+          "ci": [
+            -0.296556,
+            0.34886
+          ],
+          "confidence": 0.975,
+          "positive": 6,
+          "negative": 5,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.769903,
+            "sd": 2.51194,
+            "se": 0.444052,
+            "ci": [
+              23.864252,
+              25.675554
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.769903,
+            "sd": 2.51194,
+            "se": 0.444052,
+            "ci": [
+              23.864252,
+              25.675554
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 150.497796,
+            "sd": 16.27825,
+            "se": 2.877615,
+            "ci": [
+              144.628861,
+              156.366732
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 150.497796,
+            "sd": 16.27825,
+            "se": 2.877615,
+            "ci": [
+              144.628861,
+              156.366732
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 418.894057,
+            "sd": 52.982237,
+            "se": 9.366025,
+            "ci": [
+              399.791924,
+              437.99619
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 418.894057,
+            "sd": 52.982237,
+            "se": 9.366025,
+            "ci": [
+              399.791924,
+              437.99619
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 1,
+      "q": 1
+    },
+    {
+      "id": "element:雷",
+      "name": "属性：雷",
+      "filters": [
+        {
+          "element": "雷"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 25,
+      "winRate": 0.78125,
+      "winRateCI95": [
+        0.6124500635075647,
+        0.8897616374739581
+      ],
+      "incomplete": 0,
+      "deathHp": 7,
+      "deathDeadline": 0,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.25,
+          "ci": [
+            -0.063672,
+            0.495826
+          ],
+          "confidence": 0.95,
+          "positive": 10,
+          "negative": 2,
+          "p": 0.038574,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.25,
+          "ci": [
+            -0.021946,
+            0.468356
+          ],
+          "confidence": 0.9,
+          "positive": 10,
+          "negative": 2,
+          "p": 0.038574,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.25,
+          "ci": [
+            -0.101544,
+            0.51997
+          ],
+          "confidence": 0.975,
+          "positive": 10,
+          "negative": 2,
+          "p": 0.038574,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.868676,
+            "sd": 3.01504,
+            "se": 0.532989,
+            "ci": [
+              23.781638,
+              25.955714
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.868676,
+            "sd": 3.01504,
+            "se": 0.532989,
+            "ci": [
+              23.781638,
+              25.955714
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 147.807118,
+            "sd": 17.165584,
+            "se": 3.034475,
+            "ci": [
+              141.618265,
+              153.995971
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 147.807118,
+            "sd": 17.165584,
+            "se": 3.034475,
+            "ci": [
+              141.618265,
+              153.995971
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 414.104565,
+            "sd": 55.661682,
+            "se": 9.839688,
+            "ci": [
+              394.036388,
+              434.172741
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 414.104565,
+            "sd": 55.661682,
+            "se": 9.839688,
+            "ci": [
+              394.036388,
+              434.172741
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.038574,
+      "q": 0.226565
+    },
+    {
+      "id": "element:风",
+      "name": "属性：风",
+      "filters": [
+        {
+          "element": "风"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 21,
+      "winRate": 0.65625,
+      "winRateCI95": [
+        0.4831108797896222,
+        0.7958956207556682
+      ],
+      "incomplete": 0,
+      "deathHp": 9,
+      "deathDeadline": 2,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.125,
+          "ci": [
+            -0.169648,
+            0.385725
+          ],
+          "confidence": 0.95,
+          "positive": 7,
+          "negative": 3,
+          "p": 0.34375,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.125,
+          "ci": [
+            -0.131943,
+            0.355148
+          ],
+          "confidence": 0.9,
+          "positive": 7,
+          "negative": 3,
+          "p": 0.34375,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.125,
+          "ci": [
+            -0.203669,
+            0.412882
+          ],
+          "confidence": 0.975,
+          "positive": 7,
+          "negative": 3,
+          "p": 0.34375,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 25.06622,
+            "sd": 2.928437,
+            "se": 0.517679,
+            "ci": [
+              24.010406,
+              26.122034
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 25.06622,
+            "sd": 2.928437,
+            "se": 0.517679,
+            "ci": [
+              24.010406,
+              26.122034
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 152.211648,
+            "sd": 19.627365,
+            "se": 3.469661,
+            "ci": [
+              145.135229,
+              159.288068
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 152.211648,
+            "sd": 19.627365,
+            "se": 3.469661,
+            "ci": [
+              145.135229,
+              159.288068
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 417.286315,
+            "sd": 56.099683,
+            "se": 9.917117,
+            "ci": [
+              397.060222,
+              437.512407
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 417.286315,
+            "sd": 56.099683,
+            "se": 9.917117,
+            "ci": [
+              397.060222,
+              437.512407
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.34375,
+      "q": 0.766827
+    },
+    {
+      "id": "faction:仙舟罗浮",
+      "name": "阵营：仙舟罗浮",
+      "filters": [
+        {
+          "faction": "仙舟罗浮"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 24,
+      "winRate": 0.75,
+      "winRateCI95": [
+        0.5789344100575552,
+        0.8674759908149096
+      ],
+      "incomplete": 0,
+      "deathHp": 6,
+      "deathDeadline": 2,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.21875,
+          "ci": [
+            -0.119197,
+            0.497331
+          ],
+          "confidence": 0.95,
+          "positive": 11,
+          "negative": 4,
+          "p": 0.118469,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.21875,
+          "ci": [
+            -0.076579,
+            0.467188
+          ],
+          "confidence": 0.9,
+          "positive": 11,
+          "negative": 4,
+          "p": 0.118469,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.21875,
+          "ci": [
+            -0.157394,
+            0.523517
+          ],
+          "confidence": 0.975,
+          "positive": 11,
+          "negative": 4,
+          "p": 0.118469,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.225558,
+            "sd": 2.320935,
+            "se": 0.410287,
+            "ci": [
+              23.388772,
+              25.062344
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.225558,
+            "sd": 2.320935,
+            "se": 0.410287,
+            "ci": [
+              23.388772,
+              25.062344
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 148.182378,
+            "sd": 14.579521,
+            "se": 2.57732,
+            "ci": [
+              142.9259,
+              153.438857
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 148.182378,
+            "sd": 14.579521,
+            "se": 2.57732,
+            "ci": [
+              142.9259,
+              153.438857
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 406.751953,
+            "sd": 34.964397,
+            "se": 6.180891,
+            "ci": [
+              394.145944,
+              419.357963
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 406.751953,
+            "sd": 34.964397,
+            "se": 6.180891,
+            "ci": [
+              394.145944,
+              419.357963
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.118469,
+      "q": 0.42945
+    },
+    {
+      "id": "faction:匹诺康尼",
+      "name": "阵营：匹诺康尼",
+      "filters": [
+        {
+          "faction": "匹诺康尼"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 16,
+      "winRate": 0.5,
+      "winRateCI95": [
+        0.33630882869327483,
+        0.6636911713067252
+      ],
+      "incomplete": 0,
+      "deathHp": 15,
+      "deathDeadline": 1,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": -0.03125,
+          "ci": [
+            -0.300686,
+            0.246667
+          ],
+          "confidence": 0.95,
+          "positive": 4,
+          "negative": 5,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": -0.03125,
+          "ci": [
+            -0.26784,
+            0.212039
+          ],
+          "confidence": 0.9,
+          "positive": 4,
+          "negative": 5,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": -0.03125,
+          "ci": [
+            -0.330094,
+            0.27779
+          ],
+          "confidence": 0.975,
+          "positive": 4,
+          "negative": 5,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.418713,
+            "sd": 2.346524,
+            "se": 0.414811,
+            "ci": [
+              23.572701,
+              25.264725
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.418713,
+            "sd": 2.346524,
+            "se": 0.414811,
+            "ci": [
+              23.572701,
+              25.264725
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 150.991146,
+            "sd": 18.776498,
+            "se": 3.319247,
+            "ci": [
+              144.221496,
+              157.760795
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 150.991146,
+            "sd": 18.776498,
+            "se": 3.319247,
+            "ci": [
+              144.221496,
+              157.760795
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 405.147856,
+            "sd": 45.816716,
+            "se": 8.099328,
+            "ci": [
+              388.629168,
+              421.666543
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 405.147856,
+            "sd": 45.816716,
+            "se": 8.099328,
+            "ci": [
+              388.629168,
+              421.666543
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 1,
+      "q": 1
+    },
+    {
+      "id": "faction:星核猎手",
+      "name": "阵营：星核猎手",
+      "filters": [
+        {
+          "faction": "星核猎手"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 20,
+      "winRate": 0.625,
+      "winRateCI95": [
+        0.4525440735307745,
+        0.7706611269054578
+      ],
+      "incomplete": 0,
+      "deathHp": 11,
+      "deathDeadline": 1,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.167744,
+            0.329801
+          ],
+          "confidence": 0.95,
+          "positive": 5,
+          "negative": 2,
+          "p": 0.453125,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.132827,
+            0.300231
+          ],
+          "confidence": 0.9,
+          "positive": 5,
+          "negative": 2,
+          "p": 0.453125,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.199615,
+            0.356525
+          ],
+          "confidence": 0.975,
+          "positive": 5,
+          "negative": 2,
+          "p": 0.453125,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 25.077195,
+            "sd": 2.468604,
+            "se": 0.436392,
+            "ci": [
+              24.187168,
+              25.967222
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 25.077195,
+            "sd": 2.468604,
+            "se": 0.436392,
+            "ci": [
+              24.187168,
+              25.967222
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 150.433941,
+            "sd": 18.278499,
+            "se": 3.231213,
+            "ci": [
+              143.843839,
+              157.024042
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 150.433941,
+            "sd": 18.278499,
+            "se": 3.231213,
+            "ci": [
+              143.843839,
+              157.024042
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 398.565933,
+            "sd": 49.660669,
+            "se": 8.778849,
+            "ci": [
+              380.661353,
+              416.470514
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 398.565933,
+            "sd": 49.660669,
+            "se": 8.778849,
+            "ci": [
+              380.661353,
+              416.470514
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.453125,
+      "q": 0.818143
+    },
+    {
+      "id": "faction:星穹列车",
+      "name": "阵营：星穹列车",
+      "filters": [
+        {
+          "faction": "星穹列车"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 26,
+      "winRate": 0.8125,
+      "winRateCI95": [
+        0.6469084479862404,
+        0.9111045531043405
+      ],
+      "incomplete": 0,
+      "deathHp": 5,
+      "deathDeadline": 1,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.28125,
+          "ci": [
+            -0.019838,
+            0.506011
+          ],
+          "confidence": 0.95,
+          "positive": 10,
+          "negative": 1,
+          "p": 0.011719,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.28125,
+          "ci": [
+            0.022083,
+            0.480129
+          ],
+          "confidence": 0.9,
+          "positive": 10,
+          "negative": 1,
+          "p": 0.011719,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.28125,
+          "ci": [
+            -0.058201,
+            0.52893
+          ],
+          "confidence": 0.975,
+          "positive": 10,
+          "negative": 1,
+          "p": 0.011719,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.846726,
+            "sd": 2.385228,
+            "se": 0.421653,
+            "ci": [
+              23.98676,
+              25.706693
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.846726,
+            "sd": 2.385228,
+            "se": 0.421653,
+            "ci": [
+              23.98676,
+              25.706693
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 155.707081,
+            "sd": 18.275714,
+            "se": 3.23072,
+            "ci": [
+              149.117983,
+              162.296178
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 155.707081,
+            "sd": 18.275714,
+            "se": 3.23072,
+            "ci": [
+              149.117983,
+              162.296178
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 422.026384,
+            "sd": 46.449247,
+            "se": 8.211144,
+            "ci": [
+              405.279645,
+              438.773124
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 422.026384,
+            "sd": 46.449247,
+            "se": 8.211144,
+            "ci": [
+              405.279645,
+              438.773124
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.011719,
+      "q": 0.169926
+    },
+    {
+      "id": "faction:星际和平公司",
+      "name": "阵营：星际和平公司",
+      "filters": [
+        {
+          "faction": "星际和平公司"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 19,
+      "winRate": 0.59375,
+      "winRateCI95": [
+        0.42260024875382873,
+        0.7448036515733456
+      ],
+      "incomplete": 0,
+      "deathHp": 12,
+      "deathDeadline": 1,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        31
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.0625,
+          "ci": [
+            -0.227907,
+            0.335945
+          ],
+          "confidence": 0.95,
+          "positive": 6,
+          "negative": 4,
+          "p": 0.753906,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.0625,
+          "ci": [
+            -0.191788,
+            0.30339
+          ],
+          "confidence": 0.9,
+          "positive": 6,
+          "negative": 4,
+          "p": 0.753906,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.0625,
+          "ci": [
+            -0.260315,
+            0.364922
+          ],
+          "confidence": 0.975,
+          "positive": 6,
+          "negative": 4,
+          "p": 0.753906,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.638207,
+            "sd": 2.361945,
+            "se": 0.417537,
+            "ci": [
+              23.786635,
+              25.489779
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.638207,
+            "sd": 2.361945,
+            "se": 0.417537,
+            "ci": [
+              23.786635,
+              25.489779
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 149.239931,
+            "sd": 19.400333,
+            "se": 3.429527,
+            "ci": [
+              142.245365,
+              156.234496
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 149.239931,
+            "sd": 19.400333,
+            "se": 3.429527,
+            "ci": [
+              142.245365,
+              156.234496
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 419.544872,
+            "sd": 46.10901,
+            "se": 8.150998,
+            "ci": [
+              402.920801,
+              436.168943
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 419.544872,
+            "sd": 46.10901,
+            "se": 8.150998,
+            "ci": [
+              402.920801,
+              436.168943
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.753906,
+      "q": 0.950577
+    },
+    {
+      "id": "faction:翁法罗斯",
+      "name": "阵营：翁法罗斯",
+      "filters": [
+        {
+          "faction": "翁法罗斯"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 20,
+      "winRate": 0.625,
+      "winRateCI95": [
+        0.4525440735307745,
+        0.7706611269054578
+      ],
+      "incomplete": 0,
+      "deathHp": 10,
+      "deathDeadline": 2,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.189567,
+            0.351625
+          ],
+          "confidence": 0.95,
+          "positive": 6,
+          "negative": 3,
+          "p": 0.507813,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.153286,
+            0.32069
+          ],
+          "confidence": 0.9,
+          "positive": 6,
+          "negative": 3,
+          "p": 0.507813,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.222345,
+            0.379255
+          ],
+          "confidence": 0.975,
+          "positive": 6,
+          "negative": 3,
+          "p": 0.507813,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.638207,
+            "sd": 2.361945,
+            "se": 0.417537,
+            "ci": [
+              23.786635,
+              25.489779
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.638207,
+            "sd": 2.361945,
+            "se": 0.417537,
+            "ci": [
+              23.786635,
+              25.489779
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 153.219965,
+            "sd": 15.431286,
+            "se": 2.727892,
+            "ci": [
+              147.656394,
+              158.783537
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 153.219965,
+            "sd": 15.431286,
+            "se": 2.727892,
+            "ci": [
+              147.656394,
+              158.783537
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 413.424168,
+            "sd": 39.79698,
+            "se": 7.035179,
+            "ci": [
+              399.075827,
+              427.772509
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 413.424168,
+            "sd": 39.79698,
+            "se": 7.035179,
+            "ci": [
+              399.075827,
+              427.772509
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.507813,
+      "q": 0.818143
+    },
+    {
+      "id": "faction:贝洛伯格",
+      "name": "阵营：贝洛伯格",
+      "filters": [
+        {
+          "faction": "贝洛伯格"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 22,
+      "winRate": 0.6875,
+      "winRateCI95": [
+        0.5143332169904459,
+        0.8204745836639026
+      ],
+      "incomplete": 0,
+      "deathHp": 9,
+      "deathDeadline": 1,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        31
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.15625,
+          "ci": [
+            -0.165237,
+            0.435333
+          ],
+          "confidence": 0.95,
+          "positive": 9,
+          "negative": 4,
+          "p": 0.266846,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.15625,
+          "ci": [
+            -0.125037,
+            0.404044
+          ],
+          "confidence": 0.9,
+          "positive": 9,
+          "negative": 4,
+          "p": 0.266846,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.15625,
+          "ci": [
+            -0.201246,
+            0.462762
+          ],
+          "confidence": 0.975,
+          "positive": 9,
+          "negative": 4,
+          "p": 0.266846,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 25.208891,
+            "sd": 2.589538,
+            "se": 0.45777,
+            "ci": [
+              24.275263,
+              26.142519
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 25.208891,
+            "sd": 2.589538,
+            "se": 0.45777,
+            "ci": [
+              24.275263,
+              26.142519
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 148.750955,
+            "sd": 19.047035,
+            "se": 3.367072,
+            "ci": [
+              141.883766,
+              155.618143
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 148.750955,
+            "sd": 19.047035,
+            "se": 3.367072,
+            "ci": [
+              141.883766,
+              155.618143
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 417.713076,
+            "sd": 48.905513,
+            "se": 8.645355,
+            "ci": [
+              400.080759,
+              435.345394
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 417.713076,
+            "sd": 48.905513,
+            "se": 8.645355,
+            "ci": [
+              400.080759,
+              435.345394
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.266846,
+      "q": 0.644878
+    },
+    {
+      "id": "faction:黑塔空间站",
+      "name": "阵营：黑塔空间站",
+      "filters": [
+        {
+          "faction": "黑塔空间站"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 18,
+      "winRate": 0.5625,
+      "winRateCI95": [
+        0.3932559113685198,
+        0.7183466888495963
+      ],
+      "incomplete": 0,
+      "deathHp": 11,
+      "deathDeadline": 3,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.03125,
+          "ci": [
+            -0.246667,
+            0.300686
+          ],
+          "confidence": 0.95,
+          "positive": 5,
+          "negative": 4,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.03125,
+          "ci": [
+            -0.212039,
+            0.26784
+          ],
+          "confidence": 0.9,
+          "positive": 5,
+          "negative": 4,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.03125,
+          "ci": [
+            -0.27779,
+            0.330094
+          ],
+          "confidence": 0.975,
+          "positive": 5,
+          "negative": 4,
+          "p": 1,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.418713,
+            "sd": 2.346524,
+            "se": 0.414811,
+            "ci": [
+              23.572701,
+              25.264725
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.418713,
+            "sd": 2.346524,
+            "se": 0.414811,
+            "ci": [
+              23.572701,
+              25.264725
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 151.078869,
+            "sd": 21.144456,
+            "se": 3.737847,
+            "ci": [
+              143.45548,
+              158.702258
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 151.078869,
+            "sd": 21.144456,
+            "se": 3.737847,
+            "ci": [
+              143.45548,
+              158.702258
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 411.633173,
+            "sd": 46.333849,
+            "se": 8.190745,
+            "ci": [
+              394.928039,
+              428.338307
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 411.633173,
+            "sd": 46.333849,
+            "se": 8.190745,
+            "ci": [
+              394.928039,
+              428.338307
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 1,
+      "q": 1
+    },
+    {
+      "id": "mixed:path:巡猎+faction:仙舟罗浮",
+      "name": "巡猎＋仙舟罗浮",
+      "filters": [
+        {
+          "path": "巡猎"
+        },
+        {
+          "faction": "仙舟罗浮"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 20,
+      "winRate": 0.625,
+      "winRateCI95": [
+        0.4525440735307745,
+        0.7706611269054578
+      ],
+      "incomplete": 0,
+      "deathHp": 10,
+      "deathDeadline": 2,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.237131,
+            0.399188
+          ],
+          "confidence": 0.95,
+          "positive": 9,
+          "negative": 6,
+          "p": 0.607239,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.197446,
+            0.36485
+          ],
+          "confidence": 0.9,
+          "positive": 9,
+          "negative": 6,
+          "p": 0.607239,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.09375,
+          "ci": [
+            -0.272315,
+            0.429225
+          ],
+          "confidence": 0.975,
+          "positive": 9,
+          "negative": 6,
+          "p": 0.607239,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.379204,
+            "sd": 2.577896,
+            "se": 0.455712,
+            "ci": [
+              23.449773,
+              25.308635
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.379204,
+            "sd": 2.577896,
+            "se": 0.455712,
+            "ci": [
+              23.449773,
+              25.308635
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 150.559028,
+            "sd": 18.914997,
+            "se": 3.343731,
+            "ci": [
+              143.739444,
+              157.378612
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 150.559028,
+            "sd": 18.914997,
+            "se": 3.343731,
+            "ci": [
+              143.739444,
+              157.378612
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 409.451986,
+            "sd": 35.009125,
+            "se": 6.188797,
+            "ci": [
+              396.82985,
+              422.074121
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 409.451986,
+            "sd": 35.009125,
+            "se": 6.188797,
+            "ci": [
+              396.82985,
+              422.074121
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.607239,
+      "q": 0.838568
+    },
+    {
+      "id": "mixed:path:智识+faction:黑塔空间站",
+      "name": "智识＋黑塔空间站",
+      "filters": [
+        {
+          "path": "智识"
+        },
+        {
+          "faction": "黑塔空间站"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 25,
+      "winRate": 0.78125,
+      "winRateCI95": [
+        0.6124500635075647,
+        0.8897616374739581
+      ],
+      "incomplete": 0,
+      "deathHp": 6,
+      "deathDeadline": 1,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.25,
+          "ci": [
+            -0.080857,
+            0.513011
+          ],
+          "confidence": 0.95,
+          "positive": 11,
+          "negative": 3,
+          "p": 0.057373,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.25,
+          "ci": [
+            -0.038077,
+            0.484488
+          ],
+          "confidence": 0.9,
+          "positive": 11,
+          "negative": 3,
+          "p": 0.057373,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.25,
+          "ci": [
+            -0.119424,
+            0.53785
+          ],
+          "confidence": 0.975,
+          "positive": 11,
+          "negative": 3,
+          "p": 0.057373,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.499926,
+            "sd": 3.148958,
+            "se": 0.556662,
+            "ci": [
+              23.364605,
+              25.635246
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.499926,
+            "sd": 3.148958,
+            "se": 0.556662,
+            "ci": [
+              23.364605,
+              25.635246
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 152.492188,
+            "sd": 17.078144,
+            "se": 3.019018,
+            "ci": [
+              146.33486,
+              158.649515
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 152.492188,
+            "sd": 17.078144,
+            "se": 3.019018,
+            "ci": [
+              146.33486,
+              158.649515
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 419.332344,
+            "sd": 47.475564,
+            "se": 8.392573,
+            "ci": [
+              402.215578,
+              436.449111
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 419.332344,
+            "sd": 47.475564,
+            "se": 8.392573,
+            "ci": [
+              402.215578,
+              436.449111
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.057373,
+      "q": 0.237688
+    },
+    {
+      "id": "mixed:element:冰+faction:贝洛伯格",
+      "name": "冰＋贝洛伯格",
+      "filters": [
+        {
+          "element": "冰"
+        },
+        {
+          "faction": "贝洛伯格"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 25,
+      "winRate": 0.78125,
+      "winRateCI95": [
+        0.6124500635075647,
+        0.8897616374739581
+      ],
+      "incomplete": 0,
+      "deathHp": 6,
+      "deathDeadline": 1,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.25,
+          "ci": [
+            -0.04248,
+            0.474634
+          ],
+          "confidence": 0.95,
+          "positive": 9,
+          "negative": 1,
+          "p": 0.021484,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.25,
+          "ci": [
+            -0.001797,
+            0.448207
+          ],
+          "confidence": 0.9,
+          "positive": 9,
+          "negative": 1,
+          "p": 0.021484,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.25,
+          "ci": [
+            -0.079728,
+            0.498154
+          ],
+          "confidence": 0.975,
+          "positive": 9,
+          "negative": 1,
+          "p": 0.021484,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.297991,
+            "sd": 2.750038,
+            "se": 0.486143,
+            "ci": [
+              23.306497,
+              25.289485
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.297991,
+            "sd": 2.750038,
+            "se": 0.486143,
+            "ci": [
+              23.306497,
+              25.289485
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 146.233474,
+            "sd": 17.88929,
+            "se": 3.16241,
+            "ci": [
+              139.783697,
+              152.68325
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 146.233474,
+            "sd": 17.88929,
+            "se": 3.16241,
+            "ci": [
+              139.783697,
+              152.68325
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 402.109522,
+            "sd": 44.824562,
+            "se": 7.923938,
+            "ci": [
+              385.948544,
+              418.2705
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 402.109522,
+            "sd": 44.824562,
+            "se": 7.923938,
+            "ci": [
+              385.948544,
+              418.2705
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.021484,
+      "q": 0.207679
+    },
+    {
+      "id": "mixed:path:虚无+faction:星核猎手",
+      "name": "虚无＋星核猎手",
+      "filters": [
+        {
+          "path": "虚无"
+        },
+        {
+          "faction": "星核猎手"
+        }
+      ],
+      "mode": "any",
+      "n": 32,
+      "wins": 22,
+      "winRate": 0.6875,
+      "winRateCI95": [
+        0.5143332169904459,
+        0.8204745836639026
+      ],
+      "incomplete": 0,
+      "deathHp": 8,
+      "deathDeadline": 2,
+      "reachedFloor": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        31
+      ],
+      "pairedBaseline": {
+        "margin": 0.1,
+        "ci95": {
+          "n": 32,
+          "mean": 0.15625,
+          "ci": [
+            -0.165237,
+            0.435333
+          ],
+          "confidence": 0.95,
+          "positive": 9,
+          "negative": 4,
+          "p": 0.266846,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "ci90": {
+          "n": 32,
+          "mean": 0.15625,
+          "ci": [
+            -0.125037,
+            0.404044
+          ],
+          "confidence": 0.9,
+          "positive": 9,
+          "negative": 4,
+          "p": 0.266846,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "decision": {
+          "n": 32,
+          "mean": 0.15625,
+          "ci": [
+            -0.201246,
+            0.462762
+          ],
+          "confidence": 0.975,
+          "positive": 9,
+          "negative": 4,
+          "p": 0.266846,
+          "method": "paired discordant-probability Wilson bounds; Bonferroni; exact McNemar p"
+        },
+        "status": "insufficient"
+      },
+      "stages": {
+        "early": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 24.627232,
+            "sd": 2.837354,
+            "se": 0.501578,
+            "ci": [
+              23.604257,
+              25.650207
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 24.627232,
+            "sd": 2.837354,
+            "se": 0.501578,
+            "ci": [
+              23.604257,
+              25.650207
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "mid": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 147.420486,
+            "sd": 15.223055,
+            "se": 2.691081,
+            "ci": [
+              141.931989,
+              152.908983
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 147.420486,
+            "sd": 15.223055,
+            "se": 2.691081,
+            "ci": [
+              141.931989,
+              152.908983
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        },
+        "late": {
+          "reached": 32,
+          "conditionalDamage": {
+            "n": 32,
+            "mean": 414.046854,
+            "sd": 42.071525,
+            "se": 7.437265,
+            "ci": [
+              398.878451,
+              429.215256
+            ],
+            "confidence": 0.95,
+            "p": 0
+          },
+          "allCampaignDamage": {
+            "n": 32,
+            "mean": 414.046854,
+            "sd": 42.071525,
+            "se": 7.437265,
+            "ci": [
+              398.878451,
+              429.215256
+            ],
+            "confidence": 0.95,
+            "p": 0
+          }
+        }
+      },
+      "p": 0.266846,
+      "q": 0.644878
+    }
+  ]
+}

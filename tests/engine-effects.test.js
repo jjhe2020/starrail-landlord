@@ -7,7 +7,7 @@ import { effectAmount, effectIsEligible, effectTargetIndexes } from '../src/effe
 
 function fixture(ids = ['1002'], extras = {}) {
   const state = newGame({ seed: 'expanded-effects' });
-  state.roster = ids.map((id, index) => ({ uid: `u${index + 1}`, id, stars: 1, growth: 0, ticks: 0 }));
+  state.roster = ids.map((id, index) => ({ uid: `u${index + 1}`, id, stars: 1, attackBonus:0, growth: 0, ticks: 0 }));
   state.uidCounter = ids.length + 1;
   state.enemies = Array.from({ length: 5 }, (_, col) => ({ id: `target-${col}`, name: 'Test target', col, hp: 10000, maxHp: 10000, attack: 0, boss: false }));
   state.enemySkill = { id: 'pressure', name: 'Test pressure', description: 'Test' };
@@ -45,7 +45,7 @@ test('temporary support power is recalculated while permanent growth is stored p
   const next = spin(growth);
   assert.equal(next.roster[1].growth, 0.35);
   assert.equal(next.roster[0].growth, 0);
-  assert.ok(next.lastSpin.effects.some(e => e.type === 'growth' && e.duration === 'run' && e.targetUid === 'u2'));
+  assert.ok(next.lastSpin.effects.some(e => e.type === 'attackGrowth' && e.duration === 'run' && e.targetUid === 'u2'));
 });
 
 test('star scaling enlarges numeric healing and shields, not conditional multiplier values', () => {
@@ -55,32 +55,32 @@ test('star scaling enlarges numeric healing and shields, not conditional multipl
   assert.equal(healed.lastSpin.shield, 12); // 9 from the skill plus 3 from actual-healing Xianzhou resonance
   const attacker = fixture(['1312','1001']); attacker.roster[0].ticks = 2; attacker.roster[0].stars = 2;
   const next = spin(attacker);
-  assert.equal(powerOf(next), Math.round(characterById('1312').power * 3 * 2.1 * 100) / 100);
-  assert.equal(next.lastSpin.powerBreakdown[next.board.findIndex(u=>u?.id==='1312')].multiplier, 2.1);
+  assert.equal(powerOf(next), characterById('1312').baseAttack * 3);
+  assert.equal(next.lastSpin.powerBreakdown[next.board.findIndex(u=>u?.id==='1312')].damageBonus, 1.1);
 });
 
 test('appearance effects check sequential conditions after their own earlier healing', () => {
   const below = spin(fixture(['1110','1102'], { hp: 50 }));
   const above = spin(fixture(['1110','1102'], { hp: 59 }));
-  assert.equal(below.hp, 54); assert.equal(below.shield, 2.5);
-  assert.equal(above.hp, 63); assert.equal(above.shield, 0);
+  assert.equal(below.hp, 53); assert.equal(below.shield, 2);
+  assert.equal(above.hp, 62); assert.equal(above.shield, 0);
 });
 
 test('growth modifiers change new increments while preserving previous investment', () => {
-  const original = fixture(['1002','1207']); original.roster[0].ticks = 3; original.roster[0].growth = 4; original.items = ['impermanence_dice'];
+  const original = fixture(['1002','1207']); original.roster[0].ticks = 3; original.roster[0].attackBonus = original.roster[0].growth = 4; original.items = ['impermanence_dice'];
   assert.equal(spin(original).roster[0].growth, 4.18);
-  const expanded = fixture(['1207','1002']);expanded.roster[0].ticks=1;expanded.roster[0].growth=4;expanded.roster[1].growth=4; expanded.items = ['impermanence_dice', 'rubert_gear'];
+  const expanded = fixture(['1207','1002']);expanded.roster[0].ticks=1;expanded.roster[0].attackBonus=expanded.roster[0].growth=4;expanded.roster[1].attackBonus=expanded.roster[1].growth=4; expanded.items = ['impermanence_dice', 'rubert_gear'];
   expanded.activeDebuffs = [publicDebuff(enemyDebuffById('growth_audit'), 'difficulty', 0)];
-  assert.ok(Math.abs(spin(expanded).roster[1].growth - 4.315) <= 0.0051, 'new increment uses all three modifiers and rounds once to displayed precision');
+  assert.ok(Math.abs(spin(expanded).roster[1].growth - 4.30) <= 0.0051, 'new increment uses all three modifiers and rounds once to displayed precision');
 });
 
 test('summons join after the board draw and count actual future appearances', () => {
   const state = fixture(['1402','1407']); state.roster[0].ticks = 3;
-  const first = spin(state), reinforcement = first.roster.find(u => u.temporary);
-  assert.equal(reinforcement.id, '1206'); assert.equal(reinforcement.temporary, 2);
+  const first = spin(state), reinforcement = first.roster.find(u => u.id === 'garmentmaker');
+  assert.equal(reinforcement.id, 'garmentmaker'); assert.equal(reinforcement.ticks, 0);
   assert.equal(first.board.some(u => u?.uid === reinforcement.uid), false);
   const second = spin(ready(first));
-  assert.equal(second.roster.find(u => u.uid === reinforcement.uid).temporary, 1);
+  assert.equal(second.roster.find(u => u.uid === reinforcement.uid).ticks, 1);
   const third = spin(ready(second));
   assert.equal(third.roster.some(u => u.uid === reinforcement.uid), false);
   assert.ok(third.lastSpin.hits.some(h => third.board[h.cell]?.uid === reinforcement.uid), 'last appearance still attacks');
@@ -121,12 +121,13 @@ test('passive recipient filters affect one-star instances and do not grow every 
   assert.equal(powerOf(spin(state)), 6);
 });
 
-test('a temporary unit receives temporary-only bonuses on its final attacking appearance', () => {
-  const state = fixture(['1002']); state.roster[0].temporary = 1; state.items = ['elation_wax'];
-  const next = spin(state);
-  assert.equal(powerOf(next), 2.8);
-  assert.equal(next.board.find(Boolean).status, 'expired');
-  assert.equal(next.roster.length, 0);
+test('a character with a deletion skill retains its normal attack on the final appearance', () => {
+  const state=fixture(['garmentmaker']); state.roster[0].ticks=1; state.items=['elation_wax'];
+  const next=spin(state);
+  assert.equal(powerOf(next),characterById('garmentmaker').baseAttack);
+  assert.equal(next.board.find(Boolean).status,'expired');
+  assert.equal(next.roster.length,0);
+  assert.equal(next.lastSpin.damage,2.25,'follow-up-only buff does not alter the normal attack');
 });
 
 test('acquisition hooks are immediate and cannot repeat from saving or opening the game', () => {
@@ -208,13 +209,13 @@ test('effect records report the multiplier actually applied after support-source
   let next,event;
   for(let seed=1;seed<=64&&!event;seed++){
     state.rngState=seed;next=spin(state);
-    event=next.lastSpin.effects.find(entry=>entry.sourceId==='1101'&&entry.type==='powerMultiplier'&&entry.targetUid==='u2');
+    event=next.lastSpin.effects.find(entry=>entry.sourceId==='1101'&&entry.type==='damageBonus'&&entry.targetUid==='u2');
   }
   assert.ok(event);
   const breakdown=next.lastSpin.powerBreakdown[next.board.findIndex(u=>u?.uid==='u2')];
-  const expected=1+(1.5-1)*1.5;
+  const expected=.5*1.5;
   assert.equal(event.amount,Math.round(expected*100)/100);
-  assert.ok(Math.abs(breakdown.multiplier-expected)<1e-12,'source amplification multiplies the buff bonus, while the carry keeps its own attack program');
+  assert.ok(Math.abs(breakdown.damageBonus-expected)<1e-12,'source amplification multiplies the buff bonus, while the carry keeps its own attack program');
 });
 
 test('essence threshold credit rewards do not feed another essence progress in either claim order', () => {
@@ -262,10 +263,11 @@ test('an essence progress multiplier unlocked at turn end starts with the next s
 
 test('power breakdown retains the full composite multiplier for large accumulated growth', () => {
   const state = fixture();
-  state.roster[0].growth = 1000;
+  state.roster[0].attackBonus = state.roster[0].growth = 1000;
   state.items = ['hunt_wax', 'broken_clock', 'peace_price'];
   const next = spin(state), part = next.lastSpin.powerBreakdown.find(Boolean);
-  assert.ok(Math.abs(part.multiplier - 1.482) < 1e-12);
+  assert.equal(part.multiplier,1);
+  assert.ok(Math.abs(part.damageBonus-.45)<1e-12,'30%+20%-5% in one outgoing damage zone');
   const recomputed = Math.round(((part.base + part.growth + part.beforeMultiplierBonus) * part.baseMultiplier + part.flatBonus) * part.multiplier * 100) / 100;
   assert.equal(recomputed, part.final, 'intermediate multiplier display rounding cannot change the recorded construction');
   assert.notEqual(validateSave(next), null);

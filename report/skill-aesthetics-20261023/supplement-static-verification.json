@@ -1,0 +1,15 @@
+{
+  "htmlIds": "unique; literal script targets exist",
+  "loreFilterOptions": 6,
+  "csvCharacters": 90,
+  "csvColumns": 15,
+  "csvOriginalsAndDrafts": "identical to review-data",
+  "ruleCandidates": 12,
+  "loreCounts": {
+    "有依据": 26,
+    "可接受改编": 40,
+    "联系偏弱": 21,
+    "需重构": 3
+  },
+  "browserVisualCheck": "blocked: file protocol denied by browser policy; no workaround attempted"
+}

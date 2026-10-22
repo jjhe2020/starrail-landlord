@@ -12,7 +12,7 @@ const finite = value => typeof value === 'number' && Number.isFinite(value);
 const rounded = value => finite(value) ? Math.round(value * 1e6) / 1e6 : null;
 const mean = values => values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
 const ratio = (numerator, denominator) => finite(numerator) && finite(denominator) && denominator > 0 ? numerator / denominator : null;
-const defaultCards = () => CHARACTERS.map(({ id, name, rarity, attack, power, path, description }) => ({ id, name, rarity, attack, basePower: power, path, description }));
+const defaultCards = () => CHARACTERS.map(({ id, name, rarity, role, attack, baseAttack, power, path, description }) => ({ id, name, rarity, role, attack, baseAttack:baseAttack ?? power, basePower:baseAttack ?? power, path, description }));
 
 function randomFor(key) {
   let state = 2166136261;
@@ -132,7 +132,7 @@ export function classifyGrowthMechanisms(definitions = CHARACTERS) {
     if (!character) return { id: definition.id, name: definition.name, sources, hasIntrinsicGrowth: false, hasExternalGrowth: false, summary: '无已识别永久成长来源' };
     const target = { id: character.id, uid: `target:${character.id}`, stars: 1, growth: 0, ticks: 0 };
     for (const source of CHARACTERS) for (const effect of source.effects || []) {
-      if (effect.type !== 'growth' || effect.legacy && !['1002', '1107', '1205'].includes(source.id)) continue;
+      if (!['growth','attackGrowth'].includes(effect.type) || effect.legacy && !['1002', '1107', '1205'].includes(source.id)) continue;
       const sourceUnit = source.id === character.id ? target : { id: source.id, uid: `source:${source.id}`, stars: 1 };
       const scope = effect.target || 'self';
       if (scope === 'self' && source.id !== character.id || scope === 'adjacent' && source.id === character.id) continue;
@@ -141,9 +141,9 @@ export function classifyGrowthMechanisms(definitions = CHARACTERS) {
       sources.push({ kind: self ? 'intrinsic' : 'external-character', sourceId: source.id, sourceName: source.name, trigger: effect.trigger, target: scope, value: effect.value, every: effect.every || 1, legacy: Boolean(effect.legacy), description: effect.summary,
         label: self ? `自身：${effect.summary}` : `${source.name}：${effect.summary}` });
     }
-    for (const rule of RETIREMENT_RULES.filter(rule => rule.sourceId === character.id && rule.growth > 0)) sources.push({ kind: 'commission', sourceId: rule.id, sourceName: rule.name, targetId: rule.targetId, every: rule.every, value: rule.growth, description: '主持者满足相邻委派与保护规则时获得永久成长，数值乘星级倍率', label: `委派主持：${rule.name}（+${rule.growth}×星级倍率）` });
+    for (const rule of RETIREMENT_RULES.filter(rule => rule.sourceId === character.id && (rule.attackGrowth ?? rule.growth ?? 0) > 0)) sources.push({ kind: 'commission', sourceId: rule.id, sourceName: rule.name, targetId: rule.targetId, every: rule.every, value: rule.attackGrowth ?? rule.growth, description: '主持者满足相邻委派与保护规则时获得永久攻击力固定加值（仅本局）', label: `委派主持：${rule.name}（攻击力永久+${rule.attackGrowth ?? rule.growth}）` });
     for (const archetype of ARCHETYPES) for (const effect of archetype.effects) {
-      if (effect.type !== 'growth' || !archetype.memberIds.includes(character.id) || !matchesEffectFilter(target, effect.filter)) continue;
+      if (!['growth','attackGrowth'].includes(effect.type) || !archetype.memberIds.includes(character.id) || !matchesEffectFilter(target, effect.filter)) continue;
       sources.push({ kind: 'archetype', sourceId: archetype.id, sourceName: archetype.name, value: effect.value, description: effect.summary, label: `成型套路：${archetype.name}（登场+${effect.value}）` });
     }
     return { id: character.id, name: character.name, sources, hasIntrinsicGrowth: sources.some(source => source.kind === 'intrinsic'), hasExternalGrowth: sources.some(source => source.kind !== 'intrinsic'), summary: sources.length ? sources.map(source => source.label).join('；') : '无已识别永久成长来源' };
@@ -206,7 +206,7 @@ export function summarizeGrowthCampaigns(campaigns, metadata = {}) {
         const card = { ...definition, growthSources: growthMechanisms.get(definition.id), ...summarizeCardObservations(completed, definition.id, `${key}:${definition.id}`),
           censoredEverHeld: enrolled.filter(campaign => !completed.includes(campaign) && campaign.cards?.some(row => row.id === definition.id)).length,
           outcomes: { victory: summarizeCardObservations(victory, definition.id, `${key}:${definition.id}:victory`, GROWTH_PRECISION.outcomeMinimumCampaigns), defeat: summarizeCardObservations(defeat, definition.id, `${key}:${definition.id}:defeat`, GROWTH_PRECISION.outcomeMinimumCampaigns) } };
-        card.roleCaution = definition.attack === 'support' || card.allDirectDamageZero ? '辅助或零直接伤害：须同时查看治疗、护盾、增益与团队表现，不能按直接伤害判定强弱。' : null;
+        card.roleCaution = definition.attack === 'support' || definition.role && definition.role !== 'attack' || card.allDirectDamageZero ? '辅助或零直接伤害：须同时查看治疗、护盾、增益与团队表现，不能按直接伤害判定强弱。' : null;
         return card;
       }),
     };
@@ -248,5 +248,15 @@ export function renderGrowthMarkdown(report) {
       '### 真实战斗分阶段', '', '下表分别显示结算威力和每登场直接实伤，先局内平均再跨局平均；每格带独立战役 n。终止遭遇与第 12 层不能混为一谈。', '', markdownTable(['角色', '终止遭遇威力/登场', '终止遭遇伤害/登场', '第12层伤害/登场', '早期伤害/登场', '中期伤害/登场', '晚期伤害/登场', '终止遭遇伤害/持有实例转'], group.cards.map(card => [card.name, valueCell(card.terminal.powerPerAppearance), valueCell(card.terminal.damagePerAppearance), valueCell(card.final12.damagePerAppearance), valueCell(card.early.damagePerAppearance), valueCell(card.mid.damagePerAppearance), valueCell(card.late.damagePerAppearance), valueCell(card.terminal.damagePerInstanceTurn)])), '',
       '### 辅助产出与成长速度', '', '以下是终局标准探针的每登场辅助产出，平铺增益不包含倍率效果的完整价值；成长速度按每持有实例转归一化。', '', markdownTable(['角色', '治疗/登场', '护盾生成/登场', '给予他人威力/登场', '探针新增成长/持有实例转', '真实早期成长/持有实例转', '真实中期成长/持有实例转', '真实晚期成长/持有实例转'], group.cards.map(card => [card.name, valueCell(card.probe.healingPerAppearance), valueCell(card.probe.shieldPerAppearance), valueCell(card.probe.buffPerAppearance), valueCell(card.probe.growthPerInstanceTurn), valueCell(card.early.growthPerInstanceTurn), valueCell(card.mid.growthPerInstanceTurn), valueCell(card.late.growthPerInstanceTurn)])), '');
   }
-  return `${lines.join('\n')}\n`;
+  const rendered = `${lines.join('\n')}\n`;
+  return report.metadata?.protocol?.attributeUnit === 'attackBonus' ? translateAttributeReport(rendered) : rendered;
+}
+
+/** Legacy field names remain readable; new measurements have an explicit unit. */
+export function translateAttributeReport(text) {
+  return text.replaceAll('临时援军/委派见习','不在90名招募角色表内的创建角色').replaceAll('临时援军 / 委派见习','不在90名招募角色表内的创建角色')
+    .replaceAll('临时援军与委派见习','不在90名招募角色表内的创建角色').replaceAll('正式永久实例','90名可招募身份的角色实例')
+    .replaceAll('永久 growth','永久攻击力固定加值').replaceAll('全队 growth','全队永久属性').replaceAll('growth 清零','attackBonus、attackPercentBonus、normalAttackBonus及growth兼容镜像清零')
+    .replaceAll('昔涟的群体成长可覆盖自身与其他记忆角色。','昔涟的效果按公开标签和位置选择其他角色。')
+    .replaceAll('成长','永久属性提升').replaceAll('威力','攻击力');
 }

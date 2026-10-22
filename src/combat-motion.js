@@ -7,19 +7,24 @@ export const COMBAT_TIMING = Object.freeze({
   supportStart: 440,
   supportSpan: 180,
   attackStart: 700,
-  attackSpan: 800,
-  afterAttacks: 1650,
-  retaliation: 1900,
-  afterRetaliation: 2040,
-  effect: 420,
-  settle: 2600,
-  maxDuration: 2640,
+  attackSpan: 680,
+  afterAttacks: 1510,
+  retaliation: 1760,
+  afterRetaliation: 1900,
+  effect: 340,
+  settle: 2380,
+  maxDuration: 2420,
 });
 
 const EFFECTS = Object.freeze({
   shield: { label: '护盾', color: '#74d8ff' },
   heal: { label: '治疗', color: '#88edb9' },
-  growth: { label: '培养', color: '#edcb79' },
+  growth: { label: '永久攻击力', color: '#edcb79' },
+  attackGrowth: { label: '永久攻击力', color: '#edcb79' },
+  normalAttackGrowth: { label: '永久倍率', color: '#edcb79' },
+  attackPercent: { label: '攻击力提高', color: '#d2a4ff' },
+  damageBonus: { label: '伤害提高', color: '#d2a4ff' },
+  enemyVulnerability: { label: '受到伤害提高', color: '#caa1ff' },
   power: { label: '增幅', color: '#d2a4ff' },
   powerMultiplier: { label: '增幅', color: '#d2a4ff', multiplier: true },
   vulnerability: { label: '易伤', color: '#caa1ff' },
@@ -68,9 +73,10 @@ export function createCombatPlan(before, after, { hits, effects: effectTrace } =
     }
     const unit = board[sourceCell];
     const character = unit ? characterById(unit.id) : null;
-    const key = `${stage}:${sourceCell}:${hit.targetCol}`;
+    const key = `${stage}:${sourceCell}:${hit.targetCol}:${hit.attackType || 'normal'}:${hit.eventId ?? 'legacy'}`;
     const group = hitGroups.get(key) || {
-      kind: 'attack', stage, sourceCell, targetCol: hit.targetCol,
+      kind: 'attack', stage, sourceCell, targetCol: hit.targetCol, attackType: hit.attackType || 'normal',
+      ...(hit.eventId !== undefined ? { eventId: hit.eventId } : {}),
       ...(unit?.uid ? { sourceUid: unit.uid } : {}),
       sourceId: hit.sourceId || unit?.id || 'system',
       color: character?.color || '#e6d7a8',
@@ -114,13 +120,20 @@ export function createCombatPlan(before, after, { hits, effects: effectTrace } =
   }
 
   const attacks = [...hitGroups.values()];
-  const origins = [...new Set(attacks.filter(action => !['afterAttacks', 'afterRetaliation'].includes(action.stage)).map(action => action.sourceCell))];
+  // Event order is authoritative. A front-row follow-up may be caused by a
+  // later normal attacker; grouping timing by source would show it too early.
+  const eventKey = action => action.eventId !== undefined ? `event:${action.eventId}` : `cell:${action.sourceCell}`;
+  const attackEvents = [...new Set(attacks.filter(action => !['afterAttacks', 'afterRetaliation'].includes(action.stage)).map(eventKey))];
   attacks.forEach(action => {
     action.at = action.stage === 'afterRetaliation' ? COMBAT_TIMING.afterRetaliation
       : action.stage === 'afterAttacks' ? COMBAT_TIMING.afterAttacks
-        : COMBAT_TIMING.attackStart + Math.round(origins.indexOf(action.sourceCell) / Math.max(1, origins.length - 1) * COMBAT_TIMING.attackSpan);
+        : COMBAT_TIMING.attackStart + Math.round(attackEvents.indexOf(eventKey(action)) / Math.max(1, attackEvents.length - 1) * COMBAT_TIMING.attackSpan);
   });
-  const supports = [...supportGroups.values()];
+  // Resolve order is unchanged: these are already completed events. Show the
+  // distinct resource auras before dense recipient buffs use the bounded FX
+  // layer, so a genuine heal or shield always has a visible presentation.
+  const resourceAura = action => ['heal', 'shield', 'healOverflowShield'].includes(action.effect) ? 0 : 1;
+  const supports = [...supportGroups.values()].sort((a, b) => resourceAura(a) - resourceAura(b));
   const earlySupports = supports.filter(action => action.stage === 'beforeAttacks');
   supports.forEach(action => {
     action.at = action.stage === 'afterRetaliation' ? COMBAT_TIMING.afterRetaliation
@@ -151,7 +164,7 @@ export function createCombatPlan(before, after, { hits, effects: effectTrace } =
       damage: rounded(attacks.reduce((sum, action) => sum + action.amount, 0)),
       shield: Math.max(0, value(after?.lastSpin?.shield)),
       healing: Math.max(0, value(after?.lastSpin?.healing)),
-      growth: rounded(effects.filter(event => event.type === 'growth').reduce((sum, event) => sum + Math.max(0, value(event.amount)), 0)),
+      growth: rounded(effects.filter(event => ['growth','attackGrowth'].includes(event.type)).reduce((sum, event) => sum + Math.max(0, value(event.amount)), 0)),
       incoming, blocked, hpLost, retaliationHpLost,
     },
   };

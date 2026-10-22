@@ -1,0 +1,22 @@
+▶ V0.8.0 combat motion: bounded playback, exact rules and responsive offline UI
+  ✔ 1265px: 20 active cells, support VFX, attacks, one reward and cleanup (8661.318167ms)
+  ✔ 390px: 20 active cells, support VFX, attacks, one reward and cleanup (4323.739875ms)
+  ✔ 320px: 20 active cells, support VFX, attacks, one reward and cleanup (4439.787333ms)
+  ✔ clear turn retains enemies until impact, then offers the floor reward (3343.198958ms)
+  ✔ 390px actual tap keeps the enemy and attack effects visible (7608.593084ms)
+  ✔ one failed animation still commits its exact result and unlocks controls (1321.44775ms)
+  ✔ preservation counterattack keeps its enemy alive through incoming damage (3306.950834ms)
+  ✔ preference-change: active combat settles early and cleans up (1268.7405ms)
+  ✔ synthetic-visibility-change: active combat settles early and cleans up (1244.018625ms)
+  ✔ setting-off: instant exact settlement without transient combat or modal effects (684.928667ms)
+  ✔ reduced-motion: instant exact settlement without transient combat or modal effects (693.821125ms)
+✔ V0.8.0 combat motion: bounded playback, exact rules and responsive offline UI (39276.655417ms)
+ℹ 11 offline Chromium scenarios; 1265px 2489 ms, peak 48 effect nodes; 390px 2465 ms, peak 48 effect nodes; 320px 2477 ms, peak 48 effect nodes. Narrow viewports are not physical-device validation.
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 39360.855541

@@ -1,0 +1,803 @@
+[
+  {
+    "id": "1305",
+    "loreStatus": "有依据",
+    "loreComment": "推理追击呼应真理医生以知识纠正愚钝、根据敌方负面效果发动追加攻击的辨识度。以相邻虚无角色代替负面效果来源，是合理的棋盘抽象；它表达的是战斗协作，并非他与所有虚无角色都有剧情关系。",
+    "loreProposal": "保留推理追击，以“相邻虚无角色提供推理条件”解释标签抽象；若以后有负面状态，再直接改为按敌方负面效果触发，不必制造指定人物关系。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：追加攻击",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1244?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "真理医生依据负面效果提高追击概率，并能在队友攻击后追击"
+      },
+      {
+        "title": "HoYoWiki：真理医生",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1639?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "博识学会学者、传播知识的身份"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1306",
+    "loreStatus": "可接受改编",
+    "loreComment": "戏剧大师、假面愚者与资源调度足以支撑增益和重掷，量子或欢愉的公开标签也易于识别。角落和第四次登场只是本作节奏，尚无剧情必然性；不能将其解释为花火只愿帮助这些人物。",
+    "loreProposal": "以“换幕”统领增益和重掷：相邻合格角色得到舞台支援，累计登场后换幕；删去角落限制可让身份主题更集中。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：花火",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1807?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "量子同谐、假面愚者身份与戏剧演示"
+      },
+      {
+        "title": "HoYoWiki：欢愉",
+        "url": "https://wiki.hoyolab.com/m/hsr/entry/2350?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "假面愚者与欢愉信仰的关系"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1307",
+    "loreStatus": "联系偏弱",
+    "loreComment": "忆者收集独特记忆可以支持长期积累的意象，却不能直接推出她会定期训练周围人物。当前永久加值更像通用培养模板，遮住了黑天鹅以奥迹、窥忆与命运累积施压的特色；风与虚无只是战斗标签。",
+    "loreProposal": "优先改为累积敌方负面效果后追加伤害，围绕奥迹形成一条主线；若保留永久属性增加，写成“保留一段记忆使该攻击角色威力永久+X”，并明确是本作改编。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：黑天鹅",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1806?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "流光忆庭忆者、收集记忆的身份"
+      },
+      {
+        "title": "HoYoWiki：黑天鹅角色攻略",
+        "url": "https://wiki.hoyolab.com/pc/hsr/character/1806?lang=zh-cn",
+        "kind": "游戏文本转载",
+        "supports": "奥迹持续伤害与叠层；攻略部分为社区内容"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1308",
+    "loreStatus": "有依据",
+    "loreComment": "虚无角色协助蓄力、周期性全场终结斩抓住了黄泉的核心轮廓，与她以负面效果积攒残梦、奈落按虚无队友获得强化相通。当前仍是本作邻接改编，不应反推她和这些角色都有故事羁绊。",
+    "loreProposal": "保留虚无邻接和终结斩，合并成清晰的蓄力—拔刀节奏；不再额外附加无故事作用的角色名单，伤害与周期仍需另做平衡测试。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：黄泉",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1919?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "残梦、虚无队友条件与终结技机制"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1309",
+    "loreStatus": "可接受改编",
+    "loreComment": "歌声将同谐与共鸣传向生命，为同一行角色提供增益很契合舞台表演。物理或巡猎限制属于本作拿牌结构，并没有剧情证据说明知更鸟只激励这两类人物；目前没有凭空创造人物关系。",
+    "loreProposal": "用“合唱”解释同一行的增益；可以保留公开标签作平衡条件，但文案避免写成仅认这些角色的情感或阵营归属。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：知更鸟",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/2366?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "以同谐力量传递歌声与共鸣的歌者身份"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1310",
+    "loreStatus": "有依据",
+    "loreComment": "完全燃烧与超击破均能让玩家直接联想到流萤和萨姆，火与毁灭邻接是可理解的战斗抽象。需要注意超击破若在本作只是普通追加伤害，就不宜让同名暗示它具有原作完整的韧性结算。",
+    "loreProposal": "保留完全燃烧作为主主题；把周期追加伤害命名为“燃烧突击”，或在明确建立本作超击破规则后再沿用该术语，邻接不解释为剧情关系。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：流萤",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/2494?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "星核猎手、萨姆与火属性毁灭角色资料"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1312",
+    "loreStatus": "可接受改编",
+    "loreComment": "门童的行李连击是直观而有生活气息的动作设计；记忆标签也能与米沙的故事主题相连。第三次登场爆发属于本作节奏，不能把同排冰或记忆角色写成他在剧情上认识的固定服务对象。",
+    "loreProposal": "保留行李连击，以累计登场打包再倾泻的表达串起节奏；冰或记忆只作公开结算条件，人物叙事另写在评语或角色介绍中。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：米沙",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1808?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "白日梦酒店门童、冰属性毁灭资料"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "1313",
+    "loreStatus": "联系偏弱",
+    "loreComment": "支援角色及其召唤单位呼应星期日的原作辅助，但“临时攻击者”不等于召唤物，寿命筛选混淆了协作关系。另，本作阵营写匹诺康尼，官方现资料为星穹列车，需区分籍贯与现归属。",
+    "loreProposal": "删去“临时攻击者”筛选，改为支援一名相邻角色；需召唤协作时，以角色实际创建的角色建立联系。阵营字段另列评审：采用现归属星穹列车，或注明匹诺康尼为出身标签。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：星期日",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3150?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "同谐辅助与受祝福者、召唤物支援资料"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "1314",
+    "loreStatus": "有依据",
+    "loreComment": "清算、公司协作和收益符合翡翠的放贷人身份，追加攻击也有原作依据。不过“站在边缘就得钱”只是棋盘条件，与典押交易没有因果关系；它让技能经济主题停留在金融人物都会赚钱的表层。",
+    "loreProposal": "保留清算，将信用点并入一次可读的交易：相邻角色协助清算后获得收益，或先支付成本再换取追击；不要为叙事新增多个债务专有名词。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：翡翠",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/2495?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "典贷翡翠、慈玉典押身份及追击充能资料"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1315",
+    "loreStatus": "有依据",
+    "loreComment": "残余敌人减少后进入决斗、击破后追击，能表达牛仔集中火力和决斗收尾。边缘位置可作为其独行姿态的游戏化表达，但不是他的剧情限制；当前没有借复仇主题强行绑定公司角色为受益者。",
+    "loreProposal": "保留单列决斗作为唯一主线，将边缘条件从两个效果里合并或移除；若写入复仇背景，应作为人物风味，不必把所有公司角色自动设成敌对技能对象。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：波提欧",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/2367?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "巡海游侠、复仇牛仔及决斗相关战斗资料"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1317",
+    "loreStatus": "可接受改编",
+    "loreComment": "敌人越多威力越高与乱破的群攻定位相容，但目前几乎只留下虚数、智识两个战斗标签，忍法、涂鸦和行侠的个性没有进入机制。属于能成立的功能改编，还不足以让人不看名字也认出她。",
+    "loreProposal": "保留群体目标计数，将追加效果表现为连贯的忍法横扫；优先加强一次击破后波及其他列的节奏，避免再堆叠与忍法无关的支援名单。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：乱破",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3057?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "忍者、巡海游侠与群体攻击资料"
+      },
+      {
+        "title": "官方走近星穹：乱破",
+        "url": "https://sr.mihoyo.com/news/126430",
+        "kind": "官方",
+        "supports": "忍法主题与角色演示"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1402",
+    "loreStatus": "需重构",
+    "loreComment": "金线、衣匠与双人攻击有直接依据；目前召来素裳却缺少已核实的叙事支撑。赛飞儿与那刻夏确有对话、共同经历，但这只能支持互动设计，不能直接等同恋爱关系，更不能推出她能召唤另一个真人。",
+    "loreProposal": "将“召来临时素裳”重构为“创建角色『衣匠』”；由衣匠自身技能写明“出场2次后删除自身”。保留金线与双人攻击；若采用赛飞儿或那刻夏关系，设计为二者在场时协作，不把真人当造物。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：阿格莱雅",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3286?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "金线、衣匠召唤、双人攻击和衣匠自毁"
+      },
+      {
+        "title": "游戏剧情转载：衣箱，承载往日尘埃",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Chest%2C_Bear_the_Bygone_Dust",
+        "kind": "游戏文本转载",
+        "supports": "阿格莱雅收留受伤赛飞儿、织衣与信任的共同经历"
+      },
+      {
+        "title": "游戏剧情转载：学者，于真理之门前再会",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Scholar%2C_Let_Us_Meet_Again_Before_the_Gates_of_Truth",
+        "kind": "游戏文本转载",
+        "supports": "阿格莱雅与那刻夏的分歧、合作与最终对话"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1403",
+    "loreStatus": "联系偏弱",
+    "loreComment": "缇宝作为分身奔走、传递救世消息的门径使者，与翁法罗斯角色协作有身份基础；但当前定期只强化最强者，更像精英培养者，与传递讯息、连结各方的主题不够一致。没有证据要求她只照顾量子角色。",
+    "loreProposal": "可改为每次登场依次使相邻攻击角色威力永久+X，表现讯息传递；或在连接多名不同角色时提供本轮增益。避免创建一组新的真人分身来替代已有缇宝。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：缇宝",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3322?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "门径火种、分身奔走和传递救世消息的角色介绍"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1404",
+    "loreStatus": "有依据",
+    "loreComment": "低生命强化和周期决战能够表达万敌经历死亡与血战、不屈战斗的特征，虚数毁灭标签也一致。边缘限制更多是本作布局取舍，不需要写成孤傲人物只能远离他人的剧情断言。",
+    "loreProposal": "保留低生命决战，把边缘和邻接两组门槛整理为一条主线；若加入恢复或续战效果，应围绕不死与决战，避免误写成没有生命代价的单纯狂暴。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：万敌",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3324?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "不死、血战主题与生命值关联战斗资料"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1405",
+    "loreStatus": "可接受改编",
+    "loreComment": "演算与独立站位可以联想到那刻夏的求知和挑战成见，但“空位越多越强”是孤学者意象的抽象，不能当作他不需要他人的剧情结论。与阿格莱雅的冲突和合作说明人物关系并不止于疏离。",
+    "loreProposal": "保留演算主线，优先改为识别多种公开标签或不同敌列后发动额外攻击；若保留空位加值，明确它表现独立研究空间，而非否定既有合作关系。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：那刻夏",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3561?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "渎神学者、质疑与求真主题"
+      },
+      {
+        "title": "游戏剧情转载：学者，于真理之门前再会",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Scholar%2C_Let_Us_Meet_Again_Before_the_Gates_of_Truth",
+        "kind": "游戏文本转载",
+        "supports": "与阿格莱雅有直接对话与共同剧情"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1406",
+    "loreStatus": "可接受改编",
+    "loreComment": "贼星获取信用点、用诡计放大他人的伤害符合赛飞儿的轮廓，翁法罗斯联系也真实。但只辅助群攻角色和必须在角落赚钱是本作附加条件，尚未表达她记录伤害、以谎言守护他人的特色。",
+    "loreProposal": "将收益与一次成功协作连起来，例如相邻角色本轮造成伤害后，赛飞儿据此追加一次结算；保留信用点时删去角落副门槛，不把与阿格莱雅的关系写成可被召唤。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：赛飞儿",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3691?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "贼星、诡计火种及记录伤害的技能资料"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1407",
+    "loreStatus": "有依据",
+    "loreComment": "死龙吐息与遐蝶的生死、死龙主题直接相合，记忆和翁法罗斯的协作也有可读性。她与死龙的联系比泛化相邻人数更能辨认角色；现技能把死龙只当伤害名字，削弱了双生存在的感觉。",
+    "loreProposal": "保留周期死龙吐息，先用清楚的一次协作攻击表现她与死龙；若真要创建死龙，也将其作为角色，并在死龙自身技能中写明消耗与删除规则。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：遐蝶",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3560?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "死亡火种、记忆量子与死龙相关角色资料"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "1408",
+    "loreStatus": "有依据",
+    "loreComment": "少邻居强化与负世、独自承受战斗压力的意象一致，黎明斩击也呼应为世界带来曙光。需要保留“独战是承担众人的命运”这层含义，不能误写成白厄因没有朋友才更强或不接受协助。",
+    "loreProposal": "保留负世这一条主线，用独自攻击时爆发、其他角色先给予支援的结算表现承担；边缘与第四次登场属于本作节奏，不再当作故事设定。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：白厄",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3769?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "负世火种、背负全世理想与黎明主题"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1409",
+    "loreStatus": "可接受改编",
+    "loreComment": "治疗者风堇与小伊卡的照护身份支持恢复生命；缺失生命转盾是可接受的保护性抽象。与记忆、风角色相邻的限制来自本作，而原作的温柔照护并不以这些标签划分值得救助的人。",
+    "loreProposal": "保留恢复生命作为核心，将护盾描述为本作的庇护改编；如需创建小伊卡，统一称角色，避免额外定义宠物或临时角色种类。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：风堇",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3688?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "暮晖庭医师、小伊卡、全队治疗与生命上限增益"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "march_hunt",
+    "loreStatus": "有依据",
+    "loreComment": "向云璃和彦卿学剑有明确故事依据，协作后出剑与反复练习提高自身能力也自然。现有巡猎或列车标签虽然覆盖其真实关系，却不等于所有这些角色都曾做她的师父，需避免文案泛化师承。",
+    "loreProposal": "保留协作剑击与练剑加值，直写“每第4次登场，自身威力永久+X”；若使用“师父”称呼，须先建立玩家可选择且明确的一名师父，不把标签自动等同师承。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：三月七·巡猎",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/2657?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "向云璃与彦卿学剑的官方角色介绍"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "dan_heng_imbibitor_lunae",
+    "loreStatus": "可接受改编",
+    "loreComment": "高威力扩散攻击能承载饮月接受持明之力后的战斗形象，但按同行虚数或毁灭人数加值偏通用，既没有云吟、龙形的动作特征，也没有资源投入后强化普攻的节奏。列车身份并不与持明本相冲突。",
+    "loreProposal": "以累计登场或支付已有资源后强化一次攻击表现蓄力龙吟，保持一条清晰节奏；公开标签只留作拿牌条件，不把丹枫的前世关系直接算作丹恒的现有师友。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：丹恒·饮月",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1226?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "持明本相、前世残存力量与强化攻击资料"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "dan_heng_pt",
+    "loreStatus": "有依据",
+    "loreComment": "腾荒承载大地、守护生灵与护盾职能吻合；同列列车角色得到保护，也能表达他寻找归途和守护同行者的关系。物理标签是战斗抽象，不必解释成他只保护同属性人物。",
+    "loreProposal": "保留同列护盾并突出“守护同行者”；若之后加入龙灵协作，只创建有明确身份与自身技能的角色，勿让旧饮月攻击模板和腾荒保护主题混杂。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：丹恒·腾荒",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3957?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "大地火种与护盾职能"
+      },
+      {
+        "title": "官方动画短片：跋涉",
+        "url": "https://sr.mihoyo.com/news/159657",
+        "kind": "官方",
+        "supports": "寻找同行者、带其回家的剧情主题"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "fugue",
+    "loreStatus": "可接受改编",
+    "loreComment": "火与毁灭扩散攻击者容易联想到原作的击破协作，忘归人的支援职能因而能成立。但火、毁灭、扩散三重筛选不等于她的剧情关系，且可能误把所有同类角色都写成她经历毁灭后固定结盟的人。",
+    "loreProposal": "保留相邻增伤，若本作已有击破事件可直接围绕其触发；目前用明确的公开标签描述效果，角色介绍解释是击破辅助的简化改编，避免借身份创伤编造新羁绊。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：忘归人",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3151?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "经历生死的新生身份、火虚无与击破支援资料"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "the_herta",
+    "loreStatus": "有依据",
+    "loreComment": "解题、智识协作和周期全场攻击符合大黑塔本体的天才身份；相邻智识提高输出也接近原作队伍主题。冰条件是本作的额外通路，应作为玩法选择，而非将所有冰角色视为学术伙伴。",
+    "loreProposal": "保留解题攻击和智识协作，优先让一个清晰的累积条件导向大招；本体与人偶可共享身份背景，但不要因名字相近就隐含额外召唤真人或重复人物规则。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：大黑塔",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3285?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "天才俱乐部第83席、本体、智识冰与群攻资料"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "hysilens",
+    "loreStatus": "联系偏弱",
+    "loreComment": "海洋与宴歌主题能够支持同列协作，减攻也可抽象成降低反击。可当前海瑟音完全成为通用伤害辅助，原作持续伤害输出与深海回响的辨识度几乎消失；这属于角色主题弱化，并非身份不存在。",
+    "loreProposal": "把主要效果改为相邻角色攻击后，由海瑟音额外造成一次伤害，表现深海回响；反击减免可留为次要保护，避免继续增加物理、虚无、翁法罗斯三套独立门槛。",
+    "loreSources": [
+      {
+        "title": "HoYoLAB官方：3.5工具更新",
+        "url": "https://www.hoyolab.com/article/40538952",
+        "kind": "官方",
+        "supports": "海瑟音虚无物理、刻律德菈同谐风身份"
+      },
+      {
+        "title": "3.5版本公告转载：BWIKI更新专题",
+        "url": "https://wiki.biligame.com/sr/3.5版本「英雄未死之前」更新专题",
+        "kind": "游戏文本转载",
+        "supports": "持续伤害输出、减攻减防与易伤的原公告说明"
+      },
+      {
+        "title": "官方货币战争 V4.0 扩充说明",
+        "url": "https://sr.mihoyo.com/news/162649",
+        "kind": "官方",
+        "supports": "深海回响在敌人被攻击后追加持续伤害"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "cerydra",
+    "loreStatus": "有依据",
+    "loreComment": "选择一名角色集中强化可以表达君主布局设子、授予军功的特征，风与翁法罗斯标签也一致。自动挑最强者是本作简化，并没有剧情依据证明她只扶持已有强者；缺少军功累积与再行动的风格。",
+    "loreProposal": "保留单人授予增益作为主线；可以按该角色协作次数触发一次额外攻击来表现受勋，不必完整复刻军功、爵位等多层术语。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：刻律德菈",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3886?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "律法火种、布局、军功与单人强化资料"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "evernight",
+    "loreStatus": "可接受改编",
+    "loreComment": "长夜月的记忆身份和守护镜中人、承接三月七的主题可支持忆幕追击；目前非攻击角色越多追击越多，更多是本作“守护中反击”的抽象，未体现她与忆灵的特色。身份已有公开角色资料。",
+    "loreProposal": "保留记忆协作追击，但不要把所有同谐非攻击角色都称作她的故事关联者；若强化角色特色，可让她与自身创建的忆灵交替攻击，创建物仍统一称角色。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：长夜月",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3956?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "记忆冰、忘却与守护镜中人主题"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "cyrene",
+    "loreStatus": "有依据",
+    "loreComment": "记忆、翁法罗斯与长期增益能自然表达昔涟保留往昔、让明日续写的主题；原作也确有对黄金裔的特别支援。同行定期加值是合理抽象，但不应让“永久培养”遮住她与全体故事相连的身份。",
+    "loreProposal": "把持续加值直接写成“同行合格攻击角色威力永久+X”；用诗篇作为风味标题而非额外层数资源，必要时为黄金裔建立有来源的正式羁绊，不能用内部套路替代。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：昔涟",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/4003?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "记忆种子、翁法罗斯与黄金裔特别支援资料"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "saber",
+    "loreStatus": "有依据",
+    "loreComment": "周期释放誓约胜利之剑让技能只围绕一件最具辨识度的宝具展开，容易成立；边缘位置是本作布局代价，与骑士王身份没有必然因果。其风属性毁灭是星铁联动设定，不能按其他作品的元素系统判错。",
+    "loreProposal": "保留蓄力后全场剑击，以登场周期作为代价即可；边缘条件若只为平衡可注明棋盘抽象，避免再为宝具增加与原作无关的专有名词。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：Saber",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3767?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "星铁联动风毁灭角色与誓约胜利之剑资料"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "archer",
+    "loreStatus": "可接受改编",
+    "loreComment": "投影追击与Archer的身份、武装投影有联系，量子巡猎也符合星铁联动资料。但依相邻同谐或智识非攻击角色数量复制出手，只是资源支援的棋盘抽象，并非这些角色能在剧情中成为其御主。",
+    "loreProposal": "保留投影连击，优先用已有资源投入或支援次数决定追加攻击；与远坂凛的联携有当前官方依据，若采纳应做双方在场协作，避免把她改为Archer创建的角色。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：Archer",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/3768?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "巡猎量子身份与资源投入连击资料"
+      },
+      {
+        "title": "官方4.4版本更新说明",
+        "url": "https://sr.mihoyo.com/news/165210",
+        "kind": "官方",
+        "supports": "远坂凛与Archer同队触发连携追加攻击"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "yao_guang",
+    "loreStatus": "联系偏弱",
+    "loreComment": "爻光的仙舟玉阙将军身份、占卜吉凶与改变命运主题均已公开；欢愉物理标签也一致。当前只定期训练最强者，几乎看不出卜算和冒险改运，更像套用通用永久加值模板。",
+    "loreProposal": "改为预测下一次出场并在命中时给予明确属性增益，或让她提供一次可控重掷；若保持永久加值，应写清“威力永久+X”，并以改运解释节奏而非笼统训练。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：爻光",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/4736?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "玉阙戎韬将军、巡猎之眼与改运主题"
+      },
+      {
+        "title": "官方货币战争 V4.0 扩充说明",
+        "url": "https://sr.mihoyo.com/news/162649",
+        "kind": "官方",
+        "supports": "欢愉物理身份、欢愉支援职能"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "sparxie",
+    "loreStatus": "联系偏弱",
+    "loreComment": "舞台爆破能联系火花的直播狂欢形象，火与欢愉标签也对得上。但靠角色退场获得威力容易把她塑造成依赖他人消失的献祭者，当前查到的公开介绍更强调流量、关注与互动，没有直接支持退场即变强。",
+    "loreProposal": "将退场计数改为本轮其他角色出场或协作攻击次数，表现流量聚集后的舞台爆破；如坚持退场，应有明确剧情或原创改编说明，不用角色死亡为流量机制背书。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：火花",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/4737?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "假面愚者、直播流量与狂欢主题"
+      },
+      {
+        "title": "官方走近星穹：火花",
+        "url": "https://sr.mihoyo.com/news/162850",
+        "kind": "官方",
+        "supports": "花火与火花的扮演主题"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "ashveil",
+    "loreStatus": "可接受改编",
+    "loreComment": "侦探、诱饵、追猎与单体收尾有直接原作支撑，少量敌人时追加攻击能表现猎手锁定目标。相邻不多于一人与边缘是本作布局限制，不能据此把有助手和合作经历的不死途写成只会孤身作战。",
+    "loreProposal": "用锁定一列后持续追猎统领技能；在保留布局取舍时减少同一效果的门槛数量，若创建助手应另证实其身份与职责，不能凭空替换为熟悉的真人角色。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：不死途",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/4781?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "侦探、猴助手、诱饵与单体追击资料"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "silver_wolf_lv999",
+    "loreStatus": "联系偏弱",
+    "loreComment": "满级连段和周期全场爆发符合无敌玩家的游戏主题，当前虚数欢愉标签与官方一致。问题在于依赖量子邻居与退场计数：前者更像沿用旧银狼标签，后者也不能直接表现攻略、变身和结界支援。",
+    "loreProposal": "围绕连续出场达成关卡后变身爆发，或让相邻角色协作触发连段；保留虚数身份，重新说明量子筛选的玩法理由，优先删除无剧情依据的退场计数。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：银狼LV.999",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/4997?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "官方公布无敌玩家、虚数欢愉资料"
+      },
+      {
+        "title": "官方4.2版本更新说明",
+        "url": "https://sr.mihoyo.com/news/163630",
+        "kind": "官方",
+        "supports": "虚数欢愉、变身无敌玩家及结界协作机制"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "evanescia",
+    "loreStatus": "联系偏弱",
+    "loreComment": "绯英的物理欢愉身份已核实，公开角色定位是将能量与好活当赏联动、快速循环终结技的输出者。现有纯增伤加护盾效率只呈现善意支援，弱化了她的出手风格；不能因职能不同就认定角色身份虚构。",
+    "loreProposal": "优先将她重构为从相邻角色出手中积累一次自身爆发，表现连动与迅捷；若保留辅助定位，要写明这是本作对守护愿望的另一路改编，并补充足够剧情依据。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：绯英",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/5005?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "物理欢愉、神秘少女与守护新世代主题"
+      },
+      {
+        "title": "官方4.2版本更新说明",
+        "url": "https://sr.mihoyo.com/news/163630",
+        "kind": "官方",
+        "supports": "输出型定位、能量与好活当赏双向联动"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "mortenax_blade",
+    "loreStatus": "有依据",
+    "loreComment": "千冶·刃的火虚无身份和消耗生命作战已有官方资料，缺失生命增伤及锻焰追击因而可以成立。相邻火或虚无角色作为触发源是本作抽象；当前缺少锻造、结界和续战，但不要求照搬完整原作技能。",
+    "loreProposal": "保留生命代价与锻焰爆发，周期攻击可以附带简单续战效果；若增加锻造主题，优先使用现有资源或属性，不另建装备、临时角色等多套复杂对象。",
+    "loreSources": [
+      {
+        "title": "官方4.3版本更新说明",
+        "url": "https://sr.mihoyo.com/news/164426",
+        "kind": "官方",
+        "supports": "千冶·刃火虚无、展开结界强化技能"
+      },
+      {
+        "title": "官方货币战争 V4.4 扩充说明",
+        "url": "https://sr.mihoyo.com/news/165186",
+        "kind": "官方",
+        "supports": "锻造装备、消耗生命攻击与队友攻击积累充能"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "the_dahlia",
+    "loreStatus": "可接受改编",
+    "loreComment": "火虚无、焚化与记忆背叛的身份资料支持干扰型改编；与火毁灭角色协作也能联想到原作超击破支援。当前增伤加减反击只是功能轮廓，没有明显错误召唤关系，但还看不出共舞或记忆操弄。",
+    "loreProposal": "以一名相邻角色为“共舞对象”集中增伤，再由其攻击触发干扰；共舞只描述本作结算关系，不暗示恋爱，避免把焚化工身份误写为毁灭阵营下的普通火系辅助。",
+    "loreSources": [
+      {
+        "title": "官方货币战争 V4.0 扩充说明",
+        "url": "https://sr.mihoyo.com/news/162649",
+        "kind": "官方",
+        "supports": "火虚无、超击破与共舞者支援机制"
+      },
+      {
+        "title": "HoYoWiki：大丽花",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/4060?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "焚化工身份、记忆背叛主题与共舞机制"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "announced_himeko_nova",
+    "loreStatus": "可接受改编",
+    "loreComment": "姬子·启行已正式登场，火智识与协作支援攻击有官方依据；同列其他角色贡献追击可以保留。现文案没有机甲和领航主题，读起来接近原姬子追击换名，应加强新形态的具体动作，而非质疑身份。",
+    "loreProposal": "以机甲支援解释同列协作：合格角色行动后呼唤机甲攻击；若不用新对象，只改叙述即可，避免为机甲再创建无关真人，角色状态也不应继续称预告未实装。",
+    "loreSources": [
+      {
+        "title": "官方4.4版本更新说明",
+        "url": "https://sr.mihoyo.com/news/165210",
+        "kind": "官方",
+        "supports": "火智识、机甲及全队呼唤支援攻击"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "announced_gilgamesh",
+    "loreStatus": "可接受改编",
+    "loreComment": "吉尔伽美什的星铁联动雷毁灭身份已有官方公告，王之财宝攻击也有明确IP辨识度。敌人多时威力提高可表现宝库火力，然而边缘与角落双重门槛和角色的王者身份没有直接联系。",
+    "loreProposal": "保留王之财宝为核心，将周期积累后的强力射击集中为一个条件；若采用Saber联携，应承认是星铁联动当前机制，不把敌对与复杂关系粗略写成亲密伙伴。",
+    "loreSources": [
+      {
+        "title": "官方4.4版本更新说明",
+        "url": "https://sr.mihoyo.com/news/165210",
+        "kind": "官方",
+        "supports": "雷毁灭、兴致驱动爆发以及与Saber的连携"
+      },
+      {
+        "title": "官方货币战争 V4.4 扩充说明",
+        "url": "https://sr.mihoyo.com/news/165186",
+        "kind": "官方",
+        "supports": "联动身份、全体攻击与装备主题"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "announced_rin_tohsaka",
+    "loreStatus": "联系偏弱",
+    "loreComment": "远坂凛的星铁联动量子智识身份已核实，且官方明示宝石能量爆发与Archer连携。当前只有周围角色增伤，缺少宝石魔术和亲自战斗，像把御主简单等同通用辅助，容易削弱她自身独立性。",
+    "loreProposal": "优先改为累计协作资源后消耗，发动一次宝石爆发；Archer在场可附带一次双方连携，仍让远坂凛自己攻击，不由她凭空创建Archer或其他联动真人。",
+    "loreSources": [
+      {
+        "title": "官方4.4版本更新说明",
+        "url": "https://sr.mihoyo.com/news/165210",
+        "kind": "官方",
+        "supports": "量子智识、宝石能量输出与Archer连携"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "aha",
+    "loreStatus": "联系偏弱",
+    "loreComment": "作为欢愉星神给愚者带来不可测的改变，重掷可以成立。但稳定地按周期训练同类角色更像温和导师，缺少阿哈游戏、戏弄与扰动秩序的特征；本条是星神改编，不能与已预告的星神★阿哈混成同一官方技能版本。",
+    "loreProposal": "以一次可控但有取舍的重掷取代通用永久加值，保持欢愉主题；角色页明确这是本作星神改编、无官方战斗属性，与星神★阿哈各自有独立来源和技能说明。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：阿哈",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/883?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "欢愉星神、恶作剧与不可预测行为资料"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "pearl",
+    "loreStatus": "可接受改编",
+    "loreComment": "真珠的公司投资与艺术修复、为他人描绘前路有公开叙事依据，因此永久属性支援和少量收益可成立。但只选最强者的设计偏投资收益最大化，淡化了她不失存护底色、照护他人的主题。",
+    "loreProposal": "可优先强化相邻威力最低的攻击角色，或修复承受反击后的角色属性，表达艺术修复与扶持；直接写属性永久增加，不借“培养者”标签取代人物动机。",
+    "loreSources": [
+      {
+        "title": "官方真珠角色PV：如何描绘一种希望",
+        "url": "https://sr.mihoyo.com/news/166504",
+        "kind": "官方",
+        "supports": "为世界存亡挥笔、艺术与希望主题"
+      },
+      {
+        "title": "B站预告索引：真珠（上传账号未直核）",
+        "url": "https://www.bilibili.com/video/BV1Hbui6aEYj/",
+        "kind": "第三方资料",
+        "supports": "搜索索引载有艺术投资专家与存护底色的预告简介；本轮未核验上传账号链接或认证，内容需与官方角色PV交叉使用"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "robin_summeretto",
+    "loreStatus": "联系偏弱",
+    "loreComment": "晴歌形态的记忆风标签已核实，循回忆寻找新声也有公开主题。不过官方4.5介绍的核心是晴空乐手、行动提前、回能和团队增益，本作只剩治疗护盾，容易与通常的治疗者混同，需补足为何如此改编。",
+    "loreProposal": "优先改为相邻角色出场频率带动增益或额外行动，保留歌声协作；若要创建晴空乐手，就写创建角色，由其自身技能规定持续次数与删除，避免回到临时角色概念。",
+    "loreSources": [
+      {
+        "title": "官方4.5版本更新说明",
+        "url": "https://sr.mihoyo.com/news/165896",
+        "kind": "官方",
+        "supports": "记忆风、晴空乐手、行动提前回能与增益辅助"
+      },
+      {
+        "title": "HoYoWiki：知更鸟·晴歌",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/6565?lang=en-us",
+        "kind": "游戏文本转载",
+        "supports": "指定角色行动提前与晴空乐手记录伤害资料"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "aventurine_waveflair",
+    "loreStatus": "联系偏弱",
+    "loreComment": "戏浪的欢愉量子身份已核实，但官方4.5明确将其定位为攻击次数联动、积累热意后多次施放欢愉技的输出者。现技能几乎沿用旧砂金的护盾和公司收益，缺乏新形态最鲜明的行动风格。",
+    "loreProposal": "改为相邻角色攻击后为砂金·戏浪积累一次强化攻击，围绕热浪与频繁出手设计；如仍保留护盾，作为次要特长并标注本作改编，避免以旧形态直接替代新形态主题。",
+    "loreSources": [
+      {
+        "title": "官方4.5版本更新说明",
+        "url": "https://sr.mihoyo.com/news/165896",
+        "kind": "官方",
+        "supports": "欢愉量子、攻击次数联动与输出型定位"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "aeon_star_aha",
+    "loreStatus": "可接受改编",
+    "loreComment": "公开报道与视频索引交叉支持星神★阿哈预告存在，不能按旧知识判作虚构；但本轮未直核官方上传账号，完整身份细节仍需原始公告确认。尤其不能用测试版或民间技能稿，为当前倍率和赚钱机制背书。",
+    "loreProposal": "保留本作辅助改编声明，与星神阿哈条目区分；假面愚者归属需直接依据，不能只因神与派系相关就自动归类。补核官方公告与完整人物资料前，围绕舞台与假面优化，不预设未来机制。",
+    "loreSources": [
+      {
+        "title": "B站预告索引：星神★阿哈（上传账号未直核）",
+        "url": "https://www.bilibili.com/video/BV1cVej6MEiC/",
+        "kind": "第三方资料",
+        "supports": "搜索索引显示2026-09-15预告、上传者名为崩坏星穹铁道；本轮未核验账号链接或认证，不能单独认定官方来源"
+      },
+      {
+        "title": "巴哈姆特：星神★阿哈预告报道",
+        "url": "https://gnn.gamer.com.tw/detail.php?sn=311717",
+        "kind": "第三方资料",
+        "supports": "预告五星量子欢愉身份；不支持未公开完整技能"
+      }
+    ],
+    "loreConfidence": "中等"
+  }
+]

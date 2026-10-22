@@ -4,8 +4,8 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { createHash } from 'node:crypto';
 import { homedir, tmpdir } from 'node:os';
-import { join, resolve, sep } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { basename, join, resolve, sep } from 'node:path';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 import { newGame, spin, inspectSpin, chooseReward, purchaseSupply, validateSave } from '../src/engine.js';
 import { createPortableFixture } from './portable-fixture.js';
 
@@ -15,9 +15,9 @@ const savedForm = state => JSON.parse(JSON.stringify(state));
 const transientSelector = '.combat-fx-layer .fx-sprite, .combat-fx-layer .fx-number, .combat-fx-layer .fx-beam';
 
 function fixture(clear = false) {
-  const state = newGame({ seed: `motion-v071-${clear ? 'clear' : 'mixed'}`, mode: 'combat' });
+  const state = newGame({ seed: `motion-v080-${clear ? 'clear' : 'mixed'}`, mode: 'combat' });
   const ids = ['1001','1002','1003','1004','1005','1006','1008','1009','1101','1102','1103','1104','1105','1106','1107','1203','1207','1211','1217','1002'];
-  state.roster = ids.map((id, index) => ({ uid: `u${index + 1}`, id, stars: 1, growth: 0, ticks: 3 }));
+  state.roster = ids.map((id, index) => ({ uid: `u${index + 1}`, id, stars: 1, attackBonus: 0, growth: 0, ticks: 3 }));
   state.uidCounter = 21;
   state.board = structuredClone(state.roster);
   state.hp = 30;
@@ -29,7 +29,7 @@ function fixture(clear = false) {
   const after = spin(canonical);
   assert.equal(after.board.filter(Boolean).length, 20, 'all 20 cells take part in this stress fixture');
   assert.ok(after.lastSpin.healing > 0 && after.lastSpin.shield > 0, 'healing and shield effects actually resolve');
-  assert.ok(after.lastSpin.effects.some(effect => effect.type === 'growth') && after.lastSpin.effects.some(effect => effect.type === 'powerMultiplier'), 'training and amplification actually resolve');
+  assert.ok(after.lastSpin.effects.some(effect => effect.type === 'attackGrowth') && after.lastSpin.effects.some(effect => ['attackPercent','damageBonus'].includes(effect.type)), 'training and amplification actually resolve');
   assert.ok(after.lastSpin.hits.length > 0, 'attacks actually resolve');
   if (clear) assert.ok(after.enemies.every(enemy => enemy.hp === 0) && after.pendingFloor, 'the clear fixture kills all five enemies and waits for reward choice');
   return canonical;
@@ -38,15 +38,27 @@ function fixture(clear = false) {
 // This suite is opt-in: normal engine CI needs no browser. It opens a freshly
 // bundled HTML directly from file:// with networking disabled, so the evidence
 // covers first-load Chromium file use, not Android hardware or content://.
-test('V0.7.1 combat motion: bounded playback, exact rules and responsive offline UI', {
+test('V0.8.0 combat motion: bounded playback, exact rules and responsive offline UI', {
   skip: process.env.MOTION_BROWSER_TESTS !== '1', timeout: 180000,
 }, async t => {
   const { buildPortable } = await import('../scripts/build-portable.mjs');
   const directory = await mkdtemp(join(tmpdir(), 'astral-motion-browser-'));
   assert.ok(directory.startsWith(resolve(tmpdir()) + sep));
   t.after(() => rm(directory, { recursive: true, force: true }));
-  const { root, esbuild } = await createPortableFixture(directory);
-  const build = await buildPortable({ root, esbuild });
+  let root, build;
+  if (process.env.MOTION_TEST_FILE) {
+    root = fileURLToPath(new URL('..', import.meta.url));
+    const sourceOutput = resolve(process.env.MOTION_TEST_FILE);
+    assert.ok(sourceOutput.endsWith('.html'), 'the explicit release artifact is an HTML file');
+    const html = await readFile(sourceOutput, 'utf8');
+    const output = join(directory, basename(sourceOutput));
+    await writeFile(output, html);
+    build = { output, sourceOutput, html, version: (await readFile(join(root, 'VERSION'), 'utf8')).trim() };
+  } else {
+    const fixture = await createPortableFixture(directory);
+    root = fixture.root;
+    build = await buildPortable({ root, esbuild: fixture.esbuild });
+  }
   const evidenceDirectory = process.env.MOTION_EVIDENCE_DIR ? resolve(process.env.MOTION_EVIDENCE_DIR) : null;
   if (evidenceDirectory) await mkdir(evidenceDirectory, { recursive: true });
   const require = createRequire(import.meta.url);
@@ -56,7 +68,7 @@ test('V0.7.1 combat motion: bounded playback, exact rules and responsive offline
   const browser = await playwright.chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE_PATH ? { executablePath: process.env.BROWSER_EXECUTABLE_PATH } : {}), ...(process.platform === 'win32' ? { channel: 'msedge' } : {}) });
   t.after(() => browser.close());
   const sourceSha256 = Object.fromEntries(await Promise.all(['src/app.js','src/engine.js','src/combat-motion.js','src/combat-player.js','src/ui-motion.js','styles.css','public/assets/effects/astral-fx.webp'].map(async path => [path, createHash('sha256').update(await readFile(join(root, path))).digest('hex')])));
-  const evidence = { version: build.version, portableSha256: createHash('sha256').update(build.html).digest('hex'), sourceSha256, browser: browser.version(), protocol: 'file:', offline: true, deviceScope: 'Chromium desktop and narrow touch viewports; no physical mobile-device claim', fixtures: [] };
+  const evidence = { version: build.version, artifactPath: build.sourceOutput || build.output, artifactKind: process.env.MOTION_TEST_FILE ? 'release-artifact-immutable-copy' : 'independent-test-bundle', portableSha256: createHash('sha256').update(build.html).digest('hex'), sourceSha256, browser: browser.version(), protocol: 'file:', offline: true, deviceScope: 'Chromium desktop and narrow touch viewports; no physical mobile-device claim', fixtures: [] };
 
   async function openPage({ width = 1265, animations = true, reduced = false, clear = false, video = false, customGame = null } = {}) {
     const game = customGame || fixture(clear);
@@ -323,7 +335,7 @@ test('V0.7.1 combat motion: bounded playback, exact rules and responsive offline
 
   await t.test('preservation counterattack keeps its enemy alive through incoming damage', async () => {
     const state = newGame({ seed: 'review-preservation' });
-    state.roster = ['1001','1104','1208','1002'].map((id, index) => ({ uid: `u${index + 1}`, id, stars: 1, growth: 0, ticks: 0 }));
+    state.roster = ['1001','1104','1208','1002'].map((id, index) => ({ uid: `u${index + 1}`, id, stars: 1, attackBonus: 0, growth: 0, ticks: 0 }));
     state.uidCounter = 5;
     state.board = Array(20).fill(null);
     state.shield = 100;
@@ -331,14 +343,15 @@ test('V0.7.1 combat motion: bounded playback, exact rules and responsive offline
     const game = validateSave(state);
     assert.ok(game, 'the causal browser fixture is a valid portable save');
     const inspected = inspectSpin(game);
-    assert.ok(inspected.hits.some(hit => hit.sourceId === 'preservation' && hit.stage === 'afterRetaliation' && hit.amount === 14), 'the fixture needs a real lethal post-retaliation counterattack');
+    const remainingBeforeCounter = Math.round((20 - inspected.hits.filter(hit => hit.stage !== 'afterRetaliation').reduce((sum, hit) => sum + hit.amount, 0)) * 100) / 100;
+    assert.ok(remainingBeforeCounter > 0 && inspected.hits.some(hit => hit.sourceId === 'preservation' && hit.stage === 'afterRetaliation' && hit.amount === remainingBeforeCounter), 'the fixture needs a real lethal post-retaliation counterattack');
     const opened = await openPage({ customGame: game });
     try {
       await startSpin(opened.page);
       await opened.page.waitForFunction(() => document.querySelector('.arena[data-combat-stage="retaliation"]'));
       assert.equal(await opened.page.locator('.enemy-defeated').count(), 0, 'the enemy remains alive while it retaliates');
       assert.ok(await opened.page.locator('.fx-hostile').count() > 0, 'incoming damage has its actual enemy-origin beam');
-      assert.equal(await opened.page.locator('[data-enemy-col="2"] .enemy-hp').evaluate(element => Number(element.firstChild.textContent.replaceAll(',', ''))), 14, 'only the normal 6 damage has landed before the counterattack');
+      assert.equal(await opened.page.locator('[data-enemy-col="2"] .enemy-hp').evaluate(element => Number(element.firstChild.textContent.replaceAll(',', ''))), remainingBeforeCounter, 'all default attacks including supports have landed; the later counterattack has not');
       const metrics = await finishSpin(opened.page);
       assert.ok(metrics.firstDefeatedAt > metrics.firstRetaliationAt, 'the lethal counterattack follows incoming damage');
       assert.ok(metrics.rewardEntryCompleteMs <= 3000);

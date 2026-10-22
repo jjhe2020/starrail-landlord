@@ -1,0 +1,71 @@
+{
+  "version": "0.8.0",
+  "artifact": "artifacts/星穹转轮-v0.8.0.html",
+  "bytes": 18196537,
+  "sha256": "4febf00786db4eef0d357c1ccae141a707aa7ca3cdd65ff28708c329a5b52d9d",
+  "checks": {
+    "syntax": "passed",
+    "unitTests": {
+      "total": 695,
+      "passed": 689,
+      "skippedOptInBrowser": 6,
+      "failed": 0,
+      "command": "npm test -- --test-concurrency=1"
+    },
+    "build": "passed",
+    "portableBuild": "passed"
+  },
+  "parallelRun": "Earlier concurrent suite hit the CLI fixture 180-second wall timeout under simultaneous balance workloads. Serial suite completed in 132 seconds, no timeout relaxation.",
+  "browserVerification": {
+    "report": "report/v080/UI-VERIFICATION.md",
+    "manifest": "report/v080/ui-validation/manifest.json",
+    "portablePassed": 6,
+    "uiPassed": 6,
+    "uiAssertions": 169,
+    "motionPassed": 12,
+    "artifactSha256": "4febf00786db4eef0d357c1ccae141a707aa7ca3cdd65ff28708c329a5b52d9d"
+  },
+  "balanceVerification": {
+    "report": "docs/V080-BALANCE.md",
+    "interactiveReport": "report/v080-balance/index.html",
+    "sourceSnapshot": "report/v080-balance/final2-snapshot.json",
+    "independentAudit": "report/v080/final-balance-audit.md",
+    "cards": {
+      "characters": 90,
+      "independentLayoutGroupsPerCharacter": 128,
+      "observations": 345600,
+      "sixTurnTrajectories": 17920
+    },
+    "layers": {
+      "contexts": 5,
+      "independentLayoutGroupsPerContext": 64,
+      "observations": 9600
+    },
+    "d10": {
+      "strategies": 29,
+      "commonSeeds": 32,
+      "games": 928,
+      "incomplete": 0,
+      "baselineWins": 17
+    },
+    "d20": {
+      "strategies": 29,
+      "commonSeeds": 8,
+      "games": 232,
+      "incomplete": 0,
+      "baselineWins": 0
+    },
+    "scope": "Initial balance tuning completed. D10 policy differences remain uncertain; imaginary preference is a follow-up priority. D20 remains very difficult. No claim of all cards or policies being equivalent."
+  },
+  "reportBrowserVerification": {
+    "report": "report/v080/report-ui/BALANCE-UI-VERIFICATION.md",
+    "assertions": 68,
+    "widths": [
+      1440,
+      390
+    ],
+    "validLocalLinks": 17,
+    "pageErrors": 0,
+    "balanceReportSha256": "968774d6ddb9d5443f5f0d2221699a76ac30b6b96ea0cb1766fac700885f34f7"
+  }
+}

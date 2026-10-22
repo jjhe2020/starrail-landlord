@@ -4226,3 +4226,15 @@ button.catalog-item { width: 100%; text-align: left; align-items: flex-start; }
   .combat-fx-layer { display: none; }
   .enemy-art, .enemy-health i { transition: none; }
 }
+
+/* 0.8: card attributes stay separate from special skill text. */
+.card-attributes { margin: 10px 0; padding: 10px 11px; border: 1px solid #8aa4c233; border-radius: 7px; background: linear-gradient(115deg, #172335d9, #101925b3); min-width: 0; }
+.card-attributes dl { margin: 0; display: grid; gap: 5px; }
+.card-attributes dl > div { display: grid; grid-template-columns: minmax(75px, 1fr) minmax(0, 1.6fr); gap: 8px; align-items: baseline; }
+.card-attributes dt { color: #a7b6c9; font-size: 10px; line-height: 1.6; }
+.card-attributes dd { margin: 0; color: #e3eaf5; font-size: 11px; text-align: right; line-height: 1.6; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.card-attributes .attribute-attack dd { color: #ead3a4; font-size: 17px; font-weight: 700; }
+.attribute-origin, .attribute-note { margin: 8px 0 0; font-size: 10px; line-height: 1.7; color: #b4c3d8; overflow-wrap: anywhere; }
+.attribute-origin { color: #dbc39b; }
+.inspect-popover .card-attributes { margin: 12px 0; }
+@media (max-width: 680px) { .card-attributes { padding: 9px; margin: 8px 0; } .card-attributes dl > div { grid-template-columns: minmax(72px, 1fr) minmax(0, 1.5fr); gap: 5px; } .card-attributes dd { font-size: 10px; } }

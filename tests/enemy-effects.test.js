@@ -7,7 +7,7 @@ import { ENEMY_DEBUFFS, enemyDebuffById, getEligibleDebuffs, publicDebuff } from
 // Clause comparisons hold a legal board layout fixed so the matching spatial
 // skill actually fires in both arms; cadence, damage and clauses are real engine rules.
 function spin(state) {
-  if (state.roster.length > 20 || state.roster.some(unit => unit.temporary)) return randomSpin(state);
+  if (state.roster.length > 20 || false) return randomSpin(state);
   const layoutUids = state.roster.map(unit => unit.uid);
   while (layoutUids.length < 20) layoutUids.push(null);
   return inspectSpin(state, { layoutUids }).state;
@@ -15,7 +15,7 @@ function spin(state) {
 
 function fixture(ids = ['1002'], extras = {}) {
   const state = newGame({ seed: 'effects' });
-  state.roster = ids.map((id, index) => ({ uid: `u${index + 1}`, id, stars: 1, growth: 0, ticks: 0 }));
+  state.roster = ids.map((id, index) => ({ uid: `u${index + 1}`, id, stars: 1, growth:0,attackBonus: 0, ticks: 0 }));
   state.uidCounter = ids.length + 1;
   Object.assign(state.roster[0], extras);
   state.hp = 50;
@@ -63,15 +63,15 @@ const effects = [
   ['attack_single', () => fixture(['1002']), damage],
   ['attack_blast', () => fixture(['1109']), damage],
   ['attack_aoe', () => fixture(['1013']), damage],
-  ['growth_audit', () => fixture(['1002', '1001'], { ticks: 3, growth: 4 }), s => s.roster[0].growth],
+  ['growth_audit', () => fixture(['1002', '1001'], { ticks: 3, growth:0,attackBonus: 4 }), s => s.roster[0].attackBonus],
   ['adjacency_audit', adjacentBuild, damage],
   ['star_audit', () => fixture(['1002'], { stars: 2 }), damage],
   ['consume_audit', () => {
     const state = fixture(Array(20).fill('1109'));
-    state.roster.forEach((u, index) => { if (index % 2) u.temporary = 3; });
+    state.roster.forEach(u => {u.ticks=2;});
     return state;
   }, damage],
-  ['danheng_audit', () => fixture(['1002', '1001'], { ticks: 3 }), s => s.roster[0].growth],
+  ['danheng_audit', () => fixture(['1002', '1001'], { ticks: 3 }), s => s.roster[0].attackBonus],
   ['summon_audit', () => fixture(['1013'], { ticks: 2 }), damage],
   ['qingque_audit', () => fixture(['1201', '1202'], { ticks: 2 }), damage],
   ['herta_audit', () => fixture(['1013'], { ticks: 2 }), damage],
@@ -130,7 +130,7 @@ test('catalogue has at least twenty distinct real effects and rejects irrelevant
 test('experimental masks do not change eligibility; clauses target build potentials', () => {
   const state = fixture(CHARACTERS.map(character => character.id));
   state.roster[0].stars = 2;
-  state.roster.find(u => u.id === '1109').temporary = 3;
+
   state.essences = [{ id: 'essence_destruction', progress: 0, triggered: false }];
   state.hp = 100;
   const before = getEligibleDebuffs(state).map(effect => effect.id);
@@ -166,7 +166,7 @@ test('boss stages append eligible clauses at round thresholds with public serial
 
 test('boss health crossings append clauses, while the next encounter resets them', () => {
   let state = bossFixture();
-  state.roster = [{ uid: 'u1', id: '1002', stars: 1, growth: 2, ticks: 0 }];
+  state.roster = [{ uid: 'u1', id: '1002', stars: 1, growth:0,attackBonus: 2, ticks: 0 }];
   const boss = state.enemies.find(enemy => enemy.boss);
   boss.hp = 75; boss.maxHp = 100; boss.attack = 0;
   state.enemies = [boss];
@@ -190,7 +190,7 @@ test('expanded healing, shielding, growth and directed support remain eligible f
   for (const [id, build, measure] of [
     ['healing_audit', () => fixture(['1110', '1109']), healed],
     ['shield_audit', () => fixture(['1304', '1112']), shielded],
-    ['growth_audit', () => fixture(['1303', ...Array(19).fill('1013')], { ticks: 2 }), state => state.roster.reduce((sum, unit) => sum + unit.growth, 0)],
+    ['growth_audit', () => fixture(['1303', ...Array(19).fill('1013')], { ticks: 2 }), state => state.roster.reduce((sum, unit) => sum + unit.attackBonus, 0)],
     ['adjacency_audit', () => fixture(['1313', ...Array(19).fill('1008')]), damage],
     ['path_harmony', () => fixture(['1313', ...Array(19).fill('1008')]), damage],
   ]) {
@@ -216,7 +216,7 @@ test('owned natural resource sources include curios and unlocked essences withou
   assert.equal(enemyDebuffById('healing_audit').eligible(oneTime), false, 'already claimed acquisition heals and multipliers alone cannot generate future healing');
   oneTime.items = ['insect_web'];
   assert.equal(enemyDebuffById('healing_audit').eligible(oneTime), false, 'retirement healing needs a temporary source');
-  oneTime.roster.push({ uid: 'u2', id: '1002', stars: 1, growth: 0, ticks: 0, temporary: 2 });
+  oneTime.roster.push({ uid: 'u2', id: 'garmentmaker', stars: 1, growth:0,attackBonus: 0, ticks: 0 });
   assert.equal(enemyDebuffById('healing_audit').eligible(oneTime), true);
 });
 
@@ -248,5 +248,5 @@ test('resonance tax selects power and additional damage but excludes purely econ
   pursuit.enemies[0].hp = 1;
   assert.equal(enemyDebuffById('synergy_audit').eligible(pursuit), true, 'a damage-only hunt resonance is taxable');
   assert.ok(damage(spin(withEffect(pursuit, 'synergy_audit'))) < damage(spin(pursuit)));
-  assert.equal(enemyDebuffById('synergy_audit').description, '已激活羁绊的威力加成降低 25%。', 'published save descriptions stay compatible; scope clarification belongs in UI/docs');
+  assert.equal(enemyDebuffById('synergy_audit').description, '已激活羁绊提供的攻击力加值、伤害提高增量和羁绊造成的伤害降低 25%。', 'public description names the actual affected attributes');
 });

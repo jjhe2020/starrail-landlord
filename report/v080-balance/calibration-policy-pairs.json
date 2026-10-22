@@ -1,0 +1,237 @@
+{
+  "note": "Paired first 8 calibration seeds; all rule/AI changes together. Descriptive, not evidence of equivalence; no holdout seen.",
+  "rows": [
+    {
+      "id": "baseline",
+      "n": 8,
+      "oldWins": 7,
+      "newWins": 4,
+      "change": -3,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "path:丰饶",
+      "n": 8,
+      "oldWins": 6,
+      "newWins": 5,
+      "change": -1,
+      "meanFloorChange": 0.125
+    },
+    {
+      "id": "path:同谐",
+      "n": 8,
+      "oldWins": 7,
+      "newWins": 3,
+      "change": -4,
+      "meanFloorChange": -0.125
+    },
+    {
+      "id": "path:存护",
+      "n": 8,
+      "oldWins": 7,
+      "newWins": 6,
+      "change": -1,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "path:巡猎",
+      "n": 8,
+      "oldWins": 7,
+      "newWins": 6,
+      "change": -1,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "path:智识",
+      "n": 8,
+      "oldWins": 6,
+      "newWins": 5,
+      "change": -1,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "path:欢愉",
+      "n": 8,
+      "oldWins": 7,
+      "newWins": 6,
+      "change": -1,
+      "meanFloorChange": -0.125
+    },
+    {
+      "id": "path:毁灭",
+      "n": 8,
+      "oldWins": 6,
+      "newWins": 7,
+      "change": 1,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "path:虚无",
+      "n": 8,
+      "oldWins": 6,
+      "newWins": 6,
+      "change": 0,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "path:记忆",
+      "n": 8,
+      "oldWins": 7,
+      "newWins": 7,
+      "change": 0,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "element:冰",
+      "n": 8,
+      "oldWins": 7,
+      "newWins": 5,
+      "change": -2,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "element:火",
+      "n": 8,
+      "oldWins": 7,
+      "newWins": 5,
+      "change": -2,
+      "meanFloorChange": -0.25
+    },
+    {
+      "id": "element:物理",
+      "n": 8,
+      "oldWins": 8,
+      "newWins": 5,
+      "change": -3,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "element:虚数",
+      "n": 8,
+      "oldWins": 8,
+      "newWins": 6,
+      "change": -2,
+      "meanFloorChange": -0.125
+    },
+    {
+      "id": "element:量子",
+      "n": 8,
+      "oldWins": 5,
+      "newWins": 5,
+      "change": 0,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "element:雷",
+      "n": 8,
+      "oldWins": 6,
+      "newWins": 5,
+      "change": -1,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "element:风",
+      "n": 8,
+      "oldWins": 6,
+      "newWins": 5,
+      "change": -1,
+      "meanFloorChange": 0.125
+    },
+    {
+      "id": "faction:仙舟罗浮",
+      "n": 8,
+      "oldWins": 5,
+      "newWins": 5,
+      "change": 0,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "faction:匹诺康尼",
+      "n": 8,
+      "oldWins": 6,
+      "newWins": 5,
+      "change": -1,
+      "meanFloorChange": -0.125
+    },
+    {
+      "id": "faction:星核猎手",
+      "n": 8,
+      "oldWins": 6,
+      "newWins": 4,
+      "change": -2,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "faction:星穹列车",
+      "n": 8,
+      "oldWins": 8,
+      "newWins": 7,
+      "change": -1,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "faction:星际和平公司",
+      "n": 8,
+      "oldWins": 7,
+      "newWins": 4,
+      "change": -3,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "faction:翁法罗斯",
+      "n": 8,
+      "oldWins": 5,
+      "newWins": 5,
+      "change": 0,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "faction:贝洛伯格",
+      "n": 8,
+      "oldWins": 7,
+      "newWins": 5,
+      "change": -2,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "faction:黑塔空间站",
+      "n": 8,
+      "oldWins": 7,
+      "newWins": 5,
+      "change": -2,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "mixed:path:巡猎+faction:仙舟罗浮",
+      "n": 8,
+      "oldWins": 8,
+      "newWins": 6,
+      "change": -2,
+      "meanFloorChange": -0.125
+    },
+    {
+      "id": "mixed:path:智识+faction:黑塔空间站",
+      "n": 8,
+      "oldWins": 7,
+      "newWins": 5,
+      "change": -2,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "mixed:element:冰+faction:贝洛伯格",
+      "n": 8,
+      "oldWins": 6,
+      "newWins": 4,
+      "change": -2,
+      "meanFloorChange": 0.0
+    },
+    {
+      "id": "mixed:path:虚无+faction:星核猎手",
+      "n": 8,
+      "oldWins": 7,
+      "newWins": 6,
+      "change": -1,
+      "meanFloorChange": 0.0
+    }
+  ]
+}

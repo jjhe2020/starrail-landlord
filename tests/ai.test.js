@@ -172,14 +172,14 @@ test('completing distinct-character synergies improves a supporting recruitment'
   assert.match(recommendation.choices[0].reason, /空间站/);
 });
 
-test('temporary reinforcements do not supply permanent synergy identities or merge targets', () => {
+test('created characters supply ordinary synergy identities and merge targets', () => {
   const state = offer(['1002', '1002'], ['1102', '1109', '1008']);
   state.roster.forEach(unit => { unit.temporary = 2; });
-  assert.equal(getSynergies(state).find(synergy => synergy.id === 'hunt').count, 0);
-  assert.doesNotMatch(recommendRewards(state, { lookahead: false }).choices[0].reason, /激活.*巡猎/);
+  assert.equal(getSynergies(state).find(synergy => synergy.id === 'hunt').count, 1);
+  assert.match(recommendRewards(state, { lookahead: false }).choices[0].reason, /激活.*巡猎/);
   const duplicate = offer(['1001', '1001'], ['1001', '1109', '1008']);
   duplicate.roster.forEach(unit => { unit.temporary = 2; });
-  assert.doesNotMatch(recommendRewards(duplicate, { lookahead: false }).choices[0].reason, /三合一/);
+  assert.match(recommendRewards(duplicate, { lookahead: false }).choices[0].reason, /三合一/);
 });
 
 test('credit income and defensive planning respect their independently disabled resources', () => {

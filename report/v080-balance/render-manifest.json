@@ -1,0 +1,11 @@
+{
+  "scope": "Derived presentation; simulation source identity is independently checked against final2-snapshot.json.",
+  "hashes": {
+    "scripts/render-v080-balance.mjs": "f8e4b5afdfc3f4111e1d298b67691cad07ad41c878d1250c33f0c3968e248313",
+    "scripts/validate-v080-report-input.mjs": "dfc4e0782794cd68a9bbf11548fa2f652a54d46a6f3fad016236d9cfd5221f28",
+    "report/v080-balance/final-analysis.json": "6ff1fc7cb254b8d0585b8ddee9987b3fe81b6791962eec0db80aecd9b264a2a2",
+    "docs/benchmarks/v080-final1-tuning-probe.summary.json": "828a31eec49aa56b12fa04da83253617608ead9734e3a46c1e699531cf5af294",
+    "docs/benchmarks/v080-final1-yanqing-condition.summary.json": "101d73905ca0d16ae241eb409488710b6a628ebed2b27d637d7b1e2361f71454",
+    "report/v080-balance/index.html": "968774d6ddb9d5443f5f0d2221699a76ac30b6b96ea0cb1766fac700885f34f7"
+  }
+}

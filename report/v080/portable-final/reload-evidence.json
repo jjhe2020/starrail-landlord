@@ -1,0 +1,70 @@
+{
+  "artifact": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/artifacts/星穹转轮-v0.8.0.html",
+  "sha256": "4febf00786db4eef0d357c1ccae141a707aa7ca3cdd65ff28708c329a5b52d9d",
+  "reloadEvidence": [
+    {
+      "width": 1265,
+      "beforeHash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+      "initHash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+      "afterHash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+      "validBefore": true,
+      "beforeSpins": 1,
+      "initSpins": 1,
+      "afterSpins": 1,
+      "writes": [
+        {
+          "hash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+          "spins": 1
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "beforeHash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+      "initHash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+      "afterHash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+      "validBefore": true,
+      "beforeSpins": 1,
+      "initSpins": 1,
+      "afterSpins": 1,
+      "writes": [
+        {
+          "hash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+          "spins": 1
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "beforeHash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+      "initHash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+      "afterHash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+      "validBefore": true,
+      "beforeSpins": 1,
+      "initSpins": 1,
+      "afterSpins": 1,
+      "writes": [
+        {
+          "hash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+          "spins": 1
+        }
+      ]
+    },
+    {
+      "width": 820,
+      "beforeHash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+      "initHash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+      "afterHash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+      "validBefore": true,
+      "beforeSpins": 1,
+      "initSpins": 1,
+      "afterSpins": 1,
+      "writes": [
+        {
+          "hash": "e3281804b878ab61439fc9261094153d1be8cdb48e5410e13ea594f1ae803bda",
+          "spins": 1
+        }
+      ]
+    }
+  ]
+}

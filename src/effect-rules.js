@@ -1,8 +1,9 @@
+import { getCharacterAttributes } from './attributes.js';
 import { characterById, itemById, essenceById } from './content.js';
 
 // Data-only effects are interpreted by the engine, never read back from saves.
-export const EFFECT_TYPES = Object.freeze(['power', 'powerMultiplier', 'heal', 'shield', 'growth', 'resource', 'retaliationFlat', 'retaliationMultiplier', 'ignoreArmor', 'summon', 'selfDamage', 'maxHp', 'extraSpin', 'healMultiplier', 'shieldMultiplier', 'buffMultiplier', 'growthMultiplier', 'rarityMultiplier', 'essenceProgressMultiplier', 'damage', 'consume', 'healOverflowShield', 'vulnerability']);
-export const EFFECT_TRIGGERS = Object.freeze(['appearance', 'spin', 'floor', 'acquire', 'retire', 'kill', 'merge', 'passive', 'retaliation']);
+export const EFFECT_TYPES = Object.freeze(['power', 'powerMultiplier', 'heal', 'shield', 'growth', 'resource', 'retaliationFlat', 'retaliationMultiplier', 'ignoreArmor', 'summon', 'selfDamage', 'maxHp', 'extraSpin', 'healMultiplier', 'shieldMultiplier', 'buffMultiplier', 'growthMultiplier', 'rarityMultiplier', 'essenceProgressMultiplier', 'damage', 'consume', 'healOverflowShield', 'vulnerability', 'attackPercent', 'damageBonus', 'attackGrowth', 'attackGrowthMultiplier', 'enemyVulnerability', 'synergyDamageMultiplier', 'selfDelete', 'normalAttackGrowth']);
+export const EFFECT_TRIGGERS = Object.freeze(['appearance', 'spin', 'floor', 'acquire', 'retire', 'kill', 'merge', 'passive', 'retaliation', 'afterNormalAttack', 'afterEnemyAttack', 'turnEnd', 'clear']);
 export const PERSISTENT_PROGRESS_METRICS = Object.freeze(['rerolls', 'removals', 'creditsSpent', 'merges']);
 
 export function matchesEffectFilter(unit, filter = {}, source = null) {
@@ -70,7 +71,8 @@ export function effectMetric(metric, context, filter = {}) {
     case 'coins': return state.coins;
     case 'ticks': return unit?.ticks || 0;
     case 'stars': return unit?.stars || 1;
-    case 'growth': return unit?.growth || 0;
+    case 'growth': case 'attackBonus': return getCharacterAttributes(unit).attackBonus;
+    case 'lastTurnDeletions': return state.lastTurnDeletions || 0;
     case 'round': return state.round;
     case 'floor': return state.floor;
     case 'neighbors': return filtered(adjacentIndexes(index).map(i => state.board[i]).filter(u => u && u.status !== 'consumed' && !consumed.has(u.uid))).length;
@@ -89,7 +91,7 @@ export function effectMetric(metric, context, filter = {}) {
     case 'healing': return state.lastSpin?.healing || 0;
     case 'blocked': return metrics.blocked || 0;
     case 'hpLost': return metrics.hpLost || 0;
-    case 'sourcePower': return context.powers?.[index] || 0;
+    case 'sourcePower': return context.powers?.[index] ?? getCharacterAttributes(unit).attack;
     case 'kills': return metrics.kills || 0;
     default: return metrics[metric] || 0;
   }
@@ -110,15 +112,22 @@ export function effectConditionMet(condition, context) {
 
 export function effectIsEligible(effect, context) {
   if (!effect || effect.legacy || !EFFECT_TYPES.includes(effect.type)) return false;
+  if (context.trigger === 'afterNormalAttack') {
+    const event = context.normalAttackEvent;
+    if (!event || !matchesEffectFilter(event.unit, effect.eventFilter || {}, context.unit)) return false;
+    if (effect.eventRange === 'enemyColumn' && !event.hitColumns.includes(context.index % 5)) return false;
+    if (effect.eventRange && effect.eventRange !== 'enemyColumn' && !spatialIndexes(effect.eventRange, context.index).includes(event.index)) return false;
+    if (effect.target === 'triggerEnemy' && !context.state.enemies.some(enemy => enemy.col === context.index % 5 && enemy.hp > 0)) return false;
+  }
   if (!effectConditionMet(effect.condition, context) || !(effect.conditions || []).every(c => effectConditionMet(c, context))) return false;
-  const counter = context.trigger === 'appearance' ? context.unit?.ticks || 0 : context.state.round;
+  const counter = ['appearance','afterNormalAttack','afterEnemyAttack','turnEnd'].includes(context.trigger) ? context.unit?.ticks || 0 : context.state.round;
   if (effect.every && (!(counter > 0) || counter % effect.every !== 0)) return false;
   return true;
 }
 
 export function trainingMultiplier(unit) {
   const definition = characterById(unit?.id);
-  return definition?.kitVersion >= 6 && definition.role !== 'attack' ? 1 + Math.min(12, Math.max(0, unit?.growth || 0)) * 0.08 : 1;
+  return definition?.kitVersion >= 6 && definition.kitVersion < 8 && definition.role !== 'attack' ? 1 + Math.min(12, Math.max(0, unit?.growth || 0)) * 0.08 : 1;
 }
 
 export function effectAmount(effect, context) {
@@ -136,6 +145,8 @@ export function effectAmount(effect, context) {
     const actual = context.star ?? standard;
     amount *= effect.starFactors ? effect.starFactors[stars] * actual / standard : actual;
   }
+  if (effect.fullRestore) amount = context.state.maxHp;
+  if (effect.attackRatio) amount *= effectMetric('sourcePower', context);
   if (effect.scaleWithSourcePower) amount *= effectMetric('sourcePower', context);
   if (effect.scaleWithTraining && effect.type !== 'growth') {
     const training = trainingMultiplier(context.unit);
@@ -155,7 +166,7 @@ export function effectTargetIndexes(effect, context) {
   indexes = indexes.filter(i => matchesEffectFilter(state.board[i], effect.filter, unit));
   if (target === 'strongest' || effect.selection === 'strongest') {
     if (!effect.includeSource) indexes = indexes.filter(i => state.board[i].uid !== unit?.uid);
-    const strength = i => powers[i] || characterById(state.board[i].id).power * [0, 1, 3, 9][state.board[i].stars] + (characterById(state.board[i].id).role === 'attack' ? state.board[i].growth : 0);
+    const strength = i => context.selectionAttacks?.[i] ?? getCharacterAttributes(state.board[i]).attack;
     indexes.sort((a, b) => strength(b) - strength(a) || a - b);
     if (target === 'strongest') indexes = indexes.slice(0, 1);
   }
@@ -173,10 +184,10 @@ export function getEffectSources(state, { trigger = 'passive', unit = null, inde
   if (unit) {
     const definition = characterById(unit.id);
     if (definition) result.push(source(definition, 'character', unit, index));
-  } else if (['spin', 'passive', 'retire'].includes(trigger)) {
+  } else if (['spin', 'passive', 'retire', 'afterNormalAttack', 'afterEnemyAttack', 'retaliation', 'turnEnd', 'clear'].includes(trigger)) {
     state.board.forEach((u, i) => { if (u && u.status !== 'consumed' && !consumed.has(u.uid)) result.push(source(characterById(u.id), 'character', u, i)); });
   } else if (trigger === 'floor') {
-    for (const u of state.roster) if (!u.temporary) result.push(source(characterById(u.id), 'character', u));
+    for (const u of state.roster) result.push(source(characterById(u.id), 'character', u));
   }
   for (const id of state.items) result.push(source(itemById(id), 'item'));
   for (const entry of state.essences) if (entry.triggered) result.push(source(essenceById(entry.id), 'essence'));

@@ -1,0 +1,6 @@
+{
+  "baselineSha": "1ab81d5a6ccbbb41693dfdfc784ff5bb09125f26",
+  "path": "/var/folders/72/ytqr4jns6sndvp52jw69srww0000gn/T/starrail-v080-baseline-808dme90",
+  "createdAt": "2026-10-22T19:43:07.950727+00:00",
+  "method": "git archive HEAD; report-only dirty files excluded"
+}

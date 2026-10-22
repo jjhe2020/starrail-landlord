@@ -295,6 +295,9 @@ test('pollution forecasts ignore the old displayed board and the hidden next ran
 
 test('temporary team loss uses without-replacement conditional draw probability and combines target effects before horizon mixing', () => {
   const damageOnly = { ...DEFAULT_PROFILE, weights: Object.fromEntries(Object.keys(DEFAULT_PROFILE.weights).map(key => [key, key === 'damage' ? 1 : 0])) };
+  const originals = ['1001','1204'].map(id => [characterById(id), characterById(id).effects]);
+  try {
+    for (const [definition] of originals) definition.effects = []; // Isolate the marginal default-attack bonus from character-specific skills.
   for (const size of [20, 21, 35]) {
     const state = fixture({ ids: ['1001', ...Array(size - 1).fill('1204')], phase: 'item', choices: ['gold_coin', 'faith_bond', 'dimension_dice'], floor: 8 });
     const cleanScore = recommendRewards(state, { profile: damageOnly, lookahead: false }).choices[0].score;
@@ -307,7 +310,10 @@ test('temporary team loss uses without-replacement conditional draw probability 
     const otherFactor = 1 - (1 - POLLUTION_ATTACK_MULTIPLIER) * otherChance * encounterShare;
     // Each gold_coin adds .3 power. Singles have factor3; aoe factors blend
     // current3 and future4 into3.7. No distinct synergy threshold is reached.
-    const expectedRatio = otherFactor; // The marked defense role has no attack; all actual attackers share this conditional trigger chance.
+    const supportFactor = characterById('1001').normalAttack.primary;
+    const attackerFactor = characterById('1204').normalAttack.eachTarget * 3.7;
+    const expectedRatio = (supportFactor * targetFactor + (size - 1) * attackerFactor * otherFactor) / (supportFactor + (size - 1) * attackerFactor);
     assert.ok(Math.abs(actualScore / cleanScore - expectedRatio) < 1e-10);
   }
+  } finally { for (const [definition, effects] of originals) definition.effects = effects; }
 });

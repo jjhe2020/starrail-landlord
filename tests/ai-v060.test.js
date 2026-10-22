@@ -6,11 +6,11 @@ import { estimateEffectsForAi, forecastGrowthForAi, recommendRewards, POLICY_VER
 import { estimateRetirementsForAi } from '../src/retirement-ai.js';
 import { enemyDebuffById, publicDebuff } from '../src/enemy-effects.js';
 
-const effect = (type, value, extra = {}) => ({ type, value, trigger: 'appearance', duration: 'spin', target: 'self', summary: 'AI behavior fixture', stacking: 'additive', ...extra });
+const effect = (type, value, extra = {}) => { const {scaleWithTraining, ...rest} = extra; return { type: type === 'growth' ? 'attackGrowth' : type === 'powerMultiplier' ? 'attackPercent' : type, value: type === 'powerMultiplier' ? value - 1 : value, trigger:'appearance',duration:'spin',target:'self',summary:'AI behavior fixture',stacking:'additive', ...(scaleWithTraining && ['heal','shield'].includes(type) ? {scaleWithSourcePower:true} : {}), ...rest }; };
 function withKits(specs, run) {
   const originals = specs.map(spec => [characterById(spec.id), structuredClone(characterById(spec.id))]);
   try {
-    for (const spec of specs) Object.assign(characterById(spec.id), { kitVersion: 6, role: 'attack', attack: 'single', power: 3, path: '测试命途', element: '测试属性', faction: '测试阵营', effects: [], ...spec });
+    for (const spec of specs) Object.assign(characterById(spec.id), { kitVersion: 8, baseAttack: spec.power ?? 3, baseAttackByStar: [0, spec.power ?? 3, (spec.power ?? 3) * 3, (spec.power ?? 3) * 9], normalAttack: { pattern: spec.attack === 'support' ? 'single' : spec.attack || 'single', primary: spec.attack === 'support' ? .2 : spec.attack === 'blast' ? 2 : 3, adjacent: 1, eachTarget: 1 }, role: 'attack', attack: 'single', power: 3, path: '测试命途', element: '测试属性', faction: '测试阵营', effects: [], ...spec });
     return run();
   } finally {
     for (const [definition, original] of originals) { for (const key of Object.keys(definition)) delete definition[key]; Object.assign(definition, original); }
@@ -63,11 +63,11 @@ test('tag-scaled defense and its training are valued through the shared role eff
   assert.equal(estimate(fixture(['1001', '1103'])).shields, 0);
   const plain = fixture(['1001', '1002']);
   const trained = structuredClone(plain); trained.roster[0].growth = 10;
-  assert.ok(Math.abs(estimate(trained).shields / estimate(plain).shields - 1.8) < 1e-12);
+  assert.ok(Math.abs(estimate(trained).shields / estimate(plain).shields - 13 / 3) < 1e-12);
   assert.ok(estimate(fixture(['1001', '1101', '1002'])).utilityGrowth > 0, 'future defense training has real support value');
   const capped = structuredClone(trained); capped.roster[0].growth = 12;
   const enormous = structuredClone(trained); enormous.roster[0].growth = 1000;
-  assert.equal(estimate(capped).shields, estimate(enormous).shields);
+  assert.ok(estimate(enormous).shields > estimate(capped).shields, 'explicit permanent attack has no hidden twelve-point utility ceiling');
 }));
 
 test('modern cards cannot inherit historical Dan Heng growth or Blade self damage', () => withKits([
@@ -76,7 +76,7 @@ test('modern cards cannot inherit historical Dan Heng growth or Blade self damag
   const state = fixture(['1002', '1205', '1009']);
   assert.equal(forecastGrowthForAi(state, { ...state.roster[0], ticks: 2 }, { horizon: 24, draw: 1 }), 0);
   assert.equal(forecastGrowthForAi(state, state.roster[1], { horizon: 24, draw: 1 }), 0);
-  assert.equal(forecastGrowthForAi(state, state.roster[2], { horizon: 24, draw: 1, declaredRate: 5 }), 0);
+  assert.equal(forecastGrowthForAi(state, state.roster[2], { horizon: 24, draw: 1, declaredRate: 5 }), 60);
   assert.equal(estimate(state).selfDrain, 0);
 }));
 
@@ -86,7 +86,7 @@ test('amplifier and vulnerability caps stay independent of an attacker own multi
   { id: '1002', effects: [effect('powerMultiplier', 1.5)] },
 ], () => {
   const result = estimate(fixture(['1002', '1009', '1009', '1009', '1004', '1004', '1004']));
-  assert.ok(Math.abs(result.powerMultipliers.get('u1') - 2.2 * 1.5) < 1e-12);
+  assert.ok(Math.abs(result.powerMultipliers.get('u1') - (1 + 3 * .8 + .5)) < 1e-12);
   assert.equal(result.vulnerabilityMultipliers.get('u1'), 1.75);
   assert.equal(result.reduction, 12, 'retaliation cannot fall below 40 percent');
 }));
@@ -97,8 +97,8 @@ test('bound assistance changes real engine output and AI advice without reading 
 ], () => {
   const plain = fixture(['1002']); const linked = fixture(['1002', '1009']);
   const unrelated = fixture(['1103', '1009']);
-  assert.equal(spin(linked).lastSpin.damage, spin(plain).lastSpin.damage * 1.8);
-  assert.equal(spin(unrelated).lastSpin.damage, spin(fixture(['1103'])).lastSpin.damage);
+  assert.equal(spin(linked).lastSpin.damage - spin(fixture(['1009'])).lastSpin.damage, spin(plain).lastSpin.damage * 1.8);
+  assert.equal(spin(unrelated).lastSpin.damage - spin(fixture(['1009'])).lastSpin.damage, spin(fixture(['1103'])).lastSpin.damage);
   linked.phase = 'recruit'; linked.choices = ['1002', '1103'];
   const before = structuredClone(linked);
   const advice = recommendRewards(linked, { lookahead: false });
@@ -116,7 +116,7 @@ test('a utility commission host gains training value without imaginary attack ad
   const state = fixture(['1104', '1103', '1103']); state.roster[0].ticks = 2;
   const forecast = estimateRetirementsForAi(state, { horizon: 20 });
   assert.ok(forecast.growthRates.get('u1') > 0);
-  assert.equal(forecast.powerAdds.has('u1'), false);
+  assert.equal(forecast.powerAdds.get('u1') || 0, 0);
   assert.ok(estimate(state).utilityGrowth > 0);
 }));
 
@@ -140,7 +140,7 @@ test('tag utility passives do not leak to unrelated defenders and reduction caps
   assert.equal(result.shieldSourceMultipliers.get('u2'), 1.5);
   assert.equal(result.shieldSourceMultipliers.has('u3'), false);
   assert.equal(result.shields, 12.5);
-  assert.ok(Math.abs(result.reduction - (9 + 11 * 0.6)) < 1e-12);
+  assert.ok(Math.abs(result.reduction - (20 * .6 + 20 * .4 * .45)) < 1e-12);
 }));
 
 
@@ -155,9 +155,9 @@ test('AI shares encounter clause scaling and resolves extra attacks after later 
     const result = estimate(state), actual = spin(state);
     const multiplier = result.powerMultipliers.get('u1');
     assert.ok(multiplier > 1 && multiplier <= 2.2);
-    const hit = actual.lastSpin.hits[0];
-    assert.ok(Math.abs(hit.amount - Math.round(3 * multiplier * 100) / 100 * 3) < 1e-9);
-    assert.equal(actual.lastSpin.hits.at(-1).amount, Math.round(result.damage * 100) / 100);
+    const hit = actual.lastSpin.hits.find(hit => hit.sourceUid === 'u1' && hit.attackType === 'normal');
+    assert.ok(Math.abs(hit.amount - Math.round(3 * multiplier * 3 * 100) / 100) < .011, JSON.stringify({clauses,hit,multiplier,breakdown:actual.lastSpin.powerBreakdown.filter(Boolean)}));
+    assert.equal(actual.lastSpin.hits.filter(hit => hit.sourceUid === 'u1' && hit.attackType !== 'normal').at(-1).amount, Math.round(result.damage * 100) / 100);
   }
 }));
 
@@ -173,7 +173,7 @@ test('a Dan Heng specific clause scales only newly declared self training and ke
 }));
 
 
-test('merging a bound trainer raises per-source training gently and the AI applies the same audited star factors', () => {
+test('merging a trainer raises attack attributes while its explicit permanent attack gift stays fixed', () => {
   const plain = fixture(['1207', '1206']); plain.roster[0].ticks = 1;
   const tierTwo = fixture(['1207', '1207', '1206']); tierTwo.roster.slice(0, 2).forEach(unit => { unit.ticks = 1; });
   tierTwo.phase = 'recruit'; tierTwo.choices = ['1207'];
@@ -186,13 +186,13 @@ test('merging a bound trainer raises per-source training gently and the AI appli
   const mergedThree = chooseReward(tierThree, 0);
   assert.equal(mergedThree.roster.find(unit => unit.id === '1207').stars, 3);
   const trainingRate = state => estimate(state).growthRates.get(state.roster.find(unit => unit.id === '1206').uid);
-  assert.ok(Math.abs(trainingRate(mergedTwo) / trainingRate(plain) - 1.5) < 1e-12);
-  assert.ok(Math.abs(trainingRate(mergedThree) / trainingRate(plain) - 2) < 1e-12);
+  assert.ok(Math.abs(trainingRate(mergedTwo) / trainingRate(plain) - 1) < 1e-12);
+  assert.ok(Math.abs(trainingRate(mergedThree) / trainingRate(plain) - 1) < 1e-12);
   const actualGrowth = state => inspectSpin(state, { layoutUids: [state.roster[0].uid, state.roster[1].uid, ...Array(18).fill(null)] }).state.roster.find(unit => unit.id === '1206').growth;
   assert.equal(actualGrowth(plain), 0.35);
-  assert.ok(Math.abs(actualGrowth(mergedTwo) - 0.525) <= 0.0051, 'display rounding is applied after the gentle training factor');
-  assert.equal(actualGrowth(mergedThree), 0.7);
+  assert.ok(Math.abs(actualGrowth(mergedTwo) - 0.35) <= 0.0051, 'display rounding is applied after the gentle training factor');
+  assert.equal(actualGrowth(mergedThree), 0.35);
   const audited = structuredClone(mergedThree); audited.activeDebuffs = [publicDebuff(enemyDebuffById('star_audit'), 'boss', 0)];
-  assert.ok(Math.abs(trainingRate(audited) / trainingRate(mergedThree) - 0.8) < 1e-12);
-  assert.equal(actualGrowth(audited), 0.56);
+  assert.ok(Math.abs(trainingRate(audited) / trainingRate(mergedThree) - 1) < 1e-12);
+  assert.equal(actualGrowth(audited), 0.35);
 });

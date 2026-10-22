@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-23",
+  "version": "0.7.0",
+  "commit": "91a3870b921811fb4886944dcb510975f72be694",
+  "count": 90,
+  "workspaceVersionAtBuild": "0.7.1",
+  "currentCharacterDefinitionsMatchSnapshot": true,
+  "files": [
+    {
+      "file": "src/content.js",
+      "snapshotCommitSha256": "22b6c38f262472b6f4628541a17a151d7035cf048ccc893da7171b2947a8abe4"
+    },
+    {
+      "file": "src/effect-rules.js",
+      "snapshotCommitSha256": "fd379a369220333e94177c3764c22d2dfadcf988f1b07175caeec8532f43a59a"
+    },
+    {
+      "file": "src/engine.js",
+      "snapshotCommitSha256": "8f7b5a50d59648c191773292c42848fd2d52949662f1e28291928306b86a0255"
+    },
+    {
+      "file": "src/app.js",
+      "snapshotCommitSha256": "3e4980e2b475a2faf167cad5d0ac7d1f762918eb7a7037b7d6546a3168a68416"
+    },
+    {
+      "file": "docs/DESIGN.md",
+      "snapshotCommitSha256": "28a1abc77efdd0ff08668951a7b37d94f483054edd720d8bfa25bb7a37d2fe87"
+    },
+    {
+      "file": "docs/ENGINE.md",
+      "snapshotCommitSha256": "135b88a40f05227b9e368c0f64347bb2e735bfa8e65fa24b60150849a0d932f6"
+    },
+    {
+      "file": "package.json",
+      "snapshotCommitSha256": "3ccf53c26029e976fb5617bdc04a67f9dd594bf2647a6e62fa8b6c671cabdea0"
+    },
+    {
+      "file": "VERSION",
+      "snapshotCommitSha256": "967d9afb101346667166f2e76e81910bc190488d7d41d50ca0072e9d92f00e32"
+    }
+  ],
+  "reviewCounts": {
+    "保留打磨": 26,
+    "优先润色": 30,
+    "建议精简": 28,
+    "建议重构": 6
+  },
+  "semanticReviewIds": [
+    "1112",
+    "1305",
+    "1314",
+    "evernight",
+    "archer",
+    "mortenax_blade",
+    "announced_himeko_nova"
+  ],
+  "supplementaryReview": {
+    "loreCharacters": 90,
+    "loreReferenceCount": 146,
+    "terminologyRuleCandidates": 12,
+    "combatModelCharacters": 90,
+    "cardAttributeProfiles": 90,
+    "equipmentCandidates": 10,
+    "evidenceAccess": "官方域名与游戏文本资料包含原页读取和搜索索引核对；未逐一记录全部访问方式，不声称全部原页直读；视频账号未直接核实时在来源说明中降级。"
+  },
+  "notes": "摘要指向锁定的0.7.0提交，不声称当前工作区所有文件仍匹配。制作期间有并行0.7.1动效改动；当前全部90个角色定义已与快照逐字比对一致。原文快照current-skills.json；逐卡评审见review-data.json。"
+}

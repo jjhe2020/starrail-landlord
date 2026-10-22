@@ -1,11 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdir, mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
+import { createHash } from 'node:crypto';
 import { homedir, tmpdir } from 'node:os';
-import { join, resolve, sep } from 'node:path';
+import { basename, join, resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { newGame, spin, chooseReward } from '../src/engine.js';
+import { newGame, spin, chooseReward, validateSave } from '../src/engine.js';
 import { CHARACTERS, ITEMS, ESSENCES } from '../src/content.js';
 import { DEFAULT_PROFILE } from '../src/ai-profile.js';
 import { exportSave, importSave } from '../src/save-transfer.js';
@@ -24,8 +25,24 @@ test('portable HTML plays from file:// on its first offline load', {
   const directory = await mkdtemp(join(tmpdir(), 'astral-portable-browser-'));
   assert.ok(directory.startsWith(resolve(tmpdir()) + sep), 'cleanup stays in a dedicated temporary fixture');
   t.after(() => rm(directory, { recursive: true, force: true }));
-  const { root, esbuild } = await createPortableFixture(directory);
-  const build = await buildPortable({ root, esbuild });
+  let build;
+  if (process.env.PORTABLE_TEST_FILE) {
+    const sourceOutput = resolve(process.env.PORTABLE_TEST_FILE);
+    assert.ok(sourceOutput.endsWith('.html'), 'the explicit release artifact is an HTML file');
+    const html = await readFile(sourceOutput, 'utf8');
+    const output = join(directory, basename(sourceOutput));
+    await writeFile(output, html);
+    build = { output, sourceOutput, html };
+  } else {
+    const { root, esbuild } = await createPortableFixture(directory);
+    build = await buildPortable({ root, esbuild });
+  }
+  const sha256 = value => createHash('sha256').update(typeof value === 'string' ? value : JSON.stringify(value)).digest('hex');
+  t.diagnostic(`Artifact ${build.sourceOutput || build.output}; immutable file snapshot SHA-256 ${sha256(build.html)}`);
+  const reloadEvidence = [];
+  t.after(async () => {
+    if (process.env.PORTABLE_SCREENSHOT_DIR) await writeFile(join(resolve(process.env.PORTABLE_SCREENSHOT_DIR), 'reload-evidence.json'), `${JSON.stringify({ artifact: build.sourceOutput || build.output, sha256: sha256(build.html), reloadEvidence }, null, 2)}\n`);
+  });
   if (process.env.PORTABLE_SCREENSHOT_DIR) await mkdir(resolve(process.env.PORTABLE_SCREENSHOT_DIR), { recursive: true });
   const require = createRequire(import.meta.url);
   let playwright;
@@ -71,6 +88,13 @@ test('portable HTML plays from file:// on its first offline load', {
           }
         };
         try {
+          window.portableFixtureInitialRaw = localStorage.getItem(key);
+          window.portableFixtureWrites = [];
+          const nativeSetItem = Storage.prototype.setItem;
+          Storage.prototype.setItem = function(storageKey, value) {
+            if (storageKey === key) window.portableFixtureWrites.push(value);
+            return nativeSetItem.call(this, storageKey, value);
+          };
           if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({ game, settings: { sound: false, animations: false }, stats: { runs: 1, wins: 0, bestFloor: 1 } }));
         } catch (error) { window.portableFixtureStorageError = error.message; }
       }, { key: saveKey, game: newGame({ seed: 'portable-browser-fixture', mode: 'combat' }) });
@@ -125,9 +149,15 @@ test('portable HTML plays from file:// on its first offline load', {
       await page.waitForFunction(key => JSON.parse(localStorage.getItem(key)).game.phase === 'ready', saveKey);
       const chosen = await saved(page);
       assert.notDeepEqual(chosen.game, spun.game);
+      assert.ok(validateSave(chosen.game), 'the post-choice save is accepted by the current engine');
       await page.reload();
       await page.locator('[data-action="spin"]').waitFor();
-      assert.deepEqual((await saved(page)).game, chosen.game, 'a fresh offline load restores the exact progress');
+      const restored = await saved(page);
+      const inputTrace = await page.evaluate(() => ({ initialRaw: window.portableFixtureInitialRaw, writes: window.portableFixtureWrites }));
+      const beforeApp = inputTrace.initialRaw ? JSON.parse(inputTrace.initialRaw).game : null;
+      reloadEvidence.push({ width: viewport.width, beforeHash: sha256(chosen.game), initHash: beforeApp && sha256(beforeApp), afterHash: sha256(restored.game), validBefore: !!validateSave(chosen.game), beforeSpins: chosen.game.stats.spins, initSpins: beforeApp?.stats?.spins ?? null, afterSpins: restored.game.stats.spins, writes: inputTrace.writes.map(raw => { const value = JSON.parse(raw).game; return { hash: sha256(value), spins: value.stats.spins }; }) });
+      if (sha256(restored.game) !== sha256(chosen.game) && process.env.PORTABLE_SCREENSHOT_DIR) await writeFile(join(resolve(process.env.PORTABLE_SCREENSHOT_DIR), `reload-failure-${viewport.width}.json`), JSON.stringify({ chosen, restored, inputTrace }, null, 2));
+      assert.deepEqual(restored.game, chosen.game, 'a fresh offline load restores the exact progress');
       await page.waitForFunction(() => [...document.images].every(image => image.complete && image.naturalWidth > 0));
       assert.ok(await page.locator('.reel-cell img').count() > 0);
       await fitsScreen(page);

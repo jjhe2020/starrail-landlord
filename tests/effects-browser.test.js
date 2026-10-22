@@ -109,6 +109,15 @@ test('effect explanations, expanded catalog and reward inspection in real browse
     if (screenshotDirectory) await page.screenshot({ path: join(screenshotDirectory, `${name}.png`), fullPage: false });
   }
 
+  async function clickSkill(page, locator) {
+    await page.mouse.move(0, 0);
+    await locator.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(200);
+    const box = await locator.boundingBox();
+    assert.ok(box, 'the skill has a visible click target');
+    await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  }
+
   async function closeInspector(page) {
     // Read the current close control and click its viewport point directly.
     // Locator auto-scroll can race a transient hover popup's scroll dismissal.
@@ -172,7 +181,7 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         await fits(page, `${width}px ledger`);
         check(`${width}px ledger is nonblocking`, await page.locator('.modal-backdrop').count() === 0 && await page.locator('.effect-ledger').count() === 1);
         const ledgerText = await page.locator('.effect-ledger').innerText();
-        check(`${width}px separates history from persistent sources`, ledgerText.includes('历史结算记录') && ledgerText.includes('实例成长') && ledgerText.includes('本关负面'));
+        check(`${width}px separates history from persistent sources`, ledgerText.includes('历史结算记录') && ledgerText.includes('本局永久属性') && ledgerText.includes('本关负面'));
         await page.locator('.mission-heading h1').click();
         check(`${width}px outside closes ledger`, await page.locator('.utility-panel').count() === 0);
 
@@ -186,14 +195,14 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         } else await longPress(context, page, unit);
         await fits(page, `${width}px inspector`);
         const characterText = await page.locator('.inspect-popover').innerText();
-        check(`${width}px precise power and duration rules: ${characterText}`, ['本局永久', '后置临时加成', '时点', '叠加'].every(text => characterText.includes(text)));
+        check(`${width}px precise power and duration rules: ${characterText}`, ['本局永久', '本次固定增加值', '时点', '叠加'].every(text => characterText.includes(text)));
         await screenshot(page, `effects-${width}`);
         await page.locator('.mission-heading h1').click();
         check(`${width}px outside closes inspector`, await page.locator('.inspect-popover').count() === 0);
 
         await page.locator('[data-action="catalog"]').first().click();
-        check(`${width}px all characters displayed`, await page.locator('[data-catalog-results] .character-card').count() === CHARACTERS.length);
-        await page.locator('[data-catalog-search]').fill('永久培养');
+        check(`${width}px all characters displayed`, await page.locator('[data-catalog-results] .character-card').count() === CHARACTERS.filter(entry => entry.recruitable !== false).length);
+        await page.locator('[data-catalog-search]').fill('永久强化');
         check(`${width}px role is searchable`, await page.locator('[data-catalog-results] .character-card').count() >= CHARACTERS.filter(entry => entry.role === 'trainer').length);
         await page.locator('[data-catalog-search]').fill('即时增幅');
         check(`${width}px amplification synonym is searchable`, await page.locator('[data-catalog-results] .role-amplifier').count() === CHARACTERS.filter(entry => entry.role === 'amplifier').length);
@@ -205,34 +214,42 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         await fits(page, `${width}px official label search`);
         await screenshot(page, `labels-${width}`);
         await page.locator('[data-catalog-search]').fill('三月七');
-        await page.locator('.skill-description').first().click();
-        const supportText = await page.locator('.inspect-character').innerText();
-        check(`${width}px defense has no fake attack power`, supportText.includes('防御') && supportText.includes('不进行普通攻击') && !supportText.includes('基础威力'));
-        check(`${width}px defense explains bounded training`, (await page.locator('.inspect-popover').innerText()).includes('最多计 12 点'));
+        await clickSkill(page, page.locator('.skill-description').first());
+        const supportText = await page.locator('.inspect-popover').innerText();
+        check(`${width}px defense has explicit ordinary attack attributes`, supportText.includes('防御') && supportText.includes('当前攻击力') && supportText.includes('默认攻击倍率') && !supportText.includes('不进行普通攻击'));
+        check(`${width}px defense uses an independent shield coefficient`, supportText.includes('攻击力') && supportText.includes('护盾') && !supportText.includes('最多计 12 点'));
         await closeInspector(page);
         await page.locator('[data-catalog-search]').fill('虚无引爆');
         check(`${width}px internal strategy is not a character skill tag`, await page.locator('[data-catalog-results] .character-card').count() === 0);
         await page.locator('[data-catalog-search]').fill('佩拉');
-        await page.locator('.skill-description[data-character-id="1106"]').click();
+        await clickSkill(page, page.locator('.skill-description[data-character-id="1106"]'));
         const spatialText = await page.locator('.inspect-popover').innerText();
-        check(`${width}px actual position and public recipient tags explained: ${spatialText}`, spatialText.includes('同列') && spatialText.includes('冰或贝洛伯格') && spatialText.includes('攻击者'));
+        check(`${width}px actual position and public recipient tags explained: ${spatialText}`, spatialText.includes('同列') && spatialText.includes('冰或贝洛伯格') && spatialText.includes('最近存活敌'));
         await fits(page, `${width}px position details`);
         await screenshot(page, `positions-${width}`);
         await closeInspector(page);
         await page.locator('[data-catalog-search]').fill('太卜司轮值交接');
         check(`${width}px story commissions are searchable`, await page.locator('[data-catalog-results] .character-card').count() === 2);
-        await page.locator('.skill-description').first().click();
-        await page.locator('.retirement-info summary').click();
+        const commissionSkill = page.locator('.skill-description').first();
+        await commissionSkill.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(200);
+        await page.mouse.move(0, 0);
+        const commissionSkillBox = await commissionSkill.boundingBox();
+        assert.ok(commissionSkillBox);
+        await page.mouse.click(commissionSkillBox.x + commissionSkillBox.width / 2, commissionSkillBox.y + commissionSkillBox.height / 2);
+        const commissionSummary = await page.locator('.retirement-info summary').boundingBox();
+        assert.ok(commissionSummary, 'commission disclosure is visible');
+        await page.mouse.click(commissionSummary.x + commissionSummary.width / 2, commissionSummary.y + commissionSummary.height / 2);
         const commissionText = await page.locator('.inspect-popover').innerText();
-        check(`${width}px actual permanent departure and protection explained`, commissionText.includes('永久离队') && commissionText.includes('最后正式同名') && commissionText.includes('补1位见习'));
+        check(`${width}px actual permanent departure and protection explained`, commissionText.includes('从本局删除') && commissionText.includes('最后同名') && commissionText.includes('创建1名角色'));
         await fits(page, `${width}px commission details`);
         await closeInspector(page);
         await page.locator('[data-catalog-search]').fill('阮·梅');
         check(`${width}px catalog search retains input focus`, await page.locator('[data-catalog-results] .character-card').count() === 1 &&
           await page.locator('[data-catalog-search]').evaluate(element => element === document.activeElement));
-        await page.locator('.skill-description').click();
+        await clickSkill(page, page.locator('.skill-description'));
         const growthText = await page.locator('.inspect-popover').innerText();
-        check(`${width}px permanent team growth explained`, growthText.includes('本局永久') && growthText.includes('永久培养') && growthText.includes('永久角色') && growthText.includes('排除见习') && growthText.includes('非永久培养主职') && growthText.includes('相邻'));
+        check(`${width}px permanent team growth explained`, growthText.includes('本局永久') && growthText.includes('攻击力') && !growthText.includes('排除见习') && !growthText.includes('临时角色') && growthText.includes('相邻'));
         await fits(page, `${width}px catalog info`);
         await closeInspector(page);
         await page.locator('[data-catalog-search]').fill('');
@@ -254,7 +271,9 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         check(`${width}px all 21 resonances`, await page.locator('.all-synergy-grid .synergy').count() === 21);
         await fits(page, `${width}px resonance`);
         await page.locator('.utility-panel [data-action="close"]').click();
-
+        await page.mouse.move(0, 0);
+        await page.keyboard.press('Escape');
+        await page.waitForTimeout(200);
         await page.locator('.site-header [data-action="aiLab"]').first().click();
         check(`${width}px old results do not masquerade as current balance`, await page.locator('.archetype-benchmark-pending').count() === 1 && await page.locator('.archetype-benchmark-rows article').count() === 0);
         await page.locator('.archetype-benchmark-pending details > summary').click();
@@ -277,13 +296,80 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         await screenshot(page, `reward-${width}`);
         check(`${width}px skill inspection preserves the pending reward`, await page.locator('.inspect-popover').count() === 1 && await page.locator('.reward-modal').count() === 1);
         await fits(page, `${width}px reward inspector`);
-        const candidateText = await page.locator('.inspect-character').innerText();
-        check(`${width}px unrecruited candidate shows base instead of historical empty-cell zero`, (candidateText.includes('基础威力（含攻击成长）') || candidateText.includes('不进行普通攻击')) && !candidateText.includes('上次结算威力'));
+        const candidateText = await page.locator('.inspect-popover').innerText();
+        check(`${width}px unrecruited candidate shows base instead of historical empty-cell zero`, candidateText.includes('一星基础攻击力') && candidateText.includes('默认攻击倍率') && !candidateText.includes('上次结算攻击力'));
         await page.waitForFunction(() => [...document.images].filter(image => image.loading !== 'lazy').every(image => image.complete && image.naturalWidth > 0));
         check(`${width}px displayed images decode`, await page.evaluate(() => [...document.images].filter(image => image.loading !== 'lazy').every(image => image.complete && image.naturalWidth > 0)));
         if (url.protocol === 'file:') {
           check(`${width}px first file load stays offline with zero HTTP requests: ${JSON.stringify(httpRequests)}`, firstLoadOffline && await page.evaluate(() => navigator.onLine === false) && httpRequests.length === 0);
         }
+      } finally { await context.close(); }
+    });
+  }
+  for (const width of [1440, 390]) {
+    await t.test(`${width}px: create, inspect and finish the garmentmaker's own two-appearance skill`, async () => {
+      let game = newGame({ seed: 'ui-v080-created-5' });
+      game.roster = [
+        { id: '1402', uid: 'u1', stars: 1, attackBonus: 0, growth: 0, ticks: 3 },
+        { id: '1407', uid: 'u2', stars: 1, attackBonus: 0, growth: 0, ticks: 0 },
+      ];
+      game.uidCounter = 3;
+      game.board = Array(20).fill(null);
+      game.enemies.forEach(enemy => { enemy.hp = 10000; enemy.maxHp = 10000; enemy.attack = 0; });
+      game = validateSave(game);
+      assert.ok(game);
+      const expectedCreation = spin(game);
+      const created = expectedCreation.roster.find(unit => unit.id === 'garmentmaker');
+      assert.ok(created, 'the fixture has the public same-row memory condition on appearance four');
+      const context = await browser.newContext({ viewport: { width, height: width === 1440 ? 1000 : 844 }, hasTouch: width < 600, reducedMotion: 'reduce', serviceWorkers: 'block', offline: url.protocol === 'file:' });
+      if (url.protocol === 'file:') await context.route(/^https?:\/\//, route => route.abort());
+      try {
+        await context.addInitScript(({ key, game }) => localStorage.setItem(key, JSON.stringify({ game, settings: { sound: false, animations: false }, stats: { runs: 1, wins: 0, bestFloor: 1 } })), { key: saveKey, game });
+        const page = await context.newPage();
+        page.on('pageerror', error => errors.push(`${width}px created character: ${error.message}`));
+        await page.goto(url.href);
+        const saved = () => page.evaluate(key => JSON.parse(localStorage.getItem(key)).game, saveKey);
+        const ready = async () => {
+          while (['recruit', 'item', 'essence'].includes((await saved()).phase)) {
+            await page.locator('.reward-skip-button').click();
+            await page.waitForTimeout(30);
+          }
+          await page.locator('[data-action="spin"]:not(:disabled)').waitFor();
+        };
+        const spinOnce = async () => {
+          await page.locator('[data-action="spin"]').click();
+          await page.locator('.reward-modal').waitFor();
+        };
+        await spinOnce();
+        check(`${width}px creation commits the exact engine result`, JSON.stringify(await saved()) === JSON.stringify(expectedCreation));
+        await ready();
+        await page.locator('[data-action="roster"]').click();
+        const skill = page.locator(`.skill-description[data-id="${created.uid}"]`);
+        check(`${width}px created character has a normal roster card`, await skill.count() === 1);
+        await clickSkill(page, skill);
+        let copy = await page.locator('.inspect-popover').innerText();
+        check(`${width}px created card exposes its attributes and own deletion rule`, ['衣匠', '当前攻击力', '默认攻击倍率', '已登场 0 次', '2次'].every(value => copy.includes(value)) && !/临时角色|见习/.test(copy));
+        await fits(page, `${width}px created card inspection`);
+        await screenshot(page, `created-${width}`);
+        await page.locator('.inspect-close').click();
+        await page.locator('.utility-panel [data-action="close"]').click();
+
+        await spinOnce();
+        check(`${width}px first appearance retains the created character`, (await saved()).roster.find(unit => unit.uid === created.uid)?.ticks === 1);
+        await ready();
+        await spinOnce();
+        const after = await saved();
+        const cell = after.board.findIndex(unit => unit?.uid === created.uid);
+        check(`${width}px second appearance completes its normal attack before deletion`, cell >= 0 && after.lastSpin.hits.some(hit => hit.cell === cell && hit.amount > 0));
+        check(`${width}px second appearance removes the instance after all results`, !after.roster.some(unit => unit.uid === created.uid) && after.board[cell].status === 'expired' && after.board[cell].ticks === 2);
+        await ready();
+        await page.locator('[data-action="roster"]').click();
+        check(`${width}px completed instance disappears from the roster UI`, await page.locator('.skill-description[data-character-id="garmentmaker"]').count() === 0 && await page.locator('.roster-grid .character-card').count() === 2);
+        await screenshot(page, `created-completed-${width}`);
+        await page.locator('.utility-panel [data-action="close"]').click();
+        await page.locator('[data-action="catalog"]').first().click();
+        await page.locator('[data-catalog-search]').fill('衣匠');
+        check(`${width}px a created-only identity is not a recruitment-catalog entry`, await page.locator('[data-catalog-results] .skill-description[data-character-id="garmentmaker"]').count() === 0 && (await page.locator('[data-catalog-results] .character-card h3').allTextContents()).every(name => name !== '衣匠'));
       } finally { await context.close(); }
     });
   }

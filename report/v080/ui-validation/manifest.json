@@ -1,0 +1,70 @@
+{
+  "version": "0.8.0",
+  "artifact": "artifacts/星穹转轮-v0.8.0.html",
+  "artifactSha256": "4febf00786db4eef0d357c1ccae141a707aa7ca3cdd65ff28708c329a5b52d9d",
+  "artifactBytes": 18196537,
+  "verifiedAt": "2026-10-23T04:25:23.748234+08:00",
+  "environment": "Headless Chrome 155.0.8059.85 on macOS; offline file loading",
+  "tests": {
+    "portable": {
+      "pass": 6,
+      "fail": 0,
+      "widths": [
+        1265,
+        390,
+        320,
+        820
+      ]
+    },
+    "ui": {
+      "pass": 6,
+      "fail": 0,
+      "checks": 169,
+      "widths": [
+        1440,
+        390,
+        320
+      ],
+      "createdCharacterLifecycleWidths": [
+        1440,
+        390
+      ]
+    },
+    "motion": {
+      "pass": 12,
+      "fail": 0,
+      "scenarios": 11,
+      "widths": [
+        1265,
+        390,
+        320
+      ]
+    },
+    "targetedUnits": {
+      "pass": 16,
+      "fail": 0
+    }
+  },
+  "deviceScope": "Desktop Chromium viewports and synthetic touch. No Android/iOS physical device or Android content:// claim.",
+  "evidence": {
+    "ui-validation/portable.log": "eba4e02c7a4df87725b3375ebcd8349ec85f06e00428f593306e4815ace98104",
+    "ui-validation/ui.log": "3dfef342d236455ce048fb15e50ac7fb67b181f1cbce4f9b26d66bb5c598c034",
+    "ui-validation/motion.log": "2f170e0d743c0e65f48444e15d35a231e436bd874f55cf4985a170d0977a181a",
+    "ui-validation/unit.log": "934e52fb99a49ddd2e7cf06180105adc64288015419cf8669278cc260349a416",
+    "portable-final/reload-evidence.json": "5628d053752562ec69075b017462863247669e7a8f9426a66f1178f9e64a828c",
+    "ui-validation/reload-stress.json": "ad759b29b6652e5660cecec3e274aa733e94832a750b35f6fa3b02c26e374fa9",
+    "motion-final/browser-metrics.json": "258033689e65a2f397aaf0eed3b33fe918326470cb049e4eaafc7054c50c383d",
+    "motion-final/motion-mobile-proof.mp4": "13dad5da2b4ac4b9bfe9d818125273342d0c8f2522feb07d458a18868c69474d",
+    "motion-final/motion-desktop-proof.mp4": "f5614057f2ee4363fcff8c99eb1e93a622280090593aeb31f0b78c144d1df736"
+  },
+  "sourceSha256": {
+    "src/app.js": "17270dbb528142107ae30d613fedf7a849b253727d10eb237a280fb458a1ef8c",
+    "src/engine.js": "06b43ac361226346e0463fbbdf24c278ff30b66d42de7dee07488b42211f6290",
+    "src/ai.js": "73feab4a568864bf3bba2acc7f9174dc535555290de40de522aff5e11648719c",
+    "src/content.js": "aea6b58716370b4d35baa04d0f178c50efd2cdb5b24385bbe6dc3ebb7e7ba8d4",
+    "src/combat-motion.js": "03f4635b8b0a8b6c8368545f0616f9ca4b690d72029783277aa417bef55f01cf",
+    "src/combat-player.js": "2c08e669075774a9e2889761eee6cd43499f871a5f86ae248e65ae39b9cdc539",
+    "styles.css": "164cbac216924b23876a892862e5842010b65e03289a0ea2275fa0204a8abe09"
+  },
+  "reloadLimitation": "Two earlier tests against the mutable build path returned the initial test fixture after reload. Initialization storage was not captured then, so the cause is unproven. The current immutable bytes passed all four instrumented reloads and 12 independent reload trials."
+}

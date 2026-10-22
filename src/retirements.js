@@ -1,4 +1,4 @@
-// Relationships are canon; commissions and their rewards are this game's adaptation.
+// Cited relationships are narrative context; all assignments, deletions and rewards are adaptations.
 // Definitions are trusted content. Saves only hold counters and unit markers.
 export const RETIREMENT_RULES = Object.freeze([
   { id: 'express_photography', sourceId: '1003', targetId: '1001', sourceName: '姬子', targetName: '三月七', name: '巡航摄影委派', relation: '姬子照顾并指导三月七，三月七的弓亦由姬子制作。', source: 'https://honkai-star-rail.fandom.com/wiki/March_7th/Lore' },
@@ -11,33 +11,31 @@ export const RETIREMENT_RULES = Object.freeze([
   { id: 'divination_shift', sourceId: '1208', targetId: '1201', sourceName: '符玄', targetName: '青雀', name: '太卜司轮值交接', relation: '符玄与青雀是太卜司的上下级，并共同经历岁阳事件。', source: 'https://honkai-star-rail.fandom.com/wiki/Percipient' },
   { id: 'ten_lords_leave', sourceId: '1215', targetId: '1214', sourceName: '寒鸦', targetName: '雪衣', name: '十王司结案休假', relation: '寒鸦与雪衣是姐妹及十王司同僚；寒鸦邀请判决后的姐姐散步。', source: 'https://honkai-star-rail.fandom.com/wiki/Xueyi/Lore' },
   { id: 'ghost_hunt_wrap', sourceId: '1217', targetId: '1210', sourceName: '藿藿', targetName: '桂乃芬', name: '捉鬼直播收工', relation: '藿藿与桂乃芬共同捉鬼，组队语音中互相照应。', source: 'https://honkai-star-rail.fandom.com/wiki/Guinaifen/Lore' },
-].map(rule => Object.freeze({ ...rule, targetOriginalRarity: 4, every: 3, supplyEvery: 4, growth: rule.sourceId === '1215' ? 0 : 0.35, coins: rule.sourceId === '1215' ? 3 : 2, power: ['1003', '1102', '1107', '1112'].includes(rule.sourceId) ? 1.5 : 0 })));
+].map(rule => Object.freeze({ ...rule, adaptation: '本作协作委派：创建、删除角色及属性奖励均为游戏规则，并非原作剧情或召唤能力', targetOriginalRarity: 4, every: 3, supplyEvery: 4, attackGrowth: rule.sourceId === '1215' ? 0 : 0.35, coins: rule.sourceId === '1215' ? 3 : 2, power: ['1003', '1102', '1107', '1112'].includes(rule.sourceId) ? 1.5 : 0 })));
 
 export const retirementRulesFor = id => RETIREMENT_RULES.filter(rule => rule.sourceId === id || rule.targetId === id);
 export const retirementRuleById = id => RETIREMENT_RULES.find(rule => rule.id === id);
 export const newRetirementStats = () => ({ completed: 0, permanent: 0, supplied: 0, byRule: {} });
 
-// Protect invested units and the player's last ordinary copy. Commission copies
-// are generated work assignments and never count as permanent team identities.
+// Protect investment and the last copy equally, regardless of how a character was created.
 export function retirementEligibility(state, source, target, { consumed = new Set() } = {}) {
   const rule = RETIREMENT_RULES.find(entry => entry.sourceId === source?.id && entry.targetId === target?.id);
   if (!rule || source?.uid === target?.uid) return { eligible: false, reason: '没有对应委派关系' };
-  if (source.temporary || source.commission || source.status || consumed.has(source.uid)) return { eligible: false, reason: '主持者必须是正式角色' };
-  if (target.temporary || target.status || consumed.has(target.uid)) return { eligible: false, reason: '临时角色或已离队角色不能完成正式委派' };
+  if (source.status || consumed.has(source.uid)) return { eligible: false, reason: '主持角色已被删除' };
+  if (target.status || consumed.has(target.uid)) return { eligible: false, reason: '该角色已被删除' };
   if (target.stars !== 1) return { eligible: false, reason: '保护所有二星及三星角色' };
-  if (target.commission && target.commission !== rule.id) return { eligible: false, reason: '此见习委派属于其他关系' };
-  if (!target.commission && target.growth > 1) return { eligible: false, reason: '保护永久成长超过1的正式实例' };
-  const ordinary = state.roster.filter(u => u.id === target.id && !u.temporary && !u.commission && !consumed.has(u.uid));
-  if (!target.commission && ordinary.length < 2) return { eligible: false, reason: '保留最后一位正式同名角色' };
-  return { eligible: true, reason: target.commission ? '见习委派可结案' : '额外的一星低成长角色可委派', rule };
+  if ((target.attackBonus ?? target.attackGrowth ?? target.growth ?? 0) > 1) return { eligible: false, reason: '保护永久攻击力增量超过1的角色' };
+  const copies = state.roster.filter(u => u.id === target.id && !u.status && !consumed.has(u.uid));
+  if (copies.length < 2) return { eligible: false, reason: '保留最后一名同名角色' };
+  return { eligible: true, reason: '额外的一星角色可委派，永久攻击力增量不超过1', rule };
 }
 
 export function getRetirementPreview(state) {
-  return RETIREMENT_RULES.filter(rule => state.roster.some(u => u.id === rule.sourceId && !u.temporary && !u.commission)).map(rule => {
-    const hosts = state.roster.filter(u => u.id === rule.sourceId && !u.temporary && !u.commission);
+  return RETIREMENT_RULES.filter(rule => state.roster.some(u => u.id === rule.sourceId && !u.status)).map(rule => {
+    const hosts = state.roster.filter(u => u.id === rule.sourceId && !u.status);
     const targets = state.roster.filter(u => u.id === rule.targetId);
     const eligible = targets.filter(target => hosts.some(source => retirementEligibility(state, source, target, {}).eligible));
     return { ...rule, sourceUids: hosts.map(u => u.uid), eligibleUids: eligible.map(u => u.uid), targetUids: targets.map(u => u.uid), nextAppearance: Math.min(...hosts.map(u => rule.every - u.ticks % rule.every)),
-      summary: `每${rule.every}次登场可委派1位相邻${rule.targetName}：永久离队，主持者永久成长+${rule.growth}（按星级1/1.5/2倍）${rule.power ? `、本次攻击威力+${rule.power}×星级倍率` : ""}、信用点+${rule.coins}；非攻击者的成长增强专职技能，培养技能本身不放大。保护最后一位正式角色、高星及已培养实例；已拥有受体后，每${rule.supplyEvery}次登场补充最多1位不计羁绊身份的见习委派。` };
+      summary: `每第${rule.every}次实际登场，若相邻有符合条件的${rule.targetName}，将其从本局删除，获得${rule.coins}信用点${rule.attackGrowth ? `，主持角色攻击力永久增加${rule.attackGrowth}（仅本局）` : ''}${rule.power ? `，本次转动攻击力增加${rule.power}` : ''}。可选目标须为一星、永久攻击力增量不超过1，且保留最后一名同名角色。拥有过${rule.targetName}后，每第${rule.supplyEvery}次登场创建1名该角色，下次转动起可登场；同一委派同时最多保留1名由其创建的角色。创建的角色正常参与合成、羁绊和属性提升。` };
   });
 }

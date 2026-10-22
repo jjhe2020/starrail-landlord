@@ -1,0 +1,11 @@
+{
+  "raw": "docs/benchmarks/v080-final1-tuning-probe.jsonl.gz",
+  "rawSha256": "997b54672adfb2073e9330b010ac942563d4c73cbf37838c1d10aa740f66b25e",
+  "rawPreserved": true,
+  "validComponent": "parameter-pair: final-engine before/after numerical intervention for aventurine_waveflair and 1110",
+  "invalidInterpretation": "full-hp-condition does not cover current Yanqing skill; it used an obsolete hypothesis. All zero observations remain valid outputs of that inapplicable scenario, not evidence that the current skill is broken.",
+  "currentCondition": "edge position AND shield >= 5; damageBonus 0.7",
+  "replacementRaw": "docs/benchmarks/v080-final1-yanqing-condition.jsonl.gz",
+  "replacementSha256": "f95713922030e9f129c2b713f6917be7fbb46a84f84de4074e9190354556c5aa",
+  "replacementDesign": "128 layout groups x 2 backgrounds x 3 stages x edge/shield5, edge/shield0, interior/shield5; within each configuration skill on/off is paired."
+}

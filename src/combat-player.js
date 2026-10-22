@@ -1,4 +1,6 @@
 // Presentation only: authoritative results come from the engine, never from animation.
+import { COMBAT_TIMING } from './combat-motion.js';
+
 export const MAX_FX_NODES = 48;
 
 export function playCombat({ arena, plan, elapsed = 0 }) {
@@ -57,7 +59,7 @@ export function playCombat({ arena, plan, elapsed = 0 }) {
       { opacity: 0, transform: 'translate(-50%,-50%) scale(.35) rotate(-14deg)' },
       { opacity: .95, transform: 'translate(-50%,-50%) scale(.95) rotate(0deg)', offset: .24 },
       { opacity: 0, transform: 'translate(-50%,-50%) scale(1.18) rotate(12deg)' },
-    ], 420);
+    ], COMBAT_TIMING.effect);
   };
   const number = (text, point, color, kind = '') => {
     const element = node(`fx-number ${kind}`, point, color);
@@ -68,7 +70,7 @@ export function playCombat({ arena, plan, elapsed = 0 }) {
       { opacity: 1, transform: 'translate(-50%,-70%) scale(1.08)', offset: .18 },
       { opacity: 1, transform: 'translate(-50%,-95%) scale(1)', offset: .65 },
       { opacity: 0, transform: 'translate(-50%,-140%) scale(.95)' },
-    ], 420);
+    ], COMBAT_TIMING.effect);
   };
   const beam = (from, to, color, reverse = false) => {
     if (!from || !to) return;
@@ -116,7 +118,7 @@ export function playCombat({ arena, plan, elapsed = 0 }) {
   };
   const play = action => {
     if (action.kind === 'attack') {
-      setStatus('attack', action.stage === 'afterRetaliation' ? '存护反击 · 余波追击' : action.stage === 'afterAttacks' ? '追加攻击 · 星芒追击' : '协同出击 · 属性共鸣');
+      setStatus('attack', action.attackType === 'followUp' ? '追加攻击' : action.stage === 'afterRetaliation' ? '敌方行动后 · 效果结算' : action.stage === 'afterAttacks' ? '技能伤害' : '默认攻击');
       const from = geometry.cells[action.sourceCell] || geometry.center;
       pulse(action.sourceCell);
       beam(from, geometry.enemies[action.targetCol], action.color);
@@ -134,9 +136,9 @@ export function playCombat({ arena, plan, elapsed = 0 }) {
         const recipient = geometry.cells[cell];
         if (recipient) { beam(from, recipient, action.color); sprite(kind, recipient, Math.min(95, recipient.width * 1.25)); }
       }
-      const labels = { shield: '护盾', heal: '治疗', growth: '培养', power: '增幅', powerMultiplier: '增幅', vulnerability: '易伤', retaliationFlat: '减伤', retaliationMultiplier: '减伤', healOverflowShield: '护盾' };
+      const labels = { shield: '护盾', heal: '治疗', growth: '永久攻击力', attackGrowth: '永久攻击力', normalAttackGrowth: '永久倍率', attackPercent: '攻击力提高', damageBonus: '伤害提高', enemyVulnerability: '受到伤害提高', power: '增幅', powerMultiplier: '增幅', vulnerability: '易伤', retaliationFlat: '减伤', retaliationMultiplier: '减伤', healOverflowShield: '护盾' };
       const label = labels[action.effect] || '共鸣';
-      const amount = ['shield', 'heal', 'growth', 'power'].includes(action.effect) ? `${(action.targetCells?.length || 0) > 1 ? ' 合计' : ''} +${format(action.amount)}` : '';
+      const amount = ['shield', 'heal', 'growth', 'attackGrowth', 'power'].includes(action.effect) ? `${(action.targetCells?.length || 0) > 1 ? ' 合计' : ''} +${format(action.amount)}` : '';
       number(`${label}${amount}`, to, kind === 'heal' ? '#94f2c4' : kind === 'shield' ? '#a3eaff' : '#e3c2ff', 'fx-support-number');
     } else if (action.kind === 'retaliation') {
       setStatus('retaliation', plan.totals.blocked > 0 ? '敌方反击 · 护盾抵挡' : '敌方反击');

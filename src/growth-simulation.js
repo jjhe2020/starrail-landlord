@@ -6,10 +6,12 @@ import { CHARACTERS, characterById } from './content.js';
 import { getArchetypes } from './archetypes.js';
 import { isPolluted } from './enemy-effects.js';
 
-export const GROWTH_PROTOCOL = Object.freeze({ version: 'card-growth-v1', difficulty: 10, probeSamples: 12, probeEnemyHp: 1e9, probeEnemyAttack: 5, hpFraction: 0.5, lookahead: false, strength: 24, coverageBonus: 80 });
+export const GROWTH_PROTOCOL = Object.freeze({ version: 'card-attributes-v2', attributeUnit: 'attackBonus', legacySchemaAliases: {growthReceived:'permanent attack added',endGrowth:'retained permanent flat attack',power:'attack before damage bonuses'}, removedProbeAttributes: ['attackBonus','attackPercentBonus','normalAttackBonus'], difficulty: 10, probeSamples: 12, probeEnemyHp: 1e9, probeEnemyAttack: 5, hpFraction: 0.5, lookahead: false, strength: 24, coverageBonus: 80 });
 const REWARDS = ['recruit', 'item', 'essence'];
 const terminal = state => ['victory', 'defeat'].includes(state.phase);
-const permanent = unit => unit && !unit.temporary && !unit.commission && !unit.origin;
+// The 90 recruitable identities include created copies with the same ID.
+// Separately defined created identities remain reconciled outside the main table.
+const permanent = unit => unit && CHARACTERS.some(character => character.id === unit.id);
 const blank = () => ({ heldTurns: 0, instanceTurns: 0, appearances: 0, power: 0, normalDamage: 0, skillDamage: 0, growthReceived: 0, healing: 0, shield: 0, buff: 0 });
 const hash = value => { let result = 2166136261; for (const char of value) result = Math.imul(result ^ char.charCodeAt(0), 16777619); return (result >>> 0) || 1; };
 const round = value => Math.round(value * 1e6) / 1e6;
@@ -39,7 +41,7 @@ function addObservation(table, before, after, hits) {
   }
   for (const effect of after.lastSpin.effects || []) {
     const recipient = owners.get(effect.targetUid), source = owners.get(effect.sourceUid);
-    if (effect.type === 'growth' && recipient) rows.get(recipient).growthReceived += effect.amount || 0;
+    if (['growth','attackGrowth'].includes(effect.type) && recipient) rows.get(recipient).growthReceived += effect.amount || 0;
     if (!source) continue;
     if (effect.type === 'heal') rows.get(source).healing += effect.amount || 0;
     if (effect.type === 'shield') rows.get(source).shield += effect.amount || 0;
@@ -60,7 +62,7 @@ export function makeGrowthProbe(state, sample, { withoutGrowth = false } = {}) {
   probe.enemies = Array.from({ length: 5 }, (_, col) => ({ id: `probe-${col}`, col, hp: GROWTH_PROTOCOL.probeEnemyHp, maxHp: GROWTH_PROTOCOL.probeEnemyHp, attack: GROWTH_PROTOCOL.probeEnemyAttack, boss: false }));
   // Independent public experiment stream; never reads or advances campaign RNG.
   probe.rngState = hash(`${GROWTH_PROTOCOL.version}:${state.seed}:${sample}`);
-  if (withoutGrowth) for (const unit of probe.roster) unit.growth = 0;
+  if (withoutGrowth) for (const unit of probe.roster) { unit.attackBonus = 0; unit.growth = 0; unit.attackPercentBonus = 0; unit.normalAttackBonus = {}; }
   return probe;
 }
 
@@ -140,10 +142,10 @@ export function runGrowthCampaign({ seed = 'growth', difficulty = 10, strategy =
   const ids = [...new Set([...seen, ...Object.keys(probe.full)])];
   const cards = ids.map(id => {
     const units = state.roster.filter(unit => permanent(unit) && unit.id === id), n = units.length;
-    return { id, endCount: n, endGrowth: n ? round(units.reduce((sum, unit) => sum + unit.growth, 0) / n) : null, endStars: n ? round(units.reduce((sum, unit) => sum + unit.stars, 0) / n) : null, endTicks: n ? round(units.reduce((sum, unit) => sum + unit.ticks, 0) / n) : null,
+    return { id, endCount: n, endGrowth: n ? round(units.reduce((sum, unit) => sum + (unit.attackBonus ?? unit.growth ?? 0), 0) / n) : null, endStars: n ? round(units.reduce((sum, unit) => sum + unit.stars, 0) / n) : null, endTicks: n ? round(units.reduce((sum, unit) => sum + unit.ticks, 0) / n) : null,
       windows: Object.fromEntries(Object.entries(windows).filter(([, table]) => table[id]).map(([name, table]) => [name, table[id]])), probe: probe.full[id] || null, noGrowthProbe: probe.noGrowth[id] || null };
   });
   return { seed, strategyId: strategy.id, strategyKind: strategy.kind, targetId: strategy.targetId || null, difficulty, won: state.phase === 'victory', phase: state.phase, floor: state.floor, turns: state.stats.spins, actions, stopped, defeatCause: state.phase === 'defeat' ? state.hp <= 0 ? 'hp' : 'deadline' : null, finalFormed: getArchetypes(state).filter(status => status.formed).map(status => status.id), offered: [...offered], cards, allDamage: round(allDamage), sharedDamage: round(sharedDamage) };
 }
 
-export const cardMetadata = () => CHARACTERS.map(({ id, name, rarity, attack, power, path, description }) => ({ id, name, rarity, attack, basePower: power, path, description }));
+export const cardMetadata = () => CHARACTERS.map(({ id, name, rarity, role, attack, baseAttack, power, path, description }) => ({ id, name, rarity, role, attack, baseAttack:baseAttack ?? power, basePower:baseAttack ?? power, path, description }));

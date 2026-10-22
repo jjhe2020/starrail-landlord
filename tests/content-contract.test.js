@@ -37,8 +37,8 @@ test('source-checked content pools contain 90 independent characters, 64 curios 
   for (const [kind, rows] of [['characters', CHARACTERS], ['items', ITEMS], ['essences', ESSENCES]]) {
     for (const id of previousIds[kind]) assert.ok(rows.some(row => row.id === id), 'Stable save ID ' + id);
     for (const row of rows) {
-      if (kind === 'characters') assert.ok(row.kitVersion === 6 && row.effects.every(effect => !effect.legacy), row.id);
-      else assert.equal(row.effects.every(effect => effect.legacy), previousIds[kind].includes(row.id), row.id);
+      if (kind === 'characters') assert.ok(row.kitVersion === 8 && row.effects.every(effect => !effect.legacy), row.id);
+      else assert.ok(row.kitVersion === 8 && row.effects.every(effect => !effect.legacy), row.id);
     }
   }
 });
@@ -81,11 +81,11 @@ test('all character and curio images retain verified local source bytes and ever
 const all=[...CHARACTERS.map(d=>({kind:'character',d})),...ITEMS.map(d=>({kind:'item',d})),...ESSENCES.map(d=>({kind:'essence',d}))];
 const matches=(c,f={})=>matchesEffectFilter({id:c.id,uid:c.id,stars:f.starsMin||1,...(f.temporary?{temporary:2}:{})},f);
 const safeIds=['1002','1103','1111','1206','1210','1109','1312','1405','1305','1001','1105'];
-const pick=(f,excludedId)=>safeIds.map(characterById).find(c=>c.id!==excludedId&&matches(c,f)&&c.attack!=='support')||CHARACTERS.find(c=>c.id!==excludedId&&matches(c,f)&&c.attack!=='support')||CHARACTERS.find(c=>c.id!==excludedId&&matches(c,f))||characterById('1002');
+const pick=(f,excludedId)=>CHARACTERS.find(c=>c.id!==excludedId&&c.role==='attack'&&matches(c,f))||CHARACTERS.find(c=>c.id!==excludedId&&matches(c,f))||characterById('1002');
 function fixture(entry,effect,seed){
  const state=newGame({seed:`effect-probe:${entry.d.id}:${seed}`});
  let fillers=Array(19).fill('1002');
- const requests=[effect.filter,effect.per?.filter,...[effect.condition,...(effect.conditions||[])].filter(c=>['present','presentDistinct','neighbors','row','column','aligned'].includes(c?.metric)).map(c=>c.filter)].filter(f=>f&&Object.keys(f).length);
+ const requests=[effect.eventFilter,effect.filter,effect.per?.filter,...[effect.condition,...(effect.conditions||[])].filter(c=>['present','presentDistinct','neighbors','row','column','aligned'].includes(c?.metric)).map(c=>c.filter)].filter(f=>f&&Object.keys(f).length);
  if(requests.length)fillers=Array.from({length:19},(_,i)=>pick(requests[i%requests.length],entry.d.id).id);
  const first=entry.kind==='character'?entry.d.id:'1002';
  if(effect.type==='healMultiplier')fillers=['1105',...Array(18).fill('1102')];
@@ -96,9 +96,11 @@ function fixture(entry,effect,seed){
   fillers=[defender.id,...Array(18).fill(partner.id)];
  }
  if(effect.type==='buffMultiplier')fillers=['1101',...Array(18).fill('1102')];
- if(effect.type==='growthMultiplier')fillers=['1207',...Array(18).fill('1002')];
+ if(effect.type==='attackGrowthMultiplier')fillers=['1207',...Array(18).fill('1002')];
+ if(effect.type==='synergyDamageMultiplier')fillers=['1008','1205',...Array(17).fill('1008')];
+ if(effect.attackType==='followUp'&&entry.kind!=='character')fillers=['1003',...Array(18).fill('1109')];
  let ids=[first,...fillers];
- if([effect.condition,...(effect.conditions||[])].some(c=>c&&c.metric==='neighbors'&&((c.op==='eq'&&c.value===0)||(c.op==='lte'&&c.value<=1))))ids=[first];
+ if([effect.condition,...(effect.conditions||[])].some(c=>c&&c.metric==='neighbors'&&((c.op==='eq'&&c.value===0)||(c.op==='lte'&&c.value<=1))))ids=effect.trigger==='afterNormalAttack'?[first,'1002']:[first];
  if([effect.condition,...(effect.conditions||[])].some(c=>c?.metric==='roster'&&c.op==='lte'))ids=ids.slice(0,8);
  if(effect.per?.metric==='emptyNeighbors'||[effect.condition,...(effect.conditions||[])].some(c=>c?.metric==='emptyNeighbors'))ids=ids.slice(0,4);
  if([effect.condition,...(effect.conditions||[])].some(c=>c?.metric==='synergies'))ids=CHARACTERS.slice(0,20).map(c=>c.id);
@@ -106,11 +108,11 @@ function fixture(entry,effect,seed){
   const support=requests.map(f=>CHARACTERS.find(c=>c.id!==first&&c.role!=='attack'&&matches(c,f))).find(Boolean);
   ids=support?[first,support.id,support.id]:[first];
  }
- state.roster=ids.map((id,index)=>({uid:`u${index+1}`,id,stars:1,growth:0,ticks:effect.every&&entry.kind==='character'?effect.every-1:effect.type==='growthMultiplier'?1:0}));
+ state.roster=ids.map((id,index)=>({uid:`u${index+1}`,id,stars:1,growth:0,attackBonus:0,ticks:effect.every&&entry.kind==='character'?effect.every-1:effect.type==='attackGrowthMultiplier'?1:0}));
  if(effect.filter?.starsMin>=2)state.roster.forEach(u=>{u.stars=effect.filter.starsMin;});
  state.uidCounter=ids.length+1;
  state.hp=30;state.shield=0;state.coins=60;state.rerolls=10;state.removals=10;
- state.round=entry.kind!=='character'&&effect.every?effect.every-1:0;state.spinsLeft=90;state.encounter.deadline=100;
+ state.round=entry.kind!=='character'&&effect.every?effect.every-1:0;state.spinsLeft=80;state.encounter.deadline=90;
  state.enemies=Array.from({length:5},(_,col)=>({id:`probe-${col}`,name:'训练靶',col,hp:100000,maxHp:100000,attack:2,boss:false}));
  state.enemySkill={id:'armor',name:'装甲校验',description:'每次命中减少1伤害'};
  for(const condition of [effect.condition,...(effect.conditions||[])].filter(Boolean)){
@@ -119,13 +121,12 @@ function fixture(entry,effect,seed){
   if(condition.metric==='coins')state.coins=condition.op==='lte'?0:90;
   if(condition.metric==='enemies'&&['eq','lte'].includes(condition.op))state.enemies=state.enemies.slice(0,condition.value);
  }
- if(effect.type==='damage'&&entry.kind==='character'&&entry.d.role==='attack')state.roster[0].growth=4;
+ if(effect.type==='damage'&&entry.kind==='character'&&entry.d.role==='attack')state.roster[0].attackBonus=4;
  if(effect.per?.metric==='emptyColumns')state.enemies=state.enemies.slice(0,2);
  if(effect.per?.metric==='coins')state.coins=90;
  if(effect.per?.metric==='missingHp')state.hp=20;
- if(effect.per?.metric==='retirements'||effect.condition?.metric==='retirements'||effect.filter?.temporary||effect.per?.filter?.temporary||effect.type==='consume'){
-  state.roster.slice(1,7).forEach(u=>{u.temporary=effect.per?.metric==='retirements'||effect.condition?.metric==='retirements'?1:2;});
- }
+ if(effect.per?.metric==='lastTurnDeletions')state.lastTurnDeletions=3;
+ if(effect.trigger==='retire'||effect.per?.metric==='retirements'||effect.condition?.metric==='retirements'){for(let copy=0;copy<2;copy++)state.roster.push({id:'garmentmaker',uid:`u${state.uidCounter++}`,stars:1,ticks:1,growth:0,attackBonus:0});}
  if(effect.trigger==='kill')state.enemies.forEach(enemy=>{enemy.hp=1;});
  if(entry.kind==='item')state.items=[entry.d.id];
  if(entry.kind==='essence')state.essences=[{id:entry.d.id,progress:entry.d.target,triggered:true}];
@@ -147,11 +148,15 @@ function perform(entry,effect,seed){
   if(metric==='removals')state.resourceStats.removalsUsed=entry.d.target;
   if(metric==='creditsSpent')state.resourceStats.creditsSpent=entry.d.target;
   if(metric==='merges')state.stats.merges=entry.d.target;
-  if(metric==='healing'){state.roster.push({uid:`u${state.uidCounter++}`,id:'1105',stars:1,ticks:0,growth:0});state.roster.push({uid:`u${state.uidCounter++}`,id:'1102',stars:1,ticks:0,growth:0});}
-  if(metric==='shield')state.roster.push({uid:`u${state.uidCounter++}`,id:'1001',stars:1,ticks:0,growth:0});
-  if(metric==='retirements')state.roster.slice(1,4).forEach(u=>{u.temporary=1;});
-  if(metric==='synergies'){state.roster=CHARACTERS.slice(0,20).map((c,i)=>({id:c.id,uid:`u${i+1}`,stars:1,ticks:0,growth:0}));state.uidCounter=21;}
+  if(metric==='healing'){state.roster.push({uid:`u${state.uidCounter++}`,id:'1105',stars:1,ticks:0,growth:0,attackBonus:0});state.roster.push({uid:`u${state.uidCounter++}`,id:'1102',stars:1,ticks:0,growth:0,attackBonus:0});}
+  if(metric==='shield')state.roster.push({uid:`u${state.uidCounter++}`,id:'1001',stars:1,ticks:0,growth:0,attackBonus:0});
+  if(metric==='retirements')for(let copy=0;copy<2;copy++)state.roster.push({id:'garmentmaker',uid:`u${state.uidCounter++}`,stars:1,ticks:1,growth:0,attackBonus:0});
+  if(metric==='synergies'){state.roster=CHARACTERS.slice(0,20).map((c,i)=>({id:c.id,uid:`u${i+1}`,stars:1,ticks:0,growth:0,attackBonus:0}));state.uidCounter=21;}
   if(metric==='credits')state.items.push('faith_bond');
+  return spin(state);
+ }
+ if(effect.trigger==='clear'){
+  state.enemies.forEach(e=>{e.hp=1;});
   return spin(state);
  }
  if(effect.trigger==='floor'){
@@ -161,16 +166,16 @@ function perform(entry,effect,seed){
  return spin(state);
 }
 function measure(s,e){
- if(['power','powerMultiplier','damage','ignoreArmor','consume','vulnerability'].includes(e.type))return s.lastSpin.damage;
+ if(['power','powerMultiplier','attackPercent','damageBonus','enemyVulnerability','synergyDamageMultiplier','damage','ignoreArmor','consume','vulnerability'].includes(e.type))return s.lastSpin.damage;
  if(['heal','healMultiplier'].includes(e.type))return s.resourceStats.healed;
  if(['shield','shieldMultiplier'].includes(e.type))return s.resourceStats.shieldGained;
- if(e.type==='growth'||e.type==='growthMultiplier')return s.roster.map(u=>`${u.uid}:${u.growth}`).join('|');
+ if(e.type==='attackGrowth'||e.type==='attackGrowthMultiplier')return s.roster.map(u=>`${u.uid}:${u.attackBonus}`).join('|');
  if(e.type==='resource')return s[e.resource];
  if(e.type==='selfDamage')return s.resourceStats.hpLost;
  if(e.type==='maxHp')return s.maxHp;
  if(e.type==='extraSpin')return s.spinsLeft;
  if(['retaliationFlat','retaliationMultiplier'].includes(e.type))return s.lastSpin.incoming;
- if(e.type==='summon')return s.roster.filter(u=>u.temporary).length;
+ if(e.type==='summon')return s.roster.filter(u=>u.id===e.characterId).length;
  if(e.type==='rarityMultiplier')return s.choices.join('|');
  if(e.type==='essenceProgressMultiplier')return s.essences.find(x=>x.id==='essence_destruction').progress;
  return JSON.stringify([s.hp,s.shield,s.coins,s.rerolls,s.removals,s.lastSpin.damage]);

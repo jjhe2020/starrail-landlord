@@ -1,0 +1,92 @@
+[
+  {
+    "id": "express_photography",
+    "sourceName": "姬子",
+    "targetName": "三月七",
+    "relation": "姬子照顾并指导三月七，三月七的弓亦由姬子制作。",
+    "source": "https://honkai-star-rail.fandom.com/wiki/March_7th/Lore",
+    "assessment": "照顾与赠弓能支持指导意象，但“摄影完成后删除角色、主持者变强”是本作规则，不是原作事件。",
+    "evidenceBoundary": "现有项目关系来源线索；关系存在与本作委派/删除/奖励的叙事合理性分开判断。"
+  },
+  {
+    "id": "express_archives",
+    "sourceName": "瓦尔特",
+    "targetName": "丹恒",
+    "relation": "瓦尔特与丹恒同属列车，明确承诺保护丹恒。",
+    "source": "https://honkai-star-rail.fandom.com/wiki/Welt/Dialogue",
+    "assessment": "同为列车成员与保护承诺，可以支持协作；并不直接证明瓦尔特固定派丹恒外勤或凭其离队强化自己。",
+    "evidenceBoundary": "现有项目关系来源线索；关系存在与本作委派/删除/奖励的叙事合理性分开判断。"
+  },
+  {
+    "id": "guardian_report",
+    "sourceName": "布洛妮娅",
+    "targetName": "佩拉",
+    "relation": "布洛妮娅的组队语音直接要求佩拉提交战斗报告。",
+    "source": "https://honkai-star-rail.fandom.com/wiki/Pela/Lore",
+    "assessment": "上下级和战斗报告适合情报交接；仍须把角色离队与收益写成明确的游戏改编。",
+    "evidenceBoundary": "现有项目关系来源线索；关系存在与本作委派/删除/奖励的叙事合理性分开判断。"
+  },
+  {
+    "id": "landau_maintenance",
+    "sourceName": "杰帕德",
+    "targetName": "希露瓦",
+    "relation": "希露瓦是杰帕德的姐姐，两人共同支援贝洛伯格。",
+    "source": "https://honkai-star-rail.fandom.com/wiki/Not_Good_With_Farewells",
+    "assessment": "姐弟关系有依据；装备检修与谁主持委派，要按两人的职责解释，不能只因亲属关系自动建立消耗链。",
+    "evidenceBoundary": "现有项目关系来源线索；关系存在与本作委派/删除/奖励的叙事合理性分开判断。"
+  },
+  {
+    "id": "wildfire_training",
+    "sourceName": "希儿",
+    "targetName": "卢卡",
+    "relation": "希儿与卢卡同为地火成员，卢卡会向希儿约战。",
+    "source": "https://honkai-star-rail.fandom.com/wiki/Luka/Dialogue",
+    "assessment": "地火同事和约战可支持切磋，但不自动构成固定师徒关系；建议表达共同训练，而非一方制造另一方副本。",
+    "evidenceBoundary": "现有项目关系来源线索；关系存在与本作委派/删除/奖励的叙事合理性分开判断。"
+  },
+  {
+    "id": "moles_expedition",
+    "sourceName": "克拉拉",
+    "targetName": "虎克",
+    "relation": "虎克是克拉拉的第一位朋友，并邀请她成为鼹鼠党荣誉成员。",
+    "source": "https://honkai-star-rail.fandom.com/wiki/Clara/Lore",
+    "assessment": "朋友及鼹鼠党关系可支持探险，不能据此把克拉拉写成支配虎克的召唤者或上级。",
+    "evidenceBoundary": "现有项目关系来源线索；关系存在与本作委派/删除/奖励的叙事合理性分开判断。"
+  },
+  {
+    "id": "ipc_settlement",
+    "sourceName": "托帕&账账",
+    "targetName": "艾丝妲",
+    "relation": "托帕熟识艾丝妲及其母亲；黑塔亦曾让艾丝妲代付欠款。",
+    "source": "https://honkai-star-rail.fandom.com/wiki/Asta/Lore",
+    "assessment": "熟识艾丝妲与其家人，不等于艾丝妲欠托帕债；账目交接与角色离队的因果需要另行说明。",
+    "evidenceBoundary": "现有项目关系来源线索；关系存在与本作委派/删除/奖励的叙事合理性分开判断。"
+  },
+  {
+    "id": "divination_shift",
+    "sourceName": "符玄",
+    "targetName": "青雀",
+    "relation": "符玄与青雀是太卜司的上下级，并共同经历岁阳事件。",
+    "source": "https://honkai-star-rail.fandom.com/wiki/Percipient",
+    "assessment": "太卜司上下级适合轮值叙事；固定离队、复制角色与永久属性奖励仍是本作改编。",
+    "evidenceBoundary": "现有项目关系来源线索；关系存在与本作委派/删除/奖励的叙事合理性分开判断。"
+  },
+  {
+    "id": "ten_lords_leave",
+    "sourceName": "寒鸦",
+    "targetName": "雪衣",
+    "relation": "寒鸦与雪衣是姐妹及十王司同僚；寒鸦邀请判决后的姐姐散步。",
+    "source": "https://honkai-star-rail.fandom.com/wiki/Xueyi/Lore",
+    "assessment": "姐妹及同僚可支撑结案休假，角色离队应明确是游戏删除，不写成剧情死亡。",
+    "evidenceBoundary": "现有项目关系来源线索；关系存在与本作委派/删除/奖励的叙事合理性分开判断。"
+  },
+  {
+    "id": "ghost_hunt_wrap",
+    "sourceName": "藿藿",
+    "targetName": "桂乃芬",
+    "relation": "藿藿与桂乃芬共同捉鬼，组队语音中互相照应。",
+    "source": "https://honkai-star-rail.fandom.com/wiki/Guinaifen/Lore",
+    "assessment": "捉鬼互动可支持直播收工；不能把互相照应改成单向召唤或无穷生成同名见习角色。",
+    "evidenceBoundary": "现有项目关系来源线索；关系存在与本作委派/删除/奖励的叙事合理性分开判断。"
+  }
+]

@@ -6,7 +6,7 @@ import { gzipSync } from 'node:zlib';
 import { runGrowthCampaign, growthStrategies, cardMetadata, GROWTH_PROTOCOL } from '../src/growth-simulation.js';
 import { POLICY_VERSION, DEFAULT_PROFILE } from '../src/ai.js';
 
-const SOURCES = ['src/content.js', 'src/retirements.js', 'src/retirement-ai.js', 'src/archetypes.js', 'src/effect-rules.js', 'src/synergies.js', 'src/difficulty.js', 'src/enemy-effects.js', 'src/engine.js', 'src/ai-profile.js', 'src/ai.js', 'src/simulation.js', 'src/archetype-simulation.js', 'src/growth-simulation.js', 'src/growth-telemetry.js', 'scripts/growth-balance.mjs'];
+const SOURCES = ['src/attributes.js', 'src/content.js', 'src/retirements.js', 'src/retirement-ai.js', 'src/archetypes.js', 'src/effect-rules.js', 'src/synergies.js', 'src/difficulty.js', 'src/enemy-effects.js', 'src/engine.js', 'src/ai-profile.js', 'src/ai.js', 'src/simulation.js', 'src/archetype-simulation.js', 'src/growth-simulation.js', 'src/growth-telemetry.js', 'scripts/growth-balance.mjs'];
 const fingerprint = async () => Object.fromEntries(await Promise.all(SOURCES.map(async path => [path, createHash('sha256').update(await readFile(new URL(`../${path}`, import.meta.url))).digest('hex')])));
 if (!isMainThread) {
   const sourceHashes = await fingerprint();

@@ -1,0 +1,816 @@
+[
+  {
+    "id": "1001",
+    "name": "三月七",
+    "termCopy": "每有1名相邻的星穹列车或存护角色，获得3护盾，最多计3名。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1002",
+    "name": "丹恒",
+    "termCopy": "相邻有星穹列车或同谐角色时：本次转动威力×1.4；每第4次实际登场还使自身威力永久+0.15。（永久增益仅在本局保留。）",
+    "termStatus": "直接写明威力",
+    "termNote": "这里原来的+0.15直接加到攻击角色威力，可明确写成“威力永久+0.15（本局）”。它不是百分比，也不是乘法；不新增一个名叫成长的属性。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1003",
+    "name": "姬子",
+    "termCopy": "同列有其他火或智识角色时，常规攻击结束后，向最近存活敌列追加自身威力50%的轨道追击。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1004",
+    "name": "瓦尔特",
+    "termCopy": "相邻的虚数或星穹列车攻击角色，本次转动对敌伤害+24%。相邻有虚数或虚无角色时，敌方本次转动反击−1.1。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1005",
+    "name": "卡芙卡",
+    "termCopy": "相邻的雷或虚无攻击角色，本次转动对敌伤害+15%；其中扩散攻击角色改为+30%。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1006",
+    "name": "银狼",
+    "termCopy": "同行的量子或星核猎手攻击角色，本次转动对敌伤害+20%；其中单体攻击角色改为+32%。相邻至少有2名量子或虚无角色时，敌方本次转动反击−1。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1008",
+    "name": "阿兰",
+    "termCopy": "位于边缘且生命不高于50%时，本次转动威力×1.8。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1009",
+    "name": "艾丝妲",
+    "termCopy": "每第3次登场，使至多2名相邻的火或巡猎攻击角色各获得威力永久+0.35（本局）。",
+    "termStatus": "目标与属性需重构",
+    "termNote": "下方是只提升攻击角色威力的讨论基线，改变了现有对防御、增幅、干扰角色的收益，不能直接替换旧文案。若要强化辅助，应单独写出增加的治疗量、护盾量或增幅量并重新定值；不以“效能”“潜能”等词保留同一套隐藏点数。",
+    "termRuleChange": true,
+    "createdCharacter": null
+  },
+  {
+    "id": "1013",
+    "name": "黑塔",
+    "termCopy": "每第3次实际登场且位于角落时，常规攻击结束后，对每个存活敌列追加自身威力75%的旋转追击。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1101",
+    "name": "布洛妮娅",
+    "termCopy": "相邻的风或贝洛伯格攻击角色，本次转动威力×1.5。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1102",
+    "name": "希儿",
+    "termCopy": "相邻有量子或虚无角色时：本次转动威力×1.3；自身常规击破后，向最近存活敌列追加自身威力90%的再现，每次转动至多1次。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1103",
+    "name": "希露瓦",
+    "termCopy": "每名相邻的雷或贝洛伯格角色使本次转动威力+0.55，最多3名。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1104",
+    "name": "杰帕德",
+    "termCopy": "每有1名相邻的冰或贝洛伯格角色，获得4护盾，最多计3名。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1105",
+    "name": "娜塔莎",
+    "termCopy": "每有1名相邻的巡猎或毁灭角色，恢复2.8生命，最多计3名。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1106",
+    "name": "佩拉",
+    "termCopy": "同列的冰或贝洛伯格攻击角色，本次转动对敌伤害+28%。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1107",
+    "name": "克拉拉",
+    "termCopy": "常规攻击结束后，若护盾至少为8且相邻有物理或存护角色，向最近存活敌列追加自身威力85%的史瓦罗追击。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1108",
+    "name": "桑博",
+    "termCopy": "相邻的风或虚无攻击角色，本次转动对敌伤害+22%。每名相邻的风或虚无角色使敌方本次转动反击−0.5，最多3名。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1109",
+    "name": "虎克",
+    "termCopy": "每第3次实际登场且相邻有火或贝洛伯格角色时，本次转动威力+1.5。位于边缘时，常规攻击结束后向最近存活敌列追加自身威力35%的爆破。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1205",
+    "name": "刃",
+    "termCopy": "相邻至少有3格空位且生命不高于55%时，本次转动威力×1.65。每第4次实际登场，若生命不高于55%且相邻有风或星核猎手角色，自身威力永久+0.15。（永久增益仅在本局保留。）",
+    "termStatus": "直接写明威力",
+    "termNote": "这里原来的+0.15直接加到攻击角色威力，可明确写成“威力永久+0.15（本局）”。它不是百分比，也不是乘法；不新增一个名叫成长的属性。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1204",
+    "name": "景元",
+    "termCopy": "每第2次实际登场且同列有其他雷或智识角色时，常规攻击结束后，神君对每个存活敌列追加自身威力85%的攻击。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1203",
+    "name": "罗刹",
+    "termCopy": "相邻有虚数或毁灭角色时，恢复6生命；溢出治疗量转为护盾。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1208",
+    "name": "符玄",
+    "termCopy": "相邻有量子或同谐角色时，获得5护盾。同行至少有2名其他量子或存护角色时，敌方本次转动反击×0.88。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1201",
+    "name": "青雀",
+    "termCopy": "每第3次实际登场且同行有其他量子或同谐角色时，本次转动威力×2.35。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1202",
+    "name": "停云",
+    "termCopy": "相邻的雷或巡猎攻击角色中，当前威力最高的1人本次转动威力×1.6。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1110",
+    "name": "玲可",
+    "termCopy": "相邻有量子或毁灭角色时，先恢复4生命；随后若生命仍不高于60%，且仍满足上述邻接条件，再获得2.5护盾。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1111",
+    "name": "卢卡",
+    "termCopy": "相邻的单体攻击角色中，物理或巡猎角色本次转动对敌伤害+32%。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1112",
+    "name": "托帕&账账",
+    "termCopy": "每名同列的其他巡猎或星际和平公司角色贡献一次威力55%的账账追击，最多2名。位于边缘时，自身常规击破后获得2信用点。",
+    "termStatus": "语义待确认",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。 另有原文与实现的语义分歧，须先核对命中次数或连续比例；称谓统一不代表此分歧已经解决。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1206",
+    "name": "素裳",
+    "termCopy": "位于边缘且存活敌人不多于2列时，本次转动威力×1.5。每第3次实际登场且相邻有物理或巡猎角色时，常规攻击结束后，剑势向最近存活敌列追加自身威力50%的伤害。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1207",
+    "name": "驭空",
+    "termCopy": "每第2次登场，从相邻的虚数或巡猎攻击角色中，选择威力最高的1名（不计本次转动加成），使其威力永久+0.35（本局）。",
+    "termStatus": "目标与属性需重构",
+    "termNote": "下方是只提升攻击角色威力的讨论基线，改变了现有对防御、增幅、干扰角色的收益，不能直接替换旧文案。若要强化辅助，应单独写出增加的治疗量、护盾量或增幅量并重新定值；不以“效能”“潜能”等词保留同一套隐藏点数。",
+    "termRuleChange": true,
+    "createdCharacter": null
+  },
+  {
+    "id": "1209",
+    "name": "彦卿",
+    "termCopy": "位于边缘且护盾至少为5时，本次转动威力×1.7。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1210",
+    "name": "桂乃芬",
+    "termCopy": "相邻的火或虚无攻击角色，本次转动对敌伤害+24%。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1211",
+    "name": "白露",
+    "termCopy": "每有1名相邻的雷或丰饶角色，恢复3生命，最多计3名。治疗后，若生命不高于35%且相邻有上述角色，获得3护盾。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1212",
+    "name": "镜流",
+    "termCopy": "生命不高于60%且相邻有冰或毁灭角色时，本次转动威力×1.7。每第3次登场，若同行有其他冰或毁灭角色，常规攻击后追加自身威力45%的剑光。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1214",
+    "name": "雪衣",
+    "termCopy": "每第3次登场，若位于角落，常规攻击后追加自身威力115%的天罚。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1215",
+    "name": "寒鸦",
+    "termCopy": "每第3次登场，使至多2名相邻的物理或毁灭攻击角色各获得威力永久+0.3（本局）。每第3次登场且相邻有物理或仙舟罗浮角色，获得1信用点。",
+    "termStatus": "目标与属性需重构",
+    "termNote": "下方是只提升攻击角色威力的讨论基线，改变了现有对防御、增幅、干扰角色的收益，不能直接替换旧文案。若要强化辅助，应单独写出增加的治疗量、护盾量或增幅量并重新定值；不以“效能”“潜能”等词保留同一套隐藏点数。",
+    "termRuleChange": true,
+    "createdCharacter": null
+  },
+  {
+    "id": "1217",
+    "name": "藿藿",
+    "termCopy": "每有1名相邻的同谐或仙舟罗浮角色，恢复4生命，最多计2名。每第3次登场，若相邻有上述角色，另获得3护盾。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1218",
+    "name": "椒丘",
+    "termCopy": "同行的火或虚无攻击角色，本次转动对敌伤害+25%。相邻至少有2名火或虚无角色时，本次转动敌人反击−1。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1220",
+    "name": "飞霄",
+    "termCopy": "位于边缘时，本次转动威力×1.25。每第3次登场，若相邻有风或巡猎角色，常规攻击后追加自身威力115%的飞黄追击。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1221",
+    "name": "云璃",
+    "termCopy": "常规攻击后，若护盾至少为6且相邻有物理或存护角色，追加自身威力85%的看破。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1222",
+    "name": "灵砂",
+    "termCopy": "每有1名相邻的火或毁灭角色，恢复3生命，最多计3名。每第4次登场，若相邻有上述角色，浮元提供3护盾。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1223",
+    "name": "貊泽",
+    "termCopy": "相邻角色不超过1名时，本次转动威力×1.7。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1301",
+    "name": "加拉赫",
+    "termCopy": "每有1名相邻的火或虚无角色，恢复2.8生命，最多计3名。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1302",
+    "name": "银枝",
+    "termCopy": "每第4次登场，常规攻击后对每列存活敌人各追加自身威力85%的纯美礼赞。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1303",
+    "name": "阮·梅",
+    "termCopy": "每第3次登场，使至多2名相邻的冰或智识攻击角色各获得威力永久+0.4（本局）。",
+    "termStatus": "目标与属性需重构",
+    "termNote": "下方是只提升攻击角色威力的讨论基线，改变了现有对防御、增幅、干扰角色的收益，不能直接替换旧文案。若要强化辅助，应单独写出增加的治疗量、护盾量或增幅量并重新定值；不以“效能”“潜能”等词保留同一套隐藏点数。",
+    "termRuleChange": true,
+    "createdCharacter": null
+  },
+  {
+    "id": "1304",
+    "name": "砂金",
+    "termCopy": "每有1名相邻的巡猎或星际和平公司角色，获得3.5护盾，最多计3名。随后若护盾至少为18且相邻有星际和平公司或存护角色，获得1信用点。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1305",
+    "name": "真理医生",
+    "termCopy": "常规攻击结算后，每有1名相邻的虚无命途角色，计入相当于自身威力38%的推理追加伤害，最多计3名；合计伤害向最近存活敌列结算1次。",
+    "termStatus": "语义待确认",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。 另有原文与实现的语义分歧，须先核对命中次数或连续比例；称谓统一不代表此分歧已经解决。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1306",
+    "name": "花火",
+    "termCopy": "相邻的量子或欢愉攻击角色，本次转动威力×1.5。每第4次登场，若位于角落，获得1次重掷。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1307",
+    "name": "黑天鹅",
+    "termCopy": "每第3次登场，使至多2名相邻的虚无或风攻击角色各获得威力永久+0.35（本局）。",
+    "termStatus": "目标与属性需重构",
+    "termNote": "下方是只提升攻击角色威力的讨论基线，改变了现有对防御、增幅、干扰角色的收益，不能直接替换旧文案。若要强化辅助，应单独写出增加的治疗量、护盾量或增幅量并重新定值；不以“效能”“潜能”等词保留同一套隐藏点数。",
+    "termRuleChange": true,
+    "createdCharacter": null
+  },
+  {
+    "id": "1308",
+    "name": "黄泉",
+    "termCopy": "每有1名相邻的虚无角色，本次转动威力+0.7，最多计2名。每第3次登场，若相邻有虚无角色，常规攻击后对每列存活敌人各追加自身威力70%的终结斩。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1309",
+    "name": "知更鸟",
+    "termCopy": "同行的物理或巡猎攻击角色，本次转动威力×1.4。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1310",
+    "name": "流萤",
+    "termCopy": "相邻至少有2名火或毁灭角色时，本次转动威力×1.5。每第3次登场，若相邻有火或毁灭角色，常规攻击后追加自身威力55%的超击破。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1312",
+    "name": "米沙",
+    "termCopy": "每第3次登场，若同行有其他冰或记忆角色，本次转动威力×2.1。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1313",
+    "name": "星期日",
+    "termCopy": "同列的记忆或毁灭攻击角色，本次转动威力×1.45。",
+    "termStatus": "身份条件需重构",
+    "termNote": "先保留公开标签增幅，暂删按特殊身份筛选的第二条，作为减法候选。若要保留对创建角色的加值，应依据具体角色或公开技能建立条件，不能换一个名称继续筛选隐藏的临时类别。",
+    "termRuleChange": true,
+    "createdCharacter": null
+  },
+  {
+    "id": "1314",
+    "name": "翡翠",
+    "termCopy": "常规攻击结算后，每有1名相邻的其他星际和平公司或智识命途角色，计入相当于自身威力30%的清算追加伤害，最多计3名；合计伤害向最近存活敌列结算1次。登场时若位于边缘，获得1信用点。",
+    "termStatus": "语义待确认",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。 另有原文与实现的语义分歧，须先核对命中次数或连续比例；称谓统一不代表此分歧已经解决。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1315",
+    "name": "波提欧",
+    "termCopy": "位于边缘且仅剩1列敌人时，本次转动威力×1.8。位于边缘时，自身常规击破后追加自身威力40%的决斗追击，每次转动最多1次。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1317",
+    "name": "乱破",
+    "termCopy": "相邻有虚数或智识角色时，每列存活敌人使本次转动威力+0.35，最多计5列。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1402",
+    "name": "阿格莱雅",
+    "termCopy": "每第2次登场且相邻有记忆或翁法罗斯角色，常规攻击后追加自身威力65%的双人攻击。每第4次登场且同行有其他记忆或翁法罗斯角色，创建1名衣匠；下次转动起可登场。",
+    "termStatus": "创建角色需重构",
+    "termNote": "把当前创建素裳改为创建有剧情与能力依据的衣匠，限次删除写在衣匠自己的技能中。父技能的两套周期是否仍需保留，应与单核心重构一起讨论；这里保留作对照，不代表新设计已定。",
+    "termRuleChange": true,
+    "createdCharacter": {
+      "name": "衣匠",
+      "skill": "累计登场2次后，在第2次登场的本次转动全部结算结束时，删除自身。",
+      "pending": "新增角色草案：攻击范围、威力和标签待设计，不继承素裳的技能。2次沿用旧参数作对照，不是用户要求所有创建角色均只能登场2次。"
+    }
+  },
+  {
+    "id": "1403",
+    "name": "缇宝",
+    "termCopy": "每第2次登场，从相邻的量子或翁法罗斯攻击角色中，选择威力最高的1名（不计本次转动加成），使其威力永久+0.3（本局）。",
+    "termStatus": "目标与属性需重构",
+    "termNote": "下方是只提升攻击角色威力的讨论基线，改变了现有对防御、增幅、干扰角色的收益，不能直接替换旧文案。若要强化辅助，应单独写出增加的治疗量、护盾量或增幅量并重新定值；不以“效能”“潜能”等词保留同一套隐藏点数。",
+    "termRuleChange": true,
+    "createdCharacter": null
+  },
+  {
+    "id": "1404",
+    "name": "万敌",
+    "termCopy": "位于边缘且生命不高于55%时，本次转动威力×1.65。每第3次登场，若相邻有虚数或毁灭角色，常规攻击后追加自身威力50%的决战攻击。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1405",
+    "name": "那刻夏",
+    "termCopy": "每格相邻空位使本次转动威力+0.22，最多计4格。每第3次登场，若同列有其他风或智识角色，常规攻击后追加自身威力55%的演算追击。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1406",
+    "name": "赛飞儿",
+    "termCopy": "相邻的量子或翁法罗斯群体攻击角色，本次转动对敌伤害+28%。每第2次登场且位于角落，获得1信用点。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1407",
+    "name": "遐蝶",
+    "termCopy": "每名相邻的其他记忆或翁法罗斯角色，使本次转动威力+0.5，最多3名。每第3次登场且同列至少2名其他记忆或翁法罗斯角色，常规攻击后向所有存活敌列追加自身威力80%的死龙吐息。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1408",
+    "name": "白厄",
+    "termCopy": "相邻角色不超过1名时，本次转动威力×1.8。每第4次登场且位于边缘，常规攻击后追加自身威力90%的黎明斩击。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "1409",
+    "name": "风堇",
+    "termCopy": "相邻有记忆或风角色时，先恢复5生命，再按缺失生命的12%获得护盾，基础最多4.8。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "march_hunt",
+    "name": "三月七·巡猎",
+    "termCopy": "相邻有巡猎或星穹列车角色时，常规攻击后追加自身威力50%的剑花攻击。每第4次登场且满足上述条件，自身威力永久+0.15。（永久增益仅在本局保留。）",
+    "termStatus": "直接写明威力",
+    "termNote": "这里原来的+0.15直接加到攻击角色威力，可明确写成“威力永久+0.15（本局）”。它不是百分比，也不是乘法；不新增一个名叫成长的属性。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "dan_heng_imbibitor_lunae",
+    "name": "丹恒·饮月",
+    "termCopy": "每名同行的其他虚数或毁灭角色，使本次转动威力+0.5，最多3名。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "dan_heng_pt",
+    "name": "丹恒·腾荒",
+    "termCopy": "每有1名同列的其他星穹列车或物理角色，获得3.5护盾，最多计3名。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "fugue",
+    "name": "忘归人",
+    "termCopy": "相邻的火或毁灭扩散攻击角色，本次转动对敌伤害+36%。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "the_herta",
+    "name": "大黑塔",
+    "termCopy": "每名相邻的其他冰或智识角色，使本次转动威力+0.5，最多3名。每第3次登场且同列有其他冰或智识角色，常规攻击后向所有存活敌列追加自身威力55%的解题攻击。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "hysilens",
+    "name": "海瑟音",
+    "termCopy": "同列的物理或翁法罗斯攻击角色，本次转动对敌伤害+28%。相邻至少2名物理或虚无角色时，本次转动敌人反击×0.9。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "cerydra",
+    "name": "刻律德菈",
+    "termCopy": "相邻的风或翁法罗斯攻击角色中，威力最高1人本次转动威力×1.6。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "evernight",
+    "name": "长夜月",
+    "termCopy": "每名相邻的记忆或同谐非攻击角色贡献一次自身威力45%的忆幕追击，最多2名。",
+    "termStatus": "语义待确认",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。 另有原文与实现的语义分歧，须先核对命中次数或连续比例；称谓统一不代表此分歧已经解决。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "cyrene",
+    "name": "昔涟",
+    "termCopy": "每第3次登场，使至多2名同行的记忆或翁法罗斯攻击角色各获得威力永久+0.45（本局）。",
+    "termStatus": "目标与属性需重构",
+    "termNote": "下方是只提升攻击角色威力的讨论基线，改变了现有对防御、增幅、干扰角色的收益，不能直接替换旧文案。若要强化辅助，应单独写出增加的治疗量、护盾量或增幅量并重新定值；不以“效能”“潜能”等词保留同一套隐藏点数。",
+    "termRuleChange": true,
+    "createdCharacter": null
+  },
+  {
+    "id": "saber",
+    "name": "Saber",
+    "termCopy": "每第3次登场且位于边缘，常规攻击后向所有存活敌列追加自身威力85%的誓约胜利之剑。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "archer",
+    "name": "Archer",
+    "termCopy": "每名相邻的同谐或智识非攻击角色贡献一次自身威力45%的投影追击，最多3名。",
+    "termStatus": "语义待确认",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。 另有原文与实现的语义分歧，须先核对命中次数或连续比例；称谓统一不代表此分歧已经解决。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "yao_guang",
+    "name": "爻光",
+    "termCopy": "每第2次登场，从同列的欢愉或仙舟攻击角色中，选择威力最高的1名（不计本次转动加成），使其威力永久+0.4（本局）。",
+    "termStatus": "目标与属性需重构",
+    "termNote": "下方是只提升攻击角色威力的讨论基线，改变了现有对防御、增幅、干扰角色的收益，不能直接替换旧文案。若要强化辅助，应单独写出增加的治疗量、护盾量或增幅量并重新定值；不以“效能”“潜能”等词保留同一套隐藏点数。",
+    "termRuleChange": true,
+    "createdCharacter": null
+  },
+  {
+    "id": "sparxie",
+    "name": "火花",
+    "termCopy": "相邻有欢愉或火角色时，本次转动每名退场角色使威力+0.8，最多3名。每第2次登场且位于边缘，常规攻击后追加自身威力45%的舞台爆破。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "ashveil",
+    "name": "不死途",
+    "termCopy": "常规攻击后，若存活敌列不超过2列且相邻角色不超过1名，追加自身威力70%的追猎攻击。位于边缘时，本次转动威力×1.3。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "silver_wolf_lv999",
+    "name": "银狼LV.999",
+    "termCopy": "每第3次登场且位于角落，常规攻击后向所有存活敌列追加自身威力80%的满级连段。相邻有量子或欢愉角色时，本次转动每名退场角色使威力+0.7，最多3名。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "evanescia",
+    "name": "绯英",
+    "termCopy": "同行的欢愉或物理攻击角色，本次转动威力×1.45。相邻的存护或欢愉防御角色，本次转动护盾获取量×1.2。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "mortenax_blade",
+    "name": "千冶·刃",
+    "termCopy": "相邻有火或虚无角色时，按缺失生命×0.035增加本次转动威力，基础最多+1.75。每第3次登场且位于边缘，常规攻击后追加自身威力55%的锻焰追击。",
+    "termStatus": "语义待确认",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。 另有原文与实现的语义分歧，须先核对命中次数或连续比例；称谓统一不代表此分歧已经解决。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "the_dahlia",
+    "name": "大丽花",
+    "termCopy": "相邻的火或毁灭攻击角色，本次转动对敌伤害+34%。相邻有火或毁灭角色时，本次转动敌人反击−1。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "announced_himeko_nova",
+    "name": "姬子·启行",
+    "termCopy": "每名同列的其他火或智识角色贡献一次自身威力35%的启行追击，最多3名。",
+    "termStatus": "语义待确认",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。 另有原文与实现的语义分歧，须先核对命中次数或连续比例；称谓统一不代表此分歧已经解决。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "announced_gilgamesh",
+    "name": "吉尔伽美什",
+    "termCopy": "位于边缘时，每列存活敌人使本次转动威力+0.35，最多5列。每第3次登场且位于角落，常规攻击后追加自身威力65%的王之财宝。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "announced_rin_tohsaka",
+    "name": "远坂凛",
+    "termCopy": "相邻的量子或异世界攻击角色，本次转动威力×1.4。每第3次登场，这些攻击角色本次转动另获0.55威力。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "aha",
+    "name": "阿哈",
+    "termCopy": "每第3次登场，使至多2名相邻的欢愉或假面愚者攻击角色各获得威力永久+0.4（本局）。每第4次登场且位于角落，获得1次重掷。",
+    "termStatus": "目标与属性需重构",
+    "termNote": "下方是只提升攻击角色威力的讨论基线，改变了现有对防御、增幅、干扰角色的收益，不能直接替换旧文案。若要强化辅助，应单独写出增加的治疗量、护盾量或增幅量并重新定值；不以“效能”“潜能”等词保留同一套隐藏点数。",
+    "termRuleChange": true,
+    "createdCharacter": null
+  },
+  {
+    "id": "pearl",
+    "name": "真珠",
+    "termCopy": "每第2次登场，从同列的星际和平公司或存护攻击角色中，选择威力最高的1名（不计本次转动加成），使其威力永久+0.4（本局）。每第3次登场且相邻有星际和平公司或存护角色，获得1信用点。",
+    "termStatus": "目标与属性需重构",
+    "termNote": "下方是只提升攻击角色威力的讨论基线，改变了现有对防御、增幅、干扰角色的收益，不能直接替换旧文案。若要强化辅助，应单独写出增加的治疗量、护盾量或增幅量并重新定值；不以“效能”“潜能”等词保留同一套隐藏点数。",
+    "termRuleChange": true,
+    "createdCharacter": null
+  },
+  {
+    "id": "robin_summeretto",
+    "name": "知更鸟·晴歌",
+    "termCopy": "每有1名相邻的记忆或风角色，恢复3生命，最多计3名。每第2次登场且同行至少2名其他记忆或风角色，获得3护盾。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "aventurine_waveflair",
+    "name": "砂金·戏浪",
+    "termCopy": "每有1名相邻的星际和平公司或欢愉角色，获得3护盾，最多计3名。每第3次登场且位于边缘、相邻至少2名星际和平公司或欢愉角色，获得1信用点。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  },
+  {
+    "id": "aeon_star_aha",
+    "name": "星神★阿哈",
+    "termCopy": "相邻的量子、欢愉或假面愚者攻击角色，本次转动威力×1.55。每第3次登场且位于角落，获得1信用点。",
+    "termStatus": "称谓统一",
+    "termNote": "建议统一称“角色”，保留现有公开标签、位置条件和作用范围。",
+    "termRuleChange": false,
+    "createdCharacter": null
+  }
+]

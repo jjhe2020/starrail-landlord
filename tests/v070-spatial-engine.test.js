@@ -46,17 +46,17 @@ test('the same legal roster gives local amplifier benefit only to an adjacent ma
   const s=fixture(['1202','1002']);
   const near=inspectSpin(s,{layoutUids:layout([[0,'p0'],[1,'p1']])}).state;
   const far=inspectSpin(s,{layoutUids:layout([[0,'p0'],[19,'p1']])}).state;
-  assert.ok(near.lastSpin.effects.some(e=>e.sourceUid==='p0'&&e.targetUid==='p1'&&e.type==='powerMultiplier'));
-  assert.ok(!far.lastSpin.effects.some(e=>e.sourceUid==='p0'&&e.type==='powerMultiplier'));
+  assert.ok(near.lastSpin.effects.some(e=>e.sourceUid==='p0'&&e.targetUid==='p1'&&e.type==='attackPercent'));
+  assert.ok(!far.lastSpin.effects.some(e=>e.sourceUid==='p0'&&e.type==='attackPercent'));
   const off=inspectSpin(s,{layoutUids:layout([[0,'p0'],[1,'p1']]),suppressSkillUids:['p0']}).state;
   assert.ok(near.lastSpin.damage>off.lastSpin.damage);
 });
-test('vulnerability follows only matching attackers in the disruptor column',()=>{
+test('enemy vulnerability is attached to the selected enemy and shared by attacks hitting it',()=>{
   const s=fixture(['1106','1107','1107']);
   const options={layoutUids:layout([[0,'p0'],[5,'p1'],[19,'p2']])};
   const on=inspectSpin(s,options),off=inspectSpin(s,{...options,suppressSkillUids:['p0']});
   const damage=(result,uid)=>result.hits.filter(h=>h.sourceUid===uid).reduce((a,h)=>a+h.damage,0);
-  assert.ok(on.state.lastSpin.effects.some(e=>e.sourceId==='1106'&&e.type==='vulnerability'));
+  assert.ok(on.state.lastSpin.effects.some(e=>e.sourceId==='1106'&&e.type==='enemyVulnerability'));
   assert.ok(on.state.lastSpin.damage>off.state.lastSpin.damage);
   // A second identical attacker outside the source column receives no extra damage.
   assert.deepEqual(on.hits.filter(h=>h.cell===19),off.hits.filter(h=>h.cell===19));

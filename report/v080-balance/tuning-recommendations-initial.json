@@ -1,0 +1,90 @@
+{
+  "stage": "calibration1 development candidate, before later engine/AI fixes",
+  "source": "docs/benchmarks/v080-candidate1-cards-calibration.jsonl.gz",
+  "layoutGroupsPerCard": 32,
+  "changes": [
+    {
+      "id": "aventurine_waveflair",
+      "decision": "recommended",
+      "problem": "Attack-role conversion retained the old auxiliary 10% single-target normal attack coefficient.",
+      "evidence": {
+        "genericPresenceDamage": 2.980396,
+        "peerAttackReference": 36.649073,
+        "compatiblePresenceDamage": 9.669417
+      },
+      "proposal": {
+        "baseAttack": [
+          2,
+          2.5
+        ],
+        "normalAttackPrimary": [
+          0.1,
+          3
+        ],
+        "followUpRatio": [
+          0.45,
+          0.45
+        ]
+      },
+      "reason": "Restore normal attack-role baseline damage while retaining the conditional follow-up identity; 45% linked attack remains the combo reward, not the sole source of damage."
+    },
+    {
+      "id": "1110",
+      "decision": "recommended mild reduction, subject to final rule retest",
+      "evidence": {
+        "genericNetHpSaved": 17.385729,
+        "peerReference": 7.898201,
+        "compatibleNetHpSaved": 18.103083
+      },
+      "proposal": {
+        "healRatio": [
+          2,
+          1.5
+        ],
+        "lowHpShieldRatio": [
+          1.25,
+          1
+        ]
+      },
+      "reason": "A common card offers reliable healing plus low-health shield. Reduce both moderately and keep hybrid protection."
+    }
+  ],
+  "retainWithExplanation": [
+    {
+      "ids": [
+        "1001",
+        "1304",
+        "dan_heng_pt"
+      ],
+      "reason": "Shield providers retain substantial end-of-turn shield; one-turn HP-saved comparisons understate stored defense. Do not increase simply to match healers."
+    },
+    {
+      "ids": [
+        "robin_summeretto",
+        "1406"
+      ],
+      "reason": "Weak generic marginal damage but strong compatible-panel gains are specialization tradeoffs; do not tune every tagged specialist to generic peers."
+    },
+    {
+      "ids": [
+        "hysilens",
+        "the_dahlia",
+        "1005",
+        "fugue",
+        "1106",
+        "1108"
+      ],
+      "reason": "Disruptor damage and protection are distinct axes; a zero protection component alone is not evidence the whole card is weak."
+    }
+  ],
+  "measurementLimits": [
+    {
+      "id": "1209",
+      "reason": "CORRECTION: current skill requires edge position and shield at least 5. Standard panel starts at shield 0. The earlier full-HP assumption was obsolete and is retained as an invalid condition-coverage attempt; a new edge/shield 5 vs no-shield vs interior probe supplies current-condition evidence."
+    },
+    {
+      "id": "1402",
+      "reason": "Creation happens for future appearances. Final measurement adds six-turn trajectories for summoning, beyond the 13 attackGrowth sources."
+    }
+  ]
+}

@@ -132,7 +132,8 @@ test('actual preservation counterattack follows incoming damage and keeps its at
   assert.equal(inspected.state.enemies[0].hp, 0, 'the counterattack finishes the last enemy');
   const counterHit = inspected.hits.find(hit => hit.sourceId === 'preservation');
   assert.equal(counterHit.stage, 'afterRetaliation');
-  assert.equal(counterHit.amount, 14);
+  assert.equal(counterHit.attackType, 'environmental', 'blocked-damage reflection retains its environmental identity in animation input');
+  assert.equal(counterHit.amount, Math.round((20-inspected.hits.filter(hit=>hit.stage!=='afterRetaliation').reduce((sum,hit)=>sum+hit.amount,0))*100)/100,'counter consumes exactly the HP remaining after all normal attacks, including supports');
   assert.ok(inspected.effects.some(event => event.sourceId === 'preservation' && event.stage === 'beforeAttacks' && event.type === 'shield'));
   assert.ok(inspected.state.lastSpin.effects.every(event => !('stage' in event)), 'save records do not gain transient trace fields');
   const plan = createCombatPlan(before, inspected.state, inspected);
@@ -157,8 +158,29 @@ test('the same source and target stay separate across normal, follow-up and coun
   const plan = createCombatPlan(before, after, { hits, effects });
   const attacks = plan.timeline.filter(action => action.kind === 'attack');
   assert.equal(attacks.length, 3);
-  assert.deepEqual(attacks.map(action => action.at), [700, 1650, 2040]);
+  assert.deepEqual(attacks.map(action => action.at), [COMBAT_TIMING.attackStart, COMBAT_TIMING.afterAttacks, COMBAT_TIMING.afterRetaliation]);
   assert.equal(plan.totals.damage, 6);
   const supports = plan.timeline.filter(action => action.kind === 'support');
-  assert.deepEqual(supports.map(action => [action.sourceId, action.at]), [['xianzhou', 1650], ['essence', 2040]]);
+  assert.deepEqual(supports.map(action => [action.sourceId, action.at]), [['xianzhou', COMBAT_TIMING.afterAttacks], ['essence', COMBAT_TIMING.afterRetaliation]]);
+});
+
+test('a front-row follow-up waits for its later normal-attack trigger and distinct events stay separate', () => {
+  const before = newGame({ seed: 'v080-motion-event-order' });
+  before.roster = [unit('u1', 'hysilens'), unit('u2', '1107')].map(entry => ({ ...entry, attackBonus: 0 }));
+  before.uidCounter = 3;
+  before.board = Array(20).fill(null);
+  before.enemies = Array.from({ length: 5 }, (_, col) => ({ id: `e${col}`, name: '靶标', col, hp: 10000, maxHp: 10000, attack: 0, boss: false }));
+  const layoutUids = Array(20).fill(null); layoutUids[0] = 'u1'; layoutUids[15] = 'u2';
+  const inspected = inspectSpin(before, { layoutUids });
+  const plan = createCombatPlan(before, inspected.state, inspected);
+  const trigger = plan.timeline.find(action => action.sourceId === '1107' && action.attackType === 'normal');
+  const follow = plan.timeline.find(action => action.sourceId === 'hysilens' && action.attackType === 'followUp');
+  assert.ok(trigger && follow);
+  assert.ok(follow.eventId > trigger.eventId && follow.at > trigger.at, 'the follow-up animation retains its causal engine order');
+  const repeated = createCombatPlan(before, inspected.state, { hits: [
+    { ...inspected.hits.find(hit => hit.attackType === 'followUp'), eventId: 8 },
+    { ...inspected.hits.find(hit => hit.attackType === 'followUp'), eventId: 9 },
+  ] }).timeline.filter(action => action.kind === 'attack');
+  assert.equal(repeated.length, 2);
+  assert.ok(repeated[1].at > repeated[0].at, 'two distinct follow-up events are not merged by source or target');
 });

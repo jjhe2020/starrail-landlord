@@ -18,7 +18,7 @@ function fixture(ids) {
 function withKits(specs, run) {
   const originals = specs.map(spec => [characterById(spec.id), structuredClone(characterById(spec.id))]);
   try {
-    for (const spec of specs) Object.assign(characterById(spec.id), { kitVersion: 6, role: 'attack', attack: 'single', power: 3, path: '测试命途', faction: '测试阵营', element: '测试属性', effects: [], ...spec });
+    for (const spec of specs) Object.assign(characterById(spec.id), { kitVersion: 8, baseAttack: spec.power ?? 3, baseAttackByStar: [0, spec.power ?? 3, (spec.power ?? 3) * 3, (spec.power ?? 3) * 9], normalAttack: { pattern: spec.attack === 'support' ? 'single' : spec.attack || 'single', primary: spec.attack === 'support' ? .2 : spec.attack === 'blast' ? 2 : 3, adjacent: 1, eachTarget: 1 }, role: 'attack', attack: 'single', power: 3, path: '测试命途', faction: '测试阵营', element: '测试属性', effects: [], ...spec });
     return run();
   } finally {
     for (const [definition, original] of originals) {

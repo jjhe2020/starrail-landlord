@@ -15,16 +15,16 @@ test('growth observation preserves legal baseline and focused campaign outcomes'
 });
 
 test('probe clones inputs and zeros only existing growth in its counterfactual', () => {
-  const state = newGame({ seed: 'growth-probe-purity' }); state.roster[1].growth = 10;
+  const state = newGame({ seed: 'growth-probe-purity' }); state.roster[1].growth = 10; state.roster[1].attackBonus = 10; state.roster[1].attackPercentBonus = .2; state.roster[1].normalAttackBonus = {primary:.1};
   const copy = structuredClone(state), full = makeGrowthProbe(state, 0), off = makeGrowthProbe(state, 0, { withoutGrowth: true });
   assert.equal(full.rngState, off.rngState);
-  assert.equal(full.roster[1].growth, 10); assert.equal(off.roster[1].growth, 0);
+  assert.equal(full.roster[1].growth, 10); assert.equal(off.roster[1].growth, 0); assert.equal(off.roster[1].attackBonus,0); assert.equal(off.roster[1].attackPercentBonus,0); assert.deepEqual(off.roster[1].normalAttackBonus,{});
   const result = probeGrowthRoster(state, 3);
   assert.deepEqual(state, copy);
   assert.equal(result.full['1002'].heldTurns, 3);
   assert.equal(result.full['1002'].instanceTurns, 3);
   assert.ok(result.full['1002'].normalDamage > result.noGrowth['1002'].normalDamage);
-  assert.equal(result.full['1009'].normalDamage, 0);
+  assert.ok(result.full['1009'].normalDamage > 0, 'support characters now have their own normal attack');
 });
 
 test('coverage preference stays a legal seeded campaign and validates target', () => {

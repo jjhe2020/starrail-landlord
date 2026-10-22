@@ -1,0 +1,17 @@
+{
+  "revision": "卡面固有属性与技能分离",
+  "characters": 90,
+  "equipment": 10,
+  "originalDescriptions": "exact match",
+  "latestTerminology": "passed",
+  "htmlIds": "unique",
+  "reportInteractions": "90 rows; follow-up filter; search; reset; CSV export passed in isolated JS harness",
+  "calculator": "three independent axes; follow-up only bonus; support 20% final multiplier; healing and shield unaffected by damage bonuses passed",
+  "browserRendering": "not performed this round; no desktop or mobile visual acceptance claimed",
+  "gameChanges": false,
+  "intrinsicAttributes": "90 profiles match source; all latest skill text excludes default attack description; child attributes separated",
+  "supportMultipliers": "46 individually proposed values and reasons; values below 20% and above 25%; no uniform range asserted; not balance-tested",
+  "characterCsv": "90 records, 16 columns; original descriptions, intrinsic properties and skill-only candidates identical",
+  "highestAttackSelection": "six candidates compare pre-turn-buff attack, including persistent effects",
+  "previousProjectChecks": "Previous round check/test/build passed with 615 passed, 6 skipped, 0 failed; no game source changes since. This round re-ran report data/logic/export checks only."
+}

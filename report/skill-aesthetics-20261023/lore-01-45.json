@@ -1,0 +1,887 @@
+[
+  {
+    "id": "1001",
+    "loreStatus": "有依据",
+    "loreComment": "以六相冰保护同伴符合存护三月七的核心意象；列车相邻条件也能表现共同冒险，但存护标签仅是组队规则。额外的姬子委派有照顾与制弓关系基础，摄影离队和见习副本仍是本作虚构。",
+    "loreProposal": "保留护盾与列车联系，改写为角色用语。若保留摄影委派，应明确是本作任务表达，避免把复制三月七解释成原作能力。",
+    "loreSources": [
+      {
+        "title": "三月七战技：可爱即是正义",
+        "url": "https://honkai-star-rail.fandom.com/wiki/The_Power_of_Cuteness",
+        "kind": "游戏文本转载",
+        "supports": "向角色提供护盾"
+      },
+      {
+        "title": "三月七故事与关系索引",
+        "url": "https://honkai-star-rail.fandom.com/wiki/March_7th/Lore",
+        "kind": "游戏文本转载",
+        "supports": "姬子制作三月七的弓；关系基础"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1002",
+    "loreStatus": "可接受改编",
+    "loreComment": "丹恒原作天赋在受到其他角色技能作用后增强下一击，因此受身边角色支持而增伤有直接来源。列车协作成立；每四次登场永久提高属性则是本作节奏设计，不能据此写成丹恒普遍受训的剧情。",
+    "loreProposal": "保留受援后强化的主题；永久增量若保留，直接写自身属性增加，并标为本作改编。瓦尔特委派仅保留列车外勤协作解释。",
+    "loreSources": [
+      {
+        "title": "丹恒角色与天赋文本",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Dan_Heng",
+        "kind": "游戏文本转载",
+        "supports": "天赋在成为其他角色技能目标后提供穿透"
+      },
+      {
+        "title": "瓦尔特列车对话",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Welt/Dialogue",
+        "kind": "游戏文本转载",
+        "supports": "对丹恒的关切与保护关系"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1003",
+    "loreStatus": "有依据",
+    "loreComment": "轨道火力与追击都能让人辨认出姬子，火或智识同列可作为本作协同条件。不过原作追击的关键因果是击破蓄能；目前仅靠同行标签自动追击，人物辨识度尚在，行动逻辑已被简化。",
+    "loreProposal": "保留轨道追击；优先让追加攻击与本轮其他角色击破产生联系。姬子对三月七的摄影委派须注明改编，不能用关系证据证明离队收益。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：姬子",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/9?lang=en-us",
+        "kind": "官方",
+        "supports": "姬子群体火力与追击相关文本"
+      },
+      {
+        "title": "HoYoWiki：追加攻击",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1244?lang=en-us",
+        "kind": "官方",
+        "supports": "姬子追击由击破充能触发"
+      },
+      {
+        "title": "三月七故事与关系索引",
+        "url": "https://honkai-star-rail.fandom.com/wiki/March_7th/Lore",
+        "kind": "游戏文本转载",
+        "supports": "姬子制弓与照顾关系"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1004",
+    "loreStatus": "可接受改编",
+    "loreComment": "重力控制、禁锢与延缓敌方行动是瓦尔特的鲜明能力，降低反击可以视为这种能力的简化；列车保护也符合身份。增强虚数角色伤害是战斗规则抽象，不应叙述为他只会援助同属性人物。",
+    "loreProposal": "突出限制敌方行动这一主轴，增伤作为次要效果。智库外勤委派可作列车协作，但丹恒离队与属性收益不宜标成官方剧情。",
+    "loreSources": [
+      {
+        "title": "瓦尔特技能文本数据库",
+        "url": "https://starrail.honeyhunterworld.com/welt-character/?lang=EN",
+        "kind": "游戏文本转载",
+        "supports": "减速、禁锢与行动延缓的技能文本"
+      },
+      {
+        "title": "瓦尔特列车对话",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Welt/Dialogue",
+        "kind": "游戏文本转载",
+        "supports": "列车成员与丹恒关切关系"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "1005",
+    "loreStatus": "联系偏弱",
+    "loreComment": "雷与虚无增伤保留了卡芙卡的外在标签，却淡化了触发既有持续伤害与协同攻击的核心；扩散攻击额外受益更像数值分组，未核实有相应剧情理由。当前机制能当支援，但换名后也成立。",
+    "loreProposal": "重构重点应是引爆其他角色留下的伤害或在其行动后追加效果；若暂不新增机制，至少让增幅围绕既有负面状态，避免把扩散偏好包装成剧情设定。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：卡芙卡",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/791?lang=en-us",
+        "kind": "官方",
+        "supports": "星核猎手、言灵与人物身份"
+      },
+      {
+        "title": "卡芙卡战技原文数据库",
+        "url": "https://amphoreus.info/en/character/1005/v1",
+        "kind": "游戏文本转载",
+        "supports": "战技触发目标已有持续伤害"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1006",
+    "loreStatus": "可接受改编",
+    "loreComment": "银狼的以太编辑和削弱敌方防御可以合理抽象成队友增伤及敌方反击降低；星核猎手协同有身份基础。量子、单体的额外限制属于本作配队设计，不等于她在故事中只帮助这两类人物。",
+    "loreProposal": "保留黑客削弱主题，把受益原因写成针对敌方的漏洞或干扰；简化双层标签加成，避免单体标签成为她独有剧情关系的替代物。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：银狼",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/710?lang=en-us",
+        "kind": "官方",
+        "supports": "以太编辑、星核猎手身份与削防技能"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1008",
+    "loreStatus": "可接受改编",
+    "loreComment": "阿兰原作以消耗生命和已损生命强化攻击，低生命高输出抓住了他的承担风险与守卫形象。边缘条件是棋盘上的站位抽象，尚未核实有原作对应；共享生命也不同于原作阿兰自己的生命。",
+    "loreProposal": "保留低生命强化，并明确这里读取本作共享生命。边缘若用于表达独自守住入口，应注明改编意象，不再额外引入无依据的人际条件。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：阿兰",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/11?lang=en-us",
+        "kind": "官方",
+        "supports": "空间站安保负责人，保护研究者"
+      },
+      {
+        "title": "阿兰角色与技能",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Arlan",
+        "kind": "游戏文本转载",
+        "supports": "消耗生命和已损生命增伤的技能文本"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "1009",
+    "loreStatus": "联系偏弱",
+    "loreComment": "艾丝妲作为空间站主研究员擅长调度人员，原作主要以充能、攻击和速度支援团队；这能支持协作，却不足以证明她会永久训练火或巡猎角色。托帕熟识其家庭的关系线也不能自动推出结账后离队。",
+    "loreProposal": "改写为资源调度或当轮激励更贴近形象；若保留永久属性增加，标明本作的科研援助。托帕账目委派须另补具体对话，熟识不等于债权或师徒关系。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：艾丝妲",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/12?lang=en-us",
+        "kind": "官方",
+        "supports": "研究员与人员管理身份；速度支援"
+      },
+      {
+        "title": "艾丝妲故事与语音",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Asta/Lore",
+        "kind": "游戏文本转载",
+        "supports": "家庭及人物语音的复核入口；结账离队未获证实"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "1013",
+    "loreStatus": "可接受改编",
+    "loreComment": "人偶黑塔的旋转群攻是直接且容易辨认的角色标志，周期出现也适合本作的转轮节奏。但原作追击与敌方生命降到阈值相关，角落位置与固定三次登场属于本作设计，不应说成原作触发条件。",
+    "loreProposal": "保留旋转追击；若要强化原作辨识度，可把触发与敌方受伤或击破联系起来。角落只承担棋盘策略，避免再赋予额外剧情解释。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：黑塔",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/13?lang=en-us",
+        "kind": "官方",
+        "supports": "四星人偶黑塔身份"
+      },
+      {
+        "title": "HoYoWiki：追加攻击",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1244?lang=en-us",
+        "kind": "官方",
+        "supports": "黑塔追击在敌方生命降至阈值后触发"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1101",
+    "loreStatus": "有依据",
+    "loreComment": "布洛妮娅的指挥、鼓舞和强化他人行动契合增益角色定位，贝洛伯格条件也有地域身份基础。风标签是配队选择而非人物关系；佩拉报告交接可表现同僚协作，但结案删除与永久收益仍是本作机制。",
+    "loreProposal": "保留指挥一名或一组相邻角色的主轴；明确增益对象与持续时间。报告委派应描述为交接离场的本作规则，不能把报告语音扩写为普遍训练权。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：布洛妮娅（敌方形态）",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/93?lang=en-us",
+        "kind": "官方",
+        "supports": "银鬃铁卫指挥身份与战术支援"
+      },
+      {
+        "title": "佩拉故事与语音索引",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Pela/Lore",
+        "kind": "游戏文本转载",
+        "supports": "佩拉与布洛妮娅语音复核入口；具体报告语句本次未完整读取"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "1102",
+    "loreStatus": "有依据",
+    "loreComment": "击破后再攻击较好保留了希儿击杀再现的攻击节奏，适配本作无需完全复制原作额外回合。量子或虚无相邻属于配队限制；希儿与卢卡同为地火且有试炼互动，可支持切磋，不能自动支持制造卢卡副本。",
+    "loreProposal": "保留击破再现，尽量减少额外普通倍率。地火集训若保留，应解释为本作的离队委派，避免把删除受体和见习复制说成原作情节。",
+    "loreSources": [
+      {
+        "title": "希儿天赋：再现",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Resurgence",
+        "kind": "游戏文本转载",
+        "supports": "击败敌方后获得强化与额外行动"
+      },
+      {
+        "title": "卢卡同行任务：我的挚爱",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Mo_Cuishle",
+        "kind": "游戏文本转载",
+        "supports": "希儿参与卢卡试炼的任务文本"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1103",
+    "loreStatus": "可接受改编",
+    "loreComment": "希露瓦的电吉他、摇滚表演与雷系攻击能够支持同场共鸣式增伤；贝洛伯格身份也成立。不过按相邻人数提高威力是本作的演出抽象，缺少原作持续触电的特色。姐弟关系不表示杰帕德负责她的机械工作。",
+    "loreProposal": "保留演奏或雷电意象，表达上写共鸣即可。朗道装备检修若保留，调整主客关系或补足具体依据，不要仅凭姐弟身份推断谁训练、指挥或维修谁。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：希露瓦",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/16?lang=en-us",
+        "kind": "官方",
+        "supports": "摇滚乐手、雷系群体攻击与触电"
+      },
+      {
+        "title": "HoYoWiki：杰帕德（敌方形态）",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/92?lang=en-us",
+        "kind": "官方",
+        "supports": "明确希露瓦是杰帕德姐姐"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1104",
+    "loreStatus": "有依据",
+    "loreComment": "以护盾保护阵地非常贴合杰帕德与银鬃铁卫的角色形象，原作也提供全队护盾。相邻冰或贝洛伯格人数是本作限制，并无必要把它写成他拒绝保护其他人物的剧情。与希露瓦的关系属姐弟而非师徒。",
+    "loreProposal": "保留稳定护盾与守卫主题。装备检修委派应明确是本作安排，避免让杰帕德凭姐弟关系获得泛化的授业定位；检修内容可考虑由擅长机械的希露瓦承担。",
+    "loreSources": [
+      {
+        "title": "杰帕德终结技：永屹之壁",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Enduring_Bulwark",
+        "kind": "游戏文本转载",
+        "supports": "为全队提供护盾"
+      },
+      {
+        "title": "HoYoWiki：杰帕德（敌方形态）",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/92?lang=en-us",
+        "kind": "官方",
+        "supports": "银鬃铁卫身份及朗道姐弟关系"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1105",
+    "loreStatus": "有依据",
+    "loreComment": "娜塔莎是诊所医生与地火成员，恢复生命有明确人物和技能基础。按巡猎或毁灭人数提高恢复量属于编队抽象；若没有表现伤病或急救条件，玩家容易误以为她的医疗能力只服务这两类人物。",
+    "loreProposal": "保留治疗主轴，优先用低生命、受伤等可读条件体现医生判断；公开标签限制可用于配队，但应避免追加没有依据的对象关系故事。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：娜塔莎",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/18?lang=en-us",
+        "kind": "官方",
+        "supports": "地下医生身份与治疗技能"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1106",
+    "loreStatus": "可接受改编",
+    "loreComment": "佩拉的情报分析与削弱敌方防御，合理转译为同列角色造成更多伤害；目前把敌方弱点效果写为冰或贝洛伯格角色的专享增益，会模糊其情报官特色。报告交接有同僚基础，收益与离队不是官方剧情。",
+    "loreProposal": "把语言聚焦揭示敌方弱点或提供情报；保留同列策略但减少属性门槛。布洛妮娅报告委派须标为本作事件，勿以交报告等同永久受训。",
+    "loreSources": [
+      {
+        "title": "佩拉终结技：领域压制",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Zone_Suppression",
+        "kind": "游戏文本转载",
+        "supports": "降低敌方防御的机制文本"
+      },
+      {
+        "title": "HoYoWiki：佩拉",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/19?lang=en-us",
+        "kind": "官方",
+        "supports": "银鬃铁卫情报相关身份"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1107",
+    "loreStatus": "需重构",
+    "loreComment": "史瓦罗保护克拉拉并反击攻击她的敌方，是非常明确的关系与因果。当前达到护盾值后在常规攻击后自动追加，更像护盾炮台，失去了受保护者遇险、守护者应战的核心；与虎克的朋友关系不能补足这一因果。",
+    "loreProposal": "优先把史瓦罗触发改成受到敌方攻击或护盾承伤后的反击；若暂时保留原机制，应称史瓦罗援护攻击。鼹鼠队委派明确是朋友协作，避免写成克拉拉训练虎克。",
+    "loreSources": [
+      {
+        "title": "克拉拉天赋：因为我们是家人",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Because_We%27re_Family",
+        "kind": "游戏文本转载",
+        "supports": "史瓦罗在克拉拉受击后施加标记并反击"
+      },
+      {
+        "title": "克拉拉角色故事第二篇",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Clara/Lore",
+        "kind": "游戏文本转载",
+        "supports": "虎克是克拉拉的第一位朋友与鼹鼠党联系"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1108",
+    "loreStatus": "联系偏弱",
+    "loreComment": "桑博的风化和使敌方持续伤害承伤提高，能支持削弱敌方的方向；现版只保留风或虚无邻接增伤，再追加降低反击，人物辨识主要依赖标签。狡黠商人形象不等于任意减伤效果都有剧情依据。",
+    "loreProposal": "以扰敌、设局或延续既有负面效果为一条主线；现引擎不支持持续伤害时，至少把增伤解释为敌方破绽，合并泛化的双支援效果。",
+    "loreSources": [
+      {
+        "title": "桑博终结技：惊喜礼盒",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Surprise_Present",
+        "kind": "游戏文本转载",
+        "supports": "使敌方受到的持续伤害增加"
+      },
+      {
+        "title": "HoYoWiki：假面愚者",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/970?lang=en-us",
+        "kind": "官方",
+        "supports": "桑博与假面愚者身份关联"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "1109",
+    "loreStatus": "可接受改编",
+    "loreComment": "虎克的爆破、强化攻击和火伤都符合鼹鼠党冒险者形象；固定三次登场是本作节奏，边缘不具有明确原作依据。克拉拉与她的友谊有角色故事支持，但不能自然推导出克拉拉主持训练、虎克反复被制造或离队。",
+    "loreProposal": "保留积蓄后爆破的直观主题；位置限制仅当作本作站位。鼹鼠队委派写成共同冒险后暂离，并明确永久移除是游戏规则。",
+    "loreSources": [
+      {
+        "title": "虎克角色与技能",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Hook",
+        "kind": "游戏文本转载",
+        "supports": "爆破终结技、强化战技及火伤"
+      },
+      {
+        "title": "克拉拉故事第二篇",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Clara/Lore",
+        "kind": "游戏文本转载",
+        "supports": "虎克主动结交克拉拉的关系"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1205",
+    "loreStatus": "可接受改编",
+    "loreComment": "刃以生命消耗、受伤积累和恢复生命构成危险剑客形象，低生命强化有足够来源。要求周围大量空位会更像孤立独行，但原作技能也依赖承伤和队友支持；星核猎手邻接永久增量是本作追加的另一条轴。",
+    "loreProposal": "保留以损血换爆发的主轴，空位与永久增加属性择一，避免将孤独性格机械化成完全拒绝协作。说明读取的是本作共享生命而非刃的个人生命。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki社区角色资料：刃",
+        "url": "https://wiki.hoyolab.com/pc/hsr/character/789",
+        "kind": "第三方资料",
+        "supports": "HoYoLAB社区资料页转载的星核猎手与自愈人物介绍；不作为官方作者攻略"
+      },
+      {
+        "title": "HoYoWiki：追加攻击",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1244?lang=en-us",
+        "kind": "官方",
+        "supports": "刃受击积累后追击并恢复生命"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1204",
+    "loreStatus": "可接受改编",
+    "loreComment": "景元与神君是有原作能力基础的组合，周期发动神君攻击能保留蓄势与指挥的感觉。雷或智识同列只是配队规则，原作神君并不由该标签人数决定；神君也不应被替换为与景元无关的人物召唤。",
+    "loreProposal": "保留神君这个专属意象，并让景元或同场角色的行动积累体现蓄势。无需为统一实体称呼强行创建另一名既有可玩人物；若落格，则写创建神君角色并自带期限。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：景元",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/26?lang=en-us",
+        "kind": "官方",
+        "supports": "神君攻击与景元技能增加神君攻击段数"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1203",
+    "loreStatus": "可接受改编",
+    "loreComment": "罗刹的治疗与生息结界是稳定来源，治疗溢出转盾可接受为本作生存机制抽象，不能声称是原作常规技能逐字移植。虚数或毁灭相邻是配队条件；未核实任何把罗刹设为通用授业导师的剧情依据。",
+    "loreProposal": "保留救治主轴并直接写治疗与转盾；避免额外加入无来源的训练、召唤既有人物或师徒关系。若未来需要导师，优先用原作明确教学人物。",
+    "loreSources": [
+      {
+        "title": "罗刹战技",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Prayer_of_Abyss_Flower",
+        "kind": "游戏文本转载",
+        "supports": "救治角色并获得白花之刻"
+      },
+      {
+        "title": "罗刹天赋",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Cycle_of_Life",
+        "kind": "游戏文本转载",
+        "supports": "结界中角色攻击可触发治疗"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "1208",
+    "loreStatus": "可接受改编",
+    "loreComment": "符玄以预见和穷观阵分担、降低团队伤害，减少反击比单纯造盾更贴近能力。护盾可作简化但与杰帕德容易同质化；青雀是太卜司下属的关系成立，轮值交接的离队和复制供给属于本作演绎。",
+    "loreProposal": "突出预见后降低伤害，减少同时造盾的重复表达。太卜司轮值可保留上下级协作解释，不把见习青雀副本或永久收益称为官方剧情。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：符玄",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/804?lang=en-us",
+        "kind": "官方",
+        "supports": "太卜司、预见与穷观阵身份及技能"
+      },
+      {
+        "title": "HoYoWiki：青雀",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/24?lang=en-us",
+        "kind": "官方",
+        "supports": "太卜司卜者身份"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1201",
+    "loreStatus": "联系偏弱",
+    "loreComment": "青雀的帝垣琼玉和凑牌爆发是最鲜明的设计来源；每三次登场固定爆发只剩充能节奏，难以辨认其摸牌与成套的乐趣。量子、同谐同行没有明确叙事联系，太卜司上下级关系也不要求转成师徒培养。",
+    "loreProposal": "重构为可见、易懂的凑牌或同标签成套后爆发，保留随机性与取舍；若暂不扩展系统，至少用公开摆盘结果形成条件，而非纯固定周期。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：青雀",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/24?lang=en-us",
+        "kind": "官方",
+        "supports": "帝垣琼玉、摸牌及四张同花色后强化"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1202",
+    "loreStatus": "有依据",
+    "loreComment": "停云把祝福给予一名角色并强化其输出，有原作赐福机制支持，选择最高威力者也能表现协调能力。雷或巡猎条件是本作的配队筛选；不应把四星停云的技能解释为她与所有这类人物有特殊剧情关系。",
+    "loreProposal": "保留单名角色赐福的核心，表达上明确选择顺序与持续时间。人物剧情审核应区分四星停云、剧情中的冒用者与忘归人，避免混用其身份能力。",
+    "loreSources": [
+      {
+        "title": "停云战技：祥音和韵",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Soothing_Melody",
+        "kind": "游戏文本转载",
+        "supports": "单名角色获得攻击提升与雷附加伤害"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1110",
+    "loreStatus": "可接受改编",
+    "loreComment": "玲可是野外生存专家，治疗与提高生存能力符合露营补给形象；原作对毁灭和存护对象的效果确有额外区别。因此毁灭条件并非完全空泛，但量子同类和低生命造盾仍是本作抽象，非固定救治对象。",
+    "loreProposal": "保留野外补给与危急支援的主题；可用明确生命属性增加或治疗替代泛用护盾，避免与白露、藿藿形成只换标签的同一结构。",
+    "loreSources": [
+      {
+        "title": "玲可战技：盐渍露营罐头",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Salted_Camping_Cans",
+        "kind": "游戏文本转载",
+        "supports": "恢复生命、提高生命上限，对毁灭及存护改变受击倾向"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1111",
+    "loreStatus": "可接受改编",
+    "loreComment": "卢卡的拳击、裂伤和终结技提高敌方承伤，为单体支援提供了合理机制来源；但现版只让物理或巡猎攻击者受益，拳手形象较淡。希儿陪同其试炼有任务依据，属于战友切磋，并非已证实的正式师徒。",
+    "loreProposal": "保留单体破绽或蓄拳的意象，增伤优先围绕一个被打击目标。地火集训写成切磋协作，避免将卢卡永久离队与希儿属性上涨包装成原作事件。",
+    "loreSources": [
+      {
+        "title": "卢卡角色与技能",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Luka",
+        "kind": "游戏文本转载",
+        "supports": "拳击、裂伤与终结技提高目标承伤"
+      },
+      {
+        "title": "卢卡同行任务：我的挚爱",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Mo_Cuishle",
+        "kind": "游戏文本转载",
+        "supports": "希儿参与卢卡的试炼"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1112",
+    "loreStatus": "有依据",
+    "loreComment": "账账是托帕持续同行并发动追击的扑满，追击与信用点两条意象都有直接来源。巡猎或公司同列限制是本作设计，不能据此让所有公司人物代替账账。托帕与艾丝妲熟识也不足以单独证明债务结清或主持委派。",
+    "loreProposal": "保留账账追击和经济特色，明确账账使用谁的威力；若需要落格实体，可创建账账角色并自带离场技能。艾丝妲账目委派应补具体债务依据或改为一般事务协作。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：托帕与账账",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1389?lang=en-us",
+        "kind": "官方",
+        "supports": "公司债务团队身份与账账技能"
+      },
+      {
+        "title": "HoYoWiki：追加攻击",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1244?lang=en-us",
+        "kind": "官方",
+        "supports": "账账追击及其他追击推动其行动"
+      },
+      {
+        "title": "托帕与账账秘技：明补",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Explicit_Subsidy",
+        "kind": "游戏文本转载",
+        "supports": "账账寻找宝箱，击败敌方后获得额外信用点"
+      },
+      {
+        "title": "艾丝妲故事与语音",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Asta/Lore",
+        "kind": "游戏文本转载",
+        "supports": "人物关系线的复核入口；结清债务本次未证实"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1206",
+    "loreStatus": "有依据",
+    "loreComment": "素裳的家传剑术、剑势追加攻击与云骑新兵身份，使剑势成为可信且好辨认的技能。边缘与残余敌列是本作收残局条件，原作更强调对弱点击破目标发动剑势；并不需要靠无关系人物的召唤来表现她。",
+    "loreProposal": "保留剑势追加，优先让条件呼应受伤或击破目标；边缘条件可精简。她与桂乃芬、丹恒等任务互动可做关系素材，但不要仅凭同属性就制造师徒或召援绑定。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：素裳",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/27?lang=en-us",
+        "kind": "官方",
+        "supports": "家传剑、云骑受训身份及剑势追加"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1207",
+    "loreStatus": "联系偏弱",
+    "loreComment": "驭空的飞行经历、司舵职责与鸣弦增益支持她作短时战术支援；未核实她会永久教授任意虚数或巡猎角色。每两次登场只培养最强一人，更像通用养成装置，人物选择与剧情经历之间缺乏可读连接。",
+    "loreProposal": "改为鸣弦指挥下的当轮或限次攻击提升，突出时机选择。若保留永久属性增加，应提供具体被指导者和事件依据，不能把同属性等同亲近或教学关系。",
+    "loreSources": [
+      {
+        "title": "驭空战技：天阙鸣弦",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Emboldening_Salvo",
+        "kind": "游戏文本转载",
+        "supports": "有限层数鸣弦期间强化全队攻击"
+      },
+      {
+        "title": "驭空故事与人物介绍",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Yukong/Lore",
+        "kind": "游戏文本转载",
+        "supports": "司舵、飞行员经历；普遍授业关系未核实"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1209",
+    "loreStatus": "可接受改编",
+    "loreComment": "彦卿的剑术与智剑连心强调维持状态、避免直接受伤，护盾保护下强化能很好转译这一节奏。边缘位置是本作安全站位的抽象，并无已核实的原作空间要求；他与景元的关系不等于所有存护人物都是其导师。",
+    "loreProposal": "保留护盾或未受伤这一核心条件，边缘条件酌情删除。若增加师徒内容，应使用景元等明确关系，并与普通标签协同分开标注。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：彦卿",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/28?lang=en-us",
+        "kind": "官方",
+        "supports": "景元侍卫、剑术及智剑连心相关文本"
+      },
+      {
+        "title": "HoYoWiki：追加攻击",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1244?lang=en-us",
+        "kind": "官方",
+        "supports": "智剑连心下的追加攻击"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1210",
+    "loreStatus": "可接受改编",
+    "loreComment": "桂乃芬的烟花杂耍、灼烧与火噬提高敌方承伤，能支撑火系或虚无角色受益的简化，但现版纯增伤光环较少表现街头演出。与藿藿共同捉鬼有任务依据；直播收工是改编事件，非正式指挥关系。",
+    "loreProposal": "保留火噬或杂耍造成破绽的主题，避免仅列标签加成。捉鬼直播委派可写共同完成委托，注明删除角色与信用点收益是本作机制。",
+    "loreSources": [
+      {
+        "title": "桂乃芬角色与技能",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Guinaifen",
+        "kind": "游戏文本转载",
+        "supports": "灼烧后火噬提高承伤"
+      },
+      {
+        "title": "任务：游园惊梦",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Sojourners%27_Ghastly_Reverie",
+        "kind": "游戏文本转载",
+        "supports": "桂乃芬与藿藿、十王司共同捉鬼的互动"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1211",
+    "loreStatus": "可接受改编",
+    "loreComment": "白露的医师身份、治疗与生息保护都支持生存角色定位，低生命时额外保护也合理。但统一写成护盾会与符玄等人混同，原作生息更强调受击恢复；雷或丰饶相邻只是规则偏好，不能当作救治名单。",
+    "loreProposal": "保留治疗，额外保护优先表达为下一次受击后恢复，或明确生命回复量；如维持护盾，应注明为本作转译，避免把同标签写成剧情上的医疗资格。",
+    "loreSources": [
+      {
+        "title": "白露终结技：匏蛟跃渊",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Felicitous_Thunderleap",
+        "kind": "游戏文本转载",
+        "supports": "群体治疗并施加生息保护"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1212",
+    "loreStatus": "联系偏弱",
+    "loreComment": "镜流的月相、转魄状态和汲取同伴生命强化剑术，是原作明确的力量代价。当前只要求共享生命低于阈值并周期追击，容易与刃同质，也把代价变成了被动享受低血；冰或毁灭同行不足以解释这种转化。",
+    "loreProposal": "重构为清楚的蓄势后强化剑击，并设置真实可读的代价；即使不照搬扣血，也应让月相转化成为主线。不要把任意低生命条件直接等同原作转魄。",
+    "loreSources": [
+      {
+        "title": "镜流天赋：澹月转魄",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Crescent_Transmigration",
+        "kind": "游戏文本转载",
+        "supports": "朔望层数进入转魄并消耗其他角色生命"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1214",
+    "loreStatus": "可接受改编",
+    "loreComment": "雪衣的判官、偃偶和业报追击意象都能对应天罚式追加攻击。原作核心是自身与同伴削减韧性累计业报，角落和三次登场则是本作节奏替换；姐妹休假有情感基础，但具体离队收益不可当作官方规则。",
+    "loreProposal": "保留天罚或业报意象，条件优先与攻击、击破或结案发生联系。寒鸦休假委派明确为照顾姐姐的本作事件，避免暗示妹妹对姐姐进行普遍授业。",
+    "loreSources": [
+      {
+        "title": "雪衣天赋：业报永动",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Karmic_Perpetuation",
+        "kind": "游戏文本转载",
+        "supports": "削减韧性累计业报后追击"
+      },
+      {
+        "title": "雪衣语音文本",
+        "url": "https://starrail.honeyhunterworld.com/xueyi-character/?lang=EN",
+        "kind": "游戏文本转载",
+        "supports": "寒鸦为其姐妹及十王司职责"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1215",
+    "loreStatus": "联系偏弱",
+    "loreComment": "寒鸦的判读罪业、下达判词与恢复团队行动资源有明确形象，信用点可视为本作资源转译；定期永久训练物理或毁灭角色缺少已核实依据。她与雪衣是姐妹和同僚，关心姐姐不应被误写成授业关系。",
+    "loreProposal": "将主轴改为判词结案、恢复行动资源或有期限的指挥增益；若保留永久增量，注明其为本作规则而非导师能力。雪衣休假可以表现关怀，但需保留主体性。",
+    "loreSources": [
+      {
+        "title": "寒鸦战技：生灭系缚",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Samsara%2C_Locked",
+        "kind": "游戏文本转载",
+        "supports": "施加承负并在攻击积累后恢复战技点"
+      },
+      {
+        "title": "HoYoWiki社区角色资料：寒鸦",
+        "url": "https://wiki.hoyolab.com/pc/hsr/character/1537?lang=id-id",
+        "kind": "第三方资料",
+        "supports": "HoYoLAB社区资料页的十王司判官、雪衣姐妹介绍；普遍授业未核实"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1217",
+    "loreStatus": "可接受改编",
+    "loreComment": "藿藿治疗与尾巴协助驱邪有鲜明原作基础，治疗加护盾是可以接受但较通用的生存转译，当前未表现她与尾巴的互动。与桂乃芬共同捉鬼成立；藿藿是见习判官，并非已确证的普遍训练导师。",
+    "loreProposal": "保留救治和驱邪，额外效果优先与尾巴或清除不利影响联系。直播委派按共同任务描述，别把共享经历扩写为师徒、召唤权或制造桂乃芬副本的能力。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：藿藿",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1533?lang=en-us",
+        "kind": "官方",
+        "supports": "见习判官、尾巴与治疗相关文本"
+      },
+      {
+        "title": "任务：游园惊梦",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Sojourners%27_Ghastly_Reverie",
+        "kind": "游戏文本转载",
+        "supports": "与桂乃芬、十王司共同处理捉鬼事件"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1218",
+    "loreStatus": "有依据",
+    "loreComment": "椒丘是以食为药的医士与飞霄幕僚，但原作战斗核心确为灼烧、烬煨及提高敌方承伤，因此支援增伤并不违背身份。降低反击可作为削弱敌方的抽象；火或虚无同行只是配队，不是他故事中的医疗对象。",
+    "loreProposal": "保留烬煨式弱化，语言突出敌方受影响这一原因；若加入剧情关系，可优先飞霄、貊泽等已确认同行，不把同命途全体说成其病人或学生。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：椒丘",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/2643?lang=en-us",
+        "kind": "官方",
+        "supports": "曜青医士、飞霄幕僚及烬煨易伤技能"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1220",
+    "loreStatus": "可接受改编",
+    "loreComment": "飞霄的飞黄积累与协同追击本就依赖同伴攻击，固定登场周期追击能做简化，但少了并肩狩猎的行动因果。风或巡猎相邻仍是编队抽象，边缘爆发未核实原作依据；飞黄是力量计数而非另一个人物。",
+    "loreProposal": "把追击条件尽量挂在其他角色攻击上，保留迅捷狩猎主轴；飞黄不要改写成被召唤的人物。若扩展关系，应优先检查椒丘、貊泽的同行身份。",
+    "loreSources": [
+      {
+        "title": "飞霄天赋：雷狩",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Thunderhunt",
+        "kind": "游戏文本转载",
+        "supports": "其他角色攻击积累飞黄并触发飞霄追击"
+      },
+      {
+        "title": "HoYoWiki：椒丘",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/2643?lang=en-us",
+        "kind": "官方",
+        "supports": "椒丘为飞霄医士与幕僚的关系"
+      }
+    ],
+    "loreConfidence": "中等"
+  },
+  {
+    "id": "1221",
+    "loreStatus": "需重构",
+    "loreComment": "云璃的看破来自招架、挑衅与应对敌方行动，体现后发制人的剑术。当前护盾达标后在常规攻击后追加，缺少等待、招架和受击的因果，而且与克拉拉结构近乎重叠，人物的剑术差异难以辨认。",
+    "loreProposal": "重构为可见的招架时机：受到攻击后还击，或等待一轮后发动较弱斩击；若保留当前时序则改称剑击。不要仅提高护盾门槛来区分她与克拉拉。",
+    "loreSources": [
+      {
+        "title": "云璃角色与终结技",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Yunli",
+        "kind": "游戏文本转载",
+        "supports": "招架、挑衅及看破斩击的触发规则"
+      },
+      {
+        "title": "云璃秘技：后发先至",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Posterior_Precedence",
+        "kind": "游戏文本转载",
+        "supports": "进入战斗时发动看破斩击的特例"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1222",
+    "loreStatus": "可接受改编",
+    "loreComment": "灵砂是丹鼎司医士，熏香与浮元的连续治疗让她具有明确身份。恢复生命贴合原作，但把浮元写成每四次提供护盾，较弱地保留了灵兽救治的因果；火或毁灭邻接是本作配队，不代表浮元只照顾这些人物。",
+    "loreProposal": "保留浮元与熏香治疗，考虑以周期治疗或解除不利状态代替泛用护盾。若创建实体，写创建浮元角色并让它自带行动次数与删除自身规则。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：灵砂",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/2948?lang=en-us",
+        "kind": "官方",
+        "supports": "医士、熏香诊疗与治疗"
+      },
+      {
+        "title": "HoYoWiki：追加攻击",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1244?lang=en-us",
+        "kind": "官方",
+        "supports": "浮元为限次行动的召唤物并发动群体效果"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1223",
+    "loreStatus": "联系偏弱",
+    "loreComment": "貊泽隐匿的刺客形象允许用少邻接表现潜行，但原作离场状态仍依赖同伴攻击猎物来完成追击，而非越孤立越强。当前只保留孤僻外观，丢失暗中协作；这不是剧情硬错误，却浪费了他与团队配合的特色。",
+    "loreProposal": "改为其他角色攻击指定目标后，貊泽从隐匿中补刀或追击；若保留少邻接增伤，可用同列或非相邻支援体现远距协作，别写成他拒绝所有同伴。",
+    "loreSources": [
+      {
+        "title": "貊泽天赋：迅羽掠袭",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Cascading_Featherblade",
+        "kind": "游戏文本转载",
+        "supports": "猎物存在时离场，队友攻击后消耗充能并追击"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1301",
+    "loreStatus": "可接受改编",
+    "loreComment": "加拉赫的调饮和酩酊救治有鲜明原作机制，治疗本身有依据；现版按火或虚无人数直接恢复，缺少攻击酩酊目标即可获得治疗的招牌因果，因此与其他治疗者只剩标签区别。其复杂身份不宜仅凭外表随意补写导师关系。",
+    "loreProposal": "保留调饮救治，优先改成角色攻击目标后恢复生命或有条件的救急；避免另造授业、召唤某人的剧情。若涉及其真实身份，给任务出处并标注剧透。",
+    "loreSources": [
+      {
+        "title": "HoYoWiki：加拉赫",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1924?lang=en-us",
+        "kind": "官方",
+        "supports": "调饮师表象、酩酊及攻击触发治疗的技能"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1302",
+    "loreStatus": "有依据",
+    "loreComment": "银枝以纯美信仰施展华丽群体攻击，积蓄后向全场发动礼赞很容易辨认。固定四次登场是本作把能量蓄积压缩为周期的合理改编，无需额外绑定陌生人物；纯美礼赞应明确是本作命名而非原作技能逐字引用。",
+    "loreProposal": "保留蓄势后全场礼赞；可让玩家看见剩余登场次数，形成等待高潮。若需进一步区分，使用原作可选蓄能强度的取舍，避免只堆追加数值。",
+    "loreSources": [
+      {
+        "title": "银枝角色与终结技",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Argenti",
+        "kind": "游戏文本转载",
+        "supports": "纯美骑士身份与两档能量的群体终结技"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1303",
+    "loreStatus": "联系偏弱",
+    "loreComment": "阮梅的生命科学研究、模拟宇宙合作与团队增益，允许一定的研究强化抽象；但永久训练冰或智识角色并非已核实的原作授业关系，且没有体现击破效率、延长破韧等特色。科学家身份不能自动证明任意角色都是实验对象。",
+    "loreProposal": "优先重构为与击破、解析或研究阶段有关的支援；若保留永久属性增加，要说明这是本作研究援助，并限制因果，不将角色当作无依据的学生或实验材料。",
+    "loreSources": [
+      {
+        "title": "阮梅战技：慢捻抹复挑",
+        "url": "https://honkai-star-rail.fandom.com/wiki/String_Sings_Slow_Swirls",
+        "kind": "游戏文本转载",
+        "supports": "提高全队伤害与弱点击破效率"
+      },
+      {
+        "title": "HoYoWiki：碎星王虫（复制体）",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1851?lang=en-us",
+        "kind": "官方",
+        "supports": "生命科学实验意象的具体事件；不能泛化成人物授业"
+      }
+    ],
+    "loreConfidence": "较高"
+  },
+  {
+    "id": "1304",
+    "loreStatus": "可接受改编",
+    "loreComment": "砂金的护盾、筹码与风险收益是明确的原作特色，公司同场也有身份基础。护盾足够后产出信用点能表现财富意象，但原作主要把承伤筹码转成追击；若只剩稳定护盾加钱，赌局和反攻的特色会被削弱。",
+    "loreProposal": "保留护盾与筹码的相互转化；可让承伤或同伴追击推动回报，信用点作为本作资源改编。不要把所有公司人物的标签协同讲成亲密剧情或债务关系。",
+    "loreSources": [
+      {
+        "title": "砂金角色与技能",
+        "url": "https://honkai-star-rail.fandom.com/wiki/Aventurine",
+        "kind": "游戏文本转载",
+        "supports": "坚垣筹码、受击累计盲注与追加攻击"
+      },
+      {
+        "title": "HoYoWiki：战略投资部",
+        "url": "https://wiki.hoyolab.com/pc/hsr/entry/1811?lang=en-us",
+        "kind": "官方",
+        "supports": "砂金、托帕等公司部门身份关联"
+      }
+    ],
+    "loreConfidence": "较高"
+  }
+]

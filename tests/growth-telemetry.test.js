@@ -14,7 +14,7 @@ function fixture(ids, seed = 'growth-telemetry') {
 }
 
 function assertDamageLedger(result) {
-  assert.deepEqual(result.hits.map(({ cell, targetCol, amount }) => ({ cell, targetCol, amount })), result.state.lastSpin.hits);
+  assert.deepEqual(result.hits.map(({kind,sourceType,stage,...hit}) => hit), result.state.lastSpin.hits);
   assert.equal(Math.round(result.hits.reduce((sum, hit) => sum + hit.amount, 0) * 100) / 100, result.state.lastSpin.damage);
 }
 
@@ -42,9 +42,11 @@ test('global item damage keeps its item source even when legacy hits use cell ze
   state.round = 3;
   const result = inspectSpin(state);
   assertDamageLedger(result);
-  assert.equal(result.hits.length, 5);
-  for (const hit of result.hits) {
-    assert.deepEqual(hit, { cell: 0, targetCol: hit.targetCol, amount: 2, kind: 'effect', sourceType: 'item', sourceId: 'meteorite', stage: 'afterAttacks' });
+  const itemHits = result.hits.filter(hit=>hit.sourceType==='item');
+  assert.equal(itemHits.length, 5);
+  assert.equal(result.hits.filter(hit=>hit.sourceType==='character' && hit.attackType==='normal').length,1);
+  for (const hit of itemHits) {
+    assert.deepEqual(hit, { cell: 0, targetCol: hit.targetCol, amount: 2, kind: 'effect', sourceType: 'item', sourceId: 'meteorite', stage: 'afterAttacks', attackType:'environmental', eventId:hit.eventId });
   }
 });
 
@@ -69,6 +71,7 @@ test('Seele resurgence remains attributed character skill damage and records act
   const layoutUids=Array(20).fill(null);layoutUids[6]='u1';layoutUids[7]='u2';
   const result = inspectControlled(state,{layoutUids});
   assertDamageLedger(result);
+  result.hits=result.hits.filter(hit=>hit.sourceUid==='u1');
   assert.equal(result.hits.length, 2);
   assert.equal(new Set(result.hits.map(hit => hit.targetCol)).size, 2);
   for (const hit of result.hits) {

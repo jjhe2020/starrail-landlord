@@ -141,7 +141,7 @@ const output = {
   lowestGrowth: [...attackRows].sort((a, b) => a.endGrowth - b.endGrowth).slice(0, 12),
   highestProbeDamage: [...attackRows].sort((a, b) => b.probeDamage - a.probeDamage).slice(0, 10),
   lowestProbeDamage: [...attackRows].sort((a, b) => a.probeDamage - b.probeDamage).slice(0, 10),
-  supports: recomputed.filter(c => c.attack === 'support').sort((a, b) => b.probePower - a.probePower).slice(0, 8),
+  supports: recomputed.filter(c => c.role ? c.role !== 'attack' : c.attack === 'support').sort((a, b) => b.probePower - a.probePower).slice(0, 8),
   sampleLimits: { below100: recomputed.filter(c => c.probeN < 100).map(c => ({ id: c.id, name: c.name, n: c.probeN })), minN: Math.min(...recomputed.map(c => c.probeN)), maxN: Math.max(...recomputed.map(c => c.probeN)), failedRunCount: all.filter(c => c.phase === 'defeat').length },
   cards: recomputed,
 };

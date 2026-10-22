@@ -6,7 +6,7 @@ import { matchesEffectFilter, effectAmount, trainingMultiplier } from '../src/ef
 
 const effect = (type, value, extra = {}) => ({ type, value, trigger: 'appearance', duration: 'spin', target: 'self', stacking: 'additive', summary: '受控机制探针', ...extra });
 function withKits(specs, fn) {
-  const snapshots = specs.map(([id, spec]) => { const c = characterById(id); const before = { ...c }; Object.assign(c, { kitVersion: 6, effects: [], power: 3, attack: 'support', element: '量子', ...spec }); return [c, before]; });
+  const snapshots = specs.map(([id, spec]) => { const c = characterById(id); const before = { ...c }; Object.assign(c, { kitVersion:8,effects:[],power:3,baseAttack:3,baseAttackByStar:[0,3,9,27],attack:spec.attack || 'single',normalAttack:{pattern:spec.attack || 'single',primary:spec.attack==='single'?3:.1,adjacent:1,eachTarget:1},element:'量子',faction:'测试',path:'测试',...spec }); return [c, before]; });
   try { return fn(); } finally { for (const [c, before] of snapshots) { for (const key of Object.keys(c)) delete c[key]; Object.assign(c, before); } }
 }
 function fixture(ids, { enemyAttack = 0, growth = {}, seed = 'v060-roles' } = {}) {
@@ -20,18 +20,18 @@ function fixture(ids, { enemyAttack = 0, growth = {}, seed = 'v060-roles' } = {}
 }
 const ownDamage = (result, id) => result.hits.filter(hit => hit.sourceType === 'character' && hit.sourceId === id).reduce((sum, hit) => sum + hit.amount, 0);
 
-test('formal tag and role filters read trusted definitions and training never amplifies training itself', () => withKits([
+test('formal tag and role filters read trusted definitions and permanent ATK never creates an extra hidden training multiplier', () => withKits([
   ['1001', { role: 'defense', element: '冰', faction: '贝洛伯格' }], ['1002', { role: 'attack', attack: 'single', element: '冰', faction: '星穹列车' }],
 ], () => {
   assert.equal(matchesEffectFilter({ id: '1002' }, { faction: '星穹列车', role: 'attack' }), true);
   assert.equal(matchesEffectFilter({ id: '1001', faction: '星穹列车' }, { faction: '星穹列车' }), false);
   assert.equal(matchesEffectFilter({ id: '1001' }, { element: '冰', roleNot: 'attack' }), true);
-  assert.equal(trainingMultiplier({ id: '1001', growth: 10 }), 1.8);
-  assert.equal(effectAmount(effect('shield', 10, { scaleWithTraining: true }), { unit: { id: '1001', growth: 10 } }), 18);
+  assert.equal(trainingMultiplier({ id: '1001', attackBonus:10, growth:10 }), 1);
+  assert.equal(effectAmount(effect('shield', 10, { scaleWithTraining: true }), { unit: { id:'1001',attackBonus:10,growth:10 } }), 10);
   assert.equal(effectAmount(effect('growth', .3, { scaleWithTraining: true }), { unit: { id: '1001', growth: 10 } }), .3);
 }));
 
-test('conditional defense requires matching teammates and training increases shield rather than attacks', () => withKits([
+test('conditional flat defense requires matching characters and permanent ATK changes normal attacks', () => withKits([
   ['1001', { role: 'defense', element: '冰', effects: [effect('shield', 5, { scaleWithTraining: true, condition: { metric: 'presentDistinct', value: 1, filter: { element: '冰', excludeSelf: true } } })] }],
   ['1002', { role: 'attack', attack: 'single', element: '冰' }], ['1013', { role: 'attack', attack: 'aoe', element: '火' }],
 ], () => {
@@ -39,10 +39,10 @@ test('conditional defense requires matching teammates and training increases shi
   const wrong = inspectSpin(fixture(['1001', '1013']));
   const trained = inspectSpin(fixture(['1001', '1002'], { growth: { '1001': 10 } }));
   const amount = r => r.state.lastSpin.effects.filter(e => e.sourceId === '1001' && e.type === 'shield').reduce((s, e) => s + e.amount, 0);
-  assert.equal(amount(matched), 5); assert.equal(amount(wrong), 0); assert.equal(amount(trained), 9);
-  assert.equal(ownDamage(trained, '1001'), 0);
+  assert.equal(amount(matched), 5); assert.equal(amount(wrong), 0); assert.equal(amount(trained),5,'flat effects without ATK coefficient do not scale with permanent ATK');
+  assert.equal(ownDamage(trained,'1001'),1.3);
   const cell = trained.state.board.findIndex(u => u?.id === '1001');
-  assert.equal(trained.state.lastSpin.powerBreakdown[cell].growth, 0);
+  assert.equal(trained.state.lastSpin.powerBreakdown[cell].permanent, 10);
 }));
 
 test('bound trainers grow the matching permanent teammate and cannot train themselves or another trainer', () => withKits([
@@ -65,19 +65,21 @@ test('vulnerability applies only to the specified attacking element and shape, i
   const c = characterById('1006'), effects = c.effects; c.effects = []; const off = inspectSpin(state); c.effects = effects;
   assert.ok(Math.abs(ownDamage(on, '1002') / ownDamage(off, '1002') - 1.25) < .002);
   assert.equal(ownDamage(on, '1013'), ownDamage(off, '1013'));
-  assert.equal(ownDamage(on, '1006'), 0);
+  assert.equal(ownDamage(on,'1006'),ownDamage(off,'1006'),'unmatched support damage is unchanged by the source-filtered vulnerability');
+  assert.ok(ownDamage(on,'1006')>0);
   assert.deepEqual(on.state, spin(state));
   assert.equal(Math.round(on.hits.reduce((sum, hit) => sum + hit.amount, 0) * 100) / 100, on.state.lastSpin.damage);
 }));
 
-test('amplifiers cannot become attackers and their combined multiplier is bounded', () => withKits([
-  ['1009', { role: 'amplifier', element: '火', effects: [effect('powerMultiplier', 1.8, { target: 'matching', filter: { element: '火', role: 'attack' }, scaleWithTraining: true })] }],
+test('amplifiers have a low normal coefficient and same-zone damage bonuses add without an arbitrary cap', () => withKits([
+  ['1009', { role: 'amplifier', element: '火', effects: [effect('damageBonus', .8, { target: 'matching', filter: { element: '火', role: 'attack' }, scaleWithTraining: true })] }],
   ['1002', { role: 'attack', attack: 'single', element: '火' }],
 ], () => {
   const state = fixture(['1002', ...Array(8).fill('1009')], { growth: { '1009': 12 } });
   const result = inspectSpin(state); const row = result.state.lastSpin.powerBreakdown[result.state.board.findIndex(u => u?.id === '1002')];
-  assert.ok(row.multiplier <= 2.2 + 1e-8);
-  assert.equal(ownDamage(result, '1009'), 0);
+  assert.ok(Math.abs(row.damageBonus-6.4)<1e-8);
+  assert.equal(row.multiplier,1,'damage bonuses do not change ATK');
+  assert.equal(ownDamage(result,'1009'),12);
   assert.ok(ownDamage(result, '1002') > 0);
 }));
 

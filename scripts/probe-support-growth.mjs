@@ -6,6 +6,8 @@ import { newGame, spin, validateSave } from '../src/engine.js';
 import { characterById } from '../src/content.js';
 import { inspectSpin } from '../src/growth-telemetry.js';
 
+if (characterById('1002').kitVersion >= 8) throw new Error('This historical v0.5 mechanism probe is frozen; use scripts/balance-v080.mjs for current attackBonus rules. Historical output must not be overwritten.');
+
 const root = new URL('../', import.meta.url);
 const output = new URL('../docs/benchmarks/support-growth-mechanism-v050.json', import.meta.url);
 const seed = 'support-growth-proof';

@@ -1,5 +1,6 @@
 import { characterById, itemById, essenceById } from './content.js';
 import * as engine from './engine.js';
+import { getCharacterAttributes } from './attributes.js';
 import { DEFAULT_PROFILE, validateProfile } from './ai-profile.js';
 import { unitPowerMultiplier, utilityMultiplier, abilityEffectAmount, isPolluted, POLLUTION_ATTACK_MULTIPLIER } from './enemy-effects.js';
 import { effectAmount, matchesEffectFilter } from './effect-rules.js';
@@ -10,7 +11,7 @@ const { BOARD_SIZE, STAR_MULTIPLIERS, chooseReward, skipReward, spin, getSynergi
 
 export { DEFAULT_PROFILE, validateProfile } from './ai-profile.js';
 // Algorithm version is independent from a saved profile's reusable model weights.
-export const POLICY_VERSION = 'v070-spatial-tag-actions-v1';
+export const POLICY_VERSION = 'v080-explicit-attributes-v1';
 export const RESOURCE_KEYS = Object.freeze(['rerolls', 'removals', 'credits', 'defense']);
 export const SUPPLY_KINDS = Object.freeze(['repair', 'barrier', 'overclock']);
 const REWARD_PHASES = ['recruit', 'item', 'essence'];
@@ -25,25 +26,36 @@ function policyFor(state, profile) {
   return enabled(state, 'defense') ? validated : { ...validated, weights: { ...validated.weights, defense: 0 } };
 }
 const clamp = (number, low, high) => Math.min(high, Math.max(low, number));
-const has = (state, id) => state.items.includes(id);
+const legacyHas = (state, id) => state.items.includes(id) && itemById(id)?.effects?.some(effect => effect.legacy);
+const legacyEssenceValue = (activations, id) => essenceById(id)?.effects?.some(effect => effect.legacy) ? activations[id] || 0 : 0;
 const star = unit => STAR_MULTIPLIERS[unit.stars] || 1;
-const effectStar = (state, unit) => star(unit) * (unit.stars > 1 && state.activeDebuffs.some(effect => effect.id === 'star_audit') ? 0.8 : 1);
+const effectStar = (_state, unit) => star(unit);
 const legacyKit = id => !(characterById(id)?.kitVersion >= 6);
-const attacks = unit => { const c = characterById(unit.id); return c?.role ? c.role === 'attack' : c?.attack !== 'support'; };
-const basePower = unit => characterById(unit.id).power * star(unit) + (attacks(unit) ? unit.growth : 0);
+const attacks = unit => { const attack = getCharacterAttributes(unit).normalAttack; return attack.primary > 0 || attack.eachTarget > 0; };
+const basePower = unit => getCharacterAttributes(unit).attack;
+// The published tax reduces only the star base. Card selection still compares
+// permanent attributes; fixed skill values and permanent additions are intact.
+const combatBasePower = (state, unit, encounterShare = 1) => {
+  const attributes = getCharacterAttributes(unit);
+  const tax = unit.stars > 1 && state.activeDebuffs.some(effect => effect.id === 'star_audit') ? .2 * encounterShare : 0;
+  return attributes.starAttack * (1 - tax) + attributes.attackBonus;
+};
+const expectedAttackPenalty = (state, horizon = 1, encounterShare = 1) => state.enemySkill?.id === 'jammer'
+  ? 1 - .5 * (1 / 5) * (horizon <= 1 ? (state.round + 1) % 3 === 0 ? 1 : 0 : 1 / 3) * encounterShare : 1;
+const remainingAppearances = unit => unit.deleteAfterAppearances ? Math.max(0, unit.deleteAfterAppearances - (unit.ticks || 0)) : characterById(unit.id)?.effects?.find(effect => effect.type === 'selfDelete') ? Math.max(0, characterById(unit.id).effects.find(effect => effect.type === 'selfDelete').afterAppearances - (unit.ticks || 0)) : unit.temporary || Infinity;
 const growthRate = id => !legacyKit(id) ? 0 : id === '1002' ? 1 / 3 : id === '1107' ? 0.5 : id === '1205' ? 0.5 : 0;
 const count = (roster, predicate) => roster.reduce((sum, unit) => sum + (predicate(characterById(unit.id), unit) ? 1 : 0), 0);
 
-export function forecastGrowthForAi(state, unit, { horizon = futureHorizon(state), draw = Math.min(1, BOARD_SIZE / Math.max(1, state.roster.length)), declaredRate = 0, growthMultiplier = 1 } = {}) {
-  const multiplier = (has(state, 'rubert_gear') ? 1.5 : 1) * growthMultiplier * (state.activeDebuffs.some(d => d.id === 'growth_audit') ? 0.5 : 1);
-  if (characterById(unit.id)?.role === 'trainer') return 0;
-  if (!unit.temporary) return (growthRate(unit.id) + declaredRate) * multiplier * horizon * draw * 0.5;
+export function forecastGrowthForAi(state, unit, { horizon = futureHorizon(state), draw = Math.min(1, BOARD_SIZE / Math.max(1, state.roster.length)), declaredRate = 0, growthMultiplier = 1, commissionRate = 0 } = {}) {
+  const commissionGain = commissionRate * horizon * draw * .5 * (state.activeDebuffs.some(d => d.id === 'growth_audit') ? .5 : 1);
+  const multiplier = (legacyHas(state, 'rubert_gear') ? 1.5 : 1) * growthMultiplier * (state.activeDebuffs.some(d => d.id === 'growth_audit') ? 0.5 : 1);
+  if (remainingAppearances(unit) === Infinity) return (growthRate(unit.id) + declaredRate) * multiplier * horizon * draw * 0.5 + commissionGain;
   // A reinforcement's own growth disappears when that instance retires. In
   // particular a fresh two-appearance Dan Heng cannot ever reach appearance 3.
   // Average only the growth it can actually acquire during its finite lifetime.
-  const appearances = Math.max(0, Math.min(unit.temporary, Math.ceil(horizon * draw)));
+  const appearances = Math.max(0, Math.min(remainingAppearances(unit), Math.ceil(horizon * draw)));
   if (!legacyKit(unit.id)) {
-    const selfTraining = (characterById(unit.id).effects || []).filter(effect => !effect.legacy && effect.type === 'growth' && effect.target === 'self' && effect.trigger === 'appearance');
+    const selfTraining = (characterById(unit.id).effects || []).filter(effect => !effect.legacy && ['growth', 'attackGrowth'].includes(effect.type) && effect.target === 'self' && effect.trigger === 'appearance');
     if (selfTraining.length) {
       let acquired = 0, area = 0;
       for (let appearance = 1; appearance <= appearances; appearance++) {
@@ -57,7 +69,7 @@ export function forecastGrowthForAi(state, unit, { horizon = futureHorizon(state
         for (const effect of selfTraining) acquired += abilityEffectAmount(state, appearing, effect, expectedEffectAmountForAi(effect, context)) * (effect.chance ?? 1);
         area += acquired;
       }
-      return appearances ? area / appearances * multiplier : 0;
+      return appearances ? area / appearances * multiplier + commissionGain * appearances / Math.max(1, horizon * draw) : 0;
     }
   }
   const interval = unit.id === '1002' ? state.activeDebuffs.some(d => d.id === 'danheng_audit') ? 4 : 3 : unit.id === '1107' ? 2 : 1;
@@ -67,7 +79,7 @@ export function forecastGrowthForAi(state, unit, { horizon = futureHorizon(state
     if (((unit.ticks || 0) + appearance) % interval === 0) growth += amount;
     total += growth + declaredRate * appearance;
   }
-  return appearances ? total / appearances * multiplier : 0;
+  return appearances ? total / appearances * multiplier + commissionGain * appearances / Math.max(1, horizon * draw) : 0;
 }
 
 function hash(value) {
@@ -92,7 +104,7 @@ function publicDigest(state) {
   // Deliberately exclude the engine seed/RNG and unrevealed rewards. These simulated
   // boards are counterfactual samples, not the next board secretly waiting in a save.
   return JSON.stringify([state.mode, state.difficulty, state.resourceAccess, state.activeDebuffs, state.bossStage, state.floor, state.round, state.spinsLeft, state.hp, state.maxHp, state.shield, state.rerolls, state.removals, state.supplyPurchases, state.overclockReady, state.resourceStats, state.coins, state.phase, state.choices,
-    state.roster.map(unit => [unit.id, unit.stars, unit.growth, unit.ticks, unit.temporary || 0, unit.commission || '']), state.items, state.essences, state.retirementStats,
+    state.roster.map(unit => [unit.id, unit.stars, unit.attackBonus ?? unit.growth, unit.attackPercentBonus || 0, unit.normalAttackBonus || {}, unit.ticks, unit.deleteAfterAppearances || 0, unit.temporary || 0, unit.commission || '']), state.items, state.essences, state.retirementStats, state.lastTurnDeletions || 0,
     state.enemies.map(enemy => [enemy.col, enemy.hp, enemy.attack]), state.enemySkill?.id, state.pendingFloor]);
 }
 
@@ -100,33 +112,34 @@ function futureHorizon(state) {
   return clamp(state.spinsLeft + Math.max(0, 12 - state.floor) * 3.2, 3, 24);
 }
 
-function attackFactor(state, attack, future = false) {
-  if (attack === 'support') return 0;
-  if (attack === 'single') return 3;
+export function attackFactor(state, attack, future = false) {
+  const normal = typeof attack === 'string' ? { pattern: attack, primary: attack === 'single' ? 3 : 2, adjacent: 1, eachTarget: 1 } : attack?.normalAttack || attack;
+  if (!normal || normal.pattern === 'support') return 0;
+  if (normal.pattern === 'single') return normal.primary || 0;
   const enemies = state.enemies.filter(enemy => enemy.hp > 0);
   const averageAlive = future ? Math.max(enemies.length, 4) : Math.max(1, enemies.length);
-  if (attack === 'aoe') return averageAlive;
-  if (future) return 3.6;
+  if (normal.pattern === 'aoe') return averageAlive * (normal.eachTarget || 0);
+  if (future) return (normal.primary || 0) + 1.6 * (normal.adjacent || 0);
   let total = 0;
   for (let col = 0; col < 5; col++) {
     const target = enemies.slice().sort((a, b) => Math.abs(a.col - col) - Math.abs(b.col - col) || a.col - b.col)[0];
-    total += 2 + (target ? enemies.filter(enemy => Math.abs(enemy.col - target.col) === 1).length : 0);
+    total += (normal.primary || 0) + (normal.adjacent || 0) * (target ? enemies.filter(enemy => Math.abs(enemy.col - target.col) === 1).length : 0);
   }
   return total / 5;
 }
 
 function declaredGlobalPower(state, unit, activations) {
   const c = characterById(unit.id);
-  return (has(state, 'gold_coin') ? 0.3 : 0) + (c.path === '虚无' ? (has(state, 'nihility_wax') ? 1 : 0) + (activations.essence_nihility || 0) * 1.5 : 0)
-    + (activations.essence_destruction || 0) + (c.attack === 'aoe' ? activations.essence_erudition || 0 : 0);
+  return (legacyHas(state, 'gold_coin') ? 0.3 : 0) + (c.path === '虚无' ? (legacyHas(state, 'nihility_wax') ? 1 : 0) + legacyEssenceValue(activations, 'essence_nihility') * 1.5 : 0)
+    + legacyEssenceValue(activations, 'essence_destruction') + (c.attack === 'aoe' ? legacyEssenceValue(activations, 'essence_erudition') : 0);
 }
 function declaredGlobalMultiplier(state, unit, activations) {
   const c = characterById(unit.id);
-  let value = (has(state, 'doctor_robe') && unit.stars > 1 ? 1.2 : 1) * (has(state, 'broken_clock') ? 1.2 : 1) * (has(state, 'cosmic_lotto') ? 1.1 : 1)
-    * (1 + 0.15 * (activations.essence_elation || 0)) * (1 + 0.1 * (activations.essence_harmony || 0));
-  if (c.attack === 'single') value *= (has(state, 'hunt_wax') ? 1.3 : 1) * (1 + 0.35 * (activations.essence_hunt || 0));
-  if (c.attack === 'blast' && has(state, 'destruction_wax')) value *= 1.25;
-  if (c.attack === 'aoe' && has(state, 'erudition_wax')) value *= 1.25;
+  let value = (legacyHas(state, 'doctor_robe') && unit.stars > 1 ? 1.2 : 1) * (legacyHas(state, 'broken_clock') ? 1.2 : 1) * (legacyHas(state, 'cosmic_lotto') ? 1.1 : 1)
+    * (1 + 0.15 * legacyEssenceValue(activations, 'essence_elation')) * (1 + 0.1 * legacyEssenceValue(activations, 'essence_harmony'));
+  if (c.attack === 'single') value *= (legacyHas(state, 'hunt_wax') ? 1.3 : 1) * (1 + 0.35 * legacyEssenceValue(activations, 'essence_hunt'));
+  if (c.attack === 'blast' && legacyHas(state, 'destruction_wax')) value *= 1.25;
+  if (c.attack === 'aoe' && legacyHas(state, 'erudition_wax')) value *= 1.25;
   return value;
 }
 
@@ -139,10 +152,10 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
   const coDraw = n <= BOARD_SIZE ? 1 : (BOARD_SIZE - 1) / Math.max(1, n - 1);
   const alive = state.enemies.filter(e => e.hp > 0).length;
   const baseline = basePower;
-  const result = { powerAdds: new Map(), powerMultipliers: new Map(), growthRates: new Map(), buffMultipliers: new Map(), damage: 0, healing: 0, shields: 0, reduction: 0, selfDrain: 0, economy: 0, flexibility: 0, armorBreak: 0, tempo: 0, healMultiplier: 1, shieldMultiplier: 1, growthMultiplier: 1, essenceMultiplier: 1, utilityGrowth: 0, vulnerabilityMultipliers: new Map(), shieldSourceMultipliers: new Map(), healSourceMultipliers: new Map() };
+  const result = { powerAdds: new Map(), powerMultipliers: new Map(), damageBonuses: new Map(), followUpBonuses: new Map(), enemyDamageBonus: 0, enemyFollowUpBonus: 0, growthRates: new Map(), buffMultipliers: new Map(), damage: 0, healing: 0, shields: 0, reduction: 0, selfDrain: 0, economy: 0, flexibility: 0, armorBreak: 0, tempo: 0, healMultiplier: 1, shieldMultiplier: 1, growthMultiplier: 1, essenceMultiplier: 1, utilityGrowth: 0, vulnerabilityMultipliers: new Map(), shieldSourceMultipliers: new Map(), healSourceMultipliers: new Map() };
   const utilityForecasts = [];
   const recordUtilityForecast = (source, effect, amount, weight) => {
-    if (source && effect.scaleWithTraining && effect.type !== 'growth' && characterById(source.id)?.role !== 'attack' && Number.isFinite(weight) && weight > 0) utilityForecasts.push({ source, effect, amount, weight });
+    if (source && effect.scaleWithSourcePower && ['shield', 'heal', 'healOverflowShield'].includes(effect.type) && Number.isFinite(weight) && weight > 0) utilityForecasts.push({ source, effect, amount, weight });
   };
   const commissions = commissionForecast || estimateRetirementsForAi(state, { horizon });
   if (!commissionForecast) retirementRate += commissions.completionRate;
@@ -157,7 +170,7 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
       case 'coins': return state.coins;
       case 'ticks': return (source?.ticks || 0) + 1;
       case 'stars': return source?.stars || 1;
-      case 'growth': return source?.growth || 0;
+      case 'growth': case 'attackBonus': return source?.attackBonus ?? source?.growth ?? 0;
       case 'round': return state.round + 1;
       case 'floor': return state.floor;
       case 'roster': return units().length;
@@ -168,16 +181,14 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
       case 'enemies': return alive;
       case 'synergies': return active.length;
       case 'retirements': return retirementRate;
+      case 'lastTurnDeletions': return horizon <= 1 ? state.lastTurnDeletions || 0 : retirementRate;
       case 'damage': return output;
       case 'healing': return Math.min(healing + result.healing, Math.max(state.maxHp - state.hp, threat * 0.5));
       case 'blocked': return Math.min(Math.max(0, threat), shields + result.shields + state.shield / Math.max(1, Math.min(horizon, state.spinsLeft)));
       case 'sourcePower': {
         if (!source) return 0;
-        const marked = roster.find(unit => isPolluted(state, unit.uid));
-        const teamFactor = marked ? 1 - (1 - POLLUTION_ATTACK_MULTIPLIER) * (marked.uid === source.uid ? 1 : coDraw) : 1;
-        const known = unitPowerMultiplier(state, characterById(source.id), source, false) * teamFactor;
-        const encounterShare = Math.min(1, Math.max(1, state.spinsLeft) / Math.max(1, horizon));
-        return (baseline(source) + declaredGlobalPower(state, source, activations) + (result.powerAdds.get(source.uid) || 0)) * (result.powerMultipliers.get(source.uid) || 1) * declaredGlobalMultiplier(state, source, activations) * (1 - (1 - known) * encounterShare);
+        // Enemy output penalties belong to damage, not the attack stat used by healing and shielding.
+        return (combatBasePower(state, source) + declaredGlobalPower(state, source, activations) + (result.powerAdds.get(source.uid) || 0)) * ((result.powerMultipliers.get(source.uid) || 1) + (getCharacterAttributes(source).permanentPercent || 0)) * declaredGlobalMultiplier(state, source, activations) * expectedAttackPenalty(state, horizon);
       }
       case 'kills': return Math.min(alive, output / Math.max(1, state.enemies.filter(e => e.hp > 0).reduce((sum, e) => sum + e.hp, 0) / Math.max(1, alive)));
       default: return 0;
@@ -225,10 +236,16 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
     if (effect.trigger === 'floor') rate = state.floor >= 12 && !state.endless ? 0 : 1 / 5.5;
     if (effect.trigger === 'kill') {
       const kills = metrics('kills');
-      const share = source ? baseline(source) * attackFactor(state, characterById(source.id).attack) / Math.max(1, output) : 1;
+      const share = source ? baseline(source) * attackFactor(state, getCharacterAttributes(source).normalAttack) / Math.max(1, output) : 1;
       rate = Math.min(effect.oncePerSpin ? 1 : alive, kills * share * (source ? draw : 1));
     }
-    if (effect.trigger === 'retaliation' && state.hp <= 0) rate = 0;
+    if (['retaliation', 'afterEnemyAttack'].includes(effect.trigger) && (state.hp <= 0 || threat <= 0)) rate = 0;
+    if (effect.trigger === 'afterNormalAttack') {
+      const range = effect.eventRange === 'enemyColumn' ? 'column' : effect.eventRange || 'team';
+      const eventTargets = effectRecipientChances(state, source, {target: range, filter: effect.eventFilter || {excludeSelf:true}}, {power:baseline});
+      const expectedEvents = [...eventTargets.values()].reduce((sum, chance) => sum + chance, 0);
+      rate *= effect.oncePerSpin ? Math.min(1, expectedEvents) : expectedEvents;
+    }
     if (effect.trigger === 'merge') rate *= 0.1;
     if (effect.trigger === 'acquire') rate = sourceType === 'essence' ? 1 / Math.max(3, horizon) : 0;
     if (effect.every) {
@@ -264,7 +281,7 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
     if (sourceType === 'character') amount = abilityEffectAmount(state, source, effect, amount);
     if (!Number.isFinite(amount)) return;
     const offense = sourceType === 'synergy' ? synergyOffenseScale(state) : 1;
-    const needsRecipients = ['power', 'powerMultiplier', 'growth', 'vulnerability'].includes(effect.type);
+    const needsRecipients = ['power', 'powerMultiplier', 'growth', 'attackGrowth', 'attackPercent', 'damageBonus', 'vulnerability'].includes(effect.type);
     const recipientChances = needsRecipients ? effectRecipientChances(state, source, effect, { power: baseline }) : new Map();
     const targets = roster.filter(unit => (recipientChances.get(unit.uid) || 0) > 0);
     const targetChance = target => recipientChances.get(target.uid) || 0;
@@ -273,22 +290,35 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
       for (const target of affected) {
         const chance = rate / Math.max(draw, 1e-9) * targetChance(target) * (source ? 1 : draw);
         const isSupportBuff = sourceType === 'character' && characterById(source?.id)?.role === 'amplifier' || ['adjacent', 'row', 'column', 'aligned', 'strongest'].includes(effect.target) || effect.selection === 'strongest';
-        const buff = isSupportBuff ? (sourceType === 'character' ? utilityMultiplier(state, source, 'buff') : 1) * (has(state, 'harmony_wax') ? 1.5 : 1) * (result.buffMultipliers.get(source?.uid) || 1) : 1;
+        const buff = isSupportBuff ? (sourceType === 'character' ? utilityMultiplier(state, source, 'buff') : 1) * (legacyHas(state, 'harmony_wax') ? 1.5 : 1) * (result.buffMultipliers.get(source?.uid) || 1) : 1;
         if (effect.type === 'power') {
           result.powerAdds.set(target.uid, (result.powerAdds.get(target.uid) || 0) + amount * chance * offense * buff);
-          if (attacks(target)) recordUtilityForecast(source, scalar, amount, chance * offense * buff * attackFactor(state, characterById(target.id).attack, true) * draw);
+          if (attacks(target)) recordUtilityForecast(source, scalar, amount, chance * offense * buff * attackFactor(state, getCharacterAttributes(target).normalAttack, true) * draw);
         } else if (sourceType === 'character' && characterById(source.id)?.role === 'amplifier') {
           const previous = amplifierMultipliers.get(target.uid) || 1;
           const next = Math.min(2.2, previous * Math.max(1, 1 + (amount - 1) * buff * chance));
           amplifierMultipliers.set(target.uid, next);
           result.powerMultipliers.set(target.uid, (result.powerMultipliers.get(target.uid) || 1) * next / previous);
-          recordUtilityForecast(source, scalar, amount, Math.max(0, Math.min(2.2 - previous, 1)) * baseline(target) * attackFactor(state, characterById(target.id).attack, true) * buff * chance * draw);
+          recordUtilityForecast(source, scalar, amount, Math.max(0, Math.min(2.2 - previous, 1)) * baseline(target) * attackFactor(state, getCharacterAttributes(target).normalAttack, true) * buff * chance * draw);
         } else result.powerMultipliers.set(target.uid, (result.powerMultipliers.get(target.uid) || 1) * (1 + (amount - 1) * buff * chance * offense));
       }
+    } else if (effect.type === 'attackPercent' || effect.type === 'damageBonus') {
+      const targetMap = effect.type === 'attackPercent' ? result.powerMultipliers : effect.attackType === 'followUp' ? result.followUpBonuses : result.damageBonuses;
+      for (const target of targets) {
+        const chance = rate / Math.max(draw, 1e-9) * targetChance(target) * (source ? 1 : draw);
+        const initial = effect.type === 'attackPercent' ? 1 : 0;
+        const isSupportBuff = sourceType === 'character' && characterById(source?.id)?.role === 'amplifier' || ['adjacent','row','column','aligned','strongest'].includes(effect.target);
+        const buff = isSupportBuff ? (sourceType === 'character' ? utilityMultiplier(state, source, 'buff') : 1) * (result.buffMultipliers.get(source?.uid) || 1) : 1;
+        targetMap.set(target.uid, (targetMap.get(target.uid) ?? initial) + amount * chance * buff);
+      }
+    } else if (effect.type === 'enemyVulnerability') {
+      const affectedShare = ['team','all','enemies'].includes(effect.target) ? 1 : effect.target === 'occupiedColumns' ? Math.min(1, matched(effect.filter, source).length * draw / Math.max(1, alive)) : 1 / Math.max(1, alive);
+      const key = effect.attackType === 'followUp' ? 'enemyFollowUpBonus' : 'enemyDamageBonus';
+      result[key] = Math.min(.75, result[key] + amount * rate * affectedShare);
     } else if (effect.type === 'heal' || effect.type === 'healOverflowShield') {
       const weight = rate * (source ? utilityMultiplier(state, source, 'heal') * (result.healSourceMultipliers.get(source.uid) || 1) : 1);
       result.healing += amount * weight;
-      if (effect.type === 'healOverflowShield') result.shields += Math.max(0, amount * weight * (has(state, 'abundance_wax') ? 1.5 : 1) * result.healMultiplier - Math.max(0, state.maxHp - state.hp) - threat * 0.3);
+      if (effect.type === 'healOverflowShield') result.shields += Math.max(0, amount * weight * (legacyHas(state, 'abundance_wax') ? 1.5 : 1) * result.healMultiplier - Math.max(0, state.maxHp - state.hp) - threat * 0.3);
       recordUtilityForecast(source, scalar, amount, weight * 0.36);
     } else if (effect.type === 'shield') {
       const weight = rate * (source ? utilityMultiplier(state, source, 'shield') * (result.shieldSourceMultipliers.get(source.uid) || 1) : 1);
@@ -299,7 +329,7 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
       recordUtilityForecast(source, scalar, amount, rate * 0.36);
     } else if (effect.type === 'retaliationMultiplier') {
       const previous = retaliationFactor;
-      retaliationFactor = Math.max(0.4, previous * (1 + (Math.max(0.05, amount) - 1) * rate));
+      retaliationFactor = Math.max(0.4, previous - Math.max(0, 1 - amount) * rate);
       // Flat and proportional reductions are combined once after all sources.
       recordUtilityForecast(source, scalar, amount, threat * rate * 0.36);
     } else if (effect.type === 'vulnerability') {
@@ -308,13 +338,13 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
         const previous = vulnerabilityAdds.get(target.uid) || 0;
         const next = Math.min(0.75, previous + amount * chance);
         vulnerabilityAdds.set(target.uid, next);
-        recordUtilityForecast(source, scalar, amount, Math.max(0, Math.min(0.75 - previous, 1)) * baseline(target) * attackFactor(state, characterById(target.id).attack, true) * chance * draw);
+        recordUtilityForecast(source, scalar, amount, Math.max(0, Math.min(0.75 - previous, 1)) * baseline(target) * attackFactor(state, getCharacterAttributes(target).normalAttack, true) * chance * draw);
       }
     }
     else if (effect.type === 'selfDamage') result.selfDrain += amount * rate;
     else if (effect.type === 'damage') {
       attributedDamage.push({ effect: scalar, source, sourceType, amount, rate, offense });
-    } else if (effect.type === 'growth') {
+    } else if (['growth', 'attackGrowth'].includes(effect.type)) {
       const affected = targets;
       for (const target of affected) {
         const chance = rate / Math.max(draw, 1e-9) * targetChance(target) * (source ? 1 : draw);
@@ -327,7 +357,8 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
       if (effect.resource === 'removals' && enabled(state, 'removals')) result.flexibility += amount * rate * 4;
     } else if (effect.type === 'summon' && roster.length < 200) {
       const summoned = characterById(effect.characterId);
-      if (summoned) result.damage += amount * rate * summoned.power * attackFactor(state, summoned.attack, true) * (effect.durationAppearances || 3) * 0.65;
+      const appearances = effect.durationAppearances || summoned?.effects?.find(entry => entry.type === 'selfDelete')?.afterAppearances || 3;
+      if (summoned && (horizon > 1 || !effect.rosterLimit || roster.filter(unit => unit.id === summoned.id).length < effect.rosterLimit)) result.damage += amount * rate * summoned.baseAttack * attackFactor(state, summoned.normalAttack, true) * appearances * 0.65;
     } else if (effect.type === 'consume') {
       const chance = spatialConditionProbability(state, source, { metric: 'neighbors', value: 1, filter: { ...effect.filter, temporary: true } });
       if (source) result.powerAdds.set(source.uid, (result.powerAdds.get(source.uid) || 0) + amount * chance * rate / Math.max(draw, 1e-9));
@@ -340,20 +371,21 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
   // character abilities; a new item never becomes invisible to the old roster.
   const allSources = [...sources, ...active.map(synergy => ({ definition: synergy, sourceType: 'synergy', activation: 1, synergy }))];
   for (const source of allSources) for (const effect of source.definition?.effects || []) {
-    if (effect.legacy || effect.trigger !== 'passive' || !effect.type.endsWith('Multiplier') || !['healMultiplier', 'shieldMultiplier', 'buffMultiplier', 'growthMultiplier', 'essenceProgressMultiplier'].includes(effect.type)) continue;
+    if (effect.legacy || effect.trigger !== 'passive' || !effect.type.endsWith('Multiplier') || !['healMultiplier', 'shieldMultiplier', 'buffMultiplier', 'growthMultiplier', 'attackGrowthMultiplier', 'essenceProgressMultiplier'].includes(effect.type)) continue;
     const rate = frequency(effect, source.unit, source.sourceType) * source.activation * (effect.chance ?? 1);
     const amount = effectAmount(effect, { state, unit: source.unit, star: source.unit ? effectStar(state, source.unit) : 1, trigger: 'passive', metricOverrides: (metric, filter) => metrics(metric, filter, source.unit) });
     if (effect.type === 'buffMultiplier') {
-      for (const target of matched(effect.filter)) result.buffMultipliers.set(target.uid, (result.buffMultipliers.get(target.uid) || 1) * (1 + (amount - 1) * rate));
+      for (const target of matched(effect.filter)) result.buffMultipliers.set(target.uid, (result.buffMultipliers.get(target.uid) || 1) + (amount - 1) * rate);
     } else if (effect.filter && ['healMultiplier', 'shieldMultiplier'].includes(effect.type)) {
       const targetMap = effect.type === 'healMultiplier' ? result.healSourceMultipliers : result.shieldSourceMultipliers;
-      for (const target of matched(effect.filter, source.unit)) targetMap.set(target.uid, (targetMap.get(target.uid) || 1) * (1 + (amount - 1) * rate));
+      for (const target of matched(effect.filter, source.unit)) targetMap.set(target.uid, (targetMap.get(target.uid) || 1) + (amount - 1) * rate);
     } else {
-      const key = effect.type === 'essenceProgressMultiplier' ? 'essenceMultiplier' : effect.type;
-      result[key] *= 1 + (amount - 1) * rate;
+      const key = effect.type === 'essenceProgressMultiplier' ? 'essenceMultiplier' : effect.type === 'attackGrowthMultiplier' ? 'growthMultiplier' : effect.type;
+      result[key] += (amount - 1) * rate;
     }
   }
-  for (const source of sources) for (const effect of source.definition?.effects || []) apply(effect, source);
+  const priority = effect => ['power', 'powerMultiplier', 'attackPercent', 'damageBonus', 'enemyVulnerability', 'vulnerability'].includes(effect.type);
+  for (const pass of [true, false]) for (const source of sources) for (const effect of source.definition?.effects || []) if (priority(effect) === pass) apply(effect, source);
   // Shared helper enumerates exactly the same current-tier configurations as
   // the engine, with per-member sources only when that configuration requests it.
   estimateSynergyContributions(state, { characterById, estimateEffect(effect, { synergy }) {
@@ -361,15 +393,16 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
     else apply(effect, { synergy, sourceType: 'synergy' });
     return {};
   } });
-  const appliedFlat = Math.min(threat * 0.45, flatReduction);
-  result.reduction = appliedFlat + Math.max(0, threat - appliedFlat) * (1 - retaliationFactor);
+  const appliedFlat = Math.min(threat * retaliationFactor * 0.45, flatReduction);
+  result.reduction = Math.min(threat, appliedFlat + threat * (1 - retaliationFactor));
   for (const [uid, bonus] of vulnerabilityAdds) result.vulnerabilityMultipliers.set(uid, 1 + bonus);
   for (const [uid, rate] of commissions.growthRates) result.growthRates.set(uid, (result.growthRates.get(uid) || 0) + rate);
   for (const [uid, amount] of commissions.powerAdds) result.powerAdds.set(uid, (result.powerAdds.get(uid) || 0) + amount);
   for (const entry of attributedDamage) {
     const { effect, source, sourceType, rate, offense } = entry;
+    const environmental = effect.attackType === 'environmental';
     const borrowed = effect.target === 'strongest' || effect.selection === 'strongest';
-    const recipients = borrowed ? effectRecipientChances(state, source, effect, { power: unit => metrics('sourcePower', {}, unit) }) : new Map([[source?.uid, 1]]);
+    const recipients = borrowed ? effectRecipientChances(state, source, effect, { power: baseline }) : new Map([[source?.uid, 1]]);
     for (const [uid, chance] of recipients) {
       if (!(chance > 0)) continue;
       const attacker = borrowed ? roster.find(unit => unit.uid === uid) : source;
@@ -378,22 +411,29 @@ export function estimateEffectsForAi(state, { horizon = futureHorizon(state), ac
         amount = expectedEffectAmountForAi(effect, { state, unit: attacker, star: source ? effectStar(state, source) : 1, trigger: effect.trigger, metricOverrides: (metric, filter) => metrics(metric, filter, attacker) });
         if (sourceType === 'character') amount = abilityEffectAmount(state, source, effect, amount);
       }
-      result.damage += amount * rate * chance * offense * (effect.target === 'team' || effect.target === 'all' ? alive : 1) * (result.vulnerabilityMultipliers.get(attacker?.uid) || 1);
+      const marked = roster.find(unit => isPolluted(state, unit.uid));
+      const teamFactor = attacker && marked ? 1 - (1 - POLLUTION_ATTACK_MULTIPLIER) * (marked.uid === attacker.uid ? 1 : coDraw) : 1;
+      const knownClause = attacker && !environmental ? unitPowerMultiplier(state, characterById(attacker.id), attacker, false) * teamFactor : 1;
+      const encounterShare = Math.min(1, Math.max(1, state.spinsLeft) / Math.max(1, horizon));
+      const damageClause = 1 - (1 - knownClause) * encounterShare;
+      const attackerBonuses = environmental ? 1 : (result.vulnerabilityMultipliers.get(attacker?.uid) || 1) * (1 + (result.damageBonuses.get(attacker?.uid) || 0) + (effect.attackType === 'followUp' ? result.followUpBonuses.get(attacker?.uid) || 0 : 0));
+      result.damage += amount * rate * chance * offense * damageClause * (effect.target === 'team' || effect.target === 'all' ? alive : 1) * attackerBonuses * (1 + Math.min(.75, result.enemyDamageBonus + (effect.attackType === 'followUp' ? result.enemyFollowUpBonus : 0)));
     }
   }
   if (enabled(state, 'credits')) result.economy += commissions.economy;
   result.flexibility += commissions.flexibility;
+  result.commissionGrowthRates = commissions.growthRates;
   result.retirementAvailability = commissions.availability;
   result.retirementRate = commissions.completionRate;
   for (const { source, effect, amount, weight } of utilityForecasts) {
-    const gained = forecastGrowthForAi(state, source, { horizon, draw, declaredRate: result.growthRates.get(source.uid) || 0, growthMultiplier: result.growthMultiplier });
+    const gained = forecastGrowthForAi(state, source, { horizon, draw, declaredRate: (result.growthRates.get(source.uid) || 0) - (commissions.growthRates.get(source.uid) || 0), commissionRate: commissions.growthRates.get(source.uid) || 0, growthMultiplier: result.growthMultiplier });
     if (!(gained > 0)) continue;
     if (effect.type === 'powerMultiplier' && [...amplifierMultipliers.values()].every(value => value >= 2.2 - 1e-9)) continue;
     if (effect.type === 'vulnerability' && [...vulnerabilityAdds.values()].every(value => value >= 0.75 - 1e-9)) continue;
     if (effect.type === 'retaliationMultiplier' && retaliationFactor <= 0.4 + 1e-9) continue;
     if (effect.type === 'retaliationFlat' && flatReduction >= threat * 0.45) continue;
-    const trained = { ...source, growth: source.growth + gained };
-    const futureAmount = abilityEffectAmount(state, trained, effect, effectAmount(effect, { state, unit: trained, star: effectStar(state, trained), trigger: effect.trigger, metricOverrides: (metric, filter) => metrics(metric, filter, trained) }));
+    const trained = { ...source, attackBonus: (source.attackBonus ?? source.growth ?? 0) + gained };
+    const futureAmount = amount * (combatBasePower(state, source) > 0 ? combatBasePower(state, trained) / combatBasePower(state, source) : 1);
     const delta = effect.type === 'retaliationMultiplier' ? amount - Math.max(0.05, futureAmount) : futureAmount - amount;
     result.utilityGrowth += Math.max(0, delta) * weight;
   }
@@ -425,17 +465,17 @@ function rosterMetrics(state) {
   const aoes = count(roster, character => character.attack === 'aoe') * draw;
   const nihility = count(roster, character => character.path === '虚无') * draw;
   const shieldSource = roster.reduce((sum, unit) => sum + (legacyKit(unit.id) ? ({ '1001': 3, '1104': 5, '1208': 6 }[unit.id] || 0) : 0) * star(unit) * utilityMultiplier(state, unit, 'shield') * availability(unit), 0) * draw;
-  const baseOutput = roster.reduce((sum, unit) => sum + basePower(unit) * attackFactor(state, characterById(unit.id).attack, true), 0) * draw;
+  const baseOutput = roster.reduce((sum, unit) => sum + combatBasePower(state, unit, encounterShare) * (1 + (getCharacterAttributes(unit).permanentPercent || 0)) * attackFactor(state, getCharacterAttributes(unit).normalAttack, true), 0) * draw * expectedAttackPenalty(state, horizon, encounterShare);
   const declaredPotential = type => roster.reduce((sum, unit) => sum + (characterById(unit.id).effects || []).filter(e => !e.legacy && e.type === type).reduce((subtotal, e) => subtotal + (e.value || 0) * (e.scaleWithStars ? star(unit) : 1) * (e.chance ?? 1) / (e.every || 1), 0), 0) * draw;
-  const temporary = roster.filter(unit => unit.temporary).length;
+  const temporary = roster.filter(unit => Number.isFinite(remainingAppearances(unit))).length;
   const retirementRate = temporary * draw / 3 + count(roster, (_, unit) => legacyKit(unit.id) && unit.id === '1108') * draw / 4 + declaredPotential('summon') + commissionForecast.completionRate;
   const progressRates = { damage: Math.max(1, baseOutput), spins: 1, single: singles, aoe: aoes, synergies: active.length,
     shield: shieldSource + declaredPotential('shield'), nihility, healing: declaredPotential('heal') + roster.reduce((sum, u) => sum + (legacyKit(u.id) ? ({ '1105': 3, '1203': 6 }[u.id] || 0) : 0) * star(u), 0) * draw,
-    credits: (has(state, 'faith_bond') ? 3 : 0) + declaredPotential('resource') + (8 + state.floor * 3) / 5.5,
+    credits: (legacyHas(state, 'faith_bond') ? 3 : 0) + declaredPotential('resource') + (8 + state.floor * 3) / 5.5,
     rerolls: enabled(state, 'rerolls') ? Math.min(0.7, state.rerolls / horizon + 0.2) : 0,
     removals: enabled(state, 'removals') ? Math.min(0.25, state.removals / horizon + 0.08) : 0,
     creditsSpent: enabled(state, 'credits') ? Math.min(5, state.coins / horizon + 2) : 0,
-    merges: Math.min(0.5, 0.05 + [...new Set(roster.filter(u => !u.temporary && !u.commission).map(u => `${u.id}:${u.stars}`))].filter(key => roster.filter(u => !u.temporary && !u.commission && `${u.id}:${u.stars}` === key).length >= 2).length * 0.04),
+    merges: Math.min(0.5, 0.05 + [...new Set(roster.map(u => `${u.id}:${u.stars}`))].filter(key => roster.filter(u => `${u.id}:${u.stars}` === key).length >= 2).length * 0.04),
     retirements: retirementRate, kills: Math.min(1, state.enemies.filter(e => e.hp > 0).length / Math.max(1, state.spinsLeft)) };
   let progressMultiplier = 1;
   for (const definition of [...state.items.map(itemById), ...state.essences.filter(entry => entry.triggered).map(entry => essenceById(entry.id))]) for (const e of definition.effects || []) if (!e.legacy && e.type === 'essenceProgressMultiplier') progressMultiplier *= e.value;
@@ -449,8 +489,8 @@ function rosterMetrics(state) {
     const wait = rate > 0 ? remaining / rate : Infinity;
     activations[essence.id] = essence.triggered ? 1 : clamp((horizon - wait) / horizon, 0, 1);
   }
-  const effect = id => activations[id] || 0;
-  const harmonyWax = has(state, 'harmony_wax') ? 1.5 : 1;
+  const effect = id => legacyEssenceValue(activations, id);
+  const harmonyWax = legacyHas(state, 'harmony_wax') ? 1.5 : 1;
   const kafkaBoost = roster.filter(unit => legacyKit(unit.id) && unit.id === '1005').reduce((sum, unit) => sum + star(unit), 0) * draw;
   const lightningCount = count(roster, character => character.element === '雷');
   const totalHp = state.enemies.filter(enemy => enemy.hp > 0).reduce((sum, enemy) => sum + enemy.hp, 0);
@@ -468,15 +508,15 @@ function rosterMetrics(state) {
     const character = characterById(unit.id);
     const multiplierStar = star(unit);
     const legacy = legacyKit(unit.id);
-    let power = basePower(unit);
+    let power = combatBasePower(state, unit, encounterShare);
     if (legacy && unit.id === '1013') power += 2 / 3 * multiplierStar;
     if (legacy && unit.id === '1204') power += multiplierStar;
     if (legacy && unit.id === '1003') power += retirementRate * 2 * multiplierStar;
     if (legacy && unit.id === '1006') power += multiplierStar;
     if (legacy && unit.id === '1103') power += Math.max(0, lightningCount - 1) * pair * multiplierStar;
-    if (has(state, 'gold_coin')) power += 0.3;
+    if (legacyHas(state, 'gold_coin')) power += 0.3;
     power += declarative.powerAdds.get(unit.uid) || 0;
-    if (character.path === '虚无') power += kafkaBoost + (has(state, 'nihility_wax') ? 1 : 0) + effect('essence_nihility') * 1.5;
+    if (character.path === '虚无') power += kafkaBoost + (legacyHas(state, 'nihility_wax') ? 1 : 0) + effect('essence_nihility') * 1.5;
     power += effect('essence_destruction');
     if (character.attack === 'aoe') power += effect('essence_erudition');
     if (legacy && unit.id === '1109') power += Math.min(1, temporary * pair) * 4 * multiplierStar;
@@ -485,20 +525,20 @@ function rosterMetrics(state) {
     for (const buffer of buffs) {
       if (buffer.uid !== unit.uid && (buffer.id !== '1106' || character.element === '冰')) power += (buffer.id === '1009' ? 0.5 : 1) * star(buffer) * pair * harmonyWax * utilityMultiplier(state, buffer, 'buff') * (declarative.buffMultipliers.get(buffer.uid) || 1) * availability(buffer);
     }
-    let multiplier = (declarative.powerMultipliers.get(unit.uid) || 1) * (declarative.vulnerabilityMultipliers.get(unit.uid) || 1);
-    if (has(state, 'doctor_robe') && unit.stars > 1) multiplier *= 1.2;
-    if (has(state, 'broken_clock')) multiplier *= 1.2;
-    if (has(state, 'cosmic_lotto')) multiplier *= 1.1;
+    let multiplier = ((declarative.powerMultipliers.get(unit.uid) || 1) + (getCharacterAttributes(unit).permanentPercent || 0)) * (declarative.vulnerabilityMultipliers.get(unit.uid) || 1) * (1 + (declarative.damageBonuses.get(unit.uid) || 0)) * (1 + declarative.enemyDamageBonus) * expectedAttackPenalty(state, horizon, encounterShare);
+    if (legacyHas(state, 'doctor_robe') && unit.stars > 1) multiplier *= 1.2;
+    if (legacyHas(state, 'broken_clock')) multiplier *= 1.2;
+    if (legacyHas(state, 'cosmic_lotto')) multiplier *= 1.1;
     multiplier *= 1 + 0.15 * effect('essence_elation');
     multiplier *= 1 + 0.1 * effect('essence_harmony');
-    if (character.attack === 'single') multiplier *= (has(state, 'hunt_wax') ? 1.3 : 1) * (1 + 0.35 * effect('essence_hunt'));
-    if (character.attack === 'blast' && has(state, 'destruction_wax')) multiplier *= 1.25;
-    if (character.attack === 'aoe' && has(state, 'erudition_wax')) multiplier *= 1.25;
+    if (character.attack === 'single') multiplier *= (legacyHas(state, 'hunt_wax') ? 1.3 : 1) * (1 + 0.35 * effect('essence_hunt'));
+    if (character.attack === 'blast' && legacyHas(state, 'destruction_wax')) multiplier *= 1.25;
+    if (character.attack === 'aoe' && legacyHas(state, 'erudition_wax')) multiplier *= 1.25;
     // Published clauses last for the current encounter; future encounters are
     // unknown. Weight their known effect by the remaining encounter horizon.
     const knownEncounterMultiplier = unitPowerMultiplier(state, character, unit, false) * expectedTeamFactor(unit);
     multiplier *= 1 - (1 - knownEncounterMultiplier) * encounterShare;
-    let factor = attackFactor(state, character.attack, true) * 0.7 + attackFactor(state, character.attack) * 0.3;
+    let factor = attackFactor(state, getCharacterAttributes(unit).normalAttack, true) * 0.7 + attackFactor(state, getCharacterAttributes(unit).normalAttack) * 0.3;
     if (legacy && unit.id === '1102') factor += 0.2;
     if (state.enemySkill?.id === 'armor' && armorBreaker < 1) power = Math.max(0, power - 0.3 * (1 - armorBreaker));
     if (legacy && unit.id === '1208') reduction += threat * 0.2 * draw;
@@ -507,7 +547,7 @@ function rosterMetrics(state) {
     // next-spin simulation separately checks lethal pollution before healing.
     if (isPolluted(state, unit.uid)) selfDrain += 6 * draw * encounterShare;
     output += power * multiplier * factor * draw * availability(unit);
-    projected += (power + (attacks(unit) ? forecastGrowthForAi(state, unit, { horizon, draw, declaredRate: declarative.growthRates.get(unit.uid) || 0, growthMultiplier: declarative.growthMultiplier }) : 0)) * multiplier * factor * draw * availability(unit);
+    projected += (power + forecastGrowthForAi(state, unit, { horizon, draw, declaredRate: (declarative.growthRates.get(unit.uid) || 0) - (declarative.commissionGrowthRates.get(unit.uid) || 0), commissionRate: declarative.commissionGrowthRates.get(unit.uid) || 0, growthMultiplier: declarative.growthMultiplier })) * multiplier * factor * draw * availability(unit);
   }
   // Tingyun's directed buff always finds another unit; it does not need adjacency.
   // The directed recipient varies by the future board. Its added attack power
@@ -521,11 +561,11 @@ function rosterMetrics(state) {
   healing += declarative.healing;
   reduction += declarative.reduction;
   selfDrain += declarative.selfDrain;
-  if (has(state, 'dimension_dice')) healing += 2;
-  if (has(state, 'insect_web')) healing += retirementRate * 2;
-  healing *= (has(state, 'abundance_wax') ? 1.5 : 1) * declarative.healMultiplier;
-  shields *= (has(state, 'preservation_wax') ? 1.5 : 1) * (1 + effect('essence_preservation') * 0.3) * declarative.shieldMultiplier;
-  if (has(state, 'preservation_wax')) shields += 8 / 4;
+  if (legacyHas(state, 'dimension_dice')) healing += 2;
+  if (legacyHas(state, 'insect_web')) healing += retirementRate * 2;
+  healing *= (legacyHas(state, 'abundance_wax') ? 1.5 : 1) * declarative.healMultiplier;
+  shields *= (legacyHas(state, 'preservation_wax') ? 1.5 : 1) * (1 + effect('essence_preservation') * 0.3) * declarative.shieldMultiplier;
+  if (legacyHas(state, 'preservation_wax')) shields += 8 / 4;
   shields += effect('essence_preservation') * 12 / 4;
   const overflow = roster.filter(unit => legacyKit(unit.id) && unit.id === '1203').reduce((sum, unit) => sum + 6 * star(unit), 0) * draw;
   if (state.hp / state.maxHp > 0.8) shields += overflow * 0.6;
@@ -545,14 +585,14 @@ function rosterMetrics(state) {
     const next = synergy.thresholds.find(threshold => threshold > synergy.count);
     if (!next || synergy.count === 0) continue;
     const remaining = next - synergy.count;
-    const members = roster.filter(unit => !unit.temporary && !unit.commission && characterById(unit.id)[synergy.kind] === synergy.tag);
+    const members = roster.filter(unit => characterById(unit.id)[synergy.kind] === synergy.tag);
     synergyPotential += members.reduce((sum, unit) => sum + characterById(unit.id).power * star(unit), 0) * draw * 0.12 / remaining;
   }
-  const economy = enabled(state, 'credits') ? (((has(state, 'faith_bond') ? 3 : 0) + (has(state, 'angel_debt') ? 2 : 0) + (has(state, 'insect_web') ? retirementRate * 4 : 0) + declarative.economy) * Math.max(0.35, output / 80) + Math.log1p(state.coins) * 0.25) : 0;
-  const flexibility = (has(state, 'fortune_glue') ? 3 * clamp(horizon / 15, 0, 1) : 0) + (enabled(state, 'rerolls') && has(state, 'chaos_trametes') ? 1.4 : 0)
-    + (enabled(state, 'removals') && has(state, 'angel_debt') && length >= 18 ? 1.4 : 0) + (enabled(state, 'rerolls') ? effect('essence_harmony') * 0.6 + (has(state, 'broken_clock') ? 0.4 : 0) + Math.log1p(state.rerolls) * 0.2 : 0) + (enabled(state, 'removals') ? Math.log1p(state.removals) * 0.25 : 0) + declarative.flexibility;
+  const economy = enabled(state, 'credits') ? (((legacyHas(state, 'faith_bond') ? 3 : 0) + (legacyHas(state, 'angel_debt') ? 2 : 0) + (legacyHas(state, 'insect_web') ? retirementRate * 4 : 0) + declarative.economy) * Math.max(0.35, output / 80) + Math.log1p(state.coins) * 0.25) : 0;
+  const flexibility = (legacyHas(state, 'fortune_glue') ? 3 * clamp(horizon / 15, 0, 1) : 0) + (enabled(state, 'rerolls') && legacyHas(state, 'chaos_trametes') ? 1.4 : 0)
+    + (enabled(state, 'removals') && legacyHas(state, 'angel_debt') && length >= 18 ? 1.4 : 0) + (enabled(state, 'rerolls') ? effect('essence_harmony') * 0.6 + (legacyHas(state, 'broken_clock') ? 0.4 : 0) + Math.log1p(state.rerolls) * 0.2 : 0) + (enabled(state, 'removals') ? Math.log1p(state.removals) * 0.25 : 0) + declarative.flexibility;
   return { damage: output, defense, growth: projected - output + declarative.utilityGrowth, synergy: synergyPotential, economy,
-    tempo: (has(state, 'seal_stamp') ? output / 5.5 : 0) + declarative.tempo, flexibility,
+    tempo: (legacyHas(state, 'seal_stamp') ? output / 5.5 : 0) + declarative.tempo, flexibility,
     dilution: -Math.max(0, length - BOARD_SIZE) * output / Math.max(length, 1) * 0.1,
     totalHp, shields, healing, reduction, selfDrain, threat, horizon, active, draw };
 }
@@ -616,7 +656,7 @@ export function forecastEncounterSurvival(state, metrics, outcomes, baselineDama
 
 function mergeBonus(state, id, next) {
   if (state.phase !== 'recruit') return 0;
-  const same = state.roster.filter(unit => unit.id === id && !unit.temporary && !unit.commission);
+  const same = state.roster.filter(unit => unit.id === id);
   const ones = same.filter(unit => unit.stars === 1).length;
   const twos = same.filter(unit => unit.stars === 2).length;
   const power = characterById(id).power;
@@ -636,19 +676,19 @@ function reasonFor(state, id, next, previousMetrics, nextMetrics) {
     const before = new Map(previousMetrics.active.map(synergy => [synergy.id, synergy.tier]));
     const unlocked = nextMetrics.active.filter(synergy => synergy.tier > (before.get(synergy.id) || 0));
     if (unlocked.length) explanations.push(`激活/升级${unlocked.slice(0, 2).map(synergy => synergy.name).join('、')}`);
-    if (!explanations.length && state.roster.filter(unit => unit.id === id && unit.stars === 1 && !unit.temporary && !unit.commission).length === 1) explanations.push('凑成两张，为升星保留目标');
-    if (growthRate(id) || character.effects?.some(e => !e.legacy && e.type === 'growth')) explanations.push('永久成长，剩余轮次越多越有利');
+    if (!explanations.length && state.roster.filter(unit => unit.id === id && unit.stars === 1).length === 1) explanations.push('凑成两张，为升星保留目标');
+    if (growthRate(id) || character.effects?.some(e => !e.legacy && ['growth', 'attackGrowth'].includes(e.type))) explanations.push('永久提高攻击力，剩余轮次越多越有利');
     if (character.attack === 'aoe' && state.mode === 'combat') explanations.push('群体攻击覆盖多列');
     if (character.role && character.role !== 'attack') {
-      const roleReasons = { defense: '按绑定队友与承伤缺口补足防御', amplifier: '只放大绑定攻击者，本轮总增幅有上限', trainer: '培养绑定队友，收益随剩余轮次兑现', disruptor: '仅按匹配攻击者估算易伤及减伤收益' };
+      const roleReasons = { defense: '按相邻角色与承伤缺口补足防御', amplifier: '按公开标签与位置提供攻击力或伤害增幅', trainer: '永久提高指定角色攻击力，收益随剩余轮次兑现', disruptor: '估算敌方受伤提高与减伤的实际覆盖' };
       explanations.push(roleReasons[character.role]);
-    } else if (character.attack === 'support') explanations.push(character.path === '同谐' ? '提高队友威力' : nextMetrics.defense > previousMetrics.defense + 1 ? '补充治疗/防御，降低失守风险' : '治疗收益受当前生命与防御影响');
+    } else if (character.attack === 'support') explanations.push(character.path === '同谐' ? '提高角色攻击力' : nextMetrics.defense > previousMetrics.defense + 1 ? '补充治疗/防御，降低失守风险' : '治疗收益受当前生命与防御影响');
     if (next.roster.length > BOARD_SIZE) explanations.push('编队超过20人，考虑抽取稀释');
     if (!explanations.length) {
       const ability = character.effects?.find(e => !e.legacy);
       if (ability?.summary) explanations.push(ability.summary);
     }
-    return explanations.slice(0, 2).join('；') || '比较实际攻击、羁绊与后续成长收益';
+    return explanations.slice(0, 2).join('；') || '比较实际攻击、羁绊与后续属性收益';
   }
   const explanations = {
     faith_bond: enabled(state, 'credits') ? '每轮信用点可用于补给或付费重掷' : '信用点消费已停用，本件的经济收益无法支出',
@@ -658,7 +698,7 @@ function reasonFor(state, id, next, previousMetrics, nextMetrics) {
     harmony_wax: '按辅助增益人数与棋盘相邻概率估算',
     abundance_wax: '按生命缺口与治疗来源估算，避免治疗溢出',
     preservation_wax: '按护盾来源和敌方威胁估算，考虑护盾上限',
-    rubert_gear: '按成长角色数量和剩余轮次估算',
+    rubert_gear: '按永久攻击力提升来源和剩余轮次估算',
     essence_abundance: '累计六轮后提高生命上限并大幅治疗，仍受医疗条款影响',
     essence_destruction: '八轮后全队增益，考虑剩余轮次',
     essence_preservation: '按护盾获取速度估算触发时间与防御收益',
@@ -878,7 +918,7 @@ export function recommendAction(state, { profile = DEFAULT_PROFILE, lookahead = 
   if (cached?.key === key) return cached.result;
   let action;
   const uid = recommendRemoval(state, { profile: policy, lookahead });
-  if (uid) action = { type: 'remove', uid, reason: !state.pendingFloor && isPolluted(state, uid) ? '清理该污染实例的生命与本人/全队威力损失更划算，已比较技能、羁绊和合成机会' : '精简后的预计整体收益更高，已保留合成目标与羁绊价值' };
+  if (uid) action = { type: 'remove', uid, reason: !state.pendingFloor && isPolluted(state, uid) ? '清理该污染实例的生命与本人/全队伤害损失更划算，已比较技能、羁绊和合成机会' : '精简后的预计整体收益更高，已保留合成目标与羁绊价值' };
   else if (REWARD_PHASES.includes(state.phase)) {
     action = rerollPlan(state, policy) || { type: 'reward', reason: '领取或跳过当前奖励，按完整推荐分布抽样', recommendation: recommendRewards(state, { profile: policy, lookahead }) };
   } else action = supplyPlan(state, policy, lookahead) || { type: 'spin', reason: '当前无需有效补给或移除，继续本层战斗' };
