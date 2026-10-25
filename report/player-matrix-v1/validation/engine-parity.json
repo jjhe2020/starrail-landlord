@@ -1,0 +1,407 @@
+{
+  "format": "matrix-engine-parity-v1",
+  "passed": true,
+  "baselineCommit": "1b3a13b3eedf36ac1eb5f906332e62a4687ce93f",
+  "instrumentedEngineSha256": "feeb759cde3306d196fbbf7f811240b706a111d4b4e6cefe43afbcc37feda186",
+  "clientDate": "2026-10-26",
+  "campaigns": 48,
+  "stateComparisons": 4606,
+  "numericSourcesUnchanged": {
+    "src/content.js": true,
+    "src/difficulty.js": true,
+    "src/ai.js": true,
+    "src/ai-profile.js": true,
+    "src/attributes.js": true,
+    "src/enemy-effects.js": true,
+    "src/effect-rules.js": true,
+    "src/synergies.js": true,
+    "src/retirements.js": true
+  },
+  "runs": [
+    {
+      "seed": "observer-parity-v1:D1:W0",
+      "difficulty": 1,
+      "actions": 103,
+      "phase": "defeat",
+      "floor": 12,
+      "finalStateHash": "15a3a221aa082e96189f3372405fda6bd6851c86eb0db18a51a5b2cbd507f532"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W1",
+      "difficulty": 1,
+      "actions": 87,
+      "phase": "victory",
+      "floor": 12,
+      "finalStateHash": "3deaea0fcc5c68e933fa0945f23e6e661259d971d07e5e9d9fc9d32ebc3d5f81"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W2",
+      "difficulty": 1,
+      "actions": 104,
+      "phase": "defeat",
+      "floor": 12,
+      "finalStateHash": "623a928149afcf6b9bce38b25d9649ec3346602116530b6e4c336a26205c6dfb"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W3",
+      "difficulty": 1,
+      "actions": 113,
+      "phase": "defeat",
+      "floor": 12,
+      "finalStateHash": "4f5b3416ccd1cbbefe1584aad30f842ec8fc1a9951d2e4202ec93c57d5857836"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W4",
+      "difficulty": 1,
+      "actions": 114,
+      "phase": "defeat",
+      "floor": 12,
+      "finalStateHash": "036b08abe1ad5d9880ad5f999ec7feacfc8a4dfe9b6a309accc600110a9a098a"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W5",
+      "difficulty": 1,
+      "actions": 101,
+      "phase": "defeat",
+      "floor": 12,
+      "finalStateHash": "b51b366596d7e03d00e740fa31ae19690c24527e548b637f9d1907eb14b942cb"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W6",
+      "difficulty": 1,
+      "actions": 111,
+      "phase": "defeat",
+      "floor": 12,
+      "finalStateHash": "9906881e48dfce98f3b124ad939bc6051cb2e6cf3d7a53d1830ace7710dcf7af"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W7",
+      "difficulty": 1,
+      "actions": 121,
+      "phase": "defeat",
+      "floor": 12,
+      "finalStateHash": "eb5d7c17d4d27fb223c521c193ba13231afd3b2b92552f712012cb96af5104b8"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W8",
+      "difficulty": 1,
+      "actions": 113,
+      "phase": "defeat",
+      "floor": 12,
+      "finalStateHash": "9479ba87db77a8785e22a01235843459399c428cded42537a74d14dc7425b783"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W9",
+      "difficulty": 1,
+      "actions": 96,
+      "phase": "defeat",
+      "floor": 12,
+      "finalStateHash": "582408396bb9cf733e317eb1cb3ab79e07d2307315707bab8531b63a56260672"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W10",
+      "difficulty": 1,
+      "actions": 110,
+      "phase": "victory",
+      "floor": 12,
+      "finalStateHash": "28ed34740ea1731139cf60c4448120f62adfa60d2ab00e2323cb11031f5f95d5"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W11",
+      "difficulty": 1,
+      "actions": 101,
+      "phase": "victory",
+      "floor": 12,
+      "finalStateHash": "ca7c25a8602a3c99d30aa3c772d14e17c263dcc6550f365b40d46e680014a163"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W12",
+      "difficulty": 1,
+      "actions": 111,
+      "phase": "victory",
+      "floor": 12,
+      "finalStateHash": "f13bc1a900aafb2fabcf633262b7cb83839f412ea73f756ab6a901a26c47cc93"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W13",
+      "difficulty": 1,
+      "actions": 90,
+      "phase": "victory",
+      "floor": 12,
+      "finalStateHash": "51c033073a2635c1273eee4e8f7917cee98271a8f2427f3d097fabe42ee6b375"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W14",
+      "difficulty": 1,
+      "actions": 106,
+      "phase": "defeat",
+      "floor": 12,
+      "finalStateHash": "874307f54da184f215c971c6876246da16bb4ee05f6ce86fd93b3360c238c179"
+    },
+    {
+      "seed": "observer-parity-v1:D1:W15",
+      "difficulty": 1,
+      "actions": 91,
+      "phase": "victory",
+      "floor": 12,
+      "finalStateHash": "811bc5d18f2d4b80e42bddefb5d3300cec67d41aa7fbe40a35817c668202aab1"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W0",
+      "difficulty": 10,
+      "actions": 99,
+      "phase": "defeat",
+      "floor": 10,
+      "finalStateHash": "daed8dab02012ccd7cff1d13b3e43a456c900241347975d6ec37b6eeb39ed37c"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W1",
+      "difficulty": 10,
+      "actions": 95,
+      "phase": "defeat",
+      "floor": 10,
+      "finalStateHash": "10937ae81dad2f7dc9ed955f8edd12844066217032e12cb8d4d80a505842316b"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W2",
+      "difficulty": 10,
+      "actions": 100,
+      "phase": "defeat",
+      "floor": 10,
+      "finalStateHash": "48b82d7c1e953f60f0c168a3bbd6e4c6fbe383340bce94c5c44ac1b4f8728bd7"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W3",
+      "difficulty": 10,
+      "actions": 115,
+      "phase": "defeat",
+      "floor": 11,
+      "finalStateHash": "627799547adaae827b13ae9d29c0c2ba33e0d56f346e59a402e48494ab775ad9"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W4",
+      "difficulty": 10,
+      "actions": 104,
+      "phase": "defeat",
+      "floor": 10,
+      "finalStateHash": "ad919b75213292728cfedfa8060b8d55f2d99385c6844022a7bd35ff9064b497"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W5",
+      "difficulty": 10,
+      "actions": 120,
+      "phase": "defeat",
+      "floor": 11,
+      "finalStateHash": "cceaabd130c1bce7d839b2ac73068396e693948949892182c95fe177e90d32ff"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W6",
+      "difficulty": 10,
+      "actions": 81,
+      "phase": "defeat",
+      "floor": 9,
+      "finalStateHash": "c95a41427747a1fd8a6ae96185f260b8c412a6cbb9d0a37408e11905a43748ee"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W7",
+      "difficulty": 10,
+      "actions": 105,
+      "phase": "defeat",
+      "floor": 10,
+      "finalStateHash": "5e54e0ac64b2bf5e3526e97808a97b3a0ba40baba82cdf3fc48a1388c4d2dd57"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W8",
+      "difficulty": 10,
+      "actions": 87,
+      "phase": "defeat",
+      "floor": 10,
+      "finalStateHash": "88c9c74c5d079eb8dfce86744ea80e9db26ab95c9ed782707a0b149ef3662a51"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W9",
+      "difficulty": 10,
+      "actions": 95,
+      "phase": "defeat",
+      "floor": 10,
+      "finalStateHash": "da31ba5d964a3dffbb6ab75a3aee3cc09319e4c1cb135c2e6466d0c9de9a5768"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W10",
+      "difficulty": 10,
+      "actions": 105,
+      "phase": "defeat",
+      "floor": 10,
+      "finalStateHash": "4ded2c2b63565bea4de6fc3432e863dedd606c65ca2051a6af9bd45b3b3fba4a"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W11",
+      "difficulty": 10,
+      "actions": 93,
+      "phase": "defeat",
+      "floor": 10,
+      "finalStateHash": "e793b56eb078f04ee10c71278aa3728670aef6cfaa9ff01b95781f7cb54c1916"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W12",
+      "difficulty": 10,
+      "actions": 98,
+      "phase": "defeat",
+      "floor": 10,
+      "finalStateHash": "61bf23e2819d1f4766d34aed12196c155d4ab9e2d3a7ff55f46235d38ba3f1bd"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W13",
+      "difficulty": 10,
+      "actions": 93,
+      "phase": "defeat",
+      "floor": 10,
+      "finalStateHash": "e352c29698f446c6c944a219a3819d2d3f9722860577c9ea8db09f336c819a31"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W14",
+      "difficulty": 10,
+      "actions": 94,
+      "phase": "defeat",
+      "floor": 9,
+      "finalStateHash": "f1101e2d075e809625086a475b3d36bde8445f2eb19520c63b4c461992dd391c"
+    },
+    {
+      "seed": "observer-parity-v1:D10:W15",
+      "difficulty": 10,
+      "actions": 77,
+      "phase": "defeat",
+      "floor": 9,
+      "finalStateHash": "28c183f67d50db89af72e501658b1e88538b1d3a43de3ad4037de1caf903e999"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W0",
+      "difficulty": 20,
+      "actions": 84,
+      "phase": "defeat",
+      "floor": 8,
+      "finalStateHash": "16367777c2f34051a8ffa2bb034400b26380a6b972f5997a42c4c3d296addf1c"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W1",
+      "difficulty": 20,
+      "actions": 94,
+      "phase": "defeat",
+      "floor": 9,
+      "finalStateHash": "b709eefe68ba57fa2e74a33ea713681d8addceef1b36d7e0e387668960512edd"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W2",
+      "difficulty": 20,
+      "actions": 51,
+      "phase": "defeat",
+      "floor": 6,
+      "finalStateHash": "d81c67525e0dff12820af3720b24bd161a2fba93284431356a43125416f78a97"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W3",
+      "difficulty": 20,
+      "actions": 72,
+      "phase": "defeat",
+      "floor": 8,
+      "finalStateHash": "088015c974d016f463bd1c31f76ed6a7e0b9ef8613c0fb831d1f460038340693"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W4",
+      "difficulty": 20,
+      "actions": 77,
+      "phase": "defeat",
+      "floor": 8,
+      "finalStateHash": "c12aca1365b4c8b8932bc30df887ca68d2fea2fedc7984c66ef873fab6aa9007"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W5",
+      "difficulty": 20,
+      "actions": 79,
+      "phase": "defeat",
+      "floor": 8,
+      "finalStateHash": "f93484fc331ce09c3ee516e70364111de42a4c52304f937efde0864fd994ee08"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W6",
+      "difficulty": 20,
+      "actions": 87,
+      "phase": "defeat",
+      "floor": 8,
+      "finalStateHash": "a1fa4bc8d0f8635d1baeebea87214905631245ef7baf9528bc97e739ef0bea09"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W7",
+      "difficulty": 20,
+      "actions": 101,
+      "phase": "defeat",
+      "floor": 9,
+      "finalStateHash": "aa21e00715a8fc75da00e4b50c92d370737ca6bd2af6f053f5d9674f2a0e18c7"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W8",
+      "difficulty": 20,
+      "actions": 72,
+      "phase": "defeat",
+      "floor": 7,
+      "finalStateHash": "658bd82c194035ddcb7e309e87ce56f2b8b6da0d76fdaf9fc45bf9285a3599a4"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W9",
+      "difficulty": 20,
+      "actions": 88,
+      "phase": "defeat",
+      "floor": 8,
+      "finalStateHash": "d0fc1a8a6d3b6b0cf6f03c9b9e58a53e13f59a0548daec1d3c7f9b55f6e67523"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W10",
+      "difficulty": 20,
+      "actions": 90,
+      "phase": "defeat",
+      "floor": 9,
+      "finalStateHash": "a50a632c359d6c4dea38e1b091fd381a103483b94568a7772b0f158a6c1319f1"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W11",
+      "difficulty": 20,
+      "actions": 86,
+      "phase": "defeat",
+      "floor": 8,
+      "finalStateHash": "6fae9fead9023228f7b57d7d93b3b579a4d8615889171bf6160d39f9bfeca178"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W12",
+      "difficulty": 20,
+      "actions": 61,
+      "phase": "defeat",
+      "floor": 6,
+      "finalStateHash": "54ad44c2d5a38bede4fa5121d461ab0be51350b73078dd72e8df43108a41aaf8"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W13",
+      "difficulty": 20,
+      "actions": 102,
+      "phase": "defeat",
+      "floor": 9,
+      "finalStateHash": "09d79ab842ab02bdb1f76031d9016f7ba9486f4a8d4b8bd8df7a133baf922c5e"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W14",
+      "difficulty": 20,
+      "actions": 91,
+      "phase": "defeat",
+      "floor": 9,
+      "finalStateHash": "ba13aea2b0d88d9a892466fe1157f8375096b149455ed34fdbc178d65047dde4"
+    },
+    {
+      "seed": "observer-parity-v1:D20:W15",
+      "difficulty": 20,
+      "actions": 90,
+      "phase": "defeat",
+      "floor": 8,
+      "finalStateHash": "b6a06f4761829f5a12cfcbf85cc2f05a73afcc1f8782d91f374284ceb9529928"
+    }
+  ],
+  "scope": "Released v0.8.1 versus instrumented engine, identical explicit actions at each step; no balance inference"
+}

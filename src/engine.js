@@ -23,6 +23,34 @@ const ENEMY_SKILLS = [
 ];
 const copy = value => structuredClone(value);
 const rounded = value => Math.round(value * 100) / 100;
+
+// Synchronous, opt-in telemetry. Nothing is attached to a game state or RNG.
+export const ENGINE_OBSERVATION_VERSION = 'engine-observation-v1';
+const actionObservationStack = [];
+function emitActionObservation(type, state, detail = {}, includeState = false) {
+  if (!actionObservationStack.length) return;
+  const event = { type, floor: state.floor, round: state.round, ...detail, ...(includeState ? { state: copy(state) } : {}) };
+  for (const context of actionObservationStack) {
+    context.events.push(copy(event));
+    if (context.observer && !context.delivering) {
+      context.delivering = true;
+      try { context.observer(copy(event)); }
+      catch (error) { context.observerErrors.push(String(error?.message || error)); }
+      finally { context.delivering = false; }
+    }
+  }
+}
+export function observeEngineAction(operation, observer = null) {
+  if (typeof operation !== 'function' || (observer !== null && typeof observer !== 'function')) throw new TypeError('A synchronous engine operation and optional observer are required.');
+  const context = { events: [], observer, observerErrors: [], delivering: false };
+  actionObservationStack.push(context);
+  try {
+    const state = operation();
+    if (state && typeof state.then === 'function') throw new TypeError('Engine observations must be synchronous.');
+    return { state, events: context.events, observerErrors: context.observerErrors, protocol: ENGINE_OBSERVATION_VERSION };
+  } finally { actionObservationStack.pop(); }
+}
+const observeBoundary = (state, boundary, reason) => emitActionObservation('boundary', state, { boundary, reason }, true);
 const spinObservers = new WeakMap();
 const observeSpinStage = (state, stage) => { const observer = spinObservers.get(state); if (observer) observer.stage = stage; };
 const spinModifiers = new WeakMap();
@@ -49,6 +77,7 @@ function effectEvent(state, source, type, amount, duration = 'spin', targetUid =
   if (targetUid) event.targetUid = targetUid;
   if (Number.isFinite(amount)) event.amount = rounded(amount);
   state.lastSpin.effects.push(event);
+  emitActionObservation('effect', state, { effect: event });
   const observer = spinObservers.get(state);
   if (observer) observer.effects.push({ ...event, stage: observer.stage });
 }
@@ -142,6 +171,7 @@ function runEffects(state, trigger, context = {}, options = {}) {
         const gain = field === 'coins' ? rounded(Math.max(0, amount)) : Math.floor(Math.max(0, amount));
         state[field] = rounded(state[field] + gain);
         if (field === 'coins') { state.lastSpin.coins = rounded(state.lastSpin.coins + gain); if (!context.duringSpin) state.stats.coins = rounded(state.stats.coins + gain); }
+        emitActionObservation('resourceGain', state, { resource: field, amount: gain, origin: 'effect', sourceId: source.sourceId || source.id, sourceType: source.sourceType });
         effectEvent(state, source, field, gain, 'resource', null, effect.summary);
       } else if (effect.type === 'retaliationFlat') context.incomingReduction = (context.incomingReduction || 0) + amount;
       else if (effect.type === 'retaliationMultiplier') context.incomingPercentReduction = (context.incomingPercentReduction || 0) + 1 - amount;
@@ -155,6 +185,7 @@ function runEffects(state, trigger, context = {}, options = {}) {
       } else if (effect.type === 'selfDamage') {
         const before = state.hp; state.hp = rounded(Math.max(effect.nonlethal === false ? 0 : 1, state.hp - amount));
         state.resourceStats.hpLost = rounded(state.resourceStats.hpLost + before - state.hp);
+        emitActionObservation('hpLoss', state, { amount: rounded(before - state.hp), origin: 'selfDamage', sourceId: source.sourceId || source.id, sourceUid: active.unit?.uid });
         effectEvent(state, source, 'selfDamage', before - state.hp, 'instant', active.unit?.uid, effect.summary);
       } else if (effect.type === 'maxHp') { state.maxHp = rounded(state.maxHp + amount); effectEvent(state, source, 'maxHp', amount, 'run', null, effect.summary); }
       else if (effect.type === 'extraSpin' && !(trigger === 'acquire' && state.pendingFloor)) { const gained = Math.max(0, Math.floor(amount)); state.spinsLeft += gained; state.encounter.deadline += gained; effectEvent(state, source, 'extraSpin', gained, 'encounter', null, effect.summary); }
@@ -323,8 +354,11 @@ function setupFloor(state, initial = false) {
   state.enemyIntent = nextIntent(state);
   if (!initial) {
     state.rerolls += 1;
-    if (state.floor % 2 === 0) state.removals += 1;
+    emitActionObservation('resourceGain', state, { resource: 'rerolls', amount: 1, origin: 'floorGrant' });
+    if (state.floor % 2 === 0) { state.removals += 1; emitActionObservation('resourceGain', state, { resource: 'removals', amount: 1, origin: 'floorGrant' }); }
+    const observedShieldBeforeCap = state.shield;
     state.shield = rounded(Math.min(state.maxHp * 2, state.shield));
+    if (observedShieldBeforeCap !== state.shield) emitActionObservation('shieldLoss', state, { amount: rounded(observedShieldBeforeCap - state.shield), origin: 'floorCap' });
     state.history.push(`进入第 ${state.floor} 层。`);
   }
 }
@@ -398,6 +432,7 @@ export function newGame({ seed = '星穹房东', difficulty = 10, resourceAccess
   state.roster = ['1001', '1002', '1009', '1013', '1105'].map(id => unit(state, id));
   state.roster.forEach((u, i) => { state.board[i + 10] = copy(u); });
   setupFloor(state, true);
+  observeBoundary(state, 'A', 'initial-floor');
   return state;
 }
 
@@ -414,6 +449,7 @@ function heal(state, amount, fixed = false, sourceUnit = null) {
   state.hp = rounded(state.hp + actual);
   state.lastSpin.healing = rounded(state.lastSpin.healing + actual);
   state.resourceStats.healed = rounded(state.resourceStats.healed + actual);
+  emitActionObservation('heal', state, { amount: actual, requested, overflow: rounded(requested - actual), origin: fixed ? 'supply' : 'effect', sourceUid: sourceUnit?.uid });
   return { actual, overflow: requested - actual };
 }
 
@@ -425,6 +461,7 @@ function shield(state, amount, fixed = false, sourceUnit = null) {
   state.shield = nextShield;
   state.lastSpin.shield = rounded(state.lastSpin.shield + actual);
   state.resourceStats.shieldGained = rounded(state.resourceStats.shieldGained + actual);
+  emitActionObservation('shieldGain', state, { amount: actual, requested: rounded(amount * multiplier), overflow: rounded(Math.max(0, amount * multiplier - actual)), origin: fixed ? 'supply' : 'effect', sourceUid: sourceUnit?.uid });
 }
 
 function mergeRoster(state) {
@@ -506,6 +543,7 @@ function resolveCommissions(state, consumed, generated, metrics) {
       original.attackBonus = rounded(attackGrowth(original) + gained); original.growth = original.attackBonus; source.attackBonus = original.attackBonus; source.growth = original.attackBonus;
       source.consumptionBonus = (source.consumptionBonus || 0) + rule.power;
       state.coins = rounded(state.coins + rule.coins); state.lastSpin.coins = rounded(state.lastSpin.coins + rule.coins);
+      emitActionObservation('resourceGain', state, { resource: 'coins', amount: rule.coins, origin: 'commission', sourceId: rule.id, sourceUid: source.uid });
       const stats = state.retirementStats.byRule[rule.id] ||= { completed: 0, permanent: 0, supplied: 0 };
       stats.completed += 1; state.retirementStats.completed += 1;
       if (!target.commission) { stats.permanent += 1; state.retirementStats.permanent += 1; metrics.permanentRetirements = (metrics.permanentRetirements || 0) + 1; }
@@ -559,13 +597,18 @@ function advanceRewards(state) {
     state.coins += 10;
     state.stats.coins += 10;
     state.lastSpin.coins += 10;
+    emitActionObservation('resourceGain', state, { resource: 'coins', amount: 10, origin: 'emptyReward' });
   }
+  let observedEnteredFloor = false;
   if (state.pendingFloor) {
+    observeBoundary(state, 'C', 'rewards-complete');
     state.pendingFloor = false;
     state.floor += 1;
     setupFloor(state);
+    observedEnteredFloor = true;
   }
   state.phase = 'ready';
+  if (observedEnteredFloor) observeBoundary(state, 'A', 'next-floor');
 }
 
 function finishFloor(state) {
@@ -574,6 +617,7 @@ function finishFloor(state) {
   state.coins += bounty;
   state.lastSpin.coins += bounty;
   state.stats.coins += bounty;
+  emitActionObservation('resourceGain', state, { resource: 'coins', amount: bounty, origin: 'clearBounty' });
   record(state, `清除第 ${state.floor} 层，获得 ${bounty} 信用点补给。`);
   runEffects(state, 'clear', { effectUses:new Set() });
   if (state.floor >= FINAL_FLOOR && !state.endless) {
@@ -582,6 +626,7 @@ function finishFloor(state) {
     state.pendingRewards = [];
     state.choices = [];
     record(state, '十二层开拓完成！可以带着现有编队进入无尽开拓。');
+    observeBoundary(state, 'C', 'campaign-victory');
     return;
   }
   state.pendingRewards = ['recruit'];
@@ -685,6 +730,7 @@ function resolveSpin(previous, observer = null, diagnosticOptions = null) {
     const beforeShield = state.shield;
     state.shield = rounded(state.shield * 0.8);
     state.resourceStats.shieldDecayed = rounded(state.resourceStats.shieldDecayed + beforeShield - state.shield);
+    emitActionObservation('shieldLoss', state, { amount: rounded(beforeShield - state.shield), origin: 'decay' });
     effectEvent(state, { id: 'shield_decay', name: '护盾滞纳金' }, 'shieldLoss', beforeShield - state.shield, 'instant', null, '本次开始已有护盾衰减20%');
   }
   drawBoard(state);
@@ -698,6 +744,7 @@ function resolveSpin(previous, observer = null, diagnosticOptions = null) {
     const beforeHp = state.hp;
     state.hp = rounded(Math.max(0, state.hp - 6));
     state.resourceStats.hpLost = rounded(state.resourceStats.hpLost + beforeHp - state.hp);
+    emitActionObservation('hpLoss', state, { amount: rounded(beforeHp - state.hp), origin: 'pollution', sourceId: 'rift_pollution', sourceUid: polluted.uid });
     effectEvent(state, { id: 'rift_pollution', name: '裂界污染' }, 'selfDamage', beforeHp - state.hp, 'instant', polluted.uid, '污染实例登场直接消耗生命');
     record(state, `裂界污染：${characterById(polluted.id).name}登场，直接消耗 ${rounded(beforeHp - state.hp)} 生命。`);
     if (state.hp === 0) {
@@ -705,6 +752,7 @@ function resolveSpin(previous, observer = null, diagnosticOptions = null) {
       state.choices = [];
       state.pendingRewards = [];
       record(state, '裂界污染耗尽列车生命，本次开拓结束。');
+      observeBoundary(state, 'B', 'hp');
       state.history = state.history.slice(-100);
       return state;
     }
@@ -793,6 +841,9 @@ function resolveSpin(previous, observer = null, diagnosticOptions = null) {
   state.hp = rounded(Math.max(0, state.hp - incoming + blocked));
   state.resourceStats.shieldBlocked = rounded(state.resourceStats.shieldBlocked + blocked);
   state.resourceStats.hpLost = rounded(state.resourceStats.hpLost + beforeHp - state.hp);
+  emitActionObservation('hpLoss', state, { amount: rounded(beforeHp - state.hp), origin: 'enemy' });
+  emitActionObservation('shieldLoss', state, { amount: rounded(blocked), origin: 'blocked' });
+  emitActionObservation('enemyAttack', state, { incoming, blocked: rounded(blocked), hpLost: rounded(beforeHp - state.hp), piercing: rounded(piercing) });
   metrics.blocked = rounded(blocked); metrics.hpLost = rounded(beforeHp - state.hp);
   observeSpinStage(state, 'afterRetaliation');
   if (state.hp > 0 && enemyAttacked) {
@@ -835,7 +886,9 @@ function resolveSpin(previous, observer = null, diagnosticOptions = null) {
     state.pendingRewards = [];
     state.choices = [];
     record(state, state.hp <= 0 ? '列车护卫失守，本次开拓结束。' : '回合期限已到，裂界仍未清除。本次开拓结束。');
+    observeBoundary(state, 'B', state.hp <= 0 ? 'hp' : 'deadline');
   } else if (clear) {
+    observeBoundary(state, 'B', 'clear');
     observeSpinStage(state, 'arrival');
     finishFloor(state);
   } else {
@@ -896,8 +949,8 @@ export function skipReward(previous) {
 export function rerollRewards(previous) {
   if (!['recruit', 'item', 'essence'].includes(previous?.phase) || !resourceEnabled(previous, 'rerolls') || (previous.rerolls <= 0 && (!resourceEnabled(previous, 'credits') || previous.coins < 8))) return previous;
   const state = copy(previous);
-  if (state.rerolls > 0) state.rerolls -= 1;
-  else { state.coins -= 8; state.resourceStats.paidRerolls += 1; state.resourceStats.creditsSpent += 8; }
+  if (state.rerolls > 0) { state.rerolls -= 1; emitActionObservation('resourceSpend', state, { resource: 'rerolls', amount: 1, origin: 'freeReroll' }); }
+  else { state.coins -= 8; state.resourceStats.paidRerolls += 1; state.resourceStats.creditsSpent += 8; emitActionObservation('resourceSpend', state, { resource: 'coins', amount: 8, origin: 'paidReroll' }); }
   state.resourceStats.rerollsUsed += 1;
   state.choices = rewardChoices(state, state.phase, previous.choices);
   state.history.push('重新抽取了本次奖励。');
@@ -912,6 +965,7 @@ export function removeSymbol(previous, uid) {
   state.board = state.board.map(u => u?.uid === uid ? null : u);
   state.removals -= 1;
   state.resourceStats.removalsUsed += 1;
+  emitActionObservation('resourceSpend', state, { resource: 'removals', amount: 1, origin: 'remove' });
   clearMissingPollution(state);
   state.history.push(`移除：${characterById(removed.id).name}。`);
   return state;
@@ -929,6 +983,7 @@ export function purchaseSupply(previous, kind) {
   state.supplyPurchases += 1;
   state.resourceStats.supplyPurchases += 1;
   state.resourceStats.creditsSpent += supply.cost;
+  emitActionObservation('resourceSpend', state, { resource: 'coins', amount: supply.cost, origin: 'supply', kind });
   if (kind === 'repair') heal(state, supply.healing, true);
   if (kind === 'barrier') shield(state, supply.shield, true);
   if (kind === 'overclock') state.overclockReady = true;
@@ -946,6 +1001,7 @@ export function continueEndless(previous) {
   state.pendingRewards = [];
   setupFloor(state);
   state.history.push('无尽开拓开始：敌人生命将持续增长，首领条款继续追加。');
+  observeBoundary(state, 'A', 'endless-floor');
   return state;
 }
 

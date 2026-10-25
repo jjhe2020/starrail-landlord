@@ -1,5 +1,7 @@
 # v0.8.1 双界面版本验证要求
 
+2026-10-26新增独立实验任务：用户已确认多维玩家矩阵1A标准方案。当前工具、资格验证、P0/P1/P2/P3顺序和断点恢复见[执行说明](docs/PLAYER-MATRIX-EXECUTION.md)，样本与统计口径见[测试协议](docs/PLAYER-MATRIX-PROTOCOL-DRAFT.md)。下文关于“本轮不运行矩阵”描述的是0.8.1发行范围，不表示新实验被取消。矩阵实施不修改数值、默认AI，也不发布替换HTML。
+
 0.8.1 只拆分玩家版/开发版并简化玩家信息，沿用 0.8 战斗、资源、难度与 AI 规则。本轮不运行复杂玩家矩阵，不调整关卡压力，也不以功能检查通过宣称平衡改善。界面契约见 [UI-EDITIONS.md](docs/UI-EDITIONS.md)，后续测试需求见 [PLAYER-MATRIX-PLAN.md](docs/PLAYER-MATRIX-PLAN.md)。旧 95% 胜率与 D10/D8 资源映射只属于历史版本，不作为当前发布门槛。
 
 发布需要执行 `npm run check`、`npm test`、`npm run build`、`npm run build:portable`，记录实际结果与默认跳过项。两份最终 HTML 均需独立核对大小、SHA-256、下载及首载离线运行；以下是验证要求，不能预记为已经通过：

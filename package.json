@@ -12,7 +12,11 @@
     "check": "node scripts/check.mjs",
     "balance": "node scripts/balance-parallel.mjs",
     "train:ai": "node scripts/train-ai.mjs",
-    "balance:growth": "node scripts/growth-balance.mjs"
+    "balance:growth": "node scripts/growth-balance.mjs",
+    "matrix:preflight": "node scripts/verify-player-matrix-preflight.mjs",
+    "matrix:standard": "node --max-old-space-size=8192 scripts/run-player-matrix-standard.mjs",
+    "matrix:status": "node scripts/player-matrix-status.mjs",
+    "matrix:analyze": "node --max-old-space-size=8192 scripts/analyze-player-matrix.mjs"
   },
   "engines": {
     "node": ">=22"

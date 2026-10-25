@@ -1,0 +1,34 @@
+{
+  "scope": "Renderer structure contract only; no campaign or balance evidence",
+  "tests": 7,
+  "passed": 7,
+  "widthContracts": [
+    1200,
+    390,
+    320
+  ],
+  "checked": [
+    "viewport meta",
+    "responsive wrap/760px breakpoint",
+    "scroll containers around data tables",
+    "label-bound selectors and registered change handlers",
+    "accessible button handlers",
+    "SVG viewBox adapts to supplied container width",
+    "missing phases preserve pending state",
+    "detail SHA/footer/identity validation",
+    "formal p/CI separate from bootstrap diagnostic",
+    "conditional observation counts",
+    "untrusted label escaping",
+    "incomplete fork risk differences remain missing",
+    "Main-axis options only include policies in screen main cells",
+    "E intervention window matches restored current remainder and next two floors",
+    "Early header and identity rejection safely aborts >=1MiB unread detail records; three subprocesses exit before 3-second timeout"
+  ],
+  "limitations": [
+    "No browser layout measurement or screenshot",
+    "No actual mobile/device validation",
+    "Computer-use policy rejected file://; no workaround used"
+  ],
+  "rendererSha256": "64334774919feb2d47dedbece4a36fea4a2d52ea97cdb183a06f3da7edbee61a",
+  "testSha256": "efb72d950d1797197429920c21fd5ad8a5c425eb945e19f726d18cfe7b00d541"
+}
