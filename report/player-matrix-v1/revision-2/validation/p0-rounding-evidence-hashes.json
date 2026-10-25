@@ -1,0 +1,18 @@
+{
+  "frozenCommit": "06eed15b185dfc894ad79d044f5b56b1ccb482fb",
+  "releasedTag": "v0.8.1",
+  "releasedCommit": "1b3a13b3eedf36ac1eb5f906332e62a4687ce93f",
+  "hashes": {
+    "frozen-run.json": "beb4928235c66992aec622a24696cf714554d4cfb51fd566a79b82613f383560",
+    "fixed-run-v2.json": "af83d41594754dfec7f87a1062eb3ac663bdb7cbaaf8c4fe244824e535105655",
+    "comparison.json": "f841522d68f2243d6b68cdcbd40ca4f5522b37b002608fcfdc10c345ffec54f6",
+    "legacy-v081-src.tar": "7460a8967a023ea2aba64f63fa1a84e94775c3f59bfd87710d31bef8314aa140",
+    "verify-replay.mjs": "5b893e3360e1b0a30698f747868d1d03c5eaa89a5e197e64f57b8bee74865755"
+  },
+  "sources": {
+    "src/engine.js": "08cbf998dad23764942fa9e70bebf5deedcff4c6136ba49a423ff4e873f9cb62",
+    "src/player-matrix-simulation.js": "c0a700c9b35067429b62cabc017a05c6e75c2025b6a48021ed0d501d3a00bafe",
+    "tests/player-matrix-simulation.test.js": "902c6cb008c661b1d0c8ad2981640d382f1257a747eb204f566886a92069672c",
+    "docs/ENGINE.md": "9dc9c33390f6a2a66938bbdb829ba647d432a252f15cd5af06d6f1c661988c3c"
+  }
+}

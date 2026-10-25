@@ -16,3 +16,7 @@ report/player-matrix-v1/screen.json
 report/player-matrix-v1/fork-screen.json
 report/player-matrix-v1/*.details.jsonl.gz
 report/player-matrix-v1/index.html
+report/player-matrix-v1/**/screen.json
+report/player-matrix-v1/**/fork-screen.json
+report/player-matrix-v1/**/*.details.jsonl.gz
+report/player-matrix-v1/**/index.html

@@ -151,3 +151,10 @@ test('streaming manifest analysis verifies SHA, source, task counts and full wor
   await assert.rejects(analyzePlayerMatrixManifest(fixture.manifestPath,{bootstrapResamples:100,allowAnalyzerDrift:true}),/restricted/);
   await writeFile(fixture.manifestPath,JSON.stringify({...fixture.manifest,complete:false}));await assert.rejects(analyzePlayerMatrixManifest(fixture.manifestPath,{bootstrapResamples:100}),/Incomplete stage/);
 });
+test('synthetic worker scope stays diagnostic even when its stage is named screen',async t=>{
+ const directory=await mkdtemp(join(tmpdir(),'matrix-synthetic-scope-'));t.after(()=>rm(directory,{recursive:true,force:true}));
+ const fixture=await manifestFixture(directory);await writeFile(fixture.manifestPath,JSON.stringify({...fixture.manifest,scope:'synthetic-fixture-only-no-game-or-formal-evidence'}));
+ const result=await analyzePlayerMatrixManifest(fixture.manifestPath,{bootstrapResamples:100});
+ assert.equal(result.report.inputIdentity.analyzerDrift.formalEligible,false);assert.match(result.report.scope,/diagnostic-not-formal/);
+ await assert.rejects(analyzePlayerMatrixManifest(fixture.manifestPath,{bootstrapResamples:100,registration:{family:'matrix',questions:[]}}),/cannot enter formal/);
+});

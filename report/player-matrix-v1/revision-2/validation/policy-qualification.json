@@ -1,0 +1,598 @@
+{
+  "version": "player-matrix-state-bank-v1",
+  "passed": true,
+  "stats": {
+    "states": 96,
+    "policies": 787,
+    "recommendations": 75168,
+    "algebra": 187920,
+    "randomFormula": 46980,
+    "tagBonuses": 18792,
+    "noTagBonuses": 169128,
+    "horizonContrasts": 3,
+    "resourceContrasts": 14,
+    "finite": 187920,
+    "anchorComparisons": 96,
+    "tagProbes": 28,
+    "tagProbabilityContrasts": 28
+  },
+  "contrasts": [
+    {
+      "fixture": "early:safe:tag",
+      "contrast": "short-greedy",
+      "short": "1205",
+      "greedy": "1003",
+      "shortComponents": {
+        "N": 14.3325,
+        "F": 5.557651572
+      },
+      "greedyComponents": {
+        "N": 11.44875,
+        "F": 7.693269572
+      }
+    },
+    {
+      "fixture": "early:health:tag",
+      "contrast": "short-greedy",
+      "short": "1205",
+      "greedy": "1003",
+      "shortComponents": {
+        "N": 20.125,
+        "F": 6.582689949
+      },
+      "greedyComponents": {
+        "N": 17.23,
+        "F": 8.296641282
+      }
+    },
+    {
+      "fixture": "early:health:abundant",
+      "contrast": "resource",
+      "active": {
+        "type": "supply",
+        "kind": "repair"
+      },
+      "reserve": {
+        "type": "supply",
+        "kind": "barrier"
+      }
+    },
+    {
+      "fixture": "early:deadline:tag",
+      "contrast": "resource",
+      "active": {
+        "type": "reroll"
+      },
+      "reserve": {
+        "type": "reward"
+      }
+    },
+    {
+      "fixture": "early:deadline:abundant",
+      "contrast": "resource",
+      "active": {
+        "type": "supply",
+        "kind": "barrier"
+      },
+      "reserve": {
+        "type": "spin"
+      }
+    },
+    {
+      "fixture": "early:combined:scarce",
+      "contrast": "resource",
+      "active": {
+        "type": "supply",
+        "kind": "barrier"
+      },
+      "reserve": {
+        "type": "spin"
+      }
+    },
+    {
+      "fixture": "early:combined:abundant",
+      "contrast": "resource",
+      "active": {
+        "type": "supply",
+        "kind": "repair"
+      },
+      "reserve": {
+        "type": "supply",
+        "kind": "barrier"
+      }
+    },
+    {
+      "fixture": "mid:safe:tag",
+      "contrast": "short-greedy",
+      "short": "1205",
+      "greedy": "1003",
+      "shortComponents": {
+        "N": 12.1775,
+        "F": 6.053986906
+      },
+      "greedyComponents": {
+        "N": 9.845,
+        "F": 8.273461595
+      }
+    },
+    {
+      "fixture": "mid:health:pollution",
+      "contrast": "resource",
+      "active": {
+        "type": "supply",
+        "kind": "overclock"
+      },
+      "reserve": {
+        "type": "remove",
+        "uid": "u1"
+      }
+    },
+    {
+      "fixture": "mid:deadline:essence",
+      "contrast": "resource",
+      "active": {
+        "type": "reroll"
+      },
+      "reserve": {
+        "type": "reward"
+      }
+    },
+    {
+      "fixture": "mid:deadline:pollution",
+      "contrast": "resource",
+      "active": {
+        "type": "supply",
+        "kind": "overclock"
+      },
+      "reserve": {
+        "type": "remove",
+        "uid": "u1"
+      }
+    },
+    {
+      "fixture": "mid:combined:essence",
+      "contrast": "resource",
+      "active": {
+        "type": "reroll"
+      },
+      "reserve": {
+        "type": "reward"
+      }
+    },
+    {
+      "fixture": "mid:combined:pollution",
+      "contrast": "resource",
+      "active": {
+        "type": "supply",
+        "kind": "overclock"
+      },
+      "reserve": {
+        "type": "remove",
+        "uid": "u1"
+      }
+    },
+    {
+      "fixture": "late:deadline:economy",
+      "contrast": "resource",
+      "active": {
+        "type": "reroll"
+      },
+      "reserve": {
+        "type": "reward"
+      }
+    },
+    {
+      "fixture": "late:deadline:pollution",
+      "contrast": "resource",
+      "active": {
+        "type": "supply",
+        "kind": "overclock"
+      },
+      "reserve": {
+        "type": "remove",
+        "uid": "u1"
+      }
+    },
+    {
+      "fixture": "late:deadline:abundant",
+      "contrast": "resource",
+      "active": {
+        "type": "supply",
+        "kind": "overclock"
+      },
+      "reserve": {
+        "type": "supply",
+        "kind": "barrier"
+      }
+    },
+    {
+      "fixture": "late:combined:economy",
+      "contrast": "resource",
+      "active": {
+        "type": "reroll"
+      },
+      "reserve": {
+        "type": "reward"
+      }
+    }
+  ],
+  "tagProbeResults": [
+    {
+      "tagId": "path:丰饶",
+      "memberId": "1105",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "path:同谐",
+      "memberId": "1009",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "path:存护",
+      "memberId": "1001",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "path:巡猎",
+      "memberId": "1002",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "path:智识",
+      "memberId": "1003",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "path:欢愉",
+      "memberId": "yao_guang",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "path:毁灭",
+      "memberId": "1008",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "path:虚无",
+      "memberId": "1004",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "path:记忆",
+      "memberId": "1402",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "element:冰",
+      "memberId": "1001",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "element:火",
+      "memberId": "1003",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "element:物理",
+      "memberId": "1105",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "element:虚数",
+      "memberId": "1004",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "element:量子",
+      "memberId": "1006",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "element:雷",
+      "memberId": "1005",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "element:风",
+      "memberId": "1002",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "faction:仙舟罗浮",
+      "memberId": "1204",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "faction:匹诺康尼",
+      "memberId": "1301",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "faction:星核猎手",
+      "memberId": "1005",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "faction:星穹列车",
+      "memberId": "1001",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "faction:星际和平公司",
+      "memberId": "1112",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "faction:翁法罗斯",
+      "memberId": "1402",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "faction:贝洛伯格",
+      "memberId": "1101",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "faction:黑塔空间站",
+      "memberId": "1008",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "mixed:path:巡猎+faction:仙舟罗浮",
+      "memberId": "1002",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "mixed:path:智识+faction:黑塔空间站",
+      "memberId": "1003",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "mixed:element:冰+faction:贝洛伯格",
+      "memberId": "1001",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    },
+    {
+      "tagId": "mixed:path:虚无+faction:星核猎手",
+      "memberId": "1004",
+      "matched": {
+        "N": 0,
+        "F": 0,
+        "T": 0.75,
+        "probability": 0.8875
+      },
+      "neutralProbability": 0.25,
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "parameters": {
+    "lambdaF": [
+      0.35,
+      1,
+      2
+    ],
+    "epsilon": [
+      0,
+      0.15,
+      0.45
+    ],
+    "lambdaR": [
+      0.5,
+      1,
+      2
+    ]
+  },
+  "scope": "State-bank qualification only, no natural-campaign win measurements.",
+  "elapsedMs": 11352,
+  "cache": {
+    "states": 112,
+    "hits": 75112,
+    "spins": 7984,
+    "offerGroups": 180,
+    "entries": 112,
+    "maxEntries": 256
+  },
+  "sourceHashes": {
+    "src/player-policy.js": "1cdab1d623ed70fa4456d0468582f826da5add7f8c6e29f5b9fb64cb5d438b35",
+    "src/player-policy-fixtures.js": "759bffe504c03ce6dd67237ce453c413f03f2f630471d0022536955ebc728427",
+    "src/engine.js": "08cbf998dad23764942fa9e70bebf5deedcff4c6136ba49a423ff4e873f9cb62",
+    "src/ai.js": "73feab4a568864bf3bba2acc7f9174dc535555290de40de522aff5e11648719c",
+    "src/content.js": "aea6b58716370b4d35baa04d0f178c50efd2cdb5b24385bbe6dc3ebb7e7ba8d4",
+    "docs/PLAYER-MATRIX-PROTOCOL-DRAFT.md": "00899f6e736cc0065833212e4f6a572c12254a55946c1316bb87a42775574b9e"
+  },
+  "counts": {
+    "main": 783,
+    "controls": 4,
+    "fixtures": 96
+  }
+}

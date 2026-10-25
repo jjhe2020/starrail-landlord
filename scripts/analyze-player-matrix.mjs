@@ -22,6 +22,8 @@ export async function analyzePlayerMatrixManifest(manifestPath, { allowIncomplet
   const analyzerHashes=Object.fromEntries(await Promise.all(implementationFiles.map(async path=>[path,await hashFile(resolve(projectRoot,path))])));
   const analyzerDrift=implementationFiles.filter(path=>manifest.sourceHashes[path]!==analyzerHashes[path]);
   if(analyzerDrift.length&&!allowAnalyzerDrift)throw Error('Analyzer source identity drift: '+analyzerDrift.join(', '));
+  const diagnosticScope=/synthetic|fixture|smoke|diagnostic/i.test(`${manifest.scope||''} ${manifest.stage} ${manifest.split}`);
+  if(registration&&(diagnosticScope||analyzerDrift.length))throw Error('Diagnostic or synthetic execution cannot enter formal confirmation');
   if(allowAnalyzerDrift&&(!/smoke|diagnostic/.test(manifest.stage+' '+manifest.split)||registration))throw Error('Analyzer drift override is restricted to non-confirmatory smoke diagnostics');
 
   const expectedReps = manifest.plan?.reps || (manifest.stage === 'pilot' || manifest.stage.includes('roots') ? 1 : 2);
@@ -67,9 +69,9 @@ export async function analyzePlayerMatrixManifest(manifestPath, { allowIncomplet
     }
   }
   const description = aggregator.summarize();
-  const identity = { sourceHashes: manifest.sourceHashes, policyHash: manifest.policyHash, manifestPath, manifestSha256: await hashFile(manifestPath), shards: sourceFiles, stage: manifest.stage, split: manifest.split, complete: manifest.complete === true, plannedExecutions: manifest.count, observedExecutions: observed, analyzerHashes,analyzerDrift:{files:analyzerDrift,explicitlyAllowed:allowAnalyzerDrift,formalEligible:analyzerDrift.length===0&&!/smoke|diagnostic/.test(manifest.stage+' '+manifest.split)} };
+  const identity = { sourceHashes: manifest.sourceHashes, policyHash: manifest.policyHash, manifestPath, manifestSha256: await hashFile(manifestPath), shards: sourceFiles, stage: manifest.stage, split: manifest.split, scope:manifest.scope||null,complete: manifest.complete === true, plannedExecutions: manifest.count, observedExecutions: observed, analyzerHashes,analyzerDrift:{files:analyzerDrift,explicitlyAllowed:allowAnalyzerDrift,formalEligible:analyzerDrift.length===0&&!diagnosticScope} };
   const report = registration ? { ...analyzeConfirmation(aggregator, registration, { family, bootstrapResamples, testResamples, refineResamples, analysisSeed, expectedSourceHashes: manifest.sourceHashes }), inputIdentity: identity } : { ...description, policies: manifest.policies || [], inputIdentity: identity };
-  if(analyzerDrift.length||/smoke|diagnostic/.test(manifest.stage+' '+manifest.split))report.scope='infrastructure-diagnostic-not-formal-matrix-evidence';
+  if(analyzerDrift.length||diagnosticScope)report.scope='infrastructure-diagnostic-not-formal-matrix-evidence';
   return { report, description: { ...description, policies: manifest.policies || [], inputIdentity: identity }, aggregator, manifest };
 }
 

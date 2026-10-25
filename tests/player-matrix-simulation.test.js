@@ -83,6 +83,43 @@ test('actual HP loss separates enemy, self-damage and pollution while shield dec
   assert.deepEqual(result.finalSnapshot.game, spin(state));
 });
 
+test('piercing observes shield balance loss separately from the existing rounded block counter', () => {
+  const state = newGame({ seed: 'matrix-subcent-shield-block', difficulty: 2 });
+  state.shield = 134.97; state.resourceStats.shieldBlocked = 117.5;
+  state.activeDebuffs = [publicDebuff(enemyDebuffById('shield_pierce'), 'difficulty', 0)];
+  state.enemies.forEach((enemy, index) => { enemy.hp = enemy.maxHp = 100000; enemy.attack = index === 0 ? 20.5 : 0; });
+  const options = { layoutUids: Array(20).fill(null) }, original = structuredClone(state);
+  assert.ok(validateSave(state));
+  const expected = inspectSpin(state, options).state, observed = observeEngineAction(() => inspectSpin(state, options).state);
+  const loss = observed.events.find(event => event.type === 'shieldLoss' && event.origin === 'blocked');
+  assert.equal(observed.protocol, 'engine-observation-v2');
+  assert.equal(observed.state.shield, 119.6);
+  assert.equal(loss.amount, 15.37);
+  assert.equal(loss.ledgerAmount, 15.38);
+  assert.equal(observed.state.resourceStats.shieldBlocked, 132.88);
+  assert.deepEqual(observed.state, expected);
+  assert.deepEqual(state, original);
+});
+
+test('P0 D2 world11 keeps the frozen game result while reconciling all half-cent piercing blocks', () => {
+  const run = runPlayerCampaign({ policy: 'matrix:baseline|H:short|J:deterministic|R:active', difficulty: 2, seed: 'matrix-v1:pilot:world:11', behaviorSeed: 'matrix-v1:pilot:world:11:behavior:0' });
+  assert.equal(run.version, 'player-matrix-campaign-v2');
+  assert.equal(run.phase, 'victory'); assert.equal(run.stopped, null); assert.deepEqual(run.errors, []);
+  assert.equal(run.actions, 112);
+  // The immutable failed P0 recorder already produced this exact game state.
+  assert.equal(run.finalStateHash, '49fedaae8d0abb6b5a30082768591eb84870e0f83df49b7683e652d9fd4f724e');
+  assert.equal(run.conservationPassed, true);
+  const floor = run.floors.find(row => row.floor === 12);
+  assert.equal(floor.flows.battle.shieldBlocked, 36.36);
+  assert.equal(floor.flows.battle.shieldBlockedRecorded, 36.39);
+  assert.ok(Object.values(floor.conservation.battle.residuals).every(value => value === 0));
+  assert.ok(Object.values(floor.conservation.total.residuals).every(value => value === 0));
+  const damagedCounter = checkPlayerConservation(floor.A, floor.B, { ...floor.flows.battle, shieldBlockedRecorded: 37.39 });
+  assert.equal(damagedCounter.passed, false);
+  assert.equal(damagedCounter.residuals.shield, 0);
+  assert.equal(damagedCounter.residuals.shieldBlockLedger, -1, 'the original counter is checked independently of shield balance');
+});
+
 test('commission income is an actual ledger source, not a missing cash residual', () => {
   const rule = RETIREMENT_RULES[0], state = newGame({ seed: 'matrix-commission-ledger' });
   state.roster = [rule.sourceId, rule.targetId, rule.targetId].map((id, index) => ({ uid: `u${index + 1}`, id, stars: 1, growth: 0, attackBonus: 0, ticks: index === 0 ? 2 : 0 }));

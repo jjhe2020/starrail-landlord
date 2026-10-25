@@ -32,12 +32,12 @@ async function pilotSummary(manifests){
  return {format:'player-matrix-pilot-summary-v1',passed:true,executions,distinctPolicyDifficultyWorldTrajectories:base.size,independentWorldSeeds:18,workerReplays:replays,wallMs:{p50:percentile(wall,.5),p95:percentile(wall,.95)},threadCpuMs:{p50:percentile(cpu,.5),p95:percentile(cpu,.95)},jsonBytes:{p50:percentile(bytes,.5),p95:percentile(bytes,.95)},gzipBytes,meanGzipBytes:gzipBytes/executions,peakRssBytes:primary.peakRssBytes,measuredThroughputPerSecond:primary.count/(primary.elapsedMs/1000),screenEstimateSecondsAtMeasuredThroughput:503680/(primary.count/(primary.elapsedMs/1000)),screenEstimatedGzipBytes:503680*gzipBytes/executions,scope:'Timing and behavior qualification only; not formal balance evidence; shared worlds are not independent per strategy'};
 }
 export async function runStandard(options={}){
- const directory=resolve(options.directory||resolve(projectRoot,'.local/player-matrix-v1/standard-20261026')),reportDirectory=resolve(options.reportDirectory||resolve(projectRoot,'report/player-matrix-v1'));
+ const directory=resolve(options.directory||resolve(projectRoot,'.local/player-matrix-v1/standard-20261026-r2')),reportDirectory=resolve(options.reportDirectory||resolve(projectRoot,'report/player-matrix-v1/revision-2'));
  if(directory===reportDirectory)throw Error('Raw records and report directories must differ');
  await mkdir(directory,{recursive:true});await mkdir(reportDirectory,{recursive:true});const release=await acquireMatrixLock(directory);let releaseReport;
  try{releaseReport=await acquireMatrixLock(reportDirectory);return await runStandardUnlocked({...options,directory,reportDirectory},async()=>{await release.assertOwned();await releaseReport.assertOwned();});}finally{await releaseReport?.();await release();}
 }
-async function runStandardUnlocked({directory=resolve(projectRoot,'.local/player-matrix-v1/standard-20261026'),reportDirectory=resolve(projectRoot,'report/player-matrix-v1'),workers=8,stopAfter=null}={},assertOwned=async()=>{}){
+async function runStandardUnlocked({directory=resolve(projectRoot,'.local/player-matrix-v1/standard-20261026-r2'),reportDirectory=resolve(projectRoot,'report/player-matrix-v1/revision-2'),workers=8,stopAfter=null}={},assertOwned=async()=>{}){
  directory=resolve(directory);reportDirectory=resolve(reportDirectory);await mkdir(directory,{recursive:true});await mkdir(reportDirectory,{recursive:true});
  const sourceHashes=await sourceFingerprint(),policies=buildPlayerPolicies({includeControls:true}),policyHash=sha(JSON.stringify(policies));
  const bindingPath=resolve(reportDirectory,'experiment-binding.json');

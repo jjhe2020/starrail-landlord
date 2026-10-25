@@ -13,7 +13,7 @@ async function execute(command,args,logPath){
   child.once('close',code=>log.end(()=>code===0?yes():no(Error(`${command} ${args.join(' ')} failed (${code}); inspect ${logPath}`))));
  });
 }
-export async function runPreflight({directory=resolve(root,'report/player-matrix-v1/validation')}={}){
+export async function runPreflight({directory=resolve(root,'report/player-matrix-v1/revision-2/validation')}={}){
  directory=resolve(directory);await mkdir(directory,{recursive:true});
  const sourceHashes=await sourceFingerprint();
  const report={format:'player-matrix-preflight-v1',passed:false,sourceHashes,startedAt:new Date().toISOString(),runtime:{node:process.version,v8:process.versions.v8,platform:platform(),arch:arch(),logicalCpus:cpus().length,memoryBytes:totalmem()},gates:[]};

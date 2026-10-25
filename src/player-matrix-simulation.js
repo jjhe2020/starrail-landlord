@@ -4,7 +4,7 @@ import { newGame, SUPPLIES, inspectSpin, chooseReward, skipReward, rerollRewards
 import { characterById } from './content.js';
 import { recommendPlayerAction, getPlayerPolicy, createPlayerRandom, samplePlayerRecommendation } from './player-policy.js';
 
-export const PLAYER_CAMPAIGN_VERSION = 'player-matrix-campaign-v1';
+export const PLAYER_CAMPAIGN_VERSION = 'player-matrix-campaign-v2';
 export const PLAYER_SNAPSHOT_FORMAT = 'player-matrix-snapshot-v1';
 export const RESOURCE_OPPORTUNITY_KINDS = Object.freeze(['reroll', 'remove', 'supply']);
 export const OPPORTUNITY_FLOORS = Object.freeze([2, 4, 6, 8, 10]);
@@ -18,7 +18,7 @@ const finite = value => typeof value === 'number' && Number.isFinite(value);
 const resolvePolicy = value => typeof value === 'string' || !value ? getPlayerPolicy(value || DEFAULT_POLICY) : value;
 const firstAffectedFloor = state => state.floor + Number(Boolean(state.pendingFloor));
 const resourceKind = action => RESOURCE_OPPORTUNITY_KINDS.includes(action?.type) ? action.type : null;
-const emptyFlows = () => ({ healed: 0, shieldGained: 0, enemyHpLost: 0, selfDamage: 0, pollutionHpLost: 0, shieldBlocked: 0, shieldDecayed: 0, shieldOtherLoss: 0, maxHpChange: 0, coinsIn: 0, coinsOut: 0, rerollsIn: 0, rerollsOut: 0, removalsIn: 0, removalsOut: 0, freeRerolls: 0, paidRerolls: 0, removalsUsed: 0, supplyPurchases: 0, supplies: { repair: 0, barrier: 0, overclock: 0 }, supplyCosts: { repair: 0, barrier: 0, overclock: 0 }, permanentAttackIssued: 0 });
+const emptyFlows = () => ({ healed: 0, shieldGained: 0, enemyHpLost: 0, selfDamage: 0, pollutionHpLost: 0, shieldBlocked: 0, shieldBlockedRecorded: 0, shieldDecayed: 0, shieldOtherLoss: 0, maxHpChange: 0, coinsIn: 0, coinsOut: 0, rerollsIn: 0, rerollsOut: 0, removalsIn: 0, removalsOut: 0, freeRerolls: 0, paidRerolls: 0, removalsUsed: 0, supplyPurchases: 0, supplies: { repair: 0, barrier: 0, overclock: 0 }, supplyCosts: { repair: 0, barrier: 0, overclock: 0 }, permanentAttackIssued: 0 });
 function addFlow(flows, key, value) { flows[key] = round(flows[key] + value); }
 function sumFlows(a, b) {
   const result = emptyFlows();
@@ -32,8 +32,10 @@ function flowEvent(flows, event) {
   if (event.type === 'hpLoss') addFlow(flows, event.origin === 'enemy' ? 'enemyHpLost' : event.origin === 'pollution' ? 'pollutionHpLost' : 'selfDamage', event.amount);
   else if (event.type === 'heal') addFlow(flows, 'healed', event.amount);
   else if (event.type === 'shieldGain') addFlow(flows, 'shieldGained', event.amount);
-  else if (event.type === 'shieldLoss') addFlow(flows, event.origin === 'blocked' ? 'shieldBlocked' : event.origin === 'decay' ? 'shieldDecayed' : 'shieldOtherLoss', event.amount);
-  else if (event.type === 'resourceGain') {
+  else if (event.type === 'shieldLoss') {
+    addFlow(flows, event.origin === 'blocked' ? 'shieldBlocked' : event.origin === 'decay' ? 'shieldDecayed' : 'shieldOtherLoss', event.amount);
+    if (event.origin === 'blocked') addFlow(flows, 'shieldBlockedRecorded', event.ledgerAmount);
+  } else if (event.type === 'resourceGain') {
     const key = { coins: 'coinsIn', rerolls: 'rerollsIn', removals: 'removalsIn' }[event.resource];
     if (key) addFlow(flows, key, event.amount);
   } else if (event.type === 'resourceSpend') {
@@ -81,7 +83,7 @@ export function checkPlayerConservation(A, end, flows, tolerance = .021) {
     hpLossLedger: round(end.resourceStats.hpLost - A.resourceStats.hpLost - flows.enemyHpLost - flows.selfDamage - flows.pollutionHpLost),
     healLedger: round(end.resourceStats.healed - A.resourceStats.healed - flows.healed),
     shieldGainLedger: round(end.resourceStats.shieldGained - A.resourceStats.shieldGained - flows.shieldGained),
-    shieldBlockLedger: round(end.resourceStats.shieldBlocked - A.resourceStats.shieldBlocked - flows.shieldBlocked),
+    shieldBlockLedger: round(end.resourceStats.shieldBlocked - A.resourceStats.shieldBlocked - flows.shieldBlockedRecorded),
     shieldDecayLedger: round(end.resourceStats.shieldDecayed - A.resourceStats.shieldDecayed - flows.shieldDecayed),
     creditsLedger: round(end.resourceStats.creditsSpent - A.resourceStats.creditsSpent - flows.coinsOut),
   };

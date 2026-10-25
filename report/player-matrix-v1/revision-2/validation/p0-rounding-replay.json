@@ -1,0 +1,109 @@
+{
+  "trialKey": "pilot|matrix:baseline|H:short|J:deterministic|R:active|D2|W11|B0",
+  "frozenCommit": "06eed15b185dfc894ad79d044f5b56b1ccb482fb",
+  "legacyTag": "v0.8.1",
+  "actionsCompared": 112,
+  "newOldFrozenAndReleasedEveryStateEqual": true,
+  "actionSignaturesAndBehaviorRngEqual": true,
+  "old": {
+    "stopped": "conservation-failed",
+    "badFloors": [
+      {
+        "floor": 12,
+        "residuals": {
+          "maxHp": 0,
+          "hp": 0,
+          "shield": 0.03,
+          "coins": 0,
+          "rerolls": 0,
+          "removals": 0,
+          "hpLossLedger": 0,
+          "healLedger": 0,
+          "shieldGainLedger": 0,
+          "shieldBlockLedger": 0,
+          "shieldDecayLedger": 0,
+          "creditsLedger": 0
+        }
+      }
+    ],
+    "finalStateHash": "49fedaae8d0abb6b5a30082768591eb84870e0f83df49b7683e652d9fd4f724e"
+  },
+  "fixed": {
+    "stopped": null,
+    "errors": [],
+    "conservationPassed": true,
+    "finalStateHash": "49fedaae8d0abb6b5a30082768591eb84870e0f83df49b7683e652d9fd4f724e",
+    "F12": {
+      "battle": {
+        "passed": true,
+        "residuals": {
+          "maxHp": 0,
+          "hp": 0,
+          "shield": 0,
+          "coins": 0,
+          "rerolls": 0,
+          "removals": 0,
+          "hpLossLedger": 0,
+          "healLedger": 0,
+          "shieldGainLedger": 0,
+          "shieldBlockLedger": 0,
+          "shieldDecayLedger": 0,
+          "creditsLedger": 0
+        },
+        "tolerance": 0.021
+      },
+      "total": {
+        "passed": true,
+        "residuals": {
+          "maxHp": 0,
+          "hp": 0,
+          "shield": 0,
+          "coins": 0,
+          "rerolls": 0,
+          "removals": 0,
+          "hpLossLedger": 0,
+          "healLedger": 0,
+          "shieldGainLedger": 0,
+          "shieldBlockLedger": 0,
+          "shieldDecayLedger": 0,
+          "creditsLedger": 0
+        },
+        "tolerance": 0.021
+      }
+    }
+  },
+  "shieldBlockAmounts": [
+    {
+      "round": 1,
+      "beforeShield": 134.97,
+      "afterShield": 119.6,
+      "legacyReported": 15.38,
+      "fixedActual": 15.37,
+      "recordedCounter": 15.38
+    },
+    {
+      "round": 2,
+      "beforeShield": 119.6,
+      "afterShield": 101.98,
+      "legacyReported": 17.63,
+      "fixedActual": 17.62,
+      "recordedCounter": 17.63
+    },
+    {
+      "round": 3,
+      "beforeShield": 101.98,
+      "afterShield": 98.61,
+      "legacyReported": 3.38,
+      "fixedActual": 3.37,
+      "recordedCounter": 3.38
+    },
+    {
+      "round": 4,
+      "beforeShield": 98.61,
+      "afterShield": 98.61,
+      "legacyReported": 0,
+      "fixedActual": 0,
+      "recordedCounter": 0
+    }
+  ]
+}

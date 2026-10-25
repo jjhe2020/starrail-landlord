@@ -25,7 +25,7 @@ const copy = value => structuredClone(value);
 const rounded = value => Math.round(value * 100) / 100;
 
 // Synchronous, opt-in telemetry. Nothing is attached to a game state or RNG.
-export const ENGINE_OBSERVATION_VERSION = 'engine-observation-v1';
+export const ENGINE_OBSERVATION_VERSION = 'engine-observation-v2';
 const actionObservationStack = [];
 function emitActionObservation(type, state, detail = {}, includeState = false) {
   if (!actionObservationStack.length) return;
@@ -836,13 +836,17 @@ function resolveSpin(previous, observer = null, diagnosticOptions = null) {
   state.lastSpin.incoming = incoming;
   const piercing = hasDebuff(state, 'shield_pierce') ? incoming * 0.25 : 0;
   const blocked = Math.min(state.shield, incoming - piercing);
+  const observedShieldBeforeBlock = state.shield;
+  const observedBlockedCounterBefore = state.resourceStats.shieldBlocked;
   state.shield = rounded(state.shield - blocked);
   const beforeHp = state.hp;
   state.hp = rounded(Math.max(0, state.hp - incoming + blocked));
   state.resourceStats.shieldBlocked = rounded(state.resourceStats.shieldBlocked + blocked);
   state.resourceStats.hpLost = rounded(state.resourceStats.hpLost + beforeHp - state.hp);
   emitActionObservation('hpLoss', state, { amount: rounded(beforeHp - state.hp), origin: 'enemy' });
-  emitActionObservation('shieldLoss', state, { amount: rounded(blocked), origin: 'blocked' });
+  // Piercing can leave sub-cent blocked amounts. The existing rule rounds the
+  // shield balance and cumulative counter independently; observe both deltas.
+  emitActionObservation('shieldLoss', state, { amount: rounded(observedShieldBeforeBlock - state.shield), ledgerAmount: rounded(state.resourceStats.shieldBlocked - observedBlockedCounterBefore), origin: 'blocked' });
   emitActionObservation('enemyAttack', state, { incoming, blocked: rounded(blocked), hpLost: rounded(beforeHp - state.hp), piercing: rounded(piercing) });
   metrics.blocked = rounded(blocked); metrics.hpLost = rounded(beforeHp - state.hp);
   observeSpinStage(state, 'afterRetaliation');

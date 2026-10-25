@@ -10,17 +10,19 @@
 
 ## 实验专用只读观测接口（2026-10-26）
 
-`observeEngineAction(() => operation(), observer = null)` 以同步作用域观察一次真实引擎动作，返回 `{state, events, observerErrors, protocol:'engine-observation-v1'}`。它不把记录器、边界、计数或额外种子写入游戏状态，不消耗随机数；同一输入的返回 `state` 必须与直接动作逐值相同。推荐器的反事实估计在观测作用域外执行，只有最终实际动作进入作用域。
+`observeEngineAction(() => operation(), observer = null)` 以同步作用域观察一次真实引擎动作，返回 `{state, events, observerErrors, protocol:'engine-observation-v2'}`。它不把记录器、边界、计数或额外种子写入游戏状态，不消耗随机数；同一输入的返回 `state` 必须与直接动作逐值相同。推荐器的反事实估计在观测作用域外执行，只有最终实际动作进入作用域。
 
 边界事件为 `{type:'boundary', boundary:'A'|'B'|'C', reason, floor, round, state}`：A是入关效果和免费资源补充完成、首个玩家动作之前；B是清场/失败即时，先于清场奖金和清场被动；C是本关奖励处理完成、下一关入场之前。最终胜利的C在最终清场奖励之后，失败不伪造C。B/C可能处于引擎内部过渡阶段，仅用于测量，不能直接当作续局存档。
 
 观测还区分实际生命损失的 `enemy / selfDamage / pollution` 来源，治疗、获得护盾、抵盾/衰减/其他失盾、资源收入/支出与效果事件。护盾截顶时只记录实际增加，溢出单列；信用点收入包括技能、剧情委派、清场奖金和奖励耗尽补偿。新关免费重掷与移除计在A之前，不计入上一关战斗代价。记录器以账本差分核对HP、盾、信用点、重掷、移除及对应累计资源统计，净生命变化不能冒充实际承伤。
 
+`shieldLoss` 的 `blocked` 来源分开记录两个量：`amount` 是护盾状态实际扣除，`ledgerAmount` 是原 `resourceStats.shieldBlocked` 的计数增量。穿盾可能令内部抵挡量含不足0.01的部分；原规则分别舍入剩余护盾和累计抵挡量，两者可差0.01。实验账本 `shieldBlocked` 用于护盾余额守恒，`shieldBlockedRecorded` 仅用于累计抵挡计数守恒，均累加实际差分；不放宽守恒容差，不改动原结算。
+
 `events`中的状态和可选回调收到的事件均是脱离游戏的副本。观察者修改副本或抛错不能改变结算；回调异常仅列入 `observerErrors`，实验记录器据此拒收样本。接口只允许同步引擎操作，不能跨异步任务保持观测作用域；各worker独立持有模块实例。
 
 `src/player-matrix-simulation.js` 是Node实验记录器，不由游戏UI导入。`runPlayerCampaign`逐动作调用共享纯引擎，保留A/B/C、逐关资源守恒与评分/概率/真实抽样/动作结果哈希。`record:false`只关闭详细输出，逐关概要与结算不变；`includeHits:true`另外保留逐击和逐实例事件，普通轨迹不重复写全量细节。
 
-续局快照使用 `player-matrix-snapshot-v1`，保存完整游戏状态、策略参数/记忆、行为随机流位置、累计动作数和正在累计的逐关账本，附SHA-256完整性摘要。默认恢复精确流位置；`behaviorSeedOverride`明确标为重新抽取未来行为流，不能冒充原根轨迹重演。首资源机会快照记录当前曝光已计数的游标，恢复不会把同一次决策重复计入分母。`plannerOptions.blockedKinds`只限制实验策略选择，不改变引擎资源权限或自然治疗/护盾。
+续局快照使用 `player-matrix-snapshot-v1` 封装、`player-matrix-campaign-v2` 账本版本，保存完整游戏状态、策略参数/记忆、行为随机流位置、累计动作数和正在累计的逐关账本，附SHA-256完整性摘要。v1账本快照保留为历史诊断证据，不混入v2续局或实验数据。默认恢复精确流位置；`behaviorSeedOverride`明确标为重新抽取未来行为流，不能冒充原根轨迹重演。首资源机会快照记录当前曝光已计数的游标，恢复不会把同一次决策重复计入分母。`plannerOptions.blockedKinds`只限制实验策略选择，不改变引擎资源权限或自然治疗/护盾。
 
 ## 0.8 规则（0.8.1 沿用）
 

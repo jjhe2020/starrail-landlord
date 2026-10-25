@@ -1,0 +1,107 @@
+{
+  "format": "player-matrix-preflight-v1",
+  "passed": true,
+  "sourceHashes": {
+    "VERSION": "aaf6721dc37c40b4233accfc081f25776ff3bd1d2a4b9d5cea760d1c2cf86665",
+    "docs/PLAYER-MATRIX-PROTOCOL-DRAFT.md": "00899f6e736cc0065833212e4f6a572c12254a55946c1316bb87a42775574b9e",
+    "package.json": "cf3af2d927830fbeb4cce0a07f43886edc0d45210ca75ceaf25028b2e2b4fbde",
+    "scripts/analyze-player-matrix.mjs": "0cd2ea172ff3fe71917662be2f63f2c3d7d3cd6dedb21cfa42f5b2d0acf24c6d",
+    "scripts/player-matrix-forks.mjs": "ddca370cb2729b06602a3b1765bec5461f03e5db4ef0d933343ee31c1895d47e",
+    "scripts/player-matrix-io.mjs": "a229cf1b7a174c795c1876cb15ccad9b95252122c00533ca8b65005eb9cfbe21",
+    "scripts/player-matrix-lock.mjs": "175fa63942b4452200c8a3e19e859d7c9f05451a638b5eecd728abea4011e543",
+    "scripts/player-matrix.mjs": "c4bae7fdcc04b9b7fa52338aba071f207f7e19ebbd3769ba9becaa024ab703e4",
+    "scripts/render-player-matrix-report.mjs": "64334774919feb2d47dedbece4a36fea4a2d52ea97cdb183a06f3da7edbee61a",
+    "scripts/run-player-matrix-standard.mjs": "d326ff1828e61ca5d96ccfe2aaaf59f15e1d972b27461f29b93daec835f1fa9e",
+    "scripts/validate-player-matrix-statistics.mjs": "52d2845e23a398fd987ef02c56bfed47d9b6e09995aea90c23d3c03e7d7ce537",
+    "scripts/validate-player-policies.mjs": "f88153b2513ccdd65721ddab5e46136726bd1c5f4fc90e97a273837d8bee5628",
+    "scripts/verify-player-matrix-engine-parity.mjs": "296373cd607b47c256d4ba535a11a5b9a33971f3d09db05b45ea3163f0f9324e",
+    "scripts/verify-player-matrix-preflight.mjs": "8cbb0c919791a83020ab0d9a099bdee41ec2fb9c6e18a48a22174f8dd74037dd",
+    "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+    "src/ai-spatial.js": "934f112c95764a92f687b753448d431dbbfc602c7ad5ff7ddefa61e5b6f9850b",
+    "src/ai-worker.js": "36ab3c392271674757822c92f414d7f18776236b88f8bdc6c1d4df79b9106e58",
+    "src/ai.js": "73feab4a568864bf3bba2acc7f9174dc535555290de40de522aff5e11648719c",
+    "src/app.js": "0d797e47855e03fc439c7c51a9e883f7d92e0d2fe6a647bb717dbdee07f72cfc",
+    "src/archetype-reference.js": "119f3287a651cd70ef74656a760654acd1b415b29c77c994770ed1693697a26a",
+    "src/archetype-simulation.js": "3390a5972ad7af862f7150d1d7ecefc50791ec3fb3d87b3700d7fdef5dd24cc4",
+    "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+    "src/attributes.js": "1b57a4d09e224fb025bf0f2a53df4676b3e5a9c1f61d07ca0392c8479b1493d8",
+    "src/balance-reference.js": "85dc73e0089bdda139a951ccf1315fce18f2c6d3b7614e62681b370889bb580c",
+    "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+    "src/balance-v080.js": "ef6ceeea7343266e589c47e8e17cb9d0ec13f607977adab97df05c54381a639b",
+    "src/combat-motion.js": "03f4635b8b0a8b6c8368545f0616f9ca4b690d72029783277aa417bef55f01cf",
+    "src/combat-player.js": "2c08e669075774a9e2889761eee6cd43499f871a5f86ae248e65ae39b9cdc539",
+    "src/content.js": "aea6b58716370b4d35baa04d0f178c50efd2cdb5b24385bbe6dc3ebb7e7ba8d4",
+    "src/developer-tools.js": "5038c28689631e62bfbc78ab54093826a65b207c30f3dc8bc2a01909015ba247",
+    "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+    "src/effect-info.js": "f05e78adeadfeb2e44b23593ae2252065bc65e27e733038aadfcc1f608a1cabf",
+    "src/effect-rules.js": "f7d2abb5576883a1f9abd2590e0a49b63cfdad2438c99db3eaec4ba7c054ff83",
+    "src/enemy-effects.js": "cd654be40741c912ea1064d7c09434ff3287065ca8da6af360fbcd0e76e04424",
+    "src/engine.js": "08cbf998dad23764942fa9e70bebf5deedcff4c6136ba49a423ff4e873f9cb62",
+    "src/growth-report.js": "aeb46f54c6c6d24f07e1b618fdf2e959c5a1cb018214dc146026009f691603a5",
+    "src/growth-simulation.js": "aa541eae6925fe26c55544974e743c573033e6b41c50147c8a7513d8325e907d",
+    "src/growth-telemetry.js": "28db1cddbcee8f37cb9c3ea596fe43f8114ae34c18a3d8d14d995df45ff9d205",
+    "src/inspect.js": "758408434321b1f499c66b279aa505761406eaf08bfa92fa27c9cfcb250f90fc",
+    "src/mechanics.js": "55b3356cc787a189c907936593a51389ff92391046f93ccccdcedfe494933a13",
+    "src/offline.js": "1cd1be89d902d19a2b8bb5596f04660e4bf8bbecdf1885561f514c817345abb4",
+    "src/player-matrix-analysis.js": "79a30ac542bbf1fde90ff6584dedc9f6120f14f688c20bc8e67223d23ae2b6c8",
+    "src/player-matrix-plan.js": "ee0cad50571409c49dd423f68d7b17f49cf9f7701322f9194cabf235e603f9c9",
+    "src/player-matrix-simulation.js": "c0a700c9b35067429b62cabc017a05c6e75c2025b6a48021ed0d501d3a00bafe",
+    "src/player-policy-fixtures.js": "759bffe504c03ce6dd67237ce453c413f03f2f630471d0022536955ebc728427",
+    "src/player-policy.js": "1cdab1d623ed70fa4456d0468582f826da5add7f8c6e29f5b9fb64cb5d438b35",
+    "src/retirement-ai.js": "b2b324e95964e12ef7818279f1fbc01edfeef8f713b010b1d3cc910ef4edc25c",
+    "src/retirements.js": "92edad425b4c033e64da5b8a146e1dfef53e7bf5380c45da81dd88451149ead5",
+    "src/runtime.js": "9722a72dcbfddcfd74a2ac2568b8d6641e2b1c883a896b0d98338b8d07c45c26",
+    "src/save-transfer.js": "14b87c2380d9042876886538beed6f3f88ed92b76bdd8a28c03271f1f8350071",
+    "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+    "src/synergies.js": "4f701b64dc869bff6b13cacef9958cce6d2ad08b50edd033ca821ada413dc004",
+    "src/ui-motion.js": "f59428f6067073a5e8833ffd7c7b86c89918a9393d99cf68295697381c95c1f5"
+  },
+  "startedAt": "2026-10-25T19:05:51.839Z",
+  "runtime": {
+    "node": "v24.14.0",
+    "v8": "13.6.233.17-node.41",
+    "platform": "darwin",
+    "arch": "arm64",
+    "logicalCpus": 10,
+    "memoryBytes": 17179869184
+  },
+  "gates": [
+    {
+      "name": "syntax-and-assets",
+      "passed": true,
+      "elapsedMs": 3003,
+      "logPath": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/report/player-matrix-v1/revision-2/validation/syntax-and-assets.log"
+    },
+    {
+      "name": "behavior-tests",
+      "passed": true,
+      "elapsedMs": 66574,
+      "logPath": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/report/player-matrix-v1/revision-2/validation/behavior-tests.log"
+    },
+    {
+      "name": "production-build",
+      "passed": true,
+      "elapsedMs": 416,
+      "logPath": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/report/player-matrix-v1/revision-2/validation/production-build.log"
+    },
+    {
+      "name": "released-engine-parity",
+      "passed": true,
+      "elapsedMs": 4585,
+      "logPath": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/report/player-matrix-v1/revision-2/validation/released-engine-parity.log"
+    },
+    {
+      "name": "policy-qualification",
+      "passed": true,
+      "elapsedMs": 11437,
+      "logPath": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/report/player-matrix-v1/revision-2/validation/policy-qualification.log"
+    },
+    {
+      "name": "statistical-calibration",
+      "passed": true,
+      "elapsedMs": 1554,
+      "logPath": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/report/player-matrix-v1/revision-2/validation/statistical-calibration.log"
+    }
+  ],
+  "completedAt": "2026-10-25T19:07:19.413Z"
+}

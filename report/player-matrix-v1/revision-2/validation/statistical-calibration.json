@@ -1,0 +1,525 @@
+{
+  "format": "player-matrix-statistics-qualification-v1",
+  "clientDate": "2026-10-26",
+  "passed": true,
+  "scope": "synthetic statistics qualification only; no game campaigns, no tuning of game/strategy/sample counts",
+  "formalMethod": "max(centered bootstrap MC conservative upper, Hoeffding bounded independent-world mean p); degenerate samples use bounded p",
+  "proof": {
+    "formula": "p_H = min(1, 2 exp(-2 N mean(D)^2 / (b-a)^2))",
+    "assumptions": [
+      "independent world blocks",
+      "each contrast lies within its pre-registered theoretical [a,b]",
+      "null mean equals zero",
+      "world replicas are averaged before constructing contrasts"
+    ],
+    "domination": "p_formal >= p_H, so rejecting at alpha is a subset of the valid bounded test rejection event. Holm remains valid under arbitrary dependence across tests.",
+    "reference": "https://www.tandfonline.com/doi/abs/10.1080/01621459.1963.10500830",
+    "powerLimitation": "The guard can substantially reduce power; fixed N=1000 does not guarantee 10pp differences are detectable."
+  },
+  "originalCenteredBootstrap": {
+    "passed": false,
+    "role": "approximate descriptive/diagnostic only; not a standalone formal p",
+    "exactFailureCount": 11,
+    "failures": [
+      {
+        "case": "paired-symmetric",
+        "alpha": 0.00034722222222222224,
+        "originalBootstrapTypeI": 0.00034770037646779893,
+        "formalGuardTypeI": 0.000033510307908954975,
+        "originalPassed": false,
+        "formalGuardPassed": true
+      },
+      {
+        "case": "paired-symmetric",
+        "alpha": 0.00026041666666666666,
+        "originalBootstrapTypeI": 0.0002722762952533555,
+        "formalGuardTypeI": 0.00002534377878047748,
+        "originalPassed": false,
+        "formalGuardPassed": true
+      },
+      {
+        "case": "paired-asymmetric",
+        "alpha": 0.025,
+        "originalBootstrapTypeI": 0.02717472317551291,
+        "formalGuardTypeI": 0.000028280290318194513,
+        "originalPassed": false,
+        "formalGuardPassed": true
+      },
+      {
+        "case": "paired-asymmetric",
+        "alpha": 0.00034722222222222224,
+        "originalBootstrapTypeI": 0.00040264570069511904,
+        "formalGuardTypeI": 3.886356377839492e-9,
+        "originalPassed": false,
+        "formalGuardPassed": true
+      },
+      {
+        "case": "paired-asymmetric",
+        "alpha": 0.00026041666666666666,
+        "originalBootstrapTypeI": 0.0003110081047140657,
+        "formalGuardTypeI": 2.606623448067081e-9,
+        "originalPassed": false,
+        "formalGuardPassed": true
+      },
+      {
+        "case": "cleared-floors-skewed",
+        "alpha": 0.00034722222222222224,
+        "originalBootstrapTypeI": 0.0011789739528629867,
+        "formalGuardTypeI": 0,
+        "originalPassed": false,
+        "formalGuardPassed": true
+      },
+      {
+        "case": "cleared-floors-skewed",
+        "alpha": 0.00026041666666666666,
+        "originalBootstrapTypeI": 0.0006072299667875986,
+        "formalGuardTypeI": 0,
+        "originalPassed": false,
+        "formalGuardPassed": true
+      },
+      {
+        "case": "interaction-symmetric",
+        "alpha": 0.00034722222222222224,
+        "originalBootstrapTypeI": 0.00034770037646779893,
+        "formalGuardTypeI": 0.000033510307908954975,
+        "originalPassed": false,
+        "formalGuardPassed": true
+      },
+      {
+        "case": "interaction-symmetric",
+        "alpha": 0.00026041666666666666,
+        "originalBootstrapTypeI": 0.0002722762952533555,
+        "formalGuardTypeI": 0.00002534377878047748,
+        "originalPassed": false,
+        "formalGuardPassed": true
+      },
+      {
+        "case": "interaction-asymmetric",
+        "alpha": 0.00034722222222222224,
+        "originalBootstrapTypeI": 0.0004486673380827914,
+        "formalGuardTypeI": 1.3323212850258258e-15,
+        "originalPassed": false,
+        "formalGuardPassed": true
+      },
+      {
+        "case": "interaction-asymmetric",
+        "alpha": 0.00026041666666666666,
+        "originalBootstrapTypeI": 0.0003299419313501125,
+        "formalGuardTypeI": 4.440981768936952e-16,
+        "originalPassed": false,
+        "formalGuardPassed": true
+      }
+    ]
+  },
+  "exactNullCases": [
+    {
+      "id": "paired-symmetric",
+      "n": 1000,
+      "low": -1,
+      "high": 1,
+      "pHigh": 0.5,
+      "range": [
+        -1,
+        1
+      ],
+      "scope": "two-strategy binary win contrast",
+      "meanUnderNull": 0,
+      "enumeratedMass": 1,
+      "results": [
+        {
+          "alpha": 0.025,
+          "originalBootstrapTypeI": 0.02470564545156045,
+          "formalGuardTypeI": 0.003252599813163432,
+          "originalPassed": true,
+          "formalGuardPassed": true
+        },
+        {
+          "alpha": 0.00034722222222222224,
+          "originalBootstrapTypeI": 0.00034770037646779893,
+          "formalGuardTypeI": 0.000033510307908954975,
+          "originalPassed": false,
+          "formalGuardPassed": true
+        },
+        {
+          "alpha": 0.00026041666666666666,
+          "originalBootstrapTypeI": 0.0002722762952533555,
+          "formalGuardTypeI": 0.00002534377878047748,
+          "originalPassed": false,
+          "formalGuardPassed": true
+        }
+      ],
+      "method": "exact binomial enumeration over all empirical high-counts; no outer Monte Carlo and no game RNG"
+    },
+    {
+      "id": "paired-asymmetric",
+      "n": 1000,
+      "low": -0.5,
+      "high": 1,
+      "pHigh": 0.3333333333333333,
+      "range": [
+        -1,
+        1
+      ],
+      "scope": "two behavior replicas averaged within a world",
+      "meanUnderNull": -5.551115123125783e-17,
+      "enumeratedMass": 1,
+      "results": [
+        {
+          "alpha": 0.025,
+          "originalBootstrapTypeI": 0.02717472317551291,
+          "formalGuardTypeI": 0.000028280290318194513,
+          "originalPassed": false,
+          "formalGuardPassed": true
+        },
+        {
+          "alpha": 0.00034722222222222224,
+          "originalBootstrapTypeI": 0.00040264570069511904,
+          "formalGuardTypeI": 3.886356377839492e-9,
+          "originalPassed": false,
+          "formalGuardPassed": true
+        },
+        {
+          "alpha": 0.00026041666666666666,
+          "originalBootstrapTypeI": 0.0003110081047140657,
+          "formalGuardTypeI": 2.606623448067081e-9,
+          "originalPassed": false,
+          "formalGuardPassed": true
+        }
+      ],
+      "method": "exact binomial enumeration over all empirical high-counts; no outer Monte Carlo and no game RNG"
+    },
+    {
+      "id": "cleared-floors-skewed",
+      "n": 1000,
+      "low": -0.5,
+      "high": 12,
+      "pHigh": 0.04,
+      "range": [
+        -12,
+        12
+      ],
+      "scope": "legal half-step paired cleared-floor difference",
+      "meanUnderNull": 0,
+      "enumeratedMass": 1,
+      "results": [
+        {
+          "alpha": 0.025,
+          "originalBootstrapTypeI": 0.023153679623126776,
+          "formalGuardTypeI": 0,
+          "originalPassed": true,
+          "formalGuardPassed": true
+        },
+        {
+          "alpha": 0.00034722222222222224,
+          "originalBootstrapTypeI": 0.0011789739528629867,
+          "formalGuardTypeI": 0,
+          "originalPassed": false,
+          "formalGuardPassed": true
+        },
+        {
+          "alpha": 0.00026041666666666666,
+          "originalBootstrapTypeI": 0.0006072299667875986,
+          "formalGuardTypeI": 0,
+          "originalPassed": false,
+          "formalGuardPassed": true
+        }
+      ],
+      "method": "exact binomial enumeration over all empirical high-counts; no outer Monte Carlo and no game RNG"
+    },
+    {
+      "id": "interaction-symmetric",
+      "n": 1000,
+      "low": -2,
+      "high": 2,
+      "pHigh": 0.5,
+      "range": [
+        -2,
+        2
+      ],
+      "scope": "four arms [1,0,0,1] versus [0,1,1,0]",
+      "meanUnderNull": 0,
+      "enumeratedMass": 1,
+      "results": [
+        {
+          "alpha": 0.025,
+          "originalBootstrapTypeI": 0.02470564545156045,
+          "formalGuardTypeI": 0.003252599813163432,
+          "originalPassed": true,
+          "formalGuardPassed": true
+        },
+        {
+          "alpha": 0.00034722222222222224,
+          "originalBootstrapTypeI": 0.00034770037646779893,
+          "formalGuardTypeI": 0.000033510307908954975,
+          "originalPassed": false,
+          "formalGuardPassed": true
+        },
+        {
+          "alpha": 0.00026041666666666666,
+          "originalBootstrapTypeI": 0.0002722762952533555,
+          "formalGuardTypeI": 0.00002534377878047748,
+          "originalPassed": false,
+          "formalGuardPassed": true
+        }
+      ],
+      "method": "exact binomial enumeration over all empirical high-counts; no outer Monte Carlo and no game RNG"
+    },
+    {
+      "id": "interaction-asymmetric",
+      "n": 1000,
+      "low": -0.5,
+      "high": 2,
+      "pHigh": 0.2,
+      "range": [
+        -2,
+        2
+      ],
+      "scope": "four arms [0,0,.5,0] versus [1,0,0,1]",
+      "meanUnderNull": 0,
+      "enumeratedMass": 1,
+      "results": [
+        {
+          "alpha": 0.025,
+          "originalBootstrapTypeI": 0.022449096330510572,
+          "formalGuardTypeI": 7.663410506788679e-9,
+          "originalPassed": true,
+          "formalGuardPassed": true
+        },
+        {
+          "alpha": 0.00034722222222222224,
+          "originalBootstrapTypeI": 0.0004486673380827914,
+          "formalGuardTypeI": 1.3323212850258258e-15,
+          "originalPassed": false,
+          "formalGuardPassed": true
+        },
+        {
+          "alpha": 0.00026041666666666666,
+          "originalBootstrapTypeI": 0.0003299419313501125,
+          "formalGuardTypeI": 4.440981768936952e-16,
+          "originalPassed": false,
+          "formalGuardPassed": true
+        }
+      ],
+      "method": "exact binomial enumeration over all empirical high-counts; no outer Monte Carlo and no game RNG"
+    }
+  ],
+  "sparseNullCases": [
+    {
+      "id": "sparse-paired-win",
+      "n": 1000,
+      "values": [
+        -1,
+        0,
+        1
+      ],
+      "probabilities": [
+        0.01,
+        0.98,
+        0.01
+      ],
+      "range": [
+        -1,
+        1
+      ],
+      "meanUnderNull": 0,
+      "syntheticDatasets": 100000,
+      "results": [
+        {
+          "alpha": 0.025,
+          "rejections": 0,
+          "observedTypeI": 0,
+          "mcExact95": [
+            0,
+            0.00003688811415711145
+          ],
+          "empiricalUpperBelowNominal": true
+        },
+        {
+          "alpha": 0.00034722222222222224,
+          "rejections": 0,
+          "observedTypeI": 0,
+          "mcExact95": [
+            0,
+            0.00003688811415711145
+          ],
+          "empiricalUpperBelowNominal": true
+        },
+        {
+          "alpha": 0.00026041666666666666,
+          "rejections": 0,
+          "observedTypeI": 0,
+          "mcExact95": [
+            0,
+            0.00003688811415711145
+          ],
+          "empiricalUpperBelowNominal": true
+        }
+      ],
+      "method": "independent synthetic bounded null datasets; qualifier is the theoretical guard, MC rate estimates are an implementation cross-check"
+    },
+    {
+      "id": "rare-skewed-cleared-floors",
+      "n": 1000,
+      "values": [
+        -0.5,
+        0,
+        12
+      ],
+      "probabilities": [
+        0.024,
+        0.975,
+        0.001
+      ],
+      "range": [
+        -12,
+        12
+      ],
+      "meanUnderNull": 0,
+      "syntheticDatasets": 100000,
+      "results": [
+        {
+          "alpha": 0.025,
+          "rejections": 0,
+          "observedTypeI": 0,
+          "mcExact95": [
+            0,
+            0.00003688811415711145
+          ],
+          "empiricalUpperBelowNominal": true
+        },
+        {
+          "alpha": 0.00034722222222222224,
+          "rejections": 0,
+          "observedTypeI": 0,
+          "mcExact95": [
+            0,
+            0.00003688811415711145
+          ],
+          "empiricalUpperBelowNominal": true
+        },
+        {
+          "alpha": 0.00026041666666666666,
+          "rejections": 0,
+          "observedTypeI": 0,
+          "mcExact95": [
+            0,
+            0.00003688811415711145
+          ],
+          "empiricalUpperBelowNominal": true
+        }
+      ],
+      "method": "independent synthetic bounded null datasets; qualifier is the theoretical guard, MC rate estimates are an implementation cross-check"
+    },
+    {
+      "id": "rare-four-arm-interaction",
+      "n": 1000,
+      "values": [
+        -0.5,
+        0,
+        2
+      ],
+      "probabilities": [
+        0.004,
+        0.995,
+        0.001
+      ],
+      "range": [
+        -2,
+        2
+      ],
+      "meanUnderNull": 0,
+      "syntheticDatasets": 100000,
+      "results": [
+        {
+          "alpha": 0.025,
+          "rejections": 0,
+          "observedTypeI": 0,
+          "mcExact95": [
+            0,
+            0.00003688811415711145
+          ],
+          "empiricalUpperBelowNominal": true
+        },
+        {
+          "alpha": 0.00034722222222222224,
+          "rejections": 0,
+          "observedTypeI": 0,
+          "mcExact95": [
+            0,
+            0.00003688811415711145
+          ],
+          "empiricalUpperBelowNominal": true
+        },
+        {
+          "alpha": 0.00026041666666666666,
+          "rejections": 0,
+          "observedTypeI": 0,
+          "mcExact95": [
+            0,
+            0.00003688811415711145
+          ],
+          "empiricalUpperBelowNominal": true
+        }
+      ],
+      "method": "independent synthetic bounded null datasets; qualifier is the theoretical guard, MC rate estimates are an implementation cross-check"
+    }
+  ],
+  "bootstrapImplementationChecks": [
+    {
+      "id": "paired-symmetric",
+      "empiricalHighCount": 450,
+      "expectedExactResamplingTail": 0.0016399185862838728,
+      "observed": {
+        "p": 0.0015099849001509985,
+        "pLower": 0.001029581083663445,
+        "pUpper": 0.00212497436156745,
+        "exceedances": 150,
+        "resamples": 100000,
+        "n": 1000,
+        "estimate": -0.1,
+        "mcConfidence": 0.99999,
+        "method": "centered-world-block-bootstrap-plus-one"
+      },
+      "passed": true
+    },
+    {
+      "id": "cleared-floors-skewed",
+      "empiricalHighCount": 20,
+      "expectedExactResamplingTail": 0.000043400441914753785,
+      "observed": {
+        "p": 0.00001999980000199998,
+        "pLower": 0.000009999950000624996,
+        "pUpper": 0.00015976031295781852,
+        "exceedances": 1,
+        "resamples": 100000,
+        "n": 1000,
+        "estimate": -0.25,
+        "mcConfidence": 0.99999,
+        "method": "centered-world-block-bootstrap-plus-one"
+      },
+      "passed": true
+    },
+    {
+      "id": "interaction-asymmetric",
+      "empiricalHighCount": 170,
+      "expectedExactResamplingTail": 0.012963727802755343,
+      "observed": {
+        "p": 0.012589874101258988,
+        "pLower": 0.011092763378527158,
+        "pUpper": 0.014217615404152692,
+        "exceedances": 1258,
+        "resamples": 100000,
+        "n": 1000,
+        "estimate": -0.075,
+        "mcConfidence": 0.99999,
+        "method": "centered-world-block-bootstrap-plus-one"
+      },
+      "passed": true
+    }
+  ],
+  "sourceHashes": {
+    "src/player-matrix-analysis.js": "79a30ac542bbf1fde90ff6584dedc9f6120f14f688c20bc8e67223d23ae2b6c8",
+    "scripts/validate-player-matrix-statistics.mjs": "52d2845e23a398fd987ef02c56bfed47d9b6e09995aea90c23d3c03e7d7ce537"
+  },
+  "elapsedMs": 1519.659667
+}

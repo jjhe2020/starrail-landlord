@@ -8,7 +8,7 @@
 2. `npm run matrix:standard`：P0三种调度复验→P1全矩阵→冻结P2问题→新种子确认→P3入口检索→五分支筛查→冻结P3问题→新入口确认→本地报告。无需人工在每阶段手动筛题。
 3. `npm run matrix:status`：读取进度与实际吞吐。P0计时与集成smoke不进入平衡结论。正式结果未完成时不能把局部排名作为验收。
 
-缺省使用8个worker（每worker旧生代堆上限512MiB），协调进程以8GiB堆预算启动；原始记录存放在被Git忽略的`.local/player-matrix-v1/standard-20261026/`；可审阅的资格、问题登记、摘要与报告在`report/player-matrix-v1/`。工作目录、原始路径、Node/V8版本、硬件与文件SHA都写入实验记录。不会上传到新的外部分析服务。
+缺省使用8个worker（每worker旧生代堆上限512MiB），协调进程以8GiB堆预算启动；当前原始记录目录为被Git忽略的`.local/player-matrix-v1/standard-20261026-r2/`，当前资格、问题登记、摘要与报告在`report/player-matrix-v1/revision-2/`。首次预演因护盾舍入记录对账失败而停止，原目录`standard-20261026/`及原始源码/资格/失败记录保留，不混入修复后的实验。工作目录、原始路径、Node/V8版本、硬件与文件SHA都写入实验记录。不会上传到新的外部分析服务。
 
 ## 断点恢复与数据身份
 
