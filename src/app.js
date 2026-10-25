@@ -1,25 +1,19 @@
 import { newGame, inspectSpin, chooseReward, skipReward, rerollRewards, removeSymbol, continueEndless, getSynergies, validateSave, purchaseSupply, getCharacterAttributes } from './engine.js';
 import { createInspector } from './inspect.js';
 import { mechanicExplanation } from './mechanics.js';
-import { POLICY_VERSION, recommendRewards, sampleRecommendation, createPolicyRandom, recommendAction } from './ai.js';
-import { BALANCE_REFERENCE } from './balance-reference.js';
-import { DIFFICULTY } from './difficulty.js';
-import { assessResourceVariant } from './simulation.js';
-import { DEFAULT_PROFILE, validateProfile } from './ai-profile.js';
 import { CHARACTERS, ITEMS, ESSENCES, characterById } from './content.js';
 import { createOfflineSupport } from './offline.js';
-import { IS_PORTABLE, assetUrl, createAiWorker } from './runtime.js';
+import { IS_PORTABLE, IS_DEVELOPMENT, assetUrl } from './runtime.js';
 import { MAX_SAVE_BYTES, exportSave, importSave } from './save-transfer.js';
 import { effectRows, effectBadges, durationInfo, snapshotTitle, unitBreakdown, characterRole, characterBindings, trainingSummary, normalAttackSummary, characterAttributeRows } from './effect-info.js';
-import { ARCHETYPES } from './archetypes.js';
 import { retirementRulesFor, getRetirementPreview } from './retirements.js';
-import { ARCHETYPE_REFERENCE } from './archetype-reference.js';
 import { COMBAT_TIMING, createCombatPlan } from './combat-motion.js';
 import { playCombat } from './combat-player.js';
 import { motionEnabled, enterModal, leaveModal, purchaseFeedback } from './ui-motion.js';
 
 const app = document.querySelector('#app');
-const SAVE_KEY = 'astral-reels:v1';
+const SAVE_KEY = IS_DEVELOPMENT ? 'astral-reels:development:v1' : 'astral-reels:v1';
+const GAME_VERSION = '0.8.1';
 const rarityNames = { common: '普通', uncommon: '稀有', rare: '史诗', legendary: '传说' };
 const recruitableCharacters = CHARACTERS.filter(character => character.recruitable !== false);
 const attackNames = { single: '单体', blast: '扩散', aoe: '群体', support: '辅助' };
@@ -74,25 +68,7 @@ let combatPreview = null;
 let rolling = false;
 let transitioning = false;
 
-const AI_SAVE_KEY = 'astral-reels:ai-profile:v1';
-let aiProfile = DEFAULT_PROFILE;
-try { aiProfile = validateProfile(JSON.parse(localStorage.getItem(AI_SAVE_KEY) || 'null')) || DEFAULT_PROFILE; } catch {}
-let recommendation = null;
-let recommendationKey = '';
-let requestedKey = '';
-let inferenceWorker = null;
-let inferenceId = 0;
-let experimentWorker = null;
-let experimentId = 0;
-let aiAutoplay = false;
-let aiAutoplayTimer = null;
-let liveAiRandom = createPolicyRandom(`${game.seed}:policy`);
-let labDifficulty = 10;
-let labResourceAccess = { rerolls: true, removals: true, credits: true, defense: true };
-let labRuns = 100;
-const currentReference = BALANCE_REFERENCE?.version >= 3 && ['resource-calibration','combat-benchmark'].includes(BALANCE_REFERENCE.kind) && BALANCE_REFERENCE.samplePurpose === 'release' && BALANCE_REFERENCE.sourceStable === true && BALANCE_REFERENCE.lookahead === true && Object.entries(DIFFICULTY).every(([key, value]) => BALANCE_REFERENCE.rules?.[key] === value) && BALANCE_REFERENCE.policyVersion === POLICY_VERSION && validateProfile(BALANCE_REFERENCE.profile) ? BALANCE_REFERENCE : null;
-let experiment = { running: false, result: currentReference, source: 'reference', type: 'benchmark', completed: 0, total: 0, difficulty: 10, seed: currentReference?.seed || '', error: null };
-const RESOURCE_LABELS = { rerolls: '重掷', removals: '移除', credits: '信用点消费', defense: '防御规划（生命/护盾）' };
+let developerTools = null;
 const SUPPLIES = { repair: { name: '医疗补给', cost: 12, description: '恢复 18 点生命', key: 'supplyRepair' }, barrier: { name: '护盾补给', cost: 10, description: '获得 20 点护盾', key: 'supplyBarrier' }, overclock: { name: '超频补给', cost: 16, description: '下一次转动造成伤害提高20%', key: 'supplyOverclock' } };
 const inspector = createInspector({ resolve: inspectionContent });
 const offline = createOfflineSupport(refreshOfflineView);
@@ -112,6 +88,9 @@ function effectBadgeMarkup(content) {
   const badges = effectBadges(content);
   return badges.length ? `<span class="effect-badges" aria-label="效果持续时间">${badges.map(badge => `<span class="effect-chip duration-${esc(badge.key)}">${esc(badge.label)}</span>`).join('')}</span>` : '';
 }
+function advancedRules(body, title = '进阶规则与结算') {
+  return IS_DEVELOPMENT ? body : `<details class="advanced-rules"><summary>${esc(title)}</summary>${body}</details>`;
+}
 function effectRulesMarkup(content) {
   const rows = effectRows(content);
   return rows.length ? `<section class="effect-rules" aria-label="生效与叠加规则">${rows.map(row => `<div class="effect-rule"><h4>${esc(row.label)}</h4><dl><div><dt>时点</dt><dd>${esc(row.trigger)}</dd></div><div><dt>对象</dt><dd>${esc(row.target)}</dd></div>${row.conditions ? `<div><dt>条件</dt><dd>${esc(row.conditions)}</dd></div>` : ''}<div><dt>持续</dt><dd><span class="effect-chip duration-${esc(row.duration.key)}">${esc(row.duration.label)}</span></dd></div><div><dt>叠加</dt><dd>${esc(row.stacking)}</dd></div>${row.scaling ? `<div><dt>属性/星级</dt><dd>${esc(row.scaling)}</dd></div>` : ''}</dl>${row.duration.note ? `<p class="effect-duration-note">${esc(row.duration.note)}</p>` : ''}</div>`).join('')}</section>` : '';
@@ -127,7 +106,7 @@ function attributeMarkup(c, instance, { detailed = false } = {}) {
   const rows = characterAttributeRows(attributes);
   const attackBonus = attributes.attackBonus || 0;
   const starAttack = attributes.starAttack ?? attributes.breakdown?.starAttack ?? attributes.attack - attackBonus;
-  return `<section class="card-attributes" aria-label="角色固有属性"><dl>${rows.map(row => `<div class="attribute-${row.key}"><dt>${esc(row.label)}</dt><dd>${row.key === 'attack' ? num(row.value) : esc(row.value)}</dd></div>`).join('')}</dl>${detailed ? `<p class="attribute-origin">一星基础攻击力 ${num(attributes.baseAttack)} · ${instance?.stars || 1}星基础 ${num(starAttack)}${attackBonus ? ` · 本局永久 +${num(attackBonus)}` : ''}${attributes.permanentPercent ? ` · 永久攻击力提高${percentage(attributes.permanentPercent)}` : ''}</p><p class="attribute-note">升星与本局永久提升计入卡面；本次转动的攻击力增益和伤害增益在结算记录中查看。默认倍率不用于治疗、护盾或追加攻击。</p>` : `<p class="attribute-origin">一星基础攻击力 ${num(attributes.baseAttack)}${attackBonus ? ` · 本局永久 +${num(attackBonus)}` : ''}${attributes.permanentPercent ? ` · 永久攻击力提高${percentage(attributes.permanentPercent)}` : ''}</p>`}</section>`;
+  return `<section class="card-attributes" aria-label="角色固有属性"><dl>${rows.map(row => `<div class="attribute-${row.key}"><dt>${esc(row.label)}</dt><dd>${row.key === 'attack' ? num(row.value) : esc(row.value)}</dd></div>`).join('')}</dl>${detailed ? `<p class="attribute-origin">一星基础攻击力 ${num(attributes.baseAttack)} · ${instance?.stars || 1}星基础 ${num(starAttack)}${attackBonus ? ` · 本局永久 +${num(attackBonus)}` : ''}${attributes.permanentPercent ? ` · 永久攻击力提高${percentage(attributes.permanentPercent)}` : ''}</p><p class="attribute-note">升星与本局永久提升计入卡面；本次转动的攻击力增益和伤害增益在结算记录中查看。默认倍率不用于治疗、护盾或追加攻击。</p>` : IS_DEVELOPMENT ? `<p class="attribute-origin">一星基础攻击力 ${num(attributes.baseAttack)}${attackBonus ? ` · 本局永久 +${num(attackBonus)}` : ''}${attributes.permanentPercent ? ` · 永久攻击力提高${percentage(attributes.permanentPercent)}` : ''}</p>` : ''}</section>`;
 }
 function powerBreakdownMarkup(instance) {
   const part = unitBreakdown(game, instance?.uid);
@@ -160,7 +139,7 @@ function archetypeTags() { return ''; }
 function retirementMarkup(c) {
   const rules = retirementRulesFor(c.id);
   if (!rules.length) return '';
-  return `<details class="retirement-info"><summary>剧情委派 · ${rules.length} 组配合</summary>${rules.map(rule => `<p><b>${esc(rule.sourceName)} → ${esc(rule.targetName)}</b> · ${esc(rule.name)}</p><p>${esc(rule.relation)} <a class="rule-source" href="${esc(rule.source)}" target="_blank" rel="noreferrer">剧情来源 ↗</a></p><p>${esc(rule.adaptation)}</p><p>主持角色每第${rule.every}次实际登场，可将1名相邻的额外一星角色从本局删除，获得${rule.coins}信用点${rule.attackGrowth ? `，自身攻击力永久增加${rule.attackGrowth}（仅本局）` : ''}${rule.power ? `，本次转动攻击力增加${rule.power}` : ''}。保护二星、三星、永久攻击力增量超过1的角色和最后同名角色。拥有过对应角色后，每第${rule.supplyEvery}次登场创建1名角色，下次转动起可登场；同一委派同时最多保留1名由其创建的角色。创建的角色正常参与合成、羁绊和属性提升。</p>`).join('')}</details>`;
+  return `<details class="retirement-info"><summary>剧情委派 · ${rules.length} 组配合</summary>${rules.map(rule => `<p><b>${esc(rule.sourceName)} → ${esc(rule.targetName)}</b> · ${esc(rule.name)}</p><details class="advanced-rules"><summary>剧情来源与改编说明</summary><p>${esc(rule.relation)} <a class="rule-source" href="${esc(rule.source)}" target="_blank" rel="noreferrer">剧情来源 ↗</a></p><p>${esc(rule.adaptation)}</p></details><p>主持角色每第${rule.every}次实际登场，可将1名相邻的额外一星角色从本局删除，获得${rule.coins}信用点${rule.attackGrowth ? `，自身攻击力永久增加${rule.attackGrowth}（仅本局）` : ''}${rule.power ? `，本次转动攻击力增加${rule.power}` : ''}。保护二星、三星、永久攻击力增量超过1的角色和最后同名角色。拥有过对应角色后，每第${rule.supplyEvery}次登场创建1名角色，下次转动起可登场；同一委派同时最多保留1名由其创建的角色。创建的角色正常参与合成、羁绊和属性提升。</p>`).join('')}</details>`;
 }
 function publicationMarkup(c) {
   if (c.portraitKind === 'shared-source') return `<p class="publication-note">${esc(c.adaptation || '本作改编角色；头像借用官方角色素材，不代表独立官方立绘。')}</p>`;
@@ -175,8 +154,7 @@ function inspectionContent(anchor) {
   if (kind === 'mechanic') {
     const info = mechanicExplanation(anchor.dataset.key, game);
     if (!info) return null;
-    const choice = anchor.dataset.key === 'aiProbability' && recommendationKey === currentRecommendationKey()
-      ? recommendation?.choices.find(c => c.index === Number(anchor.dataset.aiIndex)) : null;
+    const choice = IS_DEVELOPMENT && anchor.dataset.key === 'aiProbability' ? developerTools?.inspectorChoice(Number(anchor.dataset.aiIndex)) : null;
     return { title: info.title, bodyHtml: `<p>${esc(info.description)}</p>${info.extra ? `<p class="inspect-note">${esc(info.extra)}</p>` : ''}${choice ? `<p class="inspect-note">当前推荐 ${percentage(choice.probability)}：${esc(choice.reason)}</p>` : ''}` };
   }
   if (kind === 'character') {
@@ -186,7 +164,7 @@ function inspectionContent(anchor) {
     const attributes = characterAttributes(c, instance);
     const attack = mechanicExplanation(attributes.normalAttack.pattern, game);
     const targeted = (game.activeDebuffs || []).filter(clause => clause.targetUid === instance?.uid && clause.targetUid);
-    return { title: c.name, bodyHtml: `<div class="inspect-character"><img src="${portrait(c)}" alt=""/><div><span class="inspect-stars">${stars(instance?.stars)}</span><p>${esc(c.element)} · ${esc(c.path)} · ${esc(c.faction)}</p><b>${esc(characterRole(c))}</b></div></div>${attributeMarkup(c, instance, { detailed: true })}${publicationMarkup(c)}${bindingTags(c)}${archetypeTags(c)}${retirementMarkup(c)}${effectBadgeMarkup(c)}<p class="skill-rule-label">角色技能</p><p>${esc(c.description)}</p>${effectRulesMarkup(c)}<p class="inspect-note">${esc(attack.description)}</p>${targeted.map(clause => `<p class="inspect-affliction">本关负面 · ${esc(clause.name)}：${esc(clause.description)}</p>`).join('')}${(instance?.deleteAfterAppearances || c.effects?.find(effect => effect.type === 'selfDelete')?.afterAppearances) ? `<p>自身删除技能：已登场 ${instance?.ticks || 0} 次，共计 ${instance?.deleteAfterAppearances || c.effects.find(effect => effect.type === 'selfDelete').afterAppearances} 次后，在本次全部结算结束时删除自身。</p>` : ''}${instance?.status ? `<p>上次状态：${instance.status === 'consumed' ? '已删除，未参与攻击' : '结算后已删除'}。</p>` : ''}${powerBreakdownMarkup(instance)}${unitEffectsMarkup(instance)}` };
+    return { title: c.name, bodyHtml: `<div class="inspect-character"><img src="${portrait(c)}" alt=""/><div><span class="inspect-stars">${stars(instance?.stars)}</span><p>${esc(c.element)} · ${esc(c.path)} · ${esc(c.faction)}</p><b>${esc(characterRole(c))}</b></div></div>${attributeMarkup(c, instance, { detailed: IS_DEVELOPMENT })}${!IS_DEVELOPMENT && attributes.attackBonus ? `<p>本局永久攻击力 +${num(attributes.attackBonus)}</p>` : ''}${IS_DEVELOPMENT ? publicationMarkup(c) + bindingTags(c) : ''}${effectBadgeMarkup(c)}<p class="skill-rule-label">角色技能</p><p>${esc(c.description)}</p>${retirementMarkup(c)}${advancedRules(effectRulesMarkup(c) + `<p class="inspect-note">${esc(attack.description)}</p>`)}${targeted.map(clause => `<p class="inspect-affliction">本关负面 · ${esc(clause.name)}：${esc(clause.description)}</p>`).join('')}${(instance?.deleteAfterAppearances || c.effects?.find(effect => effect.type === 'selfDelete')?.afterAppearances) ? `<p>自身删除技能：已登场 ${instance?.ticks || 0} 次，共计 ${instance?.deleteAfterAppearances || c.effects.find(effect => effect.type === 'selfDelete').afterAppearances} 次后，在本次全部结算结束时删除自身。</p>` : ''}${instance?.status ? `<p>上次状态：${instance.status === 'consumed' ? '已删除，未参与攻击' : '结算后已删除'}。</p>` : ''}${advancedRules(powerBreakdownMarkup(instance) + unitEffectsMarkup(instance), '上次效果与攻击力构成')}` };
   }
   if (kind === 'synergy') {
     const s = getSynergies(game).find(entry => entry.id === anchor.dataset.id);
@@ -194,13 +172,13 @@ function inspectionContent(anchor) {
     const members = [...new Set(game.roster.map(unit => unit.id))].map(char).filter(c => c && c[s.kind] === s.tag);
     const seen = new Set(game.board.filter(unit => unit && char(unit.id)?.[s.kind] === s.tag).map(unit => unit.id)).size;
     const traces = (game.lastSpin.effects || []).filter(event => event.sourceId === s.id);
-    return { title: s.name, bodyHtml: `${s.style ? `<p class="synergy-style">${esc(s.style)}</p>` : ''}<p>${esc(s.description)}</p>${effectBadgeMarkup(s)}<div class="inspect-thresholds">${s.thresholds.map(t => `<span class="${s.count >= t ? 'active' : ''}">${t} 人 ${s.count >= t ? '✓ 已激活' : '未达成'}</span>`).join('')}</div><p>编队 ${s.count} 个不同身份 · ${s.active ? `第 ${s.tier} 档已激活，触发还需满足效果条件` : '尚未激活'}。</p><p class="inspect-note">${members.map(c => esc(c.name)).join('、') || '编队尚无符合条件的角色'}。重复副本与星级不重复计数；技能创建的角色同样参与。</p>${synergyRulesMarkup(s)}${game.stats.spins ? `<p class="inspect-note">${esc(snapshotTitle(game))}：匹配登场 ${seen} 个不同角色身份，${traces.length ? `${traces.length} 条效果记录` : '没有此羁绊的触发记录'}。这不是下一次的触发保证。</p>` : ''}` };
+    return { title: s.name, bodyHtml: `${s.style ? `<p class="synergy-style">${esc(s.style)}</p>` : ''}<p>${esc(s.description)}</p>${effectBadgeMarkup(s)}<div class="inspect-thresholds">${s.thresholds.map(t => `<span class="${s.count >= t ? 'active' : ''}">${t} 人 ${s.count >= t ? '✓ 已激活' : '未达成'}</span>`).join('')}</div><p>编队 ${s.count} 个不同身份 · ${s.active ? `第 ${s.tier} 档已激活，触发还需满足效果条件` : '尚未激活'}。</p><p class="inspect-note">${members.map(c => esc(c.name)).join('、') || '编队尚无符合条件的角色'}。重复副本与星级不重复计数；技能创建的角色同样参与。</p>${advancedRules(synergyRulesMarkup(s), '各档效果与叠加')}${game.stats.spins ? `<p class="inspect-note">${esc(snapshotTitle(game))}：匹配登场 ${seen} 个不同角色身份，${traces.length ? `${traces.length} 条效果记录` : '没有此羁绊的触发记录'}。这不是下一次的触发保证。</p>` : ''}` };
   }
   if (kind === 'item' || kind === 'essence') {
     const c = kind === 'item' ? item(anchor.dataset.id) : essence(anchor.dataset.id);
     if (!c) return null;
     const owned = kind === 'essence' ? game.essences.find(e => e.id === c.id) : null;
-    return { title: c.name, bodyHtml: `${curioArt(c, kind === 'essence')}${effectBadgeMarkup(c)}<p>${esc(c.description)}</p>${effectRulesMarkup(c)}<p class="inspect-note">${kind === 'item' ? '取得时的即时奖励只领取一次；持有被动按各自条件触发，无需点击使用。' : owned ? owned.triggered ? '已达成条件。一次性奖励不会重复领取；本局持续效果继续按规则生效。' : `当前蓄能 ${num(owned.progress)} / ${c.target}，尚未解锁效果。` : '取得后开始积累对应条件；解锁前不会获得后续被动。'}</p>` };
+    return { title: c.name, bodyHtml: `${curioArt(c, kind === 'essence')}${effectBadgeMarkup(c)}<p>${esc(c.description)}</p>${advancedRules(effectRulesMarkup(c), '生效与叠加规则')}<p class="inspect-note">${kind === 'item' ? '取得时的即时奖励只领取一次；持有被动按各自条件触发，无需点击使用。' : owned ? owned.triggered ? '已达成条件。一次性奖励不会重复领取；本局持续效果继续按规则生效。' : `当前蓄能 ${num(owned.progress)} / ${c.target}，尚未解锁效果。` : '取得后开始积累对应条件；解锁前不会获得后续被动。'}</p>` };
   }
   if (kind === 'debuff') {
     const clause = (game.activeDebuffs || []).find(entry => entry.id === anchor.dataset.id);
@@ -254,7 +232,7 @@ function decorateInspectors() {
   mechanic('.curios-panel .panel-heading', 'items', 'h2'); mechanic('.essence-panel .panel-heading', 'essences', 'h2');
   mechanic('.seed-label', 'seed'); mechanic('.cell-stars', 'stars'); mechanic('.cell-power', 'power'); mechanic('.reel-cell.blank', 'roster');
   mechanic('.ai-panel .panel-heading', 'aiLab', 'h2');
-  if (!document.querySelector('.mechanic-hint')) {
+  if (IS_DEVELOPMENT && !document.querySelector('.mechanic-hint')) {
     const hint = document.createElement('p'); hint.className = 'mechanic-hint';
     hint.textContent = '点 ? 查看说明 · 也可悬停或长按';
     document.querySelector('.dossier .small-stats')?.after(hint);
@@ -267,210 +245,6 @@ function closeUtilityOnly() {
   if (!document.querySelector('.utility-panel')) return;
   document.querySelector('.utility-panel').remove(); dialog = null;
   document.querySelectorAll('.nav-button').forEach(button => button.classList.toggle('active', button.dataset.action === 'play'));
-}
-function currentRecommendationKey() {
-  return `${game.difficulty}:${JSON.stringify(game.resourceStats)}:${game.overclockReady}:${game.supplyPurchases}:${game.hp}:${game.shield}:${JSON.stringify(game.activeDebuffs)}:${game.seed}:${game.stats.spins}:${game.phase}:${game.choices.join(',')}:${game.uidCounter}:${game.coins}:${game.roster.map(u=>u.uid).join(',')}:${JSON.stringify(aiProfile)}`;
-}
-function recommendationMarkup(index) {
-  const c = recommendationKey === currentRecommendationKey() ? recommendation?.choices.find(choice => choice.index === index) : null;
-  const label = index === game.choices.length ? `${game.phase === 'recruit' ? '暂不招募' : '跳过奖励'} · ` : '';
-  return c ? `<div class="ai-probability-heading"><span>${label}AI 推荐</span><strong>${percentage(c.probability)}</strong></div><div class="ai-probability-meter"><i style="width:${c.probability * 100}%"></i></div><p>${esc(c.reason)}</p>` : `<div class="ai-probability-heading"><span>${label}AI 正在分析</span><strong>…</strong></div><p>评估当前构筑与随机战场</p>`;
-}
-function applyRecommendation(result, key) {
-  if (key !== currentRecommendationKey() || !isReward()) return;
-  recommendation = result; recommendationKey = key;
-  document.querySelectorAll('[data-ai-index]').forEach(node => { node.innerHTML = recommendationMarkup(Number(node.dataset.aiIndex)); });
-  updateAiPanel();
-}
-function requestRecommendations() {
-  if (!isReward() || busy) return;
-  const key = currentRecommendationKey();
-  if (recommendationKey === key || requestedKey === key) return;
-  requestedKey = key;
-  const id = ++inferenceId;
-  try {
-    if (!inferenceWorker) {
-      inferenceWorker = createAiWorker();
-      const activeInferenceWorker = inferenceWorker;
-      inferenceWorker.onmessage = ({ data }) => {
-        if (data.requestId !== inferenceId) return;
-        if (data.type === 'recommend') applyRecommendation(data.result, requestedKey);
-        else if (data.type === 'error') fallbackRecommendation(requestedKey);
-      };
-      inferenceWorker.onerror = () => { if (inferenceWorker !== activeInferenceWorker) return; inferenceWorker?.terminate(); inferenceWorker = null; fallbackRecommendation(requestedKey); };
-    }
-    inferenceWorker.postMessage({ type: 'recommend', requestId: id, state: game, profile: aiProfile });
-  } catch { fallbackRecommendation(key); }
-}
-function fallbackRecommendation(key) {
-  setTimeout(() => { if (key === currentRecommendationKey() && isReward()) applyRecommendation(recommendRewards(game, { profile: aiProfile }), key); }, 0);
-}
-function aiPanel() {
-  const progress = experiment.running ? Math.round(experiment.completed / Math.max(1, experiment.total) * 100) : 0;
-  const status = aiAutoplay ? '统一决策：构筑、重掷、移除与补给 · 可随时停止' : isReward() ? `${game.choices.length} 张奖励与跳过都有推荐概率和理由` : '下一次招募时评估奖励与跳过';
-  const experimentLabel = experiment.type === 'train' ? '训练与独立验证' : experiment.type === 'ablation' ? '20 组资源矩阵' : 'AI / 随机对照';
-  return `<section class="panel ai-panel"><div class="panel-heading"><h2>AI 开拓助手</h2><span class="count-badge">${aiAutoplay ? '代打中' : '策略 AI'}</span></div><p class="panel-intro muted">看懂构筑，也验证每一种可能。</p><div class="ai-status">${status}</div><div class="ai-buttons"><button class="button ghost" data-action="aiAutoplay" ${['victory', 'defeat'].includes(game.phase) ? 'disabled' : ''}>${aiAutoplay ? '停止代打' : 'AI 代打'}</button><button class="button ghost" data-action="aiLab">自动测试</button></div>${experiment.running ? `<div class="ai-batch-progress"><div><span>${experimentLabel}</span><b>${progress}%</b></div><div class="meter gold"><i style="width:${progress}%"></i></div></div>` : experiment.result ? '<p class="ai-last-result">✓ 评测记录可用 · 点自动测试查看</p>' : ''}<small class="ai-model-version">策略 ${esc(POLICY_VERSION)} · 模型 ${esc(aiProfile.version)} · 本地运行</small></section>`;
-}
-function updateAiPanel() {
-  const panel = document.querySelector('.ai-panel');
-  if (panel) { const replacement = document.createElement('div'); replacement.innerHTML = aiPanel(); panel.replaceWith(replacement.firstElementChild); decorateInspectors(); }
-  const progress = document.querySelector('.lab-progress');
-  if (progress) {
-    if (experiment.running && progress.querySelector('[data-action="aiCancel"]')) {
-      const replacement = document.createElement('div');
-      replacement.innerHTML = labProgressMarkup();
-      progress.querySelector('.ai-batch-progress')?.replaceWith(replacement.querySelector('.ai-batch-progress'));
-    } else progress.innerHTML = labProgressMarkup();
-  }
-  const result = document.querySelector('.lab-result');
-  if (result) result.innerHTML = labResultMarkup();
-}
-function labProgressMarkup() {
-  if (!experiment.running) return experiment.error ? `<p class="lab-error">${esc(experiment.error)}</p>` : '';
-  const progress = Math.round(experiment.completed / Math.max(1, experiment.total) * 100);
-  return `<div class="ai-batch-progress"><div><span>${experiment.type === 'train' ? '尝试参数 → 验证 → 留出测试' : '新建独立对局'}</span><b>${experiment.completed} / ${experiment.total} · ${progress}%</b></div><div class="meter gold"><i style="width:${progress}%"></i></div></div><button class="text-button" data-action="aiCancel">取消本次实验</button>`;
-}
-function archetypeBenchmarkMarkup() {
-  return `<section class="archetype-benchmark-pending help-note"><b>0.8 属性与技能规则评测</b><p>旧版胜率不适用于本版。正式结论见随版本提供的测试报告。</p><details><summary>内部拿牌策略 · 仅用于测试</summary><p>以下名称只是公开候选的选择偏好，没有额外成型奖励。</p>${ARCHETYPES.map(route => `<p><b>${esc(route.name)}</b>：${esc(route.description)}</p>`).join('')}</details></section>`;
-}
-function labResultMarkup() {
-  if (!experiment.result) return '<p class="lab-empty">当前资源配置尚无本版发布评测记录。可运行新实验，当前旅程保持；测试结论见本版随附报告。</p>';
-  const result = experiment.result;
-  if (experiment.type === 'train') {
-    const rows = result.holdout?.baseline?.modes || [];
-    return `<div class="lab-training-result"><b>${result.accepted ? '独立验收通过，已采用新策略' : '未证明改进，保留当前策略'}</b><p>训练、验证和留出使用不同种子。</p></div>${rows.map(before => {
-      const after = result.holdout.candidate.modes.find(row => row.difficulty === before.difficulty) || result.holdout.candidate.modes[0];
-      return `<article class="lab-mode-result"><h3>难度 D${before.difficulty || labDifficulty} · 每模型 ${before.runs} 局</h3><p>原策略 ${percentage(before.winRate)} → 候选 ${percentage(after?.winRate)}</p></article>`;
-    }).join('')}`;
-  }
-  const variants = result.variants || result.resourceScenarios || result.scenarios;
-  const sameProfile = JSON.stringify(validateProfile(result.profile)) === JSON.stringify(validateProfile(aiProfile));
-  const context = `<p class="lab-archive-label">${experiment.source === 'reference' ? '独立发布评测' : '本次独立实验'} · 种子 ${esc(result.seed || experiment.seed)}<br/>策略 ${esc(result.policyVersion || POLICY_VERSION)} · 评测模型 ${esc(result.profile?.version || '未记录')}<br/>仅适用于本批难度与资源配置，不能视为玩家通关率。${sameProfile ? '' : '<br/>当前模型档案与评测记录不同，运行新实验可验证当前档案。'}</p>`;
-  if (!variants) return context + (result.calibrationTarget ? `<p class="lab-intro">本配置通关目标 ${percentage(result.calibrationTarget.min)}–${percentage(result.calibrationTarget.max)}：${result.calibrationTarget.passed ? '已通过' : '未通过'}。本次仅验证当前配置与随机基线；资源缺失的 D8 / D6 / D4 / D2 映射尚未在新版重新验收。</p>` : '') + benchmarkMarkup(result);
-  const normalized = variants.map(row => ({ ...row, summary: row.summary || row.ai, disabledResources: row.disabledResources || Object.entries(row.resourceAccess || {}).filter(([, allowed]) => !allowed).map(([key]) => key) }));
-  const full = normalized.find(row => row.difficulty === 10 && row.disabledResources.length === 0);
-  const assessed = normalized.map(row => ({ ...row, ...assessResourceVariant(row, { full, target: result.target }) }));
-  return `${context}${calibrationOverview(assessed, result.target)}<p class="lab-intro">D10 的主动资源对照衡量同难度影响；其他配置按开关数标记 D8 / D6 / D4 / D2，必须再核对实际消费才能验收。关闭防御规划保留自然防御，观察结果单独解释。点每行展开原始胜率、真实资源和原因。</p><div class="variant-matrix">${assessed.map((row, index) => {
-    const summary = row.summary || row.ai;
-    if (!summary) return '';
-    const disabled = row.disabledResources || Object.entries(row.resourceAccess || {}).filter(([, allowed]) => !allowed).map(([key]) => key);
-    const label = disabled.length ? `禁用 ${disabled.map(key => RESOURCE_LABELS[key] || key).join('、')}` : '全资源';
-    return `<details class="variant-row" ${index === 0 ? 'open' : ''}><summary><span><b>D${row.difficulty} · ${row.passed ? '已通过' : row.verifiable ? '未通过' : '未能验收'}</b><small>${esc(label)}</small></span><strong>${percentage(summary.winRate)}</strong></summary>${variantAssessmentMarkup(row)}${benchmarkMarkup({ modes: [{ ...row, ai: summary }] })}</details>`;
-  }).join('')}</div>`;
-}
-function calibrationOverview(variants, target) {
-  const full = variants.find(row => row.difficulty === 10 && row.disabledResources.length === 0);
-  const activeNominal = variants.filter(row => !row.isAblation && row.disabledResources.length > 0 && !row.disabledResources.includes('defense'));
-  const activeControls = variants.filter(row => row.isAblation && !row.disabledResources.includes('defense'));
-  const defenseRows = variants.filter(row => row.disabledResources.includes('defense'));
-  const hasLowEvidence = defenseRows.some(row => (row.summary?.defenseUsage?.strata?.low?.n || 0) > 0);
-  const allPassed = target?.passed ?? (variants.length > 0 && variants.every(row => row.passed));
-  return `<section class="calibration-overview" aria-label="资源校准验收状态"><p><b>完整 D10 目标</b><span>${full ? full.passed ? '已通过' : '未通过，详见首行原因' : '未提供完整 D10 样本'}</span></p><p><b>主动资源档位验收</b><span>${activeNominal.filter(row => row.passed).length} / ${activeNominal.length} 组通过</span></p><p><b>同难度主动资源对照</b><span>${activeControls.filter(row => row.passed).length} / ${activeControls.length} 组通过</span></p><p><b>防御规划观察</b><span>${hasLowEvidence ? '已有低使用样本，按各行样本数解释' : '未提供低使用证据'}</span></p><small>完整映射${allPassed ? '通过' : '尚未全部证实'}；各行保留原始胜率，观察组不冒充移除防御的消融。</small></section>`;
-}
-function variantAssessmentMarkup(row) {
-  const defense = row.actualDefensiveUse;
-  const missing = row.actualMissingResources || [];
-  const disabledPlanning = defense?.planningEnabled === false;
-  const observation = disabledPlanning && !defense.lowUse ? `仅关闭防御规划；实际防御仍${defense.effective ? '有效' : '有参与'}，不作为缺防御的档位验收。` : disabledPlanning ? '仅关闭防御规划；低使用样本为赛后观察，不等于彻底移除生命与护盾。' : '';
-  return `<section class="variant-assessment ${row.passed ? 'passed' : ''}"><b>${row.passed ? '验收通过' : row.verifiable ? '验收未通过' : '尚不能验收此映射'}</b><p>实际缺失：${missing.length ? esc(missing.map(key => RESOURCE_LABELS[key] || key).join('、')) : '无'}（${row.actualMissingResourceCount} 类） · 对应名义 D${row.nominalDifficulty}</p>${observation ? `<p class="planning-observation">${observation}</p>` : ''}${row.reasons?.length ? `<ul>${row.reasons.map(reason => `<li>${esc(reason)}</li>`).join('')}</ul>` : ''}</section>`;
-}
-function usageMarkup(usage) {
-  if (!usage) return '';
-  const fields = [['rerollsUsed', '重掷'], ['paidRerolls', '付费重掷'], ['removalsUsed', '移除'], ['supplyPurchases', '补给购买'], ['creditsSpent', '信用点消费'], ['initialHp', '初始生命'], ['healed', '实际治疗'], ['hpLost', '生命损失'], ['initialShield', '初始护盾'], ['shieldGained', '获得护盾'], ['shieldBlocked', '护盾抵挡'], ['shieldDecayed', '护盾衰减浪费']];
-  return `<div class="usage-grid">${fields.map(([key, label]) => `<span>${label}<b>${num(Math.round((usage[key] || 0) * 100) / 100)}</b></span>`).join('')}</div>`;
-}
-function defenseUsageMarkup(usage) {
-  if (!usage) return '';
-  const labels = { low: '使用偏低', moderate: '部分使用', effective: '有效使用' };
-  const generated = (usage.hpGenerated || 0) + (usage.shieldGenerated || 0);
-  const rate = (value, denominator) => denominator > 0 && Number.isFinite(value) ? percentage(value) : '未生成';
-  const low = usage.thresholds?.low ?? .2;
-  const effective = usage.thresholds?.effective ?? .5;
-  return `<section class="defense-efficiency"><button type="button" class="defense-efficiency-heading" data-inspect="mechanic" data-inspect-click="true" data-key="defenseUsage">防御有效消耗 <span>?</span></button><div class="defense-rates"><span>生命消耗 / 生成<b>${rate(usage.hpConsumptionRate, usage.hpGenerated)}</b></span><span>护盾抵伤 / 生成<b>${rate(usage.shieldConsumptionRate, usage.shieldGenerated)}</b></span><span>合计有效消耗<b>${rate(usage.combinedRate, generated)}</b></span></div><p class="defense-classification">${esc(labels[usage.classification] || '待判断')}（暂定）：＜${percentage(low)} 偏低，≥${percentage(effective)} 有效。</p><p class="lab-archive-label">本批生命 ${num(usage.hpConsumed)} / ${num(usage.hpGenerated)}，护盾 ${num(usage.shieldConsumed)} / ${num(usage.shieldGenerated)}（消耗 / 生成）；护盾衰减浪费 ${num(usage.shieldWasted)}。按总量归一，不平均逐局百分比；高效率不代表承伤越多越好。</p>${defenseStrataMarkup(usage.strata)}</section>`;
-}
-function defenseStrataMarkup(strata) {
-  if (!strata) return '';
-  const groups = [['low', '偏低'], ['moderate', '部分'], ['effective', '充分']].map(([key, label]) => ({ ...strata[key], label }));
-  const interval = group => group.n > 0 && Array.isArray(group.winRateCI) ? `${percentage(group.winRateCI[0])} – ${percentage(group.winRateCI[1])}` : '—';
-  return `<details class="defense-strata"><summary>防御使用分层 · 观察样本</summary><p>按赛后消费比例分层，不能作为因果消融。零样本不提供胜率证据；20% / 50% 为暂定观察分类。</p><table><thead><tr><th>分层</th><th>胜 / 样本</th><th>胜率 / 95% 区间</th></tr></thead><tbody>${groups.map(group => `<tr><th>${group.label}</th><td>${num(group.wins)} / ${num(group.n)}</td><td>${group.n > 0 ? percentage(group.winRate) : '—'}<small>${interval(group)}</small></td></tr>`).join('')}</tbody></table>${groups.map(group => {
-    const joint = group.jointActiveFour || {};
-    return `<div class="stratum-detail"><b>${group.label}组</b><p>生命 ${num(group.hpConsumed)} / ${num(group.hpGenerated)}，护盾 ${num(group.shieldConsumed)} / ${num(group.shieldGenerated)}（消耗 / 生成）。</p><p>四类均参与：${num(joint.wins)} 胜 / ${num(joint.n)} 局，${joint.n > 0 ? percentage(joint.winRate) : '胜率无样本'}；区间 ${interval(joint)}。</p></div>`;
-  }).join('')}<p>四类参与中的防御按暂定 ≥20% 观察，充分使用按 ≥50%；这些赛后子组保留样本数，不能等同独立随机对照。</p></details>`;
-}
-function benchmarkMarkup(result) {
-  return (result?.modes || []).map(row => {
-    const { ai, uniform } = row;
-    if (!ai) return '';
-    const denied = Object.entries(row.resourceAccess || {}).filter(([, allowed]) => !allowed).map(([key]) => RESOURCE_LABELS[key]);
-    return `<article class="lab-mode-result"><h3>难度 D${row.difficulty || result.difficulty || 10} · ${esc(denied.length ? '禁用 ' + denied.join('、') : '全资源')}</h3><p class="lab-archive-label">AI ${num(ai.runs)} 局 · ${num(ai.wins)} 胜${uniform ? ` · 随机 ${num(uniform.runs)} 局` : ''}</p><div class="lab-result-row"><span>AI 通关</span><b>${percentage(ai.winRate)}</b></div><div class="lab-chart"><i style="width:${Math.max(0, Math.min(100, ai.winRate * 100))}%"></i></div>${Array.isArray(ai.winRateCI) ? `<p class="lab-interval">95% 区间 ${percentage(ai.winRateCI[0])} – ${percentage(ai.winRateCI[1])}</p>` : ''}${uniform ? `<div class="lab-result-row"><span>随机选择</span><b>${percentage(uniform.winRate)}</b></div>` : ''}<div class="lab-summary"><span>平均抵达 <b>${Number(ai.avgFloor || 0).toFixed(2)} 关</b></span><span>平均合成 <b>${Number(ai.avgMerges || 0).toFixed(2)} 次</b></span><span>平均跳过 <b>${num(Math.round((ai.avgSkips || 0) * 100) / 100)} 次</b></span></div><p class="lab-archive-label">每局平均资源统计</p>${usageMarkup(ai.avgUsage)}${defenseUsageMarkup(ai.defenseUsage)}<p class="lab-failures">未完成 ${num(ai.incomplete)} 局${ai.failureByFloor?.filter(f => f.count > 0).map(f => ` · 第 ${f.floor} 关失败 ${f.count} 局`).join('') || (ai.wins === ai.runs ? ' · 本批全部通关' : '')}</p></article>`;
-  }).join('');
-}
-function aiLabDialog() {
-  return modal('AI 试验台', `${archetypeBenchmarkMarkup()}<p class="lab-intro">统一 AI 决策同时考虑转动、招募、跳过、重掷、移除与补给。实验另建独立对局，不修改当前旅程。</p><div class="lab-controls"><label>实验难度<select id="lab-difficulty" ${experiment.running ? 'disabled' : ''}>${Array.from({ length: 20 }, (_, i) => `<option value="${i + 1}" ${labDifficulty === i + 1 ? 'selected' : ''}>D${i + 1}${i === 9 ? ' · 默认' : ''}</option>`).join('')}</select></label><label>每策略局数<select id="lab-runs" ${experiment.running ? 'disabled' : ''}>${[30, 100, 300, 1000].map(n => `<option value="${n}" ${labRuns === n ? 'selected' : ''}>${num(n)} 局</option>`).join('')}</select></label></div><fieldset class="resource-access" ${experiment.running ? 'disabled' : ''}><legend>允许的资源 · 取消勾选即可禁用</legend>${Object.entries(RESOURCE_LABELS).map(([key, label]) => `<label><input type="checkbox" data-resource="${key}" ${labResourceAccess[key] ? 'checked' : ''}/><span>${label}</span></label>`).join('')}</fieldset><div class="lab-actions"><button class="button primary" data-action="aiBenchmark" ${experiment.running ? 'disabled' : ''}>运行当前配置</button><button class="button ghost" data-action="aiTrain" ${experiment.running ? 'disabled' : ''}>训练并验证</button></div><button class="button ghost full resource-ablation" data-action="aiAblation" ${experiment.running ? 'disabled' : ''}>资源矩阵 · D10 / D8 / D6 / D4 / D2</button><p class="lab-archive-label">资源矩阵固定运行 20 组：全资源 D10、四个单禁用 D10 对照，以及按禁用数降低难度的 15 组；每组使用上方局数，不采用上方开关。取消防御规划只禁用医疗/护盾补给，自然治疗、护盾增益与承伤均保留；效率按实际消耗量 / 生成量统计。训练每候选最多 60 局，留出每模型最多 100 局。</p><div class="lab-progress" aria-live="polite">${labProgressMarkup()}</div><div class="lab-result">${labResultMarkup()}</div>`, '', { eyebrow: 'RESOURCE & DIFFICULTY LAB' });
-}
-function startExperiment(type) {
-  if (experiment.running) return;
-  const difficulty = labDifficulty;
-  const resourceAccess = { ...labResourceAccess };
-  const runs = Number(document.querySelector('#lab-runs')?.value || 100);
-  const seed = freshSeed();
-  experiment = { running: true, type, source: 'live', completed: 0, total: type === 'benchmark' ? runs * 2 : type === 'ablation' ? runs * 20 : 0, result: null, difficulty, resourceAccess, seed, error: null };
-  const id = ++experimentId;
-  try {
-    experimentWorker = createAiWorker();
-    experimentWorker.onmessage = ({ data }) => {
-      if (data.requestId !== experimentId) return;
-      if (data.type === 'progress') { experiment.completed = data.completed; experiment.total = data.total; updateAiPanel(); return; }
-      if (data.type === 'error') { experiment.running = false; experiment.error = data.message; }
-      else {
-        experiment.running = false; experiment.result = data.result;
-        if (type === 'train' && data.result.accepted) {
-          const profile = validateProfile(data.result.profile);
-          if (profile) { aiProfile = profile; try { localStorage.setItem(AI_SAVE_KEY, JSON.stringify(profile)); } catch {} requestedKey = ''; recommendationKey = ''; requestRecommendations(); }
-        }
-      }
-      experimentWorker?.terminate(); experimentWorker = null; updateAiPanel();
-      if (dialog === 'aiLab') render();
-    };
-    experimentWorker.onerror = () => { if (id !== experimentId) return; experiment.running = false; experiment.error = '实验线程未能完成，请重试。'; experimentWorker?.terminate(); experimentWorker = null; if (dialog === 'aiLab') render(); else updateAiPanel(); };
-    experimentWorker.postMessage({ type, requestId: id, difficulty, resourceAccess, runs: type === 'train' ? Math.min(runs, 60) : runs, holdoutRuns: Math.min(runs, 100), generations: 2, candidates: 4, seed, profile: aiProfile });
-    render();
-  } catch (error) { experiment.running = false; experiment.error = error.message; render(); }
-}
-function toggleAutoplay() {
-  aiAutoplay = !aiAutoplay;
-  clearTimeout(aiAutoplayTimer);
-  updateAiPanel();
-  document.querySelectorAll('[data-action="aiAutoplay"]').forEach(button => { button.textContent = aiAutoplay ? '停止 AI' : 'AI 代打'; });
-  if (aiAutoplay) { showToast('AI 开始接管当前旅程，可随时停止。'); scheduleAutoplay(); }
-}
-function scheduleAutoplay() {
-  clearTimeout(aiAutoplayTimer);
-  if (!aiAutoplay) return;
-  aiAutoplayTimer = setTimeout(async () => {
-    if (!aiAutoplay) return;
-    if (busy || transitioning || dialog || inspector.isOpen()) { scheduleAutoplay(); return; }
-    try {
-      const action = recommendAction(game, { profile: aiProfile });
-      if (action.type === 'stop') { aiAutoplay = false; updateAiPanel(); return; }
-      if (action.type === 'spin') await doSpin();
-      else if (action.type === 'reroll') { adopt(rerollRewards(game)); render(); }
-      else if (action.type === 'remove') { adopt(removeSymbol(game, action.uid)); render(); }
-      else if (action.type === 'supply') { adopt(purchaseSupply(game, action.kind)); render(); }
-      else if (action.type === 'reward') {
-        const advice = action.recommendation;
-        if (!advice) throw Error('奖励决策缺少推荐分布');
-        applyRecommendation(advice, currentRecommendationKey());
-        const index = sampleRecommendation(advice, liveAiRandom());
-        const choice = advice.choices.find(candidate => candidate.index === index);
-        if (!choice) throw Error('推荐动作已失效');
-        await transitionChoice(choice.action === 'skip' ? skipReward(game) : chooseReward(game, index));
-      } else throw Error('未知推荐动作');
-    } catch (error) {
-      aiAutoplay = false; showToast(`AI 已停止：${error.message}`); updateAiPanel();
-    }
-    scheduleAutoplay();
-  }, 650);
 }
 document.addEventListener('wheel', event => { if (!event.target.closest('.utility-panel') && !event.target.closest('.inspect-popover')) closeUtilityOnly(); }, {passive:true});
 document.addEventListener('pointerdown', event => {
@@ -526,18 +300,20 @@ function enemyArt(enemy) {
   return known.includes(art) ? art : known[(game.floor - 1) % known.length];
 }
 function header() {
-  return `<header class="site-header"><a class="brand" href="${IS_PORTABLE ? '#app' : './'}" aria-label="星穹转轮首页"><span class="brand-mark">${icon('cube')}</span><span><b>星穹转轮</b><small>ASTRAL REELS</small></span></a><nav aria-label="主导航"><button data-action="play" class="nav-button ${!dialog ? 'active' : ''}">转轮实验室</button><button data-action="catalog" class="nav-button ${dialog === 'catalog' ? 'active' : ''}">编队图鉴</button><button data-action="help" class="nav-button">玩法手册</button><button data-action="aiLab" class="nav-button">AI 试验台</button></nav><div class="header-actions"><span class="version-label">VERSION 0.8.0</span><button class="icon-button" data-action="sound" aria-label="${settings.sound ? '关闭音效' : '开启音效'}" title="${settings.sound ? '关闭音效' : '开启音效'}">${icon(settings.sound ? 'sound' : 'mute')}</button><button class="icon-button" data-action="settings" aria-label="游戏设置">${icon('settings')}</button></div></header>`;
+  return `<header class="site-header"><a class="brand" href="${IS_PORTABLE ? '#app' : './'}" aria-label="星穹转轮首页"><span class="brand-mark">${icon('cube')}</span><span><b>星穹转轮</b><small>ASTRAL REELS</small></span></a><nav aria-label="主导航"><button data-action="play" class="nav-button ${!dialog ? 'active' : ''}">${IS_DEVELOPMENT ? '转轮实验室' : '游戏'}</button><button data-action="catalog" class="nav-button ${dialog === 'catalog' ? 'active' : ''}">图鉴</button><button data-action="help" class="nav-button">帮助</button>${IS_DEVELOPMENT ? '<button data-action="aiLab" class="nav-button">AI 试验台</button>' : ''}</nav><div class="header-actions"><span class="version-label">${IS_DEVELOPMENT ? '开发版 · ' : ''}v${GAME_VERSION}</span><button class="icon-button" data-action="sound" aria-label="${settings.sound ? '关闭音效' : '开启音效'}" title="${settings.sound ? '关闭音效' : '开启音效'}">${icon(settings.sound ? 'sound' : 'mute')}</button><button class="icon-button" data-action="settings" aria-label="游戏设置">${icon('settings')}</button></div></header>`;
 }
 function leftPanel() {
   const synergy = getSynergies(game);
   const active = synergy.filter(s => s.active);
   const preview = [...active, ...synergy.filter(s => !s.active && s.count > 0)].slice(0, 7);
+  if (!IS_DEVELOPMENT) return `<aside class="left-panel"><section class="panel dossier"><div class="panel-heading"><h2>旅程</h2><span class="difficulty-badge" data-inspect="mechanic" data-key="difficulty" data-inspect-click="true" tabindex="0">D${game.difficulty}</span></div><p>第 ${game.floor} 关 / ${game.endless ? '无尽' : '12'}</p><div class="player-toolbar"><button class="button ghost" data-action="roster">编队 · ${game.roster.length}</button><button class="button ghost" data-action="new">新旅程</button></div></section><section class="panel synergy-panel"><div class="panel-heading"><h2>羁绊</h2><span class="count-badge">${active.length} 激活</span></div><div class="synergy-list">${preview.slice(0, 4).map(entry => `<button class="synergy ${entry.active ? 'on' : ''}" data-action="synergy" data-id="${esc(entry.id)}"><span class="synergy-name"><b>${esc(entry.name)}</b></span><span class="synergy-count">${entry.count}<small>/${entry.thresholds.find(value => value > entry.count) || entry.thresholds.at(-1)}</small></span></button>`).join('')}</div><button class="all-synergies" data-action="synergies">全部羁绊 ${icon('chevron')}</button></section>${archetypePanel()}</aside>`;
   return `<aside class="left-panel"><section class="panel dossier"><div class="panel-heading"><h2>开拓档案</h2><span class="tiny-label">TRAILBLAZER</span></div><div class="difficulty-badge" data-inspect="mechanic" data-key="difficulty" data-inspect-click="true" tabindex="0">难度 <b>D${game.difficulty}</b> <span>?</span></div><div class="floor-display"><span class="orbital-ring">${icon('cube')}</span><div><span class="eyebrow">模拟宇宙 · 关卡进度</span><strong>第 ${String(game.floor).padStart(2, '0')} 关<small> / ${game.endless ? '∞' : '12'}</small></strong></div></div><div class="segmented-progress" aria-label="已到第 ${game.floor} 关">${Array.from({ length: 12 }, (_, i) => `<i class="${i < Math.min(game.floor, 12) ? 'filled' : ''}"></i>`).join('')}</div><div class="health-stat"><div><span>${icon('heart')}开拓生命</span><b>${num(game.hp)} <small>/ ${num(game.maxHp)}</small></b></div><div class="meter "><i style="width:${Math.min(100, Math.max(0, game.hp / game.maxHp * 100))}%"></i></div></div><div class="supply-credits"><span>${icon('coins')}补给信用点</span><b>${num(game.coins)}</b></div><div class="small-stats"><div><span>${icon('shield')}护盾</span><b>${num(game.shield)}</b></div><div><span>${icon('rotate')}重掷</span><b>${num(game.rerolls)}</b></div><div><span>${icon('trash')}移除</span><b>${num(game.removals)}</b></div></div><button class="button ghost full" data-action="new">${icon('rotate')}开启新旅程</button></section><section class="panel synergy-panel"><div class="panel-heading"><h2>羁绊共鸣</h2><span class="count-badge">${active.length} 激活</span></div><p class="muted panel-intro">激活门槛看编队，实际触发看登场与条件。</p><div class="synergy-list">${preview.map(s => `<button class="synergy ${s.active ? 'on' : ''}" data-action="synergy" data-id="${esc(s.id)}"><span class="synergy-icon">${icon(s.kind === 'faction' ? 'users' : s.kind === 'element' ? 'bolt' : 'star')}</span><span class="synergy-name"><b>${esc(s.name)}</b>${s.style ? `<em class="synergy-style">${esc(s.style)}</em>` : ''}<small>${esc(s.description)}</small></span><span class="synergy-count">${s.count}<small>/${s.thresholds.find(t => t > s.count) || s.thresholds.at(-1)}</small></span></button>`).join('') || '<p class="muted">招募角色后解锁羁绊。</p>'}</div><p class="panel-note">按不同角色身份激活 · 具体收益取决于触发条件</p><button class="all-synergies" data-action="synergies">查看全部羁绊 ${icon('chevron')}</button></section>${archetypePanel()}<button class="panel roster-link" data-action="roster"><span class="round-icon">${icon('users')}</span><span><b>我的编队</b><small>${game.roster.length} 位角色 · 三合一自动升星</small></span>${icon('chevron')}</button></aside>`;
 }
 function debuffPanel() {
   const clauses = game.activeDebuffs || [];
+  if (!IS_DEVELOPMENT && !clauses.length) return '';
   const recent = clauses.filter(clause => clause.source === 'boss' && clause.addedRound === game.round && game.round > 0);
-  return `<div class="debuff-panel" aria-label="当前敌方负面条款"><div class="debuff-heading"><b>敌方条款</b><span>${game.bossStage ? `首领阶段 ${game.bossStage} / 3` : `难度 D${game.difficulty}`}</span></div>${recent.length ? `<p class="new-clause-notice" role="status">⚠ 首领阶段推进 · 新增 ${recent.map(clause => esc(clause.name)).join('、')}</p>` : ''}${clauses.length ? `<div class="debuff-list">${clauses.map(clause => `<button type="button" class="debuff-chip ${clause.source === 'boss' ? 'boss-clause' : ''}" data-inspect="debuff" data-inspect-click="true" data-id="${esc(clause.id)}" aria-label="查看${esc(clause.name)}条款说明">${clause.source === 'boss' ? '⚠ ' : ''}${esc(clause.name)}${clause.targetName ? ` · ${esc(clause.targetName)}` : ''} <span>?</span></button>`).join('')}</div>` : '<p>当前没有额外负面条款。</p>'}<small>点名称查看效果 · 首领阶段推进会追加条款</small></div>`;
+  return `<div class="debuff-panel" aria-label="当前敌方负面条款"><div class="debuff-heading"><b>敌方条款</b><span>${game.bossStage ? `首领阶段 ${game.bossStage} / 3` : `难度 D${game.difficulty}`}</span></div>${recent.length ? `<p class="new-clause-notice" role="status">⚠ 首领阶段推进 · 新增 ${recent.map(clause => esc(clause.name)).join('、')}</p>` : ''}${clauses.length ? `<div class="debuff-list">${clauses.map(clause => `<button type="button" class="debuff-chip ${clause.source === 'boss' ? 'boss-clause' : ''}" data-inspect="debuff" data-inspect-click="true" data-id="${esc(clause.id)}" aria-label="查看${esc(clause.name)}条款说明">${clause.source === 'boss' ? '⚠ ' : ''}${esc(clause.name)}${clause.targetName ? ` · ${esc(clause.targetName)}` : ''} <span>?</span></button>`).join('')}</div>` : '<p>当前没有额外负面条款。</p>'}${IS_DEVELOPMENT ? '<small>点名称查看效果 · 首领阶段推进会追加条款</small>' : ''}</div>`;
 }
 function enemies() {
   const view = combatPreview || game;
@@ -563,6 +339,7 @@ function board() {
 }
 function effectStatusPanel() {
   const growth = game.roster.reduce((sum, unit) => sum + getCharacterAttributes(unit, game).attackBonus, 0);
+  if (!IS_DEVELOPMENT) return `<section class="player-summary" aria-label="上次转动结果">${game.stats.spins ? `<span>伤害 <b>${num(game.lastSpin.damage)}</b></span><span>治疗 <b>${num(game.lastSpin.healing)}</b></span><span>获得护盾 <b>${num(game.lastSpin.shield)}</b></span>` : '<span>选择补给或启动转轮，开始战斗。</span>'}${game.overclockReady ? '<span>超频就绪 · 下次伤害 +20%</span>' : ''}<button class="text-button" data-action="effects">效果与记录</button></section>`;
   return `<section class="effect-status" aria-label="效果状态"><div><b>效果状态</b><button data-action="effects">查看明细 ${icon('chevron')}</button></div><p><span class="effect-chip duration-run">本局永久</span> 编队本局永久攻击力合计 +${num(growth)} <span class="effect-chip duration-whileOwned">持有来源</span> ${game.items.length} 奇物 · ${game.essences.filter(e => e.triggered).length} 已解锁精华</p>${game.overclockReady ? '<p><span class="effect-chip duration-nextSpin">待生效</span> 超频：造成伤害提高20% · 下次转动后消耗</p>' : ''}<small>${esc(snapshotTitle(game))} · 格中数字为当前卡面攻击力；所有角色均有默认攻击，结算增益另列</small></section>`;
 }
 function effectsDialog() {
@@ -574,7 +351,7 @@ function effectsDialog() {
 function mainPanel() {
   const view = combatPreview || game;
   const total = view.lastSpin?.damage || 0;
-  return `<section class="main-panel"><div class="mission-heading"><div><span class="eyebrow"><i class="live-dot"></i>SIMULATED UNIVERSE</span><h1>让命运，再转一圈<span>。</span></h1><p>招募角色 · 收集奇物 · 构筑你的开拓之路</p></div><button class="button ghost difficulty-change" data-action="new">难度 D${view.difficulty} · 新开局</button></div><section class="arena panel" aria-busy="${busy}" data-combat-stage="${rolling ? 'rolling' : combatPreview ? 'landed' : 'idle'}"><div class="arena-heading"><span>${icon('bolt')} 遭遇战<b>${String(view.floor).padStart(2, '0')}</b></span><span class="tiny-label">ROUND ${String(view.round).padStart(2, '0')} <i>·</i> 5 × 4 REELS</span><span class="mobile-combat-hud" role="group" aria-label="生命 ${num(view.hp)}，护盾 ${num(view.shield)}"><span data-inspect="mechanic" data-key="hp" data-inspect-click="true" tabindex="0">${icon('heart')}${num(view.hp)}</span><span data-inspect="mechanic" data-key="shield" data-inspect-click="true" tabindex="0">${icon('shield')}${num(view.shield)}</span></span></div>${enemies()}<div class="combat-status" role="status">${busy ? rolling ? '转轮启动 · 命运交汇' : '转轮落位 · 战技准备' : '战技待命 · 星轨已连接'}</div><div class="lane-connectors">${Array.from({ length: 5 }, () => '<span></span>').join('')}</div>${board()}<div class="board-caption"><span>${icon('users')}从 ${view.roster.length} 位编队成员中随机上场</span><button data-action="help">攻击规则 ${icon('chevron')}</button></div>${effectStatusPanel()}<div class="spin-controls"><div class="last-total"><span>上次总伤害</span><strong data-combat-total>${num(total)}<small> DMG</small></strong></div><button class="spin-button" data-action="spin" ${busy || view.phase !== 'ready' ? 'disabled' : ''}>${icon('rotate')}<span>${busy ? '命运转动中…' : view.phase === 'ready' ? '启动转轮' : isReward() ? '选择本轮奖励' : '旅程已结算'}<small>${busy ? '角色正在行动' : 'SPIN THE REELS'}</small></span>${icon('arrow')}</button></div><div class="arena-footnote"><span class="keyboard-key">SPACE</span> 也可以按空格转动 <span class="save-status">${saveAvailable ? '✓ 自动保存' : '当前页面保存'}</span></div><div class="combat-fx-layer" aria-hidden="true"></div></section><div class="below-arena"><span>${icon('star')}每一次转动，都是一种可能。</span><button data-action="help">第一次开拓？阅读玩法手册 ${icon('arrow')}</button></div></section>`;
+  return `<section class="main-panel">${IS_DEVELOPMENT ? `<div class="mission-heading"><div><span class="eyebrow"><i class="live-dot"></i>SIMULATED UNIVERSE</span><h1>让命运，再转一圈<span>。</span></h1><p>招募角色 · 收集奇物 · 构筑你的开拓之路</p></div><button class="button ghost difficulty-change" data-action="new">难度 D${view.difficulty} · 新开局</button></div>` : `<div class="player-header"><h1>第 ${view.floor} 关${view.enemies.some(enemy => enemy.boss) ? ' · 首领' : ''}</h1><span>D${view.difficulty} · 剩余 ${view.spinsLeft} 次转动</span></div><div class="player-status" role="group" aria-label="当前资源">${[['hp','生命',`${num(view.hp)} / ${num(view.maxHp)}`],['shield','护盾',num(view.shield)],['credits','信用点',num(view.coins)],['rerolls','重掷',num(view.rerolls)],['removals','移除',num(view.removals)]].map(([key,label,value]) => `<button data-inspect="mechanic" data-inspect-click="true" data-key="${key}"><span>${label}</span><b>${value}</b></button>`).join('')}</div><div class="player-toolbar"><button class="button ghost" data-action="roster">编队 · ${view.roster.length}</button><button class="button ghost" data-action="synergies">羁绊</button><button class="button ghost" data-action="supplies">补给</button><button class="button ghost" data-action="inventory">奇物与精华</button></div>`}<section class="arena panel" aria-busy="${busy}" data-combat-stage="${rolling ? 'rolling' : combatPreview ? 'landed' : 'idle'}"><div class="arena-heading"><span>${icon('bolt')} 遭遇战<b>${String(view.floor).padStart(2, '0')}</b></span><span class="tiny-label">ROUND ${String(view.round).padStart(2, '0')} <i>·</i> 5 × 4 REELS</span><span class="mobile-combat-hud" role="group" aria-label="生命 ${num(view.hp)}，护盾 ${num(view.shield)}"><span data-inspect="mechanic" data-key="hp" data-inspect-click="true" tabindex="0">${icon('heart')}${num(view.hp)}</span><span data-inspect="mechanic" data-key="shield" data-inspect-click="true" tabindex="0">${icon('shield')}${num(view.shield)}</span></span></div>${enemies()}${IS_DEVELOPMENT || busy ? `<div class="combat-status" role="status">${busy ? rolling ? '转轮启动 · 命运交汇' : '转轮落位 · 战技准备' : '战技待命 · 星轨已连接'}</div>` : ''}<div class="lane-connectors">${Array.from({ length: 5 }, () => '<span></span>').join('')}</div>${board()}<div class="board-caption"><span>${icon('users')}从 ${view.roster.length} 位编队成员中随机上场</span><button data-action="help">攻击规则 ${icon('chevron')}</button></div>${effectStatusPanel()}<div class="spin-controls"><div class="last-total"><span>上次总伤害</span><strong data-combat-total>${num(total)}<small> DMG</small></strong></div><button class="spin-button" data-action="spin" ${busy || view.phase !== 'ready' ? 'disabled' : ''}>${icon('rotate')}<span>${busy ? '命运转动中…' : view.phase === 'ready' ? '启动转轮' : isReward() ? '选择本轮奖励' : '旅程已结算'}<small>${busy ? '角色正在行动' : IS_DEVELOPMENT ? 'SPIN THE REELS' : `剩余 ${view.spinsLeft} 次转动`}</small></span>${icon('arrow')}</button></div><div class="arena-footnote"><span class="keyboard-key">SPACE</span> 也可以按空格转动 <span class="save-status">${saveAvailable ? '✓ 自动保存' : '当前页面保存'}</span></div><div class="combat-fx-layer" aria-hidden="true"></div></section>${IS_DEVELOPMENT ? `<div class="below-arena"><span>${icon('star')}每一次转动，都是一种可能。</span><button data-action="help">第一次开拓？阅读玩法手册 ${icon('arrow')}</button></div>` : ''}</section>`;
 }
 function supplyPanel() {
   const access = game.resourceAccess || {};
@@ -586,37 +363,48 @@ function supplyPanel() {
   }).join('')}</div>${game.overclockReady ? '<p class="overclock-status">✓ 超频就绪 · 下轮造成伤害提高20%</p>' : ''}</section>`;
 }
 function rightPanel() {
-  return `<aside class="right-panel">${aiPanel()}${supplyPanel()}<section class="panel curios-panel"><div class="panel-heading"><h2>奇物收藏</h2><span class="count-badge">${game.items.length}</span></div><p class="muted panel-intro">一些小小的东西，改变整个宇宙。</p>${game.items.length ? `<div class="curio-list">${game.items.map(id => { const c = item(id); return c ? `<button class="curio" data-action="item" data-id="${esc(id)}">${curioArt(c)}<span><b>${esc(c.name)}</b>${effectBadgeMarkup(c)}<small>${esc(c.description)}</small></span>${icon('chevron')}</button>` : ''; }).join('')}</div>` : `<div class="empty-collection"><div class="curio-orbit">${icon('cube')}<i>✧</i></div><b>等待一次奇遇</b><p>每完成两层后<br/>选择一件奇物，强化你的构筑</p></div>`}</section><section class="panel essence-panel"><div class="panel-heading"><h2>奇物精华</h2><span class="tiny-label">ESSENCE</span></div>${game.essences.length ? game.essences.map(e => { const c = essence(e.id); return c ? `<button class="essence ${e.triggered ? 'triggered' : ''}" data-action="essence" data-id="${esc(e.id)}">${curioArt(c, true)}<div><b>${esc(c.name)}</b>${effectBadgeMarkup(c)}<p>${e.triggered ? '已解锁 · 按各条效果规则生效' : esc(c.description)}</p><small>${e.triggered ? 'ACTIVATED' : `蓄能 ${e.progress || 0}${c.target ? ` / ${c.target}` : ''}`}</small></div></button>` : ''; }).join('') : `<div class="essence-empty"><span>✦</span><p>深入宇宙，发现精华<br/><small>达成条件后触发强力效果</small></p></div>`}</section><section class="panel log-panel"><div class="panel-heading"><h2>战斗记录</h2><span class="record-dot"></span></div><div class="combat-log" aria-live="polite">${(game.history?.length ? game.history : game.lastSpin?.events?.length ? game.lastSpin.events : ['列车已抵达。角色集结完毕。', '启动转轮，开始你的第一场开拓。']).slice(-6).reverse().map((event, i) => `<p class="${i === 0 ? 'latest' : ''}"><span>${i === 0 ? '◆' : '·'}</span>${esc(event)}</p>`).join('')}</div></section><div class="seed-label">UNIVERSE SEED <b>${esc(game.seed)}</b></div></aside>`;
+  if (!IS_DEVELOPMENT) return '';
+  return `<aside class="right-panel">${IS_DEVELOPMENT ? developerTools?.panel() || '' : ''}${supplyPanel()}<section class="panel curios-panel"><div class="panel-heading"><h2>奇物收藏</h2><span class="count-badge">${game.items.length}</span></div><p class="muted panel-intro">一些小小的东西，改变整个宇宙。</p>${game.items.length ? `<div class="curio-list">${game.items.map(id => { const c = item(id); return c ? `<button class="curio" data-action="item" data-id="${esc(id)}">${curioArt(c)}<span><b>${esc(c.name)}</b>${effectBadgeMarkup(c)}<small>${esc(c.description)}</small></span>${icon('chevron')}</button>` : ''; }).join('')}</div>` : `<div class="empty-collection"><div class="curio-orbit">${icon('cube')}<i>✧</i></div><b>等待一次奇遇</b><p>每完成两层后<br/>选择一件奇物，强化你的构筑</p></div>`}</section><section class="panel essence-panel"><div class="panel-heading"><h2>奇物精华</h2><span class="tiny-label">ESSENCE</span></div>${game.essences.length ? game.essences.map(e => { const c = essence(e.id); return c ? `<button class="essence ${e.triggered ? 'triggered' : ''}" data-action="essence" data-id="${esc(e.id)}">${curioArt(c, true)}<div><b>${esc(c.name)}</b>${effectBadgeMarkup(c)}<p>${e.triggered ? '已解锁 · 按各条效果规则生效' : esc(c.description)}</p><small>${e.triggered ? 'ACTIVATED' : `蓄能 ${e.progress || 0}${c.target ? ` / ${c.target}` : ''}`}</small></div></button>` : ''; }).join('') : `<div class="essence-empty"><span>✦</span><p>深入宇宙，发现精华<br/><small>达成条件后触发强力效果</small></p></div>`}</section><section class="panel log-panel"><div class="panel-heading"><h2>战斗记录</h2><span class="record-dot"></span></div><div class="combat-log" aria-live="polite">${(game.history?.length ? game.history : game.lastSpin?.events?.length ? game.lastSpin.events : ['列车已抵达。角色集结完毕。', '启动转轮，开始你的第一场开拓。']).slice(-6).reverse().map((event, i) => `<p class="${i === 0 ? 'latest' : ''}"><span>${i === 0 ? '◆' : '·'}</span>${esc(event)}</p>`).join('')}</div></section><div class="seed-label">UNIVERSE SEED <b>${esc(game.seed)}</b></div></aside>`;
 }
 function modal(title, body, footer = '', options = {}) {
   const blocking = options.reward || options.blocking || options.close === false;
-  const panel = `<section data-modal-key="${esc(options.key || dialog || game.phase)}" class="modal ${blocking ? '' : 'utility-panel'} ${options.wide ? 'wide' : ''} ${options.reward ? 'reward-modal' : ''}" role="dialog" ${blocking ? 'aria-modal="true"' : 'aria-modal="false"'} aria-labelledby="dialog-title">${options.close === false ? '' : `<button class="icon-button modal-close" data-action="close" aria-label="关闭面板">${icon('cross')}</button>`}<div class="modal-heading"><span class="eyebrow">${esc(options.eyebrow || 'ASTRAL ARCHIVE')}</span><h2 id="dialog-title">${title}</h2>${options.subtitle ? `<p>${options.subtitle}</p>` : ''}</div>${body}${footer ? `<div class="modal-footer">${footer}</div>` : ''}</section>`;
+  const panel = `<section data-modal-key="${esc(options.key || dialog || game.phase)}" class="modal ${blocking ? '' : 'utility-panel'} ${options.wide ? 'wide' : ''} ${options.reward ? 'reward-modal' : ''}" role="dialog" ${blocking ? 'aria-modal="true"' : 'aria-modal="false"'} aria-labelledby="dialog-title">${options.close === false ? '' : `<button class="icon-button modal-close" data-action="close" aria-label="关闭面板">${icon('cross')}</button>`}<div class="modal-heading"><span class="eyebrow">${IS_DEVELOPMENT ? esc(options.eyebrow || 'ASTRAL ARCHIVE') : ''}</span><h2 id="dialog-title">${title}</h2>${options.subtitle ? `<p>${options.subtitle}</p>` : ''}</div>${body}${footer ? `<div class="modal-footer">${footer}</div>` : ''}</section>`;
   return blocking ? `<div class="modal-backdrop">${panel}</div>` : panel;
 }
 function characterCard(c, symbol = null, button = '') {
   const targeted = (game.activeDebuffs || []).filter(clause => clause.targetUid && clause.targetUid === symbol?.uid);
+  if (!IS_DEVELOPMENT) return `<article class="character-card player-card rarity-${c.rarity} ${targeted.length ? 'afflicted-card' : ''}"><div class="portrait-stage" data-inspect="character" data-inspect-click="true" data-id="${esc(symbol?.uid || '')}" data-character-id="${esc(c.id)}" tabindex="0" style="--char-color:${c.color || '#b6a0e6'}"><span class="rarity-label">${rarityNames[c.rarity]}</span><img src="${portrait(c)}" alt="${esc(c.name)}"/><span class="portrait-stars">${stars(symbol?.stars || 1)}</span></div><div class="card-copy"><h3>${esc(c.name)}</h3><div class="character-tags"><span>${esc(c.element)}</span><span>${esc(c.path)}</span><span>${esc(c.faction)}</span><span>${esc(characterRole(c))}</span></div>${attributeMarkup(c, symbol)}${effectBadgeMarkup(c)}<button type="button" class="skill-description" data-inspect="character" data-inspect-click="true" data-id="${esc(symbol?.uid || '')}" data-character-id="${esc(c.id)}"><span>${esc(c.description)}</span><small>技能详情</small></button>${retirementRulesFor(c.id).length ? '<p class="commission-label">有剧情委派 · 详情查看规则</p>' : ''}${targeted.length ? `<p class="affliction-label">⚠ ${targeted.map(clause => esc(clause.name)).join('、')}</p>` : ''}${button}</div></article>`;
   return `<article class="character-card rarity-${c.rarity} ${targeted.length ? 'afflicted-card' : ''}"><div class="portrait-stage" data-inspect="character" data-inspect-click="true" data-id="${esc(symbol?.uid || '')}" data-character-id="${esc(c.id)}" tabindex="0" style="--char-color:${c.color || '#b6a0e6'}"><span class="rarity-label">${rarityNames[c.rarity]}</span><img src="${portrait(c)}" alt="${esc(c.name)}"/><span class="portrait-stars">${symbol ? stars(symbol.stars) : '★'}</span></div><div class="card-copy"><span class="eyebrow">${esc(c.enName || c.path)}</span><h3>${esc(c.name)}</h3><div class="character-tags"><span>${esc(c.element)}</span><span>${esc(c.path)}</span><span>${esc(characterRole(c))}</span></div>${attributeMarkup(c, symbol)}${publicationMarkup(c)}${bindingTags(c)}${archetypeTags(c)}${retirementRulesFor(c.id).length ? '<p class="commission-label">剧情委派配合 · 点技能查看</p>' : ''}${effectBadgeMarkup(c)}<button type="button" class="skill-description" data-inspect="character" data-inspect-click="true" data-id="${esc(symbol?.uid || '')}" data-character-id="${esc(c.id)}"><span>${esc(c.description)}</span><small>生效与叠加规则 ?</small></button>${bindingTargetsMarkup(c)}${targeted.length ? `<p class="affliction-label">⚠ ${targeted.map(clause => esc(clause.name)).join('、')} · 本实例</p>` : ''}${button}</div></article>`;
 }
 function rewardDialog() {
   const recruit = game.phase === 'recruit';
   const collection = recruit ? CHARACTERS : game.phase === 'item' ? ITEMS : ESSENCES;
-  const titles = { recruit: '下一位，角色。', item: '宇宙赠予的小小奇迹。', essence: '把奇迹，凝成精华。' };
+  const titles = { recruit: '选择角色', item: '选择奇物', essence: '选择精华' };
   const options = game.choices.map((id, index) => {
     const c = collection.find(c => c.id === id);
     if (!c) return '';
-    const pick = `<div class="ai-recommendation" data-ai-index="${index}" data-inspect="mechanic" data-key="aiProbability" tabindex="0">${recommendationMarkup(index)}</div><button class="button primary full" data-action="choose" data-index="${index}">${recruit ? '邀请同行' : '收下奇物'} ${icon('arrow')}</button>`;
+    const pick = `${IS_DEVELOPMENT ? `<div class="ai-recommendation" data-ai-index="${index}" data-inspect="mechanic" data-key="aiProbability" tabindex="0">${developerTools?.recommendationMarkup(index) || ''}</div>` : ''}<button class="button primary full" data-action="choose" data-index="${index}">${recruit ? '招募' : game.phase === 'essence' ? '选择精华' : '选择奇物'} ${icon('arrow')}</button>`;
     return recruit ? characterCard(c, null, pick) : `<article class="item-card rarity-${c.rarity || 'rare'}"><div class="large-curio-icon" data-inspect="${game.phase === 'essence' ? 'essence' : 'item'}" data-inspect-click="true" data-id="${esc(c.id)}" tabindex="0">${curioArt(c, game.phase === 'essence')}</div><span class="eyebrow">${game.phase === 'essence' ? 'ESSENCE' : rarityNames[c.rarity]}</span><h3>${esc(c.name)}</h3>${effectBadgeMarkup(c)}<button type="button" class="skill-description" data-inspect="${game.phase === 'essence' ? 'essence' : 'item'}" data-inspect-click="true" data-id="${esc(c.id)}"><span>${esc(c.description)}</span><small>生效与叠加规则 ?</small></button>${pick}</article>`;
   }).join('');
-  const skipAdvice = `<div class="ai-recommendation ai-skip-recommendation" data-ai-index="${game.choices.length}" data-inspect="mechanic" data-key="aiProbability" data-inspect-click="true" tabindex="0" role="button" aria-label="查看${recruit ? '暂不招募' : '跳过奖励'}的 AI 推荐说明">${recommendationMarkup(game.choices.length)}</div>`;
+  const skipAdvice = IS_DEVELOPMENT ? `<div class="ai-recommendation ai-skip-recommendation" data-ai-index="${game.choices.length}" data-inspect="mechanic" data-key="aiProbability" data-inspect-click="true" tabindex="0" role="button" aria-label="查看${recruit ? '暂不招募' : '跳过奖励'}的 AI 推荐说明">${developerTools?.recommendationMarkup(game.choices.length) || ''}</div>` : '';
   const rerollAllowed = game.resourceAccess?.rerolls !== false && (game.rerolls > 0 || (game.resourceAccess?.credits !== false && game.coins >= 8));
-  return modal(titles[game.phase], `${rewardMechanics()}${game.activeDebuffs?.length ? debuffPanel() : ''}<div class="reward-cards">${options}</div>${skipAdvice}<p class="ai-choice-caption">${game.choices.length} 张奖励与跳过的推荐率合计 100% · 自动试玩按同一概率抽样</p>`, `<button class="button ghost reward-reroll-button" data-action="reroll" ${rerollAllowed ? '' : 'disabled'}>${icon('rotate')}重新发现 <span class="count-badge">${game.resourceAccess?.rerolls === false ? '已禁用' : game.rerolls > 0 ? `${game.rerolls} 次免费` : game.resourceAccess?.credits === false ? '付费禁用' : '8 信用点'}</span></button><button class="button ghost ai-autoplay-toggle" data-action="aiAutoplay">${aiAutoplay ? '停止 AI' : 'AI 代打'}</button><button class="button ghost reward-skip-button" data-action="skip">${recruit ? '暂不招募' : '跳过奖励'} ${icon('arrow')}</button>`, { close: false, wide: true, reward: true, eyebrow: `DISCOVERY · ${recruit ? '角色招募' : game.phase === 'item' ? '奇物奖励' : '精华奖励'}`, subtitle: recruit ? '选择一位加入编队。同角色同星级凑齐 3 位后，自动升星。' : '选择一件，让你的构筑走向新的可能。' });
+  return modal(titles[game.phase], `${rewardMechanics()}${game.activeDebuffs?.length ? debuffPanel() : ''}<div class="reward-cards">${options}</div>${skipAdvice}${IS_DEVELOPMENT ? `<p class="ai-choice-caption">${game.choices.length} 张奖励与跳过的推荐率合计 100% · 自动试玩按同一概率抽样</p>` : ''}`, `<button class="button ghost reward-reroll-button" data-action="reroll" ${rerollAllowed ? '' : 'disabled'}>${icon('rotate')}重新发现 <span class="count-badge">${game.resourceAccess?.rerolls === false ? '已禁用' : game.rerolls > 0 ? `${game.rerolls} 次免费` : game.resourceAccess?.credits === false ? '付费禁用' : '8 信用点'}</span></button>${IS_DEVELOPMENT ? `<button class="button ghost ai-autoplay-toggle" data-action="aiAutoplay">${developerTools?.autoplay ? '停止 AI' : 'AI 代打'}</button>` : ''}<button class="button ghost reward-skip-button" data-action="skip">${recruit ? '暂不招募' : '跳过奖励'} ${icon('arrow')}</button>`, { close: false, wide: true, reward: true, eyebrow: `DISCOVERY · ${recruit ? '角色招募' : game.phase === 'item' ? '奇物奖励' : '精华奖励'}`, subtitle: recruit ? '选择一位加入编队。同角色同星级凑齐 3 位后，自动升星。' : '选择一件，让你的构筑走向新的可能。' });
 }
-function rewardMechanics(){const entries=[['difficulty','难度',`D${game.difficulty}`],['floor','关卡',`第 ${String(game.floor).padStart(2,'0')} 关`],['hp','生命',num(game.hp)],['credits','信用点',num(game.coins)],['shield','护盾',num(game.shield)],['rerolls','重掷',num(game.rerolls)],['removals','移除',num(game.removals)],['synergy','羁绊',`${getSynergies(game).filter(x=>x.active).length} 激活`],['round','剩余回合',`${game.spinsLeft} 次`]];return `<div class="reward-mechanics" role="group" aria-label="当前状态与机制说明">${entries.map(([key,label,value])=>`<button type="button" class="reward-mechanic" data-inspect="mechanic" data-inspect-click="true" data-key="${key}" aria-label="查看${esc(mechanicExplanation(key,game)?.title||label)}说明"><span>${label}<i aria-hidden="true">?</i></span><b>${value}</b></button>`).join('')}</div>`;}
+function rewardMechanics() {
+  const entries = [
+    ...(IS_DEVELOPMENT ? [['difficulty', '难度', `D${game.difficulty}`], ['floor', '关卡', `第 ${game.floor} 关`]] : []),
+    ['hp', '生命', num(game.hp)], ['credits', '信用点', num(game.coins)], ['shield', '护盾', num(game.shield)],
+    ['rerolls', '重掷', num(game.rerolls)], ['removals', '移除', num(game.removals)],
+    ...(IS_DEVELOPMENT ? [['synergy', '羁绊', `${getSynergies(game).filter(entry => entry.active).length} 激活`]] : []),
+    ['round', '剩余转动', `${game.spinsLeft} 次`],
+  ];
+  return `<div class="reward-mechanics" role="group" aria-label="当前状态与机制说明">${entries.map(([key,label,value]) => `<button type="button" class="reward-mechanic" data-inspect="mechanic" data-inspect-click="true" data-key="${key}" aria-label="查看${esc(mechanicExplanation(key,game)?.title || label)}说明"><span>${label}<i aria-hidden="true">?</i></span><b>${value}</b></button>`).join('')}</div>`;
+}
 function helpDialog() {
-  return modal('找到配合，构筑你的队伍。', `<div class="help-grid"><article><span class="step-number">01</span><h3>转动与招募</h3><p>编队随机填入5×4转轮，每轮最多抽取20名角色。结算后选择角色或跳过，也可重掷候选。编队越大，关键成员越难同时登场。</p></article><article><span class="step-number">02</span><h3>每张卡都有默认攻击</h3><p>默认攻击方式、攻击力、默认攻击倍率独立写在卡面。攻击角色通常有较高倍率；辅助角色逐人配置攻击倍率，并通过治疗、护盾和增幅支持队伍。</p><div class="attack-guide"><span><b>单体</b>主目标倍率</span><span><b>扩散</b>主目标与相邻倍率</span><span><b>群体</b>每个目标倍率</span></div></article><article><span class="step-number">03</span><h3>按正式标签寻找配合</h3><p>技能按命途、属性、阵营与职能寻找角色。相邻指周围八格；同行、同列、角落、边缘和空位各有玩法。内部测试的拿牌偏好不是技能条件。</p></article><article><span class="step-number">04</span><h3>组合不同增幅</h3><p>攻击力提高、造成伤害提高、敌方受到伤害提高各自计算。同区百分比相加，跨区相乘。攻击力还能增强按自身攻击力计算的治疗与护盾；伤害增幅只增强伤害。</p></article></div><section class="duration-guide"><h3>卡面属性与特殊技能</h3><p>默认攻击伤害 = 当前攻击力 × 卡面对应目标倍率 × 造成伤害增幅 × 敌方受到伤害增幅，再处理敌方装甲。默认倍率已经是最终目标倍率，不会因为单体再乘300%。</p><p>追加攻击使用技能内的独立倍率；普通增伤与追加攻击专属增伤在同一造成伤害区相加。治疗与护盾分别使用自身攻击力 × 各自技能倍率 × 专用增幅，不受伤害增幅影响。</p><h3>升星与本局永久提升</h3><p>同角色同星级3合1，三星封顶。星级基础攻击力为一星的1 / 3 / 9倍；默认攻击倍率保持角色卡面配置。永久攻击力加值随实例保留，合成时三份相加，不再次乘星级。技能如提升默认倍率，会明确对应目标与百分点。</p><p>技能创建的角色遵守相同属性、强化、羁绊与合成规则。衣匠自己的技能决定它累计登场2次后，在本次全部结算结束时删除自身；合成保留最高已登场次数。相同身份只计1次羁绊人数。</p><h3>受到伤害与减伤</h3><p>敌方伤害先计算适用的比例降低，同区相加且最多降低60%；再减本次固定总减伤，固定总值最多为比例减伤后剩余伤害的45%，伤害不低于0。最后处理穿盾、护盾与生命。角色自损不属于敌方伤害。</p><h3>分清持续时间</h3><p><span class="effect-chip duration-spin">本次转动</span> 属性增幅、伤害增幅、易伤与减伤下次重新检查条件。</p><p><span class="effect-chip duration-run">本局永久</span> 指定角色的属性增加随实例与合成保留，移除后失去。</p><p><span class="effect-chip duration-whileOwned">持有期间</span> 奇物被动按条件生效；取得时的一次性奖励不会重复领取。</p><p><span class="effect-chip duration-resource">资源存量</span> 治疗、护盾与信用点获得后按资源规则使用。</p><p><span class="effect-chip duration-encounter">本关</span> 敌方条款过关后移除。<span class="effect-chip duration-nextSpin">下次转动一次</span> 超频用后消耗。</p><h3>资源与难度</h3><p>D1–D20直接选择，默认D10，一局12关。信用点可买医疗、护盾或下次超频，每关最多两次。生命归零或期限内未清场均会失败；通关可继续无尽。</p></section><div class="help-note">棋盘数字显示当前卡面攻击力。点角色可查看固有属性、技能条件与上次结算。0.8采用新的攻击力与倍率规则；旧存档后续按新能力结算，建议新开局体验。更新HTML前先在设置导出存档。</div>`, '', {wide:true,eyebrow:'TRAILBLAZER HANDBOOK'});
+  return modal('找到配合，构筑你的队伍。', `<div class="help-grid"><article><span class="step-number">01</span><h3>转动与招募</h3><p>编队随机填入5×4转轮，每轮最多抽取20名角色。结算后选择角色或跳过，也可重掷候选。编队越大，关键成员越难同时登场。</p></article><article><span class="step-number">02</span><h3>每张卡都有默认攻击</h3><p>默认攻击方式、攻击力、默认攻击倍率独立写在卡面。攻击角色通常有较高倍率；辅助角色逐人配置攻击倍率，并通过治疗、护盾和增幅支持队伍。</p><div class="attack-guide"><span><b>单体</b>主目标倍率</span><span><b>扩散</b>主目标与相邻倍率</span><span><b>群体</b>每个目标倍率</span></div></article><article><span class="step-number">03</span><h3>按正式标签寻找配合</h3><p>技能按命途、属性、阵营与职能寻找角色。相邻指周围八格；同行、同列、角落、边缘和空位各有玩法。</p></article><article><span class="step-number">04</span><h3>组合不同增幅</h3><p>攻击力提高、造成伤害提高、敌方受到伤害提高各自计算。同区百分比相加，跨区相乘。攻击力还能增强按自身攻击力计算的治疗与护盾；伤害增幅只增强伤害。</p></article></div><details class="advanced-rules"><summary>进阶战斗规则</summary><section class="duration-guide"><h3>卡面属性与特殊技能</h3><p>默认攻击伤害 = 当前攻击力 × 卡面对应目标倍率 × 造成伤害增幅 × 敌方受到伤害增幅，再处理敌方装甲。默认倍率已经是最终目标倍率，不会因为单体再乘300%。</p><p>追加攻击使用技能内的独立倍率；普通增伤与追加攻击专属增伤在同一造成伤害区相加。治疗与护盾分别使用自身攻击力 × 各自技能倍率 × 专用增幅，不受伤害增幅影响。</p><h3>升星与本局永久提升</h3><p>同角色同星级3合1，三星封顶。星级基础攻击力为一星的1 / 3 / 9倍；默认攻击倍率保持角色卡面配置。永久攻击力加值随实例保留，合成时三份相加，不再次乘星级。技能如提升默认倍率，会明确对应目标与百分点。</p><p>技能创建的角色遵守相同属性、强化、羁绊与合成规则。衣匠自己的技能决定它累计登场2次后，在本次全部结算结束时删除自身；合成保留最高已登场次数。相同身份只计1次羁绊人数。</p><h3>受到伤害与减伤</h3><p>敌方伤害先计算适用的比例降低，同区相加且最多降低60%；再减本次固定总减伤，固定总值最多为比例减伤后剩余伤害的45%，伤害不低于0。最后处理穿盾、护盾与生命。角色自损不属于敌方伤害。</p><h3>分清持续时间</h3><p><span class="effect-chip duration-spin">本次转动</span> 属性增幅、伤害增幅、易伤与减伤下次重新检查条件。</p><p><span class="effect-chip duration-run">本局永久</span> 指定角色的属性增加随实例与合成保留，移除后失去。</p><p><span class="effect-chip duration-whileOwned">持有期间</span> 奇物被动按条件生效；取得时的一次性奖励不会重复领取。</p><p><span class="effect-chip duration-resource">资源存量</span> 治疗、护盾与信用点获得后按资源规则使用。</p><p><span class="effect-chip duration-encounter">本关</span> 敌方条款过关后移除。<span class="effect-chip duration-nextSpin">下次转动一次</span> 超频用后消耗。</p><h3>资源与难度</h3><p>D1–D20直接选择，默认D10，一局12关。信用点可买医疗、护盾或下次超频，每关最多两次。生命归零或期限内未清场均会失败；通关可继续无尽。</p></section></details><div class="help-note">点角色、羁绊或敌人可查看完整规则。相邻指周围八格；每次转动的位置随机。</div>`, '', {wide:true,eyebrow:'TRAILBLAZER HANDBOOK'});
 }
 function catalogDialog() {
-  return modal('所有相遇，都有意义。', `<div class="catalog-tabs">${[['characters', '角色', recruitableCharacters.length], ['items', '奇物', ITEMS.length], ['essences', '精华', ESSENCES.length]].map(([id, label, count]) => `<button class="button ${catalogTab === id ? 'primary' : 'ghost'}" data-action="catalogTab" data-tab="${id}">${label} <small>${count}</small></button>`).join('')}</div><label class="catalog-search">搜索当前分类<input type="search" data-catalog-search value="${esc(catalogQuery)}" placeholder="名称、主职、阵营、命途或效果" autocomplete="off"/></label><p class="catalog-result-count" aria-live="polite">${catalogEntries().length} 条结果 · 点技能看生效与叠加</p><div class="catalog-grid ${catalogTab !== 'characters' ? 'item-grid' : ''}" data-catalog-results>${catalogCards()}</div>`, '', { wide: true, eyebrow: 'ASTRAL COMPENDIUM', subtitle: `${recruitableCharacters.length} 位可招募角色 · ${ITEMS.length} 件奇物 · ${ESSENCES.length} 种精华 · 位置决定技能配合。` });
+  return modal('图鉴', `<div class="catalog-tabs">${[['characters', '角色', recruitableCharacters.length], ['items', '奇物', ITEMS.length], ['essences', '精华', ESSENCES.length]].map(([id, label, count]) => `<button class="button ${catalogTab === id ? 'primary' : 'ghost'}" data-action="catalogTab" data-tab="${id}">${label} <small>${count}</small></button>`).join('')}</div><label class="catalog-search">搜索当前分类<input type="search" data-catalog-search value="${esc(catalogQuery)}" placeholder="名称、主职、阵营、命途或效果" autocomplete="off"/></label><p class="catalog-result-count" aria-live="polite">${catalogEntries().length} 条结果 · 点技能看生效与叠加</p><div class="catalog-grid ${catalogTab !== 'characters' ? 'item-grid' : ''}" data-catalog-results>${catalogCards()}</div>`, '', { wide: true, eyebrow: 'ASTRAL COMPENDIUM', subtitle: `${recruitableCharacters.length} 位可招募角色 · ${ITEMS.length} 件奇物 · ${ESSENCES.length} 种精华 · 位置决定技能配合。` });
 }
 function catalogEntries() {
   const entries = {characters:recruitableCharacters,items:ITEMS,essences:ESSENCES}[catalogTab] || [];
@@ -629,9 +417,9 @@ function catalogCards() {
   return catalogTab === 'characters' ? entries.map(c => characterCard(c)).join('') : entries.map(c => `<button class="catalog-item" data-action="${catalogTab === 'essences' ? 'essence' : 'item'}" data-id="${esc(c.id)}" data-inspect="${catalogTab === 'essences' ? 'essence' : 'item'}" data-inspect-click="true">${curioArt(c,catalogTab === 'essences')}<span><h3>${esc(c.name)}</h3>${effectBadgeMarkup(c)}<p>${esc(c.description)}</p></span></button>`).join('');
 }
 function rosterDialog() {
-  return modal('角色，一个都不能少。', `<div class="roster-meta"><span>${game.roster.length} 位角色 · 上场最多 20 位</span><span>${game.resourceAccess?.removals === false ? '移除已禁用' : `可用移除 ${game.removals} 次`}</span></div><div class="roster-grid">${game.roster.map(symbol => { const c = char(symbol.id); return c ? characterCard(c, symbol, `<button class="button ghost full" data-action="removeAsk" data-id="${esc(symbol.uid)}" ${game.resourceAccess?.removals === false || game.removals <= 0 || game.phase !== 'ready' || busy ? 'disabled' : ''}>${icon('trash')}移出编队</button>`) : ''; }).join('')}</div>`, '', { wide: true, eyebrow: 'MY CREW', subtitle: '移除会消耗 1 次机会，角色会永久离开本次旅程。奖励选择期间暂时无法手动移除。' });
+  return modal('我的编队', `<div class="roster-meta"><span>${game.roster.length} 位角色 · 上场最多 20 位</span><span>${game.resourceAccess?.removals === false ? '移除已禁用' : `可用移除 ${game.removals} 次`}</span></div><div class="roster-grid">${game.roster.map(symbol => { const c = char(symbol.id); return c ? characterCard(c, symbol, `<button class="button ghost full" data-action="removeAsk" data-id="${esc(symbol.uid)}" ${game.resourceAccess?.removals === false || game.removals <= 0 || game.phase !== 'ready' || busy ? 'disabled' : ''}>${icon('trash')}移出编队</button>`) : ''; }).join('')}</div>`, '', { wide: true, eyebrow: 'MY CREW', subtitle: '移除会消耗 1 次机会，角色会永久离开本次旅程。奖励选择期间暂时无法手动移除。' });
 }
-function newDialog(){return modal('下一段旅程，从这里开始。',`<form id="new-run-form"><p class="new-combat-note">五列战斗 · 一局 12 关 · 难度随时可选，无需解锁</p><p class="version-rules-note">0.8 将攻击力、默认攻击方式与默认倍率独立放在卡面；所有角色都能攻击，辅助通过不同效果支持队伍。建议新开局体验；旧存档保留进度，但接下来的结算采用新能力。开启前请先到设置导出旧存档。</p><label class="input-label">本次难度 <small>D10 为默认；难度不是当前关卡</small></label><div class="difficulty-grid" role="group" aria-label="选择难度 1 至 20">${Array.from({length:20},(_,i)=>`<label class="difficulty-option"><input type="radio" name="difficulty" value="${i+1}" ${pendingDifficulty===i+1?'checked':''}/><span>D${i+1}</span></label>`).join('')}</div><label class="input-label" for="seed-input">宇宙种子 <small>相同规则与操作可以复现旅程</small></label><input class="seed-input" id="seed-input" name="seed" maxlength="64" value="${esc(freshSeed())}" autocomplete="off"/><p class="muted">开启后会替换当前旅程的自动存档。</p><button class="button primary full" type="submit">开启五列战斗 ${icon('arrow')}</button></form>`,'',{eyebrow:'A NEW JOURNEY',blocking:removedModeNotice||['victory','defeat'].includes(game.phase),close:removedModeNotice?false:true});}
+function newDialog(){return modal('下一段旅程，从这里开始。',`<form id="new-run-form"><p class="new-combat-note">五列战斗 · 一局 12 关 · 难度随时可选，无需解锁</p><label class="input-label">本次难度 <small>D10 为默认；难度不是当前关卡</small></label><div class="difficulty-grid" role="group" aria-label="选择难度 1 至 20">${Array.from({length:20},(_,i)=>`<label class="difficulty-option"><input type="radio" name="difficulty" value="${i+1}" ${pendingDifficulty===i+1?'checked':''}/><span>D${i+1}</span></label>`).join('')}</div><details class="advanced-rules"><summary>设置宇宙种子</summary><label class="input-label" for="seed-input">宇宙种子 <small>相同规则与操作可以复现旅程</small></label><input class="seed-input" id="seed-input" name="seed" maxlength="64" value="${esc(freshSeed())}" autocomplete="off"/></details><p class="muted">开启后会替换当前旅程的自动存档。</p><button class="button primary full" type="submit">开启五列战斗 ${icon('arrow')}</button></form>`,'',{eyebrow:'A NEW JOURNEY',blocking:removedModeNotice||['victory','defeat'].includes(game.phase),close:removedModeNotice?false:true});}
 function offlineLabel() {
   const state = offline.state;
   if (IS_PORTABLE) return '单文件版 · 可直接离线玩';
@@ -640,9 +428,9 @@ function offlineLabel() {
 }
 function offlineMarkup() {
   const state = offline.state;
-  if (IS_PORTABLE) return `<div class="offline-heading"><h3>单文件离线版</h3><span class="offline-state ready" role="status">全部资源已内置</span></div><p>这个文件包含完整游戏、图片和 AI，不需要账号、网络或电脑开机。安卓文件管理器中选择「用浏览器打开」，不要使用文档预览。</p><p>${saveAvailable ? '当前浏览器可以自动保存进度。移动或更换文件、浏览器后，原进度可能无法读取。' : '当前浏览器不允许自动保存；关闭文件前，请导出存档。'}</p><p>更新 HTML 前请先导出存档，再打开新版文件。导入会替换当前旅程；旧进度后续使用0.8攻击力、倍率与技能规则。</p><div class="offline-actions"><button class="button ghost" data-action="saveExport">导出存档</button><button class="button ghost" data-action="saveImport" ${experiment.running ? 'disabled' : ''}>导入存档</button><input data-save-file type="file" accept=".json,application/json,text/plain" hidden /></div>`;
+  if (IS_PORTABLE) return `<div class="offline-heading"><h3>单文件离线版</h3><span class="offline-state ready" role="status">全部资源已内置</span></div><p>这个文件包含完整游戏与图片${IS_DEVELOPMENT ? '，以及本地 AI 工具' : ''}，不需要账号、网络或电脑开机。安卓文件管理器中选择「用浏览器打开」，不要使用文档预览。</p><p>${saveAvailable ? '当前浏览器可以自动保存进度。移动或更换文件、浏览器后，原进度可能无法读取。' : '当前浏览器不允许自动保存；关闭文件前，请导出存档。'}</p><p>更新 HTML 前请先导出存档，再打开新版文件。导入会替换当前旅程。</p><div class="offline-actions"><button class="button ghost" data-action="saveExport">导出存档</button><button class="button ghost" data-action="saveImport" ${(IS_DEVELOPMENT && developerTools?.running) ? 'disabled' : ''}>导入存档</button><input data-save-file type="file" accept=".json,application/json,text/plain" hidden /></div>`;
   const explanation = state.phase === 'address' ? '请从正式安装网址打开，才能保存离线游戏。' : state.phase === 'unsupported' ? '请换用新版 Chrome 或 Safari，添加游戏到主屏幕。' : state.phase === 'error' ? '请联网后重试，并确认浏览器有可用存储空间。' : state.ready ? '游戏与全部素材已保存到这台设备，断网也可以继续玩。' : '首次加载请保持联网，等资源保存完成后再断网。';
-  return `<div class="offline-heading"><h3>离线与安装</h3><span class="offline-state ${state.ready ? 'ready' : ''}" role="status">${offlineLabel()}</span></div><p>${explanation}</p><p>手机：浏览器菜单 → 添加到主屏幕。<br/>iPad：Safari 分享 → 添加到主屏幕。</p><p>添加后，先联网从主屏幕图标打开一次，等离线准备完成。存档各自保存在设备上；清除网站数据会删除存档和离线游戏。</p><div class="offline-actions">${state.installed ? '<span class="offline-installed">✓ 已从主屏幕打开</span>' : state.installable ? '<button class="button primary" data-action="offlineInstall">添加到主屏幕</button>' : ''}${!['address','unsupported'].includes(state.phase) ? `<button class="button ghost" data-action="offlineCheck" ${!state.online || state.checking || state.updating ? 'disabled' : ''}>${state.checking ? '正在检查…' : state.phase === 'error' ? '重新准备离线游戏' : '检查更新'}</button>` : ''}${state.updateAvailable ? `<button class="button primary" data-action="offlineUpdate" ${!state.online || state.updating || experiment.running ? 'disabled' : ''}>${state.updating ? '正在更新…' : '保存进度并更新'}</button>` : ''}</div>${state.updateAvailable ? `<p class="offline-notice">新版已下载，${experiment.running ? '等本次实验结束后再更新。' : '选择更新时才会重新打开游戏。'}</p>` : ''}${state.updateError ? '<p class="offline-notice">这次更新未完成，可联网后再试；已保存的离线游戏仍可使用。</p>' : ''}`;
+  return `<div class="offline-heading"><h3>离线与安装</h3><span class="offline-state ${state.ready ? 'ready' : ''}" role="status">${offlineLabel()}</span></div><p>${explanation}</p><p>手机：浏览器菜单 → 添加到主屏幕。<br/>iPad：Safari 分享 → 添加到主屏幕。</p><p>添加后，先联网从主屏幕图标打开一次，等离线准备完成。存档各自保存在设备上；清除网站数据会删除存档和离线游戏。</p><div class="offline-actions"><button class="button ghost" data-action="saveExport">导出存档</button><button class="button ghost" data-action="saveImport">导入存档</button><input data-save-file type="file" accept=".json,application/json,text/plain" hidden/>${state.installed ? '<span class="offline-installed">✓ 已从主屏幕打开</span>' : state.installable ? '<button class="button primary" data-action="offlineInstall">添加到主屏幕</button>' : ''}${!['address','unsupported'].includes(state.phase) ? `<button class="button ghost" data-action="offlineCheck" ${!state.online || state.checking || state.updating ? 'disabled' : ''}>${state.checking ? '正在检查…' : state.phase === 'error' ? '重新准备离线游戏' : '检查更新'}</button>` : ''}${state.updateAvailable ? `<button class="button primary" data-action="offlineUpdate" ${!state.online || state.updating || (IS_DEVELOPMENT && developerTools?.running) ? 'disabled' : ''}>${state.updating ? '正在更新…' : '保存进度并更新'}</button>` : ''}</div>${state.updateAvailable ? `<p class="offline-notice">新版已下载，${(IS_DEVELOPMENT && developerTools?.running) ? '等本次实验结束后再更新。' : '选择更新时才会重新打开游戏。'}</p>` : ''}${state.updateError ? '<p class="offline-notice">这次更新未完成，可联网后再试；已保存的离线游戏仍可使用。</p>' : ''}`;
 }
 function refreshOfflineView() {
   document.querySelectorAll('[data-offline-indicator]').forEach(element => { element.textContent = offlineLabel(); element.setAttribute('aria-label', `${offlineLabel()}，查看离线与安装设置`); element.classList.toggle('ready', offline.state.ready); });
@@ -654,33 +442,39 @@ function refreshOfflineView() {
   }
 }
 function settingsDialog() {
-  return modal('按自己的节奏开拓。', `<p class="version-rules-note">0.8 已应用独立攻击力、倍率与增幅区规则。旧存档保留旅程进度，后续按新能力结算，建议新开局。更新、移动或更换 HTML 前请先导出存档；不同路径、版本或浏览器可能使用独立存储。</p><div class="settings-list"><label><span><b>轻量音效</b><small>转动与招募时播放提示音</small></span><input type="checkbox" data-setting="sound" ${settings.sound ? 'checked' : ''}/></label><label><span><b>战斗与界面动效</b><small>完整战斗少于3秒；跟随系统减少动态效果</small></span><input type="checkbox" data-setting="animations" ${settings.animations ? 'checked' : ''}/></label></div><section class="offline-panel" data-offline-panel>${offlineMarkup()}</section><div class="run-stats"><div><strong>${num(stats.runs)}</strong><span>开拓次数</span></div><div><strong>${num(stats.wins)}</strong><span>通关次数</span></div><div><strong>${num(stats.bestFloor)}</strong><span>最远关卡</span></div></div><div class="help-note">自动存档在当前浏览器中。宇宙种子：${esc(game.seed)}。所有素材均随游戏本地加载，无广告，无内购。</div>`, `<button class="button primary" data-action="close">完成</button>`, { eyebrow: 'PREFERENCES' });
+  return modal('按自己的节奏开拓。', `<p>更新、移动或更换 HTML 前请先导出存档；不同路径、版本或浏览器可能使用独立存储。</p><div class="settings-list"><label><span><b>轻量音效</b><small>转动与招募时播放提示音</small></span><input type="checkbox" data-setting="sound" ${settings.sound ? 'checked' : ''}/></label><label><span><b>战斗与界面动效</b><small>完整战斗少于3秒；跟随系统减少动态效果</small></span><input type="checkbox" data-setting="animations" ${settings.animations ? 'checked' : ''}/></label></div><section class="offline-panel" data-offline-panel>${offlineMarkup()}</section><div class="run-stats"><div><strong>${num(stats.runs)}</strong><span>开拓次数</span></div><div><strong>${num(stats.wins)}</strong><span>通关次数</span></div><div><strong>${num(stats.bestFloor)}</strong><span>最远关卡</span></div></div><details class="advanced-rules"><summary>旅程与版本信息</summary><p>v${GAME_VERSION} · ${IS_DEVELOPMENT ? '开发版' : '玩家版'}。宇宙种子：${esc(game.seed)}。</p><p>两版规则一致，自动存档独立；可导出后在另一版导入。</p></details><button class="button ghost full" data-action="about">关于与素材来源</button>`, `<button class="button primary" data-action="close">完成</button>`, { eyebrow: 'PREFERENCES' });
 }
 function endDialog() {
   const win = game.phase === 'victory';
-  return modal(win ? '群星，见证了你的胜利。' : '旅程暂停，开拓永不止步。', `<div class="end-emblem ${win ? 'win' : ''}">${icon(win ? 'trophy' : 'cube')}</div><p class="end-copy">${win ? '你与角色穿越了 12 关宇宙。下一站，去更远的地方。' : '敌人的攻势或关卡期限终结了旅程。调整难度和构筑，再次出发。'}</p>${!win ? `<p class="help-note">${esc(game.history.at(-1))}</p>` : ''}<div class="run-stats"><div><strong>${game.floor}</strong><span>抵达关卡</span></div><div><strong>${game.stats.spins}</strong><span>转轮次数</span></div><div><strong>${game.roster.length}</strong><span>编队人数</span></div></div>`, `${win ? `<button class="button ghost" data-action="endless">继续无尽开拓 ${icon('arrow')}</button>` : ''}<button class="button primary" data-action="new">再次出发 ${icon('rotate')}</button>`, { close: false, eyebrow: win ? 'JOURNEY COMPLETE' : 'JOURNEY ENDED' });
+  return modal(win ? '群星，见证了你的胜利。' : '旅程暂停，开拓永不止步。', `<div class="end-emblem ${win ? 'win' : ''}">${icon(win ? 'trophy' : 'cube')}</div><p class="end-copy">${win ? '你与角色完成了 12 关战斗，可继续挑战无尽。' : game.hp <= 0 ? `第 ${game.floor} 关生命耗尽。` : `第 ${game.floor} 关转动次数耗尽，尚余 ${game.enemies.filter(enemy => enemy.hp > 0).length} 名敌人、${num(game.enemies.reduce((sum, enemy) => sum + Math.max(0, enemy.hp), 0))} 点生命。`}</p>${!win ? `<p class="help-note">${esc(game.history.at(-1))}</p>` : ''}<div class="run-stats"><div><strong>${game.floor}</strong><span>抵达关卡</span></div><div><strong>${game.stats.spins}</strong><span>转轮次数</span></div><div><strong>${game.roster.length}</strong><span>编队人数</span></div></div>`, `${win ? `<button class="button ghost" data-action="endless">继续无尽开拓 ${icon('arrow')}</button>` : ''}<button class="button primary" data-action="new">再次出发 ${icon('rotate')}</button>`, { close: false, eyebrow: win ? 'JOURNEY COMPLETE' : 'JOURNEY ENDED' });
 }
 function renderDialog() {
+  if (dialog === 'about') return aboutDialog();
+  if (dialog === 'supplies') return modal('补给', supplyPanel());
+  if (dialog === 'inventory') return inventoryDialog();
   if (dialog === 'help') return helpDialog();
   if (dialog === 'catalog') return catalogDialog();
   if (dialog === 'roster') return rosterDialog();
   if (dialog === 'effects') return effectsDialog();
   if (dialog === 'new') return newDialog();
   if (dialog === 'settings') return settingsDialog();
-  if (dialog === 'aiLab') return aiLabDialog();
+  if (IS_DEVELOPMENT && dialog === 'aiLab') return developerTools?.labDialog() || '';
   if (dialog === 'synergies') return modal('羁绊一览', `<div class="all-synergy-grid">${getSynergies(game).map(s => `<button class="synergy ${s.active ? 'on' : ''}" data-action="synergy" data-id="${esc(s.id)}"><span class="synergy-icon">${icon('star')}</span><span class="synergy-name"><b>${esc(s.name)}</b>${s.style ? `<em class="synergy-style">${esc(s.style)}</em>` : ''}<small>${esc(s.description)}</small></span><span class="synergy-count">${s.count}<small>/${s.thresholds.join('/')}</small></span></button>`).join('')}</div>`, '', { eyebrow: 'RESONANCE ARCHIVE', subtitle: '点击查看说明；点击页面其他区域即可关闭。' });
   if (!busy && isReward()) return rewardDialog();
   if (!busy && ['victory', 'defeat'].includes(game.phase)) return endDialog();
   return '';
 }
 function render() {
-  if (['victory', 'defeat'].includes(game.phase)) { aiAutoplay = false; clearTimeout(aiAutoplayTimer); }
+  if (IS_DEVELOPMENT && ['victory', 'defeat'].includes(game.phase)) developerTools?.stopAutoplay();
   const previousModalKey = document.querySelector('[data-modal-key]')?.dataset.modalKey;
+  app.className = IS_DEVELOPMENT ? 'development-edition' : 'play-edition';
+  document.body.classList.toggle('play-edition', !IS_DEVELOPMENT);
+  document.body.classList.toggle('development-edition', IS_DEVELOPMENT);
   document.body.classList.toggle('motion-disabled', !motionEnabled(settings));
   const focusAction = document.activeElement?.dataset?.action;
   const hadDialog = !!document.querySelector('.modal-backdrop');
   inspector.close();
-  app.innerHTML = `${header()}<main class="game-layout">${leftPanel()}${mainPanel()}${rightPanel()}</main><footer class="site-footer"><span>星穹转轮 <i>✦</i> 一场与命运的游戏</span><span>同人实验项目 · 角色素材 © HoYoverse <a href="https://github.com/jjhe2020/starrail-landlord" target="_blank" rel="noreferrer">GITHUB ${icon('arrow')}</a></span></footer>${renderDialog()}`;
+  app.innerHTML = `${header()}<main class="game-layout">${leftPanel()}${mainPanel()}${rightPanel()}</main><footer class="site-footer"><span>星穹转轮 <i>✦</i> 一场与命运的游戏</span><span>同人游戏 · 角色素材 © HoYoverse <button class="text-button" data-action="about">关于与来源</button></span></footer>${renderDialog()}`;
   const backdrop = document.querySelector('.modal-backdrop');
   const offlineEntry = document.createElement('button');
   offlineEntry.className = 'offline-indicator'; offlineEntry.dataset.action = 'settings'; offlineEntry.dataset.offlineIndicator = '';
@@ -694,9 +488,9 @@ function render() {
   decorateInspectors();
   if (backdrop) (backdrop.querySelector(`[data-action="${focusAction || ''}"]`) || backdrop.querySelector('[data-action="choose"]') || backdrop.querySelector('button, input'))?.focus({ preventScroll: true });
   else if (focusAction && !hadDialog) document.querySelector(`[data-action="${focusAction}"]`)?.focus({ preventScroll: true });
-  if (['victory', 'defeat'].includes(game.phase)) { aiAutoplay = false; clearTimeout(aiAutoplayTimer); }
+  if (IS_DEVELOPMENT && ['victory', 'defeat'].includes(game.phase)) developerTools?.stopAutoplay();
   enterModal(previousModalKey, motionEnabled(settings));
-  requestRecommendations();
+  if (IS_DEVELOPMENT) developerTools?.requestRecommendations();
 }
 async function doSpin() {
   if (busy || transitioning || game.phase !== 'ready') return;
@@ -750,30 +544,28 @@ document.addEventListener('click', async event => {
   if (!control || control.disabled || (!app.contains(control) && !control.closest('.inspect-popover'))) return;
   const action = control.dataset.action;
   if (control.dataset.inspectClick === 'true' && ['character','synergy','item','essence'].includes(action)) return;
-  if (action === 'aiAutoplay') { toggleAutoplay(); return; }
+  if (IS_DEVELOPMENT && developerTools?.handleAction(action)) return;
   if (busy || transitioning) return;
-  if (action === 'aiCancel') { experimentId++; experimentWorker?.terminate(); experimentWorker = null; experiment.running = false; experiment.error = '本次实验已取消，当前旅程未改变。'; render(); return; }
-  if (['aiBenchmark','aiTrain','aiAblation'].includes(action)) { startExperiment(action==='aiTrain'?'train':action==='aiAblation'?'ablation':'benchmark'); return; }
   if (action === 'spin') { try { await doSpin(); } catch (error) { busy = false; render(); showToast(`本轮未能结算：${error.message}`); } return; }
-  if (IS_PORTABLE && action === 'saveExport') {
+  if (action === 'saveExport') {
     try {
-      const url = URL.createObjectURL(new Blob([exportSave({ game, settings, stats, aiProfile })], { type: 'application/json' }));
+      const url = URL.createObjectURL(new Blob([exportSave({ game, settings, stats, ...(IS_DEVELOPMENT ? { aiProfile: developerTools?.profile } : {}) })], { type: 'application/json' }));
       const link = document.createElement('a'); link.href = url; link.download = '星穹转轮-存档.json'; document.body.append(link); link.click(); link.remove();
       setTimeout(() => URL.revokeObjectURL(url), 60000);
       showToast('已发起存档导出，请确认浏览器保存了文件。');
     } catch (error) { showToast(`存档未能导出：${error.message}`); }
     return;
   }
-  if (IS_PORTABLE && action === 'saveImport') { if (!experiment.running) document.querySelector('[data-save-file]')?.click(); return; }
+  if (action === 'saveImport') { if (!(IS_DEVELOPMENT && developerTools?.running)) document.querySelector('[data-save-file]')?.click(); return; }
   if (action === 'offlineInstall') { await offline.install(); return; }
   if (action === 'offlineCheck') { await offline.check(); return; }
   if (action === 'offlineUpdate') {
-    if (experiment.running) return;
-    await offline.update(() => { if (!persist()) { showToast('进度未能保存，请保留当前页面，稍后再更新。'); return false; } aiAutoplay = false; return true; }); return;
+    if ((IS_DEVELOPMENT && developerTools?.running)) return;
+    await offline.update(() => { if (!persist()) { showToast('进度未能保存，请保留当前页面，稍后再更新。'); return false; } if (IS_DEVELOPMENT) developerTools?.stopAutoplay(); return true; }); return;
   }
   if (action === 'choose' || action === 'skip') { await transitionChoice(action === 'choose' ? chooseReward(game, Number(control.dataset.index)) : skipReward(game), control); return; }
   else if (action === 'reroll') { adopt(rerollRewards(game)); playTone(); }
-  else if (action === 'new') { aiAutoplay = false; pendingDifficulty = game.difficulty || 10; dialog = 'new'; }
+  else if (action === 'new') { if (IS_DEVELOPMENT) developerTools?.stopAutoplay(); pendingDifficulty = game.difficulty || 10; dialog = 'new'; }
   else if (action === 'supply') adopt(purchaseSupply(game, control.dataset.kind));
   else if (action === 'catalogTab') catalogTab = control.dataset.tab;
   else if (action === 'close' || action === 'play') { transitioning = true; try { await leaveModal(control, motionEnabled(settings)); dialog = null; } finally { transitioning = false; } }
@@ -784,7 +576,7 @@ document.addEventListener('click', async event => {
     inspector.open(control, { title: `移除 ${char(instance.id).name}？`, bodyHtml: `<p>消耗 1 次移除机会，永久移出当前编队。</p><button class="button primary full" data-action="removeConfirm" data-id="${esc(instance.uid)}">确认移除</button>` }); return;
   }
   else if (action === 'removeConfirm') adopt(removeSymbol(game, control.dataset.id));
-  else if (['roster','help','catalog','settings','synergies','aiLab','effects'].includes(action)) dialog = dialog === action ? null : action;
+  else if (['roster','help','catalog','settings','synergies','effects','about','supplies','inventory', ...(IS_DEVELOPMENT ? ['aiLab'] : [])].includes(action)) dialog = dialog === action ? null : action;
   render();
   if (action === 'supply') purchaseFeedback(control.dataset.kind, motionEnabled(settings));
 });
@@ -794,13 +586,11 @@ app.addEventListener('submit', event => {
   event.preventDefault();
   const form = new FormData(event.target);
   game = newGame({ difficulty: Number(form.get('difficulty')) || 10, seed: String(form.get('seed') || '').trim().slice(0,64) || freshSeed() });
-  liveAiRandom = createPolicyRandom(`${game.seed}:policy`); aiAutoplay = false; recommendationKey = ''; requestedKey = '';
+  if (IS_DEVELOPMENT) developerTools?.reset();
   stats.runs++; removedModeNotice = false; dialog = null; busy = false; combatPreview = null; rolling = false; persist(); render(); showToast('新的宇宙，新的可能。');
 });
 app.addEventListener('change', event => {
-  if (event.target.id === 'lab-difficulty') labDifficulty = Number(event.target.value);
-  if (event.target.dataset.resource) labResourceAccess[event.target.dataset.resource] = event.target.checked;
-  if (event.target.id === 'lab-runs') labRuns = Number(event.target.value);
+  if (IS_DEVELOPMENT) developerTools?.handleChange(event);
   if (event.target.dataset.setting) { settings[event.target.dataset.setting] = event.target.checked; document.body.classList.toggle('motion-disabled', !motionEnabled(settings)); persist(); }
 });
 app.addEventListener('input', event => {
@@ -812,7 +602,7 @@ app.addEventListener('input', event => {
   decorateInspectors();
 });
 app.addEventListener('change', async event => {
-  if (!IS_PORTABLE || !event.target.matches('[data-save-file]')) return;
+  if (!event.target.matches('[data-save-file]')) return;
   const input = event.target;
   const file = input.files?.[0];
   if (!file) return;
@@ -822,12 +612,11 @@ app.addEventListener('change', async event => {
     let decoded; try { decoded = JSON.parse(importedText); } catch {}
     if (decoded?.payload?.game?.mode === 'classic') throw Error('房租模式已移除，经营存档不能继续；请新开五列战斗。');
     const restored = importSave(importedText);
-    if (busy || experiment.running) throw new Error('请等本轮转动或实验结束后再导入。');
-    aiAutoplay = false; clearTimeout(aiAutoplayTimer);
-    inferenceId++; inferenceWorker?.terminate(); inferenceWorker = null;
-    game = restored.game; settings = restored.settings; stats = restored.stats; aiProfile = restored.aiProfile;
-    liveAiRandom = createPolicyRandom(`${game.seed}:policy`); recommendation = null; recommendationKey = ''; requestedKey = ''; combatPreview = null; rolling = false; dialog = null;
-    try { localStorage.setItem(AI_SAVE_KEY, JSON.stringify(aiProfile)); } catch {}
+    if (busy || (IS_DEVELOPMENT && developerTools?.running)) throw new Error('请等本轮转动或实验结束后再导入。');
+    if (IS_DEVELOPMENT) developerTools?.stopAutoplay();
+    game = restored.game; settings = restored.settings; stats = restored.stats;
+    if (IS_DEVELOPMENT) developerTools?.reset(restored.aiProfile);
+    combatPreview = null; rolling = false; dialog = null;
     const saved = persist(); render(); showToast(saved ? '已恢复存档，继续这段旅程。' : '已恢复当前旅程；关闭文件前请导出存档。');
   } catch (error) { showToast(`未导入存档：${error.message}`); }
   finally { input.value = ''; }
@@ -846,3 +635,18 @@ document.addEventListener('keydown', event => {
 persist(); render(); offline.start();
 if (removedModeNotice) showToast('房租模式已移除，旧经营存档无法继续。请新开五列战斗旅程。');
 else if (migratedNotice) showToast('旧战斗存档已迁移为难度 D10，当前敌人与随机进度保持。');
+
+if (globalThis.__ASTRAL_DEVELOPMENT_BUILD__ ?? IS_DEVELOPMENT) import('./developer-tools.js').then(({ createDeveloperTools }) => {
+  developerTools = createDeveloperTools({
+    get game() { return game; }, get busy() { return busy; }, get transitioning() { return transitioning; }, get dialog() { return dialog; },
+    inspector, freshSeed, percentage, num, esc, modal, decorateInspectors, render, showToast, isReward, doSpin, adopt, transitionChoice,
+  });
+  render();
+}).catch(() => showToast('开发工具未能加载，请重新打开开发版。'));
+
+function aboutDialog() {
+  return modal('关于与素材来源', `<p>星穹转轮 v${GAME_VERSION} · ${IS_DEVELOPMENT ? '开发版' : '玩家版'}。星穹铁道主题的转轮构筑同人游戏，非官方作品。</p><p>角色名称与形象归原权利方所有，角色素材 © HoYoverse；第三方头像不属于本项目原创素材。技能、奇物与剧情委派规则为本作改编。</p><p>角色头像与奇物图片来自开源资料项目 StarRailRes，采用固定来源快照；完整逐文件来源、许可与校验记录保存在项目 docs/ASSETS.md 及 public 素材清单。</p><p><a href="https://github.com/Mar-7th/StarRailRes" target="_blank" rel="noreferrer">StarRailRes 素材来源 ↗</a> · <a href="https://github.com/jjhe2020/starrail-landlord" target="_blank" rel="noreferrer">项目与详细归属记录 ↗</a></p><details class="advanced-rules"><summary>角色改编说明</summary>${CHARACTERS.filter(c => c.publicationStatus === 'announced' || c.publicationStatus === 'adapted-aeon' || c.portraitKind === 'shared-source').map(c => `<div><b>${esc(c.name)}</b>${publicationMarkup(c)}</div>`).join('')}</details>`, '', { wide: true });
+}
+function inventoryDialog() {
+  return modal('奇物与精华', `<h3>奇物 · ${game.items.length}</h3><div class="curio-list">${game.items.map(id => { const c = item(id); return c ? `<button class="curio" data-action="item" data-id="${esc(id)}">${curioArt(c)}<span><b>${esc(c.name)}</b><small>${esc(c.description)}</small></span></button>` : ''; }).join('') || '<p>每完成两关可选择一件奇物。</p>'}</div><h3>精华 · ${game.essences.length}</h3>${game.essences.map(entry => { const c = essence(entry.id); return c ? `<button class="essence" data-action="essence" data-id="${esc(c.id)}">${curioArt(c, true)}<span><b>${esc(c.name)}</b><p>${entry.triggered ? '已解锁' : `蓄能 ${num(entry.progress)} / ${c.target}`}</p></span></button>` : ''; }).join('') || '<p>每完成三关可选择一种精华。</p>'}`, '', { wide: true });
+}

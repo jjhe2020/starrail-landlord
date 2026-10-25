@@ -10,7 +10,9 @@ import { createOfflineBuild } from '../scripts/offline-assets.mjs';
 import { newGame } from '../src/engine.js';
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
+const runtimeRoot = process.env.OFFLINE_TEST_ROOT ? resolve(process.env.OFFLINE_TEST_ROOT) : projectRoot;
 const saveKey = 'astral-reels:v1';
+const developmentSaveKey = 'astral-reels:development:v1';
 const mimeTypes = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.png': 'image/png', '.svg': 'image/svg+xml' };
 
 // Real browser coverage is opt in. The normal rule-engine suite remains free of
@@ -22,15 +24,15 @@ test('offline app works in real browser contexts, subdirectories and safe update
   let playwright;
   try { playwright = require('playwright'); }
   catch { playwright = require(join(homedir(), '.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright')); }
-  const browser = await playwright.chromium.launch({ headless: true, ...(process.platform === 'win32' ? { channel: 'msedge' } : {}) });
+  const browser = await playwright.chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE_PATH ? { executablePath: process.env.BROWSER_EXECUTABLE_PATH } : {}), ...(process.platform === 'win32' ? { channel: 'msedge' } : {}) });
   t.after(() => browser.close());
 
   async function fixture(scope = '/') {
     const directory = await mkdtemp(join(tmpdir(), 'astral-offline-browser-'));
     assert.ok(directory.startsWith(join(resolve(tmpdir()), 'astral-offline-browser-')), 'fixture cleanup stays within its dedicated temporary directory');
     t.after(() => rm(directory, { recursive: true, force: true }));
-    for (const entry of ['index.html', 'styles.css', 'manifest.webmanifest', 'src', 'public']) {
-      await cp(join(projectRoot, entry), join(directory, entry), { recursive: true });
+    for (const entry of ['index.html', 'development.html', 'styles.css', 'manifest.webmanifest', 'src', 'public']) {
+      await cp(join(runtimeRoot, entry), join(directory, entry), { recursive: true });
     }
     const originalCss = await readFile(join(directory, 'styles.css'), 'utf8');
     let build;
@@ -62,18 +64,18 @@ test('offline app works in real browser contexts, subdirectories and safe update
     return { url: `http://127.0.0.1:${server.address().port}${scope}`, release, get build() { return build; }, fail(path) { failedPath = path === null ? null : `${scope}${path}`; } };
   }
 
-  async function pageFor(site, viewport) {
+  async function pageFor(site, viewport, { development = false } = {}) {
     const context = await browser.newContext({ viewport, hasTouch: viewport.width < 1000, reducedMotion: 'reduce' });
     t.after(() => context.close());
-    await context.addInitScript(({ key, game }) => {
+    await context.addInitScript(({ keys, game }) => {
       try {
-        if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({ game, settings: { sound: false, animations: false }, stats: { runs: 1, wins: 0, bestFloor: 1 } }));
+        for (const key of keys) if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({ game, settings: { sound: false, animations: false }, stats: { runs: 1, wins: 0, bestFloor: 1 } }));
       } catch { /* Only actual fixture pages have a storage origin. */ }
-    }, { key: saveKey, game: newGame({ seed: 'offline-browser-fixture', mode: 'combat' }) });
+    }, { keys: [saveKey, developmentSaveKey], game: newGame({ seed: 'offline-browser-fixture', mode: 'combat' }) });
     const page = await context.newPage();
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
-    await page.goto(site.url);
+    await page.goto(`${site.url}${development ? 'development.html' : ''}`);
     await page.locator('[data-action="spin"]').waitFor();
     return { context, page, errors };
   }
@@ -81,7 +83,7 @@ test('offline app works in real browser contexts, subdirectories and safe update
   async function ready(page) {
     await page.waitForFunction(() => navigator.serviceWorker.controller && document.querySelector('[data-offline-indicator]')?.classList.contains('ready'), null, { timeout: 30000 });
   }
-  const saved = page => page.evaluate(key => JSON.parse(localStorage.getItem(key)), saveKey);
+  const saved = page => page.evaluate(key => JSON.parse(localStorage.getItem(key)), page.url().includes('/development.html') ? developmentSaveKey : saveKey);
   async function status(page) {
     return page.evaluate(() => new Promise((resolve, reject) => {
       const channel = new MessageChannel();
@@ -110,7 +112,7 @@ test('offline app works in real browser contexts, subdirectories and safe update
   for (const viewport of [{ width: 1265, height: 900 }, { width: 320, height: 740 }, { width: 390, height: 844 }, { width: 820, height: 1180 }]) {
     await t.test(`${viewport.width}px: complete install, offline images, real AI worker, play and restore`, async () => {
       const site = await fixture(viewport.width === 1265 ? '/' : '/game/');
-      const { context, page, errors } = await pageFor(site, viewport);
+      const { context, page, errors } = await pageFor(site, viewport, { development: true });
       await ready(page);
       const firstStatus = await status(page);
       assert.equal(firstStatus.ready, true);
@@ -138,14 +140,14 @@ test('offline app works in real browser contexts, subdirectories and safe update
         worker.onerror = event => { clearTimeout(timeout); worker.terminate(); reject(new Error(event.message)); };
         worker.onmessage = ({ data }) => { clearTimeout(timeout); worker.terminate(); data.type === 'error' ? reject(new Error(data.message)) : resolve(data); };
         worker.postMessage({ type: 'recommend', requestId: 71, state: JSON.parse(localStorage.getItem(key)).game });
-      }), saveKey);
+      }), developmentSaveKey);
       assert.equal(advice.type, 'recommend');
       assert.equal(advice.requestId, 71);
       assert.ok(advice.result.choices.length > 0);
       const spun = await saved(page);
       assert.equal(spun.game.stats.spins, before.game.stats.spins + 1);
       await page.locator('[data-action="choose"]').first().click();
-      await page.waitForFunction(key => JSON.parse(localStorage.getItem(key)).game.phase === 'ready', saveKey);
+      await page.waitForFunction(key => JSON.parse(localStorage.getItem(key)).game.phase === 'ready', developmentSaveKey);
       const chosen = await saved(page);
       assert.notDeepEqual(chosen.game, spun.game);
       await page.reload();
@@ -156,6 +158,43 @@ test('offline app works in real browser contexts, subdirectories and safe update
       await context.close();
     });
   }
+
+  await t.test('both static entries and development bundle are cached and reopen offline with separate saves', async () => {
+    const site = await fixture('/game/');
+    const { context, page, errors } = await pageFor(site, { width: 390, height: 844 });
+    await ready(page);
+    const records = site.build.assets.map(asset => asset.url);
+    assert.ok(records.includes('./development.html'));
+    const developmentEntry = await readFile(join(runtimeRoot, 'development.html'), 'utf8');
+    const developmentBundle = developmentEntry.includes('./src/development-app.js') ? './src/development-app.js' : './src/developer-tools.js';
+    assert.ok(records.includes(developmentBundle), 'the development application belongs to the exact offline asset set');
+    const cached = await page.evaluate(async paths => {
+      const name = (await caches.keys()).find(name => name.includes(':app:'));
+      const cache = await caches.open(name);
+      return Promise.all(paths.map(async path => !!await cache.match(new URL(path, location.href))));
+    }, ['./development.html', developmentBundle]);
+    assert.deepEqual(cached, [true, true]);
+    assert.equal(await page.locator('[data-action="aiLab"]').count(), 0, 'player entry has no AI laboratory');
+    const playerSave = await saved(page);
+    await context.setOffline(true);
+    const developer = await context.newPage();
+    developer.on('pageerror', error => errors.push(error.message));
+    await developer.goto(`${site.url}development.html`);
+    await ready(developer);
+    await developer.locator('[data-action="aiLab"]').first().waitFor();
+    assert.match(await developer.title(), /开发版/);
+    await developer.locator('[data-action="spin"]').click();
+    await developer.locator('[data-action="choose"]').first().waitFor();
+    await developer.waitForFunction(() => [...document.querySelectorAll('[data-ai-index] strong')].some(element => element.textContent.includes('%')));
+    assert.equal((await saved(developer)).game.stats.spins, playerSave.game.stats.spins + 1);
+    assert.deepEqual((await saved(page)).game, playerSave.game, 'developer actions do not overwrite the player save');
+    await page.reload();
+    await ready(page);
+    assert.equal(await page.locator('[data-action="aiLab"]').count(), 0);
+    assert.deepEqual((await saved(page)).game, playerSave.game);
+    assert.deepEqual(errors, []);
+    await context.close();
+  });
 
   await t.test('a waiting update preserves gameplay and old tabs until explicit save and reload', async () => {
     const site = await fixture('/game/');

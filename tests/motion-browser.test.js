@@ -197,7 +197,11 @@ test('V0.8.0 combat motion: bounded playback, exact rules and responsive offline
         await page.evaluate(() => {
           document.querySelector('[data-action="spin"]').click();
           document.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ', bubbles: true }));
-          document.querySelector('[data-action="supply"][data-kind="repair"]').click();
+          // Development shows supplies inline; player opens them on demand.
+          // Both entry points must remain ineffective while combat is busy.
+          const supplyControl = document.querySelector('[data-action="supply"][data-kind="repair"]') || document.querySelector('[data-action="supplies"]');
+          if (!supplyControl) throw new Error('The supply interaction must be present in this edition.');
+          supplyControl.click();
         });
         await page.waitForFunction(() => document.querySelector('.combat-fx-layer .fx-sprite,.combat-fx-layer .fx-beam'));
         await page.waitForTimeout(180);
@@ -228,6 +232,9 @@ test('V0.8.0 combat motion: bounded playback, exact rules and responsive offline
         assert.ok(modalClasses.some(name => name.includes('modal-leaving')), 'reward has an exit transition');
         assert.equal(await page.locator('[data-action="spin"]').isEnabled(), true, 'controls settle ready for the next turn');
         const beforeSupply = (await saved(page)).game;
+        if (await page.locator('[data-action="supply"][data-kind="repair"]').count() === 0) {
+          await page.locator('[data-action="supplies"]').evaluate(element => element.click());
+        }
         await page.locator('[data-action="supply"][data-kind="repair"]').evaluate(element => element.click());
         assert.match(await page.locator('.purchase-feedback[role="status"]').textContent(), /生命已恢复/, 'a purchase gives animated, readable feedback');
         await page.waitForFunction(() => !document.querySelector('.purchase-feedback'), null, { timeout: 1200 });

@@ -14,6 +14,7 @@ async function fixture(t) {
   for (const folder of ['src', 'public/icons', 'public/assets', 'scripts', 'tests']) await mkdir(resolve(root, folder), { recursive: true });
   const files = {
     'index.html': '<html>offline fixture</html>',
+    'development.html': '<html>development fixture</html>',
     'styles.css': 'body{background:#10131d}',
     'manifest.webmanifest': '{"scope":"./"}',
     'src/app.js': 'export const app = 1;',
@@ -103,7 +104,7 @@ test('offline build includes every runtime asset and hashes content independentl
   const root = await fixture(t);
   const first = await createOfflineBuild(root);
   const paths = first.assets.map(asset => asset.url);
-  for (const path of ['src/offline.js', 'src/ai-worker.js', 'src/ai.js', 'public/assets/unseen-character.png', 'public/assets/enemy.svg', 'public/icons/maskable-512.png', 'manifest.webmanifest']) assert.ok(paths.includes(`./${path}`), path);
+  for (const path of ['development.html', 'src/offline.js', 'src/ai-worker.js', 'src/ai.js', 'public/assets/unseen-character.png', 'public/assets/enemy.svg', 'public/icons/maskable-512.png', 'manifest.webmanifest']) assert.ok(paths.includes(`./${path}`), path);
   assert.ok(paths.every(path => !path.includes('scripts/') && !path.includes('tests/') && !path.includes('.private')));
   assert.equal(first.version, (await createOfflineBuild(root)).version);
   await writeFile(resolve(root, 'package.json'), '{"version":"999"}');
@@ -143,6 +144,7 @@ test('worker installs atomically, caches unseen art and AI code, and does not sk
   worker.state.offline = true;
   const requestsBefore = worker.state.requests.length;
   assert.equal(await (await worker.fetchAsset('./?launch=home', { mode: 'navigate', resultingClientId: 'tab' })).text(), '<html>offline fixture</html>');
+  assert.equal(await (await worker.fetchAsset('./development.html', { mode: 'navigate', resultingClientId: 'dev-tab' })).text(), '<html>development fixture</html>', 'the offline development entry never becomes the player shell');
   assert.equal(await (await worker.fetchAsset('./public/assets/unseen-character.png', { clientId: 'tab' })).text(), 'unseen portrait');
   assert.match(await (await worker.fetchAsset('./src/ai-worker.js', { clientId: 'tab', resultingClientId: 'worker' })).text(), /old worker/);
   assert.equal(await (await worker.fetchAsset('./src/ai.js', { clientId: 'worker' })).text(), 'export const policy = "old";');

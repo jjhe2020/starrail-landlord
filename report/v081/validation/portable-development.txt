@@ -1,0 +1,16 @@
+▶ portable HTML plays from file:// on its first offline load
+  ✔ 1265px: embedded images, classic Blob Worker, gameplay and refresh (1863.637458ms)
+  ✔ 390px: embedded images, classic Blob Worker, gameplay and refresh (1489.895375ms)
+  ✔ 320px: embedded images, classic Blob Worker, gameplay and refresh (1525.54175ms)
+  ✔ 820px: embedded images, classic Blob Worker, gameplay and refresh (1533.788083ms)
+  ✔ blocked local storage still allows offline gameplay and portable save files (1467.0495ms)
+✔ portable HTML plays from file:// on its first offline load (8671.768292ms)
+ℹ Artifact /Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/artifacts/星穹转轮-开发版-v0.8.1.html; immutable file snapshot SHA-256 2fa08729c843dd48afaec759e84b83e14955a8eea37941f3bddcccfc8376562c
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8762.948833

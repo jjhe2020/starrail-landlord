@@ -1,0 +1,35 @@
+▶ offline app works in real browser contexts, subdirectories and safe updates
+  ✔ 1265px: complete install, offline images, real AI worker, play and restore (2103.226459ms)
+  ✔ 320px: complete install, offline images, real AI worker, play and restore (1479.42875ms)
+  ✔ 390px: complete install, offline images, real AI worker, play and restore (1427.004166ms)
+  ✔ 820px: complete install, offline images, real AI worker, play and restore (1501.324666ms)
+  ✖ both static entries and development bundle are cached and reopen offline with separate saves (1097.903667ms)
+  ✔ a waiting update preserves gameplay and old tabs until explicit save and reload (3288.478625ms)
+  ✔ a missing portrait prevents readiness and can be retried after reconnection (962.809ms)
+  ✔ a worker registration fetch failure can be retried without reloading the game (763.350459ms)
+  ✔ evicted assets remove the ready claim, then retry repairs them without losing the save (1271.275584ms)
+✖ offline app works in real browser contexts, subdirectories and safe updates (14620.881917ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 8
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14704.29325
+
+✖ failing tests:
+
+test at tests/offline-browser.test.js:162:11
+✖ both static entries and development bundle are cached and reopen offline with separate saves (1097.903667ms)
+  locator.waitFor: Error: strict mode violation: locator('[data-action="aiLab"]') resolved to 2 elements:
+      1) <button class="nav-button" data-action="aiLab">AI 试验台</button> aka getByRole('button', { name: 'AI 试验台', exact: true })
+      2) <button data-action="aiLab" class="button ghost">自动测试</button> aka getByRole('button', { name: '自动测试' })
+  
+  Call log:
+  [2m  - waiting for locator('[data-action="aiLab"]') to be visible[22m
+  
+      at TestContext.<anonymous> (/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/tests/offline-browser.test.js:184:54)
+      at async TestContext.<anonymous> (/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/tests/offline-browser.test.js:162:3) {
+    log: [ `  - waiting for locator('[data-action="aiLab"]') to be visible` ]
+  }

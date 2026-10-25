@@ -1,0 +1,19 @@
+▶ offline app works in real browser contexts, subdirectories and safe updates
+  ✔ 1265px: complete install, offline images, real AI worker, play and restore (1028.59725ms)
+  ✔ 320px: complete install, offline images, real AI worker, play and restore (809.760542ms)
+  ✔ 390px: complete install, offline images, real AI worker, play and restore (876.203791ms)
+  ✔ 820px: complete install, offline images, real AI worker, play and restore (987.107709ms)
+  ✔ both static entries and development bundle are cached and reopen offline with separate saves (820.07825ms)
+  ✔ a waiting update preserves gameplay and old tabs until explicit save and reload (3963.05225ms)
+  ✔ a missing portrait prevents readiness and can be retried after reconnection (790.9645ms)
+  ✔ a worker registration fetch failure can be retried without reloading the game (604.921625ms)
+  ✔ evicted assets remove the ready claim, then retry repairs them without losing the save (1130.270333ms)
+✔ offline app works in real browser contexts, subdirectories and safe updates (11545.740291ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11603.154542

@@ -15,7 +15,7 @@ export async function createPortableFixture(directory) {
     .filter(entry => !entry.name.startsWith('.') && !entry.name.startsWith('server-security-'));
   const filter = source => !relative(projectRoot, source).split(/[\\/]/).some(part => part.startsWith('.') || part.startsWith('server-security-'));
   await Promise.all([
-    ...['index.html', 'styles.css', 'package.json', 'src'].map(entry => cp(join(projectRoot, entry), join(root, entry), { recursive: true, filter })),
+    ...['index.html', 'development.html', 'styles.css', 'package.json', 'src'].map(entry => cp(join(projectRoot, entry), join(root, entry), { recursive: true, filter })),
     ...publicEntries.map(entry => cp(join(projectRoot, 'public', entry.name), join(root, 'public', entry.name), { recursive: true, filter })),
   ]);
   const require = createRequire(import.meta.url);

@@ -1,0 +1,608 @@
+{
+  "checkedAt": "2026-10-25T11:18:59.463Z",
+  "browser": "155.0.8059.85",
+  "scope": "Isolated Chromium browser UI and manual-action equivalence; generated saves only. Responsive CSS widths are not physical Android/iPad verification. No pressure-curve or balance claims.",
+  "sources": {
+    "player": "file:///Users/hejiezhao/Documents/ChatGPT/Starrail%20Landlord/artifacts/%E6%98%9F%E7%A9%B9%E8%BD%AC%E8%BD%AE-v0.8.1.html",
+    "development": "file:///Users/hejiezhao/Documents/ChatGPT/Starrail%20Landlord/artifacts/%E6%98%9F%E7%A9%B9%E8%BD%AC%E8%BD%AE-%E5%BC%80%E5%8F%91%E7%89%88-v0.8.1.html"
+  },
+  "artifacts": {
+    "player": {
+      "file": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/artifacts/星穹转轮-v0.8.1.html",
+      "bytes": 17250488,
+      "sha256": "2b5c09bba9bae6115a8b60ef11786a765d074597625b0ebabd36cedcff99a0f1"
+    },
+    "development": {
+      "file": "/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/artifacts/星穹转轮-开发版-v0.8.1.html",
+      "bytes": 18059168,
+      "sha256": "2fa08729c843dd48afaec759e84b83e14955a8eea37941f3bddcccfc8376562c"
+    }
+  },
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "checks": [
+        "player: exact generated fixture restored",
+        "player has no AI or experiment controls",
+        "player creates no Worker",
+        "player main: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[]}",
+        "player: advanced combat rules start folded",
+        "player: precise formula remains readable",
+        "player advanced help: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":716,\"right\":1416,\"client\":698,\"scroll\":698}]}",
+        "player: all recruitable characters in catalog",
+        "player: complete long skill preserved on card",
+        "inspection anchor has a visible pointer target",
+        "player: full skill is inspectable",
+        "player character technical detail starts folded",
+        "player: precise skill rule text is visible",
+        "player skill details: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":716,\"right\":1416,\"client\":698,\"scroll\":698},{\"left\":744,\"right\":1054,\"client\":308,\"scroll\":308}]}",
+        "player: items catalog available",
+        "player items catalog: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":716,\"right\":1416,\"client\":698,\"scroll\":698}]}",
+        "player: essences catalog available",
+        "player essences catalog: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":716,\"right\":1416,\"client\":698,\"scroll\":698}]}",
+        "player: roster and removal controls available",
+        "player roster: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":716,\"right\":1416,\"client\":698,\"scroll\":698}]}",
+        "player inventory includes owned curios and essences",
+        "inspection anchor has a visible pointer target",
+        "player: owned curio rules inspectable",
+        "player curio: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":716,\"right\":1416,\"client\":698,\"scroll\":698},{\"left\":910,\"right\":1220,\"client\":308,\"scroll\":308}]}",
+        "player: manual save controls available",
+        "player settings: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":996,\"right\":1416,\"client\":418,\"scroll\":418}]}",
+        "player: third-party attribution retained",
+        "player about: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":716,\"right\":1416,\"client\":698,\"scroll\":698}]}",
+        "development: exact generated fixture restored",
+        "development exposes AI lab and autoplay",
+        "development main: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[]}",
+        "development: advanced combat rules start folded",
+        "development: precise formula remains readable",
+        "development advanced help: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":996,\"right\":1416,\"client\":418,\"scroll\":418}]}",
+        "development: all recruitable characters in catalog",
+        "development: complete long skill preserved on card",
+        "inspection anchor has a visible pointer target",
+        "development: full skill is inspectable",
+        "development: precise skill rule text is visible",
+        "development skill details: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":996,\"right\":1416,\"client\":418,\"scroll\":418},{\"left\":954,\"right\":1264,\"client\":308,\"scroll\":308}]}",
+        "development: items catalog available",
+        "development items catalog: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":996,\"right\":1416,\"client\":418,\"scroll\":418}]}",
+        "development: essences catalog available",
+        "development essences catalog: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":996,\"right\":1416,\"client\":418,\"scroll\":418}]}",
+        "development: roster and removal controls available",
+        "development roster: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":996,\"right\":1416,\"client\":418,\"scroll\":418},{\"left\":12,\"right\":322,\"client\":308,\"scroll\":308}]}",
+        "inspection anchor has a visible pointer target",
+        "development: owned curio rules inspectable",
+        "development curio: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":1118,\"right\":1428,\"client\":308,\"scroll\":308}]}",
+        "development: manual save controls available",
+        "development settings: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":996,\"right\":1416,\"client\":418,\"scroll\":418}]}",
+        "development: third-party attribution retained",
+        "development about: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":996,\"right\":1416,\"client\":418,\"scroll\":418}]}",
+        "development AI lab: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":996,\"right\":1416,\"client\":418,\"scroll\":418}]}",
+        "player: supply updates real game state",
+        "player supplies: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":996,\"right\":1416,\"client\":418,\"scroll\":418}]}",
+        "player supply leaves development save unchanged",
+        "development: supply updates real game state",
+        "manual supply: same game state across editions",
+        "player has no AI or experiment controls",
+        "player creates no Worker",
+        "player: reward 1317 retains its complete skill",
+        "player: reward 1404 retains its complete skill",
+        "player: reward 1106 retains its complete skill",
+        "player reward: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":270,\"right\":1170,\"client\":898,\"scroll\":898}]}",
+        "development receives recommendation in a real Worker",
+        "development reward has recommendation probabilities",
+        "development: reward 1317 retains its complete skill",
+        "development: reward 1404 retains its complete skill",
+        "development: reward 1106 retains its complete skill",
+        "development reward: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[{\"left\":270,\"right\":1170,\"client\":898,\"scroll\":898}]}",
+        "manual spin: same game state across editions",
+        "manual reroll: same game state across editions",
+        "manual recruitment: same game state across editions",
+        "inspection anchor has a visible pointer target",
+        "player: removal confirmation is reachable",
+        "player: removal consumes a chance and removes the instance",
+        "player: refresh restores exact progress",
+        "player post-action restore: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[]}",
+        "inspection anchor has a visible pointer target",
+        "development: removal confirmation is reachable",
+        "development: removal consumes a chance and removes the instance",
+        "development: refresh restores exact progress",
+        "development post-action restore: no horizontal overflow {\"width\":1440,\"page\":1440,\"panels\":[]}",
+        "manual removal and refresh: same game state across editions",
+        "player export contains its exact current game",
+        "development import uses its own save namespace",
+        "player export imports into development without game changes",
+        "player has no AI or experiment controls",
+        "player creates no Worker",
+        "all pages have no uncaught errors",
+        "both final files make no HTTP requests"
+      ],
+      "screenshots": [
+        {
+          "file": "player-1440-main.png",
+          "sha256": "6601114c5b9c1da4aacb7da756267ba46bf0618045b58490a77f804c5e1f7ea6"
+        },
+        {
+          "file": "player-1440-skill.png",
+          "sha256": "e023ab79678e3fd33240ae535d8912aaeac7dff3c95c768e3f8e8633d9e6d278"
+        },
+        {
+          "file": "player-1440-settings.png",
+          "sha256": "1d779f087a95da45bf61b3ca53f4ca3670c88f43e99f52978749a039313fd331"
+        },
+        {
+          "file": "development-1440-main.png",
+          "sha256": "994037a3c3a01ca72f43662dbdbb78b40fb5d603bc5434b6dc01cdbb7356e2e8"
+        },
+        {
+          "file": "development-1440-skill.png",
+          "sha256": "295e04a175a37d2225ab4bb8fe5d0f99d114026e8ec20fbbacb686b1d7e54201"
+        },
+        {
+          "file": "development-1440-settings.png",
+          "sha256": "2d29d7b3d2a7830bf4fe6f3f88e767f0646ba9094defdc1ff3ccb5337858ce92"
+        },
+        {
+          "file": "development-1440-lab.png",
+          "sha256": "b44aef113250018941180749a37718982235d65d6c85b0a1c26ce4e1dd248691"
+        },
+        {
+          "file": "player-1440-supplies.png",
+          "sha256": "e7aa9a5afb27f8037dc621de8f33c0183d672983a6ec003a57405f06e2f2f857"
+        },
+        {
+          "file": "player-1440-reward.png",
+          "sha256": "ccb8f4137883831697a159180a2ef538c8094ad522a7c307d64801591ac67f51"
+        },
+        {
+          "file": "development-1440-reward.png",
+          "sha256": "c947ea2c8930dd1ad4168b0117f207947e2009566cf0ffeb7adb20d583d3a448"
+        }
+      ],
+      "errors": [],
+      "requests": {
+        "player": [],
+        "development": []
+      },
+      "manualGameSha256": "294a7ea8f43b6666b3a352656ed112e11b7d72430f545b264e9a52599e5b7c70"
+    },
+    {
+      "width": 320,
+      "height": 900,
+      "checks": [
+        "player: exact generated fixture restored",
+        "player has no AI or experiment controls",
+        "player creates no Worker",
+        "player main: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[]}",
+        "player: advanced combat rules start folded",
+        "player: precise formula remains readable",
+        "player advanced help: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":10,\"right\":310,\"client\":298,\"scroll\":298}]}",
+        "player: all recruitable characters in catalog",
+        "player: complete long skill preserved on card",
+        "inspection anchor has a visible pointer target",
+        "player: full skill is inspectable",
+        "player character technical detail starts folded",
+        "player: precise skill rule text is visible",
+        "player skill details: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":10,\"right\":310,\"client\":298,\"scroll\":298},{\"left\":14,\"right\":306,\"client\":290,\"scroll\":290}]}",
+        "player: items catalog available",
+        "player items catalog: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":10,\"right\":310,\"client\":298,\"scroll\":298}]}",
+        "player: essences catalog available",
+        "player essences catalog: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":10,\"right\":310,\"client\":298,\"scroll\":298}]}",
+        "player: roster and removal controls available",
+        "player roster: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":10,\"right\":310,\"client\":298,\"scroll\":298}]}",
+        "player inventory includes owned curios and essences",
+        "inspection anchor has a visible pointer target",
+        "player: owned curio rules inspectable",
+        "player curio: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":10,\"right\":310,\"client\":298,\"scroll\":298},{\"left\":13,\"right\":305,\"client\":290,\"scroll\":290}]}",
+        "player: manual save controls available",
+        "player settings: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":10,\"right\":310,\"client\":298,\"scroll\":298}]}",
+        "player: third-party attribution retained",
+        "player about: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":10,\"right\":310,\"client\":298,\"scroll\":298}]}",
+        "development: exact generated fixture restored",
+        "development exposes AI lab and autoplay",
+        "development main: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[]}",
+        "development: advanced combat rules start folded",
+        "development: precise formula remains readable",
+        "development advanced help: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":12,\"right\":308,\"client\":294,\"scroll\":294}]}",
+        "development: all recruitable characters in catalog",
+        "development: complete long skill preserved on card",
+        "inspection anchor has a visible pointer target",
+        "development: full skill is inspectable",
+        "development: precise skill rule text is visible",
+        "development skill details: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":12,\"right\":308,\"client\":294,\"scroll\":294},{\"left\":12,\"right\":304,\"client\":290,\"scroll\":290}]}",
+        "development: items catalog available",
+        "development items catalog: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":12,\"right\":308,\"client\":294,\"scroll\":294}]}",
+        "development: essences catalog available",
+        "development essences catalog: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":12,\"right\":308,\"client\":294,\"scroll\":294}]}",
+        "development: roster and removal controls available",
+        "development roster: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":12,\"right\":308,\"client\":294,\"scroll\":294}]}",
+        "inspection anchor has a visible pointer target",
+        "development: owned curio rules inspectable",
+        "development curio: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":12,\"right\":304,\"client\":290,\"scroll\":290}]}",
+        "development: manual save controls available",
+        "development settings: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":12,\"right\":308,\"client\":294,\"scroll\":294}]}",
+        "development: third-party attribution retained",
+        "development about: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":12,\"right\":308,\"client\":294,\"scroll\":294}]}",
+        "development AI lab: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":12,\"right\":308,\"client\":294,\"scroll\":294}]}",
+        "player: supply updates real game state",
+        "player supplies: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":10,\"right\":310,\"client\":298,\"scroll\":298}]}",
+        "player supply leaves development save unchanged",
+        "development: supply updates real game state",
+        "manual supply: same game state across editions",
+        "player has no AI or experiment controls",
+        "player creates no Worker",
+        "player: reward 1317 retains its complete skill",
+        "player: reward 1404 retains its complete skill",
+        "player: reward 1106 retains its complete skill",
+        "player reward: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":10,\"right\":310,\"client\":298,\"scroll\":298}]}",
+        "development receives recommendation in a real Worker",
+        "development reward has recommendation probabilities",
+        "development: reward 1317 retains its complete skill",
+        "development: reward 1404 retains its complete skill",
+        "development: reward 1106 retains its complete skill",
+        "development reward: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[{\"left\":9,\"right\":311,\"client\":300,\"scroll\":300}]}",
+        "manual spin: same game state across editions",
+        "manual reroll: same game state across editions",
+        "manual recruitment: same game state across editions",
+        "inspection anchor has a visible pointer target",
+        "player: removal confirmation is reachable",
+        "player: removal consumes a chance and removes the instance",
+        "player: refresh restores exact progress",
+        "player post-action restore: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[]}",
+        "inspection anchor has a visible pointer target",
+        "development: removal confirmation is reachable",
+        "development: removal consumes a chance and removes the instance",
+        "development: refresh restores exact progress",
+        "development post-action restore: no horizontal overflow {\"width\":320,\"page\":320,\"panels\":[]}",
+        "manual removal and refresh: same game state across editions",
+        "player export contains its exact current game",
+        "development import uses its own save namespace",
+        "player export imports into development without game changes",
+        "player has no AI or experiment controls",
+        "player creates no Worker",
+        "all pages have no uncaught errors",
+        "both final files make no HTTP requests"
+      ],
+      "screenshots": [
+        {
+          "file": "player-320-main.png",
+          "sha256": "6af84e96c3a7b9e67eabcd3802b7e8c60e63f2dc84886a4c58bb3f80c9873bcf"
+        },
+        {
+          "file": "player-320-skill.png",
+          "sha256": "7feb7a395a1a3931c573a9d0d568147728c58854f26fc51f677d13b0a721cd4d"
+        },
+        {
+          "file": "player-320-settings.png",
+          "sha256": "bf3377c1bb056f35e9931700f7ec632093ecf313afb3e484375a1c594964fd73"
+        },
+        {
+          "file": "development-320-main.png",
+          "sha256": "83eb9ea6e135cc1e5f5ea85e76ada617bf6150487532925669ef9220141e1905"
+        },
+        {
+          "file": "development-320-skill.png",
+          "sha256": "d5248353062d0d2af0921807397bdd3b93f7f808e699ec0bf0d52c3e081fdc9c"
+        },
+        {
+          "file": "development-320-settings.png",
+          "sha256": "8fab438e7405eaf29c63a164f1c789af1ece16e9262a6b3837d1e9d83f555e58"
+        },
+        {
+          "file": "development-320-lab.png",
+          "sha256": "70751cc2606f38a1d6650719a5d30e1ad600d4c93ece477745b3c44014c6119b"
+        },
+        {
+          "file": "player-320-supplies.png",
+          "sha256": "1ecee60161ad606f38e551b90d4cd9a229d7e3ece47c3cc03186309a784b2b3f"
+        },
+        {
+          "file": "player-320-reward.png",
+          "sha256": "58fee1d52575990422a517de5e6f2307aa624e0bce902197fff373a064a26d83"
+        },
+        {
+          "file": "development-320-reward.png",
+          "sha256": "3013006ff6c40b254491169ca0d19a714476f6b9d3fc0cd72ca5ad1c3dc195e6"
+        }
+      ],
+      "errors": [],
+      "requests": {
+        "player": [],
+        "development": []
+      },
+      "manualGameSha256": "294a7ea8f43b6666b3a352656ed112e11b7d72430f545b264e9a52599e5b7c70"
+    },
+    {
+      "width": 390,
+      "height": 900,
+      "checks": [
+        "player: exact generated fixture restored",
+        "player has no AI or experiment controls",
+        "player creates no Worker",
+        "player main: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[]}",
+        "player: advanced combat rules start folded",
+        "player: precise formula remains readable",
+        "player advanced help: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":10,\"right\":380,\"client\":368,\"scroll\":368}]}",
+        "player: all recruitable characters in catalog",
+        "player: complete long skill preserved on card",
+        "inspection anchor has a visible pointer target",
+        "player: full skill is inspectable",
+        "player character technical detail starts folded",
+        "player: precise skill rule text is visible",
+        "player skill details: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":10,\"right\":380,\"client\":368,\"scroll\":368},{\"left\":49,\"right\":341,\"client\":290,\"scroll\":290}]}",
+        "player: items catalog available",
+        "player items catalog: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":10,\"right\":380,\"client\":368,\"scroll\":368}]}",
+        "player: essences catalog available",
+        "player essences catalog: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":10,\"right\":380,\"client\":368,\"scroll\":368}]}",
+        "player: roster and removal controls available",
+        "player roster: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":10,\"right\":380,\"client\":368,\"scroll\":368}]}",
+        "player inventory includes owned curios and essences",
+        "inspection anchor has a visible pointer target",
+        "player: owned curio rules inspectable",
+        "player curio: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":10,\"right\":380,\"client\":368,\"scroll\":368},{\"left\":48,\"right\":340,\"client\":290,\"scroll\":290}]}",
+        "player: manual save controls available",
+        "player settings: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":10,\"right\":380,\"client\":368,\"scroll\":368}]}",
+        "player: third-party attribution retained",
+        "player about: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":10,\"right\":380,\"client\":368,\"scroll\":368}]}",
+        "development: exact generated fixture restored",
+        "development exposes AI lab and autoplay",
+        "development main: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[]}",
+        "development: advanced combat rules start folded",
+        "development: precise formula remains readable",
+        "development advanced help: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":12,\"right\":378,\"client\":364,\"scroll\":364}]}",
+        "development: all recruitable characters in catalog",
+        "development: complete long skill preserved on card",
+        "inspection anchor has a visible pointer target",
+        "development: full skill is inspectable",
+        "development: precise skill rule text is visible",
+        "development skill details: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":12,\"right\":378,\"client\":364,\"scroll\":364},{\"left\":12,\"right\":304,\"client\":290,\"scroll\":290}]}",
+        "development: items catalog available",
+        "development items catalog: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":12,\"right\":378,\"client\":364,\"scroll\":364}]}",
+        "development: essences catalog available",
+        "development essences catalog: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":12,\"right\":378,\"client\":364,\"scroll\":364}]}",
+        "development: roster and removal controls available",
+        "development roster: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":12,\"right\":378,\"client\":364,\"scroll\":364}]}",
+        "inspection anchor has a visible pointer target",
+        "development: owned curio rules inspectable",
+        "development curio: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":12,\"right\":304,\"client\":290,\"scroll\":290}]}",
+        "development: manual save controls available",
+        "development settings: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":12,\"right\":378,\"client\":364,\"scroll\":364}]}",
+        "development: third-party attribution retained",
+        "development about: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":12,\"right\":378,\"client\":364,\"scroll\":364}]}",
+        "development AI lab: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":12,\"right\":378,\"client\":364,\"scroll\":364}]}",
+        "player: supply updates real game state",
+        "player supplies: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":10,\"right\":380,\"client\":368,\"scroll\":368}]}",
+        "player supply leaves development save unchanged",
+        "development: supply updates real game state",
+        "manual supply: same game state across editions",
+        "player has no AI or experiment controls",
+        "player creates no Worker",
+        "player: reward 1317 retains its complete skill",
+        "player: reward 1404 retains its complete skill",
+        "player: reward 1106 retains its complete skill",
+        "player reward: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":10,\"right\":380,\"client\":368,\"scroll\":368}]}",
+        "development receives recommendation in a real Worker",
+        "development reward has recommendation probabilities",
+        "development: reward 1317 retains its complete skill",
+        "development: reward 1404 retains its complete skill",
+        "development: reward 1106 retains its complete skill",
+        "development reward: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[{\"left\":14,\"right\":376,\"client\":360,\"scroll\":360}]}",
+        "manual spin: same game state across editions",
+        "manual reroll: same game state across editions",
+        "manual recruitment: same game state across editions",
+        "inspection anchor has a visible pointer target",
+        "player: removal confirmation is reachable",
+        "player: removal consumes a chance and removes the instance",
+        "player: refresh restores exact progress",
+        "player post-action restore: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[]}",
+        "inspection anchor has a visible pointer target",
+        "development: removal confirmation is reachable",
+        "development: removal consumes a chance and removes the instance",
+        "development: refresh restores exact progress",
+        "development post-action restore: no horizontal overflow {\"width\":390,\"page\":390,\"panels\":[]}",
+        "manual removal and refresh: same game state across editions",
+        "player export contains its exact current game",
+        "development import uses its own save namespace",
+        "player export imports into development without game changes",
+        "player has no AI or experiment controls",
+        "player creates no Worker",
+        "all pages have no uncaught errors",
+        "both final files make no HTTP requests"
+      ],
+      "screenshots": [
+        {
+          "file": "player-390-main.png",
+          "sha256": "43ef26ce967e115aa7ef6b9d8253187ad59781a561ddb2d39fe7846210705668"
+        },
+        {
+          "file": "player-390-skill.png",
+          "sha256": "1e5afdfa119663eb8bebb02f77bdf5431a0197de8b2ad3293924d35ab2b17d36"
+        },
+        {
+          "file": "player-390-settings.png",
+          "sha256": "2e2e9a629518ba98b072a8eb28edba743b5a49bdaaeaeb0b6ceaf78438b61ce5"
+        },
+        {
+          "file": "development-390-main.png",
+          "sha256": "293e15ca7cff568d992b28deb9d340caa1650dda956099a877b73cac35397d52"
+        },
+        {
+          "file": "development-390-skill.png",
+          "sha256": "8417a4bb37ee3970db3a8de98f64e1041fc85b86c8177bb0f35744b1f1f5b7c6"
+        },
+        {
+          "file": "development-390-settings.png",
+          "sha256": "5028d6634a6c7198d6158994a1297fcf0618b18c2ebf2f024d07e77fd4e5c897"
+        },
+        {
+          "file": "development-390-lab.png",
+          "sha256": "ecc260f182351f28f03d9f09691f9cb8f155a6ab29b1f885793a93497947030f"
+        },
+        {
+          "file": "player-390-supplies.png",
+          "sha256": "23f44bbbd6aebb35c28e0dfb7df9dc6da7e606719f6a22eb278e0988b27c3ddb"
+        },
+        {
+          "file": "player-390-reward.png",
+          "sha256": "35b2ec0e71c536447d70175388efc1e347225b299af5f8899ee444497c95b754"
+        },
+        {
+          "file": "development-390-reward.png",
+          "sha256": "9637b9bebbddb3e4df718096e7e9dea6f943af11bc9b06c2bce090751816e9c5"
+        }
+      ],
+      "errors": [],
+      "requests": {
+        "player": [],
+        "development": []
+      },
+      "manualGameSha256": "294a7ea8f43b6666b3a352656ed112e11b7d72430f545b264e9a52599e5b7c70"
+    },
+    {
+      "width": 820,
+      "height": 900,
+      "checks": [
+        "player: exact generated fixture restored",
+        "player has no AI or experiment controls",
+        "player creates no Worker",
+        "player main: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[]}",
+        "player: advanced combat rules start folded",
+        "player: precise formula remains readable",
+        "player advanced help: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":96,\"right\":796,\"client\":698,\"scroll\":698}]}",
+        "player: all recruitable characters in catalog",
+        "player: complete long skill preserved on card",
+        "inspection anchor has a visible pointer target",
+        "player: full skill is inspectable",
+        "player character technical detail starts folded",
+        "player: precise skill rule text is visible",
+        "player skill details: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":96,\"right\":796,\"client\":698,\"scroll\":698},{\"left\":124,\"right\":434,\"client\":308,\"scroll\":308}]}",
+        "player: items catalog available",
+        "player items catalog: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":96,\"right\":796,\"client\":698,\"scroll\":698}]}",
+        "player: essences catalog available",
+        "player essences catalog: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":96,\"right\":796,\"client\":698,\"scroll\":698}]}",
+        "player: roster and removal controls available",
+        "player roster: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":96,\"right\":796,\"client\":698,\"scroll\":698}]}",
+        "player inventory includes owned curios and essences",
+        "inspection anchor has a visible pointer target",
+        "player: owned curio rules inspectable",
+        "player curio: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":96,\"right\":796,\"client\":698,\"scroll\":698},{\"left\":290,\"right\":600,\"client\":308,\"scroll\":308}]}",
+        "player: manual save controls available",
+        "player settings: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":376,\"right\":796,\"client\":418,\"scroll\":418}]}",
+        "player: third-party attribution retained",
+        "player about: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":96,\"right\":796,\"client\":698,\"scroll\":698}]}",
+        "development: exact generated fixture restored",
+        "development exposes AI lab and autoplay",
+        "development main: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[]}",
+        "development: advanced combat rules start folded",
+        "development: precise formula remains readable",
+        "development advanced help: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":376,\"right\":796,\"client\":418,\"scroll\":418}]}",
+        "development: all recruitable characters in catalog",
+        "development: complete long skill preserved on card",
+        "inspection anchor has a visible pointer target",
+        "development: full skill is inspectable",
+        "development: precise skill rule text is visible",
+        "development skill details: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":376,\"right\":796,\"client\":418,\"scroll\":418},{\"left\":334,\"right\":644,\"client\":308,\"scroll\":308}]}",
+        "development: items catalog available",
+        "development items catalog: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":376,\"right\":796,\"client\":418,\"scroll\":418}]}",
+        "development: essences catalog available",
+        "development essences catalog: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":376,\"right\":796,\"client\":418,\"scroll\":418}]}",
+        "development: roster and removal controls available",
+        "development roster: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":376,\"right\":796,\"client\":418,\"scroll\":418}]}",
+        "inspection anchor has a visible pointer target",
+        "development: owned curio rules inspectable",
+        "development curio: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":54.5,\"right\":364.5,\"client\":308,\"scroll\":308}]}",
+        "development: manual save controls available",
+        "development settings: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":376,\"right\":796,\"client\":418,\"scroll\":418}]}",
+        "development: third-party attribution retained",
+        "development about: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":376,\"right\":796,\"client\":418,\"scroll\":418}]}",
+        "development AI lab: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":376,\"right\":796,\"client\":418,\"scroll\":418}]}",
+        "player: supply updates real game state",
+        "player supplies: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":376,\"right\":796,\"client\":418,\"scroll\":418}]}",
+        "player supply leaves development save unchanged",
+        "development: supply updates real game state",
+        "manual supply: same game state across editions",
+        "player has no AI or experiment controls",
+        "player creates no Worker",
+        "player: reward 1317 retains its complete skill",
+        "player: reward 1404 retains its complete skill",
+        "player: reward 1106 retains its complete skill",
+        "player reward: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":30,\"right\":790,\"client\":758,\"scroll\":758}]}",
+        "development receives recommendation in a real Worker",
+        "development reward has recommendation probabilities",
+        "development: reward 1317 retains its complete skill",
+        "development: reward 1404 retains its complete skill",
+        "development: reward 1106 retains its complete skill",
+        "development reward: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[{\"left\":30,\"right\":790,\"client\":758,\"scroll\":758}]}",
+        "manual spin: same game state across editions",
+        "manual reroll: same game state across editions",
+        "manual recruitment: same game state across editions",
+        "inspection anchor has a visible pointer target",
+        "player: removal confirmation is reachable",
+        "player: removal consumes a chance and removes the instance",
+        "player: refresh restores exact progress",
+        "player post-action restore: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[]}",
+        "inspection anchor has a visible pointer target",
+        "development: removal confirmation is reachable",
+        "development: removal consumes a chance and removes the instance",
+        "development: refresh restores exact progress",
+        "development post-action restore: no horizontal overflow {\"width\":820,\"page\":820,\"panels\":[]}",
+        "manual removal and refresh: same game state across editions",
+        "player export contains its exact current game",
+        "development import uses its own save namespace",
+        "player export imports into development without game changes",
+        "player has no AI or experiment controls",
+        "player creates no Worker",
+        "all pages have no uncaught errors",
+        "both final files make no HTTP requests"
+      ],
+      "screenshots": [
+        {
+          "file": "player-820-main.png",
+          "sha256": "d0aa19a6e9ee5be8255c8396877f1c41c63f33ef464fdb0f5b1a4d8c2c1f7256"
+        },
+        {
+          "file": "player-820-skill.png",
+          "sha256": "2dcc23d735ae052a668488ecd1c8f061b8b4f5dda4bec91edea8cdc921876e19"
+        },
+        {
+          "file": "player-820-settings.png",
+          "sha256": "39c02a0398979afa9ad250f8e9005289e361416632337c4e7f8c87605e667f45"
+        },
+        {
+          "file": "development-820-main.png",
+          "sha256": "4c1de4fd3c5052616d90513d0dab1274394e8a1f5f6d8a9729c1b6a846b5fdff"
+        },
+        {
+          "file": "development-820-skill.png",
+          "sha256": "a4b44cd6cfc024ac5020b289572f18ef735c4627c505254678bf3120368cbe0c"
+        },
+        {
+          "file": "development-820-settings.png",
+          "sha256": "99b6962487dd119a37fb0fb2d7e751f712e7245f1e025c0c79df156159bba3fa"
+        },
+        {
+          "file": "development-820-lab.png",
+          "sha256": "fb3ec5a58c988452bff496fe52f399e8b57e4c5a916505dd3b9a8f6d4d6440c9"
+        },
+        {
+          "file": "player-820-supplies.png",
+          "sha256": "25b33c2b29a192cb203dedc68d32f58d3fe1d22bd3a62d2d3934807085f44ae8"
+        },
+        {
+          "file": "player-820-reward.png",
+          "sha256": "075383f158a20d19389853a86abda193e6fa50c65e899697e113307ed73b0a3e"
+        },
+        {
+          "file": "development-820-reward.png",
+          "sha256": "55ad37ff9e6c794cc6e8caa9ff94a596e9fc370c064e736d800d37e60a725d3f"
+        }
+      ],
+      "errors": [],
+      "requests": {
+        "player": [],
+        "development": []
+      },
+      "manualGameSha256": "294a7ea8f43b6666b3a352656ed112e11b7d72430f545b264e9a52599e5b7c70"
+    }
+  ],
+  "passed": true
+}

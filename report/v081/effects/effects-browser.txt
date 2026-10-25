@@ -1,0 +1,16 @@
+▶ effect explanations, expanded catalog and reward inspection in real browsers
+  ✔ 1440px: duration rules, nonblocking details and catalog (3995.157083ms)
+  ✔ 390px: duration rules, nonblocking details and catalog (4136.231541ms)
+  ✔ 320px: duration rules, nonblocking details and catalog (3851.599917ms)
+  ✔ 1440px: create, inspect and finish the garmentmaker's own two-appearance skill (1570.721084ms)
+  ✔ 390px: create, inspect and finish the garmentmaker's own two-appearance skill (1462.722625ms)
+✔ effect explanations, expanded catalog and reward inspection in real browsers (15523.327292ms)
+ℹ 169 UI checks passed; 0 uncaught page errors; file:// offline.
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15567.758166

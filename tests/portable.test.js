@@ -41,20 +41,21 @@ test('inline script escaping preserves text without permitting extra HTML script
   assert.equal(context.injected, undefined);
 });
 
-test('portable build carries complete resources and a self-contained classic AI worker', async t => {
+test('development portable build carries complete resources and a self-contained classic AI worker', async t => {
   const directory = await mkdtemp(join(tmpdir(), 'astral-portable-test-'));
   assert.ok(directory.startsWith(resolve(tmpdir()) + sep), 'fixture cleanup stays inside its dedicated temporary directory');
   t.after(() => rm(directory, { recursive: true, force: true }));
   const { root, esbuild } = await createPortableFixture(directory);
   const { version } = JSON.parse(await readFile(join(root, 'package.json'), 'utf8'));
-  const build = await buildPortable({ root, esbuild });
-  assert.equal(build.output, join(root, 'artifacts', `星穹转轮-v${version}.html`), 'the default release is one clearly versioned shareable HTML file');
+  const build = await buildPortable({ root, esbuild, edition: 'development' });
+  assert.equal(build.output, join(root, 'artifacts', `星穹转轮-开发版-v${version}.html`), 'the development artifact has a distinct versioned filename');
   assert.equal(build.version, version);
-  assert.match(build.html, new RegExp(`<title>星穹转轮 v${version.replace(/\./g, '\\.')} · 离线单文件版</title>`));
+  assert.match(build.html, new RegExp(`<title>星穹转轮 · 开发版 v${version.replace(/\./g, '\\.')} · 离线单文件版</title>`));
   assert.equal(await readFile(build.output, 'utf8'), build.html);
   assert.equal(build.bytes, Buffer.byteLength(build.html));
   const { config, application } = embeddedConfig(build.html);
   assert.equal(config.format, 'astral-reels-single-file-v1');
+  assert.equal(config.edition, 'development');
   assert.equal(config.version, version);
   assert.equal(config.workerSource, build.workerSource);
   const files = await publicFiles(root);
@@ -109,7 +110,7 @@ test('portable build carries complete resources and a self-contained classic AI 
   const sensitiveText = '</ScRiPt><script>globalThis.injected = true;</script>\u2028\u2029';
   const fixtureApp = `globalThis.fixtureValue=${JSON.stringify(sensitiveText)};`;
   const fixtureWorker = `globalThis.workerFixtureValue=${JSON.stringify(sensitiveText)};`;
-  const injected = await buildPortable({ root, out: join(directory, 'escaped.html'), esbuild: {
+  const injected = await buildPortable({ root, edition: 'development', out: join(directory, 'escaped.html'), esbuild: {
     async build({ entryPoints }) { return { outputFiles: [{ text: entryPoints[0] === 'src/app.js' ? fixtureApp : fixtureWorker }] }; },
   } });
   assert.equal(injected.output, join(directory, 'escaped.html'), 'an explicit output filename remains supported');
@@ -119,4 +120,29 @@ test('portable build carries complete resources and a self-contained classic AI 
   new vm.Script(escaped.application).runInContext(boot);
   assert.equal(boot.fixtureValue, sensitiveText);
   assert.equal(boot.injected, undefined, 'the assembled document never turns a JavaScript string into a third script');
+});
+
+test('default player portable build excludes the AI worker and development code', async t => {
+  const directory = await mkdtemp(join(tmpdir(), 'astral-player-portable-test-'));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  const { root, esbuild } = await createPortableFixture(directory);
+  const calls = [];
+  const build = await buildPortable({ root, esbuild: {
+    async build(options) { calls.push(options); return esbuild.build(options); },
+  } });
+  const { config, application } = embeddedConfig(build.html);
+  assert.equal(build.edition, 'player');
+  assert.equal(build.output, join(root, 'artifacts', `星穹转轮-v${build.version}.html`));
+  assert.equal(config.edition, 'player');
+  assert.equal(Object.hasOwn(config, 'workerSource'), false, 'the player file has no embedded AI worker payload');
+  assert.equal(Object.hasOwn(build, 'workerSource'), false);
+  assert.equal(calls.length, 1, 'the player builder never compiles the development worker');
+  assert.equal(calls[0].define['globalThis.__ASTRAL_DEVELOPMENT_BUILD__'], 'false');
+  for (const marker of ['shared-resource-planner', 'createDeveloperTools', 'runTagCampaign', 'recommendRewards', 'resource-actions-v', 'ai-worker.js', 'workerSource']) {
+    assert.equal(application.includes(marker), false, `player application excludes ${marker}`);
+  }
+  assert.match(build.html, new RegExp(`<title>星穹转轮 v${build.version.replace(/\./g, '\\.')} · 离线单文件版</title>`));
+  assert.doesNotMatch(application, /\bimport\s*(?:\(|["'{*])|\bimport\.meta/);
+  new vm.Script(application);
+  await assert.rejects(buildPortable({ root, edition: 'unknown', esbuild }), /player 或 development/);
 });

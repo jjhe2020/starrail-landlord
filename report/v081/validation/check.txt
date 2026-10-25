@@ -1,0 +1,5 @@
+
+> starrail-landlord@0.8.1 check
+> node scripts/check.mjs
+
+Syntax, version, 90 character portraits and 208 offline assets verified.

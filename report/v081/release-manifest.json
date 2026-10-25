@@ -1,0 +1,209 @@
+{
+  "version": "0.8.1",
+  "clientDate": "2026-10-25",
+  "baseCommit": "30af077cb139486be2d3bd0c3f6ed3888a661f1e",
+  "scope": "UI editions only; no combat, balance, AI decision or player-matrix changes",
+  "artifacts": [
+    {
+      "edition": "player",
+      "path": "artifacts/星穹转轮-v0.8.1.html",
+      "bytes": 17250488,
+      "sha256": "2b5c09bba9bae6115a8b60ef11786a765d074597625b0ebabd36cedcff99a0f1"
+    },
+    {
+      "edition": "development",
+      "path": "artifacts/星穹转轮-开发版-v0.8.1.html",
+      "bytes": 18059168,
+      "sha256": "2fa08729c843dd48afaec759e84b83e14955a8eea37941f3bddcccfc8376562c"
+    }
+  ],
+  "sourceHashes": {
+    "VERSION": "aaf6721dc37c40b4233accfc081f25776ff3bd1d2a4b9d5cea760d1c2cf86665",
+    "development.html": "d1fb6fc4ba0aa5a6c338374b55ca70686578478972e9ba8e97752854b2268309",
+    "index.html": "b7b621e3eb26b5ed6ad5f2a8346d045c586cae29a1dcaab5bef25ed8fd03b2ac",
+    "package-lock.json": "22f1cf9ebedaa45a079753b114621ae8d82b0e57ea66643b41295b18b1b094b4",
+    "package.json": "df8f6c9e92a46156531f7623824214ea2d62146d60ddafcd9092b98071e021a9",
+    "scripts/build-portable.mjs": "54191c9c920fb2e791ced3360364e542f3e2e9931b056772f104ead7c2683a8d",
+    "scripts/build.mjs": "9d863ede4b256dfab3cc5ba516f8dbd17afb200baf9ddcf13501899d745ce012",
+    "scripts/offline-assets.mjs": "360855beeb26a92bdb73e664bf1b2a460a6e03ad94f5c4af1569861871215a81",
+    "scripts/server.mjs": "db07cda84dc4df9a67fe33d94c85e71d280d04972d279d496de452c403f804f6",
+    "service-worker.js": "dbc2d30b0be50b770415a85ec55e27e1f502208304fac6f4090081210eca189f",
+    "src/ai-profile.js": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+    "src/ai-spatial.js": "934f112c95764a92f687b753448d431dbbfc602c7ad5ff7ddefa61e5b6f9850b",
+    "src/ai-worker.js": "36ab3c392271674757822c92f414d7f18776236b88f8bdc6c1d4df79b9106e58",
+    "src/ai.js": "73feab4a568864bf3bba2acc7f9174dc535555290de40de522aff5e11648719c",
+    "src/app.js": "0d797e47855e03fc439c7c51a9e883f7d92e0d2fe6a647bb717dbdee07f72cfc",
+    "src/archetype-reference.js": "119f3287a651cd70ef74656a760654acd1b415b29c77c994770ed1693697a26a",
+    "src/archetype-simulation.js": "3390a5972ad7af862f7150d1d7ecefc50791ec3fb3d87b3700d7fdef5dd24cc4",
+    "src/archetypes.js": "f198849f02fdd1828cb572903f803f47efb0f2d3c81d0f3421c7093b1f0ea4cb",
+    "src/attributes.js": "1b57a4d09e224fb025bf0f2a53df4676b3e5a9c1f61d07ca0392c8479b1493d8",
+    "src/balance-reference.js": "85dc73e0089bdda139a951ccf1315fce18f2c6d3b7614e62681b370889bb580c",
+    "src/balance-v070.js": "0ffa5bd350f86e2389744e80539d65573238ea38f62d362f29beaf3766310268",
+    "src/balance-v080.js": "ef6ceeea7343266e589c47e8e17cb9d0ec13f607977adab97df05c54381a639b",
+    "src/combat-motion.js": "03f4635b8b0a8b6c8368545f0616f9ca4b690d72029783277aa417bef55f01cf",
+    "src/combat-player.js": "2c08e669075774a9e2889761eee6cd43499f871a5f86ae248e65ae39b9cdc539",
+    "src/content.js": "aea6b58716370b4d35baa04d0f178c50efd2cdb5b24385bbe6dc3ebb7e7ba8d4",
+    "src/developer-tools.js": "5038c28689631e62bfbc78ab54093826a65b207c30f3dc8bc2a01909015ba247",
+    "src/difficulty.js": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+    "src/effect-info.js": "f05e78adeadfeb2e44b23593ae2252065bc65e27e733038aadfcc1f608a1cabf",
+    "src/effect-rules.js": "f7d2abb5576883a1f9abd2590e0a49b63cfdad2438c99db3eaec4ba7c054ff83",
+    "src/enemy-effects.js": "cd654be40741c912ea1064d7c09434ff3287065ca8da6af360fbcd0e76e04424",
+    "src/engine.js": "06b43ac361226346e0463fbbdf24c278ff30b66d42de7dee07488b42211f6290",
+    "src/growth-report.js": "aeb46f54c6c6d24f07e1b618fdf2e959c5a1cb018214dc146026009f691603a5",
+    "src/growth-simulation.js": "aa541eae6925fe26c55544974e743c573033e6b41c50147c8a7513d8325e907d",
+    "src/growth-telemetry.js": "28db1cddbcee8f37cb9c3ea596fe43f8114ae34c18a3d8d14d995df45ff9d205",
+    "src/inspect.js": "758408434321b1f499c66b279aa505761406eaf08bfa92fa27c9cfcb250f90fc",
+    "src/mechanics.js": "55b3356cc787a189c907936593a51389ff92391046f93ccccdcedfe494933a13",
+    "src/offline.js": "1cd1be89d902d19a2b8bb5596f04660e4bf8bbecdf1885561f514c817345abb4",
+    "src/retirement-ai.js": "b2b324e95964e12ef7818279f1fbc01edfeef8f713b010b1d3cc910ef4edc25c",
+    "src/retirements.js": "92edad425b4c033e64da5b8a146e1dfef53e7bf5380c45da81dd88451149ead5",
+    "src/runtime.js": "9722a72dcbfddcfd74a2ac2568b8d6641e2b1c883a896b0d98338b8d07c45c26",
+    "src/save-transfer.js": "14b87c2380d9042876886538beed6f3f88ed92b76bdd8a28c03271f1f8350071",
+    "src/simulation.js": "fb59f4744192e62d6ed2bf363f89e6576b9ac7481f8c3550f7a92ec0cac47e95",
+    "src/synergies.js": "4f701b64dc869bff6b13cacef9958cce6d2ad08b50edd033ca821ada413dc004",
+    "src/ui-motion.js": "f59428f6067073a5e8833ffd7c7b86c89918a9393d99cf68295697381c95c1f5",
+    "styles.css": "71728d0751aeba486fbc986d92a254dd60a3d09d76ac37f888263241c9a593e3"
+  },
+  "unchangedGameplay": {
+    "src/engine.js": {
+      "sha256": "06b43ac361226346e0463fbbdf24c278ff30b66d42de7dee07488b42211f6290",
+      "matchesV080": true
+    },
+    "src/content.js": {
+      "sha256": "aea6b58716370b4d35baa04d0f178c50efd2cdb5b24385bbe6dc3ebb7e7ba8d4",
+      "matchesV080": true
+    },
+    "src/ai.js": {
+      "sha256": "73feab4a568864bf3bba2acc7f9174dc535555290de40de522aff5e11648719c",
+      "matchesV080": true
+    },
+    "src/ai-profile.js": {
+      "sha256": "2c39190c2d7dd11a84008b5389dd8364fffd464302960a4921abd1fb42c0e206",
+      "matchesV080": true
+    },
+    "src/difficulty.js": {
+      "sha256": "ad084791166970c7abcfc1f76783d424d6d98ba0c35f9bcb913a745040798943",
+      "matchesV080": true
+    },
+    "src/attributes.js": {
+      "sha256": "1b57a4d09e224fb025bf0f2a53df4676b3e5a9c1f61d07ca0392c8479b1493d8",
+      "matchesV080": true
+    },
+    "src/effect-rules.js": {
+      "sha256": "f7d2abb5576883a1f9abd2590e0a49b63cfdad2438c99db3eaec4ba7c054ff83",
+      "matchesV080": true
+    },
+    "src/enemy-effects.js": {
+      "sha256": "cd654be40741c912ea1064d7c09434ff3287065ca8da6af360fbcd0e76e04424",
+      "matchesV080": true
+    },
+    "src/synergies.js": {
+      "sha256": "4f701b64dc869bff6b13cacef9958cce6d2ad08b50edd033ca821ada413dc004",
+      "matchesV080": true
+    },
+    "src/retirements.js": {
+      "sha256": "92edad425b4c033e64da5b8a146e1dfef53e7bf5380c45da81dd88451149ead5",
+      "matchesV080": true
+    }
+  },
+  "validation": {
+    "unit": {
+      "tests": 697,
+      "passed": 690,
+      "skipped": 7,
+      "failed": 0
+    },
+    "editionUI": {
+      "widths": [
+        1440,
+        320,
+        390,
+        820
+      ],
+      "checks": 368,
+      "passed": true
+    },
+    "effects": {
+      "tests": 6,
+      "checks": 169,
+      "passed": true
+    },
+    "motionInspector": {
+      "tests": 20,
+      "passed": true
+    },
+    "offlineServiceWorker": {
+      "tests": 10,
+      "passed": true
+    },
+    "developmentPortable": {
+      "tests": 6,
+      "passed": true
+    }
+  },
+  "limitations": [
+    "Desktop Chromium responsive widths, not physical Android or iPad",
+    "Display fixtures are synthetic and are not balance evidence",
+    "Mobile main screen requires scrolling to the spin control",
+    "No new multidimensional player-matrix simulation or pressure tuning"
+  ],
+  "testHashes": {
+    "tests/ai-expanded.test.js": "a5700a16f6163efaf46fc00ca253f8c386bbea8fe79c50d4671a659e71a3299b",
+    "tests/ai-resources.test.js": "3a0be08ae67aa6e2ee40effa498ec573b0ebc18563d896736361c7e053f31e71",
+    "tests/ai-spatial.test.js": "9c4eff617b338b5eb62ac884a8a52354e1c12b3c4bf69124df46870e1bb634f1",
+    "tests/ai-v060.test.js": "053c26ae04d75504d186ac0c616b29219429b860c316095ebd61b544dd31f926",
+    "tests/ai.test.js": "a0d39ee8faac0ddc03236a8bf819720e582f344d796ece74980808fc99105272",
+    "tests/archetype-release.test.js": "344ba968a56e5195c1e288540198931ee957a3747258ef4f5c339876d7d34dd8",
+    "tests/archetype-simulation.test.js": "9ff4e8211740cd35dec288fecdf43ed3fd5d8f47476421e7bb6d44d0c228ef98",
+    "tests/archetypes.test.js": "4225752f2d12286f91fca043bc82087e69c8f00ab4768662f162f96037dc3efc",
+    "tests/cli.test.js": "571ceda8ab2b1d251b55fa21d1a67017a2d7b1c534cf9c0464018227c40f832d",
+    "tests/combat-motion.test.js": "eadb88d3aca5f7e73fdcd6c56b06adc952aedc6cae97889fd3d76948050f607d",
+    "tests/content-contract.test.js": "c365b49e9f1476f054eb5e741413f4dcc5a805e23379dbf7b420f1d8e244e4f6",
+    "tests/difficulty.test.js": "06b535a722fea38cefb108c921608e48bd3cfe510789ff9b2170575d06234033",
+    "tests/editions-browser.test.js": "573ce116f85046dab5bde4dfdab9a77208da2e045a30d1a3bad4c3f6aad5cc10",
+    "tests/effect-info.test.js": "254da47f9eb25ef5e1658fcf23365a735f7450c72875d96d6b6548260d678b87",
+    "tests/effects-browser.test.js": "8853c5ef83b2f89bba49cef684a441912e88c51966be297a66b8b816f424b4d1",
+    "tests/enemy-effects.test.js": "dd8778fd2ebd8e75275e6d913d0289d91407b5a6902ac5158db6417c1f534843",
+    "tests/engine-effects.test.js": "86b0e06f9261b6fa53db5d8cdea1b7454a83a53a9bf7138c056c9a75dd241cdf",
+    "tests/engine.test.js": "eddff973476a5fe190d5785d8fd0547928a9a1c6af46fdfbe2ac09332a166831",
+    "tests/growth-report.test.js": "4319aaa0bfb273b40e7163bea639e17f3fc3be69aca65dc89062606477d33d4c",
+    "tests/growth-simulation.test.js": "696376e4d5ce7ebceb1e45f410208612184fb34748c57217467dc6fe03be6ade",
+    "tests/growth-telemetry.test.js": "21578571f316fec5acaf6b26ae639b0aee6e3e7840045f621c91be7e2edc56d3",
+    "tests/inspect.test.js": "39c435d2792db227f41515ea7c70bf0c9f351b694c47818672a954d2c0b9d2e5",
+    "tests/motion-browser.test.js": "48b0a021d4c35e87037b0ff227ff1eb3cb73ee93b92eb27383b900fcfecf2087",
+    "tests/offline-browser.test.js": "caa47e38ca305d12ae2634fb4f7ca9fa7dcf3429c634a01d1764a9593335bf79",
+    "tests/offline.test.js": "b28acb9145e754605564fd9e96a01ed46e8e9f1d6dfa05faafa6300edafc453c",
+    "tests/pollution.test.js": "69f135690b6b9edf35000ec6cae31de79b94e42f3906a0c6c3e0e5f9786e1aee",
+    "tests/portable-browser.test.js": "12cc857c61d7457aa55b5067ab5d644289d92756bb66a154022dbc290dc8a1e5",
+    "tests/portable-fixture.js": "ac15ae8fd0055af4b7a378e09dd8afb174a433de691176fc48f33deeeba81fac",
+    "tests/portable.test.js": "c4443c2c778d377311098d446db353a233c9dc5d0fb8c15e28a17b5a83acf2bd",
+    "tests/retirement-ai.test.js": "22219d5260e2733fb8acac1b290bf489b692a1fb5daa44359a93d892402a00bd",
+    "tests/retirements.test.js": "0f7aecda5f78b9c27bf7781aa650daef8395f960ce97b91beea91acc9bbe3478",
+    "tests/roster-completeness.test.js": "6093cba8ac56c8bd9344f45d2cf5edbc35c6866ab42f5641a3933a05bca98a2c",
+    "tests/save-transfer.test.js": "b4ca932307c6f2225958cb99e47517ad6557fc5a58dd6240407786ef9f4bbf8d",
+    "tests/server.test.js": "fbfd71b239ee863d16fb4015803d5a43c3d222ecb7ba6c94efeef546e662cbad",
+    "tests/simulation.test.js": "02931e9011a542895da129375040ea7c6262d128cb7835c8f45c76c08f29c6d9",
+    "tests/synergies.test.js": "0c014b34b0c16fa78cb77b6e91c287cf251d7551dfb281d52d9fb765b2e5657f",
+    "tests/v060-content.test.js": "75cd2aff2143bca09bf377039b615e743b9cae3e63518e258b93a2d312220be3",
+    "tests/v060-engine.test.js": "1dfb2b0ce73c0c4a30057aece929773b79508ed7dadb6bf00a6585446419de8a",
+    "tests/v060-ui.test.js": "3918579d1a53686635eace91e59261fcb9ab05abe435db83be475b31c68f8438",
+    "tests/v070-balance-controls.test.js": "3833fe8e69403415ff9b8f64c6df8f0ef529b04f082f18bb670493f0ad33b216",
+    "tests/v070-balance.test.js": "df9410064564e92025ee7eda95d1a60de4896e327d1e72e2d58542898851f75d",
+    "tests/v070-calibration-tuning.test.js": "2a7c15aa4edd2e1c86c4e48ed2bff6dd7266e35a3916f3e16a03986d730088b9",
+    "tests/v070-campaign-shards.test.js": "473ba7a8915682d82f1d003eeea2a6b9531af9a550f1f6edcdaf966d3a12f4dc",
+    "tests/v070-content.test.js": "4aee3c9ace7b369d6354a310ce83d6173973725c7fef4d553a1122669271889c",
+    "tests/v070-intervention-audit.test.js": "869bbae952033884f5f90269b066ab3f43f1ca742f318b45a4ba45aeb673a2f0",
+    "tests/v070-natural-growth-audit.test.js": "1e965847c7c988441dbd85ab21d8765f690072a69873e53e527cea230329f15d",
+    "tests/v070-report-narrative.test.js": "543cdf536f999072f2670a4a99f6c105880e818fa59e720f9d90592142e900a4",
+    "tests/v070-report-natural.test.js": "ccaea037255921946491a7ad8eee01ed4686845fe3a2b106a35b698f2d3713f0",
+    "tests/v070-results-io.test.js": "a93949634c67a5eeef2c36547b75b01e047dbecc5ff992c77f525a89652da299",
+    "tests/v070-spatial-engine.test.js": "f77aee0778f88573758b19c0b3c4950dbee9908af0276ac84de9c999b0711038",
+    "tests/v070-statistical-audit.test.js": "cbbd9b38df6ade89995d2127a17bd673f4cc591a79161153b1c4e4bb2257615d",
+    "tests/v070-terminal-cards.test.js": "72ddc9473fad5a4c9013b4260b4b070b36c428615df526c748127e7ed428d7ea",
+    "tests/v080-ai.test.js": "8d934fc31c1a74cfb1cd373eb9cdaa5cbc40e26905a8fef3adb3e39a56971dc0",
+    "tests/v080-content.test.js": "446268bc606e148e8237e6c41a819ed1c302c82a8849377f351ceb595c4d7cf0",
+    "tests/v080-engine.test.js": "8fcbba30e964363ea0f5f82440778531db7919414af268e97cd56a4bda6ea2b6",
+    "tests/v080-ui.test.js": "294ac6f13ee6295af3efffcff9ad009b1e8153367b2e3c1bcce6bdc6b651cfdc",
+    "scripts/check-v081-ui.mjs": "8b2f3cdf0015b0d74ebde252848bae0858ded4759d3d0cdfab92adcd25a5d1d3"
+  }
+}

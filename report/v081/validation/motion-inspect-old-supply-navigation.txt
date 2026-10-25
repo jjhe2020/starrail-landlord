@@ -1,0 +1,69 @@
+▶ inspector keeps explanations local and preserves page interactions
+  ✔ hover crosses into the explanation, then dismisses on leave (677.720875ms)
+  ✔ clicking another detail switches immediately; outside click still acts (136.358916ms)
+  ✔ long press explains a resource and suppresses only its generated click (513.136541ms)
+  ✔ scrolling and moving a touch cancel the pending hold (1008.357ms)
+  ✔ a partial render removes the explanation only when its anchor disappears (25.223917ms)
+  ✔ a tall explanation opens after pointer click without stealing its pointerup (83.950417ms)
+  ✔ keyboard focus is described and Escape closes only this explanation (48.140833ms)
+✔ inspector keeps explanations local and preserves page interactions (3257.517625ms)
+▶ V0.8.0 combat motion: bounded playback, exact rules and responsive offline UI
+  ✖ 1265px: 20 active cells, support VFX, attacks, one reward and cleanup (35551.188292ms)
+  ✖ 390px: 20 active cells, support VFX, attacks, one reward and cleanup (33398.190959ms)
+  ✖ 320px: 20 active cells, support VFX, attacks, one reward and cleanup (33439.881125ms)
+  ✔ clear turn retains enemies until impact, then offers the floor reward (3183.10375ms)
+  ✔ 390px actual tap keeps the enemy and attack effects visible (7165.486ms)
+  ✔ one failed animation still commits its exact result and unlocks controls (1031.506333ms)
+  ✔ preservation counterattack keeps its enemy alive through incoming damage (3132.082708ms)
+  ✔ preference-change: active combat settles early and cleans up (962.876875ms)
+  ✔ synthetic-visibility-change: active combat settles early and cleans up (906.211958ms)
+  ✔ setting-off: instant exact settlement without transient combat or modal effects (451.644625ms)
+  ✔ reduced-motion: instant exact settlement without transient combat or modal effects (443.93275ms)
+✖ V0.8.0 combat motion: bounded playback, exact rules and responsive offline UI (120261.685208ms)
+ℹ 8 offline Chromium scenarios; . Narrow viewports are not physical-device validation.
+ℹ tests 20
+ℹ suites 0
+ℹ pass 16
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 120311.682167
+
+✖ failing tests:
+
+test at tests/motion-browser.test.js:185:13
+✖ 1265px: 20 active cells, support VFX, attacks, one reward and cleanup (35551.188292ms)
+  locator.evaluate: Timeout 30000ms exceeded.
+  Call log:
+  [2m  - waiting for locator('[data-action="supply"][data-kind="repair"]')[22m
+  
+      at TestContext.<anonymous> (/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/tests/motion-browser.test.js:235:74)
+      at async TestContext.<anonymous> (/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/tests/motion-browser.test.js:185:5) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('[data-action="supply"][data-kind="repair"]')` ]
+  }
+
+test at tests/motion-browser.test.js:185:13
+✖ 390px: 20 active cells, support VFX, attacks, one reward and cleanup (33398.190959ms)
+  locator.evaluate: Timeout 30000ms exceeded.
+  Call log:
+  [2m  - waiting for locator('[data-action="supply"][data-kind="repair"]')[22m
+  
+      at TestContext.<anonymous> (/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/tests/motion-browser.test.js:235:74)
+      at async TestContext.<anonymous> (/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/tests/motion-browser.test.js:185:5) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('[data-action="supply"][data-kind="repair"]')` ]
+  }
+
+test at tests/motion-browser.test.js:185:13
+✖ 320px: 20 active cells, support VFX, attacks, one reward and cleanup (33439.881125ms)
+  locator.evaluate: Timeout 30000ms exceeded.
+  Call log:
+  [2m  - waiting for locator('[data-action="supply"][data-kind="repair"]')[22m
+  
+      at TestContext.<anonymous> (/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/tests/motion-browser.test.js:235:74)
+      at async TestContext.<anonymous> (/Users/hejiezhao/Documents/ChatGPT/Starrail Landlord/tests/motion-browser.test.js:185:5) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('[data-action="supply"][data-kind="repair"]')` ]
+  }

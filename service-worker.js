@@ -12,7 +12,8 @@ const activatedUrl = new URL('./__offline_activated__', scope).href;
 const assetRecords = BUILD.assets.map(asset => ({ url: new URL(asset.url, scope).href, sha256: asset.sha256 }));
 const assetUrls = assetRecords.map(asset => asset.url);
 const pinUrl = id => new URL(`./__offline_client__/${encodeURIComponent(id)}`, scope).href;
-const indexResponse = () => new Response(BUILD.indexHtml, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+const htmlPages = new Map(Object.entries(BUILD.htmlPages || { 'index.html': BUILD.indexHtml }).map(([path, html]) => [new URL(`./${path}`, scope).href, html]));
+const authoredPage = url => htmlPages.has(url) ? new Response(htmlPages.get(url), { headers: { 'Content-Type': 'text/html; charset=utf-8' } }) : null;
 
 async function readPin(id) {
   if (!id) return cacheName;
@@ -49,7 +50,7 @@ async function installCompleteVersion() {
       const url = assetUrls[index];
       // Some hosts redirect index.html or rewrite network HTML. The authored
       // page is delivered inside this worker and verified with the same digest.
-      const response = url === indexUrl ? indexResponse() : await fetch(new Request(url, { cache: 'no-store', credentials: 'same-origin', redirect: 'error' }));
+      const response = authoredPage(url) || await fetch(new Request(url, { cache: 'no-store', credentials: 'same-origin', redirect: 'error' }));
       if (!response.ok || response.type === 'opaque') throw new Error(`Unable to cache ${asset.url}`);
       const hash = await responseHash(response);
       if (hash !== asset.sha256) throw new Error(`Offline asset changed during install: ${asset.url}`);
@@ -114,6 +115,7 @@ function runtimeUrl(request) {
   if (url.origin !== base.origin || !url.pathname.startsWith(base.pathname)) return null;
   const path = url.pathname.slice(base.pathname.length);
   if (path === '' || path === 'index.html') return indexUrl;
+  if (path === 'development.html' && htmlPages.has(new URL('./development.html', scope).href)) return new URL('./development.html', scope).href;
   if (!/^(?:styles\.css$|manifest\.webmanifest$|src\/[^\\]+|public\/[^\\]+)/.test(path) || path.split('/').some(part => part.startsWith('.'))) return null;
   url.search = '';
   url.hash = '';
@@ -137,7 +139,7 @@ async function serveRuntime(event, url) {
   }
   // Cache eviction can require reconnection. Do not mix a newer network asset
   // into a saved app cache or write arbitrary requests into the offline bundle.
-  const response = name === cacheName && url === indexUrl ? indexResponse() : await fetch(event.request);
+  const response = (name === cacheName && authoredPage(url)) || await fetch(event.request);
   if (!expected || !response.ok || await responseHash(response) !== expected) {
     return new Response('游戏资源版本已变化，请联网后重新打开游戏。', { status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
   }

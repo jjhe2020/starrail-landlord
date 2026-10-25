@@ -4238,3 +4238,203 @@ button.catalog-item { width: 100%; text-align: left; align-items: flex-start; }
 .attribute-origin { color: #dbc39b; }
 .inspect-popover .card-attributes { margin: 12px 0; }
 @media (max-width: 680px) { .card-attributes { padding: 9px; margin: 8px 0; } .card-attributes dl > div { grid-template-columns: minmax(72px, 1fr) minmax(0, 1.5fr); gap: 5px; } .card-attributes dd { font-size: 10px; } }
+
+/* The player edition keeps battle decisions together; development keeps its full workspace. */
+.play-edition .game-layout {
+  max-width: 1360px;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 16px;
+  padding: 22px 24px 18px;
+}
+.play-edition .left-panel, .play-edition .right-panel { padding-top: 0; gap: 14px; }
+.play-edition .main-panel > .player-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; min-height: 0; padding: 0 0 12px; gap: 5px 12px; }
+.play-edition .main-panel > .player-header h1 { font-size: 22px; font-weight: 600; }
+.play-edition .main-panel > .player-header > span { font-size: 12px; color: #b2bed0; }
+.play-edition .site-header { min-height: 66px; height: auto; padding-top: 10px; padding-bottom: 10px; gap: 18px; }
+.play-edition .site-header nav { margin-left: 0; gap: 18px; }
+.play-edition .site-header .nav-button { min-height: 42px; font-size: 12px; }
+.play-edition .site-header .icon-button { min-width: 42px; min-height: 42px; }
+.play-edition .player-header { min-height: 66px; height: auto; padding-top: 12px; padding-bottom: 12px; gap: 18px; }
+.play-edition .player-header nav { margin-left: 0; gap: 18px; }
+.play-edition .player-header .nav-button { min-height: 42px; font-size: 12px; }
+.play-edition .player-header .header-actions { gap: 8px; }
+.play-edition .player-header .icon-button { min-width: 42px; min-height: 42px; }
+.play-edition .dossier { padding: 15px 13px; }
+.play-edition .floor-display { margin: 14px 0 12px; gap: 9px; }
+.play-edition .floor-display strong { font-size: 22px; }
+.play-edition .floor-display .orbital-ring { width: 34px; height: 34px; }
+.play-edition .health-stat { margin-top: 14px; }
+.play-edition .dossier .button { margin-top: 14px; }
+.play-edition .panel-intro { margin: 8px 0 12px; font-size: 12px; }
+.play-edition .panel-note { font-size: 11px; }
+.play-edition .synergy-name small { font-size: 11px; line-height: 1.6; }
+.play-edition .synergy { min-height: 44px; }
+.play-edition .arena { padding: 17px 17px 13px; }
+.play-edition .arena-heading { margin-bottom: 12px; }
+.play-edition .enemy-rule { align-items: flex-start; flex-wrap: wrap; font-size: 12px; line-height: 1.6; }
+.play-edition .enemy-rule b { margin-left: auto; font-size: 12px; white-space: normal; }
+.play-edition .debuff-panel { margin-top: 10px; }
+.play-edition .debuff-chip { min-height: 32px; font-size: 11px; }
+.play-edition .board-caption { margin-bottom: 12px; font-size: 11px; }
+.play-edition .board-caption button { min-height: 32px; font-size: 11px; }
+.play-edition .spin-controls { padding-top: 13px; gap: 14px; }
+.play-edition .spin-button { min-height: 52px; }
+.play-edition .spin-button > span { font-size: 16px; letter-spacing: 1px; }
+.play-edition .arena-footnote { font-size: 11px; }
+.play-edition .offline-indicator { min-height: 36px; font-size: 11px; }
+.play-edition .player-status {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(86px, 1fr));
+  gap: 7px;
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid #3b4558;
+  border-radius: 7px;
+  background: #171e2bed;
+}
+.play-edition .player-status > * {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 3px 6px;
+  min-width: 0;
+  min-height: 34px;
+  padding: 4px 3px;
+  color: #b7c1d2;
+  font-size: 12px;
+  text-align: left;
+}
+.play-edition .player-status b { color: #f0e1c5; font-size: 15px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.play-edition .player-status .icon { width: 15px; height: 15px; }
+.play-edition .player-toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 14px; }
+.play-edition .player-toolbar > button { flex: 1 1 100px; min-height: 42px; font-size: 12px; padding: 8px 10px; }
+.play-edition .player-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 15px;
+  margin: 12px 0;
+  padding: 10px 12px;
+  border: 1px solid #3c4b60;
+  border-radius: 6px;
+  background: #152131;
+  color: #b8c8da;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.play-edition .player-summary b { color: #e6dac4; font-variant-numeric: tabular-nums; }
+.play-edition .player-summary > p { flex-basis: 100%; }
+.play-edition .player-inventory-details, .play-edition .advanced-rules { margin: 10px 0; border: 1px solid #3d475b; border-radius: 6px; padding: 0 12px; min-width: 0; }
+.play-edition .player-inventory-details > summary, .play-edition .advanced-rules > summary { min-height: 44px; padding: 12px 0; color: #d1d8e4; font-size: 12px; cursor: pointer; }
+.play-edition .player-inventory-details[open] > summary, .play-edition .advanced-rules[open] > summary { border-bottom: 1px solid #343e50; margin-bottom: 10px; }
+.play-edition .advanced-rules { font-size: 12px; line-height: 1.8; overflow-wrap: anywhere; }
+.play-edition .advanced-rules p { margin: 9px 0; }
+.play-edition .advanced-rules h3, .play-edition .advanced-rules h4 { font-size: 13px; margin: 12px 0 6px; }
+.play-edition .player-inventory-details .panel { background: transparent; border: 0; padding: 10px 0; }
+.play-edition .supplies-panel, .play-edition .curios-panel, .play-edition .essence-panel, .play-edition .log-panel { padding: 15px 13px; }
+.play-edition .supply-description b { font-size: 12px; }
+.play-edition .supply-description small { font-size: 11px; line-height: 1.6; }
+.play-edition .supply-buy { min-height: 42px; font-size: 12px; padding: 8px 10px; }
+.play-edition .curio small, .play-edition .essence p, .play-edition .combat-log p { font-size: 12px; line-height: 1.7; }
+.play-edition .modal-heading { margin-bottom: 18px; }
+.play-edition .modal-heading h2 { font-size: 23px; letter-spacing: 0; }
+.play-edition .modal-heading > p { font-size: 12px; margin-top: 8px; }
+.play-edition .modal-footer { gap: 10px; margin-top: 18px; padding-top: 14px; }
+.play-edition .modal-footer .button { min-height: 44px; font-size: 12px; }
+.play-edition .reward-mechanics { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.play-edition .reward-mechanic { min-height: 42px; }
+.play-edition .reward-mechanic > span { font-size: 11px; white-space: normal; }
+.play-edition .reward-mechanic b { font-size: 12px; white-space: normal; overflow: visible; }
+.play-edition .player-card { min-width: 0; }
+.play-edition .player-card .portrait-stage { height: 96px; }
+.play-edition .player-card .portrait-stage img { width: 112px; height: 112px; }
+.play-edition .player-card .portrait-stage:before { width: 84px; height: 84px; top: 12px; }
+.play-edition .player-card .card-copy { padding: 13px; }
+.play-edition .player-card h3 { font-size: 18px; letter-spacing: 0; margin: 0 0 8px; overflow-wrap: anywhere; }
+.play-edition .player-card .character-tags { gap: 4px; margin-bottom: 3px; }
+.play-edition .player-card .character-tags > span { font-size: 10px; padding: 2px 4px; white-space: normal; overflow-wrap: anywhere; }
+.play-edition .player-card .card-attributes { margin: 8px 0; padding: 8px; }
+.play-edition .player-card .card-attributes dl { gap: 3px; }
+.play-edition .player-card .card-attributes dl > div { grid-template-columns: minmax(60px, 1fr) minmax(0, 1.5fr); gap: 5px; }
+.play-edition .player-card .card-attributes dt, .play-edition .player-card .card-attributes dd { font-size: 11px; }
+.play-edition .player-card .card-attributes .attribute-attack dd { font-size: 16px; }
+.play-edition .player-card .skill-description { min-height: 44px; font-size: 12px; line-height: 1.75; text-align: left; margin: 8px 0 10px; padding: 0; overflow-wrap: anywhere; }
+.play-edition .player-card .skill-description small { font-size: 11px; margin-top: 5px; }
+.play-edition .player-card .button { min-height: 44px; font-size: 12px; margin-top: auto; }
+.play-edition .player-card .affliction-label { min-height: 0; font-size: 12px; line-height: 1.6; margin: 6px 0 10px; }
+.play-edition .item-card .skill-description { font-size: 12px; line-height: 1.75; }
+.play-edition .help-grid p, .play-edition .duration-guide p, .play-edition .help-note { font-size: 12px; line-height: 1.8; }
+.play-edition .modal.utility-panel.wide { width: min(700px, calc(100% - 32px)); }
+.play-edition .utility-panel .catalog-grid, .play-edition .utility-panel .roster-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+@media (min-width: 681px) {
+  .play-edition .reel-grid { grid-template-rows: repeat(4, clamp(64px, 7vw, 96px)); }
+  .play-edition .reel-cell { aspect-ratio: auto; min-height: 0; }
+}
+
+@media (max-width: 1100px) {
+  .play-edition .game-layout { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 18px 20px; }
+  .play-edition .main-panel { order: -1; grid-column: 1 / -1; }
+  .play-edition .left-panel, .play-edition .right-panel { display: flex; grid-column: auto; }
+  .play-edition .right-panel .supplies-panel { grid-column: auto; }
+  .play-edition .supply-options { display: flex; flex-direction: column; gap: 8px; }
+  .play-edition .player-header { gap: 12px; }
+  .play-edition .player-header nav { gap: 10px; }
+}
+
+@media (max-width: 680px) {
+  .play-edition .site-header { flex-wrap: wrap; padding: 10px 12px; gap: 8px; }
+  .play-edition .site-header .brand { margin-right: auto; }
+  .play-edition .site-header nav { order: 2; width: 100%; justify-content: space-between; gap: 8px; }
+  .play-edition .site-header .nav-button { flex: 1; min-height: 40px; }
+  .play-edition .site-header .header-actions { margin-left: 0; }
+  .play-edition .player-header { flex-wrap: wrap; padding: 10px 12px; gap: 8px; }
+  .play-edition .player-header .brand { margin-right: auto; }
+  .play-edition .player-header nav { order: 2; width: 100%; justify-content: space-between; gap: 8px; }
+  .play-edition .player-header .nav-button { flex: 1; min-height: 40px; }
+  .play-edition .player-header .header-actions { margin-left: 0; }
+  .play-edition .game-layout { display: flex; flex-direction: column; padding: 12px 10px; gap: 12px; }
+  .play-edition .main-panel, .play-edition .left-panel, .play-edition .right-panel { width: 100%; }
+  .play-edition .arena { padding: 12px 9px; }
+  .play-edition .arena-heading { flex-wrap: wrap; row-gap: 6px; }
+  .play-edition .player-status { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; padding: 7px; margin-bottom: 10px; }
+  .play-edition .player-status > * { font-size: 11px; min-height: 37px; padding: 3px 2px; }
+  .play-edition .player-status b { font-size: 14px; }
+  .play-edition .player-toolbar { gap: 6px; margin-bottom: 10px; }
+  .play-edition .player-toolbar > button { flex-basis: 85px; min-height: 44px; padding: 8px 6px; }
+  .play-edition .enemy-rule { gap: 5px; }
+  .play-edition .enemy-rule b { margin-left: 0; flex-basis: 100%; }
+  .play-edition .debuff-chip { min-height: 36px; }
+  .play-edition .board-caption { font-size: 10px; gap: 5px; }
+  .play-edition .board-caption button { font-size: 10px; }
+  .play-edition .spin-controls { gap: 8px; }
+  .play-edition .spin-button { flex: 1; width: auto; min-width: 0; padding: 10px 12px; gap: 8px; }
+  .play-edition .spin-button > span { font-size: 15px; letter-spacing: 0; }
+  .play-edition .last-total { min-width: 85px; }
+  .play-edition .last-total strong { font-size: 23px; }
+  .play-edition .player-summary { gap: 4px 12px; padding: 8px 10px; }
+  .play-edition .modal-backdrop { padding: 10px; }
+  .play-edition .modal { padding: 18px 13px; max-height: calc(100dvh - 20px); }
+  .play-edition .modal-heading h2 { font-size: 21px; }
+  .play-edition .modal.utility-panel, .play-edition .modal.utility-panel.wide { top: 10px; right: 10px; width: calc(100% - 20px); max-height: calc(100dvh - 20px); }
+  .play-edition .utility-panel .catalog-grid, .play-edition .utility-panel .roster-grid { grid-template-columns: minmax(0, 1fr); }
+  .play-edition .reward-cards { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .play-edition .player-card { display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: 0 10px; padding: 12px; }
+  .play-edition .player-card .card-copy { display: contents; }
+  .play-edition .player-card .card-copy > * { grid-column: 1 / -1; }
+  .play-edition .player-card .portrait-stage { grid-column: 1; grid-row: 1 / 3; height: 72px; border-radius: 5px; }
+  .play-edition .player-card .portrait-stage img { width: 76px; height: 76px; }
+  .play-edition .player-card .portrait-stage:before { width: 56px; height: 56px; top: 12px; }
+  .play-edition .player-card .rarity-label { left: 4px; top: 3px; font-size: 8px; letter-spacing: 0; }
+  .play-edition .player-card .portrait-stars { bottom: 2px; font-size: 11px; }
+  .play-edition .player-card .card-copy > h3 { grid-column: 2; grid-row: 1; align-self: end; margin: 0 0 6px; font-size: 18px; }
+  .play-edition .player-card .card-copy > .character-tags { grid-column: 2; grid-row: 2; align-self: start; align-content: start; gap: 3px; }
+  .play-edition .player-card .character-tags > span { font-size: 10px; padding: 2px 4px; }
+  .play-edition .player-card .card-attributes { margin: 9px 0 4px; }
+  .play-edition .player-card .skill-description { margin: 7px 0 10px; }
+  .play-edition .player-card .button { width: 100%; }
+  .play-edition .reward-modal .modal-footer { display: flex; flex-wrap: wrap; gap: 8px; }
+  .play-edition .reward-modal .modal-footer > .button { flex: 1 1 120px; min-width: 0; margin-left: 0; padding: 10px; }
+  .play-edition .reward-mechanic { min-height: 44px; padding: 5px 7px; }
+  .play-edition .site-footer { margin: 12px 10px 0; padding-top: 14px; }
+}

@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 import { CHARACTERS } from '../src/content.js';
-const saveKey = 'astral-reels:v1';
+const saveKey = 'astral-reels:development:v1';
 
 // Opt in so the ordinary engine suite never loads Playwright. Each viewport
 // uses a fresh context and a generated fixture, never an existing player's save.
@@ -81,7 +81,7 @@ test('effect explanations, expanded catalog and reward inspection in real browse
       child.once('error', onError);
       child.once('exit', onExit);
     });
-    url = new URL(origin);
+    url = new URL('development.html', origin);
   }
 
   const screenshotDirectory = process.env.EFFECT_SCREENSHOT_DIR ? resolve(process.env.EFFECT_SCREENSHOT_DIR) : null;
@@ -237,7 +237,7 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         const commissionSkillBox = await commissionSkill.boundingBox();
         assert.ok(commissionSkillBox);
         await page.mouse.click(commissionSkillBox.x + commissionSkillBox.width / 2, commissionSkillBox.y + commissionSkillBox.height / 2);
-        const commissionSummary = await page.locator('.retirement-info summary').boundingBox();
+        const commissionSummary = await page.locator('.retirement-info > summary').boundingBox();
         assert.ok(commissionSummary, 'commission disclosure is visible');
         await page.mouse.click(commissionSummary.x + commissionSummary.width / 2, commissionSummary.y + commissionSummary.height / 2);
         const commissionText = await page.locator('.inspect-popover').innerText();
@@ -278,7 +278,7 @@ test('effect explanations, expanded catalog and reward inspection in real browse
         check(`${width}px old results do not masquerade as current balance`, await page.locator('.archetype-benchmark-pending').count() === 1 && await page.locator('.archetype-benchmark-rows article').count() === 0);
         await page.locator('.archetype-benchmark-pending details > summary').click();
         const evidenceText = await page.locator('.archetype-benchmark-pending').innerText();
-        check(`${width}px evidence status and strategy separation are explicit`, evidenceText.includes('旧版胜率不适用于本版') && evidenceText.includes('内部拿牌策略') && evidenceText.includes('没有额外成型奖励'));
+        check(`${width}px evidence status and strategy separation are explicit`, evidenceText.includes('战斗规则沿用0.8.0') && evidenceText.includes('属于历史方案') && evidenceText.includes('内部拿牌策略') && evidenceText.includes('没有额外成型奖励'));
         await fits(page, `${width}px embedded balance report`);
         await screenshot(page, `balance-${width}`);
         await page.locator('.utility-panel [data-action="close"]').click();

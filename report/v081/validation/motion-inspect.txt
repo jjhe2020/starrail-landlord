@@ -1,0 +1,31 @@
+▶ inspector keeps explanations local and preserves page interactions
+  ✔ hover crosses into the explanation, then dismisses on leave (746.23425ms)
+  ✔ clicking another detail switches immediately; outside click still acts (130.556625ms)
+  ✔ long press explains a resource and suppresses only its generated click (488.859666ms)
+  ✔ scrolling and moving a touch cancel the pending hold (1016.916041ms)
+  ✔ a partial render removes the explanation only when its anchor disappears (12.404959ms)
+  ✔ a tall explanation opens after pointer click without stealing its pointerup (101.674541ms)
+  ✔ keyboard focus is described and Escape closes only this explanation (47.008583ms)
+✔ inspector keeps explanations local and preserves page interactions (3332.5825ms)
+▶ V0.8.0 combat motion: bounded playback, exact rules and responsive offline UI
+  ✔ 1265px: 20 active cells, support VFX, attacks, one reward and cleanup (8023.9735ms)
+  ✔ 390px: 20 active cells, support VFX, attacks, one reward and cleanup (4127.592875ms)
+  ✔ 320px: 20 active cells, support VFX, attacks, one reward and cleanup (4136.282292ms)
+  ✔ clear turn retains enemies until impact, then offers the floor reward (3184.145542ms)
+  ✔ 390px actual tap keeps the enemy and attack effects visible (7183.298459ms)
+  ✔ one failed animation still commits its exact result and unlocks controls (1060.232667ms)
+  ✔ preservation counterattack keeps its enemy alive through incoming damage (3121.333083ms)
+  ✔ preference-change: active combat settles early and cleans up (978.854458ms)
+  ✔ synthetic-visibility-change: active combat settles early and cleans up (919.848334ms)
+  ✔ setting-off: instant exact settlement without transient combat or modal effects (453.182333ms)
+  ✔ reduced-motion: instant exact settlement without transient combat or modal effects (430.937291ms)
+✔ V0.8.0 combat motion: bounded playback, exact rules and responsive offline UI (34265.15275ms)
+ℹ 11 offline Chromium scenarios; 1265px 2460 ms, peak 48 effect nodes; 390px 2473 ms, peak 48 effect nodes; 320px 2470 ms, peak 48 effect nodes. Narrow viewports are not physical-device validation.
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 34332.738125

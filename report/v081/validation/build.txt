@@ -1,0 +1,5 @@
+
+> starrail-landlord@0.8.1 build
+> node scripts/build.mjs
+
+Built static game to dist/ with 209 offline assets · 56632c8c6c35 — compatible with subdirectory hosting.

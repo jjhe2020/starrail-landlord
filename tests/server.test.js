@@ -44,7 +44,7 @@ test('static server serves the game and refuses private files and traversal', { 
     const home = await fetch(`${base}/`);
     assert.equal(home.status, 200);
     assert.match(await home.text(), /星穹转轮/);
-    for (const path of ['/styles.css', '/src/engine.js', '/public/favicon.svg', '/manifest.webmanifest', '/service-worker.js']) {
+    for (const path of ['/development.html', '/styles.css', '/src/engine.js', '/public/favicon.svg', '/manifest.webmanifest', '/service-worker.js']) {
       assert.equal((await fetch(base + path)).status, 200, path);
     }
     const manifest = await fetch(`${base}/manifest.webmanifest`);

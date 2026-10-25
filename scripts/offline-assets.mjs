@@ -27,6 +27,10 @@ export async function createOfflineBuild(root = projectRoot, { templateRoot = pr
     ...(await filesBelow(root, 'src')).filter(path => path.endsWith('.js')),
     ...await filesBelow(root, 'public'),
   ].sort();
+  // Local and static development entry points belong to the same exact cached
+  // release, but older/minimal fixtures can still contain only the player shell.
+  try { await readFile(resolve(root, 'development.html')); files.push('development.html'); files.sort(); }
+  catch (error) { if (error.code !== 'ENOENT') throw error; }
   for (const required of ['src/app.js', 'src/offline.js', 'src/ai-worker.js', 'public/icons/icon-192.png', 'public/icons/icon-512.png', 'public/icons/maskable-512.png']) {
     if (!files.includes(required)) throw new Error(`Offline runtime asset is missing: ${required}`);
   }
@@ -39,6 +43,7 @@ export async function createOfflineBuild(root = projectRoot, { templateRoot = pr
   // Carry the authored shell in this JavaScript response instead, preserving
   // the exact page body already covered by its asset digest.
   const indexHtml = contents[files.indexOf('index.html')].toString('utf8');
-  const build = { version, assets, indexHtml };
+  const htmlPages = Object.fromEntries(files.filter(path => path.endsWith('.html')).map(path => [path, contents[files.indexOf(path)].toString('utf8')]));
+  const build = { version, assets, indexHtml, htmlPages };
   return { ...build, worker: template.replace(marker, JSON.stringify(build)) };
 }

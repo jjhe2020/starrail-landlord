@@ -12,7 +12,7 @@ import { DEFAULT_PROFILE } from '../src/ai-profile.js';
 import { exportSave, importSave } from '../src/save-transfer.js';
 import { createPortableFixture } from './portable-fixture.js';
 
-const saveKey = 'astral-reels:v1';
+const saveKey = 'astral-reels:development:v1';
 
 // Opt in because the ordinary engine suite does not require a browser. No web
 // server is used: every page first opens a new self-contained file while offline.
@@ -35,7 +35,7 @@ test('portable HTML plays from file:// on its first offline load', {
     build = { output, sourceOutput, html };
   } else {
     const { root, esbuild } = await createPortableFixture(directory);
-    build = await buildPortable({ root, esbuild });
+    build = await buildPortable({ root, esbuild, edition: 'development' });
   }
   const sha256 = value => createHash('sha256').update(typeof value === 'string' ? value : JSON.stringify(value)).digest('hex');
   t.diagnostic(`Artifact ${build.sourceOutput || build.output}; immutable file snapshot SHA-256 ${sha256(build.html)}`);

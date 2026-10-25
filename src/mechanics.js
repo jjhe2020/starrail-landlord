@@ -2,13 +2,13 @@ import { getSynergies } from './engine.js';
 
 const descriptions = {
   difficulty: ['旅程难度', 'D1–D20 均可直接选择，默认 D10。难度影响敌人强度；第几关表示本局进度，两者独立。新开旅程时设置难度，一局途中保持不变。'],
-  hp: ['开拓生命', '敌人反击先扣护盾，剩余伤害再扣生命；生命归零，本次旅程结束。角色、羁绊和医疗补给可以治疗，普通治疗不超过生命上限。取消“防御规划”只停用主动医疗与护盾补给，自然治疗、护盾与生命上限增益、承伤均保留。使用效率按实际消耗量 / 生成量衡量。'],
-  shield: ['护盾', '先消耗护盾，再扣生命。护盾可以跨回合、跨关卡保留，上限是生命上限的 2 倍。防御角色与护盾补给可以提供护盾；实验中取消“防御规划”只停用主动医疗与护盾购买，自然增益和护盾抵伤保留；条款衰减的护盾另算浪费。'],
-  credits: ['补给信用点', '过关和部分奇物提供的资源。免费重掷用完后，每次刷新花 8 信用点；准备转动时，可买医疗补给（12 点，治疗 18）、护盾补给（10 点，护盾 20）或超频补给（16 点，下轮造成伤害提高20%）。每关最多购买两次，超频不叠加。禁用信用点消费后不能付费重掷或购买补给。'],
-  rerolls: ['重掷机会', '奖励选择时点“重新发现”，换一组角色、奇物或精华候选。先用 1 次免费机会，用完后每次花 8 信用点。只刷新候选，不重转角色，也不消耗回合；进入新关补 1 次免费机会。禁用重掷后，免费和付费刷新都不可用。'],
-  removals: ['移除机会', '准备转动时到“我的编队”点“移出编队”并确认，每次花 1 次机会。只移走本局选中的棋子，同名其他副本保留。编队超过 20 人时，精简可提高核心上场概率；进入偶数关补 1 次机会。AI 也可在奖励阶段评估移除。禁用移除后不可使用。'],
-  supplyRepair: ['医疗补给', '花 12 信用点恢复 18 点生命，不超过生命上限。仅能在准备转动时购买，生命已满时不可买。与其他补给共用每关两次的购买次数；禁用信用点消费或取消防御规划后不可买。'],
-  supplyBarrier: ['护盾补给', '花 10 信用点获得 20 点护盾，不超过生命上限的 2 倍。仅能在准备转动时购买，护盾已满时不可买。与其他补给共用每关两次的购买次数；禁用信用点消费或取消防御规划后不可买。'],
+  hp: ['开拓生命', '敌人反击通常先扣护盾，剩余伤害再扣生命；穿盾效果按敌方条款处理。生命归零，本次旅程结束。角色、羁绊和医疗补给可以治疗，普通治疗不超过生命上限。'],
+  shield: ['护盾', '抵挡敌人反击，减少生命损失；穿盾效果按敌方条款处理。护盾可以跨回合、跨关卡保留，上限是生命上限的 2 倍。防御角色与护盾补给可以提供护盾；部分敌方条款会使护盾衰减。'],
+  credits: ['补给信用点', '过关、角色技能和部分奇物提供的资源。免费重掷用完后，每次刷新花 8 信用点；准备转动时，可买医疗补给（12 点，治疗 18）、护盾补给（10 点，护盾 20）或超频补给（16 点，下轮造成伤害提高20%）。每关最多购买两次，超频不叠加。'],
+  rerolls: ['重掷机会', '奖励选择时点“重新发现”，换一组角色、奇物或精华候选。先用 1 次免费机会，用完后每次花 8 信用点。只刷新候选，不重转角色，也不消耗回合；进入新关补 1 次免费机会。'],
+  removals: ['移除机会', '准备转动时到“我的编队”点“移出编队”并确认，每次花 1 次机会。只移走本局选中的角色，同名其他副本保留。编队超过 20 人时，精简可提高核心上场概率；进入偶数关补 1 次机会。'],
+  supplyRepair: ['医疗补给', '花 12 信用点恢复 18 点生命，不超过生命上限。仅能在准备转动时购买，生命已满时不可买。与其他补给共用每关两次的购买次数。'],
+  supplyBarrier: ['护盾补给', '花 10 信用点获得 20 点护盾，不超过生命上限的 2 倍。仅能在准备转动时购买，护盾已满时不可买。与其他补给共用每关两次的购买次数。'],
   supplyOverclock: ['超频补给', '花16信用点，让下一次转动所有登场角色造成伤害提高20%，用后消耗。只增强造成的伤害，不影响治疗和护盾。已有待用超频时不可重复购买，与其他补给共用每关两次购买次数。'],
   floor: ['关卡进度', '第 01 关是第一场遭遇。在本关转动次数用完前消灭全部敌人即可过关；生命归零或到期仍有敌人则失败。一局共 12 关，第 3、6、9、12 关有中列首领，通关后可继续无尽。关卡与 D1–D20 难度分别计算。'],
   round: ['本关回合', '启动一次转轮，就消耗本关一个回合。奖励选择、重掷、移除与购买补给不额外扣回合。必须在次数用完前清空敌人，否则即使还有生命也会失败；过关后获得新关的转动次数。'],
@@ -20,7 +20,7 @@ const descriptions = {
   intent: ['预计反击与敌方条款', '预计反击基于现存敌人和当前条款，未计入接下来角色登场后的减伤或击破。首领会随生命降低或回合推进进入新阶段，追加针对编队的负面条款；点条款名称可查看效果。剩余回合用完仍有敌人存活，即使生命未归零也会失败。'],
   items: ['奇物收藏', '奇物无需装备或点击使用。取得时的即时收益只领取一次，持有期间的被动每次按条件生效；不会因为获得奇物就把所有收益写成永久属性。每完成 2 关选择一件，已拥有的不会重复出现。点具体奇物看时点、目标与叠加规则。'],
   essences: ['奇物精华', '每完成 3 关获得一次精华选择。取得后从下一轮开始积累条件，达到阈值后只触发一次；永久增益会保留。第 12 关直接结算胜利，不追加奖励。'],
-  seed: ['宇宙种子', '同一规则版本、相同难度与资源开关下，相同种子和操作可复现随机过程。AI 抽样使用独立随机流，不会消耗转轮随机数。存档保存在当前浏览器；单文件版可从设置导出或导入。'],
+  seed: ['宇宙种子', '在同一规则版本和相同旅程设置下，相同种子与操作可以重现一次旅程。存档保存在当前浏览器；单文件版可从设置导出或导入。'],
   single: ['单体攻击', '对本列敌人使用卡面主目标倍率；本列为空时寻找最近的存活敌人，同距离优先左侧。直接读取该角色默认倍率，不再额外乘300%。'],
   blast: ['扩散攻击', '主目标读取卡面主目标倍率，实际主目标左右相邻列读取卡面相邻倍率。主目标改列后扩散随之改列，相邻空列不跳跃补足。'],
   aoe: ['群体攻击', '每个存活敌人各读取卡面的每目标倍率，同一次攻击不重复命中同一敌人。倍率按每个目标计算，不是所有敌人均分。'],
@@ -42,16 +42,16 @@ export function mechanicExplanation(key, state = {}) {
   const rewardPhase = ['recruit', 'item', 'essence'].includes(state.phase);
   const supplyExtra = kind => {
     const cost = { repair: 12, barrier: 10, overclock: 16 }[kind];
-    const unavailable = !enabled('credits') ? '信用点消费已禁用。' : kind !== 'overclock' && !enabled('defense') ? '本局不主动购买医疗或护盾补给。' : (state.supplyPurchases || 0) >= 2 ? '本关两次购买已用完。' : state.phase !== 'ready' ? '需等到准备转动阶段。' : (state.coins || 0) < cost ? `还需 ${num(cost - (state.coins || 0))} 信用点。` : kind === 'repair' && state.hp >= state.maxHp ? '生命已满。' : kind === 'barrier' && state.shield >= state.maxHp * 2 ? '护盾已满。' : kind === 'overclock' && state.overclockReady ? '超频已就绪，不能叠加。' : '当前可购买。';
+    const unavailable = !enabled('credits') ? '本局不能购买补给。' : kind !== 'overclock' && !enabled('defense') ? '本局不能购买医疗或护盾补给。' : (state.supplyPurchases || 0) >= 2 ? '本关两次购买已用完。' : state.phase !== 'ready' ? '需等到准备转动阶段。' : (state.coins || 0) < cost ? `还需 ${num(cost - (state.coins || 0))} 信用点。` : kind === 'repair' && state.hp >= state.maxHp ? '生命已满。' : kind === 'barrier' && state.shield >= state.maxHp * 2 ? '护盾已满。' : kind === 'overclock' && state.overclockReady ? '超频已就绪，不能叠加。' : '当前可购买。';
     return `余额 ${num(state.coins)} 信用点，本关已买 ${num(state.supplyPurchases)} / 2 次。${unavailable}`;
   };
   const extras = {
     difficulty: () => progress,
-    hp: () => `生命 ${num(state.hp)} / ${num(state.maxHp)}，护盾 ${num(state.shield)}。${enabled('defense') ? '' : '本局不主动购买医疗或护盾补给；自然增益保留。'}`,
-    shield: () => `护盾 ${num(state.shield)} / ${num((state.maxHp || 0) * 2)}，生命 ${num(state.hp)} / ${num(state.maxHp)}。${enabled('defense') ? '' : '本局不主动购买医疗或护盾补给；自然增益保留。'}`,
-    credits: () => `余额 ${num(state.coins)} 信用点，免费重掷 ${num(state.rerolls)} 次，本关补给购买 ${num(state.supplyPurchases)} / 2 次。${enabled('credits') ? '' : '本局信用点消费已禁用。'}`,
-    rerolls: () => `免费重掷 ${num(state.rerolls)} 次，余额 ${num(state.coins)} 信用点。${!enabled('rerolls') ? '本局重掷已禁用。' : state.rerolls > 0 ? '下次使用 1 次免费机会。' : !enabled('credits') ? '信用点消费已禁用，不能付费刷新。' : state.coins >= 8 ? '下次花 8 信用点。' : '免费机会已用完，余额不足 8。'}${rewardPhase ? '' : '在奖励选择时使用。'}`,
-    removals: () => `可用 ${num(state.removals)} 次，编队 ${roster.length} 人。${!enabled('removals') ? '本局移除已禁用。' : state.removals <= 0 ? '移除机会已用完。' : state.phase === 'ready' ? '可在“我的编队”移除。' : '手动移除要等到准备转动阶段。'}`,
+    hp: () => `生命 ${num(state.hp)} / ${num(state.maxHp)}，护盾 ${num(state.shield)}。`,
+    shield: () => `护盾 ${num(state.shield)} / ${num((state.maxHp || 0) * 2)}，生命 ${num(state.hp)} / ${num(state.maxHp)}。`,
+    credits: () => `余额 ${num(state.coins)} 信用点，免费重掷 ${num(state.rerolls)} 次，本关补给购买 ${num(state.supplyPurchases)} / 2 次。${enabled('credits') ? '' : '本局不能消费信用点。'}`,
+    rerolls: () => `免费重掷 ${num(state.rerolls)} 次，余额 ${num(state.coins)} 信用点。${!enabled('rerolls') ? '本局不能重新发现奖励。' : state.rerolls > 0 ? '下次使用 1 次免费机会。' : !enabled('credits') ? '本局不能付费刷新。' : state.coins >= 8 ? '下次花 8 信用点。' : '免费机会已用完，余额不足 8。'}${rewardPhase ? '' : '在奖励选择时使用。'}`,
+    removals: () => `可用 ${num(state.removals)} 次，编队 ${roster.length} 人。${!enabled('removals') ? '本局不能移出编队成员。' : state.removals <= 0 ? '移除机会已用完。' : state.phase === 'ready' ? '可在“我的编队”移除。' : '手动移除要等到准备转动阶段。'}`,
     supplyRepair: () => supplyExtra('repair'),
     supplyBarrier: () => supplyExtra('barrier'),
     supplyOverclock: () => supplyExtra('overclock'),

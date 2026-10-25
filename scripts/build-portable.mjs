@@ -70,7 +70,7 @@ function inlineDocument(index, css, config, application) {
     .replace(/<meta\b[^>]*\bname\s*=\s*["'](?:apple-mobile-web-app-[^"']*|mobile-web-app-capable)["'][^>]*>\s*/gi, '')
     .replace(/<link\b[^>]*\brel\s*=\s*["']stylesheet["'][^>]*>/gi, () => `<style>${css}</style>`)
     .replace(/<script\b[^>]*\bsrc\s*=\s*["'][^"']*["'][^>]*>\s*<\/script>\s*/gi, '')
-    .replace(/<title>[\s\S]*?<\/title>/i, `<title>星穹转轮 v${config.version} · 离线单文件版</title>`);
+    .replace(/<title>[\s\S]*?<\/title>/i, `<title>星穹转轮${config.edition === 'development' ? ' · 开发版' : ''} v${config.version} · 离线单文件版</title>`);
   html = html.replace(/(<link\b[^>]*\bhref\s*=\s*)(["'])([^"']+)\2/gi, (match, prefix, quote, reference) => {
     return `${prefix}${quote}${embeddedAsset(reference, config.assets)}${quote}`;
   });
@@ -80,13 +80,15 @@ function inlineDocument(index, css, config, application) {
 }
 
 /** Build the file-transfer edition; does not alter the normal website/PWA output. */
-export async function buildPortable({ root = projectRoot, out, esbuild: providedEsbuild } = {}) {
+export async function buildPortable({ root = projectRoot, out, edition = 'player', esbuild: providedEsbuild } = {}) {
   root = resolve(root);
+  if (!['player', 'development'].includes(edition)) throw new Error('离线单文件版本须为 player 或 development。');
+  const development = edition === 'development';
   const { version } = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
   if (typeof version !== 'string' || !/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.test(version)) {
     throw new Error('离线单文件构建需要有效的 package.json 版本号。');
   }
-  const output = resolve(out ?? resolve(root, 'artifacts', `星穹转轮-v${version}.html`));
+  const output = resolve(out ?? resolve(root, 'artifacts', `星穹转轮${development ? '-开发版' : ''}-v${version}.html`));
   if (extname(output).toLowerCase() !== '.html') throw new Error('离线单文件输出路径必须以 .html 结尾。');
   const esbuild = await loadEsbuild(root, providedEsbuild);
   const options = {
@@ -98,24 +100,28 @@ export async function buildPortable({ root = projectRoot, out, esbuild: provided
     esbuild.build({
       ...options, entryPoints: ['src/app.js'],
       // The true flag removes website-only worker creation; the fixed URL avoids a pre-removal import.meta warning.
-      define: { 'globalThis.__ASTRAL_PORTABLE_BUILD__': 'true', 'import.meta.url': '"file:///astral-reels-portable.js"' },
+      define: { 'globalThis.__ASTRAL_PORTABLE_BUILD__': 'true', 'globalThis.__ASTRAL_DEVELOPMENT_BUILD__': String(development), 'globalThis.__ASTRAL_DEVELOPMENT__': 'false', 'import.meta.url': '"file:///astral-reels-portable.js"' },
     }),
-    esbuild.build({ ...options, entryPoints: ['src/ai-worker.js'] }),
+    development ? esbuild.build({ ...options, entryPoints: ['src/ai-worker.js'] }) : null,
     readFile(resolve(root, 'index.html'), 'utf8'),
     readFile(resolve(root, 'styles.css'), 'utf8'),
     publicAssets(root),
   ]);
   const application = appBundle.outputFiles[0].text;
-  const workerSource = workerBundle.outputFiles[0].text;
-  const config = { format: 'astral-reels-single-file-v1', version, assets, workerSource };
+  const workerSource = workerBundle?.outputFiles[0].text;
+  const config = { format: 'astral-reels-single-file-v1', edition, version, assets, ...(development ? { workerSource } : {}) };
   const html = inlineDocument(index, inlineStyles(stylesheet, assets), config, application);
   await mkdir(dirname(output), { recursive: true });
   await writeFile(output, html, 'utf8');
-  return { output, version, assetCount: Object.keys(assets).length, bytes: Buffer.byteLength(html), html, assets, workerSource };
+  return { output, edition, version, assetCount: Object.keys(assets).length, bytes: Buffer.byteLength(html), html, assets, ...(development ? { workerSource } : {}) };
 }
 
 const isEntrypoint = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (isEntrypoint) {
-  const result = await buildPortable({ out: process.argv[2] });
-  console.log(`离线单文件已生成：${result.output} · ${(result.bytes / 1024 / 1024).toFixed(2)} MB · ${result.assetCount} 个内嵌资源（含来源和许可记录）。`);
+  // An explicit legacy output filename still denotes one player artifact. With
+  // no filename the standard release always contains both named editions.
+  const results = process.argv[2]
+    ? [await buildPortable({ out: process.argv[2] })]
+    : [await buildPortable(), await buildPortable({ edition: 'development' })];
+  for (const result of results) console.log(`${result.edition === 'development' ? '开发版' : '玩家版'}离线单文件已生成：${result.output} · ${(result.bytes / 1024 / 1024).toFixed(2)} MB · ${result.assetCount} 个内嵌资源（含来源和许可记录）。`);
 }
